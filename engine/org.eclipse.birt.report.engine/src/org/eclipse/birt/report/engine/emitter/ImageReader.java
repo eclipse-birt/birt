@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c)2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -146,8 +146,9 @@ public class ImageReader {
 	private boolean isOutputSupported() {
 		if (objectType == TYPE_IMAGE_OBJECT) {
 			if (-1 != supportedImageFormats.indexOf("PNG") || -1 != supportedImageFormats.indexOf("GIF")
-					|| -1 != supportedImageFormats.indexOf("BMP") || -1 != supportedImageFormats.indexOf("JPG"))
+					|| -1 != supportedImageFormats.indexOf("BMP") || -1 != supportedImageFormats.indexOf("JPG")) {
 				return true;
+			}
 		} else if (objectType == TYPE_FLASH_OBJECT) {
 			if (-1 != supportedImageFormats.indexOf("SWF")) {
 				return true;
@@ -166,7 +167,10 @@ public class ImageReader {
 			return;
 		}
 
-		/* If the image is using the data protocol, decode the data and read bytes instead */
+		/*
+		 * If the image is using the data protocol, decode the data and read bytes
+		 * instead
+		 */
 		if (uri.startsWith(DataProtocolUtil.DATA_PROTOCOL)) {
 			try {
 				DataUrlInfo parseDataUrl = DataProtocolUtil.parseDataUrl(uri);
@@ -210,21 +214,19 @@ public class ImageReader {
 		if (isOutputSupported()) {
 			buffer = getImageByteArray(in);
 			status = OBJECT_LOADED_SUCCESSFULLY;
-		} else {
-			if (objectType == TYPE_SVG_OBJECT) {
-				try {
-					buffer = SvgFile.transSvgToArray(in);
-				} catch (Exception e) {
-					buffer = null;
-					status = UNSUPPORTED_OBJECTS;
-					return;
-				}
-				objectType = TYPE_CONVERTED_SVG_OBJECT;
-				status = OBJECT_LOADED_SUCCESSFULLY;
-			} else {
+		} else if (objectType == TYPE_SVG_OBJECT) {
+			try {
+				buffer = SvgFile.transSvgToArray(in);
+			} catch (Exception e) {
 				buffer = null;
 				status = UNSUPPORTED_OBJECTS;
+				return;
 			}
+			objectType = TYPE_CONVERTED_SVG_OBJECT;
+			status = OBJECT_LOADED_SUCCESSFULLY;
+		} else {
+			buffer = null;
+			status = UNSUPPORTED_OBJECTS;
 		}
 	}
 
@@ -237,27 +239,19 @@ public class ImageReader {
 		if (isOutputSupported()) {
 			buffer = data;
 			status = OBJECT_LOADED_SUCCESSFULLY;
-		} else {
-			if (objectType == TYPE_SVG_OBJECT) {
-				InputStream in = null;
-				try {
-					in = new ByteArrayInputStream(data);
-					buffer = SvgFile.transSvgToArray(in);
-				} catch (Exception e) {
-					buffer = null;
-					status = UNSUPPORTED_OBJECTS;
-					return;
-				} finally {
-					if (in != null) {
-						in.close();
-					}
-				}
-				objectType = TYPE_CONVERTED_SVG_OBJECT;
-				status = OBJECT_LOADED_SUCCESSFULLY;
-			} else {
+		} else if (objectType == TYPE_SVG_OBJECT) {
+			try (InputStream in = new ByteArrayInputStream(data)) {
+				buffer = SvgFile.transSvgToArray(in);
+			} catch (Exception e) {
 				buffer = null;
 				status = UNSUPPORTED_OBJECTS;
+				return;
 			}
+			objectType = TYPE_CONVERTED_SVG_OBJECT;
+			status = OBJECT_LOADED_SUCCESSFULLY;
+		} else {
+			buffer = null;
+			status = UNSUPPORTED_OBJECTS;
 		}
 	}
 }

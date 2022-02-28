@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,10 +49,11 @@ public class DataPage extends GeneralPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * GeneralPage#buildContent()
 	 */
+	@Override
 	protected void buildContent() {
 		// Defines providers.
 
@@ -180,12 +181,12 @@ public class DataPage extends GeneralPage {
 
 	/**
 	 * Creates provider's array for font style controls.
-	 * 
+	 *
 	 * @return the provider's array(elements are instances of
 	 *         <code>IDescriptorProvider</code>).
 	 */
 	private IDescriptorProvider[] createFontStyleProviders() {
-		IDescriptorProvider[] providers = new IDescriptorProvider[] {
+		IDescriptorProvider[] providers = {
 				// Creates providers with StyleHandle.FONT_WEIGHT_PROP,
 				// StyleHandle.FONT_STYLE_PROP, StyleHandle.TEXT_UNDERLINE_PROP,
 				// StyleHandle.TEXT_LINE_THROUGH_PROP and
@@ -206,13 +207,15 @@ public class DataPage extends GeneralPage {
 				new PropertyDescriptorProvider(StyleHandle.TEXT_ALIGN_PROP, ReportDesignConstants.STYLE_ELEMENT) };
 
 		for (int i = 0; i < providers.length; i++) {
-			if (providers[i] instanceof PropertyDescriptorProvider)
+			if (providers[i] instanceof PropertyDescriptorProvider) {
 				((PropertyDescriptorProvider) providers[i]).enableReset(true);
+			}
 		}
 
 		return providers;
 	}
 
+	@Override
 	protected void applyCustomSections() {
 		Object[] helperProviders = ElementAdapterManager.getAdapters(this, ISectionHelperProvider.class);
 		if (helperProviders != null) {
@@ -223,8 +226,9 @@ public class DataPage extends GeneralPage {
 					if (helper != null) {
 						Section section = helper.createSection(container, DataItemHandle.THEME_PROP,
 								ReportDesignConstants.DATA_ITEM, true);
-						if (section instanceof SimpleComboSection)
+						if (section instanceof SimpleComboSection) {
 							((SimpleComboSection) section).setWidth(200);
+						}
 						section.setLayoutNum(6);
 						section.setGridPlaceholder(4, true);
 						addSectionAfter(PageSectionId.DATA_THEME, section, PageSectionId.DATA_DISPLAY);

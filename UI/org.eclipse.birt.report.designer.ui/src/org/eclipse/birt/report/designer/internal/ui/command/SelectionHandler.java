@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.ISources;
 
 /**
- * 
+ *
  */
 
 public class SelectionHandler extends AbstractHandler {
@@ -52,11 +52,12 @@ public class SelectionHandler extends AbstractHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
 	 * ExecutionEvent)
 	 */
+	@Override
 	public Object execute(ExecutionEvent arg0) throws ExecutionException {
 		this.event = arg0;
 		return null;
@@ -64,7 +65,7 @@ public class SelectionHandler extends AbstractHandler {
 
 	/**
 	 * Gets element handles.
-	 * 
+	 *
 	 * @return element handles
 	 */
 	protected List getElements(List list) {
@@ -84,7 +85,7 @@ public class SelectionHandler extends AbstractHandler {
 
 	/**
 	 * Gets element handles.
-	 * 
+	 *
 	 * @return element handles
 	 */
 	protected List getElements(ISelection selection) {
@@ -93,7 +94,7 @@ public class SelectionHandler extends AbstractHandler {
 
 	/**
 	 * Gets the first selected object.
-	 * 
+	 *
 	 * @return The first selected object
 	 */
 	protected Object getFirstElement(List list) {
@@ -121,7 +122,7 @@ public class SelectionHandler extends AbstractHandler {
 
 	/**
 	 * Gets table edit part.
-	 * 
+	 *
 	 * @return the table edit part
 	 */
 	protected TableEditPart getTableEditPart() {
@@ -162,7 +163,7 @@ public class SelectionHandler extends AbstractHandler {
 
 	/**
 	 * Gets list edit part.
-	 * 
+	 *
 	 * @return The current selected list edit part, null if no list edit part is
 	 *         selected.
 	 */
@@ -185,19 +186,20 @@ public class SelectionHandler extends AbstractHandler {
 
 	/**
 	 * Returns a <code>List</code> containing the currently selected objects.
-	 * 
+	 *
 	 * @return A List containing the currently selected objects.
 	 */
 	protected List getSelectedObjects() {
 		IStructuredSelection selectVariable = getSelection();
-		if (selectVariable == null)
+		if (selectVariable == null) {
 			return Collections.EMPTY_LIST;
+		}
 		return selectVariable.toList();
 	}
 
 	/**
 	 * Returns a <code>List</code> containing the currently selected objects.
-	 * 
+	 *
 	 * @return A List containing the currently selected objects.
 	 */
 	protected IStructuredSelection getSelection() {
@@ -215,7 +217,7 @@ public class SelectionHandler extends AbstractHandler {
 
 	/**
 	 * Gets the activity stack of the report
-	 * 
+	 *
 	 * @return returns the stack
 	 */
 	protected CommandStack getActiveCommandStack() {
@@ -224,7 +226,7 @@ public class SelectionHandler extends AbstractHandler {
 
 	/**
 	 * Gets models of selected elements
-	 * 
+	 *
 	 * @return
 	 */
 	protected List getElementHandles() {

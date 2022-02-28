@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -91,13 +91,15 @@ public class PDFPage extends AbstractPage {
 		this.containerHeight = this.pageHeight;
 		Rectangle pageSize = new Rectangle(this.pageWidth, this.pageHeight);
 		document.setPageSize(pageSize);
-		if (!document.isOpen())
+		if (!document.isOpen()) {
 			document.open();
-		else
+		} else {
 			document.newPage();
+		}
 		this.contentByte = writer.getDirectContent();
 	}
 
+	@Override
 	protected void clip(float startX, float startY, float width, float height) {
 		startY = transformY(startY, height);
 		contentByte.rectangle(startX, startY, width, height);
@@ -105,17 +107,21 @@ public class PDFPage extends AbstractPage {
 		contentByte.newPath();
 	}
 
+	@Override
 	protected void restoreState() {
 		contentByte.restoreState();
 	}
 
+	@Override
 	protected void saveState() {
 		contentByte.saveState();
 	}
 
+	@Override
 	public void dispose() {
 	}
 
+	@Override
 	protected void drawBackgroundColor(Color color, float x, float y, float width, float height) {
 		if (null == color) {
 			return;
@@ -129,6 +135,7 @@ public class PDFPage extends AbstractPage {
 		contentByte.restoreState();
 	}
 
+	@Override
 	protected void drawBackgroundImage(float x, float y, float width, float height, float imageWidth, float imageHeight,
 			int repeat, String imageUrl, byte[] imageData, float offsetX, float offsetY) throws Exception {
 		contentByte.saveState();
@@ -169,12 +176,14 @@ public class PDFPage extends AbstractPage {
 		float originalX = offsetX;
 		float originalY = offsetY;
 		if (xExtended) {
-			while (originalX > 0)
+			while (originalX > 0) {
 				originalX -= imageWidth;
+			}
 		}
 		if (yExtended) {
-			while (originalY > 0)
+			while (originalY > 0) {
 				originalY -= imageHeight;
+			}
 		}
 
 		float startY = originalY;
@@ -189,6 +198,7 @@ public class PDFPage extends AbstractPage {
 		contentByte.restoreState();
 	}
 
+	@Override
 	protected void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY,
 			float height, float width, String helpText, Map params) throws Exception {
 		// Flash
@@ -235,9 +245,10 @@ public class PDFPage extends AbstractPage {
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
+	@Override
 	protected void drawImage(String uri, String extension, float imageX, float imageY, float height, float width,
 			String helpText, Map params) throws Exception {
-		return;
 	}
 
 	/**
@@ -254,6 +265,7 @@ public class PDFPage extends AbstractPage {
 	 * @param color     the color of the line.
 	 * @param lineStyle the style of the line.
 	 */
+	@Override
 	protected void drawLine(float startX, float startY, float endX, float endY, float width, Color color,
 			int lineStyle) {
 		// if the border does NOT have color or the line width of the border is
@@ -287,6 +299,7 @@ public class PDFPage extends AbstractPage {
 		contentByte.restoreState();
 	}
 
+	@Override
 	protected void drawText(String text, float textX, float textY, float baseline, float width, float height,
 			TextStyle textStyle) {
 		drawText(text, textX, textY + baseline, width, height, textStyle.getFontInfo(),
@@ -457,27 +470,23 @@ public class PDFPage extends AbstractPage {
 				|| "_self".equalsIgnoreCase(target))
 		// Opens the target in a new window.
 		{
-			if (hyperlink == null)
+			if (hyperlink == null) {
 				hyperlink = "";
+			}
 			boolean isUrl = hyperlink.startsWith("http");
 			if (!isUrl) {
 				Matcher matcher = PAGE_LINK_PATTERN.matcher(hyperlink);
 				if (matcher.find()) {
 					String fileName = matcher.group(1);
 					String pageNumber = matcher.group(matcher.groupCount());
-					return new PdfAction(fileName, Integer.valueOf(pageNumber));
+					return new PdfAction(fileName, Integer.parseInt(pageNumber));
 				}
 			}
 			return new PdfAction(hyperlink);
-		} else
-
-		// Opens the target in the current window.
-		{
-			if (type == IHyperlinkAction.ACTION_BOOKMARK) {
-				return PdfAction.gotoLocalPage(bookmark, false);
-			} else {
-				return PdfAction.gotoRemotePage(hyperlink, bookmark, false, false);
-			}
+		} else if (type == IHyperlinkAction.ACTION_BOOKMARK) {
+			return PdfAction.gotoLocalPage(bookmark, false);
+		} else {
+			return PdfAction.gotoRemotePage(hyperlink, bookmark, false, false);
 		}
 	}
 
@@ -504,14 +513,14 @@ public class PDFPage extends AbstractPage {
 		}
 	}
 
-	static HashMap<Integer, Float> fontWeightLineWidthMap = new HashMap<Integer, Float>();
+	static HashMap<Integer, Float> fontWeightLineWidthMap = new HashMap<>();
 	static {
 		fontWeightLineWidthMap.put(500, 0.1f);
 		fontWeightLineWidthMap.put(600, 0.185f);
 		fontWeightLineWidthMap.put(700, 0.225f);
 		fontWeightLineWidthMap.put(800, 0.3f);
 		fontWeightLineWidthMap.put(900, 0.5f);
-	};
+	}
 
 	private void simulateBold(PdfContentByte cb, int fontWeight) {
 		cb.setTextRenderingMode(PdfContentByte.TEXT_RENDER_MODE_FILL_STROKE);
@@ -528,6 +537,7 @@ public class PDFPage extends AbstractPage {
 		cb.setTextMatrix(1, 0, beta, 1, 0, 0);
 	}
 
+	@Override
 	public void showHelpText(String helpText, float x, float y, float width, float height) {
 		showHelpText(x, transformY(y, height), width, height, helpText);
 	}

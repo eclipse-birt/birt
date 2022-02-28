@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ public class DataTypeConvertUtil {
 	 * Returns the corresponding parameter type choice with the given column data
 	 * type. The column data type values are defined in
 	 * <code>DesignChoiceConstants</code> can be one of the followings:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>COLUMN_DATA_TYPE_BOOLEAN</code>
 	 * <li><code>COLUMN_DATA_TYPE_DATETIME</code>
@@ -38,15 +38,16 @@ public class DataTypeConvertUtil {
 	 * <li><code>COLUMN_DATA_TYPE_INTEGER</code>
 	 * <li><code>COLUMN_DATA_TYPE_STRING</code>
 	 * </ul>
-	 * 
-	 * 
+	 *
+	 *
 	 * @param columnType the column data type
 	 * @return the parameter type
 	 */
 
 	public static String converToParamType(String columnType) {
-		if (StringUtil.isBlank(columnType))
+		if (StringUtil.isBlank(columnType)) {
 			return null;
+		}
 
 		if (DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals(columnType)
 				|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals(columnType)
@@ -55,8 +56,9 @@ public class DataTypeConvertUtil {
 				|| DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals(columnType)
 				|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals(columnType)
 				|| DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals(columnType)
-				|| DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals(columnType))
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals(columnType)) {
 			return DataTypeConversionUtil.converToParamType(columnType);
+		}
 
 		return columnType;
 	}
@@ -65,7 +67,7 @@ public class DataTypeConvertUtil {
 	 * Returns the corresponding column data type choice with the given parameter
 	 * type. The column data type values are defined in
 	 * <code>DesignChoiceConstants</code> can be one of the followings:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * <li><code>PARAM_TYPE_DATETIME</code>
@@ -76,14 +78,15 @@ public class DataTypeConvertUtil {
 	 * <li><code>PARAM_TYPE_INTEGER</code>
 	 * <li><code>PARAM_TYPE_STRING</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param paramType the parameter type
 	 * @return the column data type
 	 */
 
 	public static String converToColumnDataType(String paramType) {
-		if (StringUtil.isBlank(paramType))
+		if (StringUtil.isBlank(paramType)) {
 			return null;
+		}
 
 		if (DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(paramType)
 				|| DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(paramType)
@@ -92,8 +95,9 @@ public class DataTypeConvertUtil {
 				|| DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(paramType)
 				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(paramType)
 				|| DesignChoiceConstants.PARAM_TYPE_INTEGER.equals(paramType)
-				|| DesignChoiceConstants.PARAM_TYPE_STRING.equals(paramType))
+				|| DesignChoiceConstants.PARAM_TYPE_STRING.equals(paramType)) {
 			return DataTypeConversionUtil.converToColumnDataType(paramType);
+		}
 
 		return paramType;
 	}

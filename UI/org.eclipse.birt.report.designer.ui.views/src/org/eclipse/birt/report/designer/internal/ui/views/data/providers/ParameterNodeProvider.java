@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -33,6 +33,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public class ParameterNodeProvider extends DefaultNodeProvider {
 
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		super.createContextMenu(sourceViewer, object, menu);
 		menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS,
@@ -41,19 +42,21 @@ public class ParameterNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Gets the display name of the node.
-	 * 
+	 *
 	 * @param model the model of the node
 	 */
+	@Override
 	public String getNodeDisplayName(Object model) {
 		return DEUtil.getDisplayLabel(model, false);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#
 	 * performEdit(org.eclipse.birt.model.api.ReportElementHandle)
 	 */
+	@Override
 	protected boolean performEdit(ReportElementHandle handle) {
 		if (handle instanceof ScalarParameterHandle) {
 			ScalarParameterHandle param = (ScalarParameterHandle) handle;

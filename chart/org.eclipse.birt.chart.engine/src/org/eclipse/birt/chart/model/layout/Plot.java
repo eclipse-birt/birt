@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -27,7 +27,7 @@ package org.eclipse.birt.chart.model.layout;
  * Besides the general approach of using Chart.getBlock( ).getChildren( ) we can
  * also access it using the convenient method: Chart.getPlot( );
  * </p>
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -52,11 +52,11 @@ public interface Plot extends Block {
 	 * Returns the value of the '<em><b>Horizontal Spacing</b></em>' attribute. <!--
 	 * begin-user-doc --> Gets the horizontal spacing between elements in the plot.
 	 * (e.g. Axes, Client Area). <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * The horizontal spacing between elements in the plot.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Horizontal Spacing</em>' attribute.
 	 * @see #isSetHorizontalSpacing()
 	 * @see #unsetHorizontalSpacing()
@@ -73,7 +73,7 @@ public interface Plot extends Block {
 	 * '{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing
 	 * <em>Horizontal Spacing</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Horizontal Spacing</em>' attribute.
 	 * @see #isSetHorizontalSpacing()
 	 * @see #unsetHorizontalSpacing()
@@ -87,7 +87,7 @@ public interface Plot extends Block {
 	 * '{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing
 	 * <em>Horizontal Spacing</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetHorizontalSpacing()
 	 * @see #getHorizontalSpacing()
 	 * @see #setHorizontalSpacing(int)
@@ -100,7 +100,7 @@ public interface Plot extends Block {
 	 * '{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing
 	 * <em>Horizontal Spacing</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Horizontal Spacing</em>' attribute is
 	 *         set.
 	 * @see #unsetHorizontalSpacing()
@@ -114,11 +114,11 @@ public interface Plot extends Block {
 	 * Returns the value of the '<em><b>Vertical Spacing</b></em>' attribute. <!--
 	 * begin-user-doc --> Gets the horizontal spacing between elements in the plot.
 	 * <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * The vertical spacing between elements in the plot.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Vertical Spacing</em>' attribute.
 	 * @see #isSetVerticalSpacing()
 	 * @see #unsetVerticalSpacing()
@@ -135,7 +135,7 @@ public interface Plot extends Block {
 	 * {@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing
 	 * <em>Vertical Spacing</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Vertical Spacing</em>' attribute.
 	 * @see #isSetVerticalSpacing()
 	 * @see #unsetVerticalSpacing()
@@ -149,7 +149,7 @@ public interface Plot extends Block {
 	 * {@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing
 	 * <em>Vertical Spacing</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetVerticalSpacing()
 	 * @see #getVerticalSpacing()
 	 * @see #setVerticalSpacing(int)
@@ -162,7 +162,7 @@ public interface Plot extends Block {
 	 * '{@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing
 	 * <em>Vertical Spacing</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Vertical Spacing</em>' attribute is
 	 *         set.
 	 * @see #unsetVerticalSpacing()
@@ -186,9 +186,9 @@ public interface Plot extends Block {
 	 * For chart without axes it will be split into cells, with each cell for one
 	 * single series.
 	 * </p>
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Client Area</em>' containment reference.
 	 * @see #setClientArea(ClientArea)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getPlot_ClientArea()
@@ -203,7 +203,7 @@ public interface Plot extends Block {
 	 * '{@link org.eclipse.birt.chart.model.layout.Plot#getClientArea <em>Client
 	 * Area</em>}' containment reference. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Client Area</em>' containment
 	 *              reference.
 	 * @see #getClientArea()
@@ -214,6 +214,7 @@ public interface Plot extends Block {
 	/**
 	 * @generated
 	 */
+	@Override
 	Plot copyInstance();
 
 } // Plot

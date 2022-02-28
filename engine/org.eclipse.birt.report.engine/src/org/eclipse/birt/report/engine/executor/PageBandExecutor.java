@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,22 +33,26 @@ public class PageBandExecutor extends ReportItemExecutor {
 		nextItem = 0;
 	}
 
+	@Override
 	public void close() throws BirtException {
 		nextItem = 0;
 		contents = null;
 		super.close();
 	}
 
+	@Override
 	public IContent execute() {
 		content = report.createContainerContent();
 		initializeContent(null, content);
 		return content;
 	}
 
+	@Override
 	public boolean hasNextChild() {
 		return nextItem < contents.size();
 	}
 
+	@Override
 	public IReportItemExecutor getNextChild() {
 		int itemCount = contents.size();
 		if (nextItem < itemCount) {

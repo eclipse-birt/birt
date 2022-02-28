@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -112,7 +112,7 @@ public final class DNDUtil {
 	/**
 	 * Moves elements. Like paste, but transfer data will be deleted.Includes
 	 * transaction.
-	 * 
+	 *
 	 * @param transferData single or multiple transfer data, every data must be an
 	 *                     instance of <code>DesignElementHandle</code> or
 	 *                     <code>DesignElement</code>
@@ -128,7 +128,7 @@ public final class DNDUtil {
 
 	/**
 	 * Pastes elements. Includes transaction.
-	 * 
+	 *
 	 * @param transferData single or multiple transfer data, every data must be an
 	 *                     instance of <code>DesignElementHandle</code> or
 	 *                     <code>DesignElement</code>
@@ -177,7 +177,7 @@ public final class DNDUtil {
 
 	/**
 	 * Pastes elements. Includes transaction.
-	 * 
+	 *
 	 * @param transferData single or multiple transfer data, every data must be an
 	 *                     instance of <code>DesignElementHandle</code> or
 	 *                     <code>DesignElement</code>
@@ -198,8 +198,9 @@ public final class DNDUtil {
 			if (targetObj == null) {
 				// add for support the property handel
 				targetObj = getDesignElementHandle(temp).getContainerPropertyHandle();
-				if (targetObj == null)
+				if (targetObj == null) {
 					targetObj = getDesignElementHandle(temp).getContainer();
+				}
 			}
 			if (temp instanceof ThemeHandle) {
 				return copyHandles(transferData, targetObj, position, temp);
@@ -210,7 +211,7 @@ public final class DNDUtil {
 
 	/**
 	 * Does insert and paste column to table/grid
-	 * 
+	 *
 	 * @param transferData copy data of column
 	 * @param targetObj    target column of table/grid
 	 * @return paste result
@@ -234,7 +235,7 @@ public final class DNDUtil {
 
 	/**
 	 * Pastes table or grid columns to target
-	 * 
+	 *
 	 * @param transferData column data
 	 * @param targetObj    table
 	 * @param isNew        true: insert and paste; false: override and paste
@@ -268,7 +269,7 @@ public final class DNDUtil {
 	/**
 	 * Operates elements. Operation type includes move or copy. Includes
 	 * transaction.
-	 * 
+	 *
 	 * @param transferData single or multiple transfer data, every data must be an
 	 *                     instance of <code>DesignElementHandle</code> or
 	 *                     <code>DesignElement</code>
@@ -359,7 +360,7 @@ public final class DNDUtil {
 
 	/**
 	 * Returns specified command
-	 * 
+	 *
 	 * @param commandType    command type, value is <code>TYPE_CUT</code> or
 	 *                       <code>TYPE_COPY</code>
 	 * @param transferSource transfer source
@@ -418,7 +419,7 @@ public final class DNDUtil {
 
 	/**
 	 * Validates selection can be dragged, cut or copied
-	 * 
+	 *
 	 * @param selection selected object, support single or multiple selection
 	 * @return if selection can be dragged, cut or copied
 	 */
@@ -442,20 +443,19 @@ public final class DNDUtil {
 				} else if (parent instanceof GridHandle) {
 					bool = ((GridHandle) parent).canCopyColumn(columnNumber);
 				}
-				if (bool && array.length == 1) {
-					return true;
-				}
-				if (bool && array[1] instanceof CellHandle) {
+				if ((bool && array.length == 1) || (bool && array[1] instanceof CellHandle)) {
 					return true;
 				}
 				return false;
 			}
 
 			for (int i = 0; i < array.length; i++) {
-				if (checkContainerExists(array[i], array))
+				if (checkContainerExists(array[i], array)) {
 					continue;
-				if (!handleValidateDragInOutline(array[i]))
+				}
+				if (!handleValidateDragInOutline(array[i])) {
 					return false;
+				}
 			}
 			return true;
 		}
@@ -494,7 +494,7 @@ public final class DNDUtil {
 	/**
 	 * Gets a copy of source data. If copy multi-selection, skip all children's
 	 * clone
-	 * 
+	 *
 	 * @param source source to clone
 	 * @return copy of source
 	 */
@@ -502,7 +502,7 @@ public final class DNDUtil {
 		source = unwrapToModel(source);
 		if (source instanceof Object[]) {
 			Object[] array = (Object[]) source;
-			ArrayList<Object> list = new ArrayList<Object>();
+			ArrayList<Object> list = new ArrayList<>();
 			for (int i = 0; i < array.length; i++) {
 				if (array[i] instanceof ColumnHandle) {
 					list.add(cloneSource(array[i]));
@@ -567,18 +567,19 @@ public final class DNDUtil {
 
 	/**
 	 * Drops source data
-	 * 
+	 *
 	 * @param source source to drop
 	 */
 	public static void dropSource(Object source) {
 		DeleteCommand command = new DeleteCommand(source);
-		if (command.canExecute())
+		if (command.canExecute()) {
 			command.execute();
+		}
 	}
 
 	/**
 	 * Gets handle of target
-	 * 
+	 *
 	 * @param target
 	 * @return handle of target
 	 */
@@ -594,7 +595,7 @@ public final class DNDUtil {
 
 	/**
 	 * Unwraps the object to model
-	 * 
+	 *
 	 * @param obj object which may be wrapped, such as
 	 *            <code>ReportElementModel</code>, <code>ListBandProxy</code>
 	 * @return model object
@@ -609,17 +610,19 @@ public final class DNDUtil {
 		}
 		if (obj instanceof IAdaptable) {
 			Object object = ((IAdaptable) obj).getAdapter(DesignElementHandle.class);
-			if (object == null)
+			if (object == null) {
 				object = ((IAdaptable) obj).getAdapter(PropertyHandle.class);
-			if (object != null)
+			}
+			if (object != null) {
 				return object;
+			}
 		}
 		return obj;
 	}
 
 	/**
 	 * Unwrap a list of objects to model objects.
-	 * 
+	 *
 	 * @param objs
 	 * @return
 	 */
@@ -628,7 +631,7 @@ public final class DNDUtil {
 			return objs;
 		}
 
-		List<Object> unwrapped = new ArrayList<Object>(objs.size());
+		List<Object> unwrapped = new ArrayList<>(objs.size());
 
 		for (int i = 0; i < objs.size(); i++) {
 			unwrapped.add(unwrapToModel(objs.get(i)));
@@ -639,7 +642,7 @@ public final class DNDUtil {
 
 	/**
 	 * Gets the length of elements in object
-	 * 
+	 *
 	 * @param obj
 	 * @return the length of elements in object
 	 */
@@ -656,7 +659,7 @@ public final class DNDUtil {
 
 	/**
 	 * Checks whether child's container exists in handle array
-	 * 
+	 *
 	 * @param content child handle
 	 * @param handles handle array
 	 * @return if exists
@@ -709,7 +712,7 @@ public final class DNDUtil {
 
 	/**
 	 * Gets the position after the sibling in the container
-	 * 
+	 *
 	 * @param targetObj  container or sibling
 	 * @param canContain <code>CONTAIN_PARENT</code> as sibling, others as container
 	 * @return the position: after the sibling in the same container, or -1 as the
@@ -731,7 +734,7 @@ public final class DNDUtil {
 
 	/**
 	 * Adds new object to container
-	 * 
+	 *
 	 * @param container container, not null
 	 * @param handle    new object. If new object is null, create nothing
 	 * @throws SemanticException
@@ -780,7 +783,7 @@ public final class DNDUtil {
 
 	/**
 	 * Validates target elements can contain transfer data
-	 * 
+	 *
 	 * @param targetObj    target elements
 	 * @param transferData transfer data,single object or array are permitted
 	 * @return if target elements can be dropped
@@ -801,7 +804,7 @@ public final class DNDUtil {
 	 * Validates target elements can contain transfer data.
 	 * <p>
 	 * If transfer data is single element, validate target's container also
-	 * 
+	 *
 	 * @param targetObj         target elements
 	 * @param transferData      transfer data,single object or array are permitted
 	 * @param validateContainer validate target's container can contain
@@ -813,8 +816,9 @@ public final class DNDUtil {
 	 */
 	public static int handleValidateTargetCanContain(Object targetObj, Object transferData, boolean validateContainer,
 			List infoList) {
-		if (targetObj == null || transferData == null)
+		if (targetObj == null || transferData == null) {
 			return CONTAIN_NO;
+		}
 
 		if (transferData instanceof StructuredSelection) {
 			return handleValidateTargetCanContain(targetObj, ((StructuredSelection) transferData).toArray(),
@@ -835,78 +839,78 @@ public final class DNDUtil {
 				}
 			}
 			return canContainAll;
-		} else {
-			// Gets handle to test if can contain
-			if (transferData instanceof DesignElementHandle) {
-				return handleValidateTargetCanContainByContainer(targetObj, (DesignElementHandle) transferData,
-						validateContainer);
-			} else if (transferData instanceof ColumnBandData) {
-				if (targetObj instanceof ColumnHandle) {
-					return handleValidateContainColumnPaste((ColumnHandle) targetObj, (ColumnBandData) transferData,
-							false) ? CONTAIN_PARENT : CONTAIN_NO;
-				}
-				return CONTAIN_NO;
-			} else if (transferData instanceof IDesignElement) {
-				DesignElementHandle childHandle = ((IDesignElement) transferData)
-						.getHandle(SessionHandleAdapter.getInstance().getReportDesignHandle().getModule());
-				return handleValidateTargetCanContainByContainer(targetObj, childHandle, validateContainer);
-			} else if (transferData instanceof IElementCopy) {
-				DesignElementHandle childHandle = ((IElementCopy) transferData)
-						.getHandle(SessionHandleAdapter.getInstance().getReportDesignHandle());
-
-				if (targetObj instanceof SlotHandle) {
-					SlotHandle targetHandle = (SlotHandle) targetObj;
-					IPasteStatus status = CopyUtil.canPaste((IElementCopy) transferData,
-							targetHandle.getElementHandle(), targetHandle.getSlotID());
-					infoList.addAll(status.getErrors());
-					return status.canPaste() ? CONTAIN_THIS : CONTAIN_NO;
-				}
-
-				if (targetObj instanceof PropertyHandle) {
-					PropertyHandle targetHandle = (PropertyHandle) targetObj;
-					IPasteStatus status = CopyUtil.canPaste((IElementCopy) transferData,
-							targetHandle.getElementHandle(), targetHandle.getPropertyDefn().getName());
-					infoList.addAll(status.getErrors());
-					return status.canPaste() ? CONTAIN_THIS : CONTAIN_NO;
-				}
-
-				if (targetObj instanceof IMixedHandle) {
-					IMixedHandle mHandle = (IMixedHandle) targetObj;
-
-					SlotHandle sHandle = mHandle.getSlotHandle();
-					IPasteStatus sStatus = CopyUtil.canPaste((IElementCopy) transferData, sHandle.getElementHandle(),
-							sHandle.getSlotID());
-					infoList.addAll(sStatus.getErrors());
-
-					PropertyHandle pHandle = mHandle.getPropertyHandle();
-					IPasteStatus pStatus = CopyUtil.canPaste((IElementCopy) transferData, pHandle.getElementHandle(),
-							pHandle.getPropertyDefn().getName());
-					infoList.addAll(pStatus.getErrors());
-
-					return sStatus.canPaste() || pStatus.canPaste() ? CONTAIN_THIS : CONTAIN_NO;
-				}
-
-				return handleValidateTargetCanContainByContainer(targetObj, childHandle, validateContainer);
-			} else if (transferData instanceof SlotHandle) {
-				SlotHandle slot = (SlotHandle) transferData;
-				Object[] childHandles = slot.getContents().toArray();
-				return handleValidateTargetCanContainByContainer(targetObj, childHandles, validateContainer);
-			} else if (transferData instanceof IStructure) {
-				return handleValidateTargetCanContainStructure(targetObj, (IStructure) transferData) ? CONTAIN_THIS
+		} else // Gets handle to test if can contain
+		if (transferData instanceof DesignElementHandle) {
+			return handleValidateTargetCanContainByContainer(targetObj, (DesignElementHandle) transferData,
+					validateContainer);
+		} else if (transferData instanceof ColumnBandData) {
+			if (targetObj instanceof ColumnHandle) {
+				return handleValidateContainColumnPaste((ColumnHandle) targetObj, (ColumnBandData) transferData, false)
+						? CONTAIN_PARENT
 						: CONTAIN_NO;
-			} else if (transferData instanceof EmbeddedImageHandle) {
-				if (targetObj instanceof ReportDesignHandle
-						&& ((EmbeddedImageHandle) transferData).getElementHandle().getRoot() instanceof LibraryHandle)
-					return CONTAIN_THIS;
-				else if (targetObj instanceof EmbeddedImageNode)
-					return CONTAIN_THIS;
-				else
-					return CONTAIN_NO;
-				// return targetObj instanceof EmbeddedImageNode ? CONTAIN_THIS
-				// : CONTAIN_NO;
+			}
+			return CONTAIN_NO;
+		} else if (transferData instanceof IDesignElement) {
+			DesignElementHandle childHandle = ((IDesignElement) transferData)
+					.getHandle(SessionHandleAdapter.getInstance().getReportDesignHandle().getModule());
+			return handleValidateTargetCanContainByContainer(targetObj, childHandle, validateContainer);
+		} else if (transferData instanceof IElementCopy) {
+			DesignElementHandle childHandle = ((IElementCopy) transferData)
+					.getHandle(SessionHandleAdapter.getInstance().getReportDesignHandle());
+
+			if (targetObj instanceof SlotHandle) {
+				SlotHandle targetHandle = (SlotHandle) targetObj;
+				IPasteStatus status = CopyUtil.canPaste((IElementCopy) transferData, targetHandle.getElementHandle(),
+						targetHandle.getSlotID());
+				infoList.addAll(status.getErrors());
+				return status.canPaste() ? CONTAIN_THIS : CONTAIN_NO;
+			}
+
+			if (targetObj instanceof PropertyHandle) {
+				PropertyHandle targetHandle = (PropertyHandle) targetObj;
+				IPasteStatus status = CopyUtil.canPaste((IElementCopy) transferData, targetHandle.getElementHandle(),
+						targetHandle.getPropertyDefn().getName());
+				infoList.addAll(status.getErrors());
+				return status.canPaste() ? CONTAIN_THIS : CONTAIN_NO;
+			}
+
+			if (targetObj instanceof IMixedHandle) {
+				IMixedHandle mHandle = (IMixedHandle) targetObj;
+
+				SlotHandle sHandle = mHandle.getSlotHandle();
+				IPasteStatus sStatus = CopyUtil.canPaste((IElementCopy) transferData, sHandle.getElementHandle(),
+						sHandle.getSlotID());
+				infoList.addAll(sStatus.getErrors());
+
+				PropertyHandle pHandle = mHandle.getPropertyHandle();
+				IPasteStatus pStatus = CopyUtil.canPaste((IElementCopy) transferData, pHandle.getElementHandle(),
+						pHandle.getPropertyDefn().getName());
+				infoList.addAll(pStatus.getErrors());
+
+				return sStatus.canPaste() || pStatus.canPaste() ? CONTAIN_THIS : CONTAIN_NO;
+			}
+
+			return handleValidateTargetCanContainByContainer(targetObj, childHandle, validateContainer);
+		} else if (transferData instanceof SlotHandle) {
+			SlotHandle slot = (SlotHandle) transferData;
+			Object[] childHandles = slot.getContents().toArray();
+			return handleValidateTargetCanContainByContainer(targetObj, childHandles, validateContainer);
+		} else if (transferData instanceof IStructure) {
+			return handleValidateTargetCanContainStructure(targetObj, (IStructure) transferData) ? CONTAIN_THIS
+					: CONTAIN_NO;
+		} else if (transferData instanceof EmbeddedImageHandle) {
+			if (targetObj instanceof ReportDesignHandle
+					&& ((EmbeddedImageHandle) transferData).getElementHandle().getRoot() instanceof LibraryHandle) {
+				return CONTAIN_THIS;
+			} else if (targetObj instanceof EmbeddedImageNode) {
+				return CONTAIN_THIS;
 			} else {
 				return CONTAIN_NO;
+				// return targetObj instanceof EmbeddedImageNode ? CONTAIN_THIS
+				// : CONTAIN_NO;
 			}
+		} else {
+			return CONTAIN_NO;
 		}
 	}
 
@@ -924,7 +928,7 @@ public final class DNDUtil {
 
 	/**
 	 * Validates target column can paste another column.
-	 * 
+	 *
 	 * @param targetObj    target table/grid column
 	 * @param transferData copy data of table/grid column
 	 * @param isNew        true: insert and paste; false: override and paste
@@ -1067,10 +1071,11 @@ public final class DNDUtil {
 			}
 			if (targetHandle.getClass().equals(childHandle.getClass())) {
 				// 183888
-				if (childHandle instanceof LevelHandle)
+				if (childHandle instanceof LevelHandle) {
 					return CONTAIN_NO;
-				// If class type is same
-				// return CONTAIN_PARENT;
+					// If class type is same
+					// return CONTAIN_PARENT;
+				}
 			}
 
 			if (targetHandle.getContainerSlotHandle() != null) {
@@ -1088,7 +1093,7 @@ public final class DNDUtil {
 
 	/**
 	 * Validates target can contain more elements
-	 * 
+	 *
 	 * @param targetObj target
 	 * @param length    the length of elements in source.If do not add to target,
 	 *                  set zero
@@ -1116,15 +1121,7 @@ public final class DNDUtil {
 			return slot.getElementHandle().getDefn().getSlot(slot.getSlotID()).isMultipleCardinality()
 					|| slot.getCount() < 1 && length <= 1;
 		}
-		if (targetObj instanceof PropertyHandle) {
-//			PropertyHandle propertyHandle = (PropertyHandle) targetObj;
-//			return propertyHandle.getPropertyDefn( )
-//					.isList( )
-//					|| propertyHandle.getContents( ).size( ) < 1
-//					&& length <= 1;
-			return true;
-		}
-		if (targetObj instanceof IMixedHandle) {
+		if ((targetObj instanceof PropertyHandle) || (targetObj instanceof IMixedHandle)) {
 			return true;
 		}
 		return targetObj instanceof DesignElementHandle || targetObj instanceof EmbeddedImageNode;
@@ -1132,7 +1129,7 @@ public final class DNDUtil {
 
 	/**
 	 * Validates target elements can contain specified type of transfer data
-	 * 
+	 *
 	 * @param targetObj   target elements
 	 * @param dragObjType specified type of transfer data. Type should get from
 	 *                    <code>ReportDesignConstants</code>
@@ -1149,17 +1146,19 @@ public final class DNDUtil {
 		} else if (targetObj instanceof SlotHandle) {
 			targetHandle = ((SlotHandle) targetObj).getElementHandle();
 			slotId = ((SlotHandle) targetObj).getSlotID();
-		} else
+		} else {
 			return false;
+		}
 
-		if (slotId == -1)
+		if (slotId == -1) {
 			return targetHandle.canContain(DEUtil.getDefaultContentName(targetObj), dragObjType);
+		}
 		return targetHandle.canContain(slotId, dragObjType);
 	}
 
 	/**
 	 * Returns if all objects are in the same column
-	 * 
+	 *
 	 * @param objs the array of the object
 	 */
 	public static boolean isInSameColumn(Object[] objs) {

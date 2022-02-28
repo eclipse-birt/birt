@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ *
  */
 public abstract class StreamReader {
 	protected HashMap streamMap;
@@ -29,7 +29,7 @@ public abstract class StreamReader {
 	protected DataEngineContext context;
 
 	/**
-	 * 
+	 *
 	 * @param streamType
 	 * @return
 	 * @throws DataException
@@ -37,7 +37,7 @@ public abstract class StreamReader {
 	public abstract RAInputStream getRAInputStream(int streamType) throws DataException;
 
 	/**
-	 * 
+	 *
 	 * @param streamType
 	 * @return
 	 */

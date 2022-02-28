@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 
 /**
  * Represents a cube.
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.olap.Cube
  */
 
@@ -41,7 +41,7 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel {
 	 * Constructs a handle for the given design and design element. The application
 	 * generally does not create handles directly. Instead, it uses one of the
 	 * navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -52,7 +52,7 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel {
 
 	/**
 	 * Returns the data set of this cube.
-	 * 
+	 *
 	 * @return the handle to the data set
 	 */
 
@@ -62,17 +62,17 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel {
 
 	/**
 	 * Sets the data set of this cube.
-	 * 
+	 *
 	 * @param handle the handle of the data set
-	 * 
+	 *
 	 * @throws SemanticException if the property is locked, or the data-set is
 	 *                           invalid.
 	 */
 
 	public void setDataSet(DataSetHandle handle) throws SemanticException {
-		if (handle == null)
+		if (handle == null) {
 			setStringProperty(DATA_SET_PROP, null);
-		else {
+		} else {
 			ModuleHandle moduleHandle = handle.getRoot();
 			String valueToSet = handle.getElement().getFullName();
 			if (moduleHandle instanceof LibraryHandle) {
@@ -85,7 +85,7 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel {
 
 	/**
 	 * Adds a dimension condition to this cube.
-	 * 
+	 *
 	 * @param condition
 	 * @return the added dimension condition handle if succeed
 	 * @throws SemanticException
@@ -98,7 +98,7 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel {
 
 	/**
 	 * Adds a dimension condition to the specified position.
-	 * 
+	 *
 	 * @param condition
 	 * @param posn
 	 * @return the added dimension condition handle if succeed
@@ -113,7 +113,7 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel {
 	/**
 	 * Gets the iterator of the join conditions. Each one in the iterator is
 	 * instance of <code>StructureHandle</code>.
-	 * 
+	 *
 	 * @return iterator of the join conditions in this cube
 	 */
 
@@ -124,7 +124,7 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel {
 
 	/**
 	 * Removes a dimension condition from this cube.
-	 * 
+	 *
 	 * @param condition
 	 * @throws SemanticException
 	 */
@@ -134,7 +134,7 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param conditionHandle
 	 * @throws SemanticException
 	 */
@@ -147,7 +147,7 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel {
 	/**
 	 * Finds the dimension condition defined for the hierarchy element with the
 	 * specified name.
-	 * 
+	 *
 	 * @param hierarchyName
 	 * @return the first dimeneison condition handle if found, otherwise null
 	 */
@@ -157,15 +157,16 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel {
 			DimensionConditionHandle condition = (DimensionConditionHandle) iter.next();
 			String tempHierarchy = condition.getHierarchyName();
 			if ((tempHierarchy == null && hierarchyName == null)
-					|| (tempHierarchy != null && tempHierarchy.equals(hierarchyName)))
+					|| (tempHierarchy != null && tempHierarchy.equals(hierarchyName))) {
 				return condition;
+			}
 		}
 		return null;
 	}
 
 	/**
 	 * Finds the dimension condition defined for the given hierarchy element.
-	 * 
+	 *
 	 * @param hierarchy
 	 * @return the first dimeneison condition handle if found, otherwise null
 	 */
@@ -177,7 +178,7 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel {
 	/**
 	 * Gets the status whether to generate a primary key for elements that use this
 	 * cube so that user no longer need to set the aggregation for measure.
-	 * 
+	 *
 	 * @return true if automatically generate the key, otherwise false
 	 */
 	public boolean autoPrimaryKey() {
@@ -187,7 +188,7 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel {
 	/**
 	 * Sets the status whether to generate a primary key for elements that use this
 	 * cube so that user no longer need to set the aggregation for measure.
-	 * 
+	 *
 	 * @param autoKey true if automatically generate the key, otherwise false
 	 * @throws SemanticException
 	 */

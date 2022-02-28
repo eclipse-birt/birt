@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -14,9 +14,11 @@
 
 package org.eclipse.birt.chart.computation;
 
+import java.util.Objects;
+
 /**
  * This class ...
- * 
+ *
  * @author Actuate Corporation
  */
 public final class BoundingBox implements Cloneable {
@@ -36,39 +38,40 @@ public final class BoundingBox implements Cloneable {
 		dHotPoint = _dHotPoint;
 	}
 
+	@Override
 	public BoundingBox clone() {
 		return new BoundingBox(0, dX, dY, dWidth, dHeight, dHotPoint);
 	}
 
-	public final double getHotPoint() {
+	public double getHotPoint() {
 		return dHotPoint;
 	}
 
-	public final double getTop() {
+	public double getTop() {
 		return dY;
 	}
 
-	public final double getLeft() {
+	public double getLeft() {
 		return dX;
 	}
 
-	public final double getWidth() {
+	public double getWidth() {
 		return dWidth;
 	}
 
-	public final double getHeight() {
+	public double getHeight() {
 		return dHeight;
 	}
 
-	public final void setLeft(double _dX) {
+	public void setLeft(double _dX) {
 		dX = _dX;
 	}
 
-	public final void setTop(double _dY) {
+	public void setTop(double _dY) {
 		dY = _dY;
 	}
 
-	public final void scale(double dScale) {
+	public void scale(double dScale) {
 		dX *= dScale;
 		dY *= dScale;
 		dWidth *= dScale;
@@ -78,51 +81,43 @@ public final class BoundingBox implements Cloneable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(dHeight);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(dHotPoint);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(dWidth);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(dX);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(dY);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
+		return Objects.hash(dHeight, dHotPoint, dWidth, dX, dY);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		BoundingBox other = (BoundingBox) obj;
-		if (Double.doubleToLongBits(dHeight) != Double.doubleToLongBits(other.dHeight))
+		if (Double.doubleToLongBits(dHeight) != Double.doubleToLongBits(other.dHeight)) {
 			return false;
-		if (Double.doubleToLongBits(dHotPoint) != Double.doubleToLongBits(other.dHotPoint))
+		}
+		if (Double.doubleToLongBits(dHotPoint) != Double.doubleToLongBits(other.dHotPoint)) {
 			return false;
-		if (Double.doubleToLongBits(dWidth) != Double.doubleToLongBits(other.dWidth))
+		}
+		if (Double.doubleToLongBits(dWidth) != Double.doubleToLongBits(other.dWidth)) {
 			return false;
-		if (Double.doubleToLongBits(dX) != Double.doubleToLongBits(other.dX))
+		}
+		if (Double.doubleToLongBits(dX) != Double.doubleToLongBits(other.dX)) {
 			return false;
-		if (Double.doubleToLongBits(dY) != Double.doubleToLongBits(other.dY))
+		}
+		if (Double.doubleToLongBits(dY) != Double.doubleToLongBits(other.dY)) {
 			return false;
+		}
 		return true;
 	}
 }

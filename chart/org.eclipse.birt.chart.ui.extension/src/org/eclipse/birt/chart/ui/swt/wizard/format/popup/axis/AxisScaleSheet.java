@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,10 +47,11 @@ public class AxisScaleSheet extends AbstractScaleSheet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractScaleSheet#
 	 * getComponent(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	protected Composite getComponent(Composite parent) {
 		Composite comp = super.getComponent(parent);
 		this.btnShowOutside
@@ -58,10 +59,12 @@ public class AxisScaleSheet extends AbstractScaleSheet {
 		return comp;
 	}
 
+	@Override
 	protected Scale getScale() {
 		return getAxisForProcessing().getScale();
 	}
 
+	@Override
 	protected int getValueType() {
 		if (getAxisForProcessing().getType() == AxisType.TEXT_LITERAL) {
 			return TextEditorComposite.TYPE_NONE;
@@ -72,6 +75,7 @@ public class AxisScaleSheet extends AbstractScaleSheet {
 		return TextEditorComposite.TYPE_NUMBERIC;
 	}
 
+	@Override
 	protected void setState() {
 		// Bugzilla#103961 Marker line and range only work for non-category
 		// style X-axis,

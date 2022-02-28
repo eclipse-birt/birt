@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -39,33 +39,36 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class PieSeriesUIProvider extends DefaultSeriesUIProvider {
 
 	private static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.PieSeriesImpl"; //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 */
 	public PieSeriesUIProvider() {
 		super();
 	}
 
+	@Override
 	public Composite getSeriesAttributeSheet(Composite parent, Series series, ChartWizardContext context) {
 		return new PieSeriesAttributeComposite(parent, SWT.NONE, series, context);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass ()
 	 */
+	@Override
 	public String getSeriesClass() {
 		return SERIES_CLASS;
 	}
 
+	@Override
 	public ISelectDataComponent getSeriesDataComponent(int seriesType, SeriesDefinition seriesDefn,
 			ChartWizardContext context, String sTitle) {
 		if (seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES) {
@@ -82,11 +85,12 @@ public class PieSeriesUIProvider extends DefaultSeriesUIProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#
 	 * validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
 	 */
+	@Override
 	public void validateSeriesBindingType(Series series, IDataServiceProvider idsp) throws ChartException {
 		Iterator<?> iterEntries = series.getDataDefinition().iterator();
 		boolean bIsNumericAgg = ChartUIUtil.isNumericAggregate(series);

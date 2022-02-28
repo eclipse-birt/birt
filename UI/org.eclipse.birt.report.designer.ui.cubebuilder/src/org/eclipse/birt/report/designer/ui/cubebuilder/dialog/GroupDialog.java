@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -92,8 +92,9 @@ public class GroupDialog extends TitleAreaDialog {
 		TabularLevelHandle[] levels = (TabularLevelHandle[]) hierarchy.getContents(IHierarchyModel.LEVELS_PROP)
 				.toArray(new TabularLevelHandle[0]);
 		for (int i = 0; i < levels.length; i++) {
-			if (levels[i].getDateTimeLevelType() != null)
+			if (levels[i].getDateTimeLevelType() != null) {
 				levelList.add(levels[i].getDateTimeLevelType());
+			}
 		}
 		dateTypeSelectedList.addAll(levelList);
 	}
@@ -115,6 +116,7 @@ public class GroupDialog extends TitleAreaDialog {
 		this.cube = cube;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.CUBE_BUILDER_GROUP_DIALOG);
 		setTitle(Messages.getString("DateGroupDialog.Title")); //$NON-NLS-1$
@@ -154,6 +156,7 @@ public class GroupDialog extends TitleAreaDialog {
 		regularButton.setText(Messages.getString("GroupDialog.Button.RegularGroup")); //$NON-NLS-1$
 		regularButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleButtonSelection(regularButton);
 			}
@@ -163,6 +166,7 @@ public class GroupDialog extends TitleAreaDialog {
 		dateButton.setText(Messages.getString("GroupDialog.Button.DateGroup")); //$NON-NLS-1$
 		dateButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleButtonSelection(dateButton);
 			}
@@ -216,20 +220,23 @@ public class GroupDialog extends TitleAreaDialog {
 			WidgetUtil.setExcludeGridData(regularButton, true);
 			WidgetUtil.setExcludeGridData(dateButton, true);
 		}
-		if (dimension != null && !isTimeType(dimension))
+		if (dimension != null && !isTimeType(dimension)) {
 			levelViewer.getTree().setVisible(false);
+		}
 
 		levelViewer.setInput(getDateTypeNames(getLevelTypesByDateType()));
 		levelViewer.expandAll();
 		if (levelViewer.getTree().getItemCount() > 0) {
 			TreeItem topNode = levelViewer.getTree().getItem(0);
 			do {
-				if (levelList.contains(topNode.getData()))
+				if (levelList.contains(topNode.getData())) {
 					topNode.setChecked(true);
+				}
 				topNode = topNode.getItem(0);
 			} while (topNode.getItemCount() > 0);
-			if (levelList.contains(topNode.getData()))
+			if (levelList.contains(topNode.getData())) {
 				topNode.setChecked(true);
+			}
 		}
 		checkOKButtonStatus();
 	}
@@ -241,20 +248,23 @@ public class GroupDialog extends TitleAreaDialog {
 	private TreeItem getItem(String text) {
 		TreeItem topNode = levelViewer.getTree().getItem(0);
 		do {
-			if (text.equals(topNode.getData()))
+			if (text.equals(topNode.getData())) {
 				return topNode;
+			}
 			topNode = topNode.getItem(0);
 		} while (topNode.getItemCount() > 0);
-		if (text.equals(topNode.getData()))
+		if (text.equals(topNode.getData())) {
 			return topNode;
-		else
+		} else {
 			return null;
+		}
 	}
 
 	private List getDateTypeNames(IChoice[] choices) {
 		List dateTypeList = new ArrayList();
-		if (choices == null)
+		if (choices == null) {
 			return dateTypeList;
+		}
 		for (int i = 0; i < choices.length; i++) {
 			dateTypeList.add(choices[i].getName());
 		}
@@ -267,47 +277,58 @@ public class GroupDialog extends TitleAreaDialog {
 
 	class DateLevelProvider extends LabelProvider implements ITreeContentProvider {
 
+		@Override
 		public Object[] getChildren(Object parentElement) {
 			int index = getDateTypeNames(getLevelTypesByDateType()).indexOf(parentElement);
 			return new Object[] { getDateTypeNames(getLevelTypesByDateType()).get(index + 1) };
 		}
 
+		@Override
 		public Object getParent(Object element) {
 			int index = getDateTypeNames(getLevelTypesByDateType()).indexOf(element);
-			if (index == 0)
+			if (index == 0) {
 				return null;
-			else
+			} else {
 				return getDateTypeNames(getLevelTypesByDateType()).get(index - 1);
+			}
 		}
 
+		@Override
 		public boolean hasChildren(Object element) {
 			int index = getDateTypeNames(getLevelTypesByDateType()).indexOf(element);
-			if (index >= getDateTypeNames(getLevelTypesByDateType()).size() - 1)
+			if (index >= getDateTypeNames(getLevelTypesByDateType()).size() - 1) {
 				return false;
+			}
 			return true;
 		}
 
+		@Override
 		public Object[] getElements(Object inputElement) {
-			if (getLevelTypesByDateType() != null && getLevelTypesByDateType().length > 0)
+			if (getLevelTypesByDateType() != null && getLevelTypesByDateType().length > 0) {
 				return new Object[] { getDateTypeNames(getLevelTypesByDateType()).get(0) };
+			}
 
 			return new Object[0];
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public Image getImage(Object element) {
 			return UIHelper.getImage(BuilderConstants.IMAGE_LEVEL);
 		}
 
+		@Override
 		public String getText(Object element) {
 			return getDateTypeDisplayName(element.toString());
 		}
 	}
 
+	@Override
 	protected void okPressed() {
 		saveResult();
 		super.okPressed();
@@ -447,8 +468,9 @@ public class GroupDialog extends TitleAreaDialog {
 								}
 							}
 						}
-						if (exit)
+						if (exit) {
 							continue;
+						}
 						// out of old level list:month out (year,quarter)
 						TabularLevelHandle level = DesignElementFactory.getInstance().newTabularLevel(
 								(DimensionHandle) hierarchy.getContainer(), getDateTypeDisplayName(dateType));
@@ -494,8 +516,9 @@ public class GroupDialog extends TitleAreaDialog {
 
 	protected void insertDimension() {
 		try {
-			if (cube != null)
+			if (cube != null) {
 				cube.add(CubeHandle.DIMENSIONS_PROP, dimension);
+			}
 		} catch (SemanticException e) {
 			e.printStackTrace();
 		}
@@ -558,6 +581,7 @@ public class GroupDialog extends TitleAreaDialog {
 		 */
 		levelViewer.addCheckStateListener(new ICheckStateListener() {
 
+			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
 				String itemText = (String) event.getElement();
 				TreeItem item = getItem(itemText);
@@ -567,6 +591,7 @@ public class GroupDialog extends TitleAreaDialog {
 
 		levelViewer.getTree().addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDown(MouseEvent e) {
 				TreeItem item = levelViewer.getTree().getItem(new Point(e.x, e.y));
 				checkItem(item);
@@ -575,11 +600,13 @@ public class GroupDialog extends TitleAreaDialog {
 
 		levelViewer.getTree().addKeyListener(new KeyAdapter() {
 
+			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.character == ' ') {
 					TreeItem[] item = levelViewer.getTree().getSelection();
-					if (item != null && item.length == 1)
+					if (item != null && item.length == 1) {
 						checkItem(item[0]);
+					}
 				}
 			}
 		});
@@ -601,6 +628,7 @@ public class GroupDialog extends TitleAreaDialog {
 		nameText.setLayoutData(gd);
 		nameText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				checkOKButtonStatus();
 			}
@@ -610,8 +638,9 @@ public class GroupDialog extends TitleAreaDialog {
 	}
 
 	protected void createSecurityPart(Composite parent) {
-		if (dimension == null)
+		if (dimension == null) {
 			return;
+		}
 		Object[] helperProviders = ElementAdapterManager.getAdapters(dimension, IDialogHelperProvider.class);
 		if (helperProviders != null) {
 			for (int i = 0; i < helperProviders.length; i++) {
@@ -628,6 +657,7 @@ public class GroupDialog extends TitleAreaDialog {
 						helper.createContent(parent);
 						helper.addListener(SWT.Modify, new Listener() {
 
+							@Override
 							public void handleEvent(Event event) {
 								helper.update(false);
 							}
@@ -642,38 +672,39 @@ public class GroupDialog extends TitleAreaDialog {
 
 	protected void checkOKButtonStatus() {
 		if (nameText.getText().trim().length() == 0) {
-			if (getButton(IDialogConstants.OK_ID) != null)
+			if (getButton(IDialogConstants.OK_ID) != null) {
 				getButton(IDialogConstants.OK_ID).setEnabled(false);
+			}
 			setMessage(null);
 			setErrorMessage(Messages.getString("DateGroupDialog.Message.BlankName")); //$NON-NLS-1$
 		} else if (!UIUtil.validateDimensionName(nameText.getText())) {
-			if (getButton(IDialogConstants.OK_ID) != null)
+			if (getButton(IDialogConstants.OK_ID) != null) {
 				getButton(IDialogConstants.OK_ID).setEnabled(false);
+			}
 			setMessage(null);
 			setErrorMessage(Messages.getString("DateGroupDialog.Message.NumericName")); //$NON-NLS-1$
 		} else if (checkDuplicateName(nameText.getText())) {
-			if (getButton(IDialogConstants.OK_ID) != null)
+			if (getButton(IDialogConstants.OK_ID) != null) {
 				getButton(IDialogConstants.OK_ID).setEnabled(false);
+			}
 			setMessage(null);
 			setErrorMessage(Messages.getString("DateGroupDialog.Message.DuplicateName")); //$NON-NLS-1$
-		} else {
-			if (dateButton.getSelection() && dateTypeSelectedList.size() == 0
-					&& (dimension == null || dataField != null)) {
-				if (getButton(IDialogConstants.OK_ID) != null)
+		} else if (dateButton.getSelection() && dateTypeSelectedList.size() == 0
+				&& (dimension == null || dataField != null)) {
+			if (getButton(IDialogConstants.OK_ID) != null) {
+				getButton(IDialogConstants.OK_ID).setEnabled(false);
+			}
+			setErrorMessage(null);
+			setMessage(Messages.getString("DateGroupDialog.Message")); //$NON-NLS-1$
 
-					getButton(IDialogConstants.OK_ID).setEnabled(false);
+		} else if (getButton(IDialogConstants.OK_ID) != null) {
+			getButton(IDialogConstants.OK_ID).setEnabled(true);
+			if (isRegularButton) {
+				setErrorMessage(null);
+				setMessage(Messages.getString("DateGroupDialog.Message.Regular")); //$NON-NLS-1$
+			} else {
 				setErrorMessage(null);
 				setMessage(Messages.getString("DateGroupDialog.Message")); //$NON-NLS-1$
-
-			} else if (getButton(IDialogConstants.OK_ID) != null) {
-				getButton(IDialogConstants.OK_ID).setEnabled(true);
-				if (isRegularButton) {
-					setErrorMessage(null);
-					setMessage(Messages.getString("DateGroupDialog.Message.Regular")); //$NON-NLS-1$
-				} else {
-					setErrorMessage(null);
-					setMessage(Messages.getString("DateGroupDialog.Message")); //$NON-NLS-1$
-				}
 			}
 		}
 	}
@@ -685,30 +716,30 @@ public class GroupDialog extends TitleAreaDialog {
 			if (hierarchy != null) {
 				input = (DimensionHandle) hierarchy.getContainer();
 			}
-			if (dimension != null && dimension != input)
+			if (dimension != null && dimension != input) {
 				return true;
+			}
 		} catch (Exception e) {
 			ExceptionHandler.handle(e);
 		}
 		return false;
 	}
 
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
 		checkOKButtonStatus();
 	}
 
 	public void setInput(TabularHierarchyHandle hierarchy) {
-		if (hierarchy.getLevelCount() == 0)
+		if (hierarchy.getLevelCount() == 0) {
 			setInput(hierarchy, null);
-		else {
-			if (!isDateType(hierarchy, ((TabularLevelHandle) hierarchy.getLevel(0)).getColumnName()))
-				setInput(hierarchy, null);
-			else {
-				DataSetHandle dataset = getDataSet(hierarchy);
-				setInput(hierarchy,
-						OlapUtil.getDataField(dataset, ((TabularLevelHandle) hierarchy.getLevel(0)).getColumnName()));
-			}
+		} else if (!isDateType(hierarchy, ((TabularLevelHandle) hierarchy.getLevel(0)).getColumnName())) {
+			setInput(hierarchy, null);
+		} else {
+			DataSetHandle dataset = getDataSet(hierarchy);
+			setInput(hierarchy,
+					OlapUtil.getDataField(dataset, ((TabularLevelHandle) hierarchy.getLevel(0)).getColumnName()));
 		}
 
 	}
@@ -728,29 +759,33 @@ public class GroupDialog extends TitleAreaDialog {
 		TabularLevelHandle[] levels = (TabularLevelHandle[]) hierarchy.getContents(IHierarchyModel.LEVELS_PROP)
 				.toArray(new TabularLevelHandle[0]);
 		for (int i = 0; i < levels.length; i++) {
-			if (levels[i].getDateTimeLevelType() != null)
+			if (levels[i].getDateTimeLevelType() != null) {
 				levelList.add(levels[i].getDateTimeLevelType());
+			}
 		}
 		dateTypeSelectedList.addAll(levelList);
 	}
 
 	private IChoice[] getLevelTypesByDateType() {
-		if (dataField == null)
+		if (dataField == null) {
 			return null;
+		}
 		String dataType = dataField.getDataType();
-		if (dataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME))
+		if (dataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME)) {
 			return OlapUtil.getDateTimeLevelTypeChoices();
-		else if (dataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DATE))
+		} else if (dataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DATE)) {
 			return OlapUtil.getDateLevelTypeChoices();
-		else
+		} else {
 			return OlapUtil.getTimeLevelTypeChoices();
+		}
 	}
 
 	private boolean isDateType(TabularHierarchyHandle hierarchy, String columnName) {
 
 		ResultSetColumnHandle column = OlapUtil.getDataField(OlapUtil.getHierarchyDataset(hierarchy), columnName);
-		if (column == null)
+		if (column == null) {
 			return false;
+		}
 		String dataType = column.getDataType();
 		return dataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME)
 				|| dataType.equals(DesignChoiceConstants.COLUMN_DATA_TYPE_DATE)
@@ -766,9 +801,8 @@ public class GroupDialog extends TitleAreaDialog {
 					dateTypeSelectedList.add(item.getData());
 				}
 
-			} else {
-				if (dateTypeSelectedList.contains(item.getData()))
-					dateTypeSelectedList.remove(item.getData());
+			} else if (dateTypeSelectedList.contains(item.getData())) {
+				dateTypeSelectedList.remove(item.getData());
 			}
 			checkOKButtonStatus();
 		}

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -127,14 +127,14 @@ import com.ibm.icu.util.Calendar;
 /**
  * The class cannot be run individually. It provides sample model
  * implementations for viewer selector classes in the package.
- * 
+ *
  */
 
 public final class PrimitiveCharts {
 	/**
 	 * Returns the names of available chart models for display
 	 */
-	public static final String[] getAvailableModelList() {
+	public static String[] getAvailableModelList() {
 		return new String[] { "Bar Chart", //$NON-NLS-1$
 				"Bar Chart(2 Series)", //$NON-NLS-1$
 				"Pie Chart", //$NON-NLS-1$
@@ -153,11 +153,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates chart model according to the selection index of available list.
-	 * 
+	 *
 	 * @param index selection index
 	 * @see #getAvailableModelList()
 	 */
-	public static final Chart createChart(int index) {
+	public static Chart createChart(int index) {
 		Chart cm = null;
 		switch (index) {
 		case 0:
@@ -205,11 +205,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates a simple bar chart model
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createBarChart() {
+	public static Chart createBarChart() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// Plot
@@ -269,11 +269,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates a simple bar chart model and set cursors.
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createBarChartWithCursorExample() {
+	public static Chart createBarChartWithCursorExample() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// Plot
@@ -395,11 +395,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates a bar chart model with mutiple Y-series as a reference implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createMultiBarChart() {
+	public static Chart createMultiBarChart() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// Plot
@@ -466,11 +466,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates a line chart model as a reference implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createLineChart() {
+	public static Chart createLineChart() {
 		ChartWithAxes cwaLine = ChartWithAxesImpl.create();
 
 		// Plot
@@ -525,11 +525,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates a difference chart model as a reference implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createDifferenceChart() {
+	public static Chart createDifferenceChart() {
 		ChartWithAxes cwaLine = ChartWithAxesImpl.create();
 
 		// Plot
@@ -592,11 +592,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates a pie chart model as a reference implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createPieChart() {
+	public static Chart createPieChart() {
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create();
 
 		// Plot
@@ -647,11 +647,11 @@ public final class PrimitiveCharts {
 	/**
 	 * Creates a chart model containing multiple pies (grouped by categories) as a
 	 * reference implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createMultiPieChart() {
+	public static Chart createMultiPieChart() {
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create();
 
 		// Plot
@@ -731,11 +731,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates a stacked Bar & Line combination chart instance
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createStackedChart() {
+	public static Chart createStackedChart() {
 		ChartWithAxes cwaCombination = ChartWithAxesImpl.create();
 
 		// Plot
@@ -915,11 +915,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates a numeric scatter chart instance
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createScatterChart() {
+	public static Chart createScatterChart() {
 		ChartWithAxes cwaScatter = ChartWithAxesImpl.create();
 
 		// Plot
@@ -1001,11 +1001,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates a numeric bubble chart instance
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createBubbleChart() {
+	public static Chart createBubbleChart() {
 		ChartWithAxes cwa = ChartWithAxesImpl.create();
 
 		// Plot
@@ -1087,11 +1087,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates a stock chart instance
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public final static Chart createStockChart() {
+	public static Chart createStockChart() {
 		ChartWithAxes cwaStock = ChartWithAxesImpl.create();
 
 		// Title
@@ -1233,11 +1233,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates a Area chart model as a reference implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createAreaChart() {
+	public static Chart createAreaChart() {
 		ChartWithAxes cwaArea = ChartWithAxesImpl.create();
 
 		// Plot/Title
@@ -1326,11 +1326,11 @@ public final class PrimitiveCharts {
 	/**
 	 * Creates a Single Dial, Multi Regions chart model as a reference
 	 * implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createSDialMRegionChart() {
+	public static Chart createSDialMRegionChart() {
 		DialChart dChart = (DialChart) DialChartImpl.create();
 		dChart.setDialSuperimposition(false);
 		dChart.setGridColumnCount(2);
@@ -1448,11 +1448,11 @@ public final class PrimitiveCharts {
 	/**
 	 * Creates a Multi Dials, Multi Regions chart model as a reference
 	 * implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createMDialMRegionChart() {
+	public static Chart createMDialMRegionChart() {
 		DialChart dChart = (DialChart) DialChartImpl.create();
 		dChart.setDialSuperimposition(false);
 		dChart.setGridColumnCount(2);
@@ -1611,11 +1611,11 @@ public final class PrimitiveCharts {
 	/**
 	 * Creates a Single Dial, Single Region chart model as a reference
 	 * implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createSDialSRegionChart() {
+	public static Chart createSDialSRegionChart() {
 		DialChart dChart = (DialChart) DialChartImpl.create();
 		dChart.setDialSuperimposition(false);
 		dChart.setGridColumnCount(2);
@@ -1701,11 +1701,11 @@ public final class PrimitiveCharts {
 	/**
 	 * Creates a Multi Dials, Single Region chart model as a reference
 	 * implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createMDialSRegionChart() {
+	public static Chart createMDialSRegionChart() {
 		DialChart dChart = (DialChart) DialChartImpl.create();
 		dChart.setDialSuperimposition(false);
 		dChart.setGridColumnCount(2);
@@ -1820,11 +1820,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates a bar chart model with curve fitting series.
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createCFBarChart() {
+	public static Chart createCFBarChart() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// Plot
@@ -1885,11 +1885,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates a line chart model with curve fitting series
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createCFLineChart() {
+	public static Chart createCFLineChart() {
 		ChartWithAxes cwaLine = ChartWithAxesImpl.create();
 
 		// Plot
@@ -1946,11 +1946,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates a stock chart model with curve fitting series.
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public final static Chart createCFStockChart() {
+	public static Chart createCFStockChart() {
 		ChartWithAxes cwaStock = ChartWithAxesImpl.create();
 
 		// Title
@@ -2051,11 +2051,11 @@ public final class PrimitiveCharts {
 
 	/**
 	 * Creates a Area chart model with curve fitting series implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createCFAreaChart() {
+	public static Chart createCFAreaChart() {
 		ChartWithAxes cwaArea = ChartWithAxesImpl.create();
 
 		// Plot/Title
@@ -2132,7 +2132,7 @@ public final class PrimitiveCharts {
 		return cwaArea;
 	}
 
-	public static final Chart create3DBarChart() {
+	public static Chart create3DBarChart() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 		cwaBar.setDimension(ChartDimension.THREE_DIMENSIONAL_LITERAL);
 
@@ -2208,7 +2208,7 @@ public final class PrimitiveCharts {
 		return cwaBar;
 	}
 
-	public static final Chart create3DLineChart() {
+	public static Chart create3DLineChart() {
 		ChartWithAxes cwa3DLine = ChartWithAxesImpl.create();
 		cwa3DLine.setDimension(ChartDimension.THREE_DIMENSIONAL_LITERAL);
 
@@ -2279,7 +2279,7 @@ public final class PrimitiveCharts {
 		return cwa3DLine;
 	}
 
-	public static final Chart create3DAreaChart() {
+	public static Chart create3DAreaChart() {
 		ChartWithAxes cwa3DArea = ChartWithAxesImpl.create();
 		cwa3DArea.setDimension(ChartDimension.THREE_DIMENSIONAL_LITERAL);
 
@@ -2368,14 +2368,16 @@ public final class PrimitiveCharts {
 		return cwa3DArea;
 	}
 
-	public static final Chart openChart() {
+	public static Chart openChart() {
 		JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir")); //$NON-NLS-1$
 		fileChooser.setFileFilter(new FileFilter() {
 
+			@Override
 			public boolean accept(File f) {
 				return f.isDirectory() || f.isFile() && f.getName().endsWith(".chart"); //$NON-NLS-1$
 			}
 
+			@Override
 			public String getDescription() {
 				return "*.chart(Chart files)"; //$NON-NLS-1$
 			}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -81,7 +81,7 @@ public class FormatDateTimeLayoutPeer extends FormatLayoutPeer {
 
 	@Override
 	protected void createCategoryPages(Composite parent) {
-		categoryPageMaps = new HashMap<String, Control>();
+		categoryPageMaps = new HashMap<>();
 
 		categoryPageMaps.put(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED, getGeneralPage(parent));
 
@@ -160,6 +160,7 @@ public class FormatDateTimeLayoutPeer extends FormatLayoutPeer {
 		return previewLabel;
 	}
 
+	@Override
 	protected void createTable(Composite parent) {
 		super.createTable(parent);
 
@@ -190,6 +191,7 @@ public class FormatDateTimeLayoutPeer extends FormatLayoutPeer {
 
 		customFormatTable.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				customFormatCodeTextBox.setText(((TableItem) e.item).getText(FORMAT_CODE_INDEX));
 				updatePreview();
@@ -224,8 +226,9 @@ public class FormatDateTimeLayoutPeer extends FormatLayoutPeer {
 		setCategory(category);
 
 		ULocale locale = FormatAdapter.getLocaleByDisplayName(this.locale);
-		if (locale == null)
+		if (locale == null) {
 			locale = ULocale.getDefault();
+		}
 
 		boolean invalidPreviewText = false;
 		Date sampleDateTime = defaultDate;
@@ -246,10 +249,11 @@ public class FormatDateTimeLayoutPeer extends FormatLayoutPeer {
 				fmtStr = PREVIEW_TEXT_INVALID_DATETIME_TO_PREVIEW;
 			} else {
 				try {
-					if (pattern == null || pattern.length() == 0)
+					if (pattern == null || pattern.length() == 0) {
 						fmtStr = defaultPreviewText;
-					else
+					} else {
 						fmtStr = new DateFormatter(pattern, locale).format(sampleDateTime);
+					}
 				} catch (Exception e) {
 					fmtStr = PREVIEW_TEXT_INVALID_DATETIME_TO_PREVIEW;
 				}
@@ -276,8 +280,9 @@ public class FormatDateTimeLayoutPeer extends FormatLayoutPeer {
 		ULocale oldLocale = FormatAdapter.getLocaleByDisplayName(this.locale);
 		Date sampleDateTime = defaultDate;
 		try {
-			if (getPreviewText() != null)
+			if (getPreviewText() != null) {
 				sampleDateTime = new DateFormatter(ENTER_DATE_TIME_GUIDE_FORMAT, oldLocale).parse(getPreviewText());
+			}
 		} catch (ParseException e) {
 			// do nothing.
 		}
@@ -291,8 +296,9 @@ public class FormatDateTimeLayoutPeer extends FormatLayoutPeer {
 
 		int index = typeChoicer.getSelectionIndex();
 		typeChoicer.setItems(formatAdapter.getFormatTypes(locale));
-		if (index >= 0 && index < typeChoicer.getItemCount())
+		if (index >= 0 && index < typeChoicer.getItemCount()) {
 			typeChoicer.select(index);
+		}
 
 		String[][] items = getTableItems(locale);
 		for (int i = 0; i < items.length; i++) {
@@ -310,8 +316,8 @@ public class FormatDateTimeLayoutPeer extends FormatLayoutPeer {
 	}
 
 	private String[][] getTableItems(ULocale locale) {
-		List<String[]> itemList = new ArrayList<String[]>();
-		String[][] items = new String[][] {
+		List<String[]> itemList = new ArrayList<>();
+		String[][] items = {
 				new String[] {
 						formatAdapter.getDisplayName4Category(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE),
 						new DateFormatter(FormatDateTimePattern
@@ -379,6 +385,7 @@ public class FormatDateTimeLayoutPeer extends FormatLayoutPeer {
 		return itemList.toArray(new String[0][3]);
 	}
 
+	@Override
 	public String getFormatString() {
 		if (category == null && pattern == null) {
 			return ((FormatDateTimeAdapter) formatAdapter).getUnformattedCategoryDisplayName();
@@ -395,6 +402,7 @@ public class FormatDateTimeLayoutPeer extends FormatLayoutPeer {
 		return category + ":" + pattern; //$NON-NLS-1$
 	}
 
+	@Override
 	public void setPreviewText(String text) {
 		setDefaultPreviewText(text);
 		updatePreview();

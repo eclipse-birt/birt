@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -66,8 +66,6 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
-import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
-import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.odf.AbstractOdfEmitter;
@@ -91,13 +89,13 @@ public class OdtEmitter extends AbstractOdfEmitter {
 
 	public final static int NORMAL = -1;
 
-	public static enum InlineFlag {
+	public enum InlineFlag {
 		FIRST_INLINE, MIDDLE_INLINE, BLOCK
-	};
+	}
 
-	public static enum TextFlag {
+	public enum TextFlag {
 		START, MIDDLE, END, WHOLE
-	};
+	}
 
 	public final static int MAX_COLUMN = 63;
 
@@ -113,7 +111,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 
 	private static final String OUTPUT_FORMAT = "odt"; //$NON-NLS-1$
 
-	private Stack<IStyle> inlineStyles = new Stack<IStyle>();
+	private Stack<IStyle> inlineStyles = new Stack<>();
 
 	protected IOdtWriter bodyWriter = null;
 
@@ -123,7 +121,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 
 	protected IPageContent previousPage = null;
 
-	protected Stack<IStyle> styles = new Stack<IStyle>();
+	protected Stack<IStyle> styles = new Stack<>();
 
 	public double pageWidth = 0;
 
@@ -135,15 +133,15 @@ public class OdtEmitter extends AbstractOdfEmitter {
 
 	private StyleEntry pageLayout = null;
 
-	private HashSet<String> bookmarks = new HashSet<String>();
+	private HashSet<String> bookmarks = new HashSet<>();
 
 	private boolean rowFilledFlag = false;
 
-	private ArrayList<InstanceID> groupIdList = new ArrayList<InstanceID>();
+	private ArrayList<InstanceID> groupIdList = new ArrayList<>();
 
 	private int tocLevel = 1;
 
-	private List<TocInfo> tableTocs = new ArrayList<TocInfo>();
+	private List<TocInfo> tableTocs = new ArrayList<>();
 
 	private String messageFlashObjectNotSupported;
 
@@ -164,16 +162,18 @@ public class OdtEmitter extends AbstractOdfEmitter {
 
 	public OdtEmitter() {
 		super();
-		containerBookmarks = new ArrayList<String>(3);
+		containerBookmarks = new ArrayList<>(3);
 		pageBreakBefore = false;
 		masterPage = null;
 		tableCount = 0;
 	}
 
+	@Override
 	public String getOutputFormat() {
 		return OUTPUT_FORMAT;
 	}
 
+	@Override
 	public void endContainer(IContainerContent container) {
 		if (isClipped) {
 			return;
@@ -204,6 +204,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		}
 	}
 
+	@Override
 	public void startContainer(IContainerContent container) {
 		if (isClipped) {
 			return;
@@ -235,6 +236,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		return false;
 	}
 
+	@Override
 	public void endTable(ITableContent table) {
 		if (isClipped) {
 			return;
@@ -245,6 +247,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		decreaseTOCLevel(table);
 	}
 
+	@Override
 	public void startForeign(IForeignContent foreign) throws BirtException {
 		if (isClipped) {
 			return;
@@ -330,8 +333,9 @@ public class OdtEmitter extends AbstractOdfEmitter {
 				if (!styles.isEmpty()) {
 					computedStyle = styles.peek();
 				}
-			} else
+			} else {
 				inlineFlag = InlineFlag.MIDDLE_INLINE;
+			}
 			if (!inlineStyles.isEmpty()) {
 				inlineStyle = mergeStyles(inlineStyles);
 			}
@@ -383,6 +387,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		return style;
 	}
 
+	@Override
 	public void initialize(IEmitterServices service) throws EngineException {
 		super.initialize(service);
 		if (service != null) {
@@ -404,11 +409,13 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		}
 	}
 
+	@Override
 	protected AbstractOdfEmitterContext createContext() {
 		this.context = new EmitterContext();
 		return this.context;
 	}
 
+	@Override
 	public void start(IReportContent report) throws BirtException {
 		super.start(report);
 		if (null == layoutPreference) {
@@ -427,6 +434,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		masterPageWriter.start(false);
 	}
 
+	@Override
 	public void startPage(IPageContent page) {
 		MasterPageManager masterPageManager = context.getMasterPageManager();
 		if (previousPage != null) {
@@ -436,9 +444,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 				// to the next paragraph/table
 				pageBreakBefore = true;
 				masterPage = masterPageManager.getCurrentMasterPage();
-			} catch (IOException e) {
-				logger.log(Level.WARNING, e.getLocalizedMessage());
-			} catch (BirtException e) {
+			} catch (IOException | BirtException e) {
 				logger.log(Level.WARNING, e.getLocalizedMessage());
 			}
 			previousPage = page;
@@ -453,9 +459,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 
 			try {
 				writeMetaProperties(reportContent);
-			} catch (IOException e) {
-				logger.log(Level.WARNING, e.getLocalizedMessage());
-			} catch (BirtException e) {
+			} catch (IOException | BirtException e) {
 				logger.log(Level.WARNING, e.getLocalizedMessage());
 			}
 
@@ -480,6 +484,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		bodyWriter.endPage();
 	}
 
+	@Override
 	public void end(IReportContent report) throws BirtException {
 		adjustInline();
 		try {
@@ -521,6 +526,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		pageLayout = makePageLayoutStyle(page);
 	}
 
+	@Override
 	public void startAutoText(IAutoTextContent autoText) {
 		if (isClipped) {
 			return;
@@ -528,6 +534,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		writeContent(autoText.getType(), autoText.getText(), autoText);
 	}
 
+	@Override
 	public void startData(IDataContent data) {
 		if (isClipped) {
 			return;
@@ -536,6 +543,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		writeContent(NORMAL, data.getText(), data);
 	}
 
+	@Override
 	public void startLabel(ILabelContent label) {
 		if (isClipped) {
 			return;
@@ -546,6 +554,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		writeContent(NORMAL, txt, label);
 	}
 
+	@Override
 	public void startText(ITextContent text) {
 		if (isClipped) {
 			return;
@@ -554,6 +563,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		writeContent(NORMAL, text.getText(), text);
 	}
 
+	@Override
 	public void startList(IListContent list) {
 		if (isClipped) {
 			return;
@@ -575,6 +585,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		addContainerBookmark(list);
 	}
 
+	@Override
 	public void startListBand(IListBandContent listBand) {
 		if (isClipped) {
 			return;
@@ -590,6 +601,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		bodyWriter.startTableCell(cellStyle, null);
 	}
 
+	@Override
 	public void startListGroup(IListGroupContent group) {
 		if (isClipped) {
 			return;
@@ -598,6 +610,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		setGroupToc(group);
 	}
 
+	@Override
 	public void startRow(IRowContent row) {
 		if (isClipped) {
 			return;
@@ -618,12 +631,13 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		}
 	}
 
+	@Override
 	public void startContent(IContent content) {
 		if (isClipped) {
-			return;
 		}
 	}
 
+	@Override
 	public void startGroup(IGroupContent group) {
 		if (isClipped) {
 			return;
@@ -632,6 +646,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		setGroupToc(group);
 	}
 
+	@Override
 	public void startCell(ICellContent cell) {
 		if (isClipped) {
 			omitCellLayer++;
@@ -697,11 +712,13 @@ public class OdtEmitter extends AbstractOdfEmitter {
 	}
 
 	private void drawDiagonalLine(ICellContent cell, double cellWidth) {
-		if (cellWidth == 0)
+		if (cellWidth == 0) {
 			return;
+		}
 		int cellHeight = OdfUtil.convertTo(getCellHeight(cell), 0, context.getReportDpi()) / 20;
-		if (cellHeight == 0)
+		if (cellHeight == 0) {
 			return;
+		}
 
 		DiagonalLineInfo diagonalLineInfo = new DiagonalLineInfo();
 		int diagonalWidth = PropertyUtil.getDimensionValue(cell, cell.getDiagonalWidth(), (int) cellWidth) / 1000;
@@ -726,6 +743,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		return ((IRowContent) parent).getHeight();
 	}
 
+	@Override
 	public void startTable(ITableContent table) {
 		if (isClipped) {
 			return;
@@ -800,6 +818,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		return tableWidth;
 	}
 
+	@Override
 	public void startTableBand(ITableBandContent band) {
 		if (isClipped) {
 			return;
@@ -810,6 +829,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		}
 	}
 
+	@Override
 	public void startTableGroup(ITableGroupContent group) {
 		if (isClipped) {
 			return;
@@ -829,6 +849,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		}
 	}
 
+	@Override
 	public void endCell(ICellContent cell) {
 		if (omitCellLayer != 0) {
 			omitCellLayer--;
@@ -853,10 +874,12 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		context.endCell();
 	}
 
+	@Override
 	public void endContent(IContent content) {
 
 	}
 
+	@Override
 	public void endGroup(IGroupContent group) {
 		if (isClipped) {
 			return;
@@ -865,6 +888,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		decreaseTOCLevel(group);
 	}
 
+	@Override
 	public void endList(IListContent list) {
 		if (isClipped) {
 			return;
@@ -880,6 +904,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		decreaseTOCLevel(list);
 	}
 
+	@Override
 	public void endListBand(IListBandContent listBand) {
 		if (isClipped) {
 			return;
@@ -891,6 +916,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		bodyWriter.endTableRow();
 	}
 
+	@Override
 	public void endListGroup(IListGroupContent group) {
 		if (isClipped) {
 			return;
@@ -899,6 +925,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		decreaseTOCLevel(group);
 	}
 
+	@Override
 	public void endRow(IRowContent row) {
 		if (isClipped) {
 			return;
@@ -931,6 +958,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		}
 	}
 
+	@Override
 	public void endTableBand(ITableBandContent band) {
 		if (isClipped) {
 			return;
@@ -941,6 +969,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		}
 	}
 
+	@Override
 	public void endTableGroup(ITableGroupContent group) {
 		if (isClipped) {
 			return;
@@ -949,12 +978,13 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		decreaseTOCLevel(group);
 	}
 
+	@Override
 	public void endPage(IPageContent page) {
 		if (isClipped) {
-			return;
 		}
 	}
 
+	@Override
 	public void startImage(IImageContent image) {
 		if (isClipped) {
 			return;
@@ -1083,8 +1113,9 @@ public class OdtEmitter extends AbstractOdfEmitter {
 			if (context.isFirstInline()) {
 				context.startInline();
 				inlineFlag = InlineFlag.FIRST_INLINE;
-			} else
+			} else {
 				inlineFlag = InlineFlag.MIDDLE_INLINE;
+			}
 		} else {
 			adjustInline();
 		}
@@ -1119,7 +1150,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 			String bookmark = linkAction.getBookmark();
 			switch (linkAction.getType()) {
 			case IHyperlinkAction.ACTION_BOOKMARK:
-				bookmark = bookmark.replaceAll(" ", "_"); //$NON-NLS-1$//$NON-NLS-2$
+				bookmark = bookmark.replace(' ', '_'); // $NON-NLS-1$//$NON-NLS-2$
 				hyperlink = new HyperlinkInfo(HyperlinkInfo.BOOKMARK, bookmark, tooltip);
 				break;
 			case IHyperlinkAction.ACTION_HYPERLINK:
@@ -1165,17 +1196,6 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		tableTocs.clear();
 	}
 
-	private String getFontFamily(IStyle c_style, Chunk ch) {
-		String fontFamily = null;
-		FontInfo info = ch.getFontInfo();
-		if (info != null) {
-			fontFamily = info.getFontName();
-		} else {
-			fontFamily = c_style.getFontFamily();
-		}
-		return fontFamily;
-	}
-
 	private boolean isHidden(IContent content) {
 		if (content != null) {
 			IStyle style = content.getStyle();
@@ -1189,7 +1209,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 
 	/**
 	 * if the content is hidden
-	 * 
+	 *
 	 * @return
 	 */
 	private boolean isHiddenByVisibility(IContent content) {
@@ -1232,11 +1252,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 	}
 
 	protected boolean isNullValue(CSSValue value) {
-		if (value == null) {
-			return true;
-		}
-
-		if (value instanceof DataFormatValue) {
+		if ((value == null) || (value instanceof DataFormatValue)) {
 			return true;
 		}
 
@@ -1360,6 +1376,7 @@ public class OdtEmitter extends AbstractOdfEmitter {
 		}
 	}
 
+	@Override
 	protected String getRootMime() {
 		return MIME_TYPE;
 	}

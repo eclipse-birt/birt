@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,20 +39,23 @@ public class AggregationResultRow implements IAggregationResultRow {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IStructure#getFieldValues()
 	 */
+	@Override
 	public Object[] getFieldValues() {
 		int memberLength = 0;
-		if (levelMembers != null)
+		if (levelMembers != null) {
 			memberLength = levelMembers.length;
+		}
 
 		Object[][] objectArrays = new Object[memberLength + 1][];
 		for (int i = 0; i < memberLength; i++) {
-			if (levelMembers[i] == null)
+			if (levelMembers[i] == null) {
 				objectArrays[i] = null;
-			else
+			} else {
 				objectArrays[i] = levelMembers[i].getFieldValues();
+			}
 		}
 		if (getAggregationValues() != null) {
 			objectArrays[objectArrays.length - 1] = new Object[getAggregationValues().length + 1];
@@ -67,7 +70,7 @@ public class AggregationResultRow implements IAggregationResultRow {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public static IStructureCreator getCreator() {
@@ -76,9 +79,10 @@ public class AggregationResultRow implements IAggregationResultRow {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	@Override
 	public int compareTo(Object o) {
 		IAggregationResultRow other = (IAggregationResultRow) o;
 		for (int i = 0; i < getLevelMembers().length; i++) {
@@ -98,52 +102,56 @@ public class AggregationResultRow implements IAggregationResultRow {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.IAggregationResultRow
 	 * #setLevelMembers(org.eclipse.birt.data.engine.olap.data.impl.dimension.Member
 	 * [])
 	 */
+	@Override
 	public void setLevelMembers(Member[] levelMembers) {
 		this.levelMembers = levelMembers;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.IAggregationResultRow
 	 * #getLevelMembers()
 	 */
+	@Override
 	public Member[] getLevelMembers() {
 		return levelMembers;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.IAggregationResultRow
 	 * #setAggregationValues(java.lang.Object[])
 	 */
+	@Override
 	public void setAggregationValues(Object[] aggregationValues) {
 		this.aggregationValues = aggregationValues;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.IAggregationResultRow
 	 * #getAggregationValues()
 	 */
+	@Override
 	public Object[] getAggregationValues() {
 		return aggregationValues;
 	}
 }
 
 /**
- * 
+ *
  * @author Administrator
  *
  */
@@ -152,21 +160,23 @@ class AggregationResultObjectCreator implements IStructureCreator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.util.IStructureCreator#createInstance(java.
 	 * lang.Object[])
 	 */
+	@Override
 	public IStructure createInstance(Object[] fields) {
 		AggregationResultRow result = new AggregationResultRow();
 		Object[][] objectArrays = ObjectArrayUtil.convert(fields);
 
 		result.setLevelMembers(new Member[objectArrays.length - 1]);
 		for (int i = 0; i < result.getLevelMembers().length; i++) {
-			if (objectArrays[i] == null)
+			if (objectArrays[i] == null) {
 				result.getLevelMembers()[i] = null;
-			else
+			} else {
 				result.getLevelMembers()[i] = (Member) levelMemberCreator.createInstance(objectArrays[i]);
+			}
 		}
 		if (objectArrays[objectArrays.length - 1][0].equals(Integer.valueOf(1))) {
 			result.setAggregationValues(new Object[objectArrays[objectArrays.length - 1].length - 1]);

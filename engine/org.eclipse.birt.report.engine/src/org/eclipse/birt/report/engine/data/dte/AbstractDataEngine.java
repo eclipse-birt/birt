@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -105,9 +105,9 @@ public abstract class AbstractDataEngine implements IDataEngine {
 	/**
 	 * store relations of various query ResultSet. Such as relations between parent
 	 * ResultSet and nested query ResultSet.
-	 * 
+	 *
 	 * The user use
-	 * 
+	 *
 	 * ParentResultId.rowId.queryName to access the result set id.
 	 */
 	protected ResultSetIndex rsetIndex = new ResultSetIndex();
@@ -123,6 +123,7 @@ public abstract class AbstractDataEngine implements IDataEngine {
 	 * org.eclipse.birt.report.engine.data.IDataEngine#defineDataSet(org.eclipse
 	 * .birt.report.model.api.DataSetHandle)
 	 */
+	@Override
 	public void defineDataSet(DataSetHandle dataSet) {
 		try {
 			adapter.defineDataSet(dataSet, dteSession);
@@ -136,6 +137,7 @@ public abstract class AbstractDataEngine implements IDataEngine {
 	 * @see org.eclipse.birt.report.engine.data.IDataEngine#prepare(org.eclipse.birt
 	 * .report.engine.ir.Report, java.util.Map)
 	 */
+	@Override
 	public void prepare(Report report, Map appContext) {
 		ReportDesignHandle rptHandle = report.getReportDesign();
 
@@ -175,6 +177,7 @@ public abstract class AbstractDataEngine implements IDataEngine {
 		doPrepareQuery(report, appContext);
 	}
 
+	@Override
 	public void prepare(IDataQueryDefinition query) throws BirtException {
 
 		this.dteSession.registerQueries(new IDataQueryDefinition[] { query });
@@ -183,7 +186,7 @@ public abstract class AbstractDataEngine implements IDataEngine {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param report
 	 * @param appContext
 	 */
@@ -222,6 +225,7 @@ public abstract class AbstractDataEngine implements IDataEngine {
 	 * org.eclipse.birt.report.engine.data.IDataEngine#execute(org.eclipse.birt.data
 	 * .engine.api.IBaseQueryDefinition)
 	 */
+	@Override
 	public IBaseResultSet execute(IDataQueryDefinition query) throws BirtException {
 		return execute(null, query, null, false);
 	}
@@ -232,6 +236,7 @@ public abstract class AbstractDataEngine implements IDataEngine {
 	 * report.engine.data.IResultSet,
 	 * org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
 	 */
+	@Override
 	public IBaseResultSet execute(IBaseResultSet parent, IDataQueryDefinition query, Object queryOwner,
 			boolean useCache) throws BirtException {
 		// FIXME: DTE may provide an API to get the query type.
@@ -263,7 +268,7 @@ public abstract class AbstractDataEngine implements IDataEngine {
 
 	/**
 	 * get the sub cube query result from the current query.
-	 * 
+	 *
 	 * @param parent
 	 * @param query
 	 * @return
@@ -280,7 +285,7 @@ public abstract class AbstractDataEngine implements IDataEngine {
 
 	/**
 	 * get the sub query result from the current query.
-	 * 
+	 *
 	 * @param query
 	 * @return
 	 */
@@ -307,6 +312,7 @@ public abstract class AbstractDataEngine implements IDataEngine {
 	/*
 	 * @see org.eclipse.birt.report.engine.data.IDataEngine#shutdown()
 	 */
+	@Override
 	public void shutdown() {
 		dteSession.shutdown();
 		queryCache.close();
@@ -315,6 +321,7 @@ public abstract class AbstractDataEngine implements IDataEngine {
 		}
 	}
 
+	@Override
 	public DataRequestSession getDTESession() {
 		return dteSession;
 	}

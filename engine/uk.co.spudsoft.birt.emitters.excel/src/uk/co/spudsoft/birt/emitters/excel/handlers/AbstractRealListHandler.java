@@ -1,7 +1,7 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
+ *
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -35,9 +35,6 @@ public class AbstractRealListHandler extends AbstractHandler implements NestedTa
 	protected int startRow;
 	protected int startCol;
 
-	private IListGroupContent currentGroup;
-	private IListBandContent currentBand;
-
 	private AreaBorders borderDefn;
 
 	private List<NestedTableHandler> nestedTables;
@@ -46,14 +43,16 @@ public class AbstractRealListHandler extends AbstractHandler implements NestedTa
 		super(log, parent, list);
 	}
 
+	@Override
 	public void addNestedTable(NestedTableHandler nestedTableHandler) {
 		if (nestedTables == null) {
-			nestedTables = new ArrayList<NestedTableHandler>();
+			nestedTables = new ArrayList<>();
 		}
 		log.debug("Adding nested table: ", nestedTableHandler);
 		nestedTables.add(nestedTableHandler);
 	}
 
+	@Override
 	public boolean rowHasNestedTable(int rowNum) {
 		if (nestedTables != null) {
 			for (NestedTableHandler nestedTableHandler : nestedTables) {
@@ -67,6 +66,7 @@ public class AbstractRealListHandler extends AbstractHandler implements NestedTa
 		return false;
 	}
 
+	@Override
 	public int extendRowBy(int rowNum) {
 		int offset = 1;
 		if (nestedTables != null) {
@@ -134,7 +134,6 @@ public class AbstractRealListHandler extends AbstractHandler implements NestedTa
 
 	@Override
 	public void startListBand(HandlerState state, IListBandContent band) throws BirtException {
-		currentBand = band;
 		state.colNum = startCol;
 		log.debug("startListBand with startCol = ", startCol);
 	}
@@ -147,18 +146,14 @@ public class AbstractRealListHandler extends AbstractHandler implements NestedTa
 			state.rowNum += extendRowBy(state.rowNum);
 		}
 		state.colNum = startCol;
-
-		currentBand = null;
 	}
 
 	@Override
 	public void startListGroup(HandlerState state, IListGroupContent group) throws BirtException {
-		currentGroup = group;
 	}
 
 	@Override
 	public void endListGroup(HandlerState state, IListGroupContent group) throws BirtException {
-		currentGroup = null;
 	}
 
 }

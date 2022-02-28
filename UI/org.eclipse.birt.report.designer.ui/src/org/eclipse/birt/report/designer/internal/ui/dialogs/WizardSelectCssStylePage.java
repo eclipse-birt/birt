@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -90,6 +90,7 @@ public class WizardSelectCssStylePage extends WizardPage {
 		super(pageName);
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -127,6 +128,7 @@ public class WizardSelectCssStylePage extends WizardPage {
 		fileNameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		fileNameField.addListener(SWT.Modify, new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
 				setPageComplete(validateFileName());
 				refresh();
@@ -138,16 +140,17 @@ public class WizardSelectCssStylePage extends WizardPage {
 
 		selectButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog fileSelector = new FileDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
 						SWT.NULL);
 
-				fileSelector.setFilterExtensions(new String[] { "*.css;*.CSS" });//$NON-NLS-1$ //$NON-NLS-2$
+				fileSelector.setFilterExtensions(new String[] { "*.css;*.CSS" });//$NON-NLS-1$
 
 				String fileName = fileSelector.open();
 				if (fileName != null) {
 					// should check extensions in Linux enviroment
-					if (checkExtensions(new String[] { "*.css", "*.CSS" }, fileName) == false) //$NON-NLS-1$ //$NON-NLS-2$
+					if (!checkExtensions(new String[] { "*.css", "*.CSS" }, fileName)) //$NON-NLS-1$ //$NON-NLS-2$
 					{
 						ExceptionHandler.openErrorMessageBox(
 								Messages.getString("WizardSelectCssStylePage.FileNameError.Title"), //$NON-NLS-1$
@@ -197,6 +200,7 @@ public class WizardSelectCssStylePage extends WizardPage {
 		stylesTable.setLayoutData(data);
 		stylesTable.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				refreshButtons();
 			}
@@ -250,6 +254,7 @@ public class WizardSelectCssStylePage extends WizardPage {
 		selectAll.setText(Messages.getString("WizardSelectCssStylePage.button.label.selectAll")); //$NON-NLS-1$
 		selectAll.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TableItem[] ch = stylesTable.getItems();
 				for (int i = 0; i < ch.length; i++) {
@@ -265,6 +270,7 @@ public class WizardSelectCssStylePage extends WizardPage {
 		deselectAll.setText(Messages.getString("WizardSelectCssStylePage.button.label.deselectAll")); //$NON-NLS-1$
 		deselectAll.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TableItem[] ch = stylesTable.getItems();
 				for (int i = 0; i < ch.length; i++) {
@@ -328,8 +334,7 @@ public class WizardSelectCssStylePage extends WizardPage {
 
 				List availableStyles = null;
 				if (theme != null) {
-					availableStyles = new ArrayList();
-					availableStyles.addAll(Arrays.asList(getPredefinedStyleNames(theme.getType())));
+					availableStyles = new ArrayList(Arrays.asList(getPredefinedStyleNames(theme.getType())));
 				}
 
 				List themeStyleNames = getThemeStyleNames();

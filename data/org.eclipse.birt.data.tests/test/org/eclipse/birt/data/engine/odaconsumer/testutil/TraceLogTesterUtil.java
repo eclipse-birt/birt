@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -35,8 +35,9 @@ public class TraceLogTesterUtil {
 	private static TraceLogTesterUtil sm_instance = null;
 
 	public static TraceLogTesterUtil getInstance() {
-		if (sm_instance == null)
+		if (sm_instance == null) {
 			sm_instance = new TraceLogTesterUtil();
+		}
 		return sm_instance;
 	}
 
@@ -79,7 +80,7 @@ public class TraceLogTesterUtil {
 				foundMatch = searchPattern.matcher(line).matches();
 			}
 
-			if (foundMatch == false) {
+			if (!foundMatch) {
 				fileBufReader.close();
 				return false; // end of file, no match to current pattern
 			}
@@ -91,13 +92,15 @@ public class TraceLogTesterUtil {
 
 	public void clearDirectory(File dir) throws IOException {
 		File[] files = dir.listFiles();
-		if (files == null)
+		if (files == null) {
 			return; // nothing to clear
+		}
 
 		for (int i = 0; i < files.length; i += 1) {
 			boolean deleted = files[i].delete();
-			if (!deleted)
+			if (!deleted) {
 				throw new IOException("Cannot delete file: " + files[i].getName());
+			}
 		}
 	}
 

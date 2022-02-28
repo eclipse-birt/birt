@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ public class AttributeEvent extends NotificationEvent {
 
 	/**
 	 * Constructs a new file name event with the given module.
-	 * 
+	 *
 	 * @param module   the changed module
 	 * @param attrName the changed attribute name
 	 */
@@ -52,18 +52,19 @@ public class AttributeEvent extends NotificationEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
 	 */
 
+	@Override
 	public int getEventType() {
 		return ATTRIBUTE_EVENT;
 	}
 
 	/**
 	 * Gets the changed attribute name.
-	 * 
+	 *
 	 * @return the changed attribute name
 	 */
 
@@ -73,19 +74,20 @@ public class AttributeEvent extends NotificationEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.
 	 * eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
 
+	@Override
 	public boolean isSame(NotificationEvent event) {
-		if (!super.isSame(event))
+		if (!super.isSame(event)) {
 			return false;
+		}
 		AttributeEvent attrEvent = (AttributeEvent) event;
-		if (attrName != null && !attrName.equals(attrEvent.getAttributeName()))
+		if ((attrName != null && !attrName.equals(attrEvent.getAttributeName())) || (attrName == null && attrEvent.getAttributeName() != null)) {
 			return false;
-		if (attrName == null && attrEvent.getAttributeName() != null)
-			return false;
+		}
 		return true;
 	}
 

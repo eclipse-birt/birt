@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -89,8 +89,9 @@ public class TestData {
 	}
 
 	public static boolean checkBlobData(IBlob val1, IBlob val2) throws OdaException {
-		if (val1 == val2)
+		if (val1 == val2) {
 			return true;
+		}
 
 		// Check the content of the blob's byte array.
 		try {
@@ -110,33 +111,39 @@ public class TestData {
 
 	private static boolean streamsContentEqual(InputStream is1, InputStream is2) throws OdaException {
 		try {
-			if (is1 == is2)
+			if (is1 == is2) {
 				return true;
+			}
 
-			if (is1 == null || is2 == null) // only one has contents
+			if (is1 == null || is2 == null) { // only one has contents
 				return false;
+			}
 
 			while (true) {
 				int c1 = is1.read();
 				int c2 = is2.read();
-				if (c1 == -1 && c2 == -1)
+				if (c1 == -1 && c2 == -1) {
 					return true;
-				if (c1 != c2)
+				}
+				if (c1 != c2) {
 					break;
+				}
 			}
 		} catch (IOException ex) {
 			throw new OdaException(ex);
 		} finally {
 			try {
-				if (is1 != null)
+				if (is1 != null) {
 					is1.close();
+				}
 			} catch (IOException e) {
 				throw new OdaException(e);
 			}
 
 			try {
-				if (is2 != null)
+				if (is2 != null) {
 					is2.close();
+				}
 			} catch (IOException e) {
 				throw new OdaException(e);
 			}
@@ -147,8 +154,9 @@ public class TestData {
 
 	public static boolean checkClobData(IClob val, String clobData) throws OdaException {
 		String valStr = getClobDataAsString(val);
-		if (valStr == null)
+		if (valStr == null) {
 			return (clobData == null);
+		}
 
 		return valStr.equals(clobData);
 	}
@@ -159,19 +167,22 @@ public class TestData {
 	}
 
 	private static String getClobDataAsString(IClob val) throws OdaException {
-		if (val == null)
+		if (val == null) {
 			return null;
+		}
 
 		Reader is = val.getCharacterStream();
-		if (is == null)
+		if (is == null) {
 			return null;
+		}
 
 		try {
 			String outStr = ""; //$NON-NLS-1$
 			for (int index = 0;; index++) {
 				int c = is.read();
-				if (c == -1)
+				if (c == -1) {
 					return outStr;
+				}
 
 				outStr += (char) c;
 			}
@@ -179,8 +190,9 @@ public class TestData {
 			throw new OdaException(ex);
 		} finally {
 			try {
-				if (is != null)
+				if (is != null) {
 					is.close();
+				}
 			} catch (IOException e) {
 				throw new OdaException(e);
 			}

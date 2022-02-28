@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -28,35 +28,40 @@ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
  */
 public class TotalCount extends AggrFunction {
 
+	@Override
 	public String getName() {
 		return IBuildInAggregation.TOTAL_COUNT_FUNC;
 	}
 
+	@Override
 	public int getType() {
 		return SUMMARY_AGGR;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
 	 */
+	@Override
 	public int getDataType() {
 		return DataType.INTEGER_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getParameterDefn()
 	 */
+	@Override
 	public IParameterDefn[] getParameterDefn() {
 		// one parameter definition
 		return new IParameterDefn[] { new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME,
 				true, true, SupportedDataTypes.ANY, "") };
 	}
 
+	@Override
 	public Accumulator newAccumulator() {
 		return new MyAccumulator();
 	}
@@ -66,11 +71,13 @@ public class TotalCount extends AggrFunction {
 		private int count = 0;
 		boolean countByColumn = true;
 
+		@Override
 		public void start() {
 			super.start();
 			count = 0;
 		}
 
+		@Override
 		public void onRow(Object[] args) {
 			if (!countByColumn || args == null || args.length == 0) {
 				if (countByColumn) {
@@ -84,10 +91,11 @@ public class TotalCount extends AggrFunction {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
 		 */
+		@Override
 		public Object getSummaryValue() {
 			return Integer.valueOf(count);
 		}
@@ -95,30 +103,33 @@ public class TotalCount extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
+	@Override
 	public String getDescription() {
 		return Messages.getString("TotalCount.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return Messages.getString("TotalCount.displayName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.AggrFunction#getDefaultValue()
 	 */
+	@Override
 	public Object getDefaultValue() {
 		return Integer.valueOf(0);
 	}

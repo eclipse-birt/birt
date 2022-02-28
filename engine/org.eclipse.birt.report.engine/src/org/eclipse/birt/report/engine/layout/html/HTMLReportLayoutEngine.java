@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -78,6 +78,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine {
 		return factory;
 	}
 
+	@Override
 	public void layout(IReportExecutor executor, IReportContent report, IContentEmitter emitter, boolean pagination)
 			throws BirtException {
 		this.executor = executor;
@@ -105,6 +106,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine {
 		pageHint = null;
 	}
 
+	@Override
 	public void layout(ILayoutManager parent, IReportItemExecutor executor, IContentEmitter emitter)
 			throws BirtException {
 		IContent content = executor.execute();
@@ -116,6 +118,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine {
 		layoutManager.close();
 	}
 
+	@Override
 	public void layout(ILayoutManager parent, IContent content, IContentEmitter output) throws BirtException {
 		IReportItemExecutor executor = new DOMReportItemExecutor(content);
 		layout(parent, executor, output);
@@ -164,6 +167,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine {
 
 	}
 
+	@Override
 	public void setPageHandler(ILayoutPageHandler handler) {
 		this.pageHandler = handler;
 	}
@@ -172,33 +176,40 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine {
 		return this.pageHandler;
 	}
 
+	@Override
 	public void cancel() {
 		if (context != null) {
 			context.setCancelFlag(true);
 		}
 	}
 
+	@Override
 	public void setOption(String name, Object value) {
 		options.put(name, value);
 	}
 
+	@Override
 	public Object getOption(String name) {
 		return options.get(name);
 	}
 
+	@Override
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
 
+	@Override
 	public void setLayoutPageHint(IPageHint pageHint) {
 		this.pageHint = pageHint;
 		context.setPaged(true);
 	}
 
+	@Override
 	public long getPageCount() {
 		return pageCount;
 	}
 
+	@Override
 	public void close() {
 		context.setFinish(true);
 		if (pageHandler != null) {
@@ -206,6 +217,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine {
 		}
 	}
 
+	@Override
 	public void setTotalPageCount(long totalPage) {
 		this.totalPage = totalPage;
 

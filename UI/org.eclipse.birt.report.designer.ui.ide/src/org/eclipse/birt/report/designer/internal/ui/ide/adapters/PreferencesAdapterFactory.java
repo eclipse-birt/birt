@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,6 +24,7 @@ public class PreferencesAdapterFactory implements IAdapterFactory {
 
 	private HashMap factoryMap = new HashMap();
 
+	@Override
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		String pluginId = ((Plugin) adaptableObject).getBundle().getSymbolicName();
 		if (!factoryMap.containsKey(pluginId)) {
@@ -33,6 +34,7 @@ public class PreferencesAdapterFactory implements IAdapterFactory {
 		return factoryMap.get(pluginId);
 	}
 
+	@Override
 	public Class[] getAdapterList() {
 		return new Class[] { IReportPreferenceFactory.class };
 	}

@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -28,7 +28,7 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param text                   the localized label text
 	 * @param isOutermostSilentTrans indicates if it is the outer most filter event
 	 *                               transaction.
@@ -43,7 +43,7 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord {
 	/**
 	 * Sets the filter all flag. If it is <code>true</code>, don't send out any
 	 * event.
-	 * 
+	 *
 	 * @param filterAll <code>true</code> means don't send out any event.
 	 */
 
@@ -57,14 +57,16 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#performPostTasks
 	 * (java.util.Stack)
 	 */
 
+	@Override
 	protected void performPostTasks(Stack<CompoundRecord> transStack) {
-		if (!isOutermostFilterTrans)
+		if (!isOutermostFilterTrans) {
 			return;
+		}
 
 		// do the layout tasks
 
@@ -79,12 +81,13 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord {
 	 * sub-records in the reverse of the order that they were originally executed.
 	 * Some notification events relating to the compound record will be filtered
 	 * according to the <code>EventFilter</code>.
-	 * 
-	 * 
+	 *
+	 *
 	 * @see ActivityRecord#undo()
 	 * @see org.eclipse.birt.report.model.activity.ActivityStack#undo()
 	 */
 
+	@Override
 	public void undo() {
 		for (int i = getRecords().size() - 1; i >= 0; i--) {
 			ActivityRecord record = getRecords().get(i);
@@ -106,11 +109,12 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord {
 	 * the order they were originally executed. Some notification events relating to
 	 * the compound record will be filtered according to the
 	 * <code>EventFilter</code>.
-	 * 
+	 *
 	 * @see ActivityRecord#redo()
 	 * @see org.eclipse.birt.report.model.activity.ActivityStack#redo()
 	 */
 
+	@Override
 	public void redo() {
 		for (int i = 0; i < getRecords().size(); i++) {
 			ActivityRecord record = getRecords().get(i);
@@ -130,17 +134,19 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#rollback()
 	 */
 
+	@Override
 	public void rollback() {
 		for (int i = getRecords().size() - 1; i >= 0; i--) {
 			ActivityRecord record = getRecords().get(i);
 			assert record.getClass() != CompoundRecord.class;
 
-			if (record.isPersistent())
+			if (record.isPersistent()) {
 				continue;
+			}
 
 			record.rollback();
 		}

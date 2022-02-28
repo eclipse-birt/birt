@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,12 +59,12 @@ import org.xml.sax.Attributes;
 
 /**
  * Parses the abstract property. The XML file is like:
- * 
+ *
  * <pre>
- * 
+ *
  *              &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
  * </pre>
- * 
+ *
  * The supported tags are:
  * <ul>
  * <li>property,
@@ -131,7 +131,7 @@ public class AbstractPropertyState extends AbstractParseState {
 	/**
 	 * Constructs the design parse state with the design file parser handler. This
 	 * constructor is used when this property to parse is a property of one element.
-	 * 
+	 *
 	 * @param theHandler the design file parser handler
 	 * @param element    the element which holds this property
 	 */
@@ -143,11 +143,12 @@ public class AbstractPropertyState extends AbstractParseState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		// library = attrs.getValue( DesignSchemaConstants.LIBRARY_ATTRIB );
 		//
@@ -168,17 +169,18 @@ public class AbstractPropertyState extends AbstractParseState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
 	 */
 
+	@Override
 	public XMLParserHandler getHandler() {
 		return handler;
 	}
 
 	/**
 	 * Sets the member of a structure.
-	 * 
+	 *
 	 * @param struct   the structure that contains the member to set
 	 * @param propName the property in which the structure appears
 	 * @param member   the structure member name
@@ -234,7 +236,7 @@ public class AbstractPropertyState extends AbstractParseState {
 	/**
 	 * Sets the value of a property with a string parsed from the XML file. Performs
 	 * any required semantic checks.
-	 * 
+	 *
 	 * @param propName property name
 	 * @param value    value string from the XML file
 	 */
@@ -328,36 +330,38 @@ public class AbstractPropertyState extends AbstractParseState {
 
 	/**
 	 * Process the property value exception if the value of a property is invalid.
-	 * 
+	 *
 	 * @param e the property value exception
 	 */
 
 	protected void handlePropertyValueException(PropertyValueException e) {
 		String propName = e.getPropertyName();
 
-		if (isRecoverableError(e.getInvalidValue(), e.getErrorCode(), e.getElement().getPropertyDefn(propName)))
+		if (isRecoverableError(e.getInvalidValue(), e.getErrorCode(), e.getElement().getPropertyDefn(propName))) {
 			RecoverableError.dealInvalidPropertyValue(handler, e);
-		else
+		} else {
 			handler.getErrorHandler().semanticError(e);
+		}
 	}
 
 	/**
 	 * Process the property value exception if the value of a member is invalid.
-	 * 
+	 *
 	 * @param e          the property value exception
 	 * @param memberDefn the member definition
 	 */
 
 	private void handleMemberValueException(PropertyValueException e, StructPropertyDefn memberDefn) {
-		if (isRecoverableError(e.getInvalidValue(), e.getErrorCode(), memberDefn))
+		if (isRecoverableError(e.getInvalidValue(), e.getErrorCode(), memberDefn)) {
 			RecoverableError.dealInvalidMemberValue(handler, e, struct, memberDefn);
-		else
+		} else {
 			handler.getErrorHandler().semanticError(e);
+		}
 	}
 
 	/**
 	 * Checks whether the given exception is an error that the parser can recover.
-	 * 
+	 *
 	 * @param invalidValue
 	 * @param errorCode    the error code of the property value exception
 	 * @param propDefn     the definition of the exception. Can be an element
@@ -371,8 +375,9 @@ public class AbstractPropertyState extends AbstractParseState {
 		if (PropertyValueException.DESIGN_EXCEPTION_NEGATIVE_VALUE.equalsIgnoreCase(errorCode)
 				|| PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE.equalsIgnoreCase(errorCode)
 				|| PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED.equalsIgnoreCase(errorCode)
-				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED.equalsIgnoreCase(errorCode))
+				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED.equalsIgnoreCase(errorCode)) {
 			return true;
+		}
 
 		if (PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE.equals(errorCode) && (this.struct != null
 				&& struct instanceof HideRule && HideRule.FORMAT_MEMBER.equals(propDefn.getName()))) {
@@ -385,25 +390,25 @@ public class AbstractPropertyState extends AbstractParseState {
 			IChoiceSet columnDataTypeSet = propDefn.getChoices();
 			if (columnDataTypeSet != null
 					&& DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE.equalsIgnoreCase(columnDataTypeSet.getName())) {
-				if (DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals(invalidValue))
+				if (DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals(invalidValue)) {
 					return true;
+				}
 			}
 		}
 
 		if (PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE.equalsIgnoreCase(errorCode)
 				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND.equalsIgnoreCase(errorCode)) {
-			if (element instanceof TextDataItem
-					&& ITextDataItemModel.CONTENT_TYPE_PROP.equalsIgnoreCase(propDefn.getName()))
+			if ((element instanceof TextDataItem
+					&& ITextDataItemModel.CONTENT_TYPE_PROP.equalsIgnoreCase(propDefn.getName())) || (element instanceof AbstractScalarParameter
+					&& IAbstractScalarParameterModel.DATA_TYPE_PROP.equalsIgnoreCase(propDefn.getName()))) {
 				return true;
-
-			if (element instanceof AbstractScalarParameter
-					&& IAbstractScalarParameterModel.DATA_TYPE_PROP.equalsIgnoreCase(propDefn.getName()))
-				return true;
+			}
 
 			if (IStyleModel.PAGE_BREAK_AFTER_PROP.equalsIgnoreCase(propDefn.getName())
 					|| IStyleModel.PAGE_BREAK_BEFORE_PROP.equalsIgnoreCase(propDefn.getName())
-					|| IStyleModel.PAGE_BREAK_INSIDE_PROP.equalsIgnoreCase(propDefn.getName()))
+					|| IStyleModel.PAGE_BREAK_INSIDE_PROP.equalsIgnoreCase(propDefn.getName())) {
 				return true;
+			}
 
 			ObjectDefn objDefn = ((PropertyDefn) propDefn).definedBy();
 			if (objDefn instanceof StructureDefn) {
@@ -419,8 +424,9 @@ public class AbstractPropertyState extends AbstractParseState {
 						|| StringFormatValue.FORMAT_VALUE_STRUCT.equals(structureName)
 						|| TimeFormatValue.FORMAT_VALUE_STRUCT.equals(structureName)
 						|| DateFormatValue.FORMAT_VALUE_STRUCT.equals(structureName)) {
-					if (FormatValue.CATEGORY_MEMBER.equalsIgnoreCase(propDefn.getName()))
+					if (FormatValue.CATEGORY_MEMBER.equalsIgnoreCase(propDefn.getName())) {
 						return true;
+					}
 				}
 
 				if ((DataSetParameter.STRUCT_NAME.equalsIgnoreCase(structureName)
@@ -451,42 +457,47 @@ public class AbstractPropertyState extends AbstractParseState {
 	 * state is defined. When the generic state jumps to the specific one, the
 	 * <code>parseAttrs</code> will not be called. So the value of the attribute
 	 * "name" should be set by the generic state.
-	 * 
+	 *
 	 * @param name the name to set
 	 */
 
 	protected void setName(String name) {
 		this.name = name;
 
-		if (this.name != null)
+		if (this.name != null) {
 			nameValue = this.name.toLowerCase().hashCode();
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#jumpTo()
 	 */
 
+	@Override
 	public final AbstractParseState jumpTo() {
 		// If this state can not be parsed properly, any states in it are
 		// ignored.
 
-		if (!valid)
+		if (!valid) {
 			return new AnyElementState(handler);
+		}
 
-		AbstractParseState state = null;
+		AbstractParseState state;
 
 		// general jump to
 		state = generalJumpTo();
-		if (state != null)
+		if (state != null) {
 			return state;
+		}
 
 		// version conditional jump to
 		if (!handler.isCurrentVersion) {
 			state = versionConditionalJumpTo();
-			if (state != null)
+			if (state != null) {
 				return state;
+			}
 		}
 
 		// super jump to
@@ -495,7 +506,7 @@ public class AbstractPropertyState extends AbstractParseState {
 
 	/**
 	 * Jumps to the specified state that the current state needs to go.
-	 * 
+	 *
 	 * @return the other state.
 	 */
 
@@ -506,7 +517,7 @@ public class AbstractPropertyState extends AbstractParseState {
 	/**
 	 * Jumps to the specified state that the current state needs to go when some
 	 * version controlled condition is satisfied.
-	 * 
+	 *
 	 * @return the other state.
 	 */
 
@@ -516,21 +527,22 @@ public class AbstractPropertyState extends AbstractParseState {
 
 	/**
 	 * De-escapes characters in the CDATA. Two characters are needed to convert:
-	 * 
+	 *
 	 * <ul>
 	 * <li>&amp; to &
 	 * <li>]]&gt; to ]]>
 	 * </ul>
-	 * 
+	 *
 	 * @param value
 	 * @return the escaped string
 	 */
 	protected String deEscape(String value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		String retValue = value.replaceAll("]]&gt;", "]]>"); //$NON-NLS-1$ //$NON-NLS-2$
-		retValue = retValue.replaceAll("&amp;", "&"); //$NON-NLS-1$ //$NON-NLS-2$
+		retValue = retValue.replace("&amp;", "&"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		return retValue;
 	}
@@ -538,7 +550,7 @@ public class AbstractPropertyState extends AbstractParseState {
 	/**
 	 * Checks if the list property is element property and can be inherited or it is
 	 * a style property.
-	 * 
+	 *
 	 * @return <true> if the list property is element property and can be inherited
 	 *         or it is a style property, else return <false>.
 	 */

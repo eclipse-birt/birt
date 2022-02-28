@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 /**
- * 
+ *
  */
 
 public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper {
@@ -57,7 +57,7 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parentScope
 	 * @param cubeFilter
 	 * @param cx
@@ -93,11 +93,12 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper#
 	 * evaluateFilter(org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow)
 	 */
+	@Override
 	public boolean evaluateFilter(IFacttableRow facttableRow) throws DataException {
 		this.measureObj.setCurrentRow(facttableRow);
 		this.dimObj.setCurrentRow(facttableRow);
@@ -118,14 +119,15 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 		public DummyLevelObject(DummyDimensionObject host, String dimName) {
 			this.host = host;
 			this.dimName = dimName;
-			this.levelAttrMap = new HashMap<String, DummyLevelAttrObject>();
+			this.levelAttrMap = new HashMap<>();
 		}
 
+		@Override
 		public Object get(String levelName, Scriptable scope) {
 			try {
-				if (this.levelAttrMap.containsKey(levelName))
+				if (this.levelAttrMap.containsKey(levelName)) {
 					return this.levelAttrMap.get(levelName);
-				else {
+				} else {
 					this.levelAttrMap.put(levelName, new DummyLevelAttrObject(host, dimName, levelName));
 					return this.levelAttrMap.get(levelName);
 				}
@@ -134,6 +136,7 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 			}
 		}
 
+		@Override
 		public String getClassName() {
 			return "DummyLevelObject";
 		}
@@ -142,31 +145,33 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 	private static class DummyDimensionObject extends ScriptableObject {
 		private static final long serialVersionUID = 1L;
 		private IFacttableRow row;
-		private Map<String, DummyLevelObject> dimLevMap = new HashMap<String, DummyLevelObject>();
+		private Map<String, DummyLevelObject> dimLevMap = new HashMap<>();
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 		 */
+		@Override
 		public String getClassName() {
 			return "DummyDimensionObject";
 		}
 
 		/**
 		 * Set the current row for the evaluation.
-		 * 
+		 *
 		 * @param row
 		 */
 		public void setCurrentRow(IFacttableRow row) {
 			this.row = row;
 		}
 
+		@Override
 		public Object get(String dimName, Scriptable scope) {
 			try {
-				if (this.dimLevMap.containsKey(dimName))
+				if (this.dimLevMap.containsKey(dimName)) {
 					return this.dimLevMap.get(dimName);
-				else {
+				} else {
 					this.dimLevMap.put(dimName, new DummyLevelObject(this, dimName));
 					return this.dimLevMap.get(dimName);
 				}
@@ -189,15 +194,18 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 			this.levelName = levelName;
 		}
 
+		@Override
 		public String getClassName() {
 			return "DummyLevelAttrObject";
 		}
 
+		@Override
 		public Object get(String attrName, Scriptable scope) {
 
 			try {
-				if (this.levelName.equals(attrName))
+				if (this.levelName.equals(attrName)) {
 					return this.getDefaultValue(null);
+				}
 				return this.host.row.getLevelAttributeValue(this.dimName, this.levelName,
 						OlapExpressionUtil.getAttributeColumnName(this.levelName, attrName));
 			} catch (Exception e) {
@@ -205,11 +213,13 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 			}
 		}
 
+		@Override
 		public Object getDefaultValue(Class hint) {
 			try {
 				Object[] value = this.host.row.getLevelKeyValue(this.dimName, this.levelName);
-				if (value != null && value.length > 0)
+				if (value != null && value.length > 0) {
 					return value[0];
+				}
 				return null;
 			} catch (Exception e) {
 				return null;
@@ -218,12 +228,12 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 */
 	private static class DummyMeasureObject extends ScriptableObject {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 		//
@@ -231,16 +241,17 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 		 */
+		@Override
 		public String getClassName() {
 			return "DummyMeasureObject";
 		}
 
 		/**
 		 * Set the current row for the evaluation.
-		 * 
+		 *
 		 * @param row
 		 */
 		public void setCurrentRow(IFacttableRow row) {
@@ -249,10 +260,11 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
 		 * org.mozilla.javascript.Scriptable)
 		 */
+		@Override
 		public Object get(String measureName, Scriptable scope) {
 			try {
 				return this.row.getMeasureValue(measureName);

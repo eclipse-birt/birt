@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -43,7 +43,7 @@ public class MarkerUtil {
 
 	/**
 	 * Add marker
-	 * 
+	 *
 	 * @param systemId
 	 * @param message
 	 * @param elementId
@@ -60,7 +60,7 @@ public class MarkerUtil {
 
 	/**
 	 * Add marker
-	 * 
+	 *
 	 * @param resource
 	 * @param message
 	 * @param elementId
@@ -73,12 +73,15 @@ public class MarkerUtil {
 			int priority) throws CoreException {
 		if (resource != null) {
 			IMarker marker = resource.createMarker(PROBLEMS_MARKER_ID);
-			if (message != null)
+			if (message != null) {
 				marker.setAttribute(IMarker.MESSAGE, message);
-			if (lineNumber >= 0)
+			}
+			if (lineNumber >= 0) {
 				marker.setAttribute(IMarker.LINE_NUMBER, lineNumber);
-			if (elementId > 0)
+			}
+			if (elementId > 0) {
 				marker.setAttribute(ELEMENT_ID, Integer.valueOf((int) elementId));
+			}
 
 			marker.setAttribute(IMarker.SEVERITY, severity);
 			marker.setAttribute(IMarker.PRIORITY, priority);
@@ -87,7 +90,7 @@ public class MarkerUtil {
 
 	/**
 	 * Delete all the problem markers related with current resource
-	 * 
+	 *
 	 * @param systemId
 	 * @throws CoreException
 	 */
@@ -98,7 +101,7 @@ public class MarkerUtil {
 
 	/**
 	 * Delete all the problem markers related with current resource
-	 * 
+	 *
 	 * @param resource
 	 * @throws CoreException
 	 */
@@ -110,7 +113,7 @@ public class MarkerUtil {
 
 	/**
 	 * Add Error Marker
-	 * 
+	 *
 	 * @param systemId
 	 * @param message
 	 * @param elementId
@@ -123,7 +126,7 @@ public class MarkerUtil {
 
 	/**
 	 * Add Fatal Marker
-	 * 
+	 *
 	 * @param systemId
 	 * @param message
 	 * @param elementId
@@ -136,7 +139,7 @@ public class MarkerUtil {
 
 	/**
 	 * Add Warning Marker
-	 * 
+	 *
 	 * @param systemId
 	 * @param message
 	 * @param elementId
@@ -149,7 +152,7 @@ public class MarkerUtil {
 
 	/**
 	 * Add Info Marker
-	 * 
+	 *
 	 * @param systemId
 	 * @param message
 	 * @param elementId
@@ -162,14 +165,15 @@ public class MarkerUtil {
 
 	/**
 	 * create a resource instance from a system identifier
-	 * 
+	 *
 	 * @param systemID system identifier
 	 */
 	public static IResource createResourceFromSystemID(String systemID) {
 		IPath path = new Path(systemID);
 		IResource resource = workspaceRoot.getFileForLocation(path);
-		if (resource == null)
+		if (resource == null) {
 			resource = workspaceRoot.getContainerForLocation(path);
+		}
 
 		return resource;
 	}

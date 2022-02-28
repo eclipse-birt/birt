@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,6 +35,7 @@ public class PropertyDescriptorProvider extends AbstractDescriptorProvider {
 		this.element = element;
 	}
 
+	@Override
 	public Object load() {
 		String value = null;
 		if (input instanceof GroupElementHandle) {
@@ -49,9 +50,11 @@ public class PropertyDescriptorProvider extends AbstractDescriptorProvider {
 		return DEUtil.getGroupElementHandle((List) input).getLocalStringProperty(property) != null;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
-		if (isReadOnly())
+		if (isReadOnly()) {
 			return;
+		}
 
 		GroupElementHandle groupElementHandle = null;
 
@@ -65,17 +68,18 @@ public class PropertyDescriptorProvider extends AbstractDescriptorProvider {
 			GroupPropertyHandle handle = groupElementHandle.getPropertyHandle(property);
 			if (handle != null && handle.getValue() != null) {
 				if (value instanceof String) {
-					if (handle.getStringValue().equals(value))
+					if (handle.getStringValue().equals(value)) {
 						return;
-				} else {
-					if (handle.getValue().equals(value))
-						return;
+					}
+				} else if (handle.getValue().equals(value)) {
+					return;
 				}
 			}
 			groupElementHandle.setProperty(property, value);
 		}
 	}
 
+	@Override
 	public String getDisplayName() {
 		IElementPropertyDefn propertyDefn;
 		String name = null;
@@ -96,8 +100,9 @@ public class PropertyDescriptorProvider extends AbstractDescriptorProvider {
 			}
 		}
 
-		if (name == null)
+		if (name == null) {
 			return ""; //$NON-NLS-1$
+		}
 		return name;
 	}
 
@@ -109,12 +114,14 @@ public class PropertyDescriptorProvider extends AbstractDescriptorProvider {
 		} else if (input instanceof List) {
 			value = DEUtil.getGroupElementHandle((List) input).getLocalStringProperty(property);
 		}
-		if (value == null)
+		if (value == null) {
 			return ""; //$NON-NLS-1$
-		else
+		} else {
 			return value;
+		}
 	}
 
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -47,7 +47,7 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 	/**
 	 * The default value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -57,7 +57,7 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 	/**
 	 * The cached value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -66,7 +66,7 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected StringFormatSpecifierImpl() {
@@ -75,7 +75,7 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -85,29 +85,32 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getPattern() {
 		return pattern;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setPattern(String newPattern) {
 		String oldPattern = pattern;
 		pattern = newPattern;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.STRING_FORMAT_SPECIFIER__PATTERN,
 					oldPattern, pattern));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -121,7 +124,7 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -136,7 +139,7 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -151,7 +154,7 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -165,15 +168,16 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (pattern: "); //$NON-NLS-1$
 		result.append(pattern);
 		result.append(')');
@@ -196,6 +200,7 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 	/**
 	 * @generated
 	 */
+	@Override
 	public StringFormatSpecifier copyInstance() {
 		StringFormatSpecifierImpl dest = new StringFormatSpecifierImpl();
 		dest.set(this);
@@ -205,9 +210,9 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 	/**
 	 * A convenience methods provided to create an initialized NumberFormatSpecifier
 	 * instance
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @return this instance
 	 */
 	public static StringFormatSpecifier create() {
@@ -221,27 +226,29 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 		return sfs;
 	}
 
+	@Override
 	public String format(String dValue, ULocale lo) {
 		applyPattern(pattern);
 		if (trim && dValue != null) {
 			dValue = dValue.trim();
 		}
 
-		if (pattern.equals("Unformatted")) //$NON-NLS-1$
+		if (pattern.equals("Unformatted")) { //$NON-NLS-1$
 			return dValue;
+		}
 
 		int len = dValue.length();
 		int col = natt + nand;
 		int ext = 0;
-		StringBuffer orig = new StringBuffer(dValue);
-		StringBuffer fstr = new StringBuffer(this.pattern);
-		StringBuffer ret = new StringBuffer(""); //$NON-NLS-1$
+		StringBuilder orig = new StringBuilder(dValue);
+		StringBuilder fstr = new StringBuilder(this.pattern);
+		StringBuilder ret = new StringBuilder(""); //$NON-NLS-1$
 		int i = 0;
 		// offset of the process position.
 		int pos = 0;
 
 		// length of the format string;
-		int len2 = 0;
+		int len2;
 
 		char fc = ' ';
 
@@ -265,8 +272,9 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 			case ('&'):
 				// character or space
 				if (ext > 0 || len == 0) {
-					if (fc == '@')
+					if (fc == '@') {
 						ret.append(' ');
+					}
 					ext--;
 				} else {
 					sc = orig.substring(pos, pos + 1);
@@ -333,7 +341,7 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 			return;
 		}
 		char c = ' ';
-		StringBuffer scan = new StringBuffer(format);
+		StringBuilder scan = new StringBuilder(format);
 		int len = scan.length();
 
 		for (int i = 0; i < len; i++) {
@@ -385,12 +393,13 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 	 * @return
 	 */
 	private String handleCase(String val, char option, ULocale locale) {
-		if (option == '<')
+		if (option == '<') {
 			return UCharacter.toLowerCase(locale, val);
-		else if (option == '>')
+		} else if (option == '>') {
 			return UCharacter.toUpperCase(locale, val);
-		else
+		} else {
 			return val;
+		}
 
 	}
 

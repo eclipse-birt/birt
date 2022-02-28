@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -24,11 +24,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Leader Line Style</b></em>', and utility methods for working with
  * them. <!-- end-user-doc --> <!-- begin-model-doc -->
- * 
+ *
  * This type defines the forms of leader lines.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLeaderLineStyle()
  * @model
  * @generated
@@ -41,7 +41,7 @@ public enum LeaderLineStyle implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #FIXED_LENGTH
 	 * @generated
 	 * @ordered
@@ -54,7 +54,7 @@ public enum LeaderLineStyle implements Enumerator {
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #STRETCH_TO_SIDE
 	 * @generated
 	 * @ordered
@@ -64,7 +64,7 @@ public enum LeaderLineStyle implements Enumerator {
 	/**
 	 * The '<em><b>Fixed Length</b></em>' literal value. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #FIXED_LENGTH_LITERAL
 	 * @model name="Fixed_Length"
 	 * @generated
@@ -75,7 +75,7 @@ public enum LeaderLineStyle implements Enumerator {
 	/**
 	 * The '<em><b>Stretch To Side</b></em>' literal value. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #STRETCH_TO_SIDE_LITERAL
 	 * @model name="Stretch_To_Side"
 	 * @generated
@@ -86,16 +86,15 @@ public enum LeaderLineStyle implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Leader Line Style</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final LeaderLineStyle[] VALUES_ARRAY = new LeaderLineStyle[] { FIXED_LENGTH_LITERAL,
-			STRETCH_TO_SIDE_LITERAL, };
+	private static final LeaderLineStyle[] VALUES_ARRAY = { FIXED_LENGTH_LITERAL, STRETCH_TO_SIDE_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Leader Line Style</b></em>'
 	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static final List<LeaderLineStyle> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -103,7 +102,7 @@ public enum LeaderLineStyle implements Enumerator {
 	/**
 	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified
 	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static LeaderLineStyle get(String literal) {
@@ -119,7 +118,7 @@ public enum LeaderLineStyle implements Enumerator {
 	/**
 	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified
 	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static LeaderLineStyle getByName(String name) {
@@ -135,7 +134,7 @@ public enum LeaderLineStyle implements Enumerator {
 	/**
 	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified
 	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static LeaderLineStyle get(int value) {
@@ -150,21 +149,21 @@ public enum LeaderLineStyle implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String literal;
@@ -172,10 +171,10 @@ public enum LeaderLineStyle implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private LeaderLineStyle(int value, String name, String literal) {
+	LeaderLineStyle(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -183,27 +182,30 @@ public enum LeaderLineStyle implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -211,7 +213,7 @@ public enum LeaderLineStyle implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override

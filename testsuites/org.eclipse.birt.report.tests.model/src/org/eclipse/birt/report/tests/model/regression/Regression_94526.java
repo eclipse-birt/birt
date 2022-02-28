@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -32,7 +32,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  * Test description:
  * <p>
- * 
+ *
  * </p>
  */
 public class Regression_94526 extends BaseTestCase {
@@ -43,12 +43,14 @@ public class Regression_94526 extends BaseTestCase {
 	 * @throws DesignFileException
 	 */
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		copyResource_INPUT(INPUT, INPUT);
 		System.out.println(INPUT);
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}

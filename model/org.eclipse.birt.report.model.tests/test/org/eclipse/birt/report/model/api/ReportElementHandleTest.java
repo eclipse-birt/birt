@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,88 +33,89 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Test ReportItemHandle.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testPropertyMaskFromPropertyHandle()}</td>
  * <td>Sets and gets the valid property mask by the property handle.</td>
  * <td>The value is set correctly.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Sets and gets the invalid value of the property mask.</td>
  * <td>Throws <code>PropertyValueException</code> with the error code
  * CHOICE_NOT_FOUND.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Sets and gets the mask on the invalid property.</td>
  * <td>The property mask is null.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testPropertyMaskOnProperty()}</td>
  * <td>Reads a local mask on the label..</td>
  * <td>The mask value matches with the input file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Reads a mask from a invalid property.</td>
  * <td>Return <code>null</code></td>.
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Reads a mask inherited from the parent and grandparent.</td>
  * <td>Mask values follows the inheritance mechanism.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Sets a property mask and checks masks on three labels.</td>
  * <td>Mask values follows the inheritance mechanism.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Sets a property value with the "locked" mask.</td>
  * <td>Throws <code>PropertyValueException</code> with the error code:
  * VALUE_LOCKED</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Sets a property value with the "change" and "hide" mask.</td>
  * <td>Value is set correctly.</td>
  * </tr>
- * 
- * 
+ *
+ *
  * <tr>
  * <td></td>
  * <td>Gets a property value with the "lock", "hide" and "change" masks.</td>
  * <td>Value is returned correctly.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 
 public class ReportElementHandleTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign("ReportElementHandleTest.xml"); //$NON-NLS-1$
@@ -122,12 +123,12 @@ public class ReportElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests property masks of an element. Following methods have been tested:
-	 * 
+	 *
 	 * <ul>
 	 * <li>
 	 * {@link org.eclipse.birt.report.model.api.ReportElementHandle#propertyMaskIterator()}
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -145,8 +146,9 @@ public class ReportElementHandleTest extends BaseTestCase {
 		// get masks from the design file.
 
 		int count = 0;
-		for (Iterator iterator = handle.propertyMaskIterator(); iterator.hasNext(); iterator.next())
+		for (Iterator iterator = handle.propertyMaskIterator(); iterator.hasNext(); iterator.next()) {
 			count++;
+		}
 		assertEquals(5, count);
 
 		PropertyHandle propHandle = handle.getPropertyHandle(DesignElement.PROPERTY_MASKS_PROP);
@@ -181,21 +183,22 @@ public class ReportElementHandleTest extends BaseTestCase {
 
 		count = 0;
 		Iterator iterator = handle.propertyMaskIterator();
-		for (; iterator.hasNext(); iterator.next())
+		for (; iterator.hasNext(); iterator.next()) {
 			count++;
+		}
 		assertEquals(5, count);
 	}
 
 	/**
 	 * Tests property masks of an element. Following methods have been tested:
-	 * 
+	 *
 	 * <ul>
 	 * <li>
 	 * {@link org.eclipse.birt.report.model.api.ReportElementHandle#getPropertyMask(String)}
 	 * <li>
 	 * {@link org.eclipse.birt.report.model.api.ReportElementHandle#setPropertyMask(String, String)}
 	 * </ul>
-	 * 
+	 *
 	 * <p>
 	 * Test cases:
 	 * <ul>
@@ -207,7 +210,7 @@ public class ReportElementHandleTest extends BaseTestCase {
 	 * <li>Sets a property value with the "change" mask.
 	 * <li>Sets a property value with the "hide" mask.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -295,7 +298,7 @@ public class ReportElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the property mask on method.
-	 * 
+	 *
 	 * @throws SemanticException if any exception
 	 */
 
@@ -322,7 +325,7 @@ public class ReportElementHandleTest extends BaseTestCase {
 	/**
 	 * Tests whether property mask can be set on an element that is not report
 	 * element.
-	 * 
+	 *
 	 */
 
 	public void testPropertyMaskOnListGroup() {
@@ -343,7 +346,7 @@ public class ReportElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Test isValidLayout method.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

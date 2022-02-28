@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,6 +51,7 @@ public class NumberDataElementComposite extends TextEditorComposite implements I
 		setDataElement(data);
 	}
 
+	@Override
 	public DataElement getDataElement() {
 		NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance();
 		try {
@@ -65,6 +66,7 @@ public class NumberDataElementComposite extends TextEditorComposite implements I
 		}
 	}
 
+	@Override
 	public void notifyListeners(int eventType, Event event) {
 		// Filter out other events
 		if (eventType == DATA_MODIFIED || eventType == FRACTION_CONVERTED) {
@@ -72,6 +74,7 @@ public class NumberDataElementComposite extends TextEditorComposite implements I
 		}
 	}
 
+	@Override
 	public void setDataElement(DataElement data) {
 		if (data instanceof BigNumberDataElement) {
 			this.setText(((BigNumberDataElement) data).getValue().stripTrailingZeros().toString());
@@ -83,6 +86,7 @@ public class NumberDataElementComposite extends TextEditorComposite implements I
 		}
 	}
 
+	@Override
 	public void setEObjectParent(EObject eParent) {
 		this.eParent = eParent;
 	}

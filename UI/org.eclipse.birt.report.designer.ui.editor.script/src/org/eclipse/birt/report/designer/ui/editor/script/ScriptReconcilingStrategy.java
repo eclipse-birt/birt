@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2007 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -46,7 +46,7 @@ public class ScriptReconcilingStrategy implements IReconcilingStrategy {
 
 	/**
 	 * Constructs reconciler for script editor with the specified source viewer.
-	 * 
+	 *
 	 * @param sourceViewer the specified source viewer.
 	 */
 	public ScriptReconcilingStrategy(ISourceViewer sourceViewer) {
@@ -56,19 +56,21 @@ public class ScriptReconcilingStrategy implements IReconcilingStrategy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.text.reconciler.IReconcilingStrategy#reconcile(org.eclipse.
 	 * jface.text.IRegion)
 	 */
+	@Override
 	public void reconcile(IRegion partition) {
 		Display.getDefault().asyncExec(new Runnable() {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see java.lang.Runnable#run()
 			 */
+			@Override
 			public void run() {
 				validate();
 				updateFoldingStructure();
@@ -78,23 +80,24 @@ public class ScriptReconcilingStrategy implements IReconcilingStrategy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.text.reconciler.IReconcilingStrategy#reconcile(org.eclipse.
 	 * jface.text.reconciler.DirtyRegion, org.eclipse.jface.text.IRegion)
 	 */
+	@Override
 	public void reconcile(DirtyRegion dirtyRegion, IRegion subRegion) {
 		reconcile(subRegion);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.text.reconciler.IReconcilingStrategy#setDocument(org.
 	 * eclipse.jface.text.IDocument)
 	 */
+	@Override
 	public void setDocument(IDocument document) {
-		return;
 	}
 
 	/**

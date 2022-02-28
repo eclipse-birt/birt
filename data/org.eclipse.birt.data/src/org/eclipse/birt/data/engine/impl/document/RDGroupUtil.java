@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ public final class RDGroupUtil implements IRDGroupUtil {
 	// provide service of current data cache
 	private CacheProvider cacheProvider;
 
-	private Map<Integer, int[]> groupStartEndIndexCache = new HashMap<Integer, int[]>();
+	private Map<Integer, int[]> groupStartEndIndexCache = new HashMap<>();
 
 	private List<RAInputStream> inputStreams;
 
@@ -86,6 +86,7 @@ public final class RDGroupUtil implements IRDGroupUtil {
 	/**
 	 * @param cacheProvider
 	 */
+	@Override
 	public void setCacheProvider(CacheProvider cacheProvider) {
 		this.cacheProvider = cacheProvider;
 	}
@@ -95,6 +96,7 @@ public final class RDGroupUtil implements IRDGroupUtil {
 	 *
 	 * @param groups
 	 */
+	@Override
 	public List[] getGroups() {
 		return this.groups;
 	}
@@ -108,6 +110,7 @@ public final class RDGroupUtil implements IRDGroupUtil {
 		this.groups = groups;
 	}
 
+	@Override
 	public void close() throws DataException {
 		try {
 			if (this.inputStreams != null) {
@@ -125,9 +128,9 @@ public final class RDGroupUtil implements IRDGroupUtil {
 	// and the group index at that level. Returns null if groupIndex exceeds
 	// max group index
 	private GroupInfo findGroup(int groupLevel, int groupIndex) {
-		if (groupIndex >= groups[groupLevel].size())
+		if (groupIndex >= groups[groupLevel].size()) {
 			return null;
-		else {
+		} else {
 			try {
 				return (GroupInfo) groups[groupLevel].get(groupIndex);
 			} catch (Exception e) {
@@ -137,14 +140,16 @@ public final class RDGroupUtil implements IRDGroupUtil {
 	}
 
 	private void checkStarted() throws DataException {
-		if (cacheProvider == null)
+		if (cacheProvider == null) {
 			throw new DataException(ResourceConstants.NO_CURRENT_ROW);
+		}
 	}
 
 	private void checkHasCurrentRow() throws DataException {
 		checkStarted();
-		if (cacheProvider.getCurrentIndex() >= cacheProvider.getCount() && cacheProvider.getCount() != -1)
+		if (cacheProvider.getCurrentIndex() >= cacheProvider.getCount() && cacheProvider.getCount() != -1) {
 			throw new DataException(ResourceConstants.NO_CURRENT_ROW);
+		}
 	}
 
 	/**
@@ -153,21 +158,24 @@ public final class RDGroupUtil implements IRDGroupUtil {
 	 * being the outermost group, and group with index N being the innermost group),
 	 * and this function returns a value M, it indicates that the current row is the
 	 * last row in groups with indexes (M, M+1, ..., N ).
-	 * 
+	 *
 	 * @return The 1-based index of the outermost group in which the current row is
 	 *         the last row; (N+1) if the current row is not at the end of any
 	 *         group;
 	 */
+	@Override
 	public int getEndingGroupLevel() throws DataException {
 		checkHasCurrentRow();
 
 		// Always return 0 for last row (which ends group 0 - the entire list)
-		if (cacheProvider.getCurrentIndex() == cacheProvider.getCount() - 1)
+		if (cacheProvider.getCurrentIndex() == cacheProvider.getCount() - 1) {
 			return 0;
+		}
 
 		// 1 is returned if no groups are defined
-		if (groups.length == 0)
+		if (groups.length == 0) {
 			return 1;
+		}
 
 		// Find outermost group that current row ends
 		int childGroupIdx = cacheProvider.getCurrentIndex();
@@ -197,21 +205,24 @@ public final class RDGroupUtil implements IRDGroupUtil {
 	 * being the outermost group, and group with index N being the innermost group),
 	 * and this function returns a value M, it indicates that the current row is the
 	 * first row in groups with indexes (M, M+1, ..., N ).
-	 * 
+	 *
 	 * @return The 1-based index of the outermost group in which the current row is
 	 *         the first row; (N+1) if the current row is not at the start of any
 	 *         group;
 	 */
+	@Override
 	public int getStartingGroupLevel() throws DataException {
 		checkHasCurrentRow();
 
 		// Always return 0 for first row, which starts group 0 - the entire list
-		if (cacheProvider.getCurrentIndex() == 0)
+		if (cacheProvider.getCurrentIndex() == 0) {
 			return 0;
+		}
 
 		// If no groups defined, return 1
-		if (groups.length == 0)
+		if (groups.length == 0) {
 			return 1;
+		}
 
 		// Find outermost group that current row starts
 		int childGroupIdx = cacheProvider.getCurrentIndex();
@@ -240,8 +251,9 @@ public final class RDGroupUtil implements IRDGroupUtil {
 	private int findCurrentGroup(int groupLevel) {
 		// Walk up the group chain from leaf group
 		int currentGroupIdx = leafGroupIdx;
-		for (int i = groups.length - 1; i > groupLevel; i--)
+		for (int i = groups.length - 1; i > groupLevel; i--) {
 			currentGroupIdx = findGroup(i, currentGroupIdx).parent;
+		}
 		return currentGroupIdx;
 	}
 
@@ -251,16 +263,19 @@ public final class RDGroupUtil implements IRDGroupUtil {
 	 * @param groupLevel the specified group level that will be skipped, 1 indicate
 	 *                   the highest level. 0 indicates whole list.
 	 */
+	@Override
 	public void last(int groupLevel) throws DataException {
-		if (groupLevel > groups.length || groupLevel < 0)
+		if (groupLevel > groups.length || groupLevel < 0) {
 			throw new DataException(ResourceConstants.INVALID_GROUP_LEVEL, Integer.valueOf(groupLevel));
+		}
 
 		groupLevel--; // change to 0-based index
 
 		// First find current group at the specified group level
 		int currentGroupIdx = -1;
-		if (groupLevel >= 0)
+		if (groupLevel >= 0) {
 			currentGroupIdx = findCurrentGroup(groupLevel);
+		}
 
 		if (groupLevel < 0 || // an input of 0 means moving to last row in
 		// list
@@ -270,8 +285,9 @@ public final class RDGroupUtil implements IRDGroupUtil {
 			int currentRowID = cacheProvider.getCount() - 1;
 
 			cacheProvider.moveTo(currentRowID);
-			if (groups.length > 0)
+			if (groups.length > 0) {
 				leafGroupIdx = groups[groups.length - 1].size() - 1;
+			}
 			return;
 		}
 
@@ -291,14 +307,15 @@ public final class RDGroupUtil implements IRDGroupUtil {
 	/**
 	 * When the smartCache is proceed (IResultIterator.next() is called), the
 	 * leafGroupIdx should be re-calculated.
-	 * 
+	 *
 	 * @param hasNext
 	 * @throws DataException
 	 */
+	@Override
 	public void next(boolean hasNext) throws DataException {
 		// Adjust leaf group index
 		// Have we advanced into the next leaf group?
-		if (hasNext == true && groups.length > 0) {
+		if (hasNext && groups.length > 0) {
 			GroupInfo nextLeafGroup = findGroup(groups.length - 1, leafGroupIdx + 1);
 			if (nextLeafGroup != null && cacheProvider.getCurrentIndex() >= nextLeafGroup.firstChild) {
 				// Move to next leaf group
@@ -309,10 +326,11 @@ public final class RDGroupUtil implements IRDGroupUtil {
 
 	/**
 	 * Advance the leaf group with offset.
-	 * 
+	 *
 	 * @param offset
 	 * @throws DataException
 	 */
+	@Override
 	public void move() throws DataException {
 		if (groups.length > 0) {
 			binaryMove();
@@ -334,8 +352,9 @@ public final class RDGroupUtil implements IRDGroupUtil {
 				// In progressive viewing mode, there exist possibility
 				// that group info is not flush to stream yet.Simply do not handle
 				// this case.
-				if (info == null)
+				if (info == null) {
 					return;
+				}
 				if (info.firstChild > cacheProvider.getCurrentIndex()) {
 					this.leafGroupIdx = i - 1;
 					return;
@@ -371,14 +390,17 @@ public final class RDGroupUtil implements IRDGroupUtil {
 	 * Gets the index of the current group at the specified group level. The index
 	 * starts at 0
 	 */
+	@Override
 	public int getCurrentGroupIndex(int groupLevel) throws DataException {
 		checkHasCurrentRow();
 
-		if (groupLevel == 0)
+		if (groupLevel == 0) {
 			return 0;
+		}
 
-		if (groupLevel < 0 || groupLevel > groups.length)
+		if (groupLevel < 0 || groupLevel > groups.length) {
 			throw new DataException(ResourceConstants.INVALID_GROUP_LEVEL, Integer.valueOf(groupLevel));
+		}
 
 		int currentGroupIdx = leafGroupIdx;
 		int level;
@@ -397,12 +419,15 @@ public final class RDGroupUtil implements IRDGroupUtil {
 	 * @param groupLevel
 	 * @return int[]
 	 */
+	@Override
 	public int[] getGroupStartAndEndIndex(int groupLevel) {
-		if (this.groupStartEndIndexCache.containsKey(groupLevel))
+		if (this.groupStartEndIndexCache.containsKey(groupLevel)) {
 			return this.groupStartEndIndexCache.get(groupLevel);
+		}
 		int max = -1;
-		if (this.cacheProvider != null)
+		if (this.cacheProvider != null) {
 			max = this.cacheProvider.getCount();
+		}
 
 		if (groupLevel == 0) {
 			this.groupStartEndIndexCache.put(groupLevel, new int[] { 0, max });
@@ -452,15 +477,17 @@ public final class RDGroupUtil implements IRDGroupUtil {
 		 *
 		 * @return
 		 */
+		@Override
 		public int size() {
 			return this.size;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.util.List#get(int)
 		 */
+		@Override
 		public GroupInfo get(int index) {
 			GroupInfo groupInfo = new GroupInfo();
 			try {
@@ -483,87 +510,108 @@ public final class RDGroupUtil implements IRDGroupUtil {
 			return groupInfo;
 		}
 
+		@Override
 		public boolean add(GroupInfo o) {
 			throw new UnsupportedOperationException();
 
 		}
 
+		@Override
 		public void add(int index, GroupInfo element) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public boolean addAll(Collection c) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public boolean addAll(int index, Collection c) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public void clear() {
 //			throw new UnsupportedOperationException( );
 		}
 
+		@Override
 		public boolean contains(Object o) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public boolean containsAll(Collection c) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public int indexOf(Object o) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public boolean isEmpty() {
 			return this.size == 0;
 		}
 
+		@Override
 		public Iterator iterator() {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public int lastIndexOf(Object o) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public ListIterator listIterator() {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public ListIterator listIterator(int index) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public boolean remove(Object o) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public GroupInfo remove(int index) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public boolean removeAll(Collection c) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public boolean retainAll(Collection c) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public GroupInfo set(int index, GroupInfo element) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public List subList(int fromIndex, int toIndex) {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public Object[] toArray() {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public Object[] toArray(Object[] a) {
 			throw new UnsupportedOperationException();
 		}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +48,7 @@ public class NewJointDataSetAction extends Action {
 	private DataSetHandle dataSetHandle;
 
 	/**
-	 * 
+	 *
 	 */
 	public NewJointDataSetAction() {
 		super();
@@ -83,9 +83,10 @@ public class NewJointDataSetAction extends Action {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
+	@Override
 	public void run() {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println("New joint data set action >> Run ..."); //$NON-NLS-1$
@@ -114,6 +115,7 @@ public class NewJointDataSetAction extends Action {
 			WizardDialog dialog = new BaseWizardDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
 					wizard) {
 
+				@Override
 				protected void configureShell(Shell newShell) {
 					super.configureShell(newShell);
 					newShell.setSize(750, 650);
@@ -159,18 +161,15 @@ public class NewJointDataSetAction extends Action {
 	}
 
 	private boolean editDataSet(List existingDataSets, List newDataSets) {
-		if (existingDataSets == null || newDataSets == null) {
-			return false;
-		}
-
-		if (newDataSets.size() <= existingDataSets.size()) {
+		if (existingDataSets == null || newDataSets == null || (newDataSets.size() <= existingDataSets.size())) {
 			return false;
 		}
 
 		dataSetHandle = findNewDataSet(existingDataSets, newDataSets);
 
-		if (dataSetHandle == null)
+		if (dataSetHandle == null) {
 			return false;
+		}
 		// The last element was the One added
 		// DataSetHandle dataSetHandle = (DataSetHandle) newDataSets.get(
 		// newDataSets.size( ) - 1 );

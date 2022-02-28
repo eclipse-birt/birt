@@ -26,6 +26,7 @@ public class ParameterMetaData implements IParameterMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterCount()
 	 */
+	@Override
 	public int getParameterCount() throws OdaException {
 		return 0;
 	}
@@ -35,17 +36,19 @@ public class ParameterMetaData implements IParameterMetaData {
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterMode(
 	 * int)
 	 */
+	@Override
 	public int getParameterMode(int param) throws OdaException {
 		return IParameterMetaData.parameterModeUnknown;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterName(
 	 * int)
 	 */
+	@Override
 	public String getParameterName(int param) throws OdaException {
 		return null; // name is not available
 	}
@@ -55,6 +58,7 @@ public class ParameterMetaData implements IParameterMetaData {
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterType(
 	 * int)
 	 */
+	@Override
 	public int getParameterType(int param) throws OdaException {
 		return DataTypes.getTypeCode(null);
 	}
@@ -63,6 +67,7 @@ public class ParameterMetaData implements IParameterMetaData {
 	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#
 	 * getParameterTypeName(int)
 	 */
+	@Override
 	public String getParameterTypeName(int param) throws OdaException {
 		int nativeTypeCode = getParameterType(param);
 		return DataTypes.getNativeDataTypeName(nativeTypeCode);
@@ -72,6 +77,7 @@ public class ParameterMetaData implements IParameterMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getPrecision(int)
 	 */
+	@Override
 	public int getPrecision(int param) throws OdaException {
 		return -1;
 	}
@@ -79,6 +85,7 @@ public class ParameterMetaData implements IParameterMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getScale(int)
 	 */
+	@Override
 	public int getScale(int param) throws OdaException {
 		return -1;
 	}
@@ -87,6 +94,7 @@ public class ParameterMetaData implements IParameterMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#isNullable(int)
 	 */
+	@Override
 	public int isNullable(int param) throws OdaException {
 		return IParameterMetaData.parameterNullableUnknown;
 	}

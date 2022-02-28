@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,6 +45,7 @@ import org.eclipse.swt.SWT;
  */
 public class TablePage extends GeneralPage {
 
+	@Override
 	protected void buildContent() {
 		// Defines providers.
 
@@ -167,6 +168,7 @@ public class TablePage extends GeneralPage {
 
 	}
 
+	@Override
 	protected void applyCustomSections() {
 		Object[] helperProviders = ElementAdapterManager.getAdapters(this, ISectionHelperProvider.class);
 		if (helperProviders != null) {
@@ -177,8 +179,9 @@ public class TablePage extends GeneralPage {
 					if (helper != null) {
 						Section section = helper.createSection(container, TableHandle.THEME_PROP,
 								ReportDesignConstants.TABLE_ITEM, true);
-						if (section instanceof SimpleComboSection)
+						if (section instanceof SimpleComboSection) {
 							((SimpleComboSection) section).setWidth(200);
+						}
 						section.setLayoutNum(2);
 						addSectionBefore(PageSectionId.TABLE_THEME, section, PageSectionId.TABLE_CAN_SHRINK);
 					}

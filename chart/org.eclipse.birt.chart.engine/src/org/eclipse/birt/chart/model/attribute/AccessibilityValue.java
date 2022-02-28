@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -42,7 +42,7 @@ public interface AccessibilityValue extends ActionValue {
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
 	 * "Text" provides a short description of the accessibility. <!-- end-model-doc
 	 * -->
-	 * 
+	 *
 	 * @return the value of the '<em>Text</em>' attribute.
 	 * @see #setText(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getAccessibilityValue_Text()
@@ -56,7 +56,7 @@ public interface AccessibilityValue extends ActionValue {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.AccessibilityValue#getText
 	 * <em>Text</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Text</em>' attribute.
 	 * @see #getText()
 	 * @generated
@@ -67,9 +67,9 @@ public interface AccessibilityValue extends ActionValue {
 	 * Returns the value of the '<em><b>Accessibility</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
 	 * "Accessibility" provides a full description of the accessibility.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Accessibility</em>' attribute.
 	 * @see #setAccessibility(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getAccessibilityValue_Accessibility()
@@ -84,7 +84,7 @@ public interface AccessibilityValue extends ActionValue {
 	 * '{@link org.eclipse.birt.chart.model.attribute.AccessibilityValue#getAccessibility
 	 * <em>Accessibility</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Accessibility</em>' attribute.
 	 * @see #getAccessibility()
 	 * @generated
@@ -94,6 +94,7 @@ public interface AccessibilityValue extends ActionValue {
 	/**
 	 * @generated
 	 */
+	@Override
 	AccessibilityValue copyInstance();
 
 } // AccessibilityValue

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,16 +32,18 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.TransferData;
 
 /**
- * 
+ *
  */
 
 public class SlotHandleDropAdapter implements IElementDropAdapter {
 
+	@Override
 	public boolean validateDrop(Object target, int operation, int location, Object transfer,
 			TransferData transferType) {
 		return TemplateTransfer.getInstance().isSupportedType(transferType);
 	}
 
+	@Override
 	public boolean handleDrop(Object target, int operation, int location, Object transfer) {
 		int canContain = DNDUtil.handleValidateTargetCanContain(target, transfer,
 				location != ViewerDropAdapter.LOCATION_ON);
@@ -73,7 +75,7 @@ public class SlotHandleDropAdapter implements IElementDropAdapter {
 			}
 			boolean result = false;
 			Object transferFirstElement = getSingleTransferData(transfer);
-			if (transferFirstElement != null && transferFirstElement instanceof DesignElementHandle) {
+			if (transferFirstElement instanceof DesignElementHandle) {
 				DesignElementHandle sourceHandle;
 				if ((sourceHandle = (DesignElementHandle) transferFirstElement).getRoot() instanceof LibraryHandle) {
 					// transfer element from a library.
@@ -98,7 +100,7 @@ public class SlotHandleDropAdapter implements IElementDropAdapter {
 				} else {
 					result = DNDUtil.copyHandles(transfer, target, position);
 				}
-			} else if (transferFirstElement != null && transferFirstElement instanceof EmbeddedImageHandle) {
+			} else if (transferFirstElement instanceof EmbeddedImageHandle) {
 				EmbeddedImageHandle sourceEmbeddedImageHandle;
 				if ((sourceEmbeddedImageHandle = (EmbeddedImageHandle) transferFirstElement).getElementHandle()
 						.getRoot() instanceof LibraryHandle) {

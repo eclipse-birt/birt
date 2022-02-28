@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ import org.eclipse.birt.data.engine.script.ScriptConstants;
 
 /**
  * The utility class to provide method for expression compiling
- * 
+ *
  */
 public class ExpressionCompilerUtil {
 	// private static ExpressionCompiler expressionCompiler = new
@@ -51,7 +51,7 @@ public class ExpressionCompilerUtil {
 
 	/**
 	 * compile the expression
-	 * 
+	 *
 	 * @param expr
 	 * @param registry
 	 * @param cx
@@ -64,7 +64,7 @@ public class ExpressionCompilerUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param exprManager
 	 * @param scope
@@ -73,8 +73,9 @@ public class ExpressionCompilerUtil {
 	 */
 	public static boolean hasColumnRow(String expression, ExprManager exprManager, ScriptContext cx)
 			throws DataException {
-		if (expression == null)
+		if (expression == null) {
 			return false;
+		}
 
 		return compile(expression, exprManager, cx);
 
@@ -82,9 +83,9 @@ public class ExpressionCompilerUtil {
 
 	/**
 	 * find columns used as dataSetRow[name] in the expression.
-	 * 
+	 *
 	 * It is same as extractColumnExpression(expression, "DataSetRow")
-	 * 
+	 *
 	 * @param expression
 	 * @return list of reference name.
 	 * @throws DataException
@@ -95,9 +96,9 @@ public class ExpressionCompilerUtil {
 
 	/**
 	 * find columns used as 'indicator'[name] in the expression.
-	 * 
+	 *
 	 * A valid indicator is 'data', 'row', 'dataSetRow' and 'measure'.
-	 * 
+	 *
 	 * @param expression
 	 * @param indicator
 	 * @return list of reference name.
@@ -110,9 +111,9 @@ public class ExpressionCompilerUtil {
 
 	/**
 	 * find columns used as 'indicator'[name] in the expression.
-	 * 
+	 *
 	 * It can find multiple indicator references.
-	 * 
+	 *
 	 * @param expression
 	 * @return
 	 * @throws DataException
@@ -123,9 +124,9 @@ public class ExpressionCompilerUtil {
 			return Collections.emptyList();
 		}
 
-		LinkedHashSet<String> bindings = new LinkedHashSet<String>();
+		LinkedHashSet<String> bindings = new LinkedHashSet<>();
 		extractColumnExpression(bindings, expression, indicators);
-		return new ArrayList<String>(bindings);
+		return new ArrayList<>(bindings);
 	}
 
 	private static void extractColumnExpression(Set<String> existingBindings, IBaseExpression expression,
@@ -148,7 +149,7 @@ public class ExpressionCompilerUtil {
 	/**
 	 * The utility method is to compile expression to get a list of column
 	 * expressions which is depended by given expression.
-	 * 
+	 *
 	 * @param expression
 	 * @return
 	 * @throws DataException
@@ -161,10 +162,10 @@ public class ExpressionCompilerUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * This utility method is to compile expression to get a list of column
 	 * expressions which is depended by given expression.
-	 * 
+	 *
 	 * @param expression
 	 * @return
 	 * @throws DataException
@@ -179,7 +180,7 @@ public class ExpressionCompilerUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expression
 	 * @return
 	 * @throws DataException
@@ -195,7 +196,7 @@ public class ExpressionCompilerUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expression
 	 * @return
 	 * @throws DataException
@@ -213,12 +214,13 @@ public class ExpressionCompilerUtil {
 	/**
 	 * Check whether there is columnReferenceExpression in aggregation. If so,
 	 * return true. else return false;
-	 * 
+	 *
 	 * @return
 	 */
 	public static boolean hasAggregationInExpr(IBaseExpression expression) {
-		if (expression == null || BaseExpression.constantId.equals(expression.getScriptId()))
+		if (expression == null || BaseExpression.constantId.equals(expression.getScriptId())) {
 			return false;
+		}
 		if (expression instanceof IScriptExpression) {
 			String text = ((IScriptExpression) expression).getText();
 			return ExpressionUtil.hasAggregation(text);
@@ -229,8 +231,9 @@ public class ExpressionCompilerUtil {
 		} else if (expression instanceof IExpressionCollection) {
 			Object[] text = ((IExpressionCollection) expression).getExpressions().toArray();
 			for (int i = 0; i < text.length; i++) {
-				if (hasAggregationInExpr((IBaseExpression) text[i]))
+				if (hasAggregationInExpr((IBaseExpression) text[i])) {
 					return true;
+				}
 			}
 		}
 		return false;
@@ -239,7 +242,7 @@ public class ExpressionCompilerUtil {
 	/**
 	 * Check whether filter in query contains aggregation. If aggregation is
 	 * TOPN,BOTTOMN,TOPPERCENT,BOTTMEPERCENT return true. else return false;
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -247,11 +250,14 @@ public class ExpressionCompilerUtil {
 			throws DataException {
 		if (expression instanceof IScriptExpression) {
 			String text = ((IScriptExpression) expression).getText();
-			if (text == null || text.trim().length() == 0 || BaseExpression.constantId.equals(expression.getScriptId()))
+			if (text == null || text.trim().length() == 0
+					|| BaseExpression.constantId.equals(expression.getScriptId())) {
 				return true;
+			}
 			// fake a registry to register the aggregation.
 			AggregateRegistry aggrReg = new AggregateRegistry() {
 
+				@Override
 				public int register(AggregateExpression aggregationExpr) {
 					return -1;
 				}
@@ -270,7 +276,7 @@ public class ExpressionCompilerUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expression
 	 * @param exprManager
 	 * @return
@@ -280,6 +286,7 @@ public class ExpressionCompilerUtil {
 		// fake a registry to register the aggregation.
 		AggregateRegistry aggrReg = new AggregateRegistry() {
 
+			@Override
 			public int register(AggregateExpression aggregationExpr) {
 				return -1;
 			}
@@ -290,7 +297,7 @@ public class ExpressionCompilerUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @throws DataException
 	 */
@@ -301,15 +308,17 @@ public class ExpressionCompilerUtil {
 		case CompiledExpression.TYPE_COMPLEX_EXPR: {
 			Iterator col = ((ComplexExpression) expr).getSubExpressions().iterator();
 			while (col.hasNext()) {
-				if (!flattenExpression((CompiledExpression) col.next(), exprManager, cx))
+				if (!flattenExpression((CompiledExpression) col.next(), exprManager, cx)) {
 					return false;
+				}
 			}
 			break;
 		}
 		case CompiledExpression.TYPE_DIRECT_COL_REF: {
 			String columnName = ((ColumnReferenceExpression) expr).getColumnName();
-			if (ScriptConstants.ROW_NUM_KEYWORD.equals(columnName))
+			if (ScriptConstants.ROW_NUM_KEYWORD.equals(columnName)) {
 				return true;
+			}
 			if (exprManager.getExpr(columnName) != null) {
 				String expression = ((IScriptExpression) exprManager.getExpr(columnName)).getText();
 				return compile(expression, exprManager, cx);
@@ -320,8 +329,9 @@ public class ExpressionCompilerUtil {
 		case CompiledExpression.TYPE_SINGLE_AGGREGATE: {
 			Iterator args = ((AggregateExpression) expr).getArguments().iterator();
 			while (args.hasNext()) {
-				if (!flattenExpression((CompiledExpression) args.next(), exprManager, cx))
+				if (!flattenExpression((CompiledExpression) args.next(), exprManager, cx)) {
 					return false;
+				}
 			}
 			break;
 		}
@@ -334,7 +344,7 @@ public class ExpressionCompilerUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @return
 	 * @throws DataException
@@ -345,8 +355,9 @@ public class ExpressionCompilerUtil {
 		case CompiledExpression.TYPE_COMPLEX_EXPR: {
 			Iterator col = ((ComplexExpression) expr).getSubExpressions().iterator();
 			while (col.hasNext()) {
-				if (!flattenFilterExpression((CompiledExpression) col.next()))
+				if (!flattenFilterExpression((CompiledExpression) col.next())) {
 					return false;
+				}
 			}
 			break;
 		}
@@ -355,8 +366,9 @@ public class ExpressionCompilerUtil {
 		}
 		case CompiledExpression.TYPE_SINGLE_AGGREGATE: {
 			final int numberOfPasses = ((AggregateExpression) expr).getAggregation().getNumberOfPasses();
-			if (numberOfPasses <= 1)
+			if (numberOfPasses <= 1) {
 				return false;
+			}
 			break;
 		}
 		case CompiledExpression.TYPE_CONSTANT_EXPR: {
@@ -370,7 +382,7 @@ public class ExpressionCompilerUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param list
 	 * @param expression
 	 * @throws DataException
@@ -379,7 +391,6 @@ public class ExpressionCompilerUtil {
 			String[] indicators) throws DataException {
 		if (expression != null) {
 			if (BaseExpression.constantId.equals(expression.getScriptId())) {
-				return;
 			} else if (BaseExpression.javaScriptId.equals(expression.getScriptId())) {
 				try {
 					for (String indicator : indicators) {
@@ -394,7 +405,6 @@ public class ExpressionCompilerUtil {
 				} catch (BirtException e) {
 					throw DataException.wrap(e);
 				}
-				return;
 			} else {
 				throw new RuntimeException("unsupported script type:" + expression.getScriptId());
 			}
@@ -411,7 +421,7 @@ public class ExpressionCompilerUtil {
 		if (namedExpressions == null) {
 			return null;
 		}
-		Set<DirectedGraphEdge> graphEdges = new HashSet<DirectedGraphEdge>();
+		Set<DirectedGraphEdge> graphEdges = new HashSet<>();
 		for (NamedExpression ne : namedExpressions) {
 			List<String> referenceNames = null;
 			try {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +59,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle
 	 */
 	public AddLevelHandleAction(DesignElementHandle handle) {
@@ -74,6 +74,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction {
 		setImageDescriptor(ImageDescriptor.createFromImage(image));
 	}
 
+	@Override
 	public boolean isEnabled() {
 
 		return !DEUtil.isReferenceElement(viewHandle.getCrosstabHandle()) && findDimension(CrosstabAdaptUtil
@@ -82,9 +83,10 @@ public class AddLevelHandleAction extends AbstractCrosstabAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
+	@Override
 	public void run() {
 		transStar(NAME);
 		try {
@@ -179,6 +181,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction {
 
 	private static class LevelComparator implements Comparator {
 
+		@Override
 		public int compare(Object o1, Object o2) {
 			LevelHandle handle1 = (LevelHandle) o1;
 			LevelHandle handle2 = (LevelHandle) o2;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +19,7 @@ import java.io.InputStream;
 
 /**
  * The utility class to handle Unicode encoding and signatures.
- * 
+ *
  */
 
 public class UnicodeUtil {
@@ -56,7 +56,7 @@ public class UnicodeUtil {
 	/**
 	 * Reads a signature if it applies. Currently BIRT can recognize the following
 	 * signatures:
-	 * 
+	 *
 	 * <ul>
 	 * <li>SIGNATURE_UTF_8</li>
 	 * <li>SIGNATURE_UNICODE_BIG</li>
@@ -64,11 +64,11 @@ public class UnicodeUtil {
 	 * <li>SIGNATURE_UCS4_BIG_8</li>
 	 * <li>SIGNATURE_UCS4_LITTLE</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param inputStream the input stream of the unicode file
-	 * 
+	 *
 	 * @return the encoding signature from the unicode file.
-	 * 
+	 *
 	 * @throws IOException if errors occur when reading bytes from the input stream
 	 */
 

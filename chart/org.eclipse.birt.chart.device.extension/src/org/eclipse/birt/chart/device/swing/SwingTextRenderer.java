@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -63,7 +63,7 @@ final class SwingTextRenderer extends TextRendererAdapter {
 	/**
 	 * This method renders the 'shadow' at an offset from the text 'rotated
 	 * rectangle' subsequently rendered.
-	 * 
+	 *
 	 * @param ipr
 	 * @param iLabelPosition The position of the label w.r.t. the location specified
 	 *                       by 'lo'
@@ -72,7 +72,8 @@ final class SwingTextRenderer extends TextRendererAdapter {
 	 * @param la             The chart model structure containing the encapsulated
 	 *                       text (and attributes) to be rendered
 	 */
-	public final void renderShadowAtLocation(IPrimitiveRenderer idr, int iLabelPosition, Location lo, Label la)
+	@Override
+	public void renderShadowAtLocation(IPrimitiveRenderer idr, int iLabelPosition, Location lo, Label la)
 			throws ChartException {
 		if (!ChartUtil.isShadowDefined(la)) {
 			return;
@@ -109,7 +110,7 @@ final class SwingTextRenderer extends TextRendererAdapter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ipr
 	 * @param iLabelPosition IConstants. LEFT, RIGHT, ABOVE or BELOW
 	 * @param lo             POINT WHERE THE CORNER OF THE ROTATED RECTANGLE (OR
@@ -117,7 +118,8 @@ final class SwingTextRenderer extends TextRendererAdapter {
 	 * @param la
 	 * @throws ChartException
 	 */
-	public final void renderTextAtLocation(IPrimitiveRenderer ipr, int iLabelPosition, Location lo, Label la)
+	@Override
+	public void renderTextAtLocation(IPrimitiveRenderer ipr, int iLabelPosition, Location lo, Label la)
 			throws ChartException {
 		final ColorDefinition cdText = la.getCaption().getColor();
 		if (cdText == null) {
@@ -170,13 +172,14 @@ final class SwingTextRenderer extends TextRendererAdapter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param idr
 	 * @param boBlock
 	 * @param taBlock
 	 * @param la
 	 */
-	public final void renderTextInBlock(IDeviceRenderer idr, Bounds boBlock, TextAlignment taBlock, Label la)
+	@Override
+	public void renderTextInBlock(IDeviceRenderer idr, Bounds boBlock, TextAlignment taBlock, Label la)
 			throws ChartException {
 		Text t = la.getCaption();
 		String sText = t.getValue();
@@ -234,8 +237,7 @@ final class SwingTextRenderer extends TextRendererAdapter {
 		showTopValue(idr, goFactory.createLocation(bb.getLeft(), bb.getTop() + bb.getHeight()), la, 0, false);
 	}
 
-	private final void showLeftValue(IPrimitiveRenderer ipr, Location lo, Label la, int iLabelPosition,
-			boolean bShadow) {
+	private void showLeftValue(IPrimitiveRenderer ipr, Location lo, Label la, int iLabelPosition, boolean bShadow) {
 		IDeviceRenderer idr = (IDeviceRenderer) ipr;
 		IChartComputation cComp = idr.getChartComputation();
 		Graphics2D g2d = (Graphics2D) idr.getGraphicsContext();
@@ -516,8 +518,7 @@ final class SwingTextRenderer extends TextRendererAdapter {
 		}
 	}
 
-	private final void showRightValue(IPrimitiveRenderer ipr, Location lo, Label la, int iLabelPosition,
-			boolean bShadow) {
+	private void showRightValue(IPrimitiveRenderer ipr, Location lo, Label la, int iLabelPosition, boolean bShadow) {
 		IDeviceRenderer idr = (IDeviceRenderer) ipr;
 		IChartComputation cComp = idr.getChartComputation();
 		Graphics2D g2d = (Graphics2D) idr.getGraphicsContext();
@@ -818,8 +819,7 @@ final class SwingTextRenderer extends TextRendererAdapter {
 		}
 	}
 
-	private final void showBottomValue(IPrimitiveRenderer ipr, Location lo, Label la, int iLabelPosition,
-			boolean bShadow) {
+	private void showBottomValue(IPrimitiveRenderer ipr, Location lo, Label la, int iLabelPosition, boolean bShadow) {
 		IDeviceRenderer idr = (IDeviceRenderer) ipr;
 		IChartComputation cComp = idr.getChartComputation();
 		Graphics2D g2d = (Graphics2D) idr.getGraphicsContext();
@@ -1107,8 +1107,7 @@ final class SwingTextRenderer extends TextRendererAdapter {
 		}
 	}
 
-	private final void showTopValue(IPrimitiveRenderer ipr, Location lo, Label la, int iLabelPosition,
-			boolean bShadow) {
+	private void showTopValue(IPrimitiveRenderer ipr, Location lo, Label la, int iLabelPosition, boolean bShadow) {
 		IDeviceRenderer idr = (IDeviceRenderer) ipr;
 		IChartComputation cComp = idr.getChartComputation();
 		final Graphics2D g2d = (Graphics2D) idr.getGraphicsContext();
@@ -1197,7 +1196,6 @@ final class SwingTextRenderer extends TextRendererAdapter {
 			// DRAW IT AT A POSITIVE ANGLE
 			else if (dAngleInDegrees > 0 && dAngleInDegrees < 90) {
 				double dDeltaX = dFW / 2 + dH * dSineTheta / 2.0;
-				;
 
 				dX += dDeltaX;
 				g2d.rotate(dAngleInRadians, dX, dY);
@@ -1408,7 +1406,7 @@ final class SwingTextRenderer extends TextRendererAdapter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param g2d
 	 * @param f
 	 * @param dX
@@ -1416,7 +1414,7 @@ final class SwingTextRenderer extends TextRendererAdapter {
 	 * @param sText
 	 * @param iAngleInDegrees
 	 */
-	private final void showCenterValue(IPrimitiveRenderer ipr, Location lo, Label la, boolean bShadow) {
+	private void showCenterValue(IPrimitiveRenderer ipr, Location lo, Label la, boolean bShadow) {
 		IDeviceRenderer idr = (IDeviceRenderer) ipr;
 		IChartComputation cComp = idr.getChartComputation();
 		Graphics2D g2d = (Graphics2D) idr.getGraphicsContext();
@@ -1710,7 +1708,7 @@ final class SwingTextRenderer extends TextRendererAdapter {
 	// (int) bb.getHeight());
 	// }
 
-	private final void renderOutline(IPrimitiveRenderer ipr, LineAttributes lia, Rectangle2D.Double r2d) {
+	private void renderOutline(IPrimitiveRenderer ipr, LineAttributes lia, Rectangle2D.Double r2d) {
 		if (lia != null && lia.isVisible() && lia.getColor() != null) {
 			Graphics2D g2d = (Graphics2D) ((IDeviceRenderer) ipr).getGraphicsContext();
 			Stroke sPrevious = null;

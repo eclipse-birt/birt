@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,12 +26,12 @@ import org.eclipse.birt.data.engine.olap.data.util.PrimitiveDiskSortedStack;
 import org.eclipse.birt.data.engine.olap.data.util.SetUtil;
 
 /**
- * 
+ *
  */
 
 public class DimensionFilterHelper {
 	/**
-	 * 
+	 *
 	 * @param levels
 	 * @param filters
 	 * @return
@@ -47,15 +47,16 @@ public class DimensionFilterHelper {
 		System.arraycopy(filterResults.toArray(), 0, stackResults, 0, stackResults.length);
 		int maxLen = 0;
 		for (int i = 0; i < stackResults.length; i++) {
-			if (maxLen < stackResults[i].size())
+			if (maxLen < stackResults[i].size()) {
 				maxLen = stackResults[i].size();
+			}
 		}
 		IDiskArray AndFilterResults = SetUtil.getIntersection(stackResults, maxLen);
 		return AndFilterResults;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param level
 	 * @param filter
 	 * @return
@@ -64,8 +65,9 @@ public class DimensionFilterHelper {
 	 */
 	private static BaseDiskSortedStack find(Level level, ISelection[] filter) throws IOException, DataException {
 		IDiskArray indexKeyArray = null;
-		if (level.getDiskIndex() != null)
+		if (level.getDiskIndex() != null) {
 			indexKeyArray = level.getDiskIndex().find(filter);
+		}
 		if (indexKeyArray != null) {
 			int len = 0;
 			for (int i = 0; i < indexKeyArray.size(); i++) {

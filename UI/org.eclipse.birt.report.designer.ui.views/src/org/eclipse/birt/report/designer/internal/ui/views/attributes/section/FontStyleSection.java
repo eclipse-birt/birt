@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -45,9 +45,11 @@ public class FontStyleSection extends Section {
 
 	protected IDescriptorProvider[] providers;
 
+	@Override
 	public void createSection() {
-		if (showLabel)
+		if (showLabel) {
 			getLabelControl(parent);
+		}
 		getFontStyleControl(parent);
 		getGridPlaceholder(parent);
 	}
@@ -59,12 +61,14 @@ public class FontStyleSection extends Section {
 	protected FontStylePropertyDescriptor getFontStyleControl(Composite parent) {
 		if (fontStyle == null) {
 			fontStyle = DescriptorToolkit.createFontStylePropertyDescriptor(isFormStyle);
-			if (getProviders() != null)
+			if (getProviders() != null) {
 				fontStyle.setProviders(getProviders());
+			}
 			fontStyle.createControl(parent);
 			fontStyle.getControl().setLayoutData(new GridData());
 			fontStyle.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					fontStyle = null;
 				}
@@ -73,19 +77,23 @@ public class FontStyleSection extends Section {
 			checkParent(fontStyle.getControl(), parent);
 		}
 		return fontStyle;
-	};
-
-	public void load() {
-		if (fontStyle != null && !fontStyle.getControl().isDisposed())
-			fontStyle.load();
 	}
 
+	@Override
+	public void load() {
+		if (fontStyle != null && !fontStyle.getControl().isDisposed()) {
+			fontStyle.load();
+		}
+	}
+
+	@Override
 	public void reset() {
 		if (fontStyle != null && !fontStyle.getControl().isDisposed()) {
 			fontStyle.reset();
 		}
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		fontStyle.setInput(input);
@@ -101,22 +109,30 @@ public class FontStyleSection extends Section {
 		this.width = width;
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (displayLabel != null)
+		}
+		if (displayLabel != null) {
 			fontStyle.setHidden(isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (fontStyle != null)
+		}
+		if (fontStyle != null) {
 			fontStyle.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 
 	public IDescriptorProvider[] getProviders() {
@@ -127,18 +143,21 @@ public class FontStyleSection extends Section {
 		this.providers = providers;
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) fontStyle.getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - 1 - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 1 - placeholder;
+		}
 		gd.horizontalAlignment = SWT.FILL;
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillFontStyle;
+		}
 
 		if (height > -1) {
 			gd.heightHint = width;

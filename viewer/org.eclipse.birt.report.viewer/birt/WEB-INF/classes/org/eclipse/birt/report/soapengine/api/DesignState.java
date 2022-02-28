@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -41,7 +41,7 @@ public class DesignState implements java.io.Serializable {
 
 	/**
 	 * Gets the isBlank value for this DesignState.
-	 * 
+	 *
 	 * @return isBlank
 	 */
 	public java.lang.Boolean getIsBlank() {
@@ -50,7 +50,7 @@ public class DesignState implements java.io.Serializable {
 
 	/**
 	 * Sets the isBlank value for this DesignState.
-	 * 
+	 *
 	 * @param isBlank
 	 */
 	public void setIsBlank(java.lang.Boolean isBlank) {
@@ -59,7 +59,7 @@ public class DesignState implements java.io.Serializable {
 
 	/**
 	 * Gets the editable value for this DesignState.
-	 * 
+	 *
 	 * @return editable
 	 */
 	public java.lang.Boolean getEditable() {
@@ -68,7 +68,7 @@ public class DesignState implements java.io.Serializable {
 
 	/**
 	 * Sets the editable value for this DesignState.
-	 * 
+	 *
 	 * @param editable
 	 */
 	public void setEditable(java.lang.Boolean editable) {
@@ -77,7 +77,7 @@ public class DesignState implements java.io.Serializable {
 
 	/**
 	 * Gets the canNew value for this DesignState.
-	 * 
+	 *
 	 * @return canNew can create a new report
 	 */
 	public java.lang.Boolean getCanNew() {
@@ -86,7 +86,7 @@ public class DesignState implements java.io.Serializable {
 
 	/**
 	 * Sets the canNew value for this DesignState.
-	 * 
+	 *
 	 * @param canNew can create a new report
 	 */
 	public void setCanNew(java.lang.Boolean canNew) {
@@ -95,7 +95,7 @@ public class DesignState implements java.io.Serializable {
 
 	/**
 	 * Gets the rptName value for this DesignState.
-	 * 
+	 *
 	 * @return rptName report name
 	 */
 	public java.lang.String getRptName() {
@@ -104,7 +104,7 @@ public class DesignState implements java.io.Serializable {
 
 	/**
 	 * Sets the rptName value for this DesignState.
-	 * 
+	 *
 	 * @param rptName report name
 	 */
 	public void setRptName(java.lang.String rptName) {
@@ -113,14 +113,18 @@ public class DesignState implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof DesignState))
+		if (!(obj instanceof DesignState)) {
 			return false;
+		}
 		DesignState other = (DesignState) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -141,6 +145,7 @@ public class DesignState implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

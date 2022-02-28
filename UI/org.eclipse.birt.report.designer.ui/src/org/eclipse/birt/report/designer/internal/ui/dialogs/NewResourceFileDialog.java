@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,7 +52,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 /**
- *  
+ *
  */
 
 public class NewResourceFileDialog extends BaseElementTreeSelectionDialog {
@@ -66,7 +66,7 @@ public class NewResourceFileDialog extends BaseElementTreeSelectionDialog {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parent
 	 * @param labelProvider
 	 * @param contentProvider
@@ -80,11 +80,12 @@ public class NewResourceFileDialog extends BaseElementTreeSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite rt = (Composite) super.createDialogArea(parent);
 
@@ -99,6 +100,7 @@ public class NewResourceFileDialog extends BaseElementTreeSelectionDialog {
 		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		text.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				fileName = text.getText();
 				updateOKStatus();
@@ -107,6 +109,7 @@ public class NewResourceFileDialog extends BaseElementTreeSelectionDialog {
 
 		getTreeViewer().addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				ISelection sel = event.getSelection();
 
@@ -114,8 +117,9 @@ public class NewResourceFileDialog extends BaseElementTreeSelectionDialog {
 					IStructuredSelection stsel = (IStructuredSelection) sel;
 
 					Object obj = stsel.getFirstElement();
-					if (obj instanceof IResource)
+					if (obj instanceof IResource) {
 						text.setText(((IResource) obj).getName());
+					}
 				}
 
 			}
@@ -126,7 +130,7 @@ public class NewResourceFileDialog extends BaseElementTreeSelectionDialog {
 
 	/**
 	 * Returns the file name.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getFileName() {
@@ -135,11 +139,12 @@ public class NewResourceFileDialog extends BaseElementTreeSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.dialogs.ElementTreeSelectionDialog#setValidator(org.eclipse.ui
 	 * .dialogs.ISelectionStatusValidator)
 	 */
+	@Override
 	public void setValidator(ISelectionStatusValidator validator) {
 		fValidator = validator;
 	}
@@ -157,9 +162,10 @@ public class NewResourceFileDialog extends BaseElementTreeSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.ElementTreeSelectionDialog#updateOKStatus()
 	 */
+	@Override
 	protected void updateOKStatus() {
 		IStatus fCurrStatus;
 
@@ -173,16 +179,17 @@ public class NewResourceFileDialog extends BaseElementTreeSelectionDialog {
 		updateStatus(fCurrStatus);
 
 		Button okButton = getOkButton();
-		if (okButton.getEnabled() == true && fCurrStatus.getCode() == IStatus.ERROR) {
+		if (okButton.getEnabled() && fCurrStatus.getCode() == IStatus.ERROR) {
 			okButton.setEnabled(false);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.window.Window#open()
 	 */
+	@Override
 	public int open() {
 		int rt = super.open();
 
@@ -206,9 +213,10 @@ public class NewResourceFileDialog extends BaseElementTreeSelectionDialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ViewerSorter#category(java.lang.Object)
 		 */
+		@Override
 		public int category(Object element) {
 			if (element instanceof File) {
 				if (((File) element).isDirectory()) {
@@ -240,13 +248,15 @@ public class NewResourceFileDialog extends BaseElementTreeSelectionDialog {
 		 * Subclasses may reimplement this method to provide a more optimized
 		 * implementation.
 		 * </p>
-		 * 
+		 *
 		 * @param viewer   the viewer
 		 * @param elements the elements to sort
 		 */
+		@Override
 		public void sort(final Viewer viewer, Object[] elements) {
 			Arrays.sort(elements, new Comparator<Object>() {
 
+				@Override
 				public int compare(Object a, Object b) {
 					if (a instanceof FragmentResourceEntry) {
 						if (b instanceof FragmentResourceEntry) {

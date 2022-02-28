@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -36,7 +36,7 @@ public class DataModelAdapterUtil {
 		try {
 			Iterator iter = itemHandle.getAvailableBindings();
 			Set result = new HashSet();
-			Map<String, String> bindingExpressionMap = new HashMap<String, String>();
+			Map<String, String> bindingExpressionMap = new HashMap<>();
 			populateDirectAggregationBindingNames(result, iter, bindingExpressionMap);
 			DataSetHandle dataSetHandle = itemHandle.getDataSet();
 			if (dataSetHandle != null && dataSetHandle.computedColumnsIterator() != null
@@ -80,7 +80,7 @@ public class DataModelAdapterUtil {
 	}
 
 	private static HashSet<String> getBindingRefColumnNames(String expression) {
-		HashSet<String> result = new HashSet<String>();
+		HashSet<String> result = new HashSet<>();
 
 		try {
 			List columnList = ExpressionUtil.extractColumnExpressions(expression, ExpressionUtil.ROW_INDICATOR);
@@ -97,7 +97,7 @@ public class DataModelAdapterUtil {
 	}
 
 	private static HashSet<String> getBindingRefNames(String expression) {
-		HashSet<String> result = new HashSet<String>();
+		HashSet<String> result = new HashSet<>();
 		try {
 			List columnList = ExpressionUtil.extractColumnExpressions(expression, ExpressionUtil.DATASET_ROW_INDICATOR);
 
@@ -121,12 +121,13 @@ public class DataModelAdapterUtil {
 			String expressionString = column.getExpression();
 			bindingExpressionMap.put(computedHandle.getName(), expressionString);
 			if (computedHandle.getAggregateFunction() != null) {
-				String columnName = null;
+				String columnName;
 				columnName = ExpressionUtil.getColumnName(expressionString);
 				if (columnName == null) {
 					columnName = ExpressionUtil.getColumnBindingName(expressionString);
-					if (columnName != null)
+					if (columnName != null) {
 						aggregationBinding.add(computedHandle.getName());
+					}
 				} else {
 					aggregationBinding.add(computedHandle.getName());
 				}

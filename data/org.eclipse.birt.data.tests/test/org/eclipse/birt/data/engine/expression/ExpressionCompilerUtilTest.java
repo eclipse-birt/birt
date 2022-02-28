@@ -1,17 +1,22 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.expression;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -22,19 +27,17 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * test case for expression parser
- * 
+ *
  * @author Administrator
  *
  */
 public class ExpressionCompilerUtilTest {
 
-	String[] oldExpressions = new String[] { null, "   " + Messages.getString("ExpressionUtilTest.old.0"),
+	String[] oldExpressions = { null, "   " + Messages.getString("ExpressionUtilTest.old.0"),
 			Messages.getString("ExpressionUtilTest.old.1"), Messages.getString("ExpressionUtilTest.old.2"),
 			Messages.getString("ExpressionUtilTest.old.3"), Messages.getString("ExpressionUtilTest.old.4"),
 			Messages.getString("ExpressionUtilTest.old.5"), Messages.getString("ExpressionUtilTest.old.6"),
@@ -208,7 +211,7 @@ public class ExpressionCompilerUtilTest {
 
 	/**
 	 * test whether there is columnReference in aggregation expression
-	 * 
+	 *
 	 */
 	@Test
 	public void testHasRowExprInAggregation() {

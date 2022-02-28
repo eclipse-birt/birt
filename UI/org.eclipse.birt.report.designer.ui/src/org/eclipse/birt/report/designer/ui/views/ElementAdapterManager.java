@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,6 +51,7 @@ public class ElementAdapterManager {
 
 		private static final long serialVersionUID = 534728316184090251L;
 
+		@Override
 		public Object get(Object key) {
 			Object obj = super.get(key);
 			if (obj == null) {
@@ -137,8 +138,9 @@ public class ElementAdapterManager {
 								"true".equals(adapters[k].getAttribute("includeWorkbenchContribute"))); //$NON-NLS-1$ //$NON-NLS-2$
 
 						IConfigurationElement[] enablements = adapters[k].getChildren("enablement"); //$NON-NLS-1$
-						if (enablements != null && enablements.length > 0)
+						if (enablements != null && enablements.length > 0) {
 							adapter.setExpression(ExpressionConverter.getDefault().perform(enablements[0]));
+						}
 						registerAdapter(adaptableType, adapter);
 					} catch (ClassNotFoundException ce) {
 						if (adaptableType == null) {
@@ -224,19 +226,21 @@ public class ElementAdapterManager {
 
 	public static Object getAdapter(Object adaptableObject, Class adatperType) {
 		List adapterObjects = getAdapterList(adaptableObject, adatperType);
-		if (adapterObjects == null || adapterObjects.size() == 0)
+		if (adapterObjects == null || adapterObjects.size() == 0) {
 			return null;
-		else if (adapterObjects.size() == 1)
+		} else if (adapterObjects.size() == 1) {
 			return adapterObjects.get(0);
-		else
+		} else {
 			return Proxy.newProxyInstance(adatperType.getClassLoader(), new Class[] { adatperType },
 					new ElementAdapterInvocationHandler(adapterObjects));
+		}
 	}
 
 	private static List getAdapterList(Object adaptableObject, Class adatperType) {
 		Set adapters = getAdapters(adaptableObject);
-		if (adapters == null)
+		if (adapters == null) {
 			return null;
+		}
 
 		List adapterObjects = new ArrayList();
 		l: for (Iterator iter = adapters.iterator(); iter.hasNext();) {
@@ -245,8 +249,9 @@ public class ElementAdapterManager {
 				EvaluationContext context = new EvaluationContext(null, adaptableObject);
 				context.setAllowPluginActivation(true);
 				try {
-					if (adapter.getExpression().evaluate(context) != EvaluationResult.TRUE)
+					if (adapter.getExpression().evaluate(context) != EvaluationResult.TRUE) {
 						continue l;
+					}
 				} catch (CoreException e) {
 				}
 			}
@@ -278,8 +283,9 @@ public class ElementAdapterManager {
 				}
 			}
 		}
-		if (adapters != null)
+		if (adapters != null) {
 			adapters.reset();
+		}
 		return adapters;
 	}
 
@@ -294,12 +300,14 @@ class ElementAdapterSet extends TreeSet {
 
 	private static Comparator comparator = new Comparator() {
 
+		@Override
 		public int compare(Object o1, Object o2) {
 			if (o1 instanceof ElementAdapter && o2 instanceof ElementAdapter) {
 				ElementAdapter adapter1 = (ElementAdapter) o1;
 				ElementAdapter adapter2 = (ElementAdapter) o2;
-				if (adapter1.equals(adapter2))
+				if (adapter1.equals(adapter2)) {
 					return 0;
+				}
 				int value = adapter1.getPriority() - adapter2.getPriority();
 				return value == 0 ? 1 : value;
 			}
@@ -318,6 +326,7 @@ class ElementAdapterSet extends TreeSet {
 		super(comparator);
 	}
 
+	@Override
 	public boolean add(Object o) {
 		if (o instanceof ElementAdapter) {
 			// cached overwrited adapters

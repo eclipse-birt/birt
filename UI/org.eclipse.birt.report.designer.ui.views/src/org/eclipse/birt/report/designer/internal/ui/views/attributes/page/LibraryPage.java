@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Composite;
 
 public class LibraryPage extends ModulePage {
 
+	@Override
 	public void buildUI(Composite parent) {
 		super.buildUI(parent);
 
@@ -57,6 +58,7 @@ public class LibraryPage extends ModulePage {
 //		labels[2]=WidgetUtil.createGridPlaceholder( this, 1, true );
 	}
 
+	@Override
 	public String getElementType() {
 		return ReportDesignConstants.LIBRARY_ELEMENT;
 	}

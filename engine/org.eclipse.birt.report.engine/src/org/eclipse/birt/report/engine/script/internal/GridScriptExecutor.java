@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,8 +31,9 @@ public class GridScriptExecutor extends ScriptExecutor {
 		try {
 			IGrid grid = new Grid(gridHandle);
 			IGridEventHandler eh = getEventHandler(gridHandle, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onPrepare(grid, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
@@ -45,11 +46,13 @@ public class GridScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IGridInstance grid = new GridInstance(content, context, RunningState.CREATE);
-			if (handleScript(grid, gridDesign.getOnCreate(), context).didRun())
+			if (handleScript(grid, gridDesign.getOnCreate(), context).didRun()) {
 				return;
+			}
 			IGridEventHandler eh = getEventHandler(gridDesign, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onCreate(grid, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e, gridDesign.getHandle());
 		}
@@ -62,11 +65,13 @@ public class GridScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IGridInstance grid = new GridInstance(content, context, RunningState.RENDER);
-			if (handleScript(grid, gridDesign.getOnRender(), context).didRun())
+			if (handleScript(grid, gridDesign.getOnRender(), context).didRun()) {
 				return;
+			}
 			IGridEventHandler eh = getEventHandler(gridDesign, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onRender(grid, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e, gridDesign.getHandle());
 		}
@@ -79,11 +84,13 @@ public class GridScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IGridInstance grid = new GridInstance(content, context, RunningState.PAGEBREAK);
-			if (handleScript(grid, gridDesign.getOnPageBreak(), context).didRun())
+			if (handleScript(grid, gridDesign.getOnPageBreak(), context).didRun()) {
 				return;
+			}
 			IGridEventHandler eh = getEventHandler(gridDesign, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onPageBreak(grid, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e, gridDesign.getHandle());
 		}

@@ -18,6 +18,7 @@ import org.eclipse.birt.report.engine.emitter.wpml.DocEmitter;
 
 public class DocxEmitter extends DocEmitter {
 
+	@Override
 	protected void createEmitterImplement() {
 		emitterImplement = new DocxEmitterImpl(contentVisitor);
 	}

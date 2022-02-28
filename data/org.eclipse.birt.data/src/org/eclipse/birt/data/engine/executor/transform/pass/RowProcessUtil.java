@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ import org.eclipse.birt.data.engine.impl.FilterByRow;
  */
 abstract class RowProcessUtil {
 	/**
-	 * 
+	 *
 	 */
 	protected ComputedColumnsState iccState;
 	protected ComputedColumnHelper computedColumnHelper;
@@ -42,7 +42,7 @@ abstract class RowProcessUtil {
 	protected DataEngineSession session;
 
 	/**
-	 * 
+	 *
 	 * @param populator
 	 * @param iccState
 	 * @param computedColumnHelper
@@ -60,7 +60,7 @@ abstract class RowProcessUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param model
 	 * @return
 	 * @throws DataException
@@ -90,7 +90,7 @@ abstract class RowProcessUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param computedColumns
 	 * @param isNew
 	 * @return
@@ -102,17 +102,15 @@ abstract class RowProcessUtil {
 				if (((ComputedColumn) computedColumns.get(i)).getAggregateFunction() != null) {
 					result.add(computedColumns.get(i));
 				}
-			} else {
-				if (((ComputedColumn) computedColumns.get(i)).getAggregateFunction() == null) {
-					result.add(computedColumns.get(i));
-				}
+			} else if (((ComputedColumn) computedColumns.get(i)).getAggregateFunction() == null) {
+				result.add(computedColumns.get(i));
 			}
 		}
 		return result;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param model
 	 * @throws DataException
 	 */
@@ -133,7 +131,7 @@ abstract class RowProcessUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param filterType
 	 * @param changeMaxRows
 	 * @param stopSign

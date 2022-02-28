@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ public class FileReportDocumentProvider extends DocumentProvider {
 
 	/**
 	 * Creates a new document provider.
-	 * 
+	 *
 	 */
 	public FileReportDocumentProvider() {
 		super();
@@ -49,7 +49,7 @@ public class FileReportDocumentProvider extends DocumentProvider {
 	/**
 	 * Initializes the given document from the given editor input using the given
 	 * character encoding.
-	 * 
+	 *
 	 * @param document    the document to be initialized
 	 * @param editorInput the input from which to derive the content of the document
 	 * @param encoding    the character encoding used to read the editor input
@@ -57,6 +57,7 @@ public class FileReportDocumentProvider extends DocumentProvider {
 	 *         <code>false</code> otherwise
 	 * @throws CoreException if the given editor input cannot be accessed
 	 */
+	@Override
 	protected boolean setDocumentContent(IDocument document, IEditorInput editorInput, String encoding)
 			throws CoreException {
 		InputStream stream = null;
@@ -73,7 +74,6 @@ public class FileReportDocumentProvider extends DocumentProvider {
 
 			if (moduleHandle != null) {
 				File file = new File(moduleHandle.getFileName());
-				;
 
 				if (file.exists()) {
 					try {
@@ -89,7 +89,6 @@ public class FileReportDocumentProvider extends DocumentProvider {
 				setDocumentContent(document, stream, encoding);
 				stream.close();
 				return true;
-			} catch (FileNotFoundException e) {
 			} catch (IOException e) {
 			}
 		}
@@ -98,10 +97,11 @@ public class FileReportDocumentProvider extends DocumentProvider {
 
 	/**
 	 * Returns the persisted encoding for the given element.
-	 * 
+	 *
 	 * @param element the element for which to get the persisted encoding
 	 * @return the persisted encoding
 	 */
+	@Override
 	protected String getPersistedEncoding(Object element) {
 		if (element instanceof IEncodedStorage) {
 			try {
@@ -113,10 +113,12 @@ public class FileReportDocumentProvider extends DocumentProvider {
 		return null;
 	}
 
+	@Override
 	public boolean isModifiable(Object element) {
 		return !isReadOnly(element);
 	}
 
+	@Override
 	public boolean isReadOnly(Object element) {
 		if (element instanceof IPathEditorInput) {
 			File file = ((IPathEditorInput) element).getPath().toFile();
@@ -127,11 +129,12 @@ public class FileReportDocumentProvider extends DocumentProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.DocumentProvider
 	 * #doSaveDocument(org.eclipse.core.runtime.IProgressMonitor, java.lang.Object,
 	 * org.eclipse.jface.text.IDocument, boolean)
 	 */
+	@Override
 	protected void doSaveDocument(IProgressMonitor monitor, Object element, IDocument document, boolean overwrite)
 			throws CoreException {
 		if (element instanceof IPathEditorInput) {
@@ -149,7 +152,6 @@ public class FileReportDocumentProvider extends DocumentProvider {
 				while ((length = in.read(read)) != -1) {
 					out.write(read, 0, length);
 				}
-			} catch (FileNotFoundException e) {
 			} catch (IOException e) {
 			} finally {
 				try {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
 public class MultiViewsHandle extends AbstractMultiViewsHandle implements IMultiViewsModel {
 
 	/**
-	 * 
+	 *
 	 */
 
 	private MultiViewsElementProvider provider = null;
@@ -40,7 +40,7 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle implements IMulti
 	 * Constructs a handle for the given design and design element. The application
 	 * generally does not create handles directly. Instead, it uses one of the
 	 * navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -52,17 +52,18 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle implements IMulti
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getElement()
 	 */
 
+	@Override
 	public DesignElement getElement() {
 		return element;
 	}
 
 	/**
 	 * Returns a list containing views.
-	 * 
+	 *
 	 * @return a list containing views. Each item is an
 	 *         <code>ReportItemHandle</code>.
 	 */
@@ -73,7 +74,7 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle implements IMulti
 
 	/**
 	 * Returns the view that is being used.
-	 * 
+	 *
 	 * @return the view that is being used
 	 */
 
@@ -83,19 +84,20 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle implements IMulti
 
 	/**
 	 * Sets the index for the view to be used.
-	 * 
+	 *
 	 * @param index a 0-based integer
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
+	@Override
 	public void setCurrentViewIndex(int index) throws SemanticException {
 		provider.setCurrentViewIndex(index);
 	}
 
 	/**
 	 * Adds a new element as the view.
-	 * 
+	 *
 	 * @param viewElement the element
 	 * @throws SemanticException
 	 */
@@ -107,7 +109,7 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle implements IMulti
 	/**
 	 * Deletes the given view. If the given element was named as the current view,
 	 * this method also set the current view to <code>HOST</code>.
-	 * 
+	 *
 	 * @param viewElement the view element
 	 * @throws SemanticException
 	 */

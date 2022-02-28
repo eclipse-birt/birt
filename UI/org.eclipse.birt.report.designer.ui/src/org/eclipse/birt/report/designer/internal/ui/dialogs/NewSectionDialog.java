@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 
 /**
  * This class represents new section dialog.
- * 
+ *
  */
 
 public class NewSectionDialog extends SelectionDialog {
@@ -56,7 +56,7 @@ public class NewSectionDialog extends SelectionDialog {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parent the parent
 	 */
 
@@ -68,7 +68,7 @@ public class NewSectionDialog extends SelectionDialog {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parent the parent
 	 */
 
@@ -80,10 +80,11 @@ public class NewSectionDialog extends SelectionDialog {
 
 	/**
 	 * Creates dialog area, including List prefix label, suffix label.
-	 * 
+	 *
 	 * @return the dialog area
 	 */
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.NEW_SECTION_DIALOG);
 		Composite compo = (Composite) super.createDialogArea(parent);
@@ -93,10 +94,12 @@ public class NewSectionDialog extends SelectionDialog {
 		list = new List(compo, SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		list.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				getOkButton().setEnabled(list.getSelectionCount() > 0);
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				if (list.getSelectionCount() > 0) {
 					okPressed();
@@ -115,10 +118,11 @@ public class NewSectionDialog extends SelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse
 	 * .swt.widgets.Composite)
 	 */
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
 		getOkButton().setEnabled(false);
@@ -139,6 +143,7 @@ public class NewSectionDialog extends SelectionDialog {
 	 * Stores the selection data to the result list.
 	 */
 
+	@Override
 	public void okPressed() {
 		ArrayList arrayList = new ArrayList();
 
@@ -149,7 +154,7 @@ public class NewSectionDialog extends SelectionDialog {
 
 	/**
 	 * Sets the show contents
-	 * 
+	 *
 	 * @param cons
 	 */
 	public void setContents(java.util.List cons) {

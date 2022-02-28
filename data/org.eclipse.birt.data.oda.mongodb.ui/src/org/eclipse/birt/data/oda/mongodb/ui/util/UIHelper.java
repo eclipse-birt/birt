@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ public class UIHelper {
 
 	/**
 	 * Set context-sensitive help
-	 * 
+	 *
 	 * @param control
 	 * @param contextId
 	 */
@@ -44,7 +44,7 @@ public class UIHelper {
 
 	/**
 	 * This is a convenience method to get an imgIcon from a URL.
-	 * 
+	 *
 	 * @param sPluginRelativePath The URL for the imgIcon.
 	 * @return The imgIcon represented by the given URL.
 	 * @throws IOException
@@ -78,7 +78,7 @@ public class UIHelper {
 	 * This method returns an URL for a resource given its plugin relative path. It
 	 * is intended to be used to abstract out the usage of the UI as a plugin or
 	 * standalone component when it comes to accessing resources.
-	 * 
+	 *
 	 * @param sPluginRelativePath The path to the resource relative to the plugin
 	 *                            location.
 	 * @return URL representing the location of the resource.
@@ -97,7 +97,7 @@ public class UIHelper {
 	/**
 	 * Appends the localized exception message to the specified msgKey for use as an
 	 * user error message.
-	 * 
+	 *
 	 * @param userMsgKey
 	 * @param ex
 	 * @return
@@ -105,14 +105,15 @@ public class UIHelper {
 	public static String getUserErrorMessage(String userMsgKey, Exception ex) {
 		String msg = userMsgKey != null ? Messages.getString(userMsgKey) : ""; //$NON-NLS-1$
 		String exMsg = ex.getLocalizedMessage();
-		if (exMsg != null)
+		if (exMsg != null) {
 			msg += "\n" + exMsg; //$NON-NLS-1$
+		}
 		return msg;
 	}
 
 	/**
 	 * Utility method to get the warning icon.
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -122,7 +123,7 @@ public class UIHelper {
 
 	/**
 	 * Utility method to get the button image of "Validate Syntax".
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -132,7 +133,7 @@ public class UIHelper {
 
 	/**
 	 * Utility method to get the item icon of a collection.
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -142,7 +143,7 @@ public class UIHelper {
 
 	/**
 	 * Utility method to get the item icon of a field.
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -152,7 +153,7 @@ public class UIHelper {
 
 	/**
 	 * Utility method to get the item icon of a document that has not been selected.
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -162,7 +163,7 @@ public class UIHelper {
 
 	/**
 	 * Utility method to get the item icon of a document that has been selected.
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -172,7 +173,7 @@ public class UIHelper {
 
 	/**
 	 * Utility method to get the item icon of a field that has been selected.
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -182,7 +183,7 @@ public class UIHelper {
 
 	/**
 	 * Utility method to get the button image of "Validate Syntax".
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -192,7 +193,7 @@ public class UIHelper {
 
 	/**
 	 * Test the text to see if it can be parsed to an integer.
-	 * 
+	 *
 	 * @param text
 	 * @return
 	 */
@@ -206,7 +207,7 @@ public class UIHelper {
 
 	/**
 	 * Test the text to see if it can be parsed to an integer.
-	 * 
+	 *
 	 * @param text
 	 * @return
 	 */
@@ -220,7 +221,7 @@ public class UIHelper {
 
 	/**
 	 * Test the text to see if it is empty
-	 * 
+	 *
 	 * @param text
 	 * @return
 	 */

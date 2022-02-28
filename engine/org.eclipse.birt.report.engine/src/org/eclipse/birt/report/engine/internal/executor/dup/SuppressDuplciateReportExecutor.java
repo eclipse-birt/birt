@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,9 +34,10 @@ public class SuppressDuplciateReportExecutor extends WrappedReportExecutor {
 	public SuppressDuplciateReportExecutor(IReportExecutor executor) {
 		super(executor);
 		this.executors = new FastPool();
-		;
+
 	}
 
+	@Override
 	public IReportContent execute() throws BirtException {
 		if (report == null) {
 			report = super.execute();
@@ -53,10 +54,12 @@ public class SuppressDuplciateReportExecutor extends WrappedReportExecutor {
 		return suppressUtil.suppressDuplicate(content);
 	}
 
+	@Override
 	public IReportItemExecutor createPageExecutor(long pageNumber, MasterPageDesign pageDesign) throws BirtException {
 		return reportExecutor.createPageExecutor(pageNumber, pageDesign);
 	}
 
+	@Override
 	protected IReportItemExecutor createWrappedExecutor(IReportItemExecutor executor) {
 		SuppressDuplicateItemExecutor wrappedExecutor = null;
 		if (executors.isEmpty()) {
@@ -68,6 +71,7 @@ public class SuppressDuplciateReportExecutor extends WrappedReportExecutor {
 		return wrappedExecutor;
 	}
 
+	@Override
 	protected void closeWrappedExecutor(IReportItemExecutor executor) {
 		executors.add(executor);
 	}

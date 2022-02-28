@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * Represents the ULocale property type. ULocale property values are stored as
  * <code>com.ibm.icu.util.ULocale</code> objects.
- * 
+ *
  */
 public class ULocalePropertyType extends PropertyType {
 
@@ -43,18 +43,20 @@ public class ULocalePropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#getName()
 	 */
+	@Override
 	public String getName() {
 		return LOCALE_TYPE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#getTypeCode()
 	 */
+	@Override
 	public int getTypeCode() {
 
 		return LOCALE_TYPE;
@@ -62,17 +64,20 @@ public class ULocalePropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#toString(org.eclipse
 	 * .birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
+	@Override
 	public String toString(Module module, PropertyDefn defn, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
-		if (value instanceof String)
+		if (value instanceof String) {
 			return (String) value;
+		}
 
 		return ((ULocale) value).toString();
 
@@ -80,23 +85,27 @@ public class ULocalePropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
 	 * .eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
+	@Override
 	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 		if (value instanceof String) {
-			if (StringUtil.isBlank((String) value))
+			if (StringUtil.isBlank((String) value)) {
 				return null;
+			}
 			return new ULocale(((String) value).trim());
 		}
-		if (value instanceof ULocale)
+		if (value instanceof ULocale) {
 			return value;
+		}
 
 		throw new PropertyValueException(value, PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, LOCALE_TYPE);
 

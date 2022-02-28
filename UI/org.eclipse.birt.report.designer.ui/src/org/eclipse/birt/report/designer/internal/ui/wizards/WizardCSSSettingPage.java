@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,13 +45,13 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 /**
- * 
+ *
  */
 
 public class WizardCSSSettingPage extends WizardPage {
 
-	String CSS_FILE_EXTENSIONS[] = new String[] { "*.css;*.CSS" }; //$NON-NLS-1$
-	String CSS_FILE_END[] = new String[] { "css", "CSS" }; //$NON-NLS-1$ //$NON-NLS-2$
+	String CSS_FILE_EXTENSIONS[] = { "*.css;*.CSS" }; //$NON-NLS-1$
+	String CSS_FILE_END[] = { "css", "CSS" }; //$NON-NLS-1$ //$NON-NLS-2$
 	private static String LABEL_FILE_NAME = Messages.getString("PublishCSSDialog.Label.FileName"); //$NON-NLS-1$
 
 	private static String LABEL_SOURCE_FILE_NAME = Messages.getString("PublishCSSDialog.Label.SourceFileName"); //$NON-NLS-1$
@@ -92,7 +92,7 @@ public class WizardCSSSettingPage extends WizardPage {
 
 	public String getSourceFileName() {
 		if (sourceFileText != null
-//				&& handle == null 
+//				&& handle == null
 		) {
 			return sourceFileText.getText();
 		}
@@ -151,11 +151,12 @@ public class WizardCSSSettingPage extends WizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	public void createControl(Composite parent) {
 
 //		if(handle == null)
@@ -182,6 +183,7 @@ public class WizardCSSSettingPage extends WizardPage {
 			sourceFileText = createText(container, 1, style);
 			sourceFileText.addModifyListener(new ModifyListener() {
 
+				@Override
 				public void modifyText(ModifyEvent e) {
 					checkStatus();
 				}
@@ -191,6 +193,7 @@ public class WizardCSSSettingPage extends WizardPage {
 			chooseBtn.setText(BUTTON_BROWSE2);
 			chooseBtn.addSelectionListener(new SelectionListener() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					String sourceFileName = getFilePath();
 					if (sourceFileName != null) {
@@ -200,6 +203,7 @@ public class WizardCSSSettingPage extends WizardPage {
 					}
 				}
 
+				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 
 				}
@@ -217,6 +221,7 @@ public class WizardCSSSettingPage extends WizardPage {
 
 		nameText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				checkStatus();
 			}
@@ -230,6 +235,7 @@ public class WizardCSSSettingPage extends WizardPage {
 		}
 		folderText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				checkStatus();
 			}
@@ -239,6 +245,7 @@ public class WizardCSSSettingPage extends WizardPage {
 		chooseBtn.setText(BUTTON_BROWSE);
 		chooseBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 
 				ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog(false);
@@ -259,6 +266,7 @@ public class WizardCSSSettingPage extends WizardPage {
 				}
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -271,7 +279,7 @@ public class WizardCSSSettingPage extends WizardPage {
 
 	public void checkStatus() {
 		// Initialize a variable with the no error status
-		Status status = null;
+		Status status;
 //		if ( handle == null )
 //		{
 		status = new Status(IStatus.OK, PLUGIN_ID, 0, pageDefaultDesc, null);
@@ -290,7 +298,8 @@ public class WizardCSSSettingPage extends WizardPage {
 		(new File(sourceFileText.getText()).isDirectory() || !new File(sourceFileText.getText()).exists())) {
 			status = new Status(IStatus.ERROR, PLUGIN_ID, 0,
 					Messages.getFormattedString("PublishCSSDialog.Error.FileNotFound", //$NON-NLS-1$
-							new String[] { sourceFileText.getText() }), null);
+							new String[] { sourceFileText.getText() }),
+					null);
 		} else if (isTextEmpty(nameText)) {
 			status = new Status(IStatus.ERROR, PLUGIN_ID, 0,
 					Messages.getString("PublishCSSDialog.Message.FileNameEmpty"), //$NON-NLS-1$
@@ -317,8 +326,9 @@ public class WizardCSSSettingPage extends WizardPage {
 	 */
 	private void applyToStatusLine(IStatus status) {
 		String message = status.getMessage();
-		if (message.length() == 0)
+		if (message.length() == 0) {
 			message = pageDefaultDesc;
+		}
 		switch (status.getSeverity()) {
 		case IStatus.OK:
 			setErrorMessage(null);
@@ -337,8 +347,9 @@ public class WizardCSSSettingPage extends WizardPage {
 
 	private static boolean isTextEmpty(Text text) {
 		String s = text.getText();
-		if ((s != null) && (s.trim().length() > 0))
+		if ((s != null) && (s.trim().length() > 0)) {
 			return false;
+		}
 		return true;
 	}
 
@@ -361,6 +372,7 @@ public class WizardCSSSettingPage extends WizardPage {
 
 	private class Validator implements ISelectionStatusValidator {
 
+		@Override
 		public IStatus validate(Object[] selection) {
 			int nSelected = selection.length;
 			if (nSelected == 0 || nSelected > 1) {

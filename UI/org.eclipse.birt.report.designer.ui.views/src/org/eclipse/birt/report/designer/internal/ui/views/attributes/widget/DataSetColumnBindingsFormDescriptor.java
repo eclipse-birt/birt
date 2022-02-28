@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,15 +43,17 @@ public class DataSetColumnBindingsFormDescriptor extends SortingFormPropertyDesc
 		super.setButtonWithDialog(false);
 	}
 
+	@Override
 	public void setDescriptorProvider(IDescriptorProvider provider) {
 		super.setDescriptorProvider(provider);
-		if (provider instanceof AbstractDatasetSortingFormHandleProvider)
+		if (provider instanceof AbstractDatasetSortingFormHandleProvider) {
 			this.provider = (AbstractDatasetSortingFormHandleProvider) provider;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage
 	 * #createControl()
@@ -60,42 +62,48 @@ public class DataSetColumnBindingsFormDescriptor extends SortingFormPropertyDesc
 	protected Button btnRefresh;
 	protected Button btnClear;
 
+	@Override
 	public Control createControl(Composite parent) {
 		Control control = super.createControl(parent);
 		provider.setTableViewer(getTableViewer());
 
-		if (isFormStyle())
+		if (isFormStyle()) {
 			btnClear = FormWidgetFactory.getInstance().createButton((Composite) control, "", SWT.PUSH); //$NON-NLS-1$
-		else
+		} else {
 			btnClear = new Button((Composite) control, SWT.PUSH);
+		}
 
 		btnClear.setText(Messages.getString("FormPage.Button.Binding.Clear")); //$NON-NLS-1$
 		btnClear.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleClearSelectEvent();
 			}
 		});
 		btnClear.setEnabled(true);
 
-		if (isFormStyle())
+		if (isFormStyle()) {
 			btnRefresh = FormWidgetFactory.getInstance().createButton((Composite) control, "", SWT.PUSH); //$NON-NLS-1$
-		else
+		} else {
 			btnRefresh = new Button((Composite) control, SWT.PUSH);
+		}
 
 		btnRefresh.setText(Messages.getString("FormPage.Button.Binding.Refresh")); //$NON-NLS-1$
 		btnRefresh.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleRefreshSelectEvent();
 			}
 		});
 		btnRefresh.setEnabled(true);
 
-		if (getStyle() == FULL_FUNCTION_HORIZONTAL)
+		if (getStyle() == FULL_FUNCTION_HORIZONTAL) {
 			fullLayoutHorizontal();
-		else
+		} else {
 			fullLayout();
+		}
 
 		return control;
 	}
@@ -110,11 +118,12 @@ public class DataSetColumnBindingsFormDescriptor extends SortingFormPropertyDesc
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage
 	 * #fullLayout()
 	 */
+	@Override
 	protected void fullLayoutHorizontal() {
 		super.fullLayoutHorizontal();
 
@@ -157,6 +166,7 @@ public class DataSetColumnBindingsFormDescriptor extends SortingFormPropertyDesc
 
 	}
 
+	@Override
 	protected void fullLayout() {
 		super.fullLayout();
 		FormData data = new FormData();
@@ -183,28 +193,32 @@ public class DataSetColumnBindingsFormDescriptor extends SortingFormPropertyDesc
 
 	}
 
+	@Override
 	protected void updateArraw() {
 		super.updateArraw();
 		if (provider.isEnable() && provider.isEditable()) {
-			if (table.getItemCount() > 0)
+			if (table.getItemCount() > 0) {
 				btnClear.setEnabled(provider.isClearEnable());
-			else
+			} else {
 				btnClear.setEnabled(false);
+			}
 		} else {
 			btnClear.setEnabled(false);
 		}
 	}
 
+	@Override
 	public void setInput(Object object) {
 		super.setInput(object);
 		if (DEUtil.getInputSize(object) > 0 && DEUtil.getInputFirstElement(object) instanceof DesignElementHandle) {
 			Object element = DEUtil.getInputFirstElement(object);
 			setBindingObject((DesignElementHandle) element);
 		}
-		if (provider.isEnable() && provider.isEditable())
+		if (provider.isEnable() && provider.isEditable()) {
 			btnRefresh.setEnabled(true);
-		else
+		} else {
 			btnRefresh.setEnabled(false);
+		}
 
 	}
 

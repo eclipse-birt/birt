@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,7 +61,7 @@ public class ImageManager {
 
 	/**
 	 * Gets the instance of the image manager
-	 * 
+	 *
 	 * @return Returns the instanceof the image manager
 	 */
 	public static ImageManager getInstance() {
@@ -70,7 +70,7 @@ public class ImageManager {
 
 	/**
 	 * Gets the image by the given ModuleHandle and URI
-	 * 
+	 *
 	 * @param handle
 	 * @param uri
 	 * @return
@@ -81,7 +81,7 @@ public class ImageManager {
 
 	/**
 	 * Gets the image by the given ModuleHandle and URI
-	 * 
+	 *
 	 * @param handle
 	 * @param uri
 	 * @param refresh
@@ -103,10 +103,7 @@ public class ImageManager {
 	}
 
 	private Image getImageFromURL(URL url, boolean refresh) throws IOException {
-		if (url == null) {
-			return null;
-		}
-		if (!refresh && invalidUrlList.contains(url.toString())) {
+		if ((url == null) || (!refresh && invalidUrlList.contains(url.toString()))) {
 			return null;
 		}
 		String key = url.toString();
@@ -126,9 +123,9 @@ public class ImageManager {
 
 	/**
 	 * Gets the image by the given URI
-	 * 
+	 *
 	 * @param uri the url of the image file
-	 * 
+	 *
 	 * @return Returns the image,or null if the url is invalid or the file format is
 	 *         unsupported.
 	 */
@@ -138,7 +135,7 @@ public class ImageManager {
 
 	/**
 	 * Get image from URI
-	 * 
+	 *
 	 * @param uri URI
 	 * @return The image gotten
 	 */
@@ -148,9 +145,9 @@ public class ImageManager {
 
 	/**
 	 * Gets the embedded image
-	 * 
+	 *
 	 * @param embeddedImage the embedded image data
-	 * 
+	 *
 	 * @return Returns the image,or null if the embedded image doesn't exist.
 	 */
 	public Image getEmbeddedImage(ModuleHandle handle, String name) {
@@ -196,7 +193,7 @@ public class ImageManager {
 			}
 			ImageData[] datas = new ImageLoader().load(in);
 			if (datas != null && datas.length != 0) {
-				ImageData cur = null;
+				ImageData cur;
 				// if (datas.length == 1)
 				// {
 				// cur = datas[0];
@@ -233,7 +230,7 @@ public class ImageManager {
 
 	/**
 	 * Remove cached image from map
-	 * 
+	 *
 	 * @param key The key of map.
 	 */
 	public void removeCachedImage(String key) {
@@ -245,7 +242,7 @@ public class ImageManager {
 
 	/**
 	 * Loads the image into the image registry by the given URI
-	 * 
+	 *
 	 * @param uri the URI of the image to load
 	 * @return Returns the image if it loaded correctly
 	 * @throws IOException
@@ -260,7 +257,7 @@ public class ImageManager {
 
 	/**
 	 * Reload the image, refresh the cache.
-	 * 
+	 *
 	 * @param designHandle
 	 * @param uri
 	 * @return
@@ -327,7 +324,7 @@ public class ImageManager {
 			}
 			ImageData[] datas = new ImageLoader().load(in);
 			if (datas != null && datas.length != 0) {
-				ImageData cur = null;
+				ImageData cur;
 				// if (datas.length == 1)
 				// {
 				// cur = datas[0];
@@ -381,7 +378,7 @@ public class ImageManager {
 
 	/**
 	 * Generate hash key.
-	 * 
+	 *
 	 * @param reportDesignHandle Moudle handle
 	 * @param name               Name
 	 * @return key string
@@ -392,7 +389,7 @@ public class ImageManager {
 
 	/**
 	 * Reload the URI image, refresh the cache.
-	 * 
+	 *
 	 * @param moduleHandel
 	 * @param uri
 	 * @return
@@ -442,7 +439,7 @@ public class ImageManager {
 
 	/**
 	 * Get image from URI
-	 * 
+	 *
 	 * @param moduleHandel
 	 * @param uri
 	 * @return

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataException;
 
 /**
  * Reports an error during a user property operation.
- * 
+ *
  */
 
 public class UserPropertyException extends SemanticException {
@@ -120,7 +120,7 @@ public class UserPropertyException extends SemanticException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param obj     the element to be changed.
 	 * @param name    the name of the user property.
 	 * @param errCode what went wrong.
@@ -133,7 +133,7 @@ public class UserPropertyException extends SemanticException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param obj     the element to be changed
 	 * @param name    the name of the user property
 	 * @param errCode the error code
@@ -147,7 +147,7 @@ public class UserPropertyException extends SemanticException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param obj     the element to be changed
 	 * @param name    the name of the user property
 	 * @param errCode the error code
@@ -162,7 +162,7 @@ public class UserPropertyException extends SemanticException {
 
 	/**
 	 * Gets the name of the property that caused the problem.
-	 * 
+	 *
 	 * @return the property name.
 	 */
 
@@ -172,9 +172,10 @@ public class UserPropertyException extends SemanticException {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
+	@Override
 	public String getLocalizedMessage() {
 		if (sResourceKey == DESIGN_EXCEPTION_NOT_FOUND || sResourceKey == DESIGN_EXCEPTION_DUPLICATE_NAME
 				|| sResourceKey == DESIGN_EXCEPTION_INVALID_DISPLAY_ID

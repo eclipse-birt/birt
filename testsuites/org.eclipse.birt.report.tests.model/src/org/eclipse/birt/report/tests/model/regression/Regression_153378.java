@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,18 +43,20 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * Add a label, set its key to the value which are in/not in .properties file.
  * Check the display text for label
- * 
+ *
  */
 public class Regression_153378 extends BaseTestCase {
 
 	private String filename = "Regression_153378.xml"; //$NON-NLS-1$
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
 		copyResource_INPUT(filename, filename);
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}

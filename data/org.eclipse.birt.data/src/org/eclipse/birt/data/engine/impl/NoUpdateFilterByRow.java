@@ -36,18 +36,20 @@ public class NoUpdateFilterByRow implements IFilterByRow {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.FilterByRow#process(org.eclipse.birt
 	 * .data.engine.odi.IResultObject, int)
 	 */
+	@Override
 	public boolean process(IResultObject row, int rowIndex) throws DataException {
 		boolean accepted = filterByRow.process(row, rowIndex);
 
 		if (updateGroupInfo) {
-			if (accepted)
+			if (accepted) {
 				rowFilter.onGroup(rowIndex);
-			else
+			} else {
 				rowFilter.notOnGroup(rowIndex);
+			}
 		}
 
 		return accepted;
@@ -57,6 +59,7 @@ public class NoUpdateFilterByRow implements IFilterByRow {
 		this.updateGroupInfo = updateGroup;
 	}
 
+	@Override
 	public void close() throws DataException {
 		filterByRow.setWorkingFilterSet(FilterByRow.NO_FILTER);
 		filterByRow.close();
@@ -67,18 +70,20 @@ public class NoUpdateFilterByRow implements IFilterByRow {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.IFilterByRow#getFilterList()
 	 */
+	@Override
 	public List<IFilterDefinition> getFilterList() throws DataException {
 		return filterByRow.getFilterList();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.IFilterByRow#setWorkingFilterSet(int)
 	 */
+	@Override
 	public void setWorkingFilterSet(int filterSetType) throws DataException {
 		filterByRow.setWorkingFilterSet(filterSetType);
 	}

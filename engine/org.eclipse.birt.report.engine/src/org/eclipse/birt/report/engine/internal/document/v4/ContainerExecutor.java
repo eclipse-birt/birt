@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.eclipse.birt.report.engine.presentation.InstanceIndex;
  * segment starts from the first child. The second index of the segment may be
  * Segment.RIGHT_MOST_EDGE, which means it ends to the last children.
  * </p>
- * 
+ *
  * <p>
  * To create the child executor, the container needs:
  * <ul>
@@ -50,7 +50,7 @@ import org.eclipse.birt.report.engine.presentation.InstanceIndex;
  * <ul>
  * <li>If there exits the next content, use the content.
  * <li>otherwise,
- * 
+ *
  */
 abstract public class ContainerExecutor extends ReportItemExecutor {
 	/**
@@ -84,6 +84,7 @@ abstract public class ContainerExecutor extends ReportItemExecutor {
 		nextOffset = -1;
 	}
 
+	@Override
 	public void close() {
 		if (nextOffset != -1) {
 			reader.unloadContent(nextOffset);
@@ -100,6 +101,7 @@ abstract public class ContainerExecutor extends ReportItemExecutor {
 
 	private IReportItemExecutor childExecutor;
 
+	@Override
 	public boolean hasNextChild() {
 		if (needPrepareNext) {
 			try {
@@ -114,6 +116,7 @@ abstract public class ContainerExecutor extends ReportItemExecutor {
 		return childExecutor != null;
 	}
 
+	@Override
 	public IReportItemExecutor getNextChild() {
 		if (hasNextChild()) {
 			needPrepareNext = true;
@@ -228,10 +231,10 @@ abstract public class ContainerExecutor extends ReportItemExecutor {
 
 	/**
 	 * adjust the nextItem to the nextContent.
-	 * 
+	 *
 	 * before call this method, both the nextContent and the nextFragment can't be
 	 * NULL.
-	 * 
+	 *
 	 * @return
 	 */
 	abstract protected void doSkipToExecutor(InstanceID id, long offset) throws Exception;

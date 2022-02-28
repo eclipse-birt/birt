@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ public class PPTXUtil {
 	/**
 	 * The default will be solid, double is not implemented as cell does not support
 	 * it
-	 * 
+	 *
 	 * @param style
 	 * @return
 	 */
@@ -71,6 +71,8 @@ public class PPTXUtil {
 		if (cssDimension == null || "0".equals(cssDimension)) {
 			return 0;
 		}
-		return convertToEnums(DimensionType.parserUnit(cssDimension).convertTo(DimensionType.UNITS_PT) * 1000);
+
+		DimensionType dimensionType = DimensionType.parserUnit(cssDimension);
+		return dimensionType != null ? convertToEnums(dimensionType.convertTo(DimensionType.UNITS_PT) * 1000) : 0;
 	}
 }

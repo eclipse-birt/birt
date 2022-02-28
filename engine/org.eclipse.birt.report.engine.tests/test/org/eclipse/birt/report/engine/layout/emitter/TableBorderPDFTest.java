@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,8 +19,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.report.engine.layout.emitter.TableBorderEx.Border;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorderEx.BorderSegment;
 
@@ -29,6 +27,8 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
+
+import junit.framework.TestCase;
 
 class CellArea {
 	int x;
@@ -84,6 +84,7 @@ public class TableBorderPDFTest extends TestCase {
 	int pageHeight = 1000;
 	int pageWidth = 1000;
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -132,9 +133,7 @@ public class TableBorderPDFTest extends TestCase {
 			// step 4: we grab the ContentByte and do some stuff with it
 			cb = writer.getDirectContent();
 			testBorderDraw();
-		} catch (DocumentException de) {
-			System.err.println(de.getMessage());
-		} catch (IOException ioe) {
+		} catch (DocumentException | IOException ioe) {
 			System.err.println(ioe.getMessage());
 		}
 

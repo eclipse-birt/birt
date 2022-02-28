@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +17,7 @@ package org.eclipse.birt.data.engine.olap.cursor;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 
 /**
- * 
+ *
  *
  */
 public class ResultSetFetcher {
@@ -26,7 +26,7 @@ public class ResultSetFetcher {
 	private int[] levelKeyColCount = null;
 
 	/**
-	 * 
+	 *
 	 * @param rs
 	 */
 	public ResultSetFetcher(IAggregationResultSet rs) {
@@ -39,7 +39,7 @@ public class ResultSetFetcher {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param levelIndex
 	 * @param attr
 	 * @return
@@ -47,16 +47,15 @@ public class ResultSetFetcher {
 	public Object getValue(int levelIndex, int attr) {
 		if (attr >= levelKeyColCount[levelIndex]) {
 			return rs.getLevelAttribute(levelIndex, attr - levelKeyColCount[levelIndex]);
+		} else if (rs.getLevelKeyValue(levelIndex) == null) {
+			return null;
 		} else {
-			if (rs.getLevelKeyValue(levelIndex) == null)
-				return null;
-			else
-				return rs.getLevelKeyValue(levelIndex)[attr];
+			return rs.getLevelKeyValue(levelIndex)[attr];
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param levelIndex
 	 * @param attrName
 	 * @return
@@ -74,7 +73,7 @@ public class ResultSetFetcher {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param levelIndex
 	 * @return
 	 */
@@ -83,7 +82,7 @@ public class ResultSetFetcher {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public IAggregationResultSet getAggrResultSet() {

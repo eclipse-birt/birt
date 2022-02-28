@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ public class HideRuleHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of visibility rule.
-	 * 
+	 *
 	 * @param valueHandle the value handle for visibility rule list of one property
 	 * @param index       the position of this visibility rule in the list
 	 */
@@ -55,9 +55,9 @@ public class HideRuleHandle extends StructureHandle {
 	 * <li><code>FORMAT_TYPE_WORD</code>
 	 * <li><code>FORMAT_TYPE_POWERPOINT</code>
 	 * </ul>
-	 * 
+	 *
 	 * Or can be user defined format.
-	 * 
+	 *
 	 * @return the output format of this visibility rule
 	 */
 
@@ -82,9 +82,9 @@ public class HideRuleHandle extends StructureHandle {
 	 * <li><code>FORMAT_TYPE_WORD</code>
 	 * <li><code>FORMAT_TYPE_POWERPOINT</code>
 	 * </ul>
-	 * 
+	 *
 	 * Or can be user defined format.
-	 * 
+	 *
 	 * @param format the output format to set
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -95,7 +95,7 @@ public class HideRuleHandle extends StructureHandle {
 
 	/**
 	 * Returns the value expression of this visibility rule.
-	 * 
+	 *
 	 * @return the value expression of this visibility rule
 	 */
 
@@ -105,7 +105,7 @@ public class HideRuleHandle extends StructureHandle {
 
 	/**
 	 * Sets the value expression of this visibility rule.
-	 * 
+	 *
 	 * @param expression the value expression to set
 	 */
 

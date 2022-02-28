@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -65,7 +65,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the index value for this ColumnDefinition.
-	 * 
+	 *
 	 * @return index
 	 */
 	public java.lang.Integer getIndex() {
@@ -74,7 +74,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the index value for this ColumnDefinition.
-	 * 
+	 *
 	 * @param index
 	 */
 	public void setIndex(java.lang.Integer index) {
@@ -83,7 +83,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the iid value for this ColumnDefinition.
-	 * 
+	 *
 	 * @return iid
 	 */
 	public java.lang.String getIid() {
@@ -92,7 +92,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the iid value for this ColumnDefinition.
-	 * 
+	 *
 	 * @param iid
 	 */
 	public void setIid(java.lang.String iid) {
@@ -101,7 +101,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the header value for this ColumnDefinition.
-	 * 
+	 *
 	 * @return header
 	 */
 	public java.lang.String getHeader() {
@@ -110,7 +110,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the header value for this ColumnDefinition.
-	 * 
+	 *
 	 * @param header
 	 */
 	public void setHeader(java.lang.String header) {
@@ -119,7 +119,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the dataType value for this ColumnDefinition.
-	 * 
+	 *
 	 * @return dataType
 	 */
 	public java.lang.Integer getDataType() {
@@ -128,7 +128,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the dataType value for this ColumnDefinition.
-	 * 
+	 *
 	 * @param dataType
 	 */
 	public void setDataType(java.lang.Integer dataType) {
@@ -137,7 +137,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the expr value for this ColumnDefinition.
-	 * 
+	 *
 	 * @return expr
 	 */
 	public java.lang.String getExpr() {
@@ -146,7 +146,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the expr value for this ColumnDefinition.
-	 * 
+	 *
 	 * @param expr
 	 */
 	public void setExpr(java.lang.String expr) {
@@ -155,7 +155,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the newIndex value for this ColumnDefinition.
-	 * 
+	 *
 	 * @return newIndex
 	 */
 	public java.lang.Integer getNewIndex() {
@@ -164,7 +164,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the newIndex value for this ColumnDefinition.
-	 * 
+	 *
 	 * @param newIndex
 	 */
 	public void setNewIndex(java.lang.Integer newIndex) {
@@ -173,7 +173,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the isGrouped value for this ColumnDefinition.
-	 * 
+	 *
 	 * @return isGrouped
 	 */
 	public java.lang.Boolean getIsGrouped() {
@@ -182,7 +182,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the isGrouped value for this ColumnDefinition.
-	 * 
+	 *
 	 * @param isGrouped
 	 */
 	public void setIsGrouped(java.lang.Boolean isGrouped) {
@@ -191,7 +191,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the sortDir value for this ColumnDefinition.
-	 * 
+	 *
 	 * @return sortDir
 	 */
 	public org.eclipse.birt.report.soapengine.api.SortingDirection getSortDir() {
@@ -200,7 +200,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the sortDir value for this ColumnDefinition.
-	 * 
+	 *
 	 * @param sortDir
 	 */
 	public void setSortDir(org.eclipse.birt.report.soapengine.api.SortingDirection sortDir) {
@@ -209,7 +209,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the aggregate value for this ColumnDefinition.
-	 * 
+	 *
 	 * @return aggregate
 	 */
 	public org.eclipse.birt.report.soapengine.api.AggregateDefinition[] getAggregate() {
@@ -218,7 +218,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the aggregate value for this ColumnDefinition.
-	 * 
+	 *
 	 * @param aggregate
 	 */
 	public void setAggregate(org.eclipse.birt.report.soapengine.api.AggregateDefinition[] aggregate) {
@@ -235,7 +235,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the font value for this ColumnDefinition.
-	 * 
+	 *
 	 * @return font
 	 */
 	public org.eclipse.birt.report.soapengine.api.Font getFont() {
@@ -244,7 +244,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the font value for this ColumnDefinition.
-	 * 
+	 *
 	 * @param font
 	 */
 	public void setFont(org.eclipse.birt.report.soapengine.api.Font font) {
@@ -253,7 +253,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the format value for this ColumnDefinition.
-	 * 
+	 *
 	 * @return format
 	 */
 	public org.eclipse.birt.report.soapengine.api.Format getFormat() {
@@ -262,7 +262,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the format value for this ColumnDefinition.
-	 * 
+	 *
 	 * @param format
 	 */
 	public void setFormat(org.eclipse.birt.report.soapengine.api.Format format) {
@@ -271,7 +271,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the properties value for this ColumnDefinition.
-	 * 
+	 *
 	 * @return properties
 	 */
 	public org.eclipse.birt.report.soapengine.api.ColumnProperties getProperties() {
@@ -280,7 +280,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the properties value for this ColumnDefinition.
-	 * 
+	 *
 	 * @param properties
 	 */
 	public void setProperties(org.eclipse.birt.report.soapengine.api.ColumnProperties properties) {
@@ -289,7 +289,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the formatRuleSet value for this ColumnDefinition.
-	 * 
+	 *
 	 * @return formatRuleSet
 	 */
 	public org.eclipse.birt.report.soapengine.api.FormatRuleSet getFormatRuleSet() {
@@ -298,7 +298,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the formatRuleSet value for this ColumnDefinition.
-	 * 
+	 *
 	 * @param formatRuleSet
 	 */
 	public void setFormatRuleSet(org.eclipse.birt.report.soapengine.api.FormatRuleSet formatRuleSet) {
@@ -307,7 +307,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the boundDataColumn value for this ColumnDefinition.
-	 * 
+	 *
 	 * @return boundDataColumn
 	 */
 	public org.eclipse.birt.report.soapengine.api.BoundDataColumn getBoundDataColumn() {
@@ -316,7 +316,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the boundDataColumn value for this ColumnDefinition.
-	 * 
+	 *
 	 * @param boundDataColumn
 	 */
 	public void setBoundDataColumn(org.eclipse.birt.report.soapengine.api.BoundDataColumn boundDataColumn) {
@@ -325,14 +325,18 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof ColumnDefinition))
+		if (!(obj instanceof ColumnDefinition)) {
 			return false;
+		}
 		ColumnDefinition other = (ColumnDefinition) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -373,6 +377,7 @@ public class ColumnDefinition implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

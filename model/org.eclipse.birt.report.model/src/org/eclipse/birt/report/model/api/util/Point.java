@@ -42,7 +42,7 @@ public class Point {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param x the x position or width
 	 * @param y the y position or width
 	 */
@@ -54,7 +54,7 @@ public class Point {
 
 	/**
 	 * Returns whether the point is empty.
-	 * 
+	 *
 	 * @return true if the point is (0,0) or the size is empty.
 	 */
 

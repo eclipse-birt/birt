@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,27 +50,29 @@ public class DimensionJoinCondition extends PropertyStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.
 	 * model.api.SimpleValueHandle, int)
 	 */
+	@Override
 	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new DimensionJoinConditionHandle(valueHandle, index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.core.IStructure#getStructName()
 	 */
+	@Override
 	public String getStructName() {
 		return DIMENSION_JOIN_CONDITION_STRUCT;
 	}
 
 	/**
 	 * Sets the cube key.
-	 * 
+	 *
 	 * @param cubeKey the key to set
 	 */
 	public void setCubeKey(String cubeKey) {
@@ -79,7 +81,7 @@ public class DimensionJoinCondition extends PropertyStructure {
 
 	/**
 	 * Gets the cube key of this join condition.
-	 * 
+	 *
 	 * @return the cube key in this join condition
 	 */
 	public String getCubeKey() {
@@ -88,7 +90,7 @@ public class DimensionJoinCondition extends PropertyStructure {
 
 	/**
 	 * Sets the hierarchy key.
-	 * 
+	 *
 	 * @param hierarchyKey the key to set
 	 */
 	public void setHierarchyKey(String hierarchyKey) {
@@ -97,7 +99,7 @@ public class DimensionJoinCondition extends PropertyStructure {
 
 	/**
 	 * Gets the hierarchy key of this join condition.
-	 * 
+	 *
 	 * @return the hierarchy key in this join condition
 	 */
 	public String getHierarchyKey() {

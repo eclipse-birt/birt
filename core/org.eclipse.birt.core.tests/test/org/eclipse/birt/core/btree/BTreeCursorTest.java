@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,10 +26,10 @@ public class BTreeCursorTest extends TestCase {
 	public void testCursor() throws Exception {
 		new File("./utest/btree.dat").delete();
 		FileBTreeFile file = new FileBTreeFile("./utest/btree.dat");
-		try {
-			BTreeOption<Integer, String> option = new BTreeOption<Integer, String>();
+		try (file) {
+			BTreeOption<Integer, String> option = new BTreeOption<>();
 			option.setFile(file, true);
-			BTree<Integer, String> btree = new BTree<Integer, String>(option);
+			BTree<Integer, String> btree = new BTree<>(option);
 
 			try {
 				BTreeCursor<Integer, String> cursor = btree.createCursor();
@@ -44,7 +44,7 @@ public class BTreeCursorTest extends TestCase {
 				btree.close();
 			}
 
-			btree = new BTree<Integer, String>(option);
+			btree = new BTree<>(option);
 			try {
 				BTreeCursor<Integer, String> cursor = btree.createCursor();
 				try {
@@ -58,8 +58,6 @@ public class BTreeCursorTest extends TestCase {
 			} finally {
 				btree.close();
 			}
-		} finally {
-			file.close();
 		}
 	}
 

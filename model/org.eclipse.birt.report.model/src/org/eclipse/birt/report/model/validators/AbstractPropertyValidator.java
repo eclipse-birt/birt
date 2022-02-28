@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ public abstract class AbstractPropertyValidator extends AbstractSemanticValidato
 
 	/**
 	 * Validates the specific property of the given element in report.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param element  the given element to validate
 	 * @param propName name of the property to validate

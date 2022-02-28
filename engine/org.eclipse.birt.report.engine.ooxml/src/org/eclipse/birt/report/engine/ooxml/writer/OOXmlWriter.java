@@ -36,7 +36,7 @@ public class OOXmlWriter extends XMLWriter {
 	}
 
 	protected String escapeAttrValue(String s) {
-		StringBuffer result = null;
+		StringBuilder result = null;
 		char[] s2char = s.toCharArray();
 
 		for (int i = 0, max = s2char.length, delta = 0; i < max; i++) {
@@ -60,7 +60,7 @@ public class OOXmlWriter extends XMLWriter {
 			}
 			if (replacement != null) {
 				if (result == null) {
-					result = new StringBuffer(s);
+					result = new StringBuilder(s);
 				}
 				result.replace(i + delta, i + delta + 1, replacement);
 				delta += (replacement.length() - 1);
@@ -72,6 +72,7 @@ public class OOXmlWriter extends XMLWriter {
 		return result.toString();
 	}
 
+	@Override
 	public void attribute(String attrName, String attrValue) {
 		if (attrValue != null) {
 			print(' ');

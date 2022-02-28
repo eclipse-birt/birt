@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
 
 /**
- * 
+ *
  */
 
 public abstract class AbstractScaleSheet extends AbstractPopupSheet implements Listener, SelectionListener {
@@ -85,6 +85,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet implements L
 		super(title, context, true);
 	}
 
+	@Override
 	protected Composite getComponent(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_AXIS_SCALE);
 
@@ -266,6 +267,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet implements L
 		if (getValueType() == TextEditorComposite.TYPE_DATETIME) {
 			parent.getShell().addListener(SWT.Close, new Listener() {
 
+				@Override
 				public void handleEvent(Event event) {
 					if (event.type == SWT.Close) {
 						DataElement data = txtScaleMin.getDataElement();
@@ -349,10 +351,11 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet implements L
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		if (event.widget.equals(txtScaleMin)) {
 			DataElement data = txtScaleMin.getDataElement();
@@ -375,7 +378,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet implements L
 				if (txtStepSize.getText().length() == 0) {
 					getScale().eUnset(ComponentPackage.eINSTANCE.getScale_Step());
 				} else {
-					double dbl = Double.valueOf(txtStepSize.getText()).doubleValue();
+					double dbl = Double.parseDouble(txtStepSize.getText());
 					if (dbl == 0) {
 						getScale().eUnset(ComponentPackage.eINSTANCE.getScale_Step());
 					} else {
@@ -418,7 +421,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet implements L
 				if (txtFactor.getText().length() == 0) {
 					getScale().eUnset(ComponentPackage.eINSTANCE.getScale_Factor());
 				} else {
-					double dbl = Double.valueOf(txtFactor.getText()).doubleValue();
+					double dbl = Double.parseDouble(txtFactor.getText());
 					if (dbl == 0) {
 						getScale().eUnset(ComponentPackage.eINSTANCE.getScale_Factor());
 					} else {
@@ -434,21 +437,23 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet implements L
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent arg0) {
 		// Nothing.
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent event) {
 		if (event.widget == btnShowOutside) {
 			if (btnShowOutside.getSelectionState() == ChartCheckbox.STATE_GRAYED) {
@@ -471,7 +476,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet implements L
 
 	/**
 	 * Returns the type of scale value
-	 * 
+	 *
 	 * @return Constant value defined in <code>TextEditorComposite</code>
 	 */
 	protected abstract int getValueType();

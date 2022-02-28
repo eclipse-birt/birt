@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -54,7 +54,7 @@ public class BirtGetCascadeParameterActionHandler extends AbstractGetCascadePara
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param context
 	 * @param operation
 	 */
@@ -63,6 +63,7 @@ public class BirtGetCascadeParameterActionHandler extends AbstractGetCascadePara
 		super(context, operation, response);
 	}
 
+	@Override
 	protected void __execute() throws Exception {
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
 		assert attrBean != null;
@@ -76,7 +77,7 @@ public class BirtGetCascadeParameterActionHandler extends AbstractGetCascadePara
 		options.setOption(InputOptions.OPT_TIMEZONE, attrBean.getTimeZone());
 		IViewerReportDesignHandle designHandle = attrBean.getReportDesignHandle(context.getRequest());
 
-		Map cascParamMap = null;
+		Map cascParamMap;
 
 		for (int i = 0; i < params.length; i++) {
 			Oprand param = params[i];
@@ -96,8 +97,9 @@ public class BirtGetCascadeParameterActionHandler extends AbstractGetCascadePara
 
 			// get parameter definition object
 			ParameterDefinition parameter = attrBean.findParameterDefinition(paramName);
-			if (parameter == null)
+			if (parameter == null) {
 				continue;
+			}
 
 			// Convert parameter
 			String format = parameter.getPattern();
@@ -134,7 +136,7 @@ public class BirtGetCascadeParameterActionHandler extends AbstractGetCascadePara
 
 	/**
 	 * Get vector from the list.
-	 * 
+	 *
 	 * @param list
 	 * @return
 	 */
@@ -149,8 +151,9 @@ public class BirtGetCascadeParameterActionHandler extends AbstractGetCascadePara
 
 	private Map getParameterSelectionLists(IViewerReportDesignHandle design, Map params, InputOptions options,
 			ViewerAttributeBean attrBean) throws ReportServiceException {
-		if (params == null || params.size() == 0)
+		if (params == null || params.size() == 0) {
 			return new HashMap();
+		}
 
 		Map ret = new HashMap();
 		List remainingParamNames = new ArrayList();
@@ -205,8 +208,9 @@ public class BirtGetCascadeParameterActionHandler extends AbstractGetCascadePara
 				Object lastParamDefValue = attrBean.getDefaultValues().get(lastKey);
 
 				boolean keepDefValue = false;
-				if (lastParamDefValue != null && lastParamDefValue.equals(lastParamValue))
+				if (lastParamDefValue != null && lastParamDefValue.equals(lastParamValue)) {
 					keepDefValue = true;
+				}
 
 				List<SelectItemChoice> paramList = doQueryCascadeParameterSelectionList(
 						remainingParamNames.get(0).toString(), design, group.getName(), keyValue, options, attrBean,
@@ -226,7 +230,7 @@ public class BirtGetCascadeParameterActionHandler extends AbstractGetCascadePara
 
 	/**
 	 * Returns the cascading parameter selection list
-	 * 
+	 *
 	 * @param paramName
 	 * @param design
 	 * @param groupName
@@ -264,6 +268,7 @@ public class BirtGetCascadeParameterActionHandler extends AbstractGetCascadePara
 		return ParameterUtility.toSelectItemChoice(selectionList);
 	}
 
+	@Override
 	protected void handleUpdate(CascadeParameter cascadeParameter) {
 		Data data = new Data();
 		data.setCascadeParameter(cascadeParameter);
@@ -277,6 +282,7 @@ public class BirtGetCascadeParameterActionHandler extends AbstractGetCascadePara
 		response.setUpdate(new Update[] { update });
 	}
 
+	@Override
 	protected IViewerReportService getReportService() {
 		return BirtReportServiceFactory.getReportService();
 	}

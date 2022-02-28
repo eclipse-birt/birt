@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -14,6 +14,7 @@
 package org.eclipse.birt.report.engine.data.dte;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -24,8 +25,6 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-
-import java.util.logging.Logger;
 
 public class ReportQueryBuilderFactory {
 
@@ -38,7 +37,7 @@ public class ReportQueryBuilderFactory {
 
 	/**
 	 * get instance of factory
-	 * 
+	 *
 	 * @return the factory instance
 	 */
 	synchronized public static ReportQueryBuilderFactory getInstance() {
@@ -76,7 +75,7 @@ public class ReportQueryBuilderFactory {
 
 	/**
 	 * create ReportQueryBuilders
-	 * 
+	 *
 	 * @return
 	 */
 	public ReportQueryBuilder createBuilder(Report report, ExecutionContext context, DataRequestSession dteSession) {

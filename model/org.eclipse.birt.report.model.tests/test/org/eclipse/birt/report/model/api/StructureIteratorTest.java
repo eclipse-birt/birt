@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -14,15 +14,10 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.api.DesignEngine;
-import org.eclipse.birt.report.model.api.IncludedLibraryHandle;
-import org.eclipse.birt.report.model.api.ModelException;
-import org.eclipse.birt.report.model.api.PropertyHandleImpl;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.BaseTestCase;
+
 import com.ibm.icu.util.ULocale;
 
 public class StructureIteratorTest extends BaseTestCase {
@@ -90,8 +85,9 @@ public class StructureIteratorTest extends BaseTestCase {
 		Iterator si = svh.iterator();
 
 		// remove last item
-		while (si.hasNext())
+		while (si.hasNext()) {
 			si.next();
+		}
 		si.remove();
 		itemNum--;
 

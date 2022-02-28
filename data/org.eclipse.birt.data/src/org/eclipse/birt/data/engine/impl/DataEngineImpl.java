@@ -10,7 +10,7 @@
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  **************************************************************************/
 
 package org.eclipse.birt.data.engine.impl;
@@ -59,11 +59,11 @@ import org.mozilla.javascript.Scriptable;
  */
 public class DataEngineImpl extends DataEngine {
 	// Map of data source name (string) to DataSourceRT, for defined data sources
-	private HashMap<String, DataSourceRuntime> dataSources = new HashMap<String, DataSourceRuntime>();
+	private HashMap<String, DataSourceRuntime> dataSources = new HashMap<>();
 
 	// Map of data set name (string) to IBaseDataSetDesign, for defined data sets
-	private HashMap<String, IBaseDataSetDesign> dataSetDesigns = new HashMap<String, IBaseDataSetDesign>();
-	private HashMap<String, IBaseDataSourceDesign> dataSourceDesigns = new HashMap<String, IBaseDataSourceDesign>();
+	private HashMap<String, IBaseDataSetDesign> dataSetDesigns = new HashMap<>();
+	private HashMap<String, IBaseDataSourceDesign> dataSourceDesigns = new HashMap<>();
 	/** Scriptable object implementing "report.dataSources" array */
 	private Scriptable dataSourcesJSObject;
 
@@ -72,14 +72,14 @@ public class DataEngineImpl extends DataEngine {
 	private DataEngineSession session;
 	private DataSourceManager dataSourceManager;
 
-	private Map<String, String> cubeDataSourceMap = new HashMap<String, String>();
-	private Map<String, String> cubeDataObjectMap = new HashMap<String, String>();
+	private Map<String, String> cubeDataSourceMap = new HashMap<>();
+	private Map<String, String> cubeDataObjectMap = new HashMap<>();
 	// shut down listener list
 	private Set<IShutdownListener> shutdownListenerSet = null;
 
 	private IEngineExecutionHints queryExecutionHints;
 
-	private Map<DataSourceAndDataSetNames, ValidationContext> validationContextMap = new HashMap<DataSourceAndDataSetNames, ValidationContext>();
+	private Map<DataSourceAndDataSetNames, ValidationContext> validationContextMap = new HashMap<>();
 
 	private static final String BIRT_ENGINE_BUNDEL_VERSION = "BIRT ENGINE BUILD NUMBER";
 
@@ -94,7 +94,7 @@ public class DataEngineImpl extends DataEngine {
 	/**
 	 * Constructor to specify the DataEngine Context to use by the Data Engine for
 	 * all related ReportQuery processing.
-	 * 
+	 *
 	 * @param context scope of Context: The global JavaScript scope shared by all
 	 *                runtime components within a report session. If this parameter
 	 *                is null, a new standard top level scope will be created and
@@ -130,6 +130,7 @@ public class DataEngineImpl extends DataEngine {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.DataEngine#getQueryResults(int)
 	 */
+	@Override
 	public IQueryResults getQueryResults(String queryResultID) throws DataException {
 		if (context.getMode() == DataEngineContext.MODE_PRESENTATION
 				|| (context.getMode() == DataEngineContext.MODE_UPDATE && context.getDocWriter() == null)) {
@@ -152,6 +153,7 @@ public class DataEngineImpl extends DataEngine {
 	 * already been defined, its definition will be updated with the content of the
 	 * provided DataSourceDesign
 	 */
+	@Override
 	public void defineDataSource(IBaseDataSourceDesign dataSource) throws DataException {
 		logger.entering(DataEngineImpl.class.getName(), "defineDataSource",
 				dataSource == null ? "<null>" : dataSource.getName());
@@ -176,20 +178,23 @@ public class DataEngineImpl extends DataEngine {
 			throw e;
 		}
 
-		if (logger.isLoggable(Level.FINER))
+		if (logger.isLoggable(Level.FINER)) {
 			logger.logp(Level.FINER, DataEngineImpl.class.getName(), "defineDataSource",
 					"DataEngine.defineDataSource: " + LogUtil.toString(dataSource));
+		}
 
 		// See if this data source is already defined; if so update its design
 		Object existingDefn = dataSources.get(dataSource.getName());
-		if (existingDefn != null)
+		if (existingDefn != null) {
 			this.dataSourceManager.addDataSource((DataSourceRuntime) existingDefn);
+		}
 
 		// Create a corresponding runtime for the data source and add it to
 		// the map
 		DataSourceRuntime newDefn = DataSourceRuntime.newInstance(dataSource, this);
-		if (newDefn != null)
+		if (newDefn != null) {
 			dataSources.put(newDefn.getName(), newDefn);
+		}
 		dataSourceDesigns.put(dataSource.getName(), dataSource);
 		logger.exiting(DataEngineImpl.class.getName(), "defineDataSource");
 	}
@@ -202,6 +207,7 @@ public class DataEngineImpl extends DataEngine {
 	 * been defined, its definition will be updated with the content of the provided
 	 * DataSetDesign
 	 */
+	@Override
 	public void defineDataSet(IBaseDataSetDesign dataSet) throws DataException {
 		logger.entering(DataEngineImpl.class.getName(), "defineDataSet",
 				dataSet == null ? "<null>" : dataSet.getName());
@@ -224,9 +230,10 @@ public class DataEngineImpl extends DataEngine {
 			throw e;
 		}
 
-		if (logger.isLoggable(Level.FINER))
+		if (logger.isLoggable(Level.FINER)) {
 			logger.logp(Level.FINER, DataEngineImpl.class.getName(), "defineDataSet",
 					"DataEngine.defineDataSet: " + LogUtil.toString(dataSet));
+		}
 
 		DataSetDesignHelper.vailidateDataSetDesign(dataSet, dataSourceDesigns);
 		dataSetDesigns.put(name, dataSet);
@@ -239,28 +246,31 @@ public class DataEngineImpl extends DataEngine {
 	 * engine.api.IBaseDataSourceDesign,
 	 * org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
 	 */
+	@Override
 	public void clearCache(IBaseDataSourceDesign dataSource, IBaseDataSetDesign dataSet) throws BirtException {
-		if (dataSource == null || dataSet == null)
+		if (dataSource == null || dataSet == null) {
 			return;
+		}
 
 		DataSetCacheManager dscManager = this.getSession().getDataSetCacheManager();
-		if (dscManager == null)
-			return;
-		else
+		if (dscManager == null) {
+		} else {
 			dscManager.clearCache(dataSource, dataSet);
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cacheID
 	 * @throws BirtException
 	 */
+	@Override
 	public void clearCache(String cacheID) throws BirtException {
 		DataSetCacheManager dscManager = this.getSession().getDataSetCacheManager();
-		if (dscManager == null || cacheID == null)
-			return;
-		else
+		if (dscManager == null || cacheID == null) {
+		} else {
 			dscManager.clearCache(cacheID);
+		}
 	}
 
 	/**
@@ -299,7 +309,7 @@ public class DataEngineImpl extends DataEngine {
 	 * could mean that certain query plan generation must be deferred to execution
 	 * time since necessary result set metadata might not be available at Prepare
 	 * time.
-	 * 
+	 *
 	 * @param querySpec An IReportQueryDefn object that specifies the data access
 	 *                  and data transforms services needed from DtE to produce a
 	 *                  set of query results.
@@ -307,6 +317,7 @@ public class DataEngineImpl extends DataEngine {
 	 *         for execution.
 	 * @throws DataException if error occurs in Data Engine
 	 */
+	@Override
 	public IPreparedQuery prepare(IQueryDefinition querySpec) throws DataException {
 		return prepare(querySpec, null);
 	}
@@ -316,6 +327,7 @@ public class DataEngineImpl extends DataEngine {
 	 * org.eclipse.birt.data.engine.api.DataEngine#prepare(org.eclipse.birt.data.
 	 * engine.olap.api.query.ISubCubeQueryDefinition)
 	 */
+	@Override
 	public IPreparedCubeQuery prepare(ISubCubeQueryDefinition querySpec, Map appContext) throws BirtException {
 
 		setMemoryUsage(appContext);
@@ -324,7 +336,7 @@ public class DataEngineImpl extends DataEngine {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param appContext
 	 */
 	private void setMemoryUsage(Map appContext) {
@@ -338,26 +350,30 @@ public class DataEngineImpl extends DataEngine {
 	/*
 	 * If user wants to use data set cache option, this method should be called to
 	 * pass cache option information from the upper layer.
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.DataEngine#prepare(org.eclipse.birt.data.
 	 * engine.api.IQueryDefinition, java.util.Map)
 	 */
+	@Override
 	public IPreparedQuery prepare(IQueryDefinition querySpec, Map appContext) throws DataException {
-		if (logger.isLoggable(Level.FINER))
+		if (logger.isLoggable(Level.FINER)) {
 			logger.entering(DataEngineImpl.class.getName(), "prepare", LogUtil.toString(querySpec));
+		}
 		if (dataSources == null) {
 			IllegalStateException e = new IllegalStateException("DataEngine has been shutdown");
 			logger.logp(Level.WARNING, DataEngineImpl.class.getName(), "prepare", "DataEngine has been shutdown", e);
 			throw e;
 		}
 
-		if (logger.isLoggable(Level.FINER))
+		if (logger.isLoggable(Level.FINER)) {
 			logger.fine("Start to prepare query: " + LogUtil.toString(querySpec));
+		}
 
 		setMemoryUsage(appContext);
-		if (appContext != null)
+		if (appContext != null) {
 			this.context.setBundleVersion((String) appContext.get(BIRT_ENGINE_BUNDEL_VERSION));
+		}
 
 		IPreparedQuery result = PreparedQueryUtil.newInstance(this, querySpec, appContext);
 
@@ -375,9 +391,10 @@ public class DataEngineImpl extends DataEngine {
 	 * it would simply return with no-op. <br>
 	 * In BIRT Release 1, this method will likely be called by FPE at the end of a
 	 * report generation.
-	 * 
+	 *
 	 * @param dataSourceName The name of a data source connection.
 	 */
+	@Override
 	public void closeDataSource(String dataSourceName) throws DataException {
 		logger.entering("DataEngineImpl", "closeDataSource", dataSourceName);
 		if (dataSources == null) {
@@ -416,7 +433,7 @@ public class DataEngineImpl extends DataEngine {
 
 	/**
 	 * Get the DataEngineSession instance bound to this DataEngineImpl.
-	 * 
+	 *
 	 * @return
 	 */
 	public DataEngineSession getSession() {
@@ -430,35 +447,41 @@ public class DataEngineImpl extends DataEngine {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.DataEngine#addShutdownListener(org.eclipse.
 	 * birt.data.engine.api.IShutdownListener)
 	 */
+	@Override
 	public void addShutdownListener(IShutdownListener listener) {
-		if (shutdownListenerSet == null)
-			shutdownListenerSet = new LinkedHashSet<IShutdownListener>();
-		if (shutdownListenerSet.contains(listener))
+		if (shutdownListenerSet == null) {
+			shutdownListenerSet = new LinkedHashSet<>();
+		}
+		if (shutdownListenerSet.contains(listener)) {
 			return;
+		}
 		shutdownListenerSet.add(listener);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.DataEngine#removeListener(org.eclipse.birt.
 	 * data.engine.api.IShutdownListener)
 	 */
+	@Override
 	public void removeListener(IShutdownListener listener) {
-		if (shutdownListenerSet == null)
+		if (shutdownListenerSet == null) {
 			return;
+		}
 		shutdownListenerSet.remove(listener);
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.api.DataEngine#shutdown()
 	 */
+	@Override
 	public void shutdown() {
 		logger.entering("DataEngineImpl", "shutdown");
 
@@ -473,8 +496,9 @@ public class DataEngineImpl extends DataEngine {
 			try {
 				closeDataSource(ds);
 			} catch (DataException e) {
-				if (logger.isLoggable(Level.FINER))
+				if (logger.isLoggable(Level.FINER)) {
 					logger.log(Level.FINER, "The data source (" + ds + ") fails to shut down", e);
+				}
 			}
 		}
 
@@ -532,7 +556,7 @@ public class DataEngineImpl extends DataEngine {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void clearTempFile() {
 		File tmpDir = new File(session.getTempDir());
@@ -543,7 +567,7 @@ public class DataEngineImpl extends DataEngine {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dir
 	 */
 	private static void deleteDirectory(File dir) {
@@ -561,7 +585,7 @@ public class DataEngineImpl extends DataEngine {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 */
 	private static void safeDelete(File file) {
@@ -590,11 +614,12 @@ public class DataEngineImpl extends DataEngine {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.DataEngine#prepare(org.eclipse.birt.data.
 	 * engine.olap.api.query.ICubeQueryDefinition, java.util.Map)
 	 */
+	@Override
 	public IPreparedCubeQuery prepare(ICubeQueryDefinition query, Map appContext) throws BirtException {
 
 		setMemoryUsage(appContext);
@@ -606,12 +631,13 @@ public class DataEngineImpl extends DataEngine {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.DataEngine#getCachedDataSetMetaData(org.
 	 * eclipse.birt.data.engine.api.IBaseDataSourceDesign,
 	 * org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
 	 */
+	@Override
 	public IResultMetaData getCachedDataSetMetaData(IBaseDataSourceDesign dataSource, IBaseDataSetDesign dataSet)
 			throws BirtException {
 		return this.session.getDataSetCacheManager().getCachedResultMetadata(dataSource, dataSet);
@@ -619,7 +645,7 @@ public class DataEngineImpl extends DataEngine {
 
 	/**
 	 * Return whether a data set need to be cached during query execution.
-	 * 
+	 *
 	 * @param dataSetName
 	 * @return
 	 */
@@ -629,14 +655,16 @@ public class DataEngineImpl extends DataEngine {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.DataEngine#prepareQueries(java.util.List)
 	 */
+	@Override
 	public void registerQueries(IDataQueryDefinition[] queryDefns) throws DataException {
 		((EngineExecutionHints) queryExecutionHints).populateCachedDataSets(this, queryDefns);
 	}
 
+	@Override
 	public void cancel() {
 		this.session.cancel();
 	}
@@ -652,9 +680,7 @@ public class DataEngineImpl extends DataEngine {
 			try {
 				contributors = ResultExtensionExplorer.getInstance()
 						.getContributorsOfDataSet(dataSource.getExtensionID(), dataSet.getExtensionID());
-			} catch (IllegalArgumentException e) {
-				logger.log(Level.WARNING, e.getLocalizedMessage(), e);
-			} catch (OdaException e) {
+			} catch (IllegalArgumentException | OdaException e) {
 				logger.log(Level.WARNING, e.getLocalizedMessage(), e);
 			}
 			ValidationContext vc = null;
@@ -667,8 +693,9 @@ public class DataEngineImpl extends DataEngine {
 	}
 
 	private void releaseValidationContexts() {
-		if (validationContextMap == null)
+		if (validationContextMap == null) {
 			return;
+		}
 		for (ValidationContext vc : validationContextMap.values()) {
 			if (vc != null && vc.getConnection() != null) {
 				vc.getConnection().close();

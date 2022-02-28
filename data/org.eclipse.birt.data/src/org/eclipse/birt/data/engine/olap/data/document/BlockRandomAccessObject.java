@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,9 +51,10 @@ public class BlockRandomAccessObject implements IRandomAccessObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.document.IRandomAccessObject#close()
 	 */
+	@Override
 	public void close() throws IOException {
 		seek(0);
 		documentObjectAllocatedTable.setObjectLength(name, length);
@@ -61,30 +62,33 @@ public class BlockRandomAccessObject implements IRandomAccessObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.document.IRandomAccessObject#getFilePointer()
 	 */
+	@Override
 	public long getFilePointer() throws IOException {
 		return position;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.document.IRandomAccessObject#length()
 	 */
+	@Override
 	public long length() throws IOException {
 		return length;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.document.IRandomAccessObject#read(byte[],
 	 * int, int)
 	 */
+	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
 		if (len == 0) {
 			return 0;
@@ -112,7 +116,7 @@ public class BlockRandomAccessObject implements IRandomAccessObject {
 	}
 
 	/*
-	 * 
+	 *
 	 */
 	private void dataFileSeek() throws IOException {
 		int blockIndex = (int) (position / FileDocumentManager.BLOCK_SIZE);
@@ -125,29 +129,32 @@ public class BlockRandomAccessObject implements IRandomAccessObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.document.IRandomAccessObject#read(byte[])
 	 */
+	@Override
 	public int read(byte[] b) throws IOException {
 		return read(b, 0, b.length);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.document.IRandomAccessObject#seek(long)
 	 */
+	@Override
 	public void seek(long pos) throws IOException {
 		this.position = pos;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.document.IRandomAccessObject#setLength(long)
 	 */
+	@Override
 	public void setLength(long newLength) throws IOException {
 		assert newLength > 0;
 		int needBlockCount = (int) ((newLength - 1) / FileDocumentManager.BLOCK_SIZE) + 1;
@@ -165,11 +172,12 @@ public class BlockRandomAccessObject implements IRandomAccessObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.document.IRandomAccessObject#write(byte[],
 	 * int, int)
 	 */
+	@Override
 	public void write(byte[] b, int off, int len) throws IOException {
 		if (len == 0) {
 			return;
@@ -193,10 +201,11 @@ public class BlockRandomAccessObject implements IRandomAccessObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#flush()
 	 */
+	@Override
 	public void flush() throws IOException {
 		seek(0);
 		documentObjectAllocatedTable.setObjectLength(name, length);
@@ -204,10 +213,11 @@ public class BlockRandomAccessObject implements IRandomAccessObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#read()
 	 */
+	@Override
 	public int read() throws IOException {
 		byte[] b = new byte[1];
 		int len = read(b);

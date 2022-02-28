@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,10 +25,8 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSel
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
 /**
@@ -42,9 +40,9 @@ public class ImportLibraryAction extends Action {
 
 	public static final String DIALOG_TITLE = Messages.getString("ImportLibraryAction.Dialog.Titile"); //$NON-NLS-1$
 	public static final String DIALOG_MESSAGE = Messages.getString("ImportLibraryAction.Dialog.Message"); //$NON-NLS-1$
-	private static final String[] LIBRARY_FILE_TYPE = new String[] { ".rptlibrary", //$NON-NLS-1$
+	private static final String[] LIBRARY_FILE_TYPE = { ".rptlibrary", //$NON-NLS-1$
 	};
-	private static final String[] LIBRARY_FILE_PATTERN = new String[] { "*.rptlibrary", //$NON-NLS-1$
+	private static final String[] LIBRARY_FILE_PATTERN = { "*.rptlibrary", //$NON-NLS-1$
 	};
 
 	public ImportLibraryAction() {
@@ -53,9 +51,10 @@ public class ImportLibraryAction extends Action {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
+	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
@@ -63,9 +62,10 @@ public class ImportLibraryAction extends Action {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
+	@Override
 	public void run() {
 		// FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ),
 		// SWT.OPEN );
@@ -134,29 +134,6 @@ public class ImportLibraryAction extends Action {
 				ExceptionHandler.handle(e);
 			}
 		}
-	}
-
-	private String copyToResourceFolder(String filename) throws IOException {
-		File orgFile = new File(filename);
-		File resourceFolder = new File(ReportPlugin.getDefault().getResourceFolder());
-		if (resourceFolder.exists()) {
-			File targetFile = new File(resourceFolder, orgFile.getName());
-			if (targetFile.exists()) {
-				if (targetFile.getAbsolutePath().equals(orgFile.getAbsolutePath())) {
-					return orgFile.getAbsolutePath();
-				}
-				if (MessageDialog.openConfirm(UIUtil.getDefaultShell(),
-						Messages.getString("UseLibraryAction.Error.Title"), //$NON-NLS-1$
-						Messages.getFormattedString("UseLibraryAction.Error.Message", //$NON-NLS-1$
-								new String[] { targetFile.getName() })))
-					coypFile(orgFile, targetFile);
-			} else {
-				coypFile(orgFile, targetFile);
-			}
-			return targetFile.getAbsolutePath();
-		}
-
-		return null;
 	}
 
 	private void coypFile(File org, File dest) throws IOException {

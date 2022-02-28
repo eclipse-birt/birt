@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,16 +43,16 @@ public class GroupModelProvider {
 	/**
 	 * Column widths.
 	 */
-	private static int[] columnWidth = new int[] { 250, 250 };
+	private static int[] columnWidth = { 250, 250 };
 
 	/**
 	 * Constant, represents empty String array.
 	 */
-	private static final String[] EMPTY = new String[0];
+	private static final String[] EMPTY = {};
 
 	/**
 	 * Gets the display names of the given property keys.
-	 * 
+	 *
 	 * @param keys Property keys
 	 * @return String array contains display names
 	 */
@@ -74,14 +74,15 @@ public class GroupModelProvider {
 			name = Messages.getString(propertyDefn.getDisplayNameID());
 		}
 
-		if (name == null)
+		if (name == null) {
 			return ""; //$NON-NLS-1$
+		}
 		return name;
 	}
 
 	/**
 	 * Gets all elements of the given input.
-	 * 
+	 *
 	 * @param input The input object.
 	 * @return Groups array. Return null if the list if empty.
 	 */
@@ -90,24 +91,27 @@ public class GroupModelProvider {
 			return null;
 		}
 		Object obj = input.get(0);
-		if (!(obj instanceof ListingHandle))
+		if (!(obj instanceof ListingHandle)) {
 			return EMPTY;
+		}
 
 		ListingHandle element = (ListingHandle) obj;
 		SlotHandle slot = element.getGroups();
 
 		Iterator iterator = slot.iterator();
-		if (iterator == null)
+		if (iterator == null) {
 			return EMPTY;
+		}
 		List list = new ArrayList();
-		while (iterator.hasNext())
+		while (iterator.hasNext()) {
 			list.add(iterator.next());
+		}
 		return list.toArray();
 	}
 
 	/**
 	 * Gets property display name of a given element.
-	 * 
+	 *
 	 * @param element Group object
 	 * @param key     Property key
 	 * @return The property display name
@@ -117,19 +121,21 @@ public class GroupModelProvider {
 		GroupHandle handle = (GroupHandle) element;
 
 		if (key.equals(GroupHandle.GROUP_NAME_PROP)) {
-			if (handle.getName() == null)
+			if (handle.getName() == null) {
 				return ""; //$NON-NLS-1$
+			}
 			return handle.getName();
 		}
 
-		if (handle.getKeyExpr() == null)
+		if (handle.getKeyExpr() == null) {
 			return ""; //$NON-NLS-1$
+		}
 		return handle.getKeyExpr();
 	}
 
 	/**
 	 * Saves new property value to filter
-	 * 
+	 *
 	 * @param element  Group object
 	 * @param key      Property key
 	 * @param newValue new value
@@ -146,7 +152,7 @@ public class GroupModelProvider {
 
 	/**
 	 * Gets the choice set of one property
-	 * 
+	 *
 	 * @param item ReportItem object
 	 * @param key  Property key
 	 * @return Choice set
@@ -160,17 +166,19 @@ public class GroupModelProvider {
 
 	/**
 	 * Gets all columns in a dataSet.
-	 * 
+	 *
 	 * @param handle ReportItem object
 	 * @return Columns array.
 	 */
 	private String[] getDataSetColumns(ReportItemHandle handle) {
 		DataSetHandle dataSet = handle.getDataSet();
-		if (dataSet == null)
+		if (dataSet == null) {
 			return EMPTY;
+		}
 		Iterator iterator = dataSet.resultSetHintsIterator();
-		if (iterator == null)
+		if (iterator == null) {
 			return EMPTY;
+		}
 		ArrayList columns = new ArrayList();
 		while (iterator.hasNext()) {
 			ResultSetColumn resultSetColumn = (ResultSetColumn) iterator.next();
@@ -181,7 +189,7 @@ public class GroupModelProvider {
 
 	/**
 	 * Moves one item from a position to another.
-	 * 
+	 *
 	 * @param item   DesignElement object
 	 * @param oldPos The item's old position
 	 * @param newPos The item's current position
@@ -199,7 +207,7 @@ public class GroupModelProvider {
 
 	/**
 	 * Deletes an item.
-	 * 
+	 *
 	 * @param item DesignElement object
 	 * @param pos  The item's current position
 	 * @return True if success, otherwise false.
@@ -214,7 +222,7 @@ public class GroupModelProvider {
 
 	/**
 	 * Add an item.
-	 * 
+	 *
 	 * @param item     DesignElement object
 	 * @param newGroup The new group to be added
 	 * @param pos      The item's current position
@@ -232,7 +240,7 @@ public class GroupModelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnWidths()
 	 */
@@ -242,7 +250,7 @@ public class GroupModelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#needRefreshed(org.eclipse.birt.model.activity.
 	 * NotificationEvent)
@@ -250,8 +258,9 @@ public class GroupModelProvider {
 	public boolean needRefreshed(NotificationEvent event) {
 		if (event instanceof PropertyEvent) {
 			String propertyName = ((PropertyEvent) event).getPropertyName();
-			if (GroupHandle.KEY_EXPR_PROP.equals(propertyName))
+			if (GroupHandle.KEY_EXPR_PROP.equals(propertyName)) {
 				return true;
+			}
 		}
 		return false;
 	}

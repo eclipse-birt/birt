@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -32,6 +32,7 @@ public class ForeignHTMLRegionLayout implements ILayout {
 		this.context = context;
 	}
 
+	@Override
 	public void layout() throws BirtException {
 		LayoutContext regionLayoutContext = new LayoutContext();
 		regionLayoutContext.setFormat("pdf");
@@ -68,28 +69,22 @@ public class ForeignHTMLRegionLayout implements ILayout {
 
 	}
 
-	class ForeignHTMLRegionLayoutEngine extends LayoutEngine
-	{
+	class ForeignHTMLRegionLayoutEngine extends LayoutEngine {
 
-		public ForeignHTMLRegionLayoutEngine( ContainerArea container,
-				LayoutContext context )
-		{
-			super( context );
+		public ForeignHTMLRegionLayoutEngine(ContainerArea container, LayoutContext context) {
+			super(context);
 			current = container;
-			if ( parent != null )
-			{
-				current.setMaxAvaWidth( parent.getMaxAvaWidth( ) );
+			if (parent != null) {
+				current.setMaxAvaWidth(parent.getMaxAvaWidth());
 			}
 		}
 
-		public void layout( IContent content ) throws BirtException
-		{
-			current.initialize( );
-			if ( current.getSpecifiedHeight( ) <= 0 )
-			{
-				visitChildren( content, this );
+		public void layout(IContent content) throws BirtException {
+			current.initialize();
+			if (current.getSpecifiedHeight() <= 0) {
+				visitChildren(content, this);
 			}
-			current.close( );
+			current.close();
 		}
 	}
 

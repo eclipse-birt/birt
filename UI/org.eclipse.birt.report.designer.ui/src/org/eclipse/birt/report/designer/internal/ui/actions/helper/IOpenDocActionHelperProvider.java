@@ -15,15 +15,15 @@
 package org.eclipse.birt.report.designer.internal.ui.actions.helper;
 
 /**
- * 
+ *
  * @author cthronson
- * 
+ *
  */
 public interface IOpenDocActionHelperProvider {
 
 	/**
 	 * Creates a helper for cheatsheets.
-	 * 
+	 *
 	 * @return A helper for cheatsheets
 	 */
 	IOpenDocActionHelper createHelper();

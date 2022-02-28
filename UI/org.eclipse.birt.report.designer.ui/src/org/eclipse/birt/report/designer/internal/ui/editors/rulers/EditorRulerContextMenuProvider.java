@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 /**
- *  
+ *
  */
 
 public class EditorRulerContextMenuProvider extends ContextMenuProvider {
@@ -43,9 +43,10 @@ public class EditorRulerContextMenuProvider extends ContextMenuProvider {
 		super(viewer);
 	}
 
+	@Override
 	public void buildContextMenu(IMenuManager menu) {
 		GEFActionConstants.addStandardActionGroups(menu);
-		IChoiceSet choiceSet = null;
+		IChoiceSet choiceSet;
 
 		choiceSet = ChoiceSetFactory.getElementChoiceSet(ReportDesignConstants.REPORT_DESIGN_ELEMENT,
 				ReportDesignHandle.UNITS_PROP);
@@ -64,7 +65,7 @@ public class EditorRulerContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets the current selection.
-	 * 
+	 *
 	 * @return The current selection
 	 */
 	protected ISelection getSelection() {
@@ -73,12 +74,13 @@ public class EditorRulerContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Returns a <code>List</code> containing the currently selected objects.
-	 * 
+	 *
 	 * @return A List containing the currently selected objects
 	 */
 	protected List getSelectedObjects() {
-		if (!(getSelection() instanceof IStructuredSelection))
+		if (!(getSelection() instanceof IStructuredSelection)) {
 			return Collections.EMPTY_LIST;
+		}
 		return ((IStructuredSelection) getSelection()).toList();
 	}
 }

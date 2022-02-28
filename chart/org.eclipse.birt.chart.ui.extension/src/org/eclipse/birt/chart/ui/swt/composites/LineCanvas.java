@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class LineCanvas extends Canvas implements PaintListener, FocusListener {
 
@@ -62,6 +62,7 @@ public class LineCanvas extends Canvas implements PaintListener, FocusListener {
 		this.iLineWidth = iLineWidth;
 	}
 
+	@Override
 	public void paintControl(PaintEvent pe) {
 		if (isEnabled() && isFocusControl()) {
 			isFocusIn = true;
@@ -93,26 +94,32 @@ public class LineCanvas extends Canvas implements PaintListener, FocusListener {
 
 	}
 
+	@Override
 	public void setEnabled(boolean bState) {
 		super.setEnabled(bState);
 		redraw();
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 		isFocusIn = true;
 
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		isFocusIn = false;
 	}
 
+	@Override
 	public Point computeSize(int wHint, int hHint, boolean changed) {
 		Point size = new Point(100, 20);
-		if (wHint != SWT.DEFAULT)
+		if (wHint != SWT.DEFAULT) {
 			size.x = wHint;
-		if (hHint != SWT.DEFAULT)
+		}
+		if (hHint != SWT.DEFAULT) {
 			size.y = hHint;
+		}
 		Rectangle trim = computeTrim(0, 0, size.x, size.y);
 		return new Point(trim.width, trim.height);
 	}

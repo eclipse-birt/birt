@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * <p>
  * If content is moved from one container element to another, the event with
  * {@link #REMOVE}and that with {@link #ADD}are received respectively.
- * 
+ *
  */
 
 public class ContentEvent extends NotificationEvent {
@@ -61,14 +61,14 @@ public class ContentEvent extends NotificationEvent {
 	private DesignElement content;
 
 	/**
-	 * 
+	 *
 	 */
 	protected ContainerContext focus = null;
 
 	/**
 	 * Constructs the content event with the container element, content element, the
 	 * slot within this container and the event operation kind.
-	 * 
+	 *
 	 * @param theContainer the container element
 	 * @param theContent   the content element
 	 * @param theSlot      the slot within the container
@@ -83,7 +83,7 @@ public class ContentEvent extends NotificationEvent {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param containerInfo
 	 * @param theContent
 	 * @param theAction
@@ -97,11 +97,12 @@ public class ContentEvent extends NotificationEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
 	 * )
 	 */
+	@Override
 	public int getEventType() {
 		return CONTENT_EVENT;
 	}
@@ -109,7 +110,7 @@ public class ContentEvent extends NotificationEvent {
 	/**
 	 * Returns the type of action. One of {@link #ADD},{@link #REMOVE}, or
 	 * {@link #SHIFT}.
-	 * 
+	 *
 	 * @return the action causing this event.
 	 */
 
@@ -119,7 +120,7 @@ public class ContentEvent extends NotificationEvent {
 
 	/**
 	 * Returns the slot id within the container.
-	 * 
+	 *
 	 * @return the slot id within the container
 	 */
 
@@ -129,7 +130,7 @@ public class ContentEvent extends NotificationEvent {
 
 	/**
 	 * Returns the content element causing this event.
-	 * 
+	 *
 	 * @return the content element causing this event.
 	 */
 
@@ -139,18 +140,21 @@ public class ContentEvent extends NotificationEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.
 	 * eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
 
+	@Override
 	public boolean isSame(NotificationEvent event) {
-		if (!super.isSame(event))
+		if (!super.isSame(event)) {
 			return false;
+		}
 		ContentEvent contentEvent = (ContentEvent) event;
 		if (action != contentEvent.getAction() || !focus.equals(contentEvent.focus)
-				|| content != contentEvent.getContent())
+				|| content != contentEvent.getContent()) {
 			return false;
+		}
 		return true;
 	}
 }

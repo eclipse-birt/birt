@@ -1,21 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
 package org.eclipse.birt.report.tests.model.api;
 
 import java.util.List;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
@@ -27,6 +24,9 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /**
  * TestCases for EmbeddedImageHandle class.
  * <p>
@@ -35,15 +35,15 @@ import com.ibm.icu.util.ULocale;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
- * 
+ *
+ *
  * <tr>
  * <td>{@link #testDrop()}</td>
  * <td>Drop embedded image.</td>
  * <td>Dropped images are deleted.</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class EmbeddedImageHandleTest extends BaseTestCase {
 	String filename = "Improved_test6.xml";
@@ -58,6 +58,7 @@ public class EmbeddedImageHandleTest extends BaseTestCase {
 		return new TestSuite(EmbeddedImageHandleTest.class);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -69,7 +70,7 @@ public class EmbeddedImageHandleTest extends BaseTestCase {
 
 	/**
 	 * Drop embedded image.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDrop() throws Exception {

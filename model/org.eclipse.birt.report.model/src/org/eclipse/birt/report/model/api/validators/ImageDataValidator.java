@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
  * If the image source is set, the corresponding image data should be set.
- * 
+ *
  */
 
 public class ImageDataValidator extends AbstractElementValidator {
@@ -37,7 +37,7 @@ public class ImageDataValidator extends AbstractElementValidator {
 
 	/**
 	 * Returns the singleton validator instance.
-	 * 
+	 *
 	 * @return the validator instance
 	 */
 
@@ -47,16 +47,17 @@ public class ImageDataValidator extends AbstractElementValidator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.validators.AbstractElementValidator#validate
 	 * (org.eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public List<SemanticException> validate(Module module, DesignElement image) {
 
-		List<SemanticException> list = new ArrayList<SemanticException>();
+		List<SemanticException> list = new ArrayList<>();
 
 		String refType = image.getStringProperty(module, IImageItemModel.SOURCE_PROP);
 

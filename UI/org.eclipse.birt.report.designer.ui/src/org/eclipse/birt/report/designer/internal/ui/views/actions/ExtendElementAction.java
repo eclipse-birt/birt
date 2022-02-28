@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
@@ -47,10 +47,11 @@ public class ExtendElementAction extends InsertAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
 	 * AbstractElementAction#doAction()
 	 */
+	@Override
 	protected boolean doAction() throws Exception {
 		Request request = new Request(IRequestConstants.REQUEST_TYPE_INSERT);
 		Map extendsData = new HashMap();

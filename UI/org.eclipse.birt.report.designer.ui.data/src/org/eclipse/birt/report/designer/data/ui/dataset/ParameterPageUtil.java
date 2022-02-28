@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005,2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 
 /**
  * Utility class for datasetParameterPage.
- * 
+ *
  * @author Administrator
  *
  */
@@ -42,24 +42,24 @@ public final class ParameterPageUtil {
 	static IChoice[] dataTypes = DEUtil.getMetaDataDictionary().getStructure(DataSetParameter.STRUCT_NAME)
 			.getMember(DataSetParameter.DATA_TYPE_MEMBER).getAllowedChoices().getChoices();
 
-	static String[] directions = new String[] { Messages.getString("label.input"), //$NON-NLS-1$
+	static String[] directions = { Messages.getString("label.input"), //$NON-NLS-1$
 			Messages.getString("label.output"), //$NON-NLS-1$
 			Messages.getString("label.inputOutput") //$NON-NLS-1$
 	};
 
-	static String[] cellLabels = new String[] { Messages.getString("dataset.editor.title.name"), //$NON-NLS-1$
+	static String[] cellLabels = { Messages.getString("dataset.editor.title.name"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.dataType"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.direction"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.defaultValue"), //$NON-NLS-1$
 	};
 
-	static String[] dialogLabels = new String[] { Messages.getString("dataset.editor.inputDialog.name"), //$NON-NLS-1$
+	static String[] dialogLabels = { Messages.getString("dataset.editor.inputDialog.name"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.inputDialog.dataType"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.inputDialog.direction"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.inputDialog.defaultValue"), //$NON-NLS-1$
 			Messages.getString("DataSetParameterPage.cell.linkToSalarParameter") //$NON-NLS-1$
 	};
-	static String[] odaCellLabels = new String[] { Messages.getString("dataset.editor.title.name"), //$NON-NLS-1$
+	static String[] odaCellLabels = { Messages.getString("dataset.editor.title.name"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.nativeName"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.dataType"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.title.direction"), //$NON-NLS-1$
@@ -67,7 +67,7 @@ public final class ParameterPageUtil {
 			Messages.getString("DataSetParameterPage.editor.title.linkToSalarParameter"), //$NON-NLS-1$
 			Messages.getString("DefaultNodeProvider.WarningDialog.Title"), };
 
-	static String[] odaDialogLabels = new String[] { Messages.getString("dataset.editor.inputDialog.name"), //$NON-NLS-1$
+	static String[] odaDialogLabels = { Messages.getString("dataset.editor.inputDialog.name"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.inputDialog.nativeName"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.inputDialog.dataType"), //$NON-NLS-1$
 			Messages.getString("dataset.editor.inputDialog.direction"), //$NON-NLS-1$
@@ -107,8 +107,9 @@ public final class ParameterPageUtil {
 
 	public static String getTypeDisplayName(String typeName) {
 		for (int i = 0; i < dataTypes.length; i++) {
-			if (dataTypes[i].getName().equals(typeName))
+			if (dataTypes[i].getName().equals(typeName)) {
 				return dataTypes[i].getDisplayName();
+			}
 		}
 		return typeName;
 	}
@@ -116,8 +117,9 @@ public final class ParameterPageUtil {
 	public static String getTypeName(String typeDisplayName) {
 		String name = dataTypes[0].getName();
 		for (int i = 0; i < dataTypes.length; i++) {
-			if (dataTypes[i].getDisplayName().equals(typeDisplayName))
+			if (dataTypes[i].getDisplayName().equals(typeDisplayName)) {
 				return dataTypes[i].getName();
+			}
 		}
 		return name;
 	}
@@ -133,7 +135,7 @@ public final class ParameterPageUtil {
 
 	/**
 	 * Gets an array of all the available linked report parameters.
-	 * 
+	 *
 	 * @param structureHandle
 	 * @return
 	 */
@@ -170,11 +172,11 @@ public final class ParameterPageUtil {
 	 * needsRefresh is false, then the linked report parameter list won't be
 	 * refreshed after it is initialized. This behavior is for the purpose of
 	 * performance.
-	 * 
+	 *
 	 * @param name
 	 * @param needsRefresh indicates whether the linked report parameter list should
 	 *                     be refreshed
-	 * 
+	 *
 	 * @return
 	 */
 	static ScalarParameterHandle getScalarParameter(String name, boolean needsRefresh) {
@@ -185,8 +187,9 @@ public final class ParameterPageUtil {
 		for (int i = 0; i < linkedToParamList.size(); i++) {
 			parameterObject = linkedToParamList.get(i);
 			if (parameterObject instanceof ScalarParameterHandle) {
-				if (name.equals(((ScalarParameterHandle) parameterObject).getQualifiedName()))
+				if (name.equals(((ScalarParameterHandle) parameterObject).getQualifiedName())) {
 					return (ScalarParameterHandle) parameterObject;
+				}
 			}
 		}
 		return null;

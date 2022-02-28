@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004-2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -68,7 +67,7 @@ public class FragmentResourceEntry extends BaseResourceEntity {
 	private boolean isFile;
 
 	/** The entries been parsed, saves them to avoid to parsed repeatly. */
-	private final Collection<URL> parsedEntries = new HashSet<URL>();
+	private final Collection<URL> parsedEntries = new HashSet<>();
 	private FileFilter filter;
 
 	public FragmentResourceEntry() {
@@ -81,9 +80,10 @@ public class FragmentResourceEntry extends BaseResourceEntity {
 
 	public FragmentResourceEntry(final String[] filePattern, String name, String displayName, String path,
 			Bundle bundle) {
-		this(name, displayName, path, null, false, true); // $NON-NLS-1$//$NON-NLS-2$
-		if (filePattern != null)
+		this(name, displayName, path, null, false, true); // $NON-NLS-1$
+		if (filePattern != null) {
 			filter = new FileFilter(filePattern);
+		}
 		this.bundle = bundle;
 		if (bundle != null) {
 			Enumeration<URL> enumeration = findEntries(path);
@@ -135,8 +135,9 @@ public class FragmentResourceEntry extends BaseResourceEntity {
 		this.name = name;
 		this.path = path;
 		this.parent = parent;
-		if (parent != null)
+		if (parent != null) {
 			parent.addChild(this);
+		}
 		this.isFile = isFile;
 	}
 
@@ -144,55 +145,58 @@ public class FragmentResourceEntry extends BaseResourceEntity {
 		this.children.add(entry);
 	}
 
-	private FragmentResourceEntry getChild(String name) {
-		for (Iterator iter = this.children.iterator(); iter.hasNext();) {
-			FragmentResourceEntry entry = (FragmentResourceEntry) iter.next();
-			if (entry.getName().equals(name))
-				return entry;
-		}
-		return null;
-	}
-
+	@Override
 	public boolean hasChildren() {
 		return children.size() > 0;
 	}
 
+	@Override
 	public ResourceEntry[] getChildren() {
 		return (ResourceEntry[]) this.children.toArray(new ResourceEntry[this.children.size()]);
 	}
 
+	@Override
 	public String getName() {
 		return this.name;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return this.displayName;
 	}
 
+	@Override
 	public Image getImage() {
-		if (this.isRoot || !isFile())
+		if (this.isRoot || !isFile()) {
 			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJ_FOLDER);
+		}
 		return super.getImage();
 	}
 
+	@Override
 	public ResourceEntry getParent() {
 		return this.parent;
 	}
 
+	@Override
 	public URL getURL() {
-		if (bundle != null)
+		if (bundle != null) {
 			return bundle.getResource(this.path);
+		}
 		return null;
 	}
 
+	@Override
 	public boolean isFile() {
 		return this.isFile;
 	}
 
+	@Override
 	public boolean isRoot() {
 		return this.isRoot;
 	}
 
+	@Override
 	public void dispose() {
 		if (this.library != null) {
 			this.library.close();
@@ -210,6 +214,7 @@ public class FragmentResourceEntry extends BaseResourceEntity {
 		}
 	}
 
+	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter == LibraryHandle.class && getURL().toString().toLowerCase().endsWith("library")) {
 			if (!hasChildren() && this.library == null) // $NON-NLS-1$
@@ -238,48 +243,47 @@ public class FragmentResourceEntry extends BaseResourceEntity {
 
 	@Override
 	public boolean equals(Object object) {
-		if (object == null)
+		if ((object == null) || !(object instanceof FragmentResourceEntry || object instanceof String)) {
 			return false;
-		if (!(object instanceof FragmentResourceEntry || object instanceof String))
-			return false;
-		if (object == this)
+		}
+		if (object == this) {
 			return true;
-		else {
-			if (object instanceof FragmentResourceEntry) {
-				FragmentResourceEntry temp = (FragmentResourceEntry) object;
+		} else if (object instanceof FragmentResourceEntry) {
+			FragmentResourceEntry temp = (FragmentResourceEntry) object;
 
-				if (temp.path.equals(this.path)) {
-					return true;
-				}
-			} else if (object instanceof String) {
-				if (object.equals(this.path)) {
-					return true;
-				}
+			if (temp.path.equals(this.path)) {
+				return true;
+			}
+		} else if (object instanceof String) {
+			if (object.equals(this.path)) {
+				return true;
 			}
 		}
 		return false;
 	}
 
+	@Override
 	public int hashCode() {
 		return this.path.hashCode();
 	}
 
 	/**
 	 * Returns an enumeration of URL objects for each matching entry.
-	 * 
+	 *
 	 * @param path     The path name in which to look.
 	 * @param patterns The file name pattern for selecting entries in the specified
 	 *                 path.
 	 * @return an enumeration of URL objects for each matching entry.
 	 */
 	private Enumeration<URL> findEntries(String path) {
-		Set<URL> entries = new HashSet<URL>();
+		Set<URL> entries = new HashSet<>();
 		Enumeration<URL> children = bundle.findEntries(path, null, false);
 
 		while (children != null && children.hasMoreElements()) {
 			URL url = children.nextElement();
-			if (filter == null || (filter != null && filter.accept(url)))
+			if (filter == null || (filter != null && filter.accept(url))) {
 				entries.add(url);
+			}
 		}
 
 		children = bundle.findEntries(path, null, false);
@@ -291,12 +295,12 @@ public class FragmentResourceEntry extends BaseResourceEntity {
 			}
 		}
 
-		return new Vector<URL>(entries).elements();
+		return new Vector<>(entries).elements();
 	}
 
 	/**
 	 * Tests whether the specified URL contains children.
-	 * 
+	 *
 	 * @param url the URL to test.
 	 * @return <code>true</code> if the specified URL contains children,
 	 *         <code>false</code> otherwise.
@@ -309,7 +313,7 @@ public class FragmentResourceEntry extends BaseResourceEntity {
 
 	/**
 	 * Tests whether the specified URL has been parsed.
-	 * 
+	 *
 	 * @param url the URL to test.
 	 * @return <code>true</code> if the specified URL has been parsed,
 	 *         <code>false</code> otherwise.
@@ -331,12 +335,13 @@ public class FragmentResourceEntry extends BaseResourceEntity {
 				String[] regs = filePattern[i].split(";"); //$NON-NLS-1$
 				for (int j = 0; j < regs.length; j++) {
 					// need use decoded String ???
-					if (URLDecoder.decode(path.toString()).toLowerCase().endsWith(regs[j].toLowerCase().substring(1)))
+					if (URLDecoder.decode(path.toString()).toLowerCase().endsWith(regs[j].toLowerCase().substring(1))) {
 						return true;
+					}
 				}
 			}
 			return false;
 		}
 
-	};
+	}
 }

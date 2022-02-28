@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,7 +16,7 @@ package org.eclipse.birt.core.framework;
 /**
  * This interface is the same as the Eclipse platform
  * <code>IExtensionPoint</code> interface.
- * 
+ *
  * An extension point declared in a plug-in. Except for the list of extensions
  * plugged in to it, the information available for an extension point is
  * obtained from the declaring plug-in's manifest (<code>plugin.xml</code>)
@@ -35,7 +35,7 @@ public interface IExtensionPoint {
 	 * @return the configuration elements for all extension configured into this
 	 *         extension point
 	 */
-	public IConfigurationElement[] getConfigurationElements();
+	IConfigurationElement[] getConfigurationElements();
 
 	/**
 	 * Returns the namespace for this extension point. This value can be used in
@@ -48,13 +48,13 @@ public interface IExtensionPoint {
 	 * the understanding that these APIs may well change in incompatible ways until
 	 * they reach their finished, stable form (post-3.0).
 	 * </p>
-	 * 
+	 *
 	 * @return the namespace for this extension point
 	 * @see Platform#getBundle(String)
 	 * @see IExtensionRegistry
 	 * @since 3.0
 	 */
-	public String getNamespace();
+	String getNamespace();
 
 	/**
 	 * Returns the extension with the given unique identifier configured into this
@@ -66,7 +66,7 @@ public interface IExtensionPoint {
 	 *                    <code>"com.example.acme.main"</code>).
 	 * @return an extension, or <code>null</code>
 	 */
-	public IExtension getExtension(String extensionId);
+	IExtension getExtension(String extensionId);
 
 	/**
 	 * Returns all extensions configured into this extension point. Returns an empty
@@ -74,7 +74,7 @@ public interface IExtensionPoint {
 	 *
 	 * @return the extensions configured into this extension point
 	 */
-	public IExtension[] getExtensions();
+	IExtension[] getExtensions();
 
 	/**
 	 * Returns a displayable label for this extension point. Returns the empty
@@ -88,7 +88,7 @@ public interface IExtensionPoint {
 	 * @return a displayable string label for this extension point, possibly the
 	 *         empty string
 	 */
-	public String getLabel();
+	String getLabel();
 
 	/**
 	 * Returns reference to the extension point schema. The schema reference is
@@ -98,7 +98,7 @@ public interface IExtensionPoint {
 	 *
 	 * @return a relative URL path, or an empty string
 	 */
-	public String getSchemaReference();
+	String getSchemaReference();
 
 	/**
 	 * Returns the simple identifier of this extension point. This identifier is a
@@ -108,7 +108,7 @@ public interface IExtensionPoint {
 	 * @return the simple identifier of the extension point (e.g.
 	 *         <code>"builders"</code>)
 	 */
-	public String getSimpleIdentifier();
+	String getSimpleIdentifier();
 
 	/**
 	 * Returns the unique identifier of this extension point. This identifier is
@@ -118,6 +118,6 @@ public interface IExtensionPoint {
 	 * @return the unique identifier of the extension point (e.g.
 	 *         <code>"org.eclipse.core.resources.builders"</code>)
 	 */
-	public String getUniqueIdentifier();
+	String getUniqueIdentifier();
 
 }

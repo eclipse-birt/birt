@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,8 +38,9 @@ public class SpecElement extends SpecObject {
 	public SpecProperty getProperty(String propName) {
 		for (int i = 0; i < properties.size(); i++) {
 			SpecProperty prop = (SpecProperty) properties.get(i);
-			if (prop.name.equals(propName))
+			if (prop.name.equals(propName)) {
 				return prop;
+			}
 		}
 		return null;
 	}
@@ -54,8 +55,9 @@ public class SpecElement extends SpecObject {
 	public SpecMethod getMethod(String methodName) {
 		for (int i = 0; i < methods.size(); i++) {
 			SpecMethod method = (SpecMethod) methods.get(i);
-			if (method.name.equals(methodName))
+			if (method.name.equals(methodName)) {
 				return method;
+			}
 		}
 		return null;
 	}
@@ -63,8 +65,9 @@ public class SpecElement extends SpecObject {
 	public SpecSlot getSlot(String slotName) {
 		for (int i = 0; i < slots.size(); i++) {
 			SpecSlot slot = (SpecSlot) slots.get(i);
-			if (slot.name.equals(slotName))
+			if (slot.name.equals(slotName)) {
 				return slot;
+			}
 		}
 		return null;
 	}
@@ -81,8 +84,9 @@ public class SpecElement extends SpecObject {
 	}
 
 	public String getTypeName() {
-		if (type == ELEMENT)
+		if (type == ELEMENT) {
 			return "Element";
+		}
 		return "Structure";
 	}
 }

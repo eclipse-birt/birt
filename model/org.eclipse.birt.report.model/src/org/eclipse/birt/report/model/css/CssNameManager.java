@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.elements.Theme;
 
 /**
  * Manager css style
- * 
+ *
  */
 
 public class CssNameManager {
@@ -36,14 +36,14 @@ public class CssNameManager {
 	/**
 	 * Get all css style element with different name. If style elements has the same
 	 * name , just get last style element.
-	 * 
+	 *
 	 * @param operation design element ,here is report design or theme.
 	 * @return list each item is <code>CssStyle</code>
 	 */
 
 	public static List<CssStyle> getStyles(ICssStyleSheetOperation operation) {
-		Map<String, CssStyle> stylesMap = new HashMap<String, CssStyle>();
-		List<CssStyle> styles = new ArrayList<CssStyle>();
+		Map<String, CssStyle> stylesMap = new HashMap<>();
+		List<CssStyle> styles = new ArrayList<>();
 
 		List<CssStyleSheet> csses = operation.getCsses();
 		for (int i = csses.size() - 1; i >= 0; --i) {
@@ -62,7 +62,7 @@ public class CssNameManager {
 
 	/**
 	 * Get css style through style name
-	 * 
+	 *
 	 * @param operation design element ,here is report design or theme.
 	 * @param styleName
 	 * @return css style element
@@ -87,7 +87,7 @@ public class CssNameManager {
 
 	/**
 	 * Unresloves style element in design element.
-	 * 
+	 *
 	 * @param css css style sheet list , each item is <code>CssStyle</code>.
 	 */
 
@@ -109,7 +109,7 @@ public class CssNameManager {
 	 * <td>Second if element is report design , should unresolve theme style's
 	 * back-reference.
 	 * </tr>
-	 * 
+	 *
 	 * @param module
 	 * @param cssOperation
 	 * @param sheet
@@ -139,8 +139,9 @@ public class CssNameManager {
 		// if element is report design , should unresolve style in theme.
 		if (cssOperation instanceof ReportDesign) {
 			Theme theme = module.getTheme();
-			if (theme == null)
+			if (theme == null) {
 				return;
+			}
 
 			cssOperation = theme;
 			csses = cssOperation.getCsses();

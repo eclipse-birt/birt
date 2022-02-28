@@ -1,23 +1,26 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.i18n;
 
-import com.ibm.icu.text.MessageFormat;
 import java.util.Locale;
-import com.ibm.icu.util.ULocale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+
+import org.eclipse.birt.core.i18n.ThreadResources;
+
+import com.ibm.icu.text.MessageFormat;
+import com.ibm.icu.util.ULocale;
 import com.ibm.icu.util.UResourceBundle;
 
 /**
@@ -33,7 +36,7 @@ import com.ibm.icu.util.UResourceBundle;
  * <p>
  * This class primarily works with messages. It can be extended to work with
  * other resources as the need arises.
- * 
+ *
  * @see ThreadResources
  */
 
@@ -54,7 +57,7 @@ public class JdbcResourceHandle {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param locale the user's locale. If null, the default locale for the JVM will
 	 *               be used.
 	 */
@@ -75,8 +78,9 @@ public class JdbcResourceHandle {
 		}
 
 		bundleName = bundleName + BUNDLE_NAME;
-		if (locale == null)
+		if (locale == null) {
 			locale = ULocale.getDefault();
+		}
 		resources = UResourceBundle.getBundleInstance(bundleName, locale.getName(), this.getClass().getClassLoader());
 		assert resources != null : "ResourceBundle : " + BUNDLE_NAME + " for " + locale + " not found"; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 
@@ -86,6 +90,7 @@ public class JdbcResourceHandle {
 	 * @deprecated since 2.1
 	 * @return
 	 */
+	@Deprecated
 	public JdbcResourceHandle(Locale locale) {
 		this(ULocale.forLocale(locale));
 	}
@@ -93,7 +98,7 @@ public class JdbcResourceHandle {
 	/**
 	 * Get a message given the message key. An assertion will be raised if the
 	 * message key does not exist in the resource bundle.
-	 * 
+	 *
 	 * @param key the message key
 	 * @return the localized message for that key and the locale set in the
 	 *         constructor. Returns the key itself if the message was not found.
@@ -101,8 +106,9 @@ public class JdbcResourceHandle {
 	 */
 
 	public String getMessage(String key) {
-		if (key == null)
+		if (key == null) {
 			return null;
+		}
 		try {
 			return resources.getString(key);
 		} catch (MissingResourceException e) {
@@ -116,7 +122,7 @@ public class JdbcResourceHandle {
 	/**
 	 * Get a message that has placeholders. An assertion will be raised if the
 	 * message key does not exist in the resource bundle.
-	 * 
+	 *
 	 * @param key       the message key
 	 * @param arguments the set of arguments to be plugged into the message
 	 * @return the localized message for that key and the locale set in the
@@ -132,7 +138,7 @@ public class JdbcResourceHandle {
 
 	/**
 	 * Returns the resource bundle for the current locale.
-	 * 
+	 *
 	 * @return the resource bundle
 	 * @see ResourceBundle
 	 */
@@ -145,6 +151,7 @@ public class JdbcResourceHandle {
 	 * @deprecated since 2.1
 	 * @return
 	 */
+	@Deprecated
 	public ResourceBundle getResourceBundle() {
 		return (UResourceBundle) getUResourceBundle();
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ public final class AggregateTable {
 
 	/**
 	 * construct the aggregateTable from preparedQuery
-	 * 
+	 *
 	 * @param query
 	 */
 	public AggregateTable(String tempDir, Scriptable scope, List groupDefns) {
@@ -69,7 +69,7 @@ public final class AggregateTable {
 
 	/**
 	 * construct the aggregateTable from baseQuery
-	 * 
+	 *
 	 * @param query
 	 */
 	public AggregateTable(String tempDir, BaseQuery query) {
@@ -86,7 +86,7 @@ public final class AggregateTable {
 	 * Returns an implementation of the AggregateRegistry interface used by
 	 * ExpressionCompiler, to register aggregate expressions at the specified
 	 * grouping level
-	 * 
+	 *
 	 * @param groupLevel
 	 * @param afterGroup
 	 * @param cx
@@ -130,8 +130,9 @@ public final class AggregateTable {
 	 * @return
 	 */
 	public Scriptable getJSAggrValueObject() {
-		if (currentCalculator == null)
+		if (currentCalculator == null) {
 			return null;
+		}
 
 		return currentCalculator.getJSAggrValueObject();
 	}

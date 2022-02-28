@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 
 /**
  * Report is the root element of the design.
- * 
+ *
  */
 public class Report {
 
@@ -59,7 +59,7 @@ public class Report {
 
 	/**
 	 * queries used by this report.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.anlyzer.IQueryDefinition
 	 */
 	protected ArrayList queries = new ArrayList();
@@ -82,7 +82,7 @@ public class Report {
 	/**
 	 * Report body
 	 */
-	protected ArrayList<ReportItemDesign> contents = new ArrayList<ReportItemDesign>();
+	protected ArrayList<ReportItemDesign> contents = new ArrayList<>();
 
 	protected Map<String, Expression> userProperties;
 
@@ -103,9 +103,7 @@ public class Report {
 	 */
 	protected CSSEngine cssEngine;
 
-	private IStyle rootStyle;
-
-	private ArrayList<PageVariableDesign> pageVariables = new ArrayList<PageVariableDesign>();
+	private ArrayList<PageVariableDesign> pageVariables = new ArrayList<>();
 	private Expression onPageStart;
 	private Expression onPageEnd;
 
@@ -142,7 +140,7 @@ public class Report {
 
 	/**
 	 * return the map from report item to query
-	 * 
+	 *
 	 * @return the map from report item to query
 	 */
 	public HashMap getReportItemToQueryMap() {
@@ -154,7 +152,7 @@ public class Report {
 
 	/**
 	 * set query to report item
-	 * 
+	 *
 	 * @param reportItem the report item
 	 * @param query      query definition
 	 */
@@ -167,7 +165,7 @@ public class Report {
 
 	/**
 	 * get query by report item
-	 * 
+	 *
 	 * @param reportItem the report item
 	 * @param query      query definition
 	 */
@@ -180,7 +178,7 @@ public class Report {
 
 	/**
 	 * set report item id to report item instance
-	 * 
+	 *
 	 * @param id      the report item component id
 	 * @param rptItem the report item
 	 */
@@ -193,7 +191,7 @@ public class Report {
 
 	/**
 	 * return the report item with the specific component ID
-	 * 
+	 *
 	 * @param id the component id
 	 * @return the report item instance
 	 */
@@ -204,7 +202,7 @@ public class Report {
 
 	/**
 	 * return the named expression defined on the report
-	 * 
+	 *
 	 * @return
 	 */
 	public Map<String, Expression> getUserProperties() {
@@ -217,7 +215,7 @@ public class Report {
 
 	/**
 	 * set the report's page setup
-	 * 
+	 *
 	 * @param pageSetup page setup
 	 */
 	public void setPageSetup(PageSetupDesign pageSetup) {
@@ -226,7 +224,7 @@ public class Report {
 
 	/**
 	 * get the report's page setup
-	 * 
+	 *
 	 * @return page setup of this report
 	 */
 	public PageSetupDesign getPageSetup() {
@@ -239,7 +237,7 @@ public class Report {
 
 	/**
 	 * get contents count in a report.
-	 * 
+	 *
 	 * @return content count
 	 */
 	public int getContentCount() {
@@ -248,7 +246,7 @@ public class Report {
 
 	/**
 	 * get content at index.
-	 * 
+	 *
 	 * @param index content index
 	 * @return content
 	 */
@@ -259,7 +257,7 @@ public class Report {
 
 	/**
 	 * add content in to report body.
-	 * 
+	 *
 	 * @param item content to be added.
 	 */
 	public void addContent(ReportItemDesign item) {
@@ -268,7 +266,7 @@ public class Report {
 
 	/**
 	 * get the style.
-	 * 
+	 *
 	 * @param index style index
 	 * @return style
 	 */
@@ -278,7 +276,7 @@ public class Report {
 
 	/**
 	 * add a style definition into the report.
-	 * 
+	 *
 	 * @param style style definition.
 	 */
 	public void addStyle(String name, CSSStyleDeclaration style) {
@@ -289,7 +287,7 @@ public class Report {
 
 	/**
 	 * Finds the style in the report.
-	 * 
+	 *
 	 * @param name The name of the style.
 	 * @return The corresponding <code>StyleDesign</code> object.
 	 */
@@ -302,7 +300,7 @@ public class Report {
 
 	/**
 	 * Finds a master page with given name.
-	 * 
+	 *
 	 * @param name The name of the master page to locate.
 	 * @return A <code>MasterPageDesign</code> object that describes the master
 	 *         page, or <code>null</code> if no master page of the given name is
@@ -329,7 +327,7 @@ public class Report {
 
 	/**
 	 * get queries used in this report.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.analysis.IReportQuery
 	 * @return the list of the query
 	 */
@@ -386,17 +384,12 @@ public class Report {
 	}
 
 	public void updateVersion(String version) {
-		if (version == null) {
-			return;
-		}
-
-		if (version.equals(this.version)) {
+		if ((version == null) || version.equals(this.version)) {
 			return;
 		}
 
 		if (version.equals(ReportDocumentConstants.BIRT_ENGINE_VERSION_2_1_3)) {
 			new EngineIRTransferV213(reportDesign, this).transfer();
-			return;
 		}
 
 	}

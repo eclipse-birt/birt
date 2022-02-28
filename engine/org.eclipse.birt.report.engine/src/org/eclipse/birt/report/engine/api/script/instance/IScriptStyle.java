@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -28,13 +28,13 @@ public interface IScriptStyle {
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_EXCEL
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_WORD
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_POWERPOINT
-	 * 
+	 *
 	 */
 	String getVisibleFormat();
 
 	/**
 	 * Set format to hide in. Should be one of
-	 * 
+	 *
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_ALL
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_VIEWER
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_EMAIL
@@ -45,7 +45,7 @@ public interface IScriptStyle {
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_EXCEL
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_WORD
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_POWERPOINT
-	 * 
+	 *
 	 * @param format
 	 */
 	void setVisibleFormat(String format);
@@ -148,16 +148,18 @@ public interface IScriptStyle {
 
 	/**
 	 * Get the attachement type (either SCROLL or FIXED)
-	 * 
+	 *
 	 * @deprecated replaced by getBackgroundAttachment()
 	 */
+	@Deprecated
 	String getBackgroundAttachement();
 
 	/**
 	 * Set the attachement type (either SCROLL or FIXED)
-	 * 
+	 *
 	 * @deprecated replaced by setBackgroundAttachment( String attachment )
 	 */
+	@Deprecated
 	void setBackgroundAttachement(String attachement);
 
 	/**
@@ -482,200 +484,200 @@ public interface IScriptStyle {
 
 	/**
 	 * Get number format
-	 * 
+	 *
 	 * @return the number format
 	 */
 	String getNumberFormat();
 
 	/**
 	 * Set the number format
-	 * 
+	 *
 	 * @param numberFormat
 	 */
 	void setNumberFormat(String numberFormat);
 
 	/**
 	 * Get the number locale
-	 * 
+	 *
 	 * @return number locale
 	 */
 	String getNumberLocale();
 
 	/**
 	 * Set the number locale
-	 * 
+	 *
 	 * @param locale number locale
 	 */
 	void setNumberLocale(String locale);
 
 	/**
 	 * Get the date format
-	 * 
+	 *
 	 * @return date format
 	 */
 	String getDateFormat();
 
 	/**
 	 * Set the date format
-	 * 
+	 *
 	 * @param dateTimeFormat
 	 */
 	void setDateFormat(String dateTimeFormat);
 
 	/**
 	 * Get the date locale
-	 * 
+	 *
 	 * @return teh date locale
 	 */
 	String getDateLocale();
 
 	/**
 	 * Set the date locale
-	 * 
+	 *
 	 * @param locale the date locale
 	 */
 	void setDateLocale(String locale);
 
 	/**
 	 * Get the string format
-	 * 
+	 *
 	 * @return the string format
 	 */
 	String getStringFormat();
 
 	/**
 	 * Set the string format
-	 * 
+	 *
 	 * @param stringFormat
 	 */
 	void setStringFormat(String stringFormat);
 
 	/**
 	 * Get the string locale
-	 * 
+	 *
 	 * @return the string locale
 	 */
 	String getStringLocale();
 
 	/**
 	 * Set the string locale
-	 * 
+	 *
 	 * @param locale string locale
 	 */
 	void setStringLocale(String locale);
 
 	/**
 	 * Get the font family
-	 * 
+	 *
 	 */
 	String getFontFamily();
 
 	/**
 	 * Set the font family
-	 * 
+	 *
 	 */
 	void setFontFamily(String fontFamily);
 
 	/**
 	 * Get the font style
-	 * 
+	 *
 	 */
 	String getFontStyle();
 
 	/**
 	 * Set the font style
-	 * 
+	 *
 	 */
 	void setFontStyle(String fontStyle);
 
 	/**
 	 * Get the font variant
-	 * 
+	 *
 	 */
 	String getFontVariant();
 
 	/**
 	 * Set the font variant
-	 * 
+	 *
 	 */
 	void setFontVariant(String fontVariant);
 
 	/**
 	 * Get the font weight
-	 * 
+	 *
 	 */
 	String getFontWeight();
 
 	/**
 	 * Set the font weight
-	 * 
+	 *
 	 */
 	void setFontWeight(String fontWeight);
 
 	/**
 	 * Get the font size
-	 * 
+	 *
 	 */
 	String getFontSize();
 
 	/**
 	 * Set the font size
-	 * 
+	 *
 	 */
 	void setFontSize(String fontSize);
 
 	/**
 	 * Get the text underline
 	 */
-	public String getTextUnderline();
+	String getTextUnderline();
 
 	/**
 	 * Set the text underline
 	 */
-	public void setTextUnderline(String underline) throws ScriptException;
+	void setTextUnderline(String underline) throws ScriptException;
 
 	/**
 	 * Get the text overline
 	 */
-	public String getTextOverline();
+	String getTextOverline();
 
 	/**
 	 * Set the text overline
 	 */
-	public void setTextOverline(String overline) throws ScriptException;
+	void setTextOverline(String overline) throws ScriptException;
 
 	/**
 	 * Get the text line through
 	 */
-	public String getTextLineThrough();
+	String getTextLineThrough();
 
 	/**
 	 * Set the text line through
 	 */
-	public void setTextLineThrough(String through) throws ScriptException;
+	void setTextLineThrough(String through) throws ScriptException;
 
 	/**
 	 * Get the X (horizontal) position of the background image
-	 * 
+	 *
 	 */
-	public String getBackgroundPositionX();
+	String getBackgroundPositionX();
 
 	/**
 	 * Set the X (horizontal) position of the background image
-	 * 
+	 *
 	 */
-	public void setBackgroundPositionX(String x) throws ScriptException;
+	void setBackgroundPositionX(String x) throws ScriptException;
 
 	/**
 	 * Get the Y (vertical) position of the background image
-	 * 
+	 *
 	 */
-	public String getBackgroundPositionY();
+	String getBackgroundPositionY();
 
 	/**
 	 * Set the Y (vertical) position of the background image
-	 * 
+	 *
 	 */
-	public void setBackgroundPositionY(String y) throws ScriptException;
+	void setBackgroundPositionY(String y) throws ScriptException;
 
 }

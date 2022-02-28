@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2012 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -91,6 +91,7 @@ public class ResultSet implements IResultSet {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getMetaData()
 	 */
+	@Override
 	public IResultSetMetaData getMetaData() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, ResultSet.class.getName(), "getMetaData", //$NON-NLS-1$
 				"ResultSet.getMetaData( )"); //$NON-NLS-1$
@@ -108,9 +109,10 @@ public class ResultSet implements IResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#close()
 	 */
+	@Override
 	public void close() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, ResultSet.class.getName(), "close", //$NON-NLS-1$
 				"ResultSet.close()"); //$NON-NLS-1$
@@ -122,8 +124,9 @@ public class ResultSet implements IResultSet {
 		} catch (SQLException e) {
 			try {
 				if (DBConfig.getInstance().qualifyPolicy(this.conn.getMetaData().getDriverName(),
-						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION))
+						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION)) {
 					return;
+				}
 			} catch (SQLException e1) {
 
 			}
@@ -136,16 +139,18 @@ public class ResultSet implements IResultSet {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#setMaxRows(int)
 	 */
+	@Override
 	public void setMaxRows(int max) {
 		logger.logp(java.util.logging.Level.FINEST, ResultSet.class.getName(), "setMaxRows", //$NON-NLS-1$
 				"ResultSet.setMaxRows( " + max + " )"); //$NON-NLS-1$ //$NON-NLS-2$
-		if (max > 0)
+		if (max > 0) {
 			maxRows = max;
-		else
+		} else {
 			maxRows = Integer.MAX_VALUE;
-		// if the max is positive, reset it,
-		// otherwise, ignore this operation and keep the
-		// previous value
+			// if the max is positive, reset it,
+			// otherwise, ignore this operation and keep the
+			// previous value
+		}
 
 	}
 
@@ -153,6 +158,7 @@ public class ResultSet implements IResultSet {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#next()
 	 */
+	@Override
 	public boolean next() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, ResultSet.class.getName(), "next", //$NON-NLS-1$
 				"ResultSet.next( )"); //$NON-NLS-1$
@@ -175,6 +181,7 @@ public class ResultSet implements IResultSet {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getRow()
 	 */
+	@Override
 	public int getRow() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, ResultSet.class.getName(), "getRow", //$NON-NLS-1$
 				"ResultSet.getRow( )"); //$NON-NLS-1$
@@ -186,6 +193,7 @@ public class ResultSet implements IResultSet {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getString(int)
 	 */
+	@Override
 	public String getString(int index) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -203,6 +211,7 @@ public class ResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getString(java.lang.String)
 	 */
+	@Override
 	public String getString(String columnName) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -219,6 +228,7 @@ public class ResultSet implements IResultSet {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getInt(int)
 	 */
+	@Override
 	public int getInt(int index) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -229,10 +239,11 @@ public class ResultSet implements IResultSet {
 			// check if it's postgresql boolean dataType
 			try {
 				if (rs.getMetaData().getColumnType(index) == Types.BIT) {
-					if (rs.getString(index).equals("t")) //$NON-NLS-1$
+					if (rs.getString(index).equals("t")) { //$NON-NLS-1$
 						return 1;
-					else if (rs.getString(index).equals("f")) //$NON-NLS-1$
+					} else if (rs.getString(index).equals("f")) { //$NON-NLS-1$
 						return 0;
+					}
 				}
 
 				logger.log(Level.WARNING, e.getLocalizedMessage());
@@ -250,6 +261,7 @@ public class ResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getInt(java.lang.String)
 	 */
+	@Override
 	public int getInt(String columnName) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -266,6 +278,7 @@ public class ResultSet implements IResultSet {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDouble(int)
 	 */
+	@Override
 	public double getDouble(int index) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -283,6 +296,7 @@ public class ResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getDouble(java.lang.String)
 	 */
+	@Override
 	public double getDouble(String columnName) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -299,6 +313,7 @@ public class ResultSet implements IResultSet {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBigDecimal(int)
 	 */
+	@Override
 	public BigDecimal getBigDecimal(int index) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -308,8 +323,9 @@ public class ResultSet implements IResultSet {
 		} catch (SQLException e) {
 			try {
 				Object value = rs.getObject(index);
-				if (value instanceof BigDecimal)
+				if (value instanceof BigDecimal) {
 					return (BigDecimal) value;
+				}
 				// fix BZ 362714, Hive JDBC does not support BigDecimal
 				if (value instanceof Long) {
 					return new BigDecimal((Long) value);
@@ -327,6 +343,7 @@ public class ResultSet implements IResultSet {
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getBigDecimal(java.lang.
 	 * String)
 	 */
+	@Override
 	public BigDecimal getBigDecimal(String columnName) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -336,8 +353,9 @@ public class ResultSet implements IResultSet {
 		} catch (SQLException e) {
 			try {
 				Object value = rs.getObject(columnName);
-				if (value instanceof BigDecimal)
+				if (value instanceof BigDecimal) {
 					return (BigDecimal) value;
+				}
 				// fix BZ 362714, Hive JDBC does not support BigDecimal
 				if (value instanceof Long) {
 					return new BigDecimal((Long) value);
@@ -353,6 +371,7 @@ public class ResultSet implements IResultSet {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDate(int)
 	 */
+	@Override
 	public Date getDate(int index) throws OdaException {
 		assertNotNull(rs);
 
@@ -371,6 +390,7 @@ public class ResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getDate(java.lang.String)
 	 */
+	@Override
 	public Date getDate(String columnName) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -387,6 +407,7 @@ public class ResultSet implements IResultSet {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTime(int)
 	 */
+	@Override
 	public Time getTime(int index) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -404,6 +425,7 @@ public class ResultSet implements IResultSet {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getTime(java.lang.String)
 	 */
+	@Override
 	public Time getTime(String columnName) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -420,6 +442,7 @@ public class ResultSet implements IResultSet {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTimestamp(int)
 	 */
+	@Override
 	public Timestamp getTimestamp(int index) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -438,6 +461,7 @@ public class ResultSet implements IResultSet {
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getTimestamp(java.lang.
 	 * String)
 	 */
+	@Override
 	public Timestamp getTimestamp(String columnName) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -452,10 +476,11 @@ public class ResultSet implements IResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBlob(java.lang.
 	 * String)
 	 */
+	@Override
 	public IBlob getBlob(String columnName) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -494,14 +519,16 @@ public class ResultSet implements IResultSet {
 				// array
 				try {
 					byte[] bytes = rs.getBytes(columnName);
-					if (bytes == null)
+					if (bytes == null) {
 						return null;
+					}
 					return new Blob(SqlBlobUtil.newBlob(new ByteArrayInputStream(bytes)));
 				} catch (SQLException e2) {
 					try {
 						Object value = rs.getObject(columnName);
-						if (value instanceof IBlob)
+						if (value instanceof IBlob) {
 							return (IBlob) value;
+						}
 					} catch (SQLException ex) {
 					}
 
@@ -515,9 +542,10 @@ public class ResultSet implements IResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBlob(int)
 	 */
+	@Override
 	public IBlob getBlob(int index) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -556,14 +584,16 @@ public class ResultSet implements IResultSet {
 				// array
 				try {
 					byte[] bytes = rs.getBytes(index);
-					if (bytes == null)
+					if (bytes == null) {
 						return null;
+					}
 					return new Blob(SqlBlobUtil.newBlob(new ByteArrayInputStream(bytes)));
 				} catch (SQLException e2) {
 					try {
 						Object value = rs.getObject(index);
-						if (value instanceof IBlob)
+						if (value instanceof IBlob) {
 							return (IBlob) value;
+						}
 					} catch (SQLException ex) {
 					}
 
@@ -577,10 +607,11 @@ public class ResultSet implements IResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getClob(java.lang.
 	 * String)
 	 */
+	@Override
 	public IClob getClob(String columnName) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -589,8 +620,9 @@ public class ResultSet implements IResultSet {
 		} catch (SQLException e) {
 			try {
 				Object value = rs.getObject(columnName);
-				if (value instanceof IBlob)
+				if (value instanceof IBlob) {
 					return (IClob) value;
+				}
 			} catch (SQLException ex) {
 			}
 
@@ -601,9 +633,10 @@ public class ResultSet implements IResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getClob(int)
 	 */
+	@Override
 	public IClob getClob(int index) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -612,8 +645,9 @@ public class ResultSet implements IResultSet {
 		} catch (SQLException e) {
 			try {
 				Object value = rs.getObject(index);
-				if (value instanceof IBlob)
+				if (value instanceof IBlob) {
 					return (IClob) value;
+				}
 			} catch (SQLException ex) {
 			}
 
@@ -624,10 +658,11 @@ public class ResultSet implements IResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBoolean(java.lang.
 	 * String)
 	 */
+	@Override
 	public boolean getBoolean(String columnName) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -641,9 +676,10 @@ public class ResultSet implements IResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBoolean(int)
 	 */
+	@Override
 	public boolean getBoolean(int index) throws OdaException {
 		assertNotNull(rs);
 		try {
@@ -657,10 +693,11 @@ public class ResultSet implements IResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSet#getObject(java.lang.String)
 	 */
+	@Override
 	public Object getObject(String columnName) throws OdaException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
@@ -668,9 +705,10 @@ public class ResultSet implements IResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getObject(int)
 	 */
+	@Override
 	public Object getObject(int index) throws OdaException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
@@ -680,6 +718,7 @@ public class ResultSet implements IResultSet {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#wasNull()
 	 */
+	@Override
 	public boolean wasNull() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, ResultSet.class.getName(), "getMetaData", //$NON-NLS-1$
 				"ResultSet.wasNull( )"); //$NON-NLS-1$
@@ -699,6 +738,7 @@ public class ResultSet implements IResultSet {
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#findColumn(java.lang.
 	 * String)
 	 */
+	@Override
 	public int findColumn(String columnName) throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, ResultSet.class.getName(), "findColumn", //$NON-NLS-1$
 				"ResultSet.findColumn( \"" + columnName + "\" )"); //$NON-NLS-1$ //$NON-NLS-2$

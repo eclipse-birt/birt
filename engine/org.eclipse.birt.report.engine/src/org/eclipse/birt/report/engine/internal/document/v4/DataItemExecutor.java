@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,14 +33,14 @@ import org.eclipse.birt.report.engine.ir.MapDesign;
  * Data item executor calculates expressions in data item design, generate a
  * data content instance, evaluate styles, bookmark, action property and pass
  * this instance to emitter.
- * 
+ *
  */
 public class DataItemExecutor extends ReportItemExecutor {
 
 	/**
 	 * construct a data item executor by giving execution context and report
 	 * executor visitor
-	 * 
+	 *
 	 * @param loader      the executor context
 	 * @param itemEmitter the emitter
 	 */
@@ -48,10 +48,12 @@ public class DataItemExecutor extends ReportItemExecutor {
 		super(manager, ExecutorManager.DATAITEM);
 	}
 
+	@Override
 	protected IContent doCreateContent() {
 		return report.createDataContent();
 	}
 
+	@Override
 	protected void doExecute() throws Exception {
 		DataItemDesign dataDesign = (DataItemDesign) design;
 		IDataContent dataContent = (IDataContent) content;
@@ -89,6 +91,7 @@ public class DataItemExecutor extends ReportItemExecutor {
 		}
 	}
 
+	@Override
 	public void close() {
 		closeQuery();
 		super.close();

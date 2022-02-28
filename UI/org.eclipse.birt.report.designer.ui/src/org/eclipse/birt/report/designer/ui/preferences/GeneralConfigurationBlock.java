@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,7 +60,7 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock {
 	}
 
 	private Key[] getKeys() {
-		Key[] keys = new Key[] { PREF_ENABLE_GRADIENT, PREF_ENABLE_ANIMATION, PREF_LIBRARY_WARNING,
+		Key[] keys = { PREF_ENABLE_GRADIENT, PREF_ENABLE_ANIMATION, PREF_LIBRARY_WARNING,
 				PREF_LIBRARY_DEFAULT_THEME_ENABLE, PREF_LIBRARY_DEFAULT_THEME_INCLUDE, PREF_LIBRARY_MOVE_BINDINGS };
 		return keys;
 	}
@@ -68,6 +68,7 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock {
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(Composite)
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		fPixelConverter = new PixelConverter(parent);
 		setShell(parent.getShell());
@@ -104,7 +105,7 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock {
 		layout.numColumns = 1;
 		pageContent.setLayout(layout);
 
-		String[] enableDisableValues = new String[] { ENABLED, DISABLED };
+		String[] enableDisableValues = { ENABLED, DISABLED };
 
 		ckGradient = addCheckBox(pageContent,
 				Messages.getString("GeneralConfigurationBlock.button.text.enable.gradient"), //$NON-NLS-1$
@@ -115,7 +116,7 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock {
 
 		validateSettings(PREF_ENABLE_ANIMATION, null, getValue(PREF_ENABLE_ANIMATION));
 
-		String[] promptValues = new String[] { MessageDialogWithToggle.PROMPT, MessageDialogWithToggle.NEVER };
+		String[] promptValues = { MessageDialogWithToggle.PROMPT, MessageDialogWithToggle.NEVER };
 		Group group = new Group(pageContent, SWT.NONE);
 		group.setText(Messages.getString("GeneralConfigurationBlock.group.label"));
 		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -139,10 +140,12 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock {
 			btnInclude.setEnabled(btnEnable.getSelection());
 			btnEnable.addSelectionListener(new SelectionListener() {
 
+				@Override
 				public void widgetDefaultSelected(SelectionEvent arg0) {
 
 				}
 
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					btnInclude.setEnabled(btnEnable.getSelection());
 				}
@@ -150,12 +153,12 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock {
 			});
 
 		}
-		String[] labels = new String[] { Messages.getString("GeneralConfigurationBlock.move.binding.group"), //$NON-NLS-1$
+		String[] labels = { Messages.getString("GeneralConfigurationBlock.move.binding.group"), //$NON-NLS-1$
 				Messages.getString("GeneralConfigurationBlock.move.binding.always"), //$NON-NLS-1$
 				Messages.getString("GeneralConfigurationBlock.move.binding.never"), //$NON-NLS-1$
 				Messages.getString("GeneralConfigurationBlock.move.binding.prompt") //$NON-NLS-1$
 		};
-		String[] values = new String[] { MessageDialogWithToggle.ALWAYS, MessageDialogWithToggle.NEVER,
+		String[] values = { MessageDialogWithToggle.ALWAYS, MessageDialogWithToggle.NEVER,
 				MessageDialogWithToggle.PROMPT };
 
 		addRadioButton(pageContent, labels, PREF_LIBRARY_MOVE_BINDINGS, values, 0);

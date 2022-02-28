@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -81,19 +81,23 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		factory = new LayoutContextFactory(null, context);
 	}
 
+	@Override
 	public void initialize(IEmitterServices service) throws BirtException {
 		emitter.initialize(service);
 	}
 
+	@Override
 	public String getOutputFormat() {
 		return emitter.getOutputFormat();
 	}
 
+	@Override
 	public void start(IReportContent report) throws BirtException {
 		emitter.start(report);
 		context.setReport(report);
 	}
 
+	@Override
 	public void end(IReportContent report) throws BirtException {
 		resolveTotalPage(emitter);
 		if (pageHandler != null) {
@@ -102,10 +106,12 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		emitter.end(report);
 	}
 
+	@Override
 	public ILayoutPageHandler getPageHandler() {
 		return pageHandler;
 	}
 
+	@Override
 	public void setPageHandler(ILayoutPageHandler pageHandler) {
 		this.pageHandler = pageHandler;
 	}
@@ -125,10 +131,11 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 			} else {
 				String pattern = format.getNumberPattern();
 				String locale = format.getNumberLocale();
-				if (locale == null)
+				if (locale == null) {
 					nf = new NumberFormatter(pattern);
-				else
+				} else {
 					nf = new NumberFormatter(pattern, new ULocale(locale));
+				}
 			}
 
 			long totalPageCount = 0;
@@ -175,6 +182,7 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		}
 	}
 
+	@Override
 	public void startContainer(IContainerContent container) throws BirtException {
 		_startContainer(container);
 	}
@@ -190,12 +198,10 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 				lineLayout.initialize();
 				current = (ContainerLayout) lineLayout;
 			}
-		} else {
-			if (current instanceof InlineStackingLayout) {
-				while (current instanceof InlineStackingLayout) {
-					current.closeLayout();
-					current = current.getParent();
-				}
+		} else if (current instanceof InlineStackingLayout) {
+			while (current instanceof InlineStackingLayout) {
+				current.closeLayout();
+				current = current.getParent();
 			}
 		}
 		layout = factory.createLayoutManager(current, container);
@@ -205,6 +211,7 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		}
 	}
 
+	@Override
 	public void endContainer(IContainerContent container) throws BirtException {
 		_endContainer(container);
 	}
@@ -221,6 +228,7 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		current = current.getParent();
 	}
 
+	@Override
 	public void startContent(IContent content) throws BirtException {
 		boolean isInline = PropertyUtil.isInlineElement(content);
 		Layout layout;
@@ -246,16 +254,19 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		}
 	}
 
+	@Override
 	public void endContent(IContent content) {
 		// do nothing;
 	}
 
+	@Override
 	public void startListBand(IListBandContent listBand) {
 		if (current instanceof RepeatableLayout) {
 			((RepeatableLayout) current).bandStatus = listBand.getBandType();
 		}
 	}
 
+	@Override
 	public void startListGroup(IListGroupContent listGroup) throws BirtException {
 		if (current instanceof RepeatableLayout) {
 			((RepeatableLayout) current).bandStatus = IBandContent.BAND_DETAIL;
@@ -263,10 +274,12 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		super.startListGroup(listGroup);
 	}
 
+	@Override
 	public void endListBand(IListBandContent listBand) {
 
 	}
 
+	@Override
 	public void startPage(IPageContent page) throws BirtException {
 		if (!context.autoPageBreak) {
 			long number = page.getPageNumber();
@@ -287,13 +300,14 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		return showFooter;
 	}
 
+	@Override
 	public void outputPage(IPageContent page) throws BirtException {
 		MasterPageDesign mp = (MasterPageDesign) page.getGenerateBy();
 
 		if (mp instanceof SimpleMasterPageDesign) {
 			Object obj = page.getExtension(IContent.LAYOUT_EXTENSION);
 
-			if (obj != null && obj instanceof PageArea) {
+			if (obj instanceof PageArea) {
 				PageArea pageArea = (PageArea) obj;
 
 				if (isFirst && !((SimpleMasterPageDesign) mp).isShowHeaderOnFirst()) {
@@ -331,14 +345,17 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		current = current.getParent();
 	}
 
+	@Override
 	public void startRow(IRowContent row) throws BirtException {
 		startTableContainer(row);
 	}
 
+	@Override
 	public void endRow(IRowContent row) throws BirtException {
 		endTableContainer(row);
 	}
 
+	@Override
 	public void startTableBand(ITableBandContent band) throws BirtException {
 		if (current instanceof RepeatableLayout) {
 			((RepeatableLayout) current).bandStatus = band.getBandType();
@@ -346,6 +363,7 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		startTableContainer(band);
 	}
 
+	@Override
 	public void startTableGroup(ITableGroupContent group) throws BirtException {
 		if (current instanceof RepeatableLayout) {
 			((RepeatableLayout) current).bandStatus = IBandContent.BAND_DETAIL;
@@ -353,18 +371,22 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		startTableContainer(group);
 	}
 
+	@Override
 	public void endTableBand(ITableBandContent band) throws BirtException {
 		endTableContainer(band);
 	}
 
+	@Override
 	public void endTableGroup(ITableGroupContent group) throws BirtException {
 		endTableContainer(group);
 	}
 
+	@Override
 	public void startCell(ICellContent cell) throws BirtException {
 		startTableContainer(cell);
 	}
 
+	@Override
 	public void endCell(ICellContent cell) throws BirtException {
 		endContainer(cell);
 	}
@@ -382,6 +404,7 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		ContentEmitterUtil.endContent(content, emitter);
 	}
 
+	@Override
 	public void startForeign(IForeignContent foreign) throws BirtException {
 		if (IForeignContent.HTML_TYPE.equals(foreign.getRawType())) {
 			_startContainer(foreign);

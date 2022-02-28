@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,14 +27,14 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected Result</th>
- * 
+ *
  * <tr>
  * <td>testGetter</td>
  * <td><code>JarFileHandle</code>'s getters work.</td>
  * <td>All fields of the <code>JarFileHandle</code> can be read by the
  * respective getter.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>testWriter</td>
  * <td><code>JarFileHandle</code>'s setters work.</td>
@@ -42,7 +42,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * resprective setter.</td>
  * </tr>
  * </table>
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.ScriptLib
  */
 
@@ -56,6 +56,7 @@ public class ScriptLibHandleTest extends BaseTestCase {
 	 * Creates the JarFileHandle.
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign(fileName);
@@ -75,7 +76,7 @@ public class ScriptLibHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests all setters.
-	 * 
+	 *
 	 * @throws SemanticException when value can't be set.
 	 */
 

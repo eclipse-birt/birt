@@ -1,18 +1,20 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.facttable;
+
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
@@ -30,28 +32,26 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResult
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+import org.junit.Before;
+import org.junit.Test;
 
 import testutil.BaseTestCase;
 
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 /**
- * 
+ *
  */
 
 public class CubeAggregationTest extends BaseTestCase {
 	// private static final String tmpPath = System.getProperty( "java.io.tmpdir" )
 	// + File.separator;
-	private DimLevel[] dimLevels = new DimLevel[] { new DimLevel("geography", "province"),
-			new DimLevel("geography", "city"), new DimLevel("customer", "name"), new DimLevel("product", "productID") };
+	private DimLevel[] dimLevels = { new DimLevel("geography", "province"), new DimLevel("geography", "city"),
+			new DimLevel("customer", "name"), new DimLevel("product", "productID") };
 
 	AggregationResultSet aggregationResultSet = null;
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
@@ -65,11 +65,11 @@ public class CubeAggregationTest extends BaseTestCase {
 	@Test
 	public void testSumAggregation1() throws IOException, DataException {
 		AggregationDefinition[] aggregations = new AggregationDefinition[2];
-		int[] sortTypes = new int[] { 0, 0 };
+		int[] sortTypes = { 0, 0 };
 		AggregationFunctionDefinition[] aggregationFunctions = new AggregationFunctionDefinition[2];
 		aggregationFunctions[0] = new AggregationFunctionDefinition("pSale", "totalSale", "SUM");
 		aggregationFunctions[1] = new AggregationFunctionDefinition("pCount", "totalCost", "COUNT");
-		DimLevel[] dimLevels = new DimLevel[] { this.dimLevels[0], this.dimLevels[2] };
+		DimLevel[] dimLevels = { this.dimLevels[0], this.dimLevels[2] };
 		aggregations[0] = new AggregationDefinition(dimLevels, sortTypes, aggregationFunctions);
 		sortTypes = new int[] { 0 };
 		dimLevels = new DimLevel[] { this.dimLevels[0] };
@@ -149,11 +149,11 @@ public class CubeAggregationTest extends BaseTestCase {
 	@Test
 	public void testSumAggregation2() throws IOException, DataException {
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
-		int[] sortTypes = new int[] { 0 };
+		int[] sortTypes = { 0 };
 		AggregationFunctionDefinition[] aggregationFunctions = new AggregationFunctionDefinition[1];
 		aggregationFunctions[0] = new AggregationFunctionDefinition("saleWeightAvg", "totalSale", this.dimLevels[3],
 				"productID", IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC);
-		DimLevel[] dimLevels = new DimLevel[] { this.dimLevels[0], this.dimLevels[2] };
+		DimLevel[] dimLevels = { this.dimLevels[0], this.dimLevels[2] };
 		dimLevels = new DimLevel[] { this.dimLevels[0] };
 		aggregations[0] = new AggregationDefinition(dimLevels, sortTypes, aggregationFunctions);
 
@@ -176,13 +176,13 @@ public class CubeAggregationTest extends BaseTestCase {
 	@Test
 	public void testRunningAggregation1() throws IOException, DataException {
 		AggregationDefinition[] aggregations = new AggregationDefinition[2];
-		int[] sortTypes = new int[] { 0, 0 };
+		int[] sortTypes = { 0, 0 };
 		AggregationFunctionDefinition[] aggregationFunctions = new AggregationFunctionDefinition[2];
 		aggregationFunctions[0] = new AggregationFunctionDefinition("pSale", "totalSale",
 				IBuildInAggregation.TOTAL_RUNNINGSUM_FUNC);
 		aggregationFunctions[1] = new AggregationFunctionDefinition("pCount", "totalCost",
 				IBuildInAggregation.TOTAL_RUNNINGCOUNT_FUNC);
-		DimLevel[] dimLevels = new DimLevel[] { this.dimLevels[0], this.dimLevels[2] };
+		DimLevel[] dimLevels = { this.dimLevels[0], this.dimLevels[2] };
 		aggregations[0] = new AggregationDefinition(dimLevels, sortTypes, aggregationFunctions);
 		dimLevels = new DimLevel[] { this.dimLevels[0], this.dimLevels[1] };
 		aggregations[1] = new AggregationDefinition(dimLevels, sortTypes, aggregationFunctions);
@@ -201,7 +201,7 @@ public class CubeAggregationTest extends BaseTestCase {
 		assertEquals(resultSets[0].getLevel(3), this.dimLevels[3]);
 		assertEquals(resultSets[0].getLevelKeyColCount(0), 1);
 		assertEquals(resultSets[0].getLevelKeyColCount(1), 1);
-		Object[][] fieldValues = new Object[][] { { "AnHui", "li", new Double(110), new Integer(1) },
+		Object[][] fieldValues = { { "AnHui", "li", new Double(110), new Integer(1) },
 				{ "AnHui", "wang", new Double(120), new Integer(1) },
 				{ "AnHui", "zhao", new Double(60), new Integer(1) },
 				{ "AnHui", "zhao", new Double(360), new Integer(2) },
@@ -264,12 +264,12 @@ public class CubeAggregationTest extends BaseTestCase {
 	@Test
 	public void testMultipleAggregation1() throws IOException, DataException {
 		AggregationDefinition[] aggregations = new AggregationDefinition[2];
-		int[] sortTypes = new int[] { 0, 0 };
+		int[] sortTypes = { 0, 0 };
 		AggregationFunctionDefinition[] aggregationFunctions = new AggregationFunctionDefinition[1];
 		aggregationFunctions[0] = new AggregationFunctionDefinition("saleRank", "totalSale",
 				IBuildInAggregation.TOTAL_RANK_FUNC);
 //		aggregationFunctions[0].setParaValue( "true" );
-		DimLevel[] dimLevels = new DimLevel[] { this.dimLevels[0], this.dimLevels[2] };
+		DimLevel[] dimLevels = { this.dimLevels[0], this.dimLevels[2] };
 		aggregations[0] = new AggregationDefinition(dimLevels, sortTypes, aggregationFunctions);
 		dimLevels = new DimLevel[] { this.dimLevels[0], this.dimLevels[1] };
 		aggregations[1] = new AggregationDefinition(dimLevels, sortTypes, aggregationFunctions);
@@ -287,8 +287,7 @@ public class CubeAggregationTest extends BaseTestCase {
 		assertEquals(resultSets[0].getLevel(3), this.dimLevels[3]);
 		assertEquals(resultSets[0].getLevelKeyColCount(0), 1);
 		assertEquals(resultSets[0].getLevelKeyColCount(1), 1);
-		Object[][] fieldValues = new Object[][] {
-				{ "AnHui", "HeFei", "li", new Integer(1), new Double(110), new Integer(1) },
+		Object[][] fieldValues = { { "AnHui", "HeFei", "li", new Integer(1), new Double(110), new Integer(1) },
 				{ "AnHui", "HeFei", "wang", new Integer(1), new Double(120), new Integer(1) },
 				{ "AnHui", "HeFei", "zhao", new Integer(2), new Double(60), new Integer(1) },
 				{ "AnHui", "HuaiBei", "zhao", new Integer(3), new Double(300), new Integer(5) },
@@ -347,12 +346,12 @@ public class CubeAggregationTest extends BaseTestCase {
 	}
 
 	private void createAggregationResult() throws IOException, DataException {
-		int[] sortTypes = new int[] { 0, 0, 0, 0 };
+		int[] sortTypes = { 0, 0, 0, 0 };
 		AggregationFunctionDefinition[] aggregationFunctions = new AggregationFunctionDefinition[2];
 		aggregationFunctions[0] = new AggregationFunctionDefinition("totalSale", "sale", "SUM");
 		aggregationFunctions[1] = new AggregationFunctionDefinition("totalCost", "cost", "SUM");
 		AggregationDefinition aggregation = new AggregationDefinition(dimLevels, sortTypes, aggregationFunctions);
-		String[][] keyNames = new String[][] { { "province" }, { "city" }, { "name" }, { "productID" } };
+		String[][] keyNames = { { "province" }, { "city" }, { "name" }, { "productID" } };
 		String[][] attrNames = null;
 		aggregationResultSet = new AggregationResultSet(aggregation, getAggregationResultRow(), keyNames, attrNames);
 
@@ -361,8 +360,7 @@ public class CubeAggregationTest extends BaseTestCase {
 	private IDiskArray getAggregationResultRow() throws DataException, IOException {
 		int LIST_BUFFER_SIZE = 4000;
 		IDiskArray result = new BufferedStructureArray(AggregationResultRow.getCreator(), LIST_BUFFER_SIZE);
-		Object[][] fieldValues = new Object[][] {
-				{ "AnHui", "HeFei", "li", new Integer(1), new Double(110), new Double(90) },
+		Object[][] fieldValues = { { "AnHui", "HeFei", "li", new Integer(1), new Double(110), new Double(90) },
 				{ "AnHui", "HeFei", "wang", new Integer(1), new Double(120), new Double(130) },
 				{ "AnHui", "HeFei", "zhao", new Integer(2), new Double(60), new Double(80) },
 				{ "AnHui", "HuaiBei", "zhao", new Integer(3), new Double(300), new Double(200) },

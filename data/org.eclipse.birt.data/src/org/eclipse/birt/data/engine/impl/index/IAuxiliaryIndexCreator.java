@@ -20,14 +20,14 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * 
+ *
  */
 
 public interface IAuxiliaryIndexCreator {
 
-	public void close() throws DataException;
+	void close() throws DataException;
 
-	public void save(IResultObject result, int rowId) throws DataException;
+	void save(IResultObject result, int rowId) throws DataException;
 
-	public void initialize(IResultClass resultClass, Scriptable jsRow) throws DataException;
+	void initialize(IResultClass resultClass, Scriptable jsRow) throws DataException;
 }

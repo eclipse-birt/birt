@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,11 +30,11 @@ public interface ISortElement extends IDesignElement {
 	 * <li>SORT_DIRECTION_ASC
 	 * <li>SORT_DIRECTION_DESC
 	 * </ul>
-	 * 
+	 *
 	 * @return the direction to sort
 	 */
 
-	public String getDirection();
+	String getDirection();
 
 	/**
 	 * Sets the sort direction. The allowed values are define in
@@ -44,33 +44,33 @@ public interface ISortElement extends IDesignElement {
 	 * <li>SORT_DIRECTION_ASC
 	 * <li>SORT_DIRECTION_DESC
 	 * </ul>
-	 * 
+	 *
 	 * @param direction the direction to set
 	 * @throws SemanticException if the direction is not in choice list.
 	 */
 
-	public void setDirection(String direction) throws SemanticException;
+	void setDirection(String direction) throws SemanticException;
 
 	/**
 	 * Returns an expression that gives the sort key on which to sort. The simplest
 	 * case is the name of a column. The expression can also be an expression that
 	 * includes columns. When used for a group, the expression can contain an
 	 * aggregate computed over the group.
-	 * 
+	 *
 	 * @return the key to sort
-	 * 
+	 *
 	 * @see #setKey(String)
 	 */
 
-	public String getKey();
+	String getKey();
 
 	/**
 	 * Sets an expression that gives the sort key on which to sort.
-	 * 
+	 *
 	 * @param key the key to sort
 	 * @throws SemanticException value required exception
 	 * @see #getKey()
 	 */
 
-	public void setKey(String key) throws SemanticException;
+	void setKey(String key) throws SemanticException;
 }

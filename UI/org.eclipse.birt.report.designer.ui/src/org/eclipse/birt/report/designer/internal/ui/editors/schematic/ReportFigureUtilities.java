@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,18 +28,18 @@ import org.eclipse.swt.graphics.Color;
 
 /**
  * Figure related utilities.
- * 
+ *
  */
 public class ReportFigureUtilities {
 
 	private static Polygon trianglePolygon = new Polygon();
 
-	private static final Color[] BEVEL_COLOR = new Color[] {
+	private static final Color[] BEVEL_COLOR = {
 
 			ColorManager.getColor(212, 208, 200), ColorManager.getColor(255, 255, 255),
 			ColorManager.getColor(64, 64, 64), ColorManager.getColor(128, 128, 128), };
 
-	private static final Color[] SHADOW_COLOR = new Color[] {
+	private static final Color[] SHADOW_COLOR = {
 
 			ColorManager.getColor(195, 195, 195), ColorManager.getColor(210, 210, 210),
 			ColorManager.getColor(225, 225, 225), ColorManager.getColor(240, 240, 240),
@@ -58,7 +58,7 @@ public class ReportFigureUtilities {
 
 	/**
 	 * Gets points to construct a triangle by give height and central point.
-	 * 
+	 *
 	 * @param triangleHeight
 	 * @param triangleCenter
 	 * @return
@@ -78,7 +78,7 @@ public class ReportFigureUtilities {
 
 	/**
 	 * Paints a triangle using given height and central point.
-	 * 
+	 *
 	 * @param graphics
 	 * @param triangleHeight
 	 * @param triangleCenter
@@ -90,7 +90,7 @@ public class ReportFigureUtilities {
 	/**
 	 * Tests if the given point is inside the triangle constructed by given height
 	 * and central point.
-	 * 
+	 *
 	 * @param triangleCenter
 	 * @param triangleHeight
 	 * @param pt
@@ -104,7 +104,7 @@ public class ReportFigureUtilities {
 
 	/**
 	 * Paints double arrow on list element
-	 * 
+	 *
 	 * @param graphics
 	 * @param height
 	 * @param center
@@ -133,7 +133,7 @@ public class ReportFigureUtilities {
 
 	/**
 	 * Paints expand handle
-	 * 
+	 *
 	 * @param graphics
 	 * @param height
 	 * @param center
@@ -157,7 +157,7 @@ public class ReportFigureUtilities {
 
 	/**
 	 * Paints bevel
-	 * 
+	 *
 	 * @param graphics
 	 * @param area
 	 * @param rised
@@ -182,7 +182,7 @@ public class ReportFigureUtilities {
 
 	/**
 	 * Paints shadow
-	 * 
+	 *
 	 * @param graphics
 	 * @param area
 	 * @param drawTopLeft

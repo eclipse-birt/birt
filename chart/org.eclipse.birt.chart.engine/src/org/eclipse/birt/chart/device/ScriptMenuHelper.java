@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * The helper class is used to generate scripts for Action Value of chart model.
- * 
+ *
  * @since 2.5.2
  */
 
@@ -32,7 +32,7 @@ public class ScriptMenuHelper implements IScriptMenuHelper {
 
 	/**
 	 * Initializes instance of this object.
-	 * 
+	 *
 	 * @param tFactory
 	 */
 	public static void initInstance(IScriptMenuHelper tFactory) {
@@ -41,7 +41,7 @@ public class ScriptMenuHelper implements IScriptMenuHelper {
 
 	/**
 	 * Returns instance of this object.
-	 * 
+	 *
 	 * @return IScriptMenuHelper instance
 	 */
 	public static IScriptMenuHelper instance() {
@@ -50,10 +50,11 @@ public class ScriptMenuHelper implements IScriptMenuHelper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IScriptMenuHelper#getScriptValueJS(int,
 	 * org.eclipse.birt.chart.model.attribute.ScriptValue)
 	 */
+	@Override
 	public String getScriptValueJS(int index, ScriptValue sv, ULocale locale) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\t mii.text = '" + sv.getLabel().getCaption().getValue() + "';\n");//$NON-NLS-1$//$NON-NLS-2$
@@ -68,7 +69,7 @@ public class ScriptMenuHelper implements IScriptMenuHelper {
 	/**
 	 * Wraps specified script into a function for the calling by using eval
 	 * function.
-	 * 
+	 *
 	 * @param script
 	 * @return string script
 	 */

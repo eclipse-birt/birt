@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,17 +22,17 @@ import org.eclipse.swt.graphics.Image;
  */
 public interface IExpressionButtonProvider {
 
-	public void setInput(ExpressionButton input);
+	void setInput(ExpressionButton input);
 
-	public String[] getExpressionTypes();
+	String[] getExpressionTypes();
 
-	public Image getImage(String exprType);
+	Image getImage(String exprType);
 
-	public String getText(String exprType);
+	String getText(String exprType);
 
-	public String getTooltipText(String exprType);
+	String getTooltipText(String exprType);
 
-	public void handleSelectionEvent(String exprType);
+	void handleSelectionEvent(String exprType);
 
-	public IExpressionSupport getExpressionSupport(String exprType);
+	IExpressionSupport getExpressionSupport(String exprType);
 }

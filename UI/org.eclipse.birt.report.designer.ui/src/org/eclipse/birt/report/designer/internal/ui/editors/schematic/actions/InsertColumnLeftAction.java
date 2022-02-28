@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ public class InsertColumnLeftAction extends InsertColumnAction {
 
 	/**
 	 * Constructs new instance
-	 * 
+	 *
 	 * @param part current work bench part
 	 */
 	public InsertColumnLeftAction(IWorkbenchPart part) {
@@ -45,17 +45,19 @@ public class InsertColumnLeftAction extends InsertColumnAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
+	@Override
 	protected boolean calculateEnabled() {
 		return super.calculateEnabled();
 	}
 
 	/**
 	 * Runs action.
-	 * 
+	 *
 	 */
+	@Override
 	public void run() {
 
 		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_COLUMN_POSITION, Integer.valueOf(-1));

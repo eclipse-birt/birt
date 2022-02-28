@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -56,6 +56,7 @@ public class CellLayout extends BlockStackingLayout {
 		isInline = true;
 	}
 
+	@Override
 	protected void createRoot() {
 		CellArea cell = AreaFactory.createCellArea(cellContent);
 		cell.setRowSpan(cellContent.getRowSpan());
@@ -68,6 +69,7 @@ public class CellLayout extends BlockStackingLayout {
 		currentContext.root.setWidth(columnWidth);
 	}
 
+	@Override
 	protected void initialize() {
 		currentContext = new ContainerContext();
 		contextList.add(currentContext);
@@ -80,12 +82,14 @@ public class CellLayout extends BlockStackingLayout {
 		currentContext.maxAvaHeight = currentContext.root.getContentHeight();
 	}
 
+	@Override
 	protected void closeLayout(ContainerContext currentContext, int index, boolean finished) {
 		currentContext.root.setHeight(currentContext.currentBP + offsetY
 				+ getDimensionValue(currentContext.root.getStyle().getProperty(StyleConstants.STYLE_PADDING_BOTTOM)));
 		parent.addToRoot(currentContext.root, index);
 	}
 
+	@Override
 	protected void align(ContainerArea container) {
 		// Do nothing, this is handled by Tablelayout.
 	}

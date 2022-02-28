@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -78,7 +78,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * The cached value of the '{@link #getQuery() <em>Query</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getQuery()
 	 * @generated
 	 * @ordered
@@ -88,7 +88,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * The cached value of the '{@link #getSeriesPalette() <em>Series Palette</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSeriesPalette()
 	 * @generated
 	 * @ordered
@@ -99,7 +99,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	 * The cached value of the '{@link #getSeriesDefinitions() <em>Series
 	 * Definitions</em>}' containment reference list. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #getSeriesDefinitions()
 	 * @generated
 	 * @ordered
@@ -110,7 +110,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	 * The cached value of the '{@link #getFormatSpecifier() <em>Format
 	 * Specifier</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 * @ordered
@@ -120,7 +120,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * The cached value of the '{@link #getSeries() <em>Series</em>}' containment
 	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSeries()
 	 * @generated
 	 * @ordered
@@ -130,7 +130,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * The cached value of the '{@link #getGrouping() <em>Grouping</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getGrouping()
 	 * @generated
 	 * @ordered
@@ -140,7 +140,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * The default value of the '{@link #getSorting() <em>Sorting</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSorting()
 	 * @generated
 	 * @ordered
@@ -150,7 +150,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * The cached value of the '{@link #getSorting() <em>Sorting</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSorting()
 	 * @generated
 	 * @ordered
@@ -160,7 +160,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * This is true if the Sorting attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -169,7 +169,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * The cached value of the '{@link #getSortKey() <em>Sort Key</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSortKey()
 	 * @generated
 	 * @ordered
@@ -179,7 +179,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * The default value of the '{@link #getSortLocale() <em>Sort Locale</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSortLocale()
 	 * @generated
 	 * @ordered
@@ -189,7 +189,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * The cached value of the '{@link #getSortLocale() <em>Sort Locale</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSortLocale()
 	 * @generated
 	 * @ordered
@@ -199,7 +199,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * The default value of the '{@link #getSortStrength() <em>Sort Strength</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSortStrength()
 	 * @generated
 	 * @ordered
@@ -209,7 +209,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * The cached value of the '{@link #getSortStrength() <em>Sort Strength</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSortStrength()
 	 * @generated
 	 * @ordered
@@ -219,7 +219,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * This is true if the Sort Strength attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -228,7 +228,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * The default value of the '{@link #getZOrder() <em>ZOrder</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getZOrder()
 	 * @generated
 	 * @ordered
@@ -238,7 +238,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * The cached value of the '{@link #getZOrder() <em>ZOrder</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getZOrder()
 	 * @generated
 	 * @ordered
@@ -248,7 +248,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * This is true if the ZOrder attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -256,7 +256,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected SeriesDefinitionImpl() {
@@ -265,7 +265,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -275,16 +275,17 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public Query getQuery() {
 		return query;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetQuery(Query newQuery, NotificationChain msgs) {
@@ -293,48 +294,55 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					DataPackage.SERIES_DEFINITION__QUERY, oldQuery, newQuery);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setQuery(Query newQuery) {
 		if (newQuery != query) {
 			NotificationChain msgs = null;
-			if (query != null)
+			if (query != null) {
 				msgs = ((InternalEObject) query).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__QUERY, null, msgs);
-			if (newQuery != null)
+			}
+			if (newQuery != null) {
 				msgs = ((InternalEObject) newQuery).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__QUERY, null, msgs);
+			}
 			msgs = basicSetQuery(newQuery, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__QUERY, newQuery,
 					newQuery));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public Palette getSeriesPalette() {
 		return seriesPalette;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetSeriesPalette(Palette newSeriesPalette, NotificationChain msgs) {
@@ -343,44 +351,51 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					DataPackage.SERIES_DEFINITION__SERIES_PALETTE, oldSeriesPalette, newSeriesPalette);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setSeriesPalette(Palette newSeriesPalette) {
 		if (newSeriesPalette != seriesPalette) {
 			NotificationChain msgs = null;
-			if (seriesPalette != null)
+			if (seriesPalette != null) {
 				msgs = ((InternalEObject) seriesPalette).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__SERIES_PALETTE, null, msgs);
-			if (newSeriesPalette != null)
+			}
+			if (newSeriesPalette != null) {
 				msgs = ((InternalEObject) newSeriesPalette).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__SERIES_PALETTE, null, msgs);
+			}
 			msgs = basicSetSeriesPalette(newSeriesPalette, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__SERIES_PALETTE,
 					newSeriesPalette, newSeriesPalette));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public EList<SeriesDefinition> getSeriesDefinitions() {
 		if (seriesDefinitions == null) {
-			seriesDefinitions = new EObjectContainmentEList<SeriesDefinition>(SeriesDefinition.class, this,
+			seriesDefinitions = new EObjectContainmentEList<>(SeriesDefinition.class, this,
 					DataPackage.SERIES_DEFINITION__SERIES_DEFINITIONS);
 		}
 		return seriesDefinitions;
@@ -388,16 +403,17 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public FormatSpecifier getFormatSpecifier() {
 		return formatSpecifier;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetFormatSpecifier(FormatSpecifier newFormatSpecifier, NotificationChain msgs) {
@@ -406,60 +422,68 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setFormatSpecifier(FormatSpecifier newFormatSpecifier) {
 		if (newFormatSpecifier != formatSpecifier) {
 			NotificationChain msgs = null;
-			if (formatSpecifier != null)
+			if (formatSpecifier != null) {
 				msgs = ((InternalEObject) formatSpecifier).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER, null, msgs);
-			if (newFormatSpecifier != null)
+			}
+			if (newFormatSpecifier != null) {
 				msgs = ((InternalEObject) newFormatSpecifier).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER, null, msgs);
+			}
 			msgs = basicSetFormatSpecifier(newFormatSpecifier, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER,
 					newFormatSpecifier, newFormatSpecifier));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public EList<Series> getSeries() {
 		if (series == null) {
-			series = new EObjectContainmentEList<Series>(Series.class, this, DataPackage.SERIES_DEFINITION__SERIES);
+			series = new EObjectContainmentEList<>(Series.class, this, DataPackage.SERIES_DEFINITION__SERIES);
 		}
 		return series;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public SeriesGrouping getGrouping() {
 		return grouping;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetGrouping(SeriesGrouping newGrouping, NotificationChain msgs) {
@@ -468,96 +492,109 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					DataPackage.SERIES_DEFINITION__GROUPING, oldGrouping, newGrouping);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setGrouping(SeriesGrouping newGrouping) {
 		if (newGrouping != grouping) {
 			NotificationChain msgs = null;
-			if (grouping != null)
+			if (grouping != null) {
 				msgs = ((InternalEObject) grouping).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__GROUPING, null, msgs);
-			if (newGrouping != null)
+			}
+			if (newGrouping != null) {
 				msgs = ((InternalEObject) newGrouping).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__GROUPING, null, msgs);
+			}
 			msgs = basicSetGrouping(newGrouping, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__GROUPING, newGrouping,
 					newGrouping));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public SortOption getSorting() {
 		return sorting;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setSorting(SortOption newSorting) {
 		SortOption oldSorting = sorting;
 		sorting = newSorting == null ? SORTING_EDEFAULT : newSorting;
 		boolean oldSortingESet = sortingESet;
 		sortingESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__SORTING, oldSorting,
 					sorting, !oldSortingESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetSorting() {
 		SortOption oldSorting = sorting;
 		boolean oldSortingESet = sortingESet;
 		sorting = SORTING_EDEFAULT;
 		sortingESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.SERIES_DEFINITION__SORTING, oldSorting,
 					SORTING_EDEFAULT, oldSortingESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetSorting() {
 		return sortingESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public Query getSortKey() {
 		return sortKey;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetSortKey(Query newSortKey, NotificationChain msgs) {
@@ -566,157 +603,178 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					DataPackage.SERIES_DEFINITION__SORT_KEY, oldSortKey, newSortKey);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setSortKey(Query newSortKey) {
 		if (newSortKey != sortKey) {
 			NotificationChain msgs = null;
-			if (sortKey != null)
+			if (sortKey != null) {
 				msgs = ((InternalEObject) sortKey).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__SORT_KEY, null, msgs);
-			if (newSortKey != null)
+			}
+			if (newSortKey != null) {
 				msgs = ((InternalEObject) newSortKey).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__SORT_KEY, null, msgs);
+			}
 			msgs = basicSetSortKey(newSortKey, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__SORT_KEY, newSortKey,
 					newSortKey));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getSortLocale() {
 		return sortLocale;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setSortLocale(String newSortLocale) {
 		String oldSortLocale = sortLocale;
 		sortLocale = newSortLocale;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__SORT_LOCALE,
 					oldSortLocale, sortLocale));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getSortStrength() {
 		return sortStrength;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setSortStrength(int newSortStrength) {
 		int oldSortStrength = sortStrength;
 		sortStrength = newSortStrength;
 		boolean oldSortStrengthESet = sortStrengthESet;
 		sortStrengthESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__SORT_STRENGTH,
 					oldSortStrength, sortStrength, !oldSortStrengthESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetSortStrength() {
 		int oldSortStrength = sortStrength;
 		boolean oldSortStrengthESet = sortStrengthESet;
 		sortStrength = SORT_STRENGTH_EDEFAULT;
 		sortStrengthESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.SERIES_DEFINITION__SORT_STRENGTH,
 					oldSortStrength, SORT_STRENGTH_EDEFAULT, oldSortStrengthESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetSortStrength() {
 		return sortStrengthESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getZOrder() {
 		return zOrder;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setZOrder(int newZOrder) {
 		int oldZOrder = zOrder;
 		zOrder = newZOrder;
 		boolean oldZOrderESet = zOrderESet;
 		zOrderESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__ZORDER, oldZOrder,
 					zOrder, !oldZOrderESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetZOrder() {
 		int oldZOrder = zOrder;
 		boolean oldZOrderESet = zOrderESet;
 		zOrder = ZORDER_EDEFAULT;
 		zOrderESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.SERIES_DEFINITION__ZORDER, oldZOrder,
 					ZORDER_EDEFAULT, oldZOrderESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetZOrder() {
 		return zOrderESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -742,7 +800,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -776,7 +834,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -824,7 +882,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -869,7 +927,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -903,32 +961,36 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (sorting: "); //$NON-NLS-1$
-		if (sortingESet)
+		if (sortingESet) {
 			result.append(sorting);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", sortLocale: "); //$NON-NLS-1$
 		result.append(sortLocale);
 		result.append(", sortStrength: "); //$NON-NLS-1$
-		if (sortStrengthESet)
+		if (sortStrengthESet) {
 			result.append(sortStrength);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", zOrder: "); //$NON-NLS-1$
-		if (zOrderESet)
+		if (zOrderESet) {
 			result.append(zOrder);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
@@ -936,9 +998,9 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * A convenience method provided to create a series definition instance and
 	 * initialize its member variables
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @return
 	 */
 	public static final SeriesDefinition create() {
@@ -953,9 +1015,9 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * A convenience method provided to create a series definition instance and
 	 * initialize its member variables
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @return
 	 */
 	public static final SeriesDefinition createDefault() {
@@ -973,9 +1035,10 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition#getDesignTimeSeries()
 	 */
+	@Override
 	public final Series getDesignTimeSeries() {
 		final EList el = getSeries();
 		Series se;
@@ -990,11 +1053,12 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition#getRunTimeSeries()
 	 */
+	@Override
 	public final List<Series> getRunTimeSeries() {
-		final List<Series> alRTS = new ArrayList<Series>();
+		final List<Series> alRTS = new ArrayList<>();
 		final EList el = getSeries();
 		Series se;
 		for (int i = 0; i < el.size(); i++) {
@@ -1009,6 +1073,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 	/**
 	 * @generated
 	 */
+	@Override
 	public SeriesDefinition copyInstance() {
 		SeriesDefinitionImpl dest = new SeriesDefinitionImpl();
 		dest.set(this);

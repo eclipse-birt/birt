@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ public interface IMessages {
 
 	/**
 	 * Returns the localized message given the resource key and given locale.
-	 * 
+	 *
 	 * @param key    the resource key
 	 * @param locale the locale
 	 * @return the localized message
@@ -36,16 +36,17 @@ public interface IMessages {
 	 *             lcoale)
 	 */
 
-	public String getMessage(String key, Locale locale);
+	@Deprecated
+	String getMessage(String key, Locale locale);
 
 	/**
 	 * Returns the localized message given the resource key and given locale.
-	 * 
+	 *
 	 * @param key    the resource key
 	 * @param locale the locale of type <code>ULocale</code>
 	 * @return the localized message
 	 */
 
-	public String getMessage(String key, ULocale locale);
+	String getMessage(String key, ULocale locale);
 
 }

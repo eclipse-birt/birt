@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.interactivity;
@@ -21,7 +21,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -78,7 +77,7 @@ public final class SwingHighlightViewer extends JPanel implements ICallBackNotif
 	/**
 	 * Contructs the layout with a container for displaying chart and a control
 	 * panel for selecting interactivity.
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -136,9 +135,10 @@ public final class SwingHighlightViewer extends JPanel implements ICallBackNotif
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#update()
 	 */
+	@Override
 	public void regenerateChart() {
 		bNeedsGeneration = true;
 		updateBuffer();
@@ -147,9 +147,10 @@ public final class SwingHighlightViewer extends JPanel implements ICallBackNotif
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#update()
 	 */
+	@Override
 	public void repaintChart() {
 		updateBuffer();
 		repaint();
@@ -157,34 +158,37 @@ public final class SwingHighlightViewer extends JPanel implements ICallBackNotif
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#peerInstance()
 	 */
+	@Override
 	public Object peerInstance() {
 		return this;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getDesignTimeModel()
 	 */
+	@Override
 	public Chart getDesignTimeModel() {
 		return cm;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getRunTimeModel()
 	 */
+	@Override
 	public Chart getRunTimeModel() {
 		return gcs.getChartModel();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
 	 */
@@ -194,7 +198,7 @@ public final class SwingHighlightViewer extends JPanel implements ICallBackNotif
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
 	 * java.lang.Object)
@@ -205,7 +209,7 @@ public final class SwingHighlightViewer extends JPanel implements ICallBackNotif
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
 	 */
@@ -264,11 +268,11 @@ public final class SwingHighlightViewer extends JPanel implements ICallBackNotif
 
 	/**
 	 * Presents the Exceptions if the chart cannot be displayed properly.
-	 * 
+	 *
 	 * @param g2d
 	 * @param ex
 	 */
-	private final void showException(Graphics2D g2d, Exception ex) {
+	private void showException(Graphics2D g2d, Exception ex) {
 		String sWrappedException = ex.getClass().getName();
 		Throwable th = ex;
 		while (ex.getCause() != null) {
@@ -342,10 +346,11 @@ public final class SwingHighlightViewer extends JPanel implements ICallBackNotif
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.
 	 * ComponentEvent)
 	 */
+	@Override
 	public void componentHidden(ComponentEvent e) {
 		// TODO Auto-generated method stub
 
@@ -353,10 +358,11 @@ public final class SwingHighlightViewer extends JPanel implements ICallBackNotif
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.
 	 * ComponentEvent)
 	 */
+	@Override
 	public void componentMoved(ComponentEvent e) {
 		// TODO Auto-generated method stub
 
@@ -364,20 +370,22 @@ public final class SwingHighlightViewer extends JPanel implements ICallBackNotif
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.
 	 * ComponentEvent)
 	 */
+	@Override
 	public void componentResized(ComponentEvent e) {
 		bNeedsGeneration = true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.
 	 * ComponentEvent)
 	 */
+	@Override
 	public void componentShown(ComponentEvent e) {
 		// TODO Auto-generated method stub
 
@@ -428,60 +436,11 @@ public final class SwingHighlightViewer extends JPanel implements ICallBackNotif
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.
-		 * ComponentEvent)
-		 */
-		public void componentHidden(ComponentEvent cev) {
-			setVisible(false);
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.
-		 * ComponentEvent)
-		 */
-		public void componentMoved(ComponentEvent cev) {
-			JFrame jf = (JFrame) cev.getComponent();
-			Rectangle r = jf.getBounds();
-			setLocation(r.x, r.y + r.height);
-			setSize(r.width, 50);
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.
-		 * ComponentEvent)
-		 */
-		public void componentResized(ComponentEvent cev) {
-			JFrame jf = (JFrame) cev.getComponent();
-			Rectangle r = jf.getBounds();
-			setLocation(r.x, r.y + r.height);
-			setSize(r.width, 50);
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.
-		 * ComponentEvent)
-		 */
-		public void componentShown(ComponentEvent cev) {
-			JFrame jf = (JFrame) cev.getComponent();
-			Rectangle r = jf.getBounds();
-			setLocation(r.x, r.y + r.height);
-			setSize(r.width, 50);
-			setVisible(true);
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			int i = jcbModels.getSelectedIndex();
 			cm = null;
@@ -515,6 +474,7 @@ public final class SwingHighlightViewer extends JPanel implements ICallBackNotif
 		}
 	}
 
+	@Override
 	public void callback(Object event, Object source, CallBackValue value) {
 		JOptionPane.showMessageDialog(SwingHighlightViewer.this, value.getIdentifier());
 	}

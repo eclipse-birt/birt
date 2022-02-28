@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -38,7 +38,7 @@ public class JoinDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the leftIO value for this JoinDefinition.
-	 * 
+	 *
 	 * @return leftIO
 	 */
 	public org.eclipse.birt.report.soapengine.api.IOReference getLeftIO() {
@@ -47,7 +47,7 @@ public class JoinDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the leftIO value for this JoinDefinition.
-	 * 
+	 *
 	 * @param leftIO
 	 */
 	public void setLeftIO(org.eclipse.birt.report.soapengine.api.IOReference leftIO) {
@@ -56,7 +56,7 @@ public class JoinDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the rightIO value for this JoinDefinition.
-	 * 
+	 *
 	 * @return rightIO
 	 */
 	public org.eclipse.birt.report.soapengine.api.IOReference getRightIO() {
@@ -65,7 +65,7 @@ public class JoinDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the rightIO value for this JoinDefinition.
-	 * 
+	 *
 	 * @param rightIO
 	 */
 	public void setRightIO(org.eclipse.birt.report.soapengine.api.IOReference rightIO) {
@@ -74,7 +74,7 @@ public class JoinDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the joinConditions value for this JoinDefinition.
-	 * 
+	 *
 	 * @return joinConditions
 	 */
 	public org.eclipse.birt.report.soapengine.api.JoinCondition[] getJoinConditions() {
@@ -83,7 +83,7 @@ public class JoinDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the joinConditions value for this JoinDefinition.
-	 * 
+	 *
 	 * @param joinConditions
 	 */
 	public void setJoinConditions(org.eclipse.birt.report.soapengine.api.JoinCondition[] joinConditions) {
@@ -100,14 +100,18 @@ public class JoinDefinition implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof JoinDefinition))
+		if (!(obj instanceof JoinDefinition)) {
 			return false;
+		}
 		JoinDefinition other = (JoinDefinition) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -126,6 +130,7 @@ public class JoinDefinition implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

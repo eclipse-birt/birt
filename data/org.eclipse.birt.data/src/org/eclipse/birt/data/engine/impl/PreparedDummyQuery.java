@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -130,6 +130,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getReportQueryDefn()
 	 */
+	@Override
 	public IQueryDefinition getReportQueryDefn() {
 		return queryDefn;
 	}
@@ -137,6 +138,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
 	 */
+	@Override
 	public Collection getParameterMetaData() throws BirtException {
 		return null;
 	}
@@ -145,6 +147,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.mozilla.
 	 * javascript.Scriptable)
 	 */
+	@Override
 	public IQueryResults execute(Scriptable queryScope) throws BirtException {
 		return execute(null, queryScope);
 	}
@@ -154,6 +157,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 	 * org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.eclipse.birt.data
 	 * .engine.api.IQueryResults, org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	public IQueryResults execute(IQueryResults outerResults, Scriptable queryScope) throws BirtException {
 		return executeQuery(queryScope, null);
 	}
@@ -174,10 +178,11 @@ public class PreparedDummyQuery implements IPreparedQuery {
 	 */
 	private void processSubQuery() {
 		IBaseQueryDefinition queryDefn2 = null;
-		if (queryDefn != null)
+		if (queryDefn != null) {
 			queryDefn2 = queryDefn;
-		else
+		} else {
 			queryDefn2 = subQueryDefn;
+		}
 
 		subQueryMap = new HashMap();
 		registerSubQuery(queryDefn2);
@@ -185,7 +190,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 
 	/**
 	 * register all subQuery
-	 * 
+	 *
 	 * @param queryDefn2
 	 */
 	private void registerSubQuery(IBaseQueryDefinition queryDefn2) {
@@ -222,12 +227,13 @@ public class PreparedDummyQuery implements IPreparedQuery {
 	 */
 	private Scriptable getScope(Scriptable queryScope) throws BirtException {
 		Scriptable topScope = null;
-		if (queryScope != null)
+		if (queryScope != null) {
 			topScope = queryScope;
-		else
+		} else {
 			topScope = session.getSharedScope();
+		}
 
-		Scriptable executionScope = null;
+		Scriptable executionScope;
 		executionScope = ((IDataScriptEngine) session.getEngineContext().getScriptContext()
 				.getScriptEngine(IDataScriptEngine.ENGINE_NAME))
 						.getJSContext(session.getEngineContext().getScriptContext()).newObject(topScope);
@@ -244,8 +250,9 @@ public class PreparedDummyQuery implements IPreparedQuery {
 	private IResultIterator execSubQuery(String parentQueryResultID, String name, Scriptable scope,
 			Scriptable parentScope) throws BirtException {
 		Object ob = subQueryMap.get(name);
-		if (ob == null)
+		if (ob == null) {
 			return null;
+		}
 
 		PreparedQueryUtil.mappingParentColumnBinding((ISubqueryDefinition) ob);
 		PreparedDummyQuery preparedQuery = new PreparedDummyQuery((ISubqueryDefinition) ob, session);
@@ -259,7 +266,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private class QueryResults implements IQueryResults, IQueryService {
 		private PreparedDummyQuery preparedQuery;
@@ -289,9 +296,11 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IQueryResults#getID()
 		 */
+		@Override
 		public String getID() {
-			if (queryResultID == null)
+			if (queryResultID == null) {
 				queryResultID = session.getQueryResultIDUtil().nextID();
+			}
 
 			return queryResultID;
 		}
@@ -306,6 +315,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IQueryResults#getPreparedQuery()
 		 */
+		@Override
 		public IPreparedQuery getPreparedQuery() {
 			return this.preparedQuery;
 		}
@@ -313,6 +323,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IQueryResults#getResultMetaData()
 		 */
+		@Override
 		public IResultMetaData getResultMetaData() throws BirtException {
 			return null;
 		}
@@ -320,6 +331,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IQueryResults#getResultIterator()
 		 */
+		@Override
 		public IResultIterator getResultIterator() throws BirtException {
 			if (resultIterator == null) {
 				this.exprManager.validateColumnBinding();
@@ -332,6 +344,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IQueryResults#close()
 		 */
+		@Override
 		public void close() throws BirtException {
 			this.isClosed = true;
 			NamingRelationUtil.merge(session, preparedQuery.getReportQueryDefn(), this);
@@ -340,15 +353,17 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.IQueryService#isClosed()
 		 */
+		@Override
 		public boolean isClosed() {
 			return isClosed;
 		}
 
 		/*
 		 * Dummy query only can be the most outer query.
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.impl.IQueryService#getNestedLevel()
 		 */
+		@Override
 		public int getNestedLevel() {
 			return 0;
 		}
@@ -356,6 +371,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.IQueryService#getQueryScope()
 		 */
+		@Override
 		public Scriptable getQueryScope() {
 			return queryScope;
 		}
@@ -363,12 +379,14 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.IQueryService#getExecutorHelper()
 		 */
+		@Override
 		public IExecutorHelper getExecutorHelper() throws DataException {
 			return new IExecutorHelper() {
 
 				/*
 				 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getParent()
 				 */
+				@Override
 				public IExecutorHelper getParent() {
 					return null;
 				}
@@ -376,6 +394,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 				/*
 				 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getJSRowObject()
 				 */
+				@Override
 				public Scriptable getScriptable() {
 					return resultIterator.getJSDummyRowObject();
 				}
@@ -384,13 +403,15 @@ public class PreparedDummyQuery implements IPreparedQuery {
 
 		/*
 		 * This can be not implemented, since it is only used for rows JS object.
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.impl.IQueryService#getDataSetRuntime(int)
 		 */
+		@Override
 		public DataSetRuntime[] getDataSetRuntime(int nestedCount) {
 			return null;
 		}
 
+		@Override
 		public void cancel() {
 			// TODO Auto-generated method stub
 
@@ -398,25 +419,27 @@ public class PreparedDummyQuery implements IPreparedQuery {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.api.INamedObject#setName(java.lang.String)
 		 */
+		@Override
 		public void setName(String name) {
 			this.name = name;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.api.INamedObject#getName()
 		 */
+		@Override
 		public String getName() {
 			return name;
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private class ResultIterator implements IResultIterator {
 		private QueryResults queryResults;
@@ -441,8 +464,9 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * @throws BirtException
 		 */
 		private void checkOpened() throws BirtException {
-			if (openStatus != IN_ROW)
+			if (openStatus != IN_ROW) {
 				throw new DataException(ResourceConstants.RESULTITERATOR_NOT_OPEN);
+			}
 		}
 
 		/**
@@ -473,8 +497,9 @@ public class PreparedDummyQuery implements IPreparedQuery {
 				Object exprValue = ExprEvaluateUtil.evaluateRawExpression(baseExpr, queryScope,
 						session.getEngineContext().getScriptContext());
 				IBinding binding = exprManager.getBinding(exprName);
-				if (baseExpr != null && binding.getDataType() != baseExpr.getDataType())
+				if (baseExpr != null && binding.getDataType() != baseExpr.getDataType()) {
 					exprValue = DataTypeUtil.convert(exprValue, binding.getDataType());
+				}
 
 				exprValueMap.put(exprName, exprValue);
 			}
@@ -494,7 +519,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		}
 
 		/**
-		 * 
+		 *
 		 * @throws IOException
 		 * @throws BirtException
 		 */
@@ -517,7 +542,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/**
 		 * @throws DataException
 		 * @throws IOException
-		 * 
+		 *
 		 */
 		private void closeCacheOutputStream() throws DataException {
 			try {
@@ -539,7 +564,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		}
 
 		/*
-		 * 
+		 *
 		 */
 		private void createCacheOutputStream() throws FileNotFoundException, DataException {
 			File tmpDir = new File(session.getTempDir());
@@ -557,10 +582,10 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		}
 
 		/*
-		 * 
+		 *
 		 */
 		private void saveMetaData() throws DataException, IOException {
-			List<IBinding> metaMap = new ArrayList<IBinding>();
+			List<IBinding> metaMap = new ArrayList<>();
 			populateDataSetRowMapping(metaMap, getResultClass());
 			((ResultClass) (getResultClass())).doSave(metaOutputStream, metaMap, VersionManager.getLatestVersion());
 			if (metaOutputStream != null) {
@@ -571,7 +596,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 
 		/**
 		 * Populate the new rsClass object instance
-		 * 
+		 *
 		 * @param metaMap
 		 * @throws DataException
 		 */
@@ -585,17 +610,19 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		}
 
 		/*
-		 * 
+		 *
 		 */
 		private boolean needCache() {
-			if (queryResults == null || queryResults.getPreparedQuery().getReportQueryDefn() == null)
+			if (queryResults == null || queryResults.getPreparedQuery().getReportQueryDefn() == null) {
 				return false;
+			}
 			return queryResults.getPreparedQuery().getReportQueryDefn().cacheQueryResults();
 		}
 
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#getQueryResults()
 		 */
+		@Override
 		public IQueryResults getQueryResults() {
 			return this.queryResults;
 		}
@@ -603,6 +630,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#getScope()
 		 */
+		@Override
 		public Scriptable getScope() {
 			return this.queryScope;
 		}
@@ -610,12 +638,13 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#getResultMetaData()
 		 */
+		@Override
 		public IResultMetaData getResultMetaData() throws BirtException {
 			return new ResultMetaData(new ResultClass(new ArrayList()));
 		}
 
 		/*
-		 * 
+		 *
 		 */
 		private IResultClass getResultClass() throws DataException {
 			List columns = new ArrayList();
@@ -633,6 +662,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#next()
 		 */
+		@Override
 		public boolean next() throws BirtException {
 			if (this.openStatus == NOT_START) {
 				this.openStatus = IN_ROW;
@@ -648,6 +678,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowId()
 		 */
+		@Override
 		public int getRowId() throws BirtException {
 			return getRowIndex();
 		}
@@ -655,6 +686,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowIndex()
 		 */
+		@Override
 		public int getRowIndex() throws BirtException {
 			checkOpened();
 
@@ -664,22 +696,26 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#moveTo(int)
 		 */
+		@Override
 		public void moveTo(int rowIndex) throws BirtException {
 			this.checkOpened();
 
-			if (rowIndex > 0)
+			if (rowIndex > 0) {
 				throw new DataException(ResourceConstants.INVALID_ROW_INDEX, Integer.valueOf(rowIndex));
+			}
 		}
 
 		/*
 		 * @see
 		 * org.eclipse.birt.data.engine.api.IResultIterator#getValue(java.lang.String)
 		 */
+		@Override
 		public Object getValue(String name) throws BirtException {
 			checkOpened();
 
-			if (exprManager.getExpr(name) == null)
+			if (exprManager.getExpr(name) == null) {
 				throw new DataException(ResourceConstants.INVALID_BOUND_COLUMN_NAME, name);
+			}
 
 			Object o = exprValueMap.get(name);
 			IBinding b = exprManager.getBinding(name);
@@ -720,6 +756,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * @see
 		 * org.eclipse.birt.data.engine.api.IResultIterator#getBoolean(java.lang.String)
 		 */
+		@Override
 		public Boolean getBoolean(String name) throws BirtException {
 			return DataTypeUtil.toBoolean(this.getValue(name));
 		}
@@ -728,6 +765,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * @see
 		 * org.eclipse.birt.data.engine.api.IResultIterator#getInteger(java.lang.String)
 		 */
+		@Override
 		public Integer getInteger(String name) throws BirtException {
 			return DataTypeUtil.toInteger(this.getValue(name));
 		}
@@ -736,6 +774,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * @see
 		 * org.eclipse.birt.data.engine.api.IResultIterator#getDouble(java.lang.String)
 		 */
+		@Override
 		public Double getDouble(String name) throws BirtException {
 			return DataTypeUtil.toDouble(this.getValue(name));
 		}
@@ -744,6 +783,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * @see
 		 * org.eclipse.birt.data.engine.api.IResultIterator#getString(java.lang.String)
 		 */
+		@Override
 		public String getString(String name) throws BirtException {
 			return DataTypeUtil.toString(this.getValue(name));
 		}
@@ -753,6 +793,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * org.eclipse.birt.data.engine.api.IResultIterator#getBigDecimal(java.lang.
 		 * String)
 		 */
+		@Override
 		public BigDecimal getBigDecimal(String name) throws BirtException {
 			return DataTypeUtil.toBigDecimal(this.getValue(name));
 		}
@@ -761,6 +802,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * @see
 		 * org.eclipse.birt.data.engine.api.IResultIterator#getDate(java.lang.String)
 		 */
+		@Override
 		public Date getDate(String name) throws BirtException {
 			return DataTypeUtil.toDate(this.getValue(name));
 		}
@@ -769,6 +811,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * @see
 		 * org.eclipse.birt.data.engine.api.IResultIterator#getBlob(java.lang.String)
 		 */
+		@Override
 		public Blob getBlob(String name) throws BirtException {
 			return DataTypeUtil.toBlob(this.getValue(name));
 		}
@@ -777,6 +820,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * @see
 		 * org.eclipse.birt.data.engine.api.IResultIterator#getBytes(java.lang.String)
 		 */
+		@Override
 		public byte[] getBytes(String name) throws BirtException {
 			return DataTypeUtil.toBytes(this.getValue(name));
 		}
@@ -784,16 +828,19 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#skipToEnd(int)
 		 */
+		@Override
 		public void skipToEnd(int groupLevel) throws BirtException {
 			this.checkOpened();
 
-			if (groupLevel > 0)
+			if (groupLevel > 0) {
 				throw new DataException(ResourceConstants.INVALID_GROUP_LEVEL, Integer.valueOf(groupLevel));
+			}
 		}
 
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#getStartingGroupLevel()
 		 */
+		@Override
 		public int getStartingGroupLevel() throws BirtException {
 			this.checkOpened();
 
@@ -803,6 +850,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#getEndingGroupLevel()
 		 */
+		@Override
 		public int getEndingGroupLevel() throws BirtException {
 			this.checkOpened();
 
@@ -814,6 +862,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * org.eclipse.birt.data.engine.api.IResultIterator#getSecondaryIterator(java.
 		 * lang.String, org.mozilla.javascript.Scriptable)
 		 */
+		@Override
 		public IResultIterator getSecondaryIterator(String subQueryName, Scriptable scope) throws BirtException {
 			this.checkOpened();
 
@@ -821,11 +870,13 @@ public class PreparedDummyQuery implements IPreparedQuery {
 					scope != null ? scope : queryScope, this.jsDummyRowObject);
 		}
 
+		@Override
 		public IResultIterator getSecondaryIterator(ScriptContext context, String subQueryName) throws BirtException {
 			Scriptable scope = null;
-			if (context != null)
+			if (context != null) {
 				scope = ((IDataScriptEngine) context.getScriptEngine(IDataScriptEngine.ENGINE_NAME))
 						.getJSScope(context);
+			}
 			return this.getSecondaryIterator(subQueryName, scope);
 		}
 
@@ -833,15 +884,17 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * @return
 		 */
 		private String getQueryResultsID() {
-			if (subQueryName == null)
+			if (subQueryName == null) {
 				return this.queryResults.getID();
-			else
+			} else {
 				return this.queryResults.getID() + "/" + subQueryName + "/" + subQueryIndex;
+			}
 		}
 
 		/*
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#close()
 		 */
+		@Override
 		public void close() throws BirtException {
 			this.openStatus = ENDED;
 			this.getRdSaveUtil().doSaveFinish();
@@ -852,6 +905,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * org.eclipse.birt.data.engine.api.IResultIterator#findGroup(java.lang.Object[]
 		 * )
 		 */
+		@Override
 		public boolean findGroup(Object[] groupKeyValues) throws BirtException {
 			this.checkOpened();
 
@@ -871,17 +925,20 @@ public class PreparedDummyQuery implements IPreparedQuery {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.api.IResultIterator#isEmpty()
 		 */
+		@Override
 		public boolean isEmpty() throws BirtException {
 			return false;
 		}
 
+		@Override
 		public boolean isBeforeFirst() throws BirtException {
 			return !isEmpty() && openStatus == NOT_START;
 		}
 
+		@Override
 		public boolean isFirst() throws BirtException {
 			return !isEmpty() && openStatus == IN_ROW;
 		}
@@ -889,7 +946,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private class RDSaveUtil {
 
@@ -920,10 +977,11 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * @throws DataException
 		 */
 		void doSaveExpr(Map valueMap) throws DataException {
-			if (needsSaveToDoc() == false)
+			if (!needsSaveToDoc()) {
 				return;
+			}
 
-			if (isBasicSaved == false) {
+			if (!isBasicSaved) {
 				isBasicSaved = true;
 
 				int groupLevel;
@@ -947,10 +1005,11 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * @throws DataException
 		 */
 		void doSaveFinish() throws DataException {
-			if (needsSaveToDoc() == false)
+			if (!needsSaveToDoc()) {
 				return;
+			}
 
-			if (isBasicSaved == false) {
+			if (!isBasicSaved) {
 				isBasicSaved = true;
 				this.getRdSave().saveResultIterator(new DummyCachedResult(), -1, new int[] { 0, 1 });
 			}
@@ -959,12 +1018,13 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		}
 
 		/**
-		 * 
+		 *
 		 * @throws DataException
 		 */
 		void doSaveStart() throws DataException {
-			if (needsSaveToDoc() == false)
+			if (!needsSaveToDoc()) {
 				return;
+			}
 
 			this.getRdSave().saveStart();
 		}
@@ -973,8 +1033,9 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * @return
 		 */
 		private boolean needsSaveToDoc() {
-			if (context == null || context.getMode() != DataEngineContext.MODE_GENERATION)
+			if (context == null || context.getMode() != DataEngineContext.MODE_GENERATION) {
 				return false;
+			}
 
 			return true;
 		}
@@ -994,7 +1055,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private static class DummyCachedResult extends CachedResultSet {
 		/*
@@ -1002,6 +1063,7 @@ public class PreparedDummyQuery implements IPreparedQuery {
 		 * org.eclipse.birt.data.engine.executor.transform.CachedResultSet#doSave(org.
 		 * eclipse.birt.data.engine.impl.document.StreamWrapper, boolean)
 		 */
+		@Override
 		public void doSave(StreamWrapper streamWrapper, boolean isSubQuery) throws DataException {
 			try {
 				if (streamWrapper.getStreamForResultClass() != null) {
@@ -1024,10 +1086,11 @@ public class PreparedDummyQuery implements IPreparedQuery {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.data.engine.executor.transform.CachedResultSet#getRowCount()
 		 */
+		@Override
 		public int getRowCount() throws DataException {
 			return 1;
 		}
@@ -1035,11 +1098,12 @@ public class PreparedDummyQuery implements IPreparedQuery {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IBasePreparedQuery#execute(org.eclipse.birt.
 	 * data.engine.api.IBaseQueryResults, org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	public IQueryResults execute(IBaseQueryResults outerResults, Scriptable scope) throws DataException {
 		try {
 			return executeQuery(scope, null);

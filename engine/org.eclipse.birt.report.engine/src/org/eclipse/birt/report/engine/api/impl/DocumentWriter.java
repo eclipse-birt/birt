@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,9 +35,11 @@ public class DocumentWriter implements IDocumentWriter {
 		this.archive = file;
 	}
 
+	@Override
 	public void setRunnable(IReportRunnable runnable) throws EngineException {
-		if (archive == null || runnable == null)
+		if (archive == null || runnable == null) {
 			return;
+		}
 
 		try {
 			ArchiveWriter writer = new ArchiveWriter(archive);
@@ -63,6 +65,7 @@ public class DocumentWriter implements IDocumentWriter {
 		}
 	}
 
+	@Override
 	public void close() {
 
 	}

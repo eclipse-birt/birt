@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -22,7 +22,7 @@ public interface ILabel extends IReportItem {
 
 	/**
 	 * Returns the static text for the label.
-	 * 
+	 *
 	 * @return the static text to display
 	 */
 
@@ -32,7 +32,7 @@ public interface ILabel extends IReportItem {
 	 * Returns the localized text for the label. If the localized text for the text
 	 * resource key is found, it will be returned. Otherwise, the static text will
 	 * be returned.
-	 * 
+	 *
 	 * @return the localized text for the label
 	 */
 
@@ -41,7 +41,7 @@ public interface ILabel extends IReportItem {
 	/**
 	 * Sets the text of the label. Sets the static text itself. If the label is to
 	 * be externalized, then set the text ID separately.
-	 * 
+	 *
 	 * @param text the new text for the label
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -50,7 +50,7 @@ public interface ILabel extends IReportItem {
 
 	/**
 	 * Returns the resource key of the static text of the label.
-	 * 
+	 *
 	 * @return the resource key of the static text
 	 */
 
@@ -58,9 +58,9 @@ public interface ILabel extends IReportItem {
 
 	/**
 	 * Sets the resource key of the static text of the label.
-	 * 
+	 *
 	 * @param resourceKey the resource key of the static text
-	 * 
+	 *
 	 * @throws SemanticException if the resource key property is locked.
 	 */
 
@@ -69,7 +69,7 @@ public interface ILabel extends IReportItem {
 	/**
 	 * Returns a handle to work with the action property, action is a structure that
 	 * defines a hyperlink.
-	 * 
+	 *
 	 * @return a handle to the action property, return <code>null</code> if the
 	 *         action has not been set on the label.
 	 * @see ActionHandle
@@ -79,14 +79,14 @@ public interface ILabel extends IReportItem {
 
 	/**
 	 * Add the action structure to this Label item.
-	 * 
+	 *
 	 * @param action
 	 */
 	void addAction(IAction action) throws SemanticException;
 
 	/**
 	 * Returns the help text of this label item.
-	 * 
+	 *
 	 * @return the help text
 	 */
 
@@ -94,9 +94,9 @@ public interface ILabel extends IReportItem {
 
 	/**
 	 * Sets the help text of this label item.
-	 * 
+	 *
 	 * @param text the help text
-	 * 
+	 *
 	 * @throws SemanticException if the resource key property is locked.
 	 */
 
@@ -104,7 +104,7 @@ public interface ILabel extends IReportItem {
 
 	/**
 	 * Returns the help text key of this label item.
-	 * 
+	 *
 	 * @return the help text key
 	 */
 
@@ -112,9 +112,9 @@ public interface ILabel extends IReportItem {
 
 	/**
 	 * Sets the help text key of this label item.
-	 * 
+	 *
 	 * @param resourceKey the help text key
-	 * 
+	 *
 	 * @throws SemanticException if the resource key property of the help text is
 	 *                           locked.
 	 */

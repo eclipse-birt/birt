@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -54,11 +54,11 @@ public class SwingRendererImpl extends G2dRendererBase {
 	/**
 	 * KEY = TRIGGER_CONDITION VAL = COLLECTION OF SHAPE-ACTION INSTANCES
 	 */
-	private final Map<TriggerCondition, List<ShapedAction>> _lhmAllTriggers = new HashMap<TriggerCondition, List<ShapedAction>>();
+	private final Map<TriggerCondition, List<ShapedAction>> _lhmAllTriggers = new HashMap<>();
 	/**
 	 * key = ShapeAction, val = collection of trigger conditions
 	 */
-	private final List<ShapedAction> _allShapes = new LinkedList<ShapedAction>();
+	private final List<ShapedAction> _allShapes = new LinkedList<>();
 
 	private IUpdateNotifier _iun = null;
 
@@ -162,7 +162,7 @@ public class SwingRendererImpl extends G2dRendererBase {
 			sa.add(tc, ac);
 			List<ShapedAction> al = _lhmAllTriggers.get(tc);
 			if (al == null) {
-				al = new ArrayList<ShapedAction>(4); // UNDER NORMAL
+				al = new ArrayList<>(4); // UNDER NORMAL
 														// CONDITIONS
 				_lhmAllTriggers.put(tc, al);
 			}
@@ -234,7 +234,7 @@ public class SwingRendererImpl extends G2dRendererBase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param s
 	 * @param sWordToReplace
 	 * @param sReplaceWith
@@ -254,7 +254,7 @@ public class SwingRendererImpl extends G2dRendererBase {
 
 	/**
 	 * Returns the triggers associated with current renderer.
-	 * 
+	 *
 	 * @return
 	 */
 	protected Map<TriggerCondition, List<ShapedAction>> getTriggers() {

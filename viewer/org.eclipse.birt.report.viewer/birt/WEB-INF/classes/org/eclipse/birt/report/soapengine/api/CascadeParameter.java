@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -32,7 +32,7 @@ public class CascadeParameter implements java.io.Serializable {
 
 	/**
 	 * Gets the selectionList value for this CascadeParameter.
-	 * 
+	 *
 	 * @return selectionList
 	 */
 	public org.eclipse.birt.report.soapengine.api.SelectionList[] getSelectionList() {
@@ -41,7 +41,7 @@ public class CascadeParameter implements java.io.Serializable {
 
 	/**
 	 * Sets the selectionList value for this CascadeParameter.
-	 * 
+	 *
 	 * @param selectionList
 	 */
 	public void setSelectionList(org.eclipse.birt.report.soapengine.api.SelectionList[] selectionList) {
@@ -58,14 +58,18 @@ public class CascadeParameter implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof CascadeParameter))
+		if (!(obj instanceof CascadeParameter)) {
 			return false;
+		}
 		CascadeParameter other = (CascadeParameter) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -80,6 +84,7 @@ public class CascadeParameter implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

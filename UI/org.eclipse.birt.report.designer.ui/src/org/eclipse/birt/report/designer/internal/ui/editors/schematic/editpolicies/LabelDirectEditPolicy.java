@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,14 +33,15 @@ import org.eclipse.gef.requests.DirectEditRequest;
 /**
  * An EditPolicy for use with container editparts. This policy can be used to
  * contribute commands to direct edit.
- * 
- * 
+ *
+ *
  */
 public class LabelDirectEditPolicy extends DirectEditPolicy {
 
 	/**
 	 * @see DirectEditPolicy#getDirectEditCommand(DirectEditRequest)
 	 */
+	@Override
 	protected Command getDirectEditCommand(DirectEditRequest edit) {
 		String labelText = (String) edit.getCellEditor().getValue();
 		Map extendsData = new HashMap();
@@ -62,6 +63,7 @@ public class LabelDirectEditPolicy extends DirectEditPolicy {
 	/**
 	 * @see DirectEditPolicy#showCurrentEditValue(DirectEditRequest)
 	 */
+	@Override
 	protected void showCurrentEditValue(DirectEditRequest request) {
 		String value = (String) request.getCellEditor().getValue();
 		((LabelFigure) getHostFigure()).setText(value);
@@ -70,11 +72,13 @@ public class LabelDirectEditPolicy extends DirectEditPolicy {
 
 	}
 
+	@Override
 	public boolean understandsRequest(Request request) {
 		if (RequestConstants.REQ_DIRECT_EDIT.equals(request.getType())
 				|| RequestConstants.REQ_OPEN.equals(request.getType())
-				|| ReportRequest.CREATE_ELEMENT.equals(request.getType()))
+				|| ReportRequest.CREATE_ELEMENT.equals(request.getType())) {
 			return true;
+		}
 		return super.understandsRequest(request);
 	}
 

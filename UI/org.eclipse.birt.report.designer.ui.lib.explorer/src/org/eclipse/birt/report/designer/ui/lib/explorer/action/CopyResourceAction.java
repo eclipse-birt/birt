@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ public class CopyResourceAction extends ResourceAction {
 
 	/**
 	 * Constructs an action for copying resource.
-	 * 
+	 *
 	 * @param page      the resource explorer page
 	 * @param clipboard the clipboard for copying resource
 	 */
@@ -107,7 +107,7 @@ public class CopyResourceAction extends ResourceAction {
 
 	/**
 	 * Set the clipboard contents. Prompt to retry if clipboard is busy.
-	 * 
+	 *
 	 * @param resources the resources to copy to the clipboard
 	 * @param fileNames file names of the resources to copy to the clipboard
 	 * @param names     string representation of all names

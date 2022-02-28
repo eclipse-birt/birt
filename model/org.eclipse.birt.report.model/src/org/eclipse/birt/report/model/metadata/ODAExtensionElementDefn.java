@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn {
 	/**
 	 * Constructs the add-on extension element definition with element definition
 	 * name and base element definition.
-	 * 
+	 *
 	 * @param baseElementDefn definition of the base element, from which this
 	 *                        extension element definition extends.
 	 */
@@ -53,13 +53,15 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#build()
 	 */
 
+	@Override
 	protected void build() throws MetaDataException {
-		if (isBuilt)
+		if (isBuilt) {
 			return;
+		}
 
 		buildDefn();
 
@@ -86,10 +88,11 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.ExtensionElementDefn#buildXmlName
 	 * ()
 	 */
+	@Override
 	protected void buildXmlName() {
 		String tmpXmlName = null;
 
@@ -110,29 +113,33 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn {
 	/**
 	 * If the visibility of an ODA property is "hidden", it is treated as private
 	 * driver property.
-	 * 
+	 *
 	 */
 
 	private void buildPrivateDriverProperties() {
-		if (propVisibilites == null)
+		if (propVisibilites == null) {
 			return;
+		}
 
 		Iterator<String> propNames = propVisibilites.keySet().iterator();
 		while (propNames.hasNext()) {
 			String propName = propNames.next();
 			IElementPropertyDefn propDefn = cachedProperties.get(propName);
 
-			if (propDefn.getValueType() != IPropertyDefn.ODA_PROPERTY)
+			if (propDefn.getValueType() != IPropertyDefn.ODA_PROPERTY) {
 				continue;
+			}
 
 			Integer visibility = propVisibilites.get(propName);
 
 			// if not hide visibility is set for this property, do nothing
-			if ((visibility.intValue() & HIDDEN_IN_PROPERTY_SHEET_KEY) == 0)
+			if ((visibility.intValue() & HIDDEN_IN_PROPERTY_SHEET_KEY) == 0) {
 				continue;
+			}
 
-			if (hidePrivateProps == null)
-				hidePrivateProps = new ArrayList<IElementPropertyDefn>();
+			if (hidePrivateProps == null) {
+				hidePrivateProps = new ArrayList<>();
+			}
 
 			hidePrivateProps.add(cachedProperties.get(propName));
 			cachedProperties.remove(propName);
@@ -155,16 +162,17 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn {
 	 * Returns names of properties that are ODA defined private driver properties in
 	 * ODA plug.xml. If the visibility of an ODA property is "hidden", it is treated
 	 * as private driver property.
-	 * 
-	 * 
+	 *
+	 *
 	 * @return a list containing private driver property names
 	 */
 
 	public List<String> getODAPrivateDriverPropertyNames() {
-		if (hidePrivateProps == null)
+		if (hidePrivateProps == null) {
 			return Collections.emptyList();
+		}
 
-		List<String> retList = new ArrayList<String>();
+		List<String> retList = new ArrayList<>();
 		for (int i = 0; i < hidePrivateProps.size(); i++) {
 			IElementPropertyDefn propDefn = hidePrivateProps.get(i);
 			retList.add(propDefn.getName());

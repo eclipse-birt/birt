@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -21,7 +21,7 @@ import java.util.jar.JarFile;
 
 public class ExportManifestUtils {
 
-	static final String[] API_JAR_PATTERNS = new String[] { "chartengineapi.jar", "com.ibm.icu.*.jar",
+	static final String[] API_JAR_PATTERNS = { "chartengineapi.jar", "com.ibm.icu.*.jar",
 			"org.apache.commons.codec_.*.jar", "coreapi.jar", "dataadapterapi.jar", "dteapi.jar", "engineapi.jar",
 			"flute.jar", "js.jar", "modelapi.jar", "crosstabcoreapi.jar", "org.eclipse.emf.common_.*.jar",
 			"org.eclipse.emf.ecore.xmi_.*.jar", "org.eclipse.emf.ecore_.*.jar", "org.w3c.css.sac_.*.jar",

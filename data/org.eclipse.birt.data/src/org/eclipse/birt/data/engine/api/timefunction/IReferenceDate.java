@@ -11,7 +11,7 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.timefunction;
@@ -20,9 +20,9 @@ import java.util.Date;
 
 public interface IReferenceDate {
 	/**
-	 * 
+	 *
 	 * @return the date based on which the relative time period will be calculated
 	 *         against.
 	 */
-	public Date getDate();
+	Date getDate();
 }

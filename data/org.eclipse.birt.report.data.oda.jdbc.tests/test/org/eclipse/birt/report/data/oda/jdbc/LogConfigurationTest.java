@@ -1,21 +1,26 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
 package org.eclipse.birt.report.data.oda.jdbc;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,11 +34,9 @@ import java.util.logging.SimpleFormatter;
 
 import org.eclipse.datatools.connectivity.oda.LogConfiguration;
 import org.eclipse.datatools.connectivity.oda.util.logging.Level;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Unit tests for setting the driver's trace logging configuration.
@@ -56,8 +59,9 @@ public class LogConfigurationTest {
 			clearDirectory(m_dir);
 		} else {
 			boolean created = m_dir.mkdir();
-			if (!created)
+			if (!created) {
 				throw new IOException("Cannot create directory: " + m_dir.getName());
+			}
 		}
 	}
 
@@ -71,8 +75,9 @@ public class LogConfigurationTest {
 		// remove directory
 		clearDirectory(m_dir);
 		boolean deleted = m_dir.delete();
-		if (!deleted)
+		if (!deleted) {
 			throw new IOException("Cannot delete directory: " + m_dir.getName());
+		}
 	}
 
 	/*
@@ -202,8 +207,9 @@ public class LogConfigurationTest {
 	// Tests proper logging of messages into files
 	@Test
 	public void testFileLogging() throws Exception {
-		if (true)
+		if (true) {
 			return;
+		}
 
 		// ensure no file is created when level set to OFF
 		clearHandlers(m_pkgLogger);
@@ -242,10 +248,11 @@ public class LogConfigurationTest {
 
 			// find the log file, ignore the lock file
 			File logFile;
-			if (!isLockFile(files[0]))
+			if (!isLockFile(files[0])) {
 				logFile = files[0];
-			else
+			} else {
 				logFile = files[1];
+			}
 
 			// create file reader
 			BufferedReader fileReader = new BufferedReader(new FileReader(logFile));
@@ -271,8 +278,9 @@ public class LogConfigurationTest {
 
 	private void assertSingleHandlerAndSimpleFormatter(Handler[] handlers) {
 		assertEquals(1, handlers.length);
-		if (handlers.length < 1)
+		if (handlers.length < 1) {
 			return;
+		}
 
 		assertNotNull(handlers[0].getFormatter());
 		assertEquals(m_simpleFormatterName, handlers[0].getFormatter().getClass().getName());
@@ -284,15 +292,17 @@ public class LogConfigurationTest {
 			return;
 		}
 
-		if (isConsoleHandler == true)
+		if (isConsoleHandler) {
 			assertTrue(handlers[0] instanceof ConsoleHandler);
-		else
+		} else {
 			assertTrue(handlers[0] instanceof FileHandler);
+		}
 	}
 
 	private void assertLoggerAndHandlerLevels(Handler[] handlers, java.util.logging.Level level) {
-		if (handlers.length < 1)
+		if (handlers.length < 1) {
 			return;
+		}
 
 		assertEquals(level, m_pkgLogger.getLevel());
 		assertEquals(level, handlers[0].getLevel());
@@ -302,8 +312,9 @@ public class LogConfigurationTest {
 		File[] files = dir.listFiles();
 		for (int i = 0; i < files.length; i += 1) {
 			boolean deleted = files[i].delete();
-			if (!deleted)
+			if (!deleted) {
 				throw new IOException("Cannot delete file: " + files[i].getName());
+			}
 		}
 	}
 

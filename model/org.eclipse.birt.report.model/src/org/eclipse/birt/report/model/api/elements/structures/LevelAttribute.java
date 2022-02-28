@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,17 +31,17 @@ import org.eclipse.birt.report.model.core.Structure;
  * This is a managed object, meaning that all changes should be made though the
  * command layer so that they can be undone and redone. Each attribute has the
  * following properties:
- * 
+ *
  * <p>
  * <dl>
  * <dt><strong>Name </strong></dt>
  * <dd>a result set column has an optional name.</dd>
- * 
+ *
  * <dt><strong>Data Type </strong></dt>
  * <dd>a result set column has a choice data type: any, integer, string, data
  * time, decimal, float, structure or table.</dd>
  * </dl>
- * 
+ *
  */
 
 public class LevelAttribute extends Structure {
@@ -83,27 +83,31 @@ public class LevelAttribute extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return STRUCTURE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.
 	 * String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (NAME_MEMBER.equals(propName))
+		if (NAME_MEMBER.equals(propName)) {
 			return name;
-		if (DATA_TYPE_MEMBER.equals(propName))
+		}
+		if (DATA_TYPE_MEMBER.equals(propName)) {
 			return dataType;
+		}
 
 		assert false;
 		return null;
@@ -111,24 +115,26 @@ public class LevelAttribute extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.
 	 * String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (NAME_MEMBER.equals(propName))
+		if (NAME_MEMBER.equals(propName)) {
 			name = (String) value;
-		else if (DATA_TYPE_MEMBER.equals(propName))
+		} else if (DATA_TYPE_MEMBER.equals(propName)) {
 			dataType = (String) value;
-		else
+		} else {
 			assert false;
+		}
 	}
 
 	/**
 	 * Returns the column name.
-	 * 
+	 *
 	 * @return the column name.
 	 */
 
@@ -138,7 +144,7 @@ public class LevelAttribute extends Structure {
 
 	/**
 	 * Sets the column name.
-	 * 
+	 *
 	 * @param columnName the column name to set
 	 */
 
@@ -160,7 +166,7 @@ public class LevelAttribute extends Structure {
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 * 
+	 *
 	 * @return the data type of this column.
 	 */
 
@@ -182,7 +188,7 @@ public class LevelAttribute extends Structure {
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 * 
+	 *
 	 * @param dataType the data type to set
 	 */
 
@@ -192,11 +198,12 @@ public class LevelAttribute extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.
 	 * model.api.SimpleValueHandle, int)
 	 */
+	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new LevelAttributeHandle(valueHandle, index);
 	}
@@ -206,11 +213,12 @@ public class LevelAttribute extends Structure {
 	 * <ul>
 	 * <li>The column name is required.
 	 * </ul>
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(Module,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public List validate(Module module, DesignElement element) {
 		List list = super.validate(module, element);
 

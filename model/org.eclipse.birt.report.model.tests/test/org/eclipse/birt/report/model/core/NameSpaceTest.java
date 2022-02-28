@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,97 +25,97 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * The Test Case of NameSpace.
- * 
+ *
  * The operation in NameSpace is all about the HashMap of elements, the key is
  * name of the elements.
  * <p>
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testInsert}</td>
  * <td>insert one element</td>
  * <td>object is equal to original element</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>insert another new element</td>
  * <td>size of space is become two</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testInsert}</td>
  * <td>insert one element</td>
  * <td>object is equal to original element</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>insert another new element</td>
  * <td>size of space is become two</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testRemove}</td>
  * <td>the simple insert-remove</td>
  * <td>first contain design element ,after remove it doesn't contain</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>insert the same element with new name</td>
  * <td>when insert size of space is two</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testRename}</td>
  * <td>insert element</td>
  * <td>contain</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>rename element</td>
  * <td>name changes</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>rename element when name of design is null</td>
  * <td>don't contain</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testContains}</td>
  * <td>insert element and check if it contains or not</td>
  * <td>contain</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetElement}</td>
  * <td>insert one and get it</td>
  * <td>result is equal to original element</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetCount}</td>
  * <td>insert one element</td>
  * <td>1</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>remove one element</td>
  * <td>0</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 
 public class NameSpaceTest extends BaseTestCase {
@@ -127,10 +127,11 @@ public class NameSpaceTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -156,7 +157,7 @@ public class NameSpaceTest extends BaseTestCase {
 	 * <li>object is equal to original element</li>
 	 * <li>size of space is become two</li>
 	 * </ul>
-	 * 
+	 *
 	 */
 	public void testInsert() {
 		design.setName(reportString);
@@ -192,7 +193,7 @@ public class NameSpaceTest extends BaseTestCase {
 	 * <li>first contain design element ,after remove it doesn't contain</li>
 	 * <li>when insert size of space is two</li>
 	 * </ul>
-	 * 
+	 *
 	 */
 	public void testRemove() {
 		// the simple insert-remove test
@@ -239,7 +240,7 @@ public class NameSpaceTest extends BaseTestCase {
 	 * <li>name changes</li>
 	 * <li>don't contain</li>
 	 * </ul>
-	 * 
+	 *
 	 */
 	public void testRename() {
 		// set the name of the element and insert into HashMap
@@ -305,7 +306,7 @@ public class NameSpaceTest extends BaseTestCase {
 	 * <ul>
 	 * <li>result is equal to original element</li>
 	 * </ul>
-	 * 
+	 *
 	 */
 	public void testGetElement() {
 		design.setName(reportString);
@@ -331,7 +332,7 @@ public class NameSpaceTest extends BaseTestCase {
 	 * <li>1</li>
 	 * <li>0</li>
 	 * </ul>
-	 * 
+	 *
 	 */
 	public void testGetCount() {
 		assertTrue(nameSpace.getCount() == 0);
@@ -353,9 +354,9 @@ public class NameSpaceTest extends BaseTestCase {
 	 * <ul>
 	 * <li>The order excepted is the same as the creation order.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testGetElementsSequence() throws Exception {

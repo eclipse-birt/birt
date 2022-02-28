@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,49 +28,52 @@ import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 /**
- * 
+ *
  */
 
 public class MultiViews extends AbstractMultiViews implements IMultiViewsModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
 	 * report.model.elements.ElementVisitor)
 	 */
 
+	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitMultiView(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
+	@Override
 	public String getElementName() {
 		return ReportDesignConstants.MULTI_VIEWS;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.
 	 * birt.report.model.core.Module)
 	 */
 
+	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 * 
+	 *
 	 * @param module the module of the dimension
-	 * 
+	 *
 	 * @return an API handle for this element.
 	 */
 
@@ -83,28 +86,31 @@ public class MultiViews extends AbstractMultiViews implements IMultiViewsModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#broadcast(org.eclipse.birt.
 	 * report.model.api.activity.NotificationEvent,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
 
+	@Override
 	public void broadcast(NotificationEvent ev, Module module) {
 		super.broadcast(ev, module);
 
 		DesignElement tmpContainer = getContainer();
-		if (tmpContainer == null)
+		if (tmpContainer == null) {
 			return;
+		}
 
 		NotificationEvent newEvent = adjustEvent(ev, tmpContainer);
-		if (newEvent != null)
+		if (newEvent != null) {
 			tmpContainer.broadcast(newEvent, module);
+		}
 	}
 
 	/**
 	 * Changes the content event to the <code>ViewsContentEvent</code>.
-	 * 
+	 *
 	 * @param ev the given event
 	 * @return the return event
 	 */
@@ -115,8 +121,9 @@ public class MultiViews extends AbstractMultiViews implements IMultiViewsModel {
 			return new PropertyEvent(tmpContainer, IReportItemModel.MULTI_VIEWS_PROP);
 		}
 
-		if (!(ev instanceof ContentEvent))
+		if (!(ev instanceof ContentEvent)) {
 			return null;
+		}
 
 		ContentEvent tmpEv = (ContentEvent) ev;
 

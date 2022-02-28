@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ public class FormatScientificNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param category
 	 */
 	public FormatScientificNumPattern(String category) {
@@ -34,13 +34,14 @@ public class FormatScientificNumPattern extends FormatNumberPattern {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
 	 * #getPattern()
 	 */
+	@Override
 	public String getPattern() {
 		String numStr = "0E00"; //$NON-NLS-1$
-		String decStr = ""; //$NON-NLS-1$
+		String decStr; //$NON-NLS-1$
 
 		String pattern = numStr;
 
@@ -65,10 +66,11 @@ public class FormatScientificNumPattern extends FormatNumberPattern {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
 	 * #setPattern(java.lang.String)
 	 */
+	@Override
 	public void setPattern(String patternStr) {
 		String patt = valPattern(patternStr);
 
@@ -82,22 +84,22 @@ public class FormatScientificNumPattern extends FormatNumberPattern {
 		{
 			this.decPlaces = patt.lastIndexOf("E") - patt.indexOf(".") - 1; //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		return;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPattern
 	 * #getDefaultPatt()
 	 */
+	@Override
 	protected String getDefaultPatt() {
 		return DEFAULT_SCIENTIFIC_PATTERN;
 	}
 
 	/**
 	 * Get DecPlaces
-	 * 
+	 *
 	 * @return Returns the decPlaces.
 	 */
 	public int getDecPlaces() {
@@ -106,7 +108,7 @@ public class FormatScientificNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Set DecPlaces
-	 * 
+	 *
 	 * @param decPlaces The decPlaces to set.
 	 */
 	public void setDecPlaces(int decPlaces) {

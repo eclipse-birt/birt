@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ public class CoreMessages {
 
 	/** The resource bundle. */
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-	private static Map<Locale, ResourceBundle> localeToBundle = new HashMap<Locale, ResourceBundle>();
+	private static Map<Locale, ResourceBundle> localeToBundle = new HashMap<>();
 
 	/**
 	 * Constructor of this class.
@@ -41,7 +41,7 @@ public class CoreMessages {
 
 	/**
 	 * Returns the resource bundle.
-	 * 
+	 *
 	 * @return the resource bundle.
 	 */
 	public static ResourceBundle getReportResourceBundle() {
@@ -50,7 +50,7 @@ public class CoreMessages {
 
 	/**
 	 * Returns the resource bundle.
-	 * 
+	 *
 	 * @return the resource bundle.
 	 */
 	public static ResourceBundle getReportResourceBundle(Locale locale) {
@@ -67,7 +67,7 @@ public class CoreMessages {
 
 	/**
 	 * Returns common translation for current local.
-	 * 
+	 *
 	 * @param key the key to translate.
 	 * @return translated value string.
 	 */
@@ -78,7 +78,7 @@ public class CoreMessages {
 
 	/**
 	 * Returns common translation for current local.
-	 * 
+	 *
 	 * @param key the key to translate.
 	 * @return translated value string.
 	 */
@@ -94,7 +94,7 @@ public class CoreMessages {
 
 	/**
 	 * Returns formatted translation for current local.
-	 * 
+	 *
 	 * @param key the key to translate.
 	 * @return translated value string.
 	 */
@@ -104,7 +104,7 @@ public class CoreMessages {
 
 	/**
 	 * Returns formatted translation for current local.
-	 * 
+	 *
 	 * @param key the key to translate.
 	 * @return translated value string.
 	 */

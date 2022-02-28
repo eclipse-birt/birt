@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -17,17 +17,17 @@ package org.eclipse.birt.chart.tests.util;
 import java.io.InputStream;
 
 /**
- * 
+ *
  * FileUtil is a utility class that will compare the contents from one file to
  * another.
- * 
+ *
  */
 public class FileUtil {
 
 	/**
 	 * computeFiles method compares two input streams and returns whether the
 	 * contents of the input streams match.
-	 * 
+	 *
 	 * @param left  - inputstream of the first resource
 	 * @param right - inputstream of the second resource
 	 * @return true if the contents match; otherwise, false is returned.

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,8 +36,9 @@ public class ImageScriptExecutor extends ScriptExecutor {
 		try {
 			IImage image = new Image(imageHandle);
 			IImageEventHandler eh = getEventHandler(imageHandle, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onPrepare(image, context.getReportContext());
+			}
 		} catch (Exception e) {
 			log.log(Level.WARNING, e.getMessage(), e);
 		}
@@ -51,11 +52,13 @@ public class ImageScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IImageInstance image = createImageInstance(content, context, RunningState.CREATE);
-			if (handleScript(image, imageDesign.getOnCreate(), context).didRun())
+			if (handleScript(image, imageDesign.getOnCreate(), context).didRun()) {
 				return;
+			}
 			IImageEventHandler eh = getEventHandler(imageDesign, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onCreate(image, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e, imageDesign.getHandle());
 		}
@@ -68,11 +71,13 @@ public class ImageScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IImageInstance image = createImageInstance(content, context, RunningState.RENDER);
-			if (handleScript(image, imageDesign.getOnRender(), context).didRun())
+			if (handleScript(image, imageDesign.getOnRender(), context).didRun()) {
 				return;
+			}
 			IImageEventHandler eh = getEventHandler(imageDesign, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onRender(image, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e, imageDesign.getHandle());
 		}
@@ -85,11 +90,13 @@ public class ImageScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IImageInstance image = createImageInstance(content, context, RunningState.PAGEBREAK);
-			if (handleScript(image, imageDesign.getOnPageBreak(), context).didRun())
+			if (handleScript(image, imageDesign.getOnPageBreak(), context).didRun()) {
 				return;
+			}
 			IImageEventHandler eh = getEventHandler(imageDesign, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onPageBreak(image, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e, imageDesign.getHandle());
 		}

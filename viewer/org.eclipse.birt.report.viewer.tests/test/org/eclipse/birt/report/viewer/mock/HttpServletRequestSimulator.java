@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -41,7 +41,7 @@ import javax.servlet.http.Part;
 
 /**
  * Mock a HttpServletRequest class for Viewer UnitTest
- * 
+ *
  */
 public class HttpServletRequestSimulator implements HttpServletRequest {
 
@@ -84,7 +84,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 */
 	public HttpServletRequestSimulator() {
 		parameters = new Hashtable();
@@ -95,7 +95,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param context
 	 */
 	public HttpServletRequestSimulator(ServletContext context) {
@@ -105,151 +105,173 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletRequest#getParameter(java.lang.String)
 	 */
+	@Override
 	public String getParameter(String name) {
-		if (name == null)
+		if (name == null) {
 			return null;
+		}
 
 		Object value = parameters.get(name);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
-		if (value.getClass().isArray())
+		if (value.getClass().isArray()) {
 			return ((String[]) value)[0];
+		}
 
 		return (String) value;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletRequest#getParameterMap()
 	 */
+	@Override
 	public Map getParameterMap() {
 		return this.parameters;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletRequest#getParameterNames()
 	 */
+	@Override
 	public Enumeration getParameterNames() {
 		return this.parameters.keys();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletRequest#getParameterValues( java.lang.String )
 	 */
+	@Override
 	public String[] getParameterValues(String name) {
-		if (name == null)
+		if (name == null) {
 			return null;
+		}
 
 		Object value = parameters.get(name);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
-		if (value.getClass().isArray())
+		if (value.getClass().isArray()) {
 			return (String[]) value;
-		else
+		} else {
 			return new String[] { (String) value };
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletRequest#setAttribute(java.lang.String,
 	 * java.lang.Object)
 	 */
+	@Override
 	public void setAttribute(String key, Object value) {
-		if (key != null)
+		if (key != null) {
 			this.attributes.put(key, value);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletRequest#getAttribute(java.lang.String)
 	 */
+	@Override
 	public Object getAttribute(String name) {
 		return this.attributes.get(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletRequest#getAttributeNames()
 	 */
+	@Override
 	public Enumeration getAttributeNames() {
 		return this.attributes.keys();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletRequest#removeAttribute(java.lang.String)
 	 */
+	@Override
 	public void removeAttribute(String name) {
 		this.attributes.remove(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getHeader(java.lang.String)
 	 */
+	@Override
 	public String getHeader(String name) {
 		return (String) this.headers.get(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getHeaderNames()
 	 */
+	@Override
 	public Enumeration getHeaderNames() {
 		return this.headers.keys();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getHeaders(java.lang.String)
 	 */
+	@Override
 	public Enumeration getHeaders(String name) {
 		throw new UnsupportedOperationException("Do not support getHeaders operation!"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getIntHeader(java.lang.String)
 	 */
+	@Override
 	public int getIntHeader(String name) {
 		return -1;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getDateHeader(java.lang.String)
 	 */
+	@Override
 	public long getDateHeader(String name) {
 		return -1;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getCookies()
 	 */
+	@Override
 	public Cookie[] getCookies() {
-		if (cookies == null || cookies.isEmpty())
+		if (cookies == null || cookies.isEmpty()) {
 			return null;
+		}
 
 		Cookie[] array = new Cookie[cookies.size()];
 		return (Cookie[]) cookies.toArray(array);
@@ -257,178 +279,199 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletRequest#getScheme()
 	 */
+	@Override
 	public String getScheme() {
 		return this.scheme;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletRequest#getProtocol()
 	 */
+	@Override
 	public String getProtocol() {
 		return this.protocol;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletRequest#setCharacterEncoding(java.lang.String)
 	 */
+	@Override
 	public void setCharacterEncoding(String encoding) {
 		this.characterEncoding = encoding;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletRequest#getCharacterEncoding()
 	 */
+	@Override
 	public String getCharacterEncoding() {
 		return this.characterEncoding;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletRequest#getContentType()
 	 */
+	@Override
 	public String getContentType() {
 		return this.contentType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletRequest#getContentLength()
 	 */
+	@Override
 	public int getContentLength() {
 		return this.contentLength;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getAuthType()
 	 */
+	@Override
 	public String getAuthType() {
 		return this.authType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getContextPath()
 	 */
+	@Override
 	public String getContextPath() {
 		return this.contextPath;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getMethod()
 	 */
+	@Override
 	public String getMethod() {
 		return this.method;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getPathInfo()
 	 */
+	@Override
 	public String getPathInfo() {
 		return this.pathInfo;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getPathTranslated()
 	 */
+	@Override
 	public String getPathTranslated() {
 		throw new UnsupportedOperationException("Do not support getPathTranslated operation!"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getQueryString()
 	 */
+	@Override
 	public String getQueryString() {
 		return this.queryString;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getRemoteUser()
 	 */
+	@Override
 	public String getRemoteUser() {
 		return this.remoteUser;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getRequestURI()
 	 */
+	@Override
 	public String getRequestURI() {
 		return this.requestURI;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getRequestURL()
 	 */
+	@Override
 	public StringBuffer getRequestURL() {
 		return new StringBuffer(this.requestURL);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getRequestedSessionId()
 	 */
+	@Override
 	public String getRequestedSessionId() {
-		if (this.session != null)
+		if (this.session != null) {
 			return this.session.getId();
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getServletPath()
 	 */
+	@Override
 	public String getServletPath() {
 		return this.servletPath;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getSession()
 	 */
+	@Override
 	public HttpSession getSession() {
 		return this.session;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getSession( boolean )
 	 */
+	@Override
 	public HttpSession getSession(boolean flag) {
 		boolean isValid = true;
-		if (this.session != null)
+		if (this.session != null) {
 			isValid = ((HttpSessionSimulator) this.session).isValid();
+		}
 
 		if (flag && this.session == null) {
 			this.session = new HttpSessionSimulator(this.context);
@@ -436,237 +479,265 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 			this.session = new HttpSessionSimulator(this.context);
 		}
 
-		if (isValid)
+		if (isValid) {
 			this.session = null;
+		}
 
 		return this.session;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getUserPrincipal
 	 */
+	@Override
 	public Principal getUserPrincipal() {
 		return this.userPrincipal;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromCookie
 	 */
+	@Override
 	public boolean isRequestedSessionIdFromCookie() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromURL
 	 */
+	@Override
 	public boolean isRequestedSessionIdFromURL() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromUrl
 	 */
+	@Override
 	public boolean isRequestedSessionIdFromUrl() {
 		return isRequestedSessionIdFromURL();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdValid
 	 */
+	@Override
 	public boolean isRequestedSessionIdValid() {
-		if (this.session == null)
+		if (this.session == null) {
 			return false;
+		}
 
 		return ((HttpSessionSimulator) this.session).isValid();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#isUserInRole( java.lang.String )
 	 */
+	@Override
 	public boolean isUserInRole(String role) {
-		if (role == null)
+		if (role == null) {
 			return false;
+		}
 
 		return role.equals(userRole);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getInputStream
 	 */
+	@Override
 	public ServletInputStream getInputStream() throws IOException {
 		throw new UnsupportedOperationException("Do not support getInputStream operation!"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getLocalAddr
 	 */
+	@Override
 	public String getLocalAddr() {
 		return this.localAddr;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getLocalName
 	 */
+	@Override
 	public String getLocalName() {
 		return this.localName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getLocalPort
 	 */
+	@Override
 	public int getLocalPort() {
 		return this.localPort;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getLocale
 	 */
+	@Override
 	public Locale getLocale() {
 		return this.locale;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getLocales
 	 */
+	@Override
 	public Enumeration getLocales() {
 		throw new UnsupportedOperationException("Do not support getLocales operation!"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getReader
 	 */
+	@Override
 	public BufferedReader getReader() throws IOException {
 		throw new UnsupportedOperationException("Do not support getReader operation!"); //$NON-NLS-1$
 	}
 
 	/**
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getRealPath( java.lang.String )
 	 * @deprecated
 	 */
+	@Deprecated
+	@Override
 	public String getRealPath(String path) {
-		if (path == null)
+		if (path == null) {
 			return null;
+		}
 
 		return this.context.getRealPath(path);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getRemoteAddr
 	 */
+	@Override
 	public String getRemoteAddr() {
 		return this.remoteAddr;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getRemoteHost
 	 */
+	@Override
 	public String getRemoteHost() {
 		return this.remoteHost;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getRemotePort
 	 */
+	@Override
 	public int getRemotePort() {
 		return this.remotePort;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getRequestDispatcher(
 	 * java.ang.String )
 	 */
+	@Override
 	public RequestDispatcher getRequestDispatcher(String url) {
 		return this.context.getRequestDispatcher(url);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getServerName
 	 */
+	@Override
 	public String getServerName() {
 		return this.serverName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#getServerPort
 	 */
+	@Override
 	public int getServerPort() {
 		return this.serverPort;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.http.HttpServletRequest#isSecure
 	 */
+	@Override
 	public boolean isSecure() {
 		return scheme.equalsIgnoreCase("HTTPS"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Add parameter into Request object
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 */
 	public void addParameter(String key, String value) {
-		if (key != null)
+		if (key != null) {
 			this.parameters.put(key, value);
+		}
 	}
 
 	/**
 	 * Add parameter array into Request object
-	 * 
+	 *
 	 * @param key
 	 * @param values
 	 */
 	public void addParameterValues(String key, String[] values) {
-		if (key != null)
+		if (key != null) {
 			this.parameters.put(key, values);
+		}
 	}
 
 	/**
 	 * Remove parameter in Request object
-	 * 
+	 *
 	 * @param key
 	 */
 	public void removeParameter(String key) {
@@ -675,7 +746,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Set Request Header
-	 * 
+	 *
 	 * @param key
 	 * @param header
 	 */
@@ -685,7 +756,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Remove header in Request object
-	 * 
+	 *
 	 * @param key
 	 */
 	public void removeHeader(String key) {
@@ -694,7 +765,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Add Cookie
-	 * 
+	 *
 	 * @param cookie
 	 */
 	public void addCookie(Cookie cookie) {
@@ -703,12 +774,13 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Set Cookies
-	 * 
+	 *
 	 * @param cookies
 	 */
 	public void setCookie(Cookie[] cookies) {
-		if (cookies == null)
+		if (cookies == null) {
 			return;
+		}
 
 		this.cookies = new ArrayList();
 		for (int i = 0; i < cookies.length; i++) {
@@ -718,7 +790,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Set Scheme
-	 * 
+	 *
 	 * @param scheme
 	 */
 	public void setScheme(String scheme) {
@@ -727,7 +799,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Set Content Type
-	 * 
+	 *
 	 * @param contentType
 	 */
 	public void setContentType(String contentType) {
@@ -736,7 +808,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Set Authorize Type
-	 * 
+	 *
 	 * @param authType
 	 */
 	public void setAuthType(String authType) {
@@ -745,7 +817,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Set Context Path
-	 * 
+	 *
 	 * @param contextPath
 	 */
 	public void setContextPath(String contextPath) {
@@ -754,7 +826,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Set Request Method
-	 * 
+	 *
 	 * @param method
 	 */
 	public void setMethod(String method) {
@@ -763,7 +835,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Set Path Information
-	 * 
+	 *
 	 * @param pathInfo
 	 */
 	public void setPathInfo(String pathInfo) {
@@ -772,7 +844,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Set Request Query String
-	 * 
+	 *
 	 * @param queryString
 	 */
 	public void setQueryString(String queryString) {
@@ -781,7 +853,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Set Remote User
-	 * 
+	 *
 	 * @param remoteUser
 	 */
 	public void setRemoteUser(String remoteUser) {
@@ -790,7 +862,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Set request Server Port
-	 * 
+	 *
 	 * @param port
 	 */
 	public void setServerPort(int port) {
@@ -799,7 +871,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Set request Server Name
-	 * 
+	 *
 	 * @param serverName
 	 */
 	public void setServerName(String serverName) {
@@ -808,7 +880,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Set request URI
-	 * 
+	 *
 	 * @param requestURI
 	 */
 	public void setRequestURI(String requestURI) {
@@ -817,12 +889,13 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	/**
 	 * Set request URL
-	 * 
+	 *
 	 * @param url
 	 */
 	public void setRequestURL(String url) {
-		if (url == null)
+		if (url == null) {
 			return;
+		}
 
 		// Set Scheme
 		int posScheme = url.indexOf("://"); //$NON-NLS-1$
@@ -830,13 +903,15 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 		// Set Request URL
 		int pos = url.indexOf("?"); //$NON-NLS-1$
-		if (pos <= 0)
+		if (pos <= 0) {
 			pos = url.length();
+		}
 		this.requestURL = url.substring(0, pos);
 
 		// Set Query String
-		if (pos != url.length())
+		if (pos != url.length()) {
 			setQueryString(url.substring(pos + 1));
+		}
 
 		// Set Request URI
 		int posURI = url.indexOf("/", posScheme + 3); //$NON-NLS-1$
@@ -847,20 +922,22 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 		if (posPort > 0) {
 			setServerName(url.substring(posScheme + 3, posPort));
 			String port = url.substring(posPort + 1, posURI);
-			if (port.length() > 0)
-				setServerPort(Integer.valueOf(port).intValue());
+			if (port.length() > 0) {
+				setServerPort(Integer.parseInt(port));
+			}
 		} else {
 			setServerName(url.substring(posScheme + 3, posURI));
-			if (isSecure())
+			if (isSecure()) {
 				setServerPort(443);
-			else
+			} else {
 				setServerPort(80);
+			}
 		}
 	}
 
 	/**
 	 * Set Request Servlet Path
-	 * 
+	 *
 	 * @param servletPath
 	 */
 	public void setServletPath(String servletPath) {

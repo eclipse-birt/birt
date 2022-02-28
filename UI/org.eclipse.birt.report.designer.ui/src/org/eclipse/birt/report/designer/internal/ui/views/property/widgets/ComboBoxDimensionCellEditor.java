@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -87,7 +87,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 	/**
 	 * Creates a new dialog cell editor parented under the given control. The
 	 * combobox lists is <code>null</code> initially
-	 * 
+	 *
 	 * @param parent the parent control
 	 */
 	public ComboBoxDimensionCellEditor(Composite parent) {
@@ -98,7 +98,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 	/**
 	 * Creates a new dialog cell editor parented under the given control. The combo
 	 * box box lists is initialized with the items parameter
-	 * 
+	 *
 	 * @param parent the parent control
 	 * @param items  the initilizing combobox list
 	 */
@@ -113,7 +113,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 	/**
 	 * Creates a new dialog cell editor parented under the given control and givend
 	 * style. The combo box box lists is initialized with the items parameter
-	 * 
+	 *
 	 * @param parent the parent control
 	 * @param items  the initilizing combobox list
 	 * @param style  the style of this editor
@@ -142,7 +142,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 
 	/**
 	 * Returns the list of choices for the combo box
-	 * 
+	 *
 	 * @return the list of choices for the combo box
 	 */
 	public String[] getItems() {
@@ -151,7 +151,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 
 	/**
 	 * Sets the list of choices for the combo box
-	 * 
+	 *
 	 * @param items the list of choices for the combo box
 	 */
 	public void setItems(String[] items) {
@@ -166,8 +166,9 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 	private void populateComboBoxItems() {
 		if (comboBox != null && items != null) {
 			comboBox.removeAll();
-			for (int i = 0; i < items.length; i++)
+			for (int i = 0; i < items.length; i++) {
 				comboBox.add(items[i], i);
+			}
 
 			setValueValid(true);
 			selection = 0;
@@ -177,10 +178,12 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
+	@Override
 	protected Control createContents(final Composite cell) {
 		Color bg = cell.getBackground();
 		cell.addFocusListener(new FocusAdapter() {
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				ComboBoxDimensionCellEditor.this.focusLost();
 			}
@@ -196,10 +199,12 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 
 		comboBox.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent event) {
 				applyEditorValueAndDeactivate();
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				selection = comboBox.getSelectionIndex();
 			}
@@ -208,6 +213,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 		comboBox.addKeyListener(new KeyAdapter() {
 
 			// hook key pressed - see PR 14201
+			@Override
 			public void keyPressed(KeyEvent e) {
 				keyReleaseOccured(e);
 			}
@@ -215,6 +221,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 
 		comboBox.addTraverseListener(new TraverseListener() {
 
+			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_ESCAPE || e.detail == SWT.TRAVERSE_RETURN) {
 					e.doit = false;
@@ -224,6 +231,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 
 		comboBox.addFocusListener(new FocusAdapter() {
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				ComboBoxDimensionCellEditor.this.focusLost();
 			}
@@ -245,10 +253,11 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.DialogCellEditor#openDialogBox(org.eclipse.
 	 * swt.widgets.Control)
 	 */
+	@Override
 	protected Object openDialogBox(Control cellEditorWindow) {
 		DimensionBuilderDialog dialog = new DimensionBuilderDialog(cellEditorWindow.getShell());
 
@@ -291,9 +300,11 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
+	@Override
 	protected void updateContents(Object value) {
-		if (comboBox == null)
+		if (comboBox == null) {
 			return;
+		}
 
 		String text = "";//$NON-NLS-1$
 		if (value != null) {
@@ -333,10 +344,11 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#keyReleaseOccured(org.eclipse.swt
 	 * .events.KeyEvent)
 	 */
+	@Override
 	protected void keyReleaseOccured(KeyEvent keyEvent) {
 		if (keyEvent.character == '\u001b') { // Escape character
 			fireCancelEditor();
@@ -349,7 +361,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 
 	/**
 	 * Set current units
-	 * 
+	 *
 	 * @param units
 	 */
 	public void setUnits(String units) {
@@ -358,7 +370,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 
 	/**
 	 * Set units list the needed by dimension dialog
-	 * 
+	 *
 	 * @param unitsList
 	 */
 	public void setUnitsList(String[] unitsList) {
@@ -373,27 +385,31 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 	 * appropriate times. Subclasses may also extend or reimplement.
 	 * </p>
 	 */
+	@Override
 	protected void focusLost() {
-		if (inProcessing == 1)
+		if (inProcessing == 1) {
 			return;
+		}
 		super.focusLost();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
+	@Override
 	protected void doSetFocus() {
 		comboBox.setFocus();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.property.widgets.
 	 * CDialogCellEditor#doValueChanged()
 	 */
+	@Override
 	protected void doValueChanged() {
 		String comboText = comboBox.getText();
 		if (comboBox.indexOf(comboText) >= 0) {
@@ -409,7 +425,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 		if (selection == -1) {
 
 			Object oldValue = doGetValue();
-			if (oldValue != null && oldValue instanceof String) {
+			if (oldValue instanceof String) {
 				oldValue = parseString2dValue((String) oldValue);
 			}
 

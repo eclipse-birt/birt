@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -41,6 +41,7 @@ public class ColorSection extends Section {
 
 	protected ColorPropertyDescriptor color;
 
+	@Override
 	public void createSection() {
 		getLabelControl(parent);
 		getColorComboControl(parent);
@@ -51,18 +52,21 @@ public class ColorSection extends Section {
 	protected ColorPropertyDescriptor getColorComboControl(Composite parent) {
 		if (color == null) {
 			color = DescriptorToolkit.createColorPropertyDescriptor(true);
-			if (getProvider() != null)
+			if (getProvider() != null) {
 				color.setDescriptorProvider(getProvider());
+			}
 			color.createControl(parent);
 			color.getControl().setLayoutData(new GridData());
 			color.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					color = null;
 				}
 			});
-			if (colorValue != null)
+			if (colorValue != null) {
 				color.setColorValue(colorValue);
+			}
 
 			setAccessible(color.getControl());
 		} else {
@@ -83,6 +87,7 @@ public class ColorSection extends Section {
 		} else {
 			control.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
+				@Override
 				public void getName(AccessibleEvent e) {
 					Label lbl = getLabelControl();
 					if (lbl != null) {
@@ -103,25 +108,31 @@ public class ColorSection extends Section {
 		return color;
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) color.getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - 1 - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 1 - placeholder;
+		}
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillColor;
+		}
 
 	}
 
+	@Override
 	public void load() {
-		if (color != null && !color.getControl().isDisposed())
+		if (color != null && !color.getControl().isDisposed()) {
 			color.load();
+		}
 	}
 
+	@Override
 	public void reset() {
 		if (color != null && !color.getControl().isDisposed()) {
 			color.reset();
@@ -136,8 +147,9 @@ public class ColorSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (color != null)
+		if (color != null) {
 			color.setDescriptorProvider(provider);
+		}
 	}
 
 	private int width = -1;
@@ -150,6 +162,7 @@ public class ColorSection extends Section {
 		this.width = width;
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		color.setInput(input);
@@ -165,22 +178,30 @@ public class ColorSection extends Section {
 		this.fillColor = fillColor;
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (color != null)
+		}
+		if (color != null) {
 			color.setHidden(isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (color != null)
+		}
+		if (color != null) {
 			color.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 
 	public void setFocus() {
@@ -192,16 +213,18 @@ public class ColorSection extends Section {
 	private String colorValue;
 
 	public void setColorValue(String value) {
-		if (color != null)
+		if (color != null) {
 			color.setColorValue(value);
+		}
 		colorValue = value;
 	}
 
 	public RGB getColorValue() {
-		if (color != null)
+		if (color != null) {
 			return color.getColorValue();
-		else
+		} else {
 			return null;
+		}
 	}
 
 }

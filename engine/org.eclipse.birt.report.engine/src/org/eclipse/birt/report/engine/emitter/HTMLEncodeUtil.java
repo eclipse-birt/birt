@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,8 +18,8 @@ import java.util.logging.Level;
 
 public class HTMLEncodeUtil extends XMLEncodeUtil {
 
-	static char[] HTML_TEXT_ENCODING = new char[] { '&', '<' };
-	static char[] HTML_WHITE_SPACE_ENCODING = new char[] { '&', '<', ' ', '\t', '\r', '\n' };
+	static char[] HTML_TEXT_ENCODING = { '&', '<' };
+	static char[] HTML_WHITE_SPACE_ENCODING = { '&', '<', ' ', '\t', '\r', '\n' };
 
 	static final String ESCAPE_BR = "<br/>";
 	static final String ESCAPE_NBSP = "&#xa0;";
@@ -28,7 +28,7 @@ public class HTMLEncodeUtil extends XMLEncodeUtil {
 
 	/**
 	 * Replace the escape characters.
-	 * 
+	 *
 	 * @param s           The string needs to be replaced.
 	 * @param whiteespace A <code>boolean<code> value indicating if the white space
 	 *                    character should be converted or not.
@@ -79,14 +79,14 @@ public class HTMLEncodeUtil extends XMLEncodeUtil {
 
 	/**
 	 * Implement white-space:pre-wrap escaping.
-	 * 
+	 *
 	 * see http://www.w3.org/TR/CSS2/text.html#white-space-prop
-	 * 
+	 *
 	 * If 'white-space' is set to 'pre' or 'pre-wrap', any sequence of spaces
 	 * (U+0020) unbroken by an element boundary is treated as a sequence of
 	 * non-breaking spaces. However, for 'pre-wrap', a line breaking opportunity
 	 * exists at the end of the sequence.
-	 * 
+	 *
 	 * For single white space, if it is the first character or after a BR, replace
 	 * it to &nbsp;. If it is the last character or followed by a <BR>
 	 * replace it to &nbsp; otherwise, keep it unchanged. For multiple white space,

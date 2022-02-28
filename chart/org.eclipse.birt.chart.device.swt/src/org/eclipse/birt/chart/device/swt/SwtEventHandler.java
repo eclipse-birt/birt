@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -101,10 +101,10 @@ class SwtEventHandler implements MouseListener, MouseMoveListener, MouseTrackLis
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param Interactive     Renderer
 	 * @param swtRendererImpl
-	 * 
+	 *
 	 * @param _lhmAllTriggers
 	 * @param _jc
 	 * @param _lcl
@@ -126,7 +126,7 @@ class SwtEventHandler implements MouseListener, MouseMoveListener, MouseTrackLis
 			return null;
 		}
 
-		List<RegionAction> al = new ArrayList<RegionAction>();
+		List<RegionAction> al = new ArrayList<>();
 
 		for (int i = 0; i < tca.length; i++) {
 			List<RegionAction> tal = lhmAllTriggers.get(tca[i]);
@@ -246,8 +246,9 @@ class SwtEventHandler implements MouseListener, MouseMoveListener, MouseTrackLis
 			}
 		}
 
-		if (!bFound)
+		if (!bFound) {
 			disableActions(getActionTypesForConditions(tgArray));
+		}
 
 	}
 
@@ -273,6 +274,7 @@ class SwtEventHandler implements MouseListener, MouseMoveListener, MouseTrackLis
 			menuItem.setData(uv);
 			menuItem.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					URLValue urlValue = (URLValue) ((MenuItem) e.getSource()).getData();
 					openURL(urlValue);
@@ -298,12 +300,13 @@ class SwtEventHandler implements MouseListener, MouseMoveListener, MouseTrackLis
 		if (tca == null || tca.length == 0) {
 			return null;
 		}
-		Set<ActionType> set = new HashSet<ActionType>();
+		Set<ActionType> set = new HashSet<>();
 
 		for (int i = 0; i < tca.length; i++) {
 			List<RegionAction> tal = lhmAllTriggers.get(tca[i]);
-			if (tal == null)
+			if (tal == null) {
 				continue;
+			}
 			for (Iterator<RegionAction> iter = tal.iterator(); iter.hasNext();) {
 				RegionAction rg = iter.next();
 				ActionType actionType = rg.getAction().getType();
@@ -317,13 +320,15 @@ class SwtEventHandler implements MouseListener, MouseMoveListener, MouseTrackLis
 	// if the event was fired without new action disable the previous action
 
 	private void disableActions(Set<ActionType> actions) {
-		if (actions == null)
+		if (actions == null) {
 			return;
+		}
 
 		for (Iterator<ActionType> iter = actions.iterator(); iter.hasNext();) {
 			ActionType action = iter.next();
-			if (action == null)
+			if (action == null) {
 				continue;
+			}
 			switch (action.getValue()) {
 			case ActionType.SHOW_TOOLTIP:
 				if (raTooltip != null) {
@@ -378,57 +383,58 @@ class SwtEventHandler implements MouseListener, MouseMoveListener, MouseTrackLis
 				}
 			}
 			iun.repaintChart();
-		} else {
-			if (cleanState) {
-				iv.unregisterAction(previousSrc, actionType);
-				previousSrc = null;
-				iun.repaintChart();
-			}
+		} else if (cleanState) {
+			iv.unregisterAction(previousSrc, actionType);
+			previousSrc = null;
+			iun.repaintChart();
 		}
 		return previousSrc;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
+	@Override
 	public void mouseDoubleClick(MouseEvent e) {
 		if (!isLeftButton(e)) {
 			return;
 		}
 
 		// FILTER OUT ALL TRIGGERS FOR MOUSE DOUBLE CLICK ONLY
-		TriggerCondition[] tgArray = new TriggerCondition[] { TriggerCondition.ONDBLCLICK_LITERAL };
+		TriggerCondition[] tgArray = { TriggerCondition.ONDBLCLICK_LITERAL };
 
 		handleAction(tgArray, e);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
+	@Override
 	public void mouseDown(MouseEvent e) {
 		if (!isLeftButton(e)) {
 			return;
 		}
 
 		// FILTER OUT ALL TRIGGERS FOR MOUSE DOWN ONLY
-		TriggerCondition[] tgArray = new TriggerCondition[] { TriggerCondition.ONMOUSEDOWN_LITERAL };
+		TriggerCondition[] tgArray = { TriggerCondition.ONMOUSEDOWN_LITERAL };
 
 		handleAction(tgArray, e);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
+	@Override
 	public void mouseUp(MouseEvent e) {
 		// FILTER OUT ALL TRIGGERS FOR MOUSE UP/CLICK ONLY
 		TriggerCondition[] tgArray = isLeftButton(e)
@@ -441,11 +447,12 @@ class SwtEventHandler implements MouseListener, MouseMoveListener, MouseTrackLis
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.MouseMoveListener#mouseMove(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
+	@Override
 	public void mouseMove(MouseEvent e) {
 		// 1. CHECK FOR MOUSE-CLICK TRIGGERS
 		List<RegionAction> al = getActionsForConditions(new TriggerCondition[] { TriggerCondition.ONCLICK_LITERAL,
@@ -472,79 +479,85 @@ class SwtEventHandler implements MouseListener, MouseMoveListener, MouseTrackLis
 		}
 
 		// FILTER OUT ALL TRIGGERS FOR MOUSE MOVE/OVER ONLY
-		TriggerCondition[] tgArray = new TriggerCondition[] { TriggerCondition.ONMOUSEMOVE_LITERAL,
-				TriggerCondition.ONMOUSEOVER_LITERAL };
+		TriggerCondition[] tgArray = { TriggerCondition.ONMOUSEMOVE_LITERAL, TriggerCondition.ONMOUSEOVER_LITERAL };
 
-		if (tgArray != null)
+		if (tgArray != null) {
 			handleAction(tgArray, e, false);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.
 	 * KeyEvent)
 	 */
+	@Override
 	public void keyPressed(KeyEvent e) {
 		// FILTER OUT ALL TRIGGERS FOR MOUSE CLICKS ONLY
-		TriggerCondition[] tg = new TriggerCondition[] { TriggerCondition.ONKEYDOWN_LITERAL };
+		TriggerCondition[] tg = { TriggerCondition.ONKEYDOWN_LITERAL };
 
 		handleAction(tg, e);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events.
 	 * KeyEvent)
 	 */
+	@Override
 	public void keyReleased(KeyEvent e) {
 		// FILTER OUT ALL TRIGGERS FOR KEY UP/PRESS ONLY
-		TriggerCondition[] tg = new TriggerCondition[] { TriggerCondition.ONKEYUP_LITERAL,
-				TriggerCondition.ONKEYPRESS_LITERAL };
+		TriggerCondition[] tg = { TriggerCondition.ONKEYUP_LITERAL, TriggerCondition.ONKEYPRESS_LITERAL };
 
 		handleAction(tg, e);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.MouseTrackListener#mouseEnter(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
+	@Override
 	public void mouseEnter(MouseEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.MouseTrackListener#mouseExit(org.eclipsse.swt.events.
 	 * MouseEvent)
 	 */
+	@Override
 	public void mouseExit(MouseEvent e) {
 		// FILTER OUT ALL TRIGGERS FOR MOUSE OUT ONLY
-		TriggerCondition tg[] = new TriggerCondition[] { TriggerCondition.ONMOUSEOUT_LITERAL };
+		TriggerCondition tg[] = { TriggerCondition.ONMOUSEOUT_LITERAL };
 
 		handleAction(tg, e);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.MouseTrackListener#mouseHover(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
+	@Override
 	public void mouseHover(MouseEvent e) {
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 		// FILTER OUT ALL TRIGGERS FOR FOCUS IN ONLY
 		handleAction(new TriggerCondition[] { TriggerCondition.ONFOCUS_LITERAL }, e);
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		// FILTER OUT ALL TRIGGERS FOR FOCUS OUT ONLY
 		handleAction(new TriggerCondition[] { TriggerCondition.ONBLUR_LITERAL }, e);
@@ -585,10 +598,6 @@ class SwtEventHandler implements MouseListener, MouseMoveListener, MouseTrackLis
 
 					composite.setCursor(new Cursor(composite.getDisplay(), id, 0, 0));
 					return;
-				} catch (FileNotFoundException e) {
-					// Do not process exception here.
-				} catch (URISyntaxException e) {
-					// Do not process exception here.
 				} catch (Exception e) {
 					// Do not process exception here.
 				}

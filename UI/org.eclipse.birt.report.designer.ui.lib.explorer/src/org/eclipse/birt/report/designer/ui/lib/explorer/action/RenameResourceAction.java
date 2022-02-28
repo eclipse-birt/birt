@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
+
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
@@ -41,7 +42,7 @@ public class RenameResourceAction extends ResourceAction {
 
 	/**
 	 * Constructs an action for renaming resource.
-	 * 
+	 *
 	 * @param page the resource explorer page
 	 */
 	public RenameResourceAction(LibraryExplorerTreeViewPage page) {
@@ -54,8 +55,9 @@ public class RenameResourceAction extends ResourceAction {
 		boolean enabled = canModifySelectedResources();
 		if (enabled) {
 			Collection<?> resources = getSelectedResources();
-			if (resources.size() > 1)
+			if (resources.size() > 1) {
 				enabled = false;
+			}
 		}
 		return enabled;
 	}
@@ -96,16 +98,14 @@ public class RenameResourceAction extends ResourceAction {
 
 		try {
 			new ProgressMonitorDialog(getShell()).run(true, true, createRenameFileRunnable(file, newFile));
-		} catch (InvocationTargetException e) {
-			ExceptionUtil.handle(e);
-		} catch (InterruptedException e) {
+		} catch (InvocationTargetException | InterruptedException e) {
 			ExceptionUtil.handle(e);
 		}
 	}
 
 	/**
 	 * Returns the new name to be given to the target resource.
-	 * 
+	 *
 	 * @param resource the resource to query status on
 	 * @return the new name
 	 */
@@ -117,9 +117,10 @@ public class RenameResourceAction extends ResourceAction {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.jface.dialogs.IInputValidator#isValid(java.lang.String )
 			 */
+			@Override
 			public String isValid(String string) {
 				if (new Path(resource.getName()).removeFileExtension().toFile().getName().equals(string)) {
 					return Messages.getString("RenameResourceAction.nameExists"); //$NON-NLS-1$

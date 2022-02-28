@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -31,8 +31,9 @@ public class MarignPropertyDescriptorProvider extends PropertyDescriptorProvider
 
 	public String getMeasureValue() {
 		String value = load().toString();
-		if (value == null || value.equals("")) //$NON-NLS-1$
+		if (value == null || value.equals("")) { //$NON-NLS-1$
 			return value;
+		}
 		try {
 			DimensionValue dimensionValue = DimensionValue.parse(value);
 			return StringUtil.doubleToString(dimensionValue.getMeasure(), 3);
@@ -88,8 +89,9 @@ public class MarignPropertyDescriptorProvider extends PropertyDescriptorProvider
 	public String getUnit() throws PropertyValueException {
 		String value = load().toString();
 
-		if (value == null || value.equals("")) //$NON-NLS-1$
+		if (value == null || value.equals("")) { //$NON-NLS-1$
 			return value;
+		}
 
 		DimensionValue dimensionValue = DimensionValue.parse(value);
 		return dimensionValue.getUnits();
@@ -107,10 +109,11 @@ public class MarignPropertyDescriptorProvider extends PropertyDescriptorProvider
 		IChoice unitChoice = ChoiceSetFactory.getElementChoiceSet(getElement(), getProperty())
 				.findChoiceByDisplayName(text);
 
-		if (unitChoice == null)
+		if (unitChoice == null) {
 			return true;
-		else
+		} else {
 			unit = unitChoice.getName();
+		}
 
 		boolean val = true;
 		try {
@@ -135,7 +138,7 @@ public class MarignPropertyDescriptorProvider extends PropertyDescriptorProvider
 		if (DEUtil.getInputElements(input) == null || DEUtil.getInputSize(input) == 0) {
 			return null;
 		}
-		String unit = null;
+		String unit;
 		if (!DEUtil.getGroupElementHandle(DEUtil.getInputElements(input)).isSameType()) {
 			return null;
 		}

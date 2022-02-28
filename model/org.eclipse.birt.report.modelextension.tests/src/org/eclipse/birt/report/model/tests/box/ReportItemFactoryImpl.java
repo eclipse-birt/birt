@@ -35,22 +35,24 @@ public class ReportItemFactoryImpl implements IReportItemFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.model.extension.IElementFactory#newElement(org.eclipse.birt.
 	 * model.api.ReportDesignHandle)
 	 */
 
+	@Override
 	public IReportItem newReportItem(DesignElementHandle item) {
 		return new ReportItemImpl(this, item);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IReportItemFactory#getMessages()
 	 */
 
+	@Override
 	public IMessages getMessages() {
 		return null;
 	}
@@ -58,8 +60,9 @@ public class ReportItemFactoryImpl implements IReportItemFactory {
 	/**
 	 * returns the predefined style for box element.
 	 */
+	@Override
 	public IStyleDeclaration[] getFactoryStyles(String extensionName) {
-		IStyleDeclaration[] defaultStyles = null;
+		IStyleDeclaration[] defaultStyles;
 		defaultStyles = new BoxStyle[2];
 
 		defaultStyles[0] = new BoxStyle("BoxStyle");

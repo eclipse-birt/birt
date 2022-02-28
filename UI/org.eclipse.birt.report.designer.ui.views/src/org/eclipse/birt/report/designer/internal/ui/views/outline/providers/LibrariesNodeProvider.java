@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,52 +36,57 @@ public class LibrariesNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getChildren(
 	 * java.lang.Object)
 	 */
+	@Override
 	public Object[] getChildren(Object model) {
 		return ((LibraryNode) model).getChildren();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#
 	 * getIconName(java.lang.Object)
 	 */
+	@Override
 	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_NODE_LIBRARIES;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeDisplayName(java.lang.Object)
 	 */
+	@Override
 	public String getNodeDisplayName(Object model) {
 		return LIBARIES;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getParent(
 	 * java.lang.Object)
 	 */
+	@Override
 	public Object getParent(Object model) {
 		return ((LibraryNode) model).getReportDesignHandle();
 	}
 
 	/**
 	 * Creates the context menu for the given object.
-	 * 
+	 *
 	 * @param object the object
 	 * @param menu   the menu
 	 */
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		menu.add(new ImportLibraryAction());
 	}

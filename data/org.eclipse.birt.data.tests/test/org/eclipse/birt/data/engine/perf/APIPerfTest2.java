@@ -1,23 +1,24 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.perf;
 
+import static org.junit.Assert.fail;
+
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
@@ -27,16 +28,14 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
-
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.Ignore;
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * Provide an example to use PerfTestUtil to do bench mark test. If you want to
  * define your datasource and dataset, please use this case.
- * 
+ *
  * Make sure your defined datasource is available when running test.
  */
 @Ignore("ignore performance test")
@@ -58,7 +57,7 @@ public class APIPerfTest2 {
 
 	/**
 	 * Test simple JDBC query
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -86,9 +85,11 @@ public class APIPerfTest2 {
 			/*
 			 * @see org.eclipse.birt.data.engine.perf.QueryInfo#getDataSource()
 			 */
+			@Override
 			public IBaseDataSourceDesign getDataSource() throws Exception {
-				if (odaDataSource != null)
+				if (odaDataSource != null) {
 					return odaDataSource;
+				}
 
 				odaDataSource = new OdaDataSourceDesign("Test Data Source");
 				odaDataSource.setExtensionID(JDBC_DATA_SOURCE_TYPE);
@@ -103,9 +104,11 @@ public class APIPerfTest2 {
 			/*
 			 * @see org.eclipse.birt.data.engine.perf.QueryInfo#getDataSet()
 			 */
+			@Override
 			public IBaseDataSetDesign getDataSet() throws Exception {
-				if (odaDataSet != null)
+				if (odaDataSet != null) {
 					return odaDataSet;
+				}
 
 				odaDataSet = new OdaDataSetDesign("Test Data Set");
 				odaDataSet.setDataSource(getDataSource().getName());
@@ -118,9 +121,11 @@ public class APIPerfTest2 {
 			/*
 			 * @see org.eclipse.birt.data.engine.perf.QueryInfo#getQueryDefn()
 			 */
+			@Override
 			public QueryDefinition getQueryDefn() throws Exception {
-				if (queryDefinition != null)
+				if (queryDefinition != null) {
 					return queryDefinition;
+				}
 
 				queryDefinition = new QueryDefinition();
 				queryDefinition.setDataSetName(getDataSet().getName());
@@ -140,8 +145,9 @@ public class APIPerfTest2 {
 				expr = new ScriptExpression("dataSetRow.C_ACCTBAL");
 				expressionArray[2] = expr;
 				exprNames[2] = "C_ACCTBAL";
-				for (int i = 0; i < expressionArray.length; i++)
+				for (int i = 0; i < expressionArray.length; i++) {
 					queryDefinition.addResultSetExpression(exprNames[i], expressionArray[i]);
+				}
 
 				furthurProcessQueryDefn(queryDefinition);
 
@@ -151,6 +157,7 @@ public class APIPerfTest2 {
 			/*
 			 * @see org.eclipse.birt.data.engine.perf.QueryInfo#getExprArray()
 			 */
+			@Override
 			public String[] getExprNames() {
 				return exprNames;
 			}
@@ -160,29 +167,30 @@ public class APIPerfTest2 {
 			 */
 			private String getQueryText() {
 				int maxRows = -1;
-				if (maxRows > 0)
+				if (maxRows > 0) {
 					return queryText + " where l_customer.C_CUSTKEY < " + maxRows;
-				else
+				} else {
 					return queryText;
+				}
 			}
 
 			/**
 			 * Add more operation to query definition
-			 * 
+			 *
 			 * @param queryDefn2
 			 */
 			private void furthurProcessQueryDefn(QueryDefinition queryDefn2) {
 				boolean filter = true;
 				boolean sorter = false;
 
-				if (filter == true) {
+				if (filter) {
 					int maxKey = 2;
 					FilterDefinition exprFilter = new FilterDefinition(
 							new ScriptExpression("dataSetRow.C_CUSTKEY<" + maxKey));
 					queryDefn2.getFilters().add(exprFilter);
 				}
 
-				if (sorter == true) {
+				if (sorter) {
 					SortDefinition sd = new SortDefinition();
 					sd.setExpression("dataSetRow.C_ACCTBAL");
 					sd.setSortDirection(SortDefinition.SORT_DESC);
@@ -215,7 +223,7 @@ public class APIPerfTest2 {
 
 	/**
 	 * Test simple SCRIPT query
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -236,9 +244,11 @@ public class APIPerfTest2 {
 			/*
 			 * @see org.eclipse.birt.data.engine.perf.QueryInfo#getDataSource()
 			 */
+			@Override
 			public IBaseDataSourceDesign getDataSource() throws Exception {
-				if (odaDataSource != null)
+				if (odaDataSource != null) {
 					return odaDataSource;
+				}
 
 				odaDataSource = new ScriptDataSourceDesign("JUST as place folder");
 
@@ -248,9 +258,11 @@ public class APIPerfTest2 {
 			/*
 			 * @see org.eclipse.birt.data.engine.perf.QueryInfo#getDataSet()
 			 */
+			@Override
 			public IBaseDataSetDesign getDataSet() throws Exception {
-				if (odaDataSet != null)
+				if (odaDataSet != null) {
 					return odaDataSet;
+				}
 
 				// set script for data set
 				odaDataSet = new ScriptDataSetDesign("ScriptedDataSet");
@@ -261,9 +273,8 @@ public class APIPerfTest2 {
 						+ "return true; " + "}");
 
 				// set column defintion for data set
-				String[] scriptColumnNames = new String[] { "NUM", "SQUARE", "STR" };
-				int[] scriptColumnTypes = new int[] { DataType.INTEGER_TYPE, DataType.DOUBLE_TYPE,
-						DataType.STRING_TYPE };
+				String[] scriptColumnNames = { "NUM", "SQUARE", "STR" };
+				int[] scriptColumnTypes = { DataType.INTEGER_TYPE, DataType.DOUBLE_TYPE, DataType.STRING_TYPE };
 				for (int i = 0; i < scriptColumnNames.length; i++) {
 					ColumnDefinition colInfo = new ColumnDefinition(scriptColumnNames[i]);
 					colInfo.setDataType(scriptColumnTypes[i]);
@@ -276,9 +287,11 @@ public class APIPerfTest2 {
 			/*
 			 * @see org.eclipse.birt.data.engine.perf.QueryInfo#getQueryDefn()
 			 */
+			@Override
 			public QueryDefinition getQueryDefn() throws Exception {
-				if (queryDefinition != null)
+				if (queryDefinition != null) {
 					return queryDefinition;
+				}
 
 				queryDefinition = new QueryDefinition();
 				queryDefinition.setDataSetName(getDataSet().getName());
@@ -299,8 +312,9 @@ public class APIPerfTest2 {
 				expressionArray[2] = expr;
 				exprNames[2] = "STR";
 
-				for (int i = 0; i < expressionArray.length; i++)
+				for (int i = 0; i < expressionArray.length; i++) {
 					queryDefinition.addResultSetExpression(exprNames[i], expressionArray[i]);
+				}
 
 				return queryDefinition;
 			}
@@ -308,6 +322,7 @@ public class APIPerfTest2 {
 			/*
 			 * @see org.eclipse.birt.data.engine.perf.QueryInfo#getExprArray()
 			 */
+			@Override
 			public String[] getExprNames() {
 				return exprNames;
 			}

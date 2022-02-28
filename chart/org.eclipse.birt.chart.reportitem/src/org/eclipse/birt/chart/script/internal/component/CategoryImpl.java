@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import org.eclipse.birt.chart.script.internal.ChartComponentUtil;
 import org.eclipse.birt.chart.script.internal.data.SeriesGroupingImpl;
 
 /**
- * 
+ *
  */
 
 public class CategoryImpl extends SeriesImpl implements ICategory {
@@ -36,18 +36,22 @@ public class CategoryImpl extends SeriesImpl implements ICategory {
 		super(sd, cm);
 	}
 
+	@Override
 	public ISeriesGrouping getGrouping() {
 		return new SeriesGroupingImpl(sd.getGrouping());
 	}
 
+	@Override
 	public String getSorting() {
 		return sd.getSorting().getName();
 	}
 
+	@Override
 	public void setSorting(String sorting) {
 		sd.setSorting(SortOption.getByName(sorting));
 	}
 
+	@Override
 	public String getOptionalValueGroupingExpr() {
 		// Bugzilla#188268 Get the option value grouping from the first value
 		// series
@@ -56,6 +60,7 @@ public class CategoryImpl extends SeriesImpl implements ICategory {
 		return sdValue0.getQuery().getDefinition();
 	}
 
+	@Override
 	public void setOptionalValueGroupingExpr(String expr) {
 		Query query = sd.getQuery();
 		if (query == null) {

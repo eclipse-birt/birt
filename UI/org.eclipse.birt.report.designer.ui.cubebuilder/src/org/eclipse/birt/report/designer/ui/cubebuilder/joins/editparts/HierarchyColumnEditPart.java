@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -61,11 +61,12 @@ public class HierarchyColumnEditPart extends NodeEditPartHelper implements Liste
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
-		ColumnFigure columnFigure = null;
+		ColumnFigure columnFigure;
 		columnFigure = new ColumnFigure();
 		FlowLayout layout = new FlowLayout();
 		layout.setMinorSpacing(2);
@@ -87,9 +88,10 @@ public class HierarchyColumnEditPart extends NodeEditPartHelper implements Liste
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		ColumnSelectionEditPolicy colEditPol = new ColumnSelectionEditPolicy();
 		this.installEditPolicy("Selection Policy", colEditPol); //$NON-NLS-1$
@@ -98,15 +100,17 @@ public class HierarchyColumnEditPart extends NodeEditPartHelper implements Liste
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
 	 */
+	@Override
 	public DragTracker getDragTracker(Request request) {
 		List connectionList = getModelSourceConnections();
 		for (int i = 0; i < connectionList.size(); i++) {
 			DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) connectionList.get(i);
-			if (joinCondition.getHierarchyKey().equals(getColumn().getColumnName()))
+			if (joinCondition.getHierarchyKey().equals(getColumn().getColumnName())) {
 				return super.getDragTracker(request);
+			}
 		}
 		ConnectionCreation connection = new ConnectionCreation(this);
 		return connection;
@@ -114,14 +118,16 @@ public class HierarchyColumnEditPart extends NodeEditPartHelper implements Liste
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.editors.graphical.editparts.
 	 * NodeEditPartHelper#getChopFigure()
 	 */
+	@Override
 	public IFigure getChopFigure() {
 		return ((AbstractGraphicalEditPart) this.getParent()).getFigure();
 	}
 
+	@Override
 	protected List getModelSourceConnections() {
 		List sourcejoins = new ArrayList();
 		HierarchyNodeEditPart hierarchyEditpart = (HierarchyNodeEditPart) getParent();
@@ -144,17 +150,20 @@ public class HierarchyColumnEditPart extends NodeEditPartHelper implements Liste
 		return sourcejoins;
 	}
 
+	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 		if (isActive() && !isDelete()) {
 			refreshSourceConnections();
 		}
 	}
 
+	@Override
 	public void deactivate() {
 		super.deactivate();
 		cube.removeListener(this);
 	}
 
+	@Override
 	public void activate() {
 		super.activate();
 		cube.addListener(this);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,11 +23,11 @@ import org.eclipse.birt.data.engine.core.DataException;
 
 /**
  * Finance.
- * 
+ *
  * JRP provides a class that provides a set of static methods that provide a
  * wide range of financial function. Class Finance provides a set of static
  * financial functions
- * 
+ *
  * @version $Revision: 1.3 $ $Date: 2008/04/24 09:33:20 $
  */
 public class Finance {
@@ -47,16 +47,16 @@ public class Finance {
 	 *                depreciated (sometimes called the useful life of the asset).
 	 * @param period  is the period for which you want to calculate the
 	 *                depreciation. Period must use the same units as life.
-	 * 
+	 *
 	 * @return the depreciation of an asset for a given , single period using the
 	 *         double-declning balance method Remarks
-	 * 
+	 *
 	 *         The double-declining balance method computes depreciation at an
 	 *         accelerated rate. Depreciation is highest in the first period and
 	 *         decreases in successive periods. DDB uses the following formula to
 	 *         calculate depreciation for a period: ((cost-salvage) - total
 	 *         depreciation from prior periods) * (factor/life)
-	 * 
+	 *
 	 *         Change factor if you do not want to use the double-declining balance
 	 *         method. Use the VDB function if you want to switch to the
 	 *         straight-line depreciation method when depreciation is greater than
@@ -109,10 +109,10 @@ public class Finance {
 	 * @param period  is the period and must use the same units as life.
 	 * @return sum-of-years'-digits deprciation of an asset for a specified period
 	 *         Remark
-	 * 
+	 *
 	 *         SYD is calculated as follows:
 	 *         SYD=(cost-salvage)*(life-per+1)*2/(life*(life+1))
-	 * 
+	 *
 	 */
 	public static double syd(double cost, double salvage, double life, int period) throws DataException {
 
@@ -126,8 +126,9 @@ public class Finance {
 		}
 
 		/* Compute denominator */
-		for (i = 1; i <= life; i++)
+		for (i = 1; i <= life; i++) {
 			denom += i;
+		}
 
 		for (int x = 1; x <= period; x++) {
 			rate = (life - x + 1) / denom;
@@ -152,7 +153,7 @@ public class Finance {
 	 * @return the future value of an annuity based on periodic , constant
 	 *         payments,and on an unvarying interest rate Make sure that you are
 	 *         consistent about the units you use for specifying rate and nper.
-	 * 
+	 *
 	 *         Remarks Make sure that you are consistent about the units you use for
 	 *         specifying rate and nper. If you make monthly payments on a four-year
 	 *         loan at 12 percent annual interest, use 12%/12 for rate and 4*12 for
@@ -160,8 +161,8 @@ public class Finance {
 	 *         and 4 for nper. For all the arguments, cash you pay out, such as
 	 *         deposits to savings, is represented by negative numbers; cash you
 	 *         receive, such as dividend checks, is represented by positive numbers.
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public static double fv(double rate, int nPer, double pmt, double pv, int due) throws DataException {
 
@@ -186,8 +187,9 @@ public class Finance {
 			throw DataException.wrap(new AggrException(ResourceConstants.ILLEGAL_PARAMETER_FUN, "fv")); //$NON-NLS-1$
 		}
 
-		for (int i = start; i <= end; i++)
+		for (int i = start; i <= end; i++) {
 			fv += Math.pow((1 + rate), (double) i);
+		}
 
 		fv = fv * pmt;
 
@@ -207,7 +209,7 @@ public class Finance {
 	 *             is omitted, it is assumed to be 0.
 	 * @return the payment for an annuity, based on periodic , constant payments,
 	 *         and on an unvarying interest rate.
-	 * 
+	 *
 	 *         The payment returned by PMT includes principal and interest but no
 	 *         taxes, reserve payments, or fees sometimes associated with loans.
 	 *         Make sure that you are consistent about the units you use for
@@ -215,7 +217,7 @@ public class Finance {
 	 *         loan at an annual interest rate of 12 percent, use 12%/12 for rate
 	 *         and 4*12 for nper. If you make annual payments on the same loan, use
 	 *         12 percent for rate and 4 for nper.
-	 * 
+	 *
 	 */
 	public static double pmt(double rate, int nper, double pv, double fv, int due) throws DataException {
 		int start_pv = 0;
@@ -223,7 +225,7 @@ public class Finance {
 		int start_fv = 0;
 		int end_fv = 0;
 		int t; // Time period
-		double pmt = 0;
+		double pmt;
 		double df_pv = 0; // Discount factor to apply against present value
 		double df_fv = 0; // Discount factor to apply against future value
 
@@ -279,7 +281,7 @@ public class Finance {
 	 *             (the future value of a loan, for example, is 0).
 	 * @return the interest payment for a given period of an annuity, based on
 	 *         periodic , constant payments, and on an unvarying interest rate
-	 * 
+	 *
 	 *         Remarks Make sure that you are consistent about the units you use for
 	 *         specifying rate and nper. If you make monthly payments on a four-year
 	 *         loan at 12 percent annual interest, use 12%/12 for rate and 4*12 for
@@ -301,8 +303,9 @@ public class Finance {
 		principal = Math.abs(pv);
 
 		for (int curper = 1; curper <= per; curper++) {
-			if (curper != 1 || due == 0)
+			if (curper != 1 || due == 0) {
 				ipmt = rate * principal;
+			}
 			ppmt = pmt - ipmt;
 			principal = principal - ppmt;
 		}
@@ -329,13 +332,13 @@ public class Finance {
 	 *             (the future value of a loan, for example, is 0).
 	 * @return the principal payment for a given period of an annuity, based on
 	 *         periodic, constant payments, and on an unvarying interest rate
-	 * 
+	 *
 	 *         Remark Make sure that you are consistent about the units you use for
 	 *         specifying rate and nper. If you make monthly payments on a four-year
 	 *         loan at 12 percent annual interest, use 12%/12 for rate and 4*12 for
 	 *         nper. If you make annual payments on the same loan, use 12% for rate
 	 *         and 4 for nper.
-	 * 
+	 *
 	 */
 	public static double ppmt(double rate, int per, int nPer, double pv, double fv, int due) throws DataException {
 		double pmt;
@@ -349,8 +352,9 @@ public class Finance {
 		principal = Math.abs(pv);
 
 		for (int curper = 1; curper <= per; curper++) {
-			if (curper != 1 || due == 0)
+			if (curper != 1 || due == 0) {
 				ipmt = rate * principal;
+			}
 			ppmt = pmt - ipmt;
 			principal = principal - ppmt;
 		}
@@ -364,7 +368,7 @@ public class Finance {
 
 	/**
 	 * *
-	 * 
+	 *
 	 * @param rate is the interest rate per period.
 	 * @param pv   is the present value, or the lump-sum amount that a series of
 	 *             future payments is worth right now. If pv is omitted, it is
@@ -389,7 +393,7 @@ public class Finance {
 
 		int FvPeriod = 0;
 		int PvPeriod = 0;
-		int nPer = 0;
+		int nPer;
 		double currentvalue = 0;
 
 		if (pv != 0) {
@@ -397,8 +401,9 @@ public class Finance {
 			if (pv * pmt < 0) // Loan
 			{
 				currentvalue = Math.abs(pv);
-				if (due == 1)
+				if (due == 1) {
 					currentvalue -= currentvalue * rate;
+				}
 
 				while (currentvalue > 0) {
 					currentvalue += currentvalue * rate;
@@ -409,8 +414,9 @@ public class Finance {
 			// Saving
 			{
 				currentvalue = Math.abs(pmt);
-				if (due == 1)
+				if (due == 1) {
 					pv = pv * (1.0 + rate);
+				}
 
 				while (currentvalue < Math.abs(pv)) {
 					currentvalue += currentvalue * rate;
@@ -425,8 +431,9 @@ public class Finance {
 			if (fv * pmt < 0) // Saving
 			{
 				currentvalue = Math.abs(pmt);
-				if (due == 0)
+				if (due == 0) {
 					currentvalue = 0;
+				}
 
 				while (currentvalue < Math.abs(fv)) {
 					currentvalue += currentvalue * rate;
@@ -438,8 +445,9 @@ public class Finance {
 			{
 				FvPeriod = 1;
 				currentvalue = Math.abs(fv);
-				if (due == 1)
+				if (due == 1) {
 					currentvalue -= currentvalue * rate;
+				}
 
 				while (currentvalue > 0) {
 					currentvalue += currentvalue * rate;
@@ -468,7 +476,7 @@ public class Finance {
 	 *             into the formula for nper.
 	 * @return the present value of an annuity based on periodic, constant payments
 	 *         to be paid in the future,and on an unvarying interest rate
-	 * 
+	 *
 	 *         Remarks Make sure that you are consistent about the units you use for
 	 *         specifying rate and nper. If you make monthly payments on a four-year
 	 *         loan at 12 percent annual interest, use 12%/12 for rate and 4*12 for
@@ -541,10 +549,11 @@ public class Finance {
 					found = true;
 					return (rate);
 				}
-				if (diff1 * diff2 < 0)
+				if (diff1 * diff2 < 0) {
 					incr /= 10;
-				else
+				} else {
 					rate += incr;
+				}
 				return (solvePmt(nPer, true_pmt, loanamt, fv, due, rate, incr, ++attempt, found));
 			}
 		} catch (Exception e) {
@@ -572,15 +581,15 @@ public class Finance {
 	 *              different values for guess. RATE usually converges if guess is
 	 *              between 0 and 1.
 	 * @return the interest rate per period for an annuity
-	 * 
+	 *
 	 *         Remark
-	 * 
+	 *
 	 *         Make sure that you are consistent about the units you use for
 	 *         specifying guess and nper. If you make monthly payments on a
 	 *         four-year loan at 12 percent annual interest, use 12%/12 for guess
 	 *         and 4*12 for nper. If you make annual payments on the same loan, use
 	 *         12% for guess and 4 for nper.
-	 * 
+	 *
 	 */
 	public static double rate(int nPer, double pmt, double pv, double fv, int due, double guess) throws DataException {
 		try {
@@ -617,8 +626,9 @@ public class Finance {
 				} catch (ArrayIndexOutOfBoundsException e) {
 					throw DataException.wrap(new AggrException(ResourceConstants.BAD_PARAM_COUNT, e));
 				}
-				if (result != -1)
+				if (result != -1) {
 					return result;
+				}
 
 				curr_guess = curr_guess / 2;
 			}
@@ -630,8 +640,9 @@ public class Finance {
 				tmp = curr_guess;
 
 				result = solvePmt(nPer, pmt, pv, fv, due, tmp, incr, 0, found);
-				if (result != -1)
+				if (result != -1) {
 					return result;
+				}
 
 				curr_guess = curr_guess * 2;
 			}
@@ -643,8 +654,9 @@ public class Finance {
 				tmp = curr_guess;
 
 				result = solvePmt(nPer, pmt, pv, fv, due, tmp, incr, 0, found);
-				if (result != -1)
+				if (result != -1) {
 					return result;
+				}
 
 				curr_guess = curr_guess / 2;
 			}
@@ -656,8 +668,9 @@ public class Finance {
 				tmp = curr_guess;
 
 				result = solvePmt(nPer, pmt, pv, fv, due, tmp, incr, 0, found);
-				if (result != -1)
+				if (result != -1) {
 					return result;
+				}
 
 				curr_guess = curr_guess * 2;
 			}
@@ -677,8 +690,9 @@ public class Finance {
 	 */
 	public static double percent(double denom, double num) {
 
-		if (num == 0)
+		if (num == 0) {
 			return 0;
+		}
 		assert (denom != 0d);
 		return (num / denom) * 100;
 	}
@@ -691,9 +705,9 @@ public class Finance {
 	 * @param rate  is the rate of discount over the length of one period.
 	 * @return the net present value of a varying series of periodic cash flows,
 	 *         both positive and negative, at a given interest rate
-	 * 
+	 *
 	 *         Remarks
-	 * 
+	 *
 	 *         The NPV investment begins one period before the date of the value1
 	 *         cash flow and ends with the last cash flow in the list. The NPV
 	 *         calculation is based on future cash flows. If your first cash flow
@@ -701,8 +715,8 @@ public class Finance {
 	 *         added to the NPV result, not included in the values arguments. For
 	 *         more information, see the examples below. If n is the number of cash
 	 *         flows in the list of values, the formula for NPV is:
-	 * 
-	 * 
+	 *
+	 *
 	 *         NPV is similar to the PV function (present value). The primary
 	 *         difference between PV and NPV is that PV allows cash flows to begin
 	 *         either at the end or at the beginning of the period. Unlike the
@@ -732,50 +746,6 @@ public class Finance {
 	}
 
 	/**
-	 * @param cash    array of Doubles that specifies the name of an existing array
-	 *                of cash flow values. Rule for <casharray>: Array must contain
-	 *                at least one positive value (receipt) and one negative value
-	 *                (payment)
-	 * @param intrate
-	 * @param inc
-	 * @param attempt
-	 * @return the internal rate of return for a series of periodic cash flows,
-	 *         payments and receipts, in an existing array
-	 * @throws BirtException
-	 */
-	private static double calcIrr(Object[] cash, double intrate, double inc, int attempt) throws BirtException {
-
-		double tolerance;
-		Number npv1;
-		Number npv2;
-
-		tolerance = 0.0000001; /*
-								 * this will provide precision past the 3rd decimal
-								 */
-
-		// If it cannot determine a result after 1000 iterations, the function
-		// fails
-		if (attempt > 1000) {
-			return -1;
-		}
-
-		npv1 = npv(cash, intrate + inc);
-		// printf("Int Rate %1.3f generates delta=%1.3f\n",(*intrate +
-		// *inc),npv1);
-
-		if (MathUtil.compare(MathUtil.abs(npv1), tolerance) <= 0)
-			return (intrate + inc);
-		else {
-			npv2 = npv(cash, intrate);
-			if (MathUtil.compareTo0(MathUtil.multiply(npv2, npv1)) < 0)
-				inc /= 10;
-			else
-				intrate += inc;
-			return (calcIrr(cash, intrate, inc, ++attempt));
-		}
-	}
-
-	/**
 	 * Calculate internal rate of return (IRR) using cash flows that occur at
 	 * regular intervals, such as monthly or annually. The internal rate of return
 	 * is the interest rate received for an investment consisting of payments and
@@ -793,7 +763,7 @@ public class Finance {
 	 * @return Internal rate of return (0.25 = 25%) or Double.NaN if IRR not
 	 *         computable.
 	 * @throws BirtException
-	 * 
+	 *
 	 */
 	static public double irr(final Object[] cashFlows, final double estimatedResult) throws BirtException {
 
@@ -904,8 +874,9 @@ public class Finance {
 		for (int i = 1; i <= arsize; i++) {
 			Object dval = Array.get(arptr, i - 1);
 
-			if (MathUtil.compareTo0(dval) >= 0)
+			if (MathUtil.compareTo0(dval) >= 0) {
 				npv = MathUtil.add(npv, MathUtil.divide(dval, Math.pow((1 + rate), (double) i)));
+			}
 		}
 		return npv;
 	}
@@ -920,8 +891,9 @@ public class Finance {
 		Number npv = 0;
 		for (int i = 1; i <= arsize; i++) {
 			Object dval = Array.get(arptr, i - 1);
-			if (MathUtil.compareTo0(dval) < 0)
+			if (MathUtil.compareTo0(dval) < 0) {
 				npv = MathUtil.add(npv, MathUtil.divide(dval, Math.pow((1 + rate), (double) i)));
+			}
 		}
 		return npv;
 	}
@@ -935,17 +907,17 @@ public class Finance {
 	 *              reinvest them.
 	 * @return the modified internal rate of return for a series of periodic cash
 	 *         flows (payments and receipts) in an existing array
-	 * 
+	 *
 	 *         Remarks
-	 * 
+	 *
 	 *         MIRR uses the order of values to interpret the order of cash flows.
 	 *         Be sure to enter your payment and income values in the sequence you
 	 *         want and with the correct signs (positive values for cash received,
 	 *         negative values for cash paid). If n is the number of cash flows in
 	 *         values, frate is the finance_rate, and rrate is the reinvest_rate.
 	 * @throws BirtException
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public static double mirr(Object[] arptr, double frate, double rrate) throws BirtException {
 		long arsize = 0;

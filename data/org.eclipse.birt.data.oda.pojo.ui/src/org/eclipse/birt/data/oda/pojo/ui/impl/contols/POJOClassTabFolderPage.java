@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -130,6 +130,7 @@ public class POJOClassTabFolderPage {
 
 		classPathsTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateButtons();
 			}
@@ -137,6 +138,7 @@ public class POJOClassTabFolderPage {
 
 		classPathsTableViewer.addDoubleClickListener(new IDoubleClickListener() {
 
+			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				doEdit();
 			}
@@ -161,6 +163,7 @@ public class POJOClassTabFolderPage {
 		editBtn.setLayoutData(data);
 		editBtn.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				doEdit();
 			}
@@ -171,6 +174,7 @@ public class POJOClassTabFolderPage {
 		removeBtn.setLayoutData(data);
 		removeBtn.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				doRemoveItems();
 			}
@@ -183,6 +187,7 @@ public class POJOClassTabFolderPage {
 		upBtn.setLayoutData(data);
 		upBtn.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				doMoveUp();
 			}
@@ -193,6 +198,7 @@ public class POJOClassTabFolderPage {
 		downBtn.setLayoutData(data);
 		downBtn.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				doMoveDown();
 			}
@@ -292,8 +298,9 @@ public class POJOClassTabFolderPage {
 	}
 
 	protected void updateWizardPageStatus() {
-		if (parent != null)
+		if (parent != null) {
 			parent.updatePageStatus();
+		}
 	}
 
 	private void synchronizeClassPath() {
@@ -304,10 +311,11 @@ public class POJOClassTabFolderPage {
 	}
 
 	public void initClassPathElements() {
-		if (elements == null)
-			elements = new ArrayList<ClassPathElement>();
-		else
+		if (elements == null) {
+			elements = new ArrayList<>();
+		} else {
 			elements.clear();
+		}
 
 		((MenuButtonHelper) this.jarButton.getMenuButtonHelper()).clearTableElementsList();
 
@@ -336,15 +344,16 @@ public class POJOClassTabFolderPage {
 	}
 
 	private void doEdit() {
-		if (classPathsTableViewer.getTable().getSelectionCount() != 1)
+		if (classPathsTableViewer.getTable().getSelectionCount() != 1) {
 			return;
+		}
 
 		ClassPathElement element = (ClassPathElement) classPathsTableViewer.getTable().getSelection()[0].getData();
 		Object value = jarButton.getMenuButtonHelper().getPropertyValue(Constants.RESOURCE_FILE_DIR);
 
 		String[] fileNames = null;
 		String rootPath = null;
-		if (value != null && value instanceof File && element.isRelativePath()) {
+		if (value instanceof File && element.isRelativePath()) {
 
 			JarsSelectionDialog dialog = new JarsSelectionDialog(jarButton.getControl().getShell(), (File) value);
 			dialog.setInitialSelection(element);
@@ -438,7 +447,7 @@ public class POJOClassTabFolderPage {
 			classPathsTableViewer.refresh();
 			((MenuButtonHelper) this.jarButton.getMenuButtonHelper()).clearTableElementsList();
 		} else {
-			elements = new ArrayList<ClassPathElement>();
+			elements = new ArrayList<>();
 		}
 		initClassPathElements();
 	}
@@ -451,7 +460,7 @@ public class POJOClassTabFolderPage {
 		if (elements != null) {
 			elements.clear();
 		} else {
-			elements = new ArrayList<ClassPathElement>();
+			elements = new ArrayList<>();
 		}
 
 		if (paths != null) {

@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -59,15 +59,13 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle {
 	 */
 	private IDataSource odiDataSource;
 
-	private Context cx;
-
 	/** log instance */
 	protected static Logger logger = Logger.getLogger(DataSourceRuntime.class.getName());
 
 	/**
 	 * Creates an instance of the appropriate subclass based on a specified
 	 * design-time data source definition
-	 * 
+	 *
 	 * @param dataSetDefn Design-time data source definition.
 	 */
 	public static DataSourceRuntime newInstance(IBaseDataSourceDesign dataSource, DataEngineImpl dataEngine)
@@ -106,10 +104,11 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle {
 		 * takes over script execution from DtE
 		 */
 		if (eventHandler == null) {
-			if (dataSourceDesign instanceof IScriptDataSourceDesign)
+			if (dataSourceDesign instanceof IScriptDataSourceDesign) {
 				eventHandler = new ScriptDataSourceJSEventHandler(cx, (IScriptDataSourceDesign) dataSourceDesign);
-			else
+			} else {
 				eventHandler = new DataSourceJSEventHandler(cx, dataSourceDesign);
+			}
 		}
 		logger.exiting(DataSourceRuntime.class.getName(), "DataSourceRuntime");
 		/*
@@ -120,7 +119,7 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle {
 	/**
 	 * Gets the IBaseDataSourceDesign object which defines the design time
 	 * properties associated with this data source
-	 * 
+	 *
 	 * @return IBaseDataSourceDesign
 	 */
 	public IBaseDataSourceDesign getDesign() {
@@ -129,9 +128,10 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle {
 
 	/**
 	 * Gets the name of the design time properties associated with this data source
-	 * 
+	 *
 	 * @param name
 	 */
+	@Override
 	public String getName() {
 		return design.getName();
 	}
@@ -145,17 +145,18 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle {
 
 	/*
 	 * Data source event handlers are executed as methods on the DataSet object
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.script.IJavascriptContext#getScriptScope()
 	 */
+	@Override
 	public Scriptable getScriptScope() {
 		return getJSDataSourceObject();
 	}
 
 	/**
 	 * Gets a ROM Script DataSource object wrapper for this object
-	 * 
+	 *
 	 * @return Scriptable
 	 */
 	private Scriptable getJSDataSourceObject() {
@@ -200,8 +201,9 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle {
 	 * @throws DataException
 	 */
 	public boolean canClose() {
-		if (odiDataSource != null)
+		if (odiDataSource != null) {
 			return odiDataSource.canClose();
+		}
 
 		return true;
 	}
@@ -262,25 +264,29 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle {
 	}
 
 	private static class GeneralDataSourceRuntime extends DataSourceRuntime {
-		private Map<String, String> properties = new HashMap<String, String>();
+		private Map<String, String> properties = new HashMap<>();
 
 		protected GeneralDataSourceRuntime(IBaseDataSourceDesign dataSourceDesign, Scriptable sharedScope,
 				ScriptContext cx) {
 			super(dataSourceDesign, sharedScope, cx);
 		}
 
+		@Override
 		public String getExtensionID() {
 			return null;
 		}
 
+		@Override
 		public String getExtensionProperty(String name) {
 			return properties.get(name);
 		}
 
+		@Override
 		public void setExtensionProperty(String name, String value) {
 			properties.put(name, value);
 		}
 
+		@Override
 		public Map getAllExtensionProperties() {
 			return properties;
 		}

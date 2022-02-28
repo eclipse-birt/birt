@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -31,13 +31,13 @@ import org.eclipse.birt.report.soapengine.api.UpdateData;
 
 /**
  * Implement action handler for ExportData event.
- * 
+ *
  */
 public class BirtQueryExportActionHandler extends AbstractQueryExportActionHandler {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param context
 	 * @param operation
 	 * @param response
@@ -48,9 +48,10 @@ public class BirtQueryExportActionHandler extends AbstractQueryExportActionHandl
 
 	/**
 	 * Handle update response object.
-	 * 
+	 *
 	 * @param resultSets
 	 */
+	@Override
 	protected void handleUpdate(ResultSets resultSets) {
 		Data data = new Data();
 		data.setResultSets(resultSets);
@@ -67,18 +68,20 @@ public class BirtQueryExportActionHandler extends AbstractQueryExportActionHandl
 
 	/**
 	 * Get Report Service Object
-	 * 
+	 *
 	 * @return IViewerReportService
 	 */
+	@Override
 	protected IViewerReportService getReportService() {
 		return BirtReportServiceFactory.getReportService();
 	}
 
 	/**
 	 * Implement to check if document file exists
-	 * 
+	 *
 	 * @throws RemoteException
 	 */
+	@Override
 	protected void __checkDocumentExists() throws RemoteException {
 		File file = new File(__docName);
 		if (!file.exists()) {

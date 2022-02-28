@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ public class MultipleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle
 	 * @param mark
 	 */
@@ -45,10 +45,11 @@ public class MultipleAdapter extends ReportItemtHandleAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter#
 	 * getChildren()
 	 */
+	@Override
 	public List getChildren() {
 		ReportItemHandle handle = getReportItemHandle();
 		DesignElementHandle viewHnadle = handle.getCurrentView();
@@ -63,7 +64,7 @@ public class MultipleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets the view from the ReportItemHandle.
-	 * 
+	 *
 	 * @return
 	 */
 	public List getViews() {
@@ -73,7 +74,7 @@ public class MultipleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets the current view from the ReportItemHandle
-	 * 
+	 *
 	 * @return
 	 */
 	public DesignElementHandle getCurrentView() {
@@ -83,7 +84,7 @@ public class MultipleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Sets the current view, if number is 0 that means set current view as null.
-	 * 
+	 *
 	 * @param number
 	 */
 	public void setCurrentView(int number) {
@@ -115,7 +116,7 @@ public class MultipleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Remove the view from the ReportItemHandle.The number isn't less than 1.
-	 * 
+	 *
 	 * @param number
 	 */
 	public void removeView(int number) {
@@ -140,7 +141,7 @@ public class MultipleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets the current view number, if the current view is null, return 0;
-	 * 
+	 *
 	 * @return
 	 */
 	public int getCurrentViewNumber() {

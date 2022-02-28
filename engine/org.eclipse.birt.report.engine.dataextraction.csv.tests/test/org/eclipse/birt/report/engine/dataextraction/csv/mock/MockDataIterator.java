@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,12 +39,13 @@ public class MockDataIterator implements IDataIterator {
 		this.data = data;
 		this.queryResults = queryResults;
 
-		columnIndexes = new HashMap<String, Integer>();
+		columnIndexes = new HashMap<>();
 		for (int i = 0; i < columnNames.length; i++) {
-			columnIndexes.put(columnNames[i], Integer.valueOf(i));
+			columnIndexes.put(columnNames[i], i);
 		}
 	}
 
+	@Override
 	public void close() {
 		closed = true;
 	}
@@ -55,14 +56,17 @@ public class MockDataIterator implements IDataIterator {
 		}
 	}
 
+	@Override
 	public IExtractionResults getQueryResults() {
 		return queryResults;
 	}
 
+	@Override
 	public IResultMetaData getResultMetaData() throws BirtException {
 		return queryResults.getResultMetaData();
 	}
 
+	@Override
 	public Object getValue(String columnName) throws BirtException {
 		assertOpened();
 		Integer columnIndex = columnIndexes.get(columnName);
@@ -73,6 +77,7 @@ public class MockDataIterator implements IDataIterator {
 		}
 	}
 
+	@Override
 	public Object getValue(int index) throws BirtException {
 		assertOpened();
 		if (currentRow < 0) {
@@ -86,6 +91,7 @@ public class MockDataIterator implements IDataIterator {
 		}
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		assertOpened();
 		if (currentRow < data.length - 1) {
@@ -95,10 +101,12 @@ public class MockDataIterator implements IDataIterator {
 		return false;
 	}
 
+	@Override
 	public boolean isEmpty() throws BirtException {
 		return false;
 	}
 
+	@Override
 	public IResultIterator getResultIterator() {
 		throw new UnsupportedOperationException("Not implemented");
 	}

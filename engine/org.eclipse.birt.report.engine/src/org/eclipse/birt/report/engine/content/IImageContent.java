@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,29 +16,34 @@ package org.eclipse.birt.report.engine.content;
 
 /**
  * Image content in the report.
- * 
+ *
  */
 public interface IImageContent extends IContent {
 
-	public final static int IMAGE_FILE = 0;
-	public final static int IMAGE_NAME = 1;
-	public final static int IMAGE_EXPRESSION = 2;
-	public final static int IMAGE_URL = 3;
+	int IMAGE_FILE = 0;
+	int IMAGE_NAME = 1;
+	int IMAGE_EXPRESSION = 2;
+	int IMAGE_URL = 3;
 	/**
 	 * @deprecated replaced by IMAGE_URL
 	 */
-	public final static int IMAGE_URI = 3;
+	@Deprecated
+	int IMAGE_URI = 3;
 
 	/**
 	 * @return Returns the altText.
 	 */
-	public String getAltText();
+	@Override
+	String getAltText();
 
-	public String getAltTextKey();
+	@Override
+	String getAltTextKey();
 
-	public void setAltText(String altText);
+	@Override
+	void setAltText(String altText);
 
-	public void setAltTextKey(String key);
+	@Override
+	void setAltTextKey(String key);
 
 	void setHelpKey(String key);
 
@@ -47,46 +52,46 @@ public interface IImageContent extends IContent {
 	/**
 	 * @return Returns the data.
 	 */
-	public byte[] getData();
+	byte[] getData();
 
 	void setData(byte[] data);
 
 	/**
 	 * @return Returns the extension.
 	 */
-	public String getExtension();
+	String getExtension();
 
 	void setExtension(String extension);
 
 	/**
 	 * @return Returns the URI.
 	 */
-	public String getURI();
+	String getURI();
 
 	void setURI(String uri);
 
 	/**
 	 * Returns the type of image source
 	 */
-	public int getImageSource();
+	int getImageSource();
 
 	void setImageSource(int source);
 
 	/**
 	 * @return the image map (null means no image map)
 	 */
-	public Object getImageMap();
+	Object getImageMap();
 
-	public void setImageMap(Object map);
+	void setImageMap(Object map);
 
 	/**
 	 * get the MIMEType
 	 */
-	public String getMIMEType();
+	String getMIMEType();
 
-	public void setMIMEType(String mimeType);
+	void setMIMEType(String mimeType);
 
-	public int getResolution();
+	int getResolution();
 
-	public void setResolution(int resolution);
+	void setResolution(int resolution);
 }

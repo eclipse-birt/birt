@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ public class SemanticErrorTest extends BaseTestCase {
 
 	/**
 	 * Tests the error message.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -91,8 +91,9 @@ public class SemanticErrorTest extends BaseTestCase {
 		String code = error.getErrorCode();
 		try {
 			os.write(code.getBytes());
-			for (int i = code.length(); i < 60; i++)
+			for (int i = code.length(); i < 60; i++) {
 				os.write(' ');
+			}
 			os.write(error.getMessage().getBytes());
 			os.write('\n');
 		} catch (IOException e) {
@@ -105,8 +106,9 @@ public class SemanticErrorTest extends BaseTestCase {
 		String code = error.getErrorCode();
 		try {
 			os.write(code.getBytes());
-			for (int i = code.length(); i < 60; i++)
+			for (int i = code.length(); i < 60; i++) {
 				os.write(' ');
+			}
 			os.write(error.getMessage().getBytes());
 			os.write('\n');
 		} catch (IOException e) {
@@ -119,8 +121,9 @@ public class SemanticErrorTest extends BaseTestCase {
 		String code = error.getErrorCode();
 		try {
 			os.write(code.getBytes());
-			for (int i = code.length(); i < 60; i++)
+			for (int i = code.length(); i < 60; i++) {
 				os.write(' ');
+			}
 			os.write(error.getMessage().getBytes());
 			os.write('\n');
 		} catch (IOException e) {

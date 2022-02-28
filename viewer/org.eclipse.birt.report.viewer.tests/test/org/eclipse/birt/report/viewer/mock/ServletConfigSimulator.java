@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -21,7 +21,7 @@ import javax.servlet.ServletContext;
 
 /**
  * Mock a ServletConfig class for Viewer UnitTest
- * 
+ *
  */
 public class ServletConfigSimulator implements ServletConfig {
 
@@ -31,7 +31,7 @@ public class ServletConfigSimulator implements ServletConfig {
 
 	/**
 	 * Default Constructor
-	 * 
+	 *
 	 */
 	public ServletConfigSimulator() {
 		this.parameters = new Hashtable();
@@ -39,43 +39,49 @@ public class ServletConfigSimulator implements ServletConfig {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletConfig#getInitParameter(java.lang.String)
 	 */
+	@Override
 	public String getInitParameter(String name) {
-		if (name == null)
+		if (name == null) {
 			return null;
+		}
 
 		Object param = this.parameters.get(name);
-		if (param != null)
+		if (param != null) {
 			return (String) param;
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletConfig#getInitParameterNames()
 	 */
+	@Override
 	public Enumeration getInitParameterNames() {
 		return this.parameters.keys();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletConfig#getServletContext()
 	 */
+	@Override
 	public ServletContext getServletContext() {
 		return this.context;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletConfig#getServletName()
 	 */
+	@Override
 	public String getServletName() {
 		return this.servletName;
 	}

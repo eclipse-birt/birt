@@ -43,7 +43,7 @@ import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 
 /**
- * 
+ *
  */
 
 public class Pyramid3D {

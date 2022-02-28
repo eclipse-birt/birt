@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ public class BoxPreferencePage extends BaseStylePreferencePage {
 
 	/**
 	 * Default constructor.
-	 * 
+	 *
 	 * @param model the model of preference page.
 	 */
 	public BoxPreferencePage(Object model) {
@@ -53,10 +53,11 @@ public class BoxPreferencePage extends BaseStylePreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.preference.FieldEditorPreferencePage#adjustGridLayout()
 	 */
+	@Override
 	protected void adjustGridLayout() {
 		((GridData) paddingSep1.getLabelControl().getLayoutData()).heightHint = 3;
 		((GridData) paddingSep1.getLabelControl().getLayoutData()).horizontalSpan = 3;
@@ -87,10 +88,11 @@ public class BoxPreferencePage extends BaseStylePreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.designer.internal.ui.dialogs.BaseStylePreferencePage#
 	 * createFieldEditors()
 	 */
+	@Override
 	protected void createFieldEditors() {
 		// super.createFieldEditors( );
 
@@ -223,6 +225,7 @@ public class BoxPreferencePage extends BaseStylePreferencePage {
 		return new String[0][2];
 	}
 
+	@Override
 	protected String[] getPreferenceNames() {
 		return new String[] { StyleHandle.PADDING_TOP_PROP, StyleHandle.PADDING_BOTTOM_PROP,
 				StyleHandle.PADDING_LEFT_PROP, StyleHandle.PADDING_RIGHT_PROP, StyleHandle.MARGIN_TOP_PROP,

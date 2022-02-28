@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -63,7 +63,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ScrollBar;
 
 /**
- * 
+ *
  */
 
 public class LineSeriesMarkerSheet extends AbstractPopupSheet implements SelectionListener {
@@ -129,6 +129,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet implements Selecti
 		this.bPositive = bPositive;
 	}
 
+	@Override
 	protected Composite getComponent(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_SERIES_LINE_MARKER);
 
@@ -156,6 +157,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet implements Selecti
 
 			Listener canvasMarkerslistener = new Listener() {
 
+				@Override
 				public void handleEvent(Event event) {
 					handleEventCanvasMarkers(event);
 				}
@@ -210,6 +212,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet implements Selecti
 
 		cmpContent.addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				if (idrSWT != null) {
 					idrSWT.dispose();
@@ -273,6 +276,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet implements Selecti
 		}
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.widget.equals(btnAdd)) {
 			// Select the new marker
@@ -327,6 +331,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet implements Selecti
 		}
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 
@@ -421,7 +426,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet implements Selecti
 						renderMarker.isVisible() ? ColorDefinitionImpl.BLUE() : ColorDefinitionImpl.GREY(),
 						LineStyle.SOLID_LITERAL, 1),
 				renderMarker.isVisible() ? ColorDefinitionImpl.create(80, 168, 218) : ColorDefinitionImpl.GREY(),
-				renderMarker, Integer.valueOf(4), null, false, false);
+				renderMarker, 4, null, false, false);
 		try {
 			mr.draw(idrSWT);
 			ChartWizard.removeException(ChartWizard.LineSMarkerSh_ID);

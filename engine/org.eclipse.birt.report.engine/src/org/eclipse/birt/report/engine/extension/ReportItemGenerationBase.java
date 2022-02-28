@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,6 +41,7 @@ public class ReportItemGenerationBase implements IReportItemGeneration {
 	public ReportItemGenerationBase() {
 	}
 
+	@Override
 	public void init(IReportItemGenerationInfo info) {
 		if (info == null) {
 			throw new NullPointerException();
@@ -56,61 +57,69 @@ public class ReportItemGenerationBase implements IReportItemGeneration {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#getSize()
 	 */
+	@Override
 	public Size getSize() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#finish()
 	 */
+	@Override
 	public void finish() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.extension.IReportItemGeneration#setModelObject
 	 * (org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
+	@Override
 	public void setModelObject(ExtendedItemHandle modelHandle) {
 		this.modelHandle = modelHandle;
 	}
 
+	@Override
 	public void setApplicationClassLoader(ClassLoader loader) {
 		this.appClassLoader = loader;
 	}
 
+	@Override
 	public void setScriptContext(IReportContext context) {
 		this.context = context;
 	}
 
+	@Override
 	public void setReportQueries(IDataQueryDefinition[] queries) {
 		this.queries = queries;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.extension.IReportItemGeneration#onRowSets(org.
 	 * eclipse.birt.report.engine.extension.IRowSet[])
 	 */
+	@Override
 	public void onRowSets(IRowSet[] rowSets) throws BirtException {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.extension.IReportItemGeneration#onRowSets(org.
 	 * eclipse.birt.report.engine.extension.IBaseResultSet[])
 	 */
+	@Override
 	public void onRowSets(IBaseResultSet[] results) throws BirtException {
 		if (results == null) {
 			onRowSets((IRowSet[]) null);
@@ -136,29 +145,33 @@ public class ReportItemGenerationBase implements IReportItemGeneration {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.extension.IReportItemGeneration#serialize(java
 	 * .io.OutputStream)
 	 */
+	@Override
 	public void serialize(OutputStream ostream) throws BirtException {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#
 	 * needSerialization()
 	 */
+	@Override
 	public boolean needSerialization() {
 		return false;
 	}
 
+	@Override
 	public void setExtendedItemContent(IContent content) {
 		this.content = content;
 	}
 
+	@Override
 	public IReportItemGenerationInfo getGenerationConfig() {
 		return info;
 	}

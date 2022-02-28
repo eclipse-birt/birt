@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,9 +55,9 @@ import org.eclipse.swt.widgets.TableItem;
 
 public class ShowSummaryFieldDialog extends BaseDialog {
 
-	private String[] columnNames = new String[] { Messages.getString("ShowSummaryFieldDialog.Column.Measures"), //$NON-NLS-1$
+	private String[] columnNames = { Messages.getString("ShowSummaryFieldDialog.Column.Measures"), //$NON-NLS-1$
 			Messages.getString("ShowSummaryFieldDialog.Column.View") }; //$NON-NLS-1$
-	private int[] columnWidth = new int[] { 230, 130 };
+	private int[] columnWidth = { 230, 130 };
 	private CellEditor[] cellEditor;
 
 	private String[] comboItems = null;
@@ -77,6 +77,7 @@ public class ShowSummaryFieldDialog extends BaseDialog {
 		setCrosstab(crosstab);
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.XTAB_SHOW_SUMMARY_FIELD_DIALOG);
 
@@ -96,12 +97,14 @@ public class ShowSummaryFieldDialog extends BaseDialog {
 	private CheckboxTableViewer summaryFieldViewer;
 
 	public void setInput(List input) {
-		if (input != null)
+		if (input != null) {
 			this.input.addAll(input);
+		}
 	}
 
 	private ICellModifier cellModifier = new ICellModifier() {
 
+		@Override
 		public boolean canModify(Object element, String property) {
 			// TODO Auto-generated method stub
 			if (element instanceof Item) {
@@ -123,6 +126,7 @@ public class ShowSummaryFieldDialog extends BaseDialog {
 			}
 		}
 
+		@Override
 		public Object getValue(Object element, String property) {
 			if (element instanceof Item) {
 				element = ((Item) element).getData();
@@ -149,6 +153,7 @@ public class ShowSummaryFieldDialog extends BaseDialog {
 			return value;
 		}
 
+		@Override
 		public void modify(Object element, String property, Object value) {
 			// TODO Auto-generated method stub
 
@@ -205,6 +210,7 @@ public class ShowSummaryFieldDialog extends BaseDialog {
 
 		summaryFieldViewer.addCheckStateListener(new ICheckStateListener() {
 
+			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
 				MeasureInfo info = (MeasureInfo) event.getElement();
 				if (event.getChecked()) {
@@ -231,6 +237,7 @@ public class ShowSummaryFieldDialog extends BaseDialog {
 
 	}
 
+	@Override
 	public Object getResult() {
 		return input;
 	}
@@ -254,6 +261,7 @@ public class ShowSummaryFieldDialog extends BaseDialog {
 
 	class SummaryFieldProvider extends LabelProvider implements ITableLabelProvider, IStructuredContentProvider {
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			Image image = null;
 			switch (columnIndex) {
@@ -268,6 +276,7 @@ public class ShowSummaryFieldDialog extends BaseDialog {
 
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof MeasureInfo) {
 				if (columnIndex == 0) {
@@ -295,12 +304,15 @@ public class ShowSummaryFieldDialog extends BaseDialog {
 			return ""; //$NON-NLS-1$
 		}
 
+		@Override
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof List)
+			if (inputElement instanceof List) {
 				return ((List) inputElement).toArray();
+			}
 			return new Object[0];
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			// TODO Auto-generated method stub
 
@@ -390,6 +402,7 @@ public class ShowSummaryFieldDialog extends BaseDialog {
 		// return temp.getMeasure( ) == measure;
 		// }
 
+		@Override
 		public boolean equals(Object obj) {
 			if (!(obj instanceof MeasureInfo)) {
 				return false;
@@ -399,6 +412,7 @@ public class ShowSummaryFieldDialog extends BaseDialog {
 					&& StringUtil.isEqual(temp.getExpectedView(), expectedView);
 		}
 
+		@Override
 		public int hashCode() {
 			int hash = 31;
 			hash = hash * 31 + measureName.hashCode();
@@ -408,11 +422,11 @@ public class ShowSummaryFieldDialog extends BaseDialog {
 	}
 
 	private void initializeItems(MeasureInfo measureInfo) {
-		List<String> viewNameList = new ArrayList<String>();
-		List<String> itemList = new ArrayList<String>();
+		List<String> viewNameList = new ArrayList<>();
+		List<String> itemList = new ArrayList<>();
 
 		MeasureViewHandle measureView = crosstab.getMeasure(measureInfo.getMeasureName());
-		if (measureView != null && measureView instanceof ComputedMeasureViewHandle) {
+		if (measureView instanceof ComputedMeasureViewHandle) {
 			itemList.add("");
 			viewNameList.add(""); //$NON-NLS-1$
 		} else

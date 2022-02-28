@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,11 +17,11 @@ package org.eclipse.birt.data.engine.executor.aggregation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.data.engine.odi.IAggrInfo;
 import org.eclipse.birt.data.engine.odi.IAggrDefnManager;
+import org.eclipse.birt.data.engine.odi.IAggrInfo;
 
 /**
- * 
+ *
  */
 
 public class AggrDefnRoundManager {
@@ -40,7 +40,7 @@ public class AggrDefnRoundManager {
 	/**
 	 * The number of round of aggregation calculation so that all the aggregation
 	 * definitions in current AggrDefnRoundManager can be calcualted.
-	 * 
+	 *
 	 * @return
 	 */
 	public int getRound() {
@@ -48,7 +48,7 @@ public class AggrDefnRoundManager {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void populateRoundStartingEndingIndex() {
 		List breakIndex = new ArrayList();
@@ -71,7 +71,7 @@ public class AggrDefnRoundManager {
 
 	/**
 	 * Get the aggrDefnManager for given round.
-	 * 
+	 *
 	 * @param round
 	 * @return
 	 */

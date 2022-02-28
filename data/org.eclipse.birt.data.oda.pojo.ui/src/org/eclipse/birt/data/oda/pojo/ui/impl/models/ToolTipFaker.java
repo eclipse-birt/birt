@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,6 +17,7 @@ package org.eclipse.birt.data.oda.pojo.ui.impl.models;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import org.eclipse.birt.data.oda.pojo.util.ClassParser;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -27,8 +28,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TreeItem;
-
-import org.eclipse.birt.data.oda.pojo.util.ClassParser;
 
 /**
  * Generate tool tip for each item in class structure tree
@@ -46,6 +45,7 @@ public class ToolTipFaker {
 
 		// Implement a "fake" tooltip
 		final Listener labelListener = new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				Label label = (Label) event.widget;
 				Shell shell = label.getShell();
@@ -72,13 +72,15 @@ public class ToolTipFaker {
 			Shell tip = null;
 			Label label = null;
 
+			@Override
 			public void handleEvent(Event event) {
 				switch (event.type) {
 				case SWT.Dispose:
 				case SWT.KeyDown:
 				case SWT.MouseMove: {
-					if (tip == null)
+					if (tip == null) {
 						break;
+					}
 					tip.dispose();
 					tip = null;
 					label = null;
@@ -87,8 +89,9 @@ public class ToolTipFaker {
 				case SWT.MouseHover: {
 					TreeItem item = tv.getTree().getItem(new Point(event.x, event.y));
 					if (item != null) {
-						if (tip != null && !tip.isDisposed())
+						if (tip != null && !tip.isDisposed()) {
 							tip.dispose();
+						}
 						tip = new Shell(tv.getTree().getShell(), SWT.ON_TOP | SWT.NO_FOCUS | SWT.TOOL);
 						tip.setBackground(
 								tv.getTree().getShell().getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND));

@@ -31,8 +31,9 @@ public class ResultObject implements IResultObject {
 
 	public ResultObject(IResultClass resultClass, Object[] fields) {
 		// TODO externalize message text
-		if (resultClass == null || fields == null)
+		if (resultClass == null || fields == null) {
 			throw new NullPointerException("ResultClass and/or fields" + " should not be null.");
+		}
 
 		assert (resultClass.getFieldCount() == fields.length);
 
@@ -48,11 +49,12 @@ public class ResultObject implements IResultObject {
 					}
 				}
 			}
-			if (resultClass.hasClobOrBlob())
+			if (resultClass.hasClobOrBlob()) {
 				this.fields = convertClobAndBlob(fields, resultClass.getClobFieldIndexes(),
 						resultClass.getBlobFieldIndexes());
-			else
+			} else {
 				this.fields = fields;
+			}
 		} catch (DataException e) {
 			throw new IllegalStateException(e.getMessage());
 		}
@@ -60,7 +62,7 @@ public class ResultObject implements IResultObject {
 
 	/**
 	 * Convert Clob type to string and Convert Blob type to byte[]
-	 * 
+	 *
 	 * @param fields
 	 * @throws DataException
 	 */
@@ -70,15 +72,17 @@ public class ResultObject implements IResultObject {
 		// so a safe approach is by judging the value class.
 		for (int i = 0; i < clobIndex.length; i++) {
 			if (fields[clobIndex[i]] != null) {
-				if (fields[clobIndex[i]] instanceof IClob)
+				if (fields[clobIndex[i]] instanceof IClob) {
 					fields[clobIndex[i]] = getClobValue((IClob) fields[clobIndex[i]]);
+				}
 			}
 		}
 
 		for (int i = 0; i < blobIndex.length; i++) {
 			if (fields[blobIndex[i]] != null) {
-				if (fields[blobIndex[i]] instanceof IBlob)
+				if (fields[blobIndex[i]] instanceof IBlob) {
 					fields[blobIndex[i]] = getBlobValue((IBlob) fields[blobIndex[i]]);
+				}
 			}
 		}
 
@@ -87,7 +91,7 @@ public class ResultObject implements IResultObject {
 
 	/**
 	 * Retrieve the String value for Clob type
-	 * 
+	 *
 	 * @param clob
 	 * @return String value of Clob type
 	 * @throws DataException
@@ -103,7 +107,7 @@ public class ResultObject implements IResultObject {
 
 	/**
 	 * Retrieve the byte array value for Blob type
-	 * 
+	 *
 	 * @param blob
 	 * @return byte array value of Blob type
 	 * @throws DataException
@@ -120,6 +124,7 @@ public class ResultObject implements IResultObject {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultObject#getResultClass()
 	 */
+	@Override
 	public IResultClass getResultClass() {
 		return resultClass;
 	}
@@ -128,11 +133,13 @@ public class ResultObject implements IResultObject {
 	 * @see org.eclipse.birt.data.engine.odi.IResultObject#getFieldValue(java.lang.
 	 * String)
 	 */
+	@Override
 	public Object getFieldValue(String fieldName) throws DataException {
 		int fieldIndex = resultClass.getFieldIndex(fieldName);
 
-		if (fieldIndex < 1)
+		if (fieldIndex < 1) {
 			throw new DataException(ResourceConstants.INVALID_FIELD_NAME, fieldName);
+		}
 
 		return getFieldValue(fieldIndex);
 	}
@@ -140,6 +147,7 @@ public class ResultObject implements IResultObject {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultObject#getFieldValue(int)
 	 */
+	@Override
 	public Object getFieldValue(int fieldIndex) throws DataException {
 		return fields[fieldIndex - 1];
 	}
@@ -149,6 +157,7 @@ public class ResultObject implements IResultObject {
 	 * org.eclipse.birt.data.engine.odi.IResultObject#setCustomFieldValue(java.lang.
 	 * String, java.lang.Object)
 	 */
+	@Override
 	public void setCustomFieldValue(String fieldName, Object value) throws DataException {
 		int idx = resultClass.getFieldIndex(fieldName);
 		setCustomFieldValue(idx, value);
@@ -156,15 +165,17 @@ public class ResultObject implements IResultObject {
 
 	/*
 	 * fieldIndex is 1-based
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IResultObject#setCustomFieldValue(int,
 	 * java.lang.Object)
 	 */
+	@Override
 	public void setCustomFieldValue(int fieldIndex, Object value) throws DataException {
-		if (resultClass.isCustomField(fieldIndex))
+		if (resultClass.isCustomField(fieldIndex)) {
 			fields[fieldIndex - 1] = value;
-		else
+		} else {
 			throw new DataException(ResourceConstants.INVALID_CUSTOM_FIELD_INDEX, Integer.valueOf(fieldIndex));
+		}
 
 		if (resultClass.getFieldValueClass(fieldIndex).getName().equals(AnyType.class.getName())) {
 			if (value != null) {
@@ -174,7 +185,7 @@ public class ResultObject implements IResultObject {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 * @throws DataException
 	 */
@@ -187,14 +198,16 @@ public class ResultObject implements IResultObject {
 
 	/*
 	 * To help with debugging and tracing
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
-		StringBuffer buf = new StringBuffer(fields.length * 10);
+		StringBuilder buf = new StringBuilder(fields.length * 10);
 		for (int i = 0; i < fields.length; i++) {
-			if (i > 0)
+			if (i > 0) {
 				buf.append(',');
+			}
 			buf.append(fields[i] == null ? "null" : fields[i].toString());
 		}
 		return buf.toString();
@@ -203,22 +216,26 @@ public class ResultObject implements IResultObject {
 	/*
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object ob) {
-		if (ob instanceof IResultObject == false)
+		if (!(ob instanceof IResultObject)) {
 			return false;
+		}
 
 		IResultObject ob2 = (IResultObject) ob;
 
 		int fieldCount = this.getResultClass().getFieldCount();
-		if (fieldCount != ob2.getResultClass().getFieldCount())
+		if (fieldCount != ob2.getResultClass().getFieldCount()) {
 			return false;
+		}
 
 		for (int i = 0; i < fieldCount; i++) {
 			try {
 				Object value1 = this.getFieldValue(i + 1);
 				Object value2 = ob2.getFieldValue(i + 1);
-				if (CompareUtil.compare(value1, value2) != 0)
+				if (CompareUtil.compare(value1, value2) != 0) {
 					return false;
+				}
 			} catch (DataException e) {
 				return false;
 			}
@@ -230,6 +247,7 @@ public class ResultObject implements IResultObject {
 	/*
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		int result = 17;
 		for (int i = 0; i < fields.length; i++) {

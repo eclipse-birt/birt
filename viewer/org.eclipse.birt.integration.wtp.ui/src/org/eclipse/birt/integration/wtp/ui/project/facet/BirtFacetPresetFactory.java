@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -36,10 +36,11 @@ public class BirtFacetPresetFactory implements IPresetFactory {
 
 	/**
 	 * Creates a preset for the web module version >= 2.3
-	 * 
+	 *
 	 * @see org.eclipse.wst.common.project.facet.core.IPresetFactory#createPreset(java.lang.String,
 	 *      java.util.Map)
 	 */
+	@Override
 	public PresetDefinition createPreset(final String presetId, final Map<String, Object> context)
 			throws CoreException {
 		final IFacetedProjectBase project = (IFacetedProjectBase) context
@@ -48,7 +49,7 @@ public class BirtFacetPresetFactory implements IPresetFactory {
 		final IProjectFacetVersion webFacetVersion = project.getProjectFacetVersion(WebFacetUtils.WEB_FACET);
 
 		if (webFacetVersion != null && webFacetVersion.compareTo(WebFacetUtils.WEB_23) >= 0) {
-			final Set<IProjectFacetVersion> facets = new HashSet<IProjectFacetVersion>();
+			final Set<IProjectFacetVersion> facets = new HashSet<>();
 
 			final IProjectFacet birtFacet = ProjectFacetsManager
 					.getProjectFacet(IBirtFacetConstants.BIRT_RUNTIME_FACET_ID);

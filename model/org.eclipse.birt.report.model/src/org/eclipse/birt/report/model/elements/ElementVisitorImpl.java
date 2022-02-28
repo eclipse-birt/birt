@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,14 +40,14 @@ import org.eclipse.birt.report.model.elements.olap.TabularMeasureGroup;
  * The base class for defining algorithms that traverse the design tree. The
  * derived class overrides the various <code>visitMumble</code> methods to
  * perform tasks specific to that element.
- * 
+ *
  */
 
 class ElementVisitorImpl {
 
 	/**
 	 * Visits the free form element.
-	 * 
+	 *
 	 * @param obj the free form to traverse
 	 */
 
@@ -57,7 +57,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the data set element.
-	 * 
+	 *
 	 * @param obj the data set to traverse
 	 */
 
@@ -67,7 +67,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the data set element.
-	 * 
+	 *
 	 * @param obj the data set to traverse
 	 */
 
@@ -77,7 +77,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the script data set element.
-	 * 
+	 *
 	 * @param obj the script data set to traverse
 	 */
 
@@ -87,7 +87,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the data source element.
-	 * 
+	 *
 	 * @param obj the data source to traverse
 	 */
 
@@ -97,7 +97,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the script data source element.
-	 * 
+	 *
 	 * @param obj the script data source to traverse.
 	 */
 
@@ -107,7 +107,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the label element.
-	 * 
+	 *
 	 * @param obj the label to traverse
 	 */
 
@@ -117,7 +117,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the special field element.
-	 * 
+	 *
 	 * @param obj the label to traverse
 	 */
 	public void visitAutoText(AutoText obj) {
@@ -126,7 +126,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the data item element.
-	 * 
+	 *
 	 * @param obj the data item to traverse
 	 */
 
@@ -136,7 +136,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the multi-line data item element.
-	 * 
+	 *
 	 * @param obj the multi-line data item to traverse
 	 */
 
@@ -146,7 +146,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the text item element.
-	 * 
+	 *
 	 * @param obj the text item to traverse
 	 */
 
@@ -156,7 +156,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the image item element.
-	 * 
+	 *
 	 * @param obj the image item to traverse
 	 */
 
@@ -166,7 +166,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the listing item element.
-	 * 
+	 *
 	 * @param obj the listing item to traverse
 	 */
 
@@ -176,7 +176,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the list item element.
-	 * 
+	 *
 	 * @param obj the list item to traverse
 	 */
 
@@ -186,7 +186,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the group element,such as table group and list group.
-	 * 
+	 *
 	 * @param obj the group element to traverse
 	 */
 
@@ -195,7 +195,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the list group element.
-	 * 
+	 *
 	 * @param obj the list group to traverse
 	 */
 
@@ -205,7 +205,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the table item element.
-	 * 
+	 *
 	 * @param obj the table item to traverse
 	 */
 
@@ -215,7 +215,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the table group element.
-	 * 
+	 *
 	 * @param obj the table group to traverse
 	 */
 
@@ -225,7 +225,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the cell element.
-	 * 
+	 *
 	 * @param obj the cell to traverse
 	 */
 
@@ -234,7 +234,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the column element.
-	 * 
+	 *
 	 * @param obj the column to traverse
 	 */
 
@@ -243,7 +243,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the row element.
-	 * 
+	 *
 	 * @param obj the row to traverse
 	 */
 
@@ -252,7 +252,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the grid item element.
-	 * 
+	 *
 	 * @param obj the grid item to traverse
 	 */
 
@@ -262,7 +262,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the library element.
-	 * 
+	 *
 	 * @param obj the library to traverse
 	 */
 
@@ -272,7 +272,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the line item element.
-	 * 
+	 *
 	 * @param obj the line item to traverse
 	 */
 
@@ -282,7 +282,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the abstract master page element.
-	 * 
+	 *
 	 * @param obj the abstract master page to traverse
 	 */
 
@@ -292,7 +292,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the graphic master page element.
-	 * 
+	 *
 	 * @param obj the graphic master page to traverse
 	 */
 
@@ -302,7 +302,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the simple master page element.
-	 * 
+	 *
 	 * @param obj the simple master page to traverse
 	 */
 
@@ -312,7 +312,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the parameter group element.
-	 * 
+	 *
 	 * @param obj the parameter group to traverse
 	 */
 
@@ -322,7 +322,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the cascading parameter group element.
-	 * 
+	 *
 	 * @param obj the cascading parameter group to traverse
 	 */
 
@@ -332,7 +332,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the report design element.
-	 * 
+	 *
 	 * @param obj the report design to traverse
 	 */
 
@@ -342,7 +342,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the scalar parameter element.
-	 * 
+	 *
 	 * @param obj the scalar parameter to traverse
 	 */
 
@@ -352,7 +352,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits DynamicFilterParameter element
-	 * 
+	 *
 	 * @param obj the DynamicFilterParameter to traverse
 	 */
 	public void visitDynamicFilterParameter(DynamicFilterParameter obj) {
@@ -361,7 +361,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the abstract scalar parameter element.
-	 * 
+	 *
 	 * @param obj the abstract scalar parameter element.
 	 */
 	public void visitAbstractScalarParameter(AbstractScalarParameter obj) {
@@ -370,7 +370,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the style element.
-	 * 
+	 *
 	 * @param obj the style to traverse
 	 */
 
@@ -380,7 +380,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the parameter element.
-	 * 
+	 *
 	 * @param obj the parameter to traverse
 	 */
 
@@ -390,7 +390,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the report item element.
-	 * 
+	 *
 	 * @param obj the report item to traverse
 	 */
 
@@ -400,7 +400,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the styled element( element with a style ).
-	 * 
+	 *
 	 * @param obj the styled element to traverse
 	 */
 
@@ -410,7 +410,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the design element.
-	 * 
+	 *
 	 * @param obj the design element to traverse
 	 */
 
@@ -419,7 +419,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the rectangle item element.
-	 * 
+	 *
 	 * @param obj the rectangle item to traverse
 	 */
 
@@ -429,7 +429,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the extended item element.
-	 * 
+	 *
 	 * @param obj the extended item to traverse
 	 */
 
@@ -439,7 +439,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the extended data source.
-	 * 
+	 *
 	 * @param obj the element to traverse
 	 */
 
@@ -449,7 +449,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the extended data set.
-	 * 
+	 *
 	 * @param obj the element to traverse
 	 */
 
@@ -459,7 +459,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the lay out module.
-	 * 
+	 *
 	 * @param obj the module to traverse
 	 */
 
@@ -469,7 +469,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the module.
-	 * 
+	 *
 	 * @param obj the module to traverse.
 	 */
 	public void visitModule(Module obj) {
@@ -482,7 +482,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the theme.
-	 * 
+	 *
 	 * @param obj the theme to traverse
 	 */
 
@@ -492,7 +492,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the report item theme.
-	 * 
+	 *
 	 * @param obj the report item theme to traverse
 	 */
 
@@ -502,7 +502,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the template parameter definition.
-	 * 
+	 *
 	 * @param obj the template parameter definition to traverse
 	 */
 
@@ -512,7 +512,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the template element.
-	 * 
+	 *
 	 * @param obj the template element to traverse
 	 */
 
@@ -522,7 +522,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the template report item.
-	 * 
+	 *
 	 * @param obj the template report item to traverse
 	 */
 
@@ -532,7 +532,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the template data set.
-	 * 
+	 *
 	 * @param obj the template data set to traverse
 	 */
 
@@ -542,7 +542,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the joint data set.
-	 * 
+	 *
 	 * @param obj the joint data set to traverse
 	 */
 
@@ -552,7 +552,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the cube element.
-	 * 
+	 *
 	 * @param obj the cube element to traverse
 	 */
 
@@ -562,7 +562,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visists the dimension element.
-	 * 
+	 *
 	 * @param obj the dimension element to traverse
 	 */
 
@@ -572,7 +572,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visists the hierarchy element.
-	 * 
+	 *
 	 * @param obj the hierarchy element to traverse
 	 */
 
@@ -582,7 +582,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visists the level element.
-	 * 
+	 *
 	 * @param obj the level element to traverse
 	 */
 
@@ -592,7 +592,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visists the measure element.
-	 * 
+	 *
 	 * @param obj the measure element to traverse
 	 */
 
@@ -602,7 +602,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the measure group element.
-	 * 
+	 *
 	 * @param obj the measure group to traverse
 	 */
 
@@ -612,7 +612,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the cube element.
-	 * 
+	 *
 	 * @param obj the cube element to traverse
 	 */
 
@@ -622,7 +622,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visists the dimension element.
-	 * 
+	 *
 	 * @param obj the dimension element to traverse
 	 */
 
@@ -632,7 +632,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visists the hierarchy element.
-	 * 
+	 *
 	 * @param obj the hierarchy element to traverse
 	 */
 
@@ -642,7 +642,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visists the level element.
-	 * 
+	 *
 	 * @param obj the level element to traverse
 	 */
 
@@ -652,7 +652,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visists the measure element.
-	 * 
+	 *
 	 * @param obj the measure element to traverse
 	 */
 
@@ -662,7 +662,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the measure group element.
-	 * 
+	 *
 	 * @param obj the measure group to traverse
 	 */
 
@@ -672,7 +672,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the cube element.
-	 * 
+	 *
 	 * @param obj the cube element to traverse
 	 */
 
@@ -682,7 +682,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visists the dimension element.
-	 * 
+	 *
 	 * @param obj the dimension element to traverse
 	 */
 
@@ -692,7 +692,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visists the hierarchy element.
-	 * 
+	 *
 	 * @param obj the hierarchy element to traverse
 	 */
 
@@ -702,7 +702,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visists the level element.
-	 * 
+	 *
 	 * @param obj the level element to traverse
 	 */
 
@@ -712,7 +712,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visists the measure element.
-	 * 
+	 *
 	 * @param obj the measure element to traverse
 	 */
 
@@ -722,7 +722,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the measure group element.
-	 * 
+	 *
 	 * @param obj the measure group to traverse
 	 */
 
@@ -732,7 +732,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the member value.
-	 * 
+	 *
 	 * @param obj the member value to traverse
 	 */
 	public void visitMemberValue(MemberValue obj) {
@@ -741,7 +741,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the filter condition element.
-	 * 
+	 *
 	 * @param obj the filter condition element to traverse
 	 */
 
@@ -751,7 +751,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the sort element.
-	 * 
+	 *
 	 * @param obj the sort element to traverse
 	 */
 	public void visitSortElement(SortElement obj) {
@@ -760,7 +760,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the multiple view element.
-	 * 
+	 *
 	 * @param obj the multiple view element
 	 */
 
@@ -770,7 +770,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the variable element.
-	 * 
+	 *
 	 * @param obj the variable element to traverse
 	 */
 
@@ -780,7 +780,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the data group element.
-	 * 
+	 *
 	 * @param obj the data group element to traverse
 	 */
 
@@ -790,7 +790,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the content element.
-	 * 
+	 *
 	 * @param obj the content element to traverse
 	 */
 
@@ -800,7 +800,7 @@ class ElementVisitorImpl {
 
 	/**
 	 * Visits the derived data set element.
-	 * 
+	 *
 	 * @param obj the derived data set element to traverse
 	 */
 	public void visitDerivedDataSet(DerivedDataSet obj) {

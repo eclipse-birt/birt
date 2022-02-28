@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,18 +24,18 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 /**
  * Provides methods for style property values on the column. Currently, only
  * TableItem and GridItem have columns.
- * 
+ *
  */
 
 public final class ColumnHelper {
 
 	/**
 	 * Figures out the column according to the index of the column.
-	 * 
+	 *
 	 * @param module      the report design
 	 * @param columnSlot  the slot contains columns
 	 * @param columnIndex the 1-based column index
-	 * 
+	 *
 	 * @return the column at the specified position in the slot, or null if not
 	 *         found.
 	 */
@@ -48,8 +48,9 @@ public final class ColumnHelper {
 
 			index += getColumnRepeat(module, column);
 
-			if (index >= columnIndex)
+			if (index >= columnIndex) {
 				return column;
+			}
 		}
 
 		return null;
@@ -58,7 +59,7 @@ public final class ColumnHelper {
 	/**
 	 * Gets tableColumns in the grid or table, if the column repeats it will be
 	 * recorded accordingly.
-	 * 
+	 *
 	 * @param module     the module
 	 * @param columnSlot the column slot.
 	 * @return an array containing TableColumn.
@@ -66,7 +67,7 @@ public final class ColumnHelper {
 	public static TableColumn[] getTableColumnArray(Module module, ContainerSlot columnSlot) {
 		int colNum = columnSlot.getCount();
 
-		List<TableColumn> tmpColumns = new ArrayList<TableColumn>();
+		List<TableColumn> tmpColumns = new ArrayList<>();
 
 		for (int i = 0; i < colNum; i++) {
 			TableColumn tmpColumn = (TableColumn) columnSlot.getContent(i);
@@ -82,14 +83,15 @@ public final class ColumnHelper {
 
 	/**
 	 * Gets the column according to the column number.
-	 * 
+	 *
 	 * @param columnArray the column array
 	 * @param columnNum   the column number
 	 * @return the table column.
 	 */
 	public static TableColumn getColumnInArray(TableColumn[] columnArray, int columnNum) {
-		if (columnArray == null)
+		if (columnArray == null) {
 			return null;
+		}
 
 		// the column number start from 1, so it should be subtracted 1.
 		// if the column number found by cell is lager than the length of
@@ -103,7 +105,7 @@ public final class ColumnHelper {
 
 	/**
 	 * Gets the repeat times of the column.
-	 * 
+	 *
 	 * @param module the module.
 	 * @param column the column.
 	 * @return the column length.

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +47,7 @@ public class FilterAndSortParseTest extends BaseTestCase {
 	private static final String FILE_NAME = "FilterAndSortParseTest.xml"; //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testParser() throws Exception {
@@ -131,7 +131,7 @@ public class FilterAndSortParseTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testWriter() throws Exception {
@@ -199,7 +199,7 @@ public class FilterAndSortParseTest extends BaseTestCase {
 		filterHandle.setType(DesignChoiceConstants.FILTER_CONDITION_TYPE_SIMPLE);
 		filterHandle.setUpdateAggregation(false);
 		filterHandle = iter1.next();
-		List<Expression> tmpList = new ArrayList<Expression>();
+		List<Expression> tmpList = new ArrayList<>();
 		tmpList.add(new Expression("constant1", ExpressionType.CONSTANT)); //$NON-NLS-1$
 		filterHandle.setValue1(tmpList);
 		filterHandle.setValue2(new Expression("constant2", ExpressionType.CONSTANT)); //$NON-NLS-1$ )
@@ -212,7 +212,7 @@ public class FilterAndSortParseTest extends BaseTestCase {
 
 	/**
 	 * Tests the cases for supporting user properties in FilterConditionElement.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testUserProperties() throws Exception {

@@ -1,18 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.api;
+
+import java.util.Objects;
 
 /**
  * the data id of the data used by an instance.
@@ -35,7 +37,7 @@ public class DataID {
 
 	/**
 	 * Create the new data id instance.
-	 * 
+	 *
 	 * @param dataSet data set
 	 * @param rowId   row id
 	 */
@@ -46,7 +48,7 @@ public class DataID {
 
 	/**
 	 * Create the new data id instantce.
-	 * 
+	 *
 	 * @param dataSet data set
 	 * @param cellId  cell id
 	 */
@@ -57,7 +59,7 @@ public class DataID {
 
 	/**
 	 * return the data set.
-	 * 
+	 *
 	 * @return
 	 */
 	public DataSetID getDataSetID() {
@@ -66,7 +68,7 @@ public class DataID {
 
 	/**
 	 * Return the row id.
-	 * 
+	 *
 	 * @return
 	 */
 	public long getRowID() {
@@ -75,7 +77,7 @@ public class DataID {
 
 	/**
 	 * Return the cell id.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getCellID() {
@@ -84,9 +86,9 @@ public class DataID {
 
 	/**
 	 * add the instance id to the string buffer.
-	 * 
+	 *
 	 * It is a util class used by other internal packages.
-	 * 
+	 *
 	 * @param buffer
 	 */
 	public void append(StringBuffer buffer) {
@@ -101,24 +103,20 @@ public class DataID {
 		}
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		append(buffer);
 		return buffer.toString();
 	}
 
+	@Override
 	public boolean equals(Object a) {
 		if (a instanceof DataID) {
 			DataID aid = (DataID) a;
 			if (rowId == -1 && aid.rowId == -1) {
-				if (cellId != null) {
-					if (!cellId.equals(aid.cellId)) {
-						return false;
-					}
-				} else {
-					if (aid.cellId != null) {
-						return false;
-					}
+				if (!Objects.equals(cellId, aid.cellId)) {
+					return false;
 				}
 			} else if (rowId != aid.rowId) {
 				return false;
@@ -130,7 +128,7 @@ public class DataID {
 
 	/**
 	 * create a new data id instance from the string.
-	 * 
+	 *
 	 * @param dataId string representation of the data id
 	 * @return data id instance.
 	 */
@@ -140,7 +138,7 @@ public class DataID {
 
 	/**
 	 * create a new data id instance from the buffer.
-	 * 
+	 *
 	 * @param buffer
 	 * @param offset
 	 * @param length
@@ -152,13 +150,11 @@ public class DataID {
 		while (ptr >= offset) {
 			if (buffer[ptr] != ':') {
 				ptr--;
+			} else if (ptr > offset && buffer[ptr - 1] == ':') {
+				ptr--;
+				ptr--;
 			} else {
-				if (ptr > offset && buffer[ptr - 1] == ':') {
-					ptr--;
-					ptr--;
-				} else {
-					break;
-				}
+				break;
 			}
 		}
 		if (ptr >= offset && buffer[ptr] == ':') {

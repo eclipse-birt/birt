@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -50,6 +50,7 @@ public class SaveXMLAction extends Action {
 	/**
 	 * When the action is invoked, pop up a File Dialog to designate the directory.
 	 */
+	@Override
 	public void run() {
 		Chart cm = ChartExamples.getChartModel().copyInstance();
 		if (cm != null) {
@@ -60,7 +61,7 @@ public class SaveXMLAction extends Action {
 				String name = saveDialog.getFileName();
 				if (name != null && name != "") //$NON-NLS-1$
 				{
-					Serializer serializer = null;
+					Serializer serializer;
 					final File file = new File(saveDialog.getFilterPath(), name);
 					if (file.exists()) {
 						MessageBox box = new MessageBox(cmp.getShell(), SWT.ICON_WARNING | SWT.YES | SWT.NO);
@@ -72,16 +73,10 @@ public class SaveXMLAction extends Action {
 					}
 
 					serializer = SerializerImpl.instance();
-					OutputStream os = null;
-					try {
-						os = new FileOutputStream(file);
+					try (OutputStream os = new FileOutputStream(file)) {
 						serializer.write(cm, os);
 					} catch (IOException ioe) {
 						ioe.printStackTrace();
-					} finally {
-						if (os != null) {
-							os.close();
-						}
 					}
 				}
 			} catch (Throwable e) {

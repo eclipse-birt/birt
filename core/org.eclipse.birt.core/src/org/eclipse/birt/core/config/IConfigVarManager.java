@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ public interface IConfigVarManager {
 	 * @param key the configuration variable name
 	 * @return The value for the configuration variable. null if it is not set.
 	 */
-	public String getConfigVar(String key);
+	String getConfigVar(String key);
 
 	/**
 	 * @param key          the configuration variable name
@@ -31,7 +31,7 @@ public interface IConfigVarManager {
 	 * @return The value for the configuration variable. In case the config var is
 	 *         not set, or there is an exception, defaultValue is returned.
 	 */
-	public String getConfigVar(String key, String defaultValue);
+	String getConfigVar(String key, String defaultValue);
 
 	/**
 	 * @param key          the configuration variable name
@@ -39,7 +39,7 @@ public interface IConfigVarManager {
 	 *                     set
 	 * @return true if set to true (case insensitive), false in any other cases
 	 */
-	public boolean getConfigBoolean(String key);
+	boolean getConfigBoolean(String key);
 
 	/**
 	 * @param key the configuration variable name
@@ -47,7 +47,7 @@ public interface IConfigVarManager {
 	 *         var is not set or not set to an integer or any other exception
 	 *         happens.
 	 */
-	public Integer getConfigInteger(String key);
+	Integer getConfigInteger(String key);
 
 	/**
 	 * @param key          the configuration variable name
@@ -57,6 +57,6 @@ public interface IConfigVarManager {
 	 *         not set, or not set to a number, or there is an exception,
 	 *         defaultValue is returned.
 	 */
-	public int getConfigInteger(String key, int defaultValue);
+	int getConfigInteger(String key, int defaultValue);
 
 }

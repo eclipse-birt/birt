@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ public final class SPParameterPositionUtil {
 	private String identifierQuoteString;
 
 	/**
-	 * 
+	 *
 	 * @param sqlTxt
 	 * @param identifierQuoteString
 	 * @throws OdaException
@@ -65,7 +65,7 @@ public final class SPParameterPositionUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param queryText
 	 * @throws IOException
 	 */
@@ -77,8 +77,9 @@ public final class SPParameterPositionUtil {
 			if (String.valueOf(i).equals(identifierQuoteString)) {
 				readNextQuote(reader, i);
 			} else if (i == '(') {
-				if (readNextBracket(reader))
+				if (readNextBracket(reader)) {
 					result.add(Integer.valueOf(nextPosition));
+				}
 			} else if (i == ',') {
 				nextPosition++;
 			} else if (i == '?') {
@@ -87,13 +88,13 @@ public final class SPParameterPositionUtil {
 		}
 		position = new int[result.size()];
 		for (int k = 0; k < result.size(); k++) {
-			position[k] = new Integer(result.get(k).toString()).intValue();
+			position[k] = Integer.parseInt(result.get(k).toString());
 		}
 	}
 
 	/**
 	 * get the quoted string
-	 * 
+	 *
 	 * @param strBuf
 	 * @param reader
 	 * @return
@@ -103,7 +104,6 @@ public final class SPParameterPositionUtil {
 		int i = -1;
 		while ((i = reader.read()) != -1) {
 			if (i != quote) {
-				continue;
 			} else {
 				break;
 			}
@@ -111,7 +111,7 @@ public final class SPParameterPositionUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param reader
 	 * @throws IOException
 	 */
@@ -132,7 +132,7 @@ public final class SPParameterPositionUtil {
 
 	/**
 	 * get non-default parameters position is sql text
-	 * 
+	 *
 	 * @return
 	 */
 	public int[] getParameterPositions() {
@@ -140,7 +140,7 @@ public final class SPParameterPositionUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws JDBCException
 	 */
@@ -154,7 +154,7 @@ public final class SPParameterPositionUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public SPElement getSchema() {
@@ -166,7 +166,7 @@ public final class SPParameterPositionUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public SPElement getPackage() {
@@ -178,7 +178,7 @@ public final class SPParameterPositionUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean containsReturnValue() {
@@ -192,9 +192,10 @@ public final class SPParameterPositionUtil {
 			end = sqlTxt.indexOf("}");
 		}
 
-		if (start == -1 || start + 4 >= end)
+		if (start == -1 || start + 4 >= end) {
 			throw new JDBCException(ResourceConstants.INVALID_STORED_PRECEDURE,
 					ResourceConstants.ERROR_INVALID_STATEMENT);
+		}
 		if (sqlTxt.substring(0, start).matches(".*\\Q?\\E[ \t]*\\Q=\\E.*")) {
 			this.containsReturnValue = true;
 		}
@@ -222,7 +223,7 @@ public final class SPParameterPositionUtil {
 		String patternStr = "([^" + idq + "][^\\.]*|" + idq + ".*?" + idq + ")\\.{0,1}";
 
 		Matcher matcher = Pattern.compile(patternStr).matcher(name);
-		ArrayList<SPElement> elemList = new ArrayList<SPElement>();
+		ArrayList<SPElement> elemList = new ArrayList<>();
 		while (matcher.find()) {
 			String elem = matcher.group(1);
 			if (elem.startsWith(identifierQuoteString) && elem.endsWith(identifierQuoteString)) {
@@ -239,7 +240,7 @@ public final class SPParameterPositionUtil {
 
 	/**
 	 * put sqlText to char array
-	 * 
+	 *
 	 * @param sqlTxt
 	 * @param escaper
 	 * @return
@@ -248,11 +249,12 @@ public final class SPParameterPositionUtil {
 	private String getParameterDefinitionChars(String sqlTxt, int[] point) throws OdaException {
 		int startPoint = point[0];
 		int endPoint = point[1];
-		if (startPoint == -1 && endPoint == -1)
+		if (startPoint == -1 && endPoint == -1) {
 			return "";
-		else if (startPoint >= endPoint || startPoint == -1)
+		} else if (startPoint >= endPoint || startPoint == -1) {
 			throw new JDBCException(ResourceConstants.INVALID_STORED_PRECEDURE,
 					ResourceConstants.ERROR_INVALID_STATEMENT);
+		}
 		return sqlTxt.substring(startPoint + 1, endPoint);
 	}
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Test case for <code>FloatPropertyType</code>.
- * 
+ *
  */
 public class FloatPropertyTypeTest extends PropertyTypeTestCase {
 
@@ -33,32 +33,35 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
 	 * ()
 	 */
+	@Override
 	public void testGetTypeCode() {
 		assertEquals(PropertyType.FLOAT_TYPE, type.getTypeCode());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
+	@Override
 	public void testGetName() {
 		assertEquals(PropertyType.FLOAT_TYPE_NAME, type.getName());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
 	 * ()
 	 */
+	@Override
 	public void testValidateValue() throws PropertyValueException {
 		assertEquals(null, type.validateValue(design, null, propDefn, null));
 		assertEquals(null, type.validateValue(design, null, propDefn, "")); //$NON-NLS-1$
@@ -82,10 +85,11 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testValidateInputString()
 	 */
+	@Override
 	public void testValidateInputString() throws PropertyValueException {
 
 		assertEquals(null, type.validateInputString(design, null, propDefn, null));
@@ -101,11 +105,12 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
 	 * ()
 	 */
+	@Override
 	public void testValidateXml() throws PropertyValueException {
 		assertEquals(null, type.validateXml(design, null, propDefn, null));
 		assertEquals(null, type.validateXml(design, null, propDefn, "")); //$NON-NLS-1$
@@ -122,10 +127,11 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
 	 * ()
 	 */
+	@Override
 	public void testToDouble() {
 		assertEquals(0.0d, type.toDouble(design, null), 1);
 		assertEquals(0.0d, type.toDouble(design, new Double(0.0d)), 1);
@@ -133,10 +139,11 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger ()
 	 */
+	@Override
 	public void testToInteger() {
 		assertEquals(0, type.toInteger(design, null));
 		assertEquals(0, type.toInteger(design, new Double(0.0d)));
@@ -144,9 +151,10 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
+	@Override
 	public void testToXml() {
 		ULocale preULocale = ULocale.getDefault();
 
@@ -164,10 +172,11 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
 	 * ()
 	 */
+	@Override
 	public void testToString() {
 		assertEquals(null, type.toString(design, propDefn, null));
 		assertEquals("123.456", type.toString(design, propDefn, new Double(123.456d))); //$NON-NLS-1$
@@ -179,10 +188,11 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testToDisplayString()
 	 */
+	@Override
 	public void testToDisplayString() {
 		ThreadResources.setLocale(ULocale.ENGLISH);
 		assertEquals(null, type.toString(design, propDefn, null));
@@ -192,10 +202,11 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
 	 * ()
 	 */
+	@Override
 	public void testToNumber() {
 		assertEquals(0.0d, type.toNumber(design, null).doubleValue(), 1);
 		assertEquals(0.0d, type.toNumber(design, new Double(0.0d)).doubleValue(), 1);
@@ -203,10 +214,11 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean ()
 	 */
+	@Override
 	public void testToBoolean() {
 	}
 

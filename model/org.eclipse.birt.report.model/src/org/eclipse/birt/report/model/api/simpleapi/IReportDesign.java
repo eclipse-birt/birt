@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,14 +20,14 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
  * Script wrapper of ReportDesignHandle
- * 
+ *
  */
 
 public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Gets master page script instance.
-	 * 
+	 *
 	 * @param name
 	 * @return master page script instance
 	 */
@@ -36,7 +36,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get data set design by name
-	 * 
+	 *
 	 * @param name
 	 * @return data set
 	 */
@@ -44,7 +44,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get data source design by name
-	 * 
+	 *
 	 * @param name
 	 * @return data source
 	 */
@@ -52,7 +52,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * generic method to get report item by name
-	 * 
+	 *
 	 * @param name
 	 * @return report element
 	 */
@@ -60,7 +60,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get a label item by name
-	 * 
+	 *
 	 * @param name
 	 * @return label
 	 */
@@ -69,7 +69,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get a grid item by name
-	 * 
+	 *
 	 * @param name
 	 * @return grid
 	 */
@@ -77,7 +77,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * mathod to get a Image item by name
-	 * 
+	 *
 	 * @param name
 	 * @return iamge
 	 */
@@ -85,7 +85,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get a list item by name
-	 * 
+	 *
 	 * @param name
 	 * @return list
 	 */
@@ -93,7 +93,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get a table item by name
-	 * 
+	 *
 	 * @param name
 	 * @return table
 	 */
@@ -101,7 +101,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get a dynamic text data item by name.
-	 * 
+	 *
 	 * @param name
 	 * @return text data
 	 */
@@ -110,7 +110,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get a data item by name
-	 * 
+	 *
 	 * @param name
 	 * @return data item
 	 */
@@ -119,7 +119,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get a text item by name
-	 * 
+	 *
 	 * @param name
 	 * @return text item
 	 */
@@ -128,7 +128,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Sets the resource key of the display name.
-	 * 
+	 *
 	 * @param displayNameKey the resource key of the display name
 	 * @throws SemanticException if the display name resource-key property is locked
 	 *                           or not defined on this element.
@@ -138,7 +138,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Gets the resource key of the display name.
-	 * 
+	 *
 	 * @return the resource key of the display name
 	 */
 
@@ -146,7 +146,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Sets the display name.
-	 * 
+	 *
 	 * @param displayName the display name
 	 * @throws SemanticException if the display name property is locked or not
 	 *                           defined on this element.
@@ -156,7 +156,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Gets the display name.
-	 * 
+	 *
 	 * @return the display name
 	 */
 
@@ -165,10 +165,10 @@ public interface IReportDesign extends IDesignElement {
 	/**
 	 * Saves the module to an existing file name. Call this only when the file name
 	 * has been set.
-	 * 
+	 *
 	 * @throws IOException if the file cannot be saved on the storage. Or the file
 	 *                     name is not valid.
-	 * 
+	 *
 	 * @see #saveAs(String)
 	 */
 
@@ -178,11 +178,11 @@ public interface IReportDesign extends IDesignElement {
 	 * Saves the design to the file name provided. The file name is saved in the
 	 * design, and subsequent calls to <code>save( )</code> will save to this new
 	 * name.
-	 * 
+	 *
 	 * @param newName the new file name
 	 * @throws IOException if the file cannot be saved. Or the file name is not
 	 *                     valid.
-	 * 
+	 *
 	 * @see #save()
 	 */
 
@@ -190,14 +190,14 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Gets the theme for this report design.
-	 * 
+	 *
 	 * @return the theme for this report design.
 	 */
 	String getTheme();
 
 	/**
 	 * Sets the theme for this report design.
-	 * 
+	 *
 	 * @param theme
 	 * @throws SemanticException
 	 */
@@ -205,7 +205,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * generic method to get report item by id
-	 * 
+	 *
 	 * @param name
 	 * @return report element
 	 */
@@ -213,7 +213,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Create <code>IFilterCondition</code>
-	 * 
+	 *
 	 * @return instance
 	 */
 
@@ -221,7 +221,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Create IHideRule instance
-	 * 
+	 *
 	 * @return IHideRule
 	 */
 
@@ -229,7 +229,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Create IHighLightRule
-	 * 
+	 *
 	 * @return instance
 	 */
 
@@ -237,7 +237,7 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Create ISortCondition
-	 * 
+	 *
 	 * @return instance
 	 */
 
@@ -245,20 +245,20 @@ public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Creates the action structure.
-	 * 
+	 *
 	 * @param action the structure handle
 	 * @param handle the element handle that holds the action structure
 	 * @return the action
 	 */
 
-	public IAction createAction();
+	IAction createAction();
 
 	/**
 	 * Create <code>IDataBinding</code>
-	 * 
+	 *
 	 * @return instance
 	 */
 
-	public IDataBinding createDataBinding();
+	IDataBinding createDataBinding();
 
 }

@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  */
 
 public class DimensionDefinition extends NamedObject implements IDimensionDefinition {
@@ -29,12 +29,14 @@ public class DimensionDefinition extends NamedObject implements IDimensionDefini
 		this.hierarchies = new ArrayList();
 	}
 
+	@Override
 	public IHierarchyDefinition createHierarchy(String name) {
 		IHierarchyDefinition hier = new HierarchyDefinition(this, name);
 		this.hierarchies.add(hier);
 		return hier;
 	}
 
+	@Override
 	public List getHierarchy() {
 		return this.hierarchies;
 	}
@@ -42,6 +44,7 @@ public class DimensionDefinition extends NamedObject implements IDimensionDefini
 	/**
 	 * Clone itself
 	 */
+	@Override
 	public IDimensionDefinition clone() {
 		DimensionDefinition cloned = new DimensionDefinition(this.getName());
 		cloneFields(cloned);

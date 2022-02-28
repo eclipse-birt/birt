@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -82,7 +82,7 @@ public class ChartPageGenerator extends AbstractPageGenerator {
 	 * Returns a delegate of filter handle provider, it wraps actual filter provider
 	 * for chart consuming data set, cube set, including sharing query, grand total
 	 * view cases.
-	 * 
+	 *
 	 * @return
 	 */
 	private AbstractFilterHandleProvider getFilterProviderDelegate() {
@@ -90,6 +90,7 @@ public class ChartPageGenerator extends AbstractPageGenerator {
 		return provider;
 	}
 
+	@Override
 	public void createTabItems(List input) {
 		super.createTabItems(input);
 		this.input = input;
@@ -97,8 +98,9 @@ public class ChartPageGenerator extends AbstractPageGenerator {
 		addSelectionListener(this);
 		basicPage.refresh();
 		createTabItems();
-		if (tabFolder.getSelection() != null)
+		if (tabFolder.getSelection() != null) {
 			buildItemContent(tabFolder.getSelection());
+		}
 	}
 
 	protected void createTabItems() {
@@ -106,6 +108,7 @@ public class ChartPageGenerator extends AbstractPageGenerator {
 		createTabItem(FILTERTITLE, BINDINGTITLE);
 	}
 
+	@Override
 	public void createControl(Composite parent, Object input) {
 		setCategoryProvider(ChartCategoryProviderFactory.getInstance().getCategoryProvider(input));
 		super.createControl(parent, input);

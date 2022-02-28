@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Sets the extends attribute of an element.
- * 
+ *
  */
 
 public class ExtendsRecord extends SimpleRecord {
@@ -55,7 +55,7 @@ public class ExtendsRecord extends SimpleRecord {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param obj    the element to modify.
 	 * @param parent the new parent element.
 	 */
@@ -77,7 +77,7 @@ public class ExtendsRecord extends SimpleRecord {
 	// }
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param obj    the element to modify.
 	 * @param parent the style to set.
 	 */
@@ -88,8 +88,9 @@ public class ExtendsRecord extends SimpleRecord {
 		element = obj;
 		newParent = parent;
 		oldParent = obj.getExtendsElement();
-		if (oldParent == null)
+		if (oldParent == null) {
 			oldName = obj.getExtendsName();
+		}
 
 		label = CommandLabelFactory.getCommandLabel(MessageConstants.SET_EXTENDS_MESSAGE);
 
@@ -99,12 +100,14 @@ public class ExtendsRecord extends SimpleRecord {
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 
+	@Override
 	protected void perform(boolean undo) {
 		if (undo) {
-			if (oldName != null)
+			if (oldName != null) {
 				element.setExtendsName(oldName);
-			else
+			} else {
 				element.setExtendsElement(oldParent);
+			}
 		} else {
 			DesignElement parent = newParent == null ? null : newParent.getElement();
 			element.setExtendsElement(parent);
@@ -115,6 +118,7 @@ public class ExtendsRecord extends SimpleRecord {
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
+	@Override
 	public DesignElement getTarget() {
 		return element;
 	}
@@ -123,6 +127,7 @@ public class ExtendsRecord extends SimpleRecord {
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
+	@Override
 	public NotificationEvent getEvent() {
 		return new ExtendsEvent(element);
 	}

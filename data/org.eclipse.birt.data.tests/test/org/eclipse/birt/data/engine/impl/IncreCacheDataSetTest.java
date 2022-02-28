@@ -1,18 +1,22 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.impl;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -37,16 +41,14 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
-
-import testutil.ConfigText;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import testutil.ConfigText;
 
 /**
- * 
+ *
  */
 
 public class IncreCacheDataSetTest extends APITestCase {
@@ -54,6 +56,7 @@ public class IncreCacheDataSetTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Impl.TestIncreCacheData.TableName"),
 				ConfigText.getString("Impl.TestIncreCacheData.TableSQL"),
@@ -62,7 +65,7 @@ public class IncreCacheDataSetTest extends APITestCase {
 
 	private Map appContextMap = new HashMap();
 	private File tempDataFile;
-	private static final String LINE_SEP = System.getProperty("line.separator");
+	private static final String LINE_SEP = System.lineSeparator();
 
 	/*
 	 * @see junit.framework.TestCase#setUp()
@@ -101,7 +104,7 @@ public class IncreCacheDataSetTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataEngine
 	 * @return
 	 */
@@ -112,15 +115,16 @@ public class IncreCacheDataSetTest extends APITestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see testutil.BaseTestCase#getInputFolder(java.lang.String)
 	 */
+	@Override
 	protected InputStream getInputFolder(String dataFileName) {
 		InputStream in = super.getInputFolder(dataFileName);
 		String tempDir = System.getProperty("java.io.tmpdir");
 		tempDataFile = new File(tempDir, dataFileName);
 		try {
-			if (tempDataFile.exists() == false) {
+			if (!tempDataFile.exists()) {
 				copy(in, tempDataFile);
 			}
 			tempDataFile.deleteOnExit();
@@ -133,7 +137,7 @@ public class IncreCacheDataSetTest extends APITestCase {
 
 	/**
 	 * copy the data file to temporary directory.
-	 * 
+	 *
 	 * @param in
 	 * @param tempFile
 	 * @throws IOException
@@ -154,7 +158,7 @@ public class IncreCacheDataSetTest extends APITestCase {
 
 	/**
 	 * append <code>count</code> rows to the original data set.
-	 * 
+	 *
 	 * @param count
 	 * @throws IOException
 	 */
@@ -186,7 +190,7 @@ public class IncreCacheDataSetTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	@Test
 	public void testUpdateIncreCache() {
@@ -208,7 +212,7 @@ public class IncreCacheDataSetTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws BirtException
 	 */

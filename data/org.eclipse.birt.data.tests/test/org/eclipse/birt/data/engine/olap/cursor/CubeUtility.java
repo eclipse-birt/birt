@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,6 +14,7 @@
 package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -161,7 +162,7 @@ public class CubeUtility {
 	}
 
 	ICube getCube(String cubeName, DataEngineImpl engine) throws DataException, IOException {
-		ICube cube = null;
+		ICube cube;
 		IDocumentManager documentManager = DocumentManagerFactory
 				.loadFileDocumentManager(engine.getSession().getTempDir(), cubeName);
 		cube = CubeQueryExecutorHelper.loadCube(cubeName, documentManager, engine.getSession().getStopSign());
@@ -374,7 +375,7 @@ public class CubeUtility {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataCursor
 	 * @throws OLAPException
 	 */
@@ -460,17 +461,18 @@ public class CubeUtility {
 			List measureBindingNames, List rowGrandTotal, String columnGrandTotal, String totalGrandTotal,
 			List countryGrandTotal) throws Exception {
 		EdgeCursor edge1 = null, edge2 = null;
-		if (columnEdgeBindingNames.size() > 0)
+		if (columnEdgeBindingNames.size() > 0) {
 			edge1 = (EdgeCursor) cursor.getOrdinateEdge().get(0);
-		if (rowEdgeBindingNames.size() > 0)
-			edge2 = (EdgeCursor) cursor.getOrdinateEdge().get(cursor.getOrdinateEdge().size() - 1);
-		String[] lines = new String[0];
-		if (edge1 != null)
-			lines = new String[edge1.getDimensionCursor().size()];
-
-		for (int i = 0; i < lines.length; i++) {
-			lines[i] = "		";
 		}
+		if (rowEdgeBindingNames.size() > 0) {
+			edge2 = (EdgeCursor) cursor.getOrdinateEdge().get(cursor.getOrdinateEdge().size() - 1);
+		}
+		String[] lines = {};
+		if (edge1 != null) {
+			lines = new String[edge1.getDimensionCursor().size()];
+		}
+
+		Arrays.fill(lines, "		");
 
 		if (edge1 != null) {
 			while (edge1.next()) {
@@ -502,31 +504,31 @@ public class CubeUtility {
 										.createMeasureCalculateMemeberName(measureBindingNames.get(j).toString()))
 										+ ",";
 							}
-							if (countryGrandTotal != null)
+							if (countryGrandTotal != null) {
 								for (int k = 0; k < countryGrandTotal.size(); k++) {
 									if (edge1.getPosition() == countryCursor.getEdgeEnd()
 											&& countryGrandTotal != null) {
 										line += cursor.getObject(countryGrandTotal.get(k).toString());
 									}
 								}
+							}
 							line += "  ";
 						}
 					}
-				} else {
-					if (measureBindingNames != null) {
-						for (int j = 0; j < measureBindingNames.size(); j++) {
-							line += cursor
-									.getObject(OlapExpressionUtil
-											.createMeasureCalculateMemeberName(measureBindingNames.get(j).toString()))
-									+ ",";
-						}
-						line += "  ";
+				} else if (measureBindingNames != null) {
+					for (int j = 0; j < measureBindingNames.size(); j++) {
+						line += cursor
+								.getObject(OlapExpressionUtil
+										.createMeasureCalculateMemeberName(measureBindingNames.get(j).toString()))
+								+ ",";
 					}
+					line += "  ";
 				}
-				if (rowGrandTotal != null)
+				if (rowGrandTotal != null) {
 					for (int j = 0; j < rowGrandTotal.size(); j++) {
 						line += cursor.getObject(rowGrandTotal.get(j).toString()) + "&";
 					}
+				}
 				output += "\n" + line;
 
 			}
@@ -540,8 +542,9 @@ public class CubeUtility {
 			}
 		}
 
-		if (totalGrandTotal != null)
+		if (totalGrandTotal != null) {
 			output += cursor.getObject(totalGrandTotal);
+		}
 		System.out.print(output);
 		return output;
 	}
@@ -550,9 +553,7 @@ public class CubeUtility {
 			DimensionCursor streetCursor, DimensionCursor timeCursor, DimensionCursor productCursor1,
 			DimensionCursor productCursor2) throws OLAPException {
 		String[] lines = new String[4];
-		for (int i = 0; i < lines.length; i++) {
-			lines[i] = "		";
-		}
+		Arrays.fill(lines, "		");
 		if (countryCursor != null && cityCursor != null && timeCursor != null) {
 			countryCursor.beforeFirst();
 			while (countryCursor.next()) {
@@ -658,7 +659,7 @@ public class CubeUtility {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimensions
 	 * @return
 	 */
@@ -696,6 +697,7 @@ class TestFactTable1 implements IDatasetIterator {
 			65 };
 	static int[] ATTRIBUTE_Col = { 1, 2, 3, 1, 2, 3, 1, 1, 1, 2, 3, 1, 2, 3, 1, 2, 1, 2, 3, 1, 2, 2, 3, 1 };
 
+	@Override
 	public void close() throws BirtException {
 	}
 
@@ -714,6 +716,7 @@ class TestFactTable1 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("level11")) {
 			return 0;
@@ -733,6 +736,7 @@ class TestFactTable1 implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("level11")) {
 			return DataType.STRING_TYPE;
@@ -763,6 +767,7 @@ class TestFactTable1 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return DIM0_L1Col[ptr];
@@ -782,6 +787,7 @@ class TestFactTable1 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= MEASURE_Col.length) {
@@ -805,6 +811,7 @@ class TestFactTable2 implements IDatasetIterator {
 	static String[] DIM1_L2Col = { "PP1", "PP2", "PP1", "PP3", "PP1", "PP2", "PP3", "PP1", "PP2", "PP1" };
 	static int[] MEASURE_Col = { 1, 2, 3, 6, 7, 8, 11, 16, 21, 22, };
 
+	@Override
 	public void close() throws BirtException {
 	}
 
@@ -823,6 +830,7 @@ class TestFactTable2 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("level11")) {
 			return 0;
@@ -842,6 +850,7 @@ class TestFactTable2 implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("level11")) {
 			return DataType.STRING_TYPE;
@@ -872,6 +881,7 @@ class TestFactTable2 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return DIM0_L1Col[ptr];
@@ -891,6 +901,7 @@ class TestFactTable2 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= MEASURE_Col.length) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -94,6 +94,7 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog {
 	 */
 	private class Validator implements ISelectionStatusValidator {
 
+		@Override
 		public IStatus validate(Object[] selection) {
 			int nSelected = selection.length;
 			if (nSelected == 0) {
@@ -102,8 +103,9 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog {
 				return ErrorStatus;
 			} else if (selection[0] instanceof ResourceEntry && ((ResourceEntry) selection[0]).isFile()) {
 				return OKStatus;
-			} else
+			} else {
 				return ErrorStatus;
+			}
 		}
 	}
 
@@ -153,10 +155,11 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog {
 	}
 
 	public void refreshRoot() {
-		if (filePattern == null)
+		if (filePattern == null) {
 			getTreeViewer().setInput(new ResourceEntry[] { new FilePathEntry(input) });
-		else
+		} else {
 			getTreeViewer().setInput(new ResourceEntry[] { new FilePathEntry(input, filePattern) });
+		}
 		handleTreeViewerRefresh();
 	}
 
@@ -178,6 +181,7 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog {
 		setSorter(new FileViewerSorter());
 	}
 
+	@Override
 	protected Label createMessageArea(Composite composite) {
 		Composite infoContent = new Composite(composite, SWT.NONE);
 
@@ -214,6 +218,7 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog {
 
 		toolBar.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDown(MouseEvent e) {
 				showViewMenu();
 			}
@@ -223,6 +228,7 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog {
 		toolItem.setToolTipText(Messages.getString("ProjectFileDialog.Text.Menu")); //$NON-NLS-1$
 		toolItem.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				showViewMenu();
 			}
@@ -234,7 +240,7 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog {
 
 	/**
 	 * Fills the menu of the dialog.
-	 * 
+	 *
 	 * @param menuManager the menu manager
 	 */
 	protected void fillViewMenu(IMenuManager menuManager) {
@@ -253,10 +259,11 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org
 	 * .eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite rt = (Composite) super.createDialogArea(parent);
 		addToolTip();
@@ -266,17 +273,21 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog {
 
 		TreeListener treeListener = new TreeListener() {
 
+			@Override
 			public void treeCollapsed(TreeEvent e) {
 				Item item = (Item) e.item;
-				if (treeViewerBackup != null)
+				if (treeViewerBackup != null) {
 					treeViewerBackup.updateCollapsedStatus(getTreeViewer(), item.getData());
+				}
 
 			}
 
+			@Override
 			public void treeExpanded(TreeEvent e) {
 				Item item = (Item) e.item;
-				if (treeViewerBackup != null)
+				if (treeViewerBackup != null) {
 					treeViewerBackup.updateExpandedStatus(getTreeViewer(), item.getData());
+				}
 			}
 
 		};
@@ -317,9 +328,10 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.SelectionStatusDialog#okPressed()
 	 */
+	@Override
 	protected void okPressed() {
 		super.okPressed();
 		Object[] selected = getResult();
@@ -342,6 +354,7 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog {
 		final Tree tree = getTreeViewer().getTree();
 		tree.addMouseTrackListener(new MouseTrackAdapter() {
 
+			@Override
 			public void mouseHover(MouseEvent event) {
 				Widget widget = event.widget;
 				if (widget == tree) {
@@ -350,13 +363,11 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog {
 
 					if (item == null) {
 						tree.setToolTipText(null);
+					} else if (getTreeViewer().getLabelProvider() instanceof FileLabelProvider) {
+						tree.setToolTipText(
+								((FileLabelProvider) getTreeViewer().getLabelProvider()).getToolTip(item.getData()));
 					} else {
-						if (getTreeViewer().getLabelProvider() instanceof FileLabelProvider) {
-							tree.setToolTipText(((FileLabelProvider) getTreeViewer().getLabelProvider())
-									.getToolTip(item.getData()));
-						} else {
-							tree.setToolTipText(null);
-						}
+						tree.setToolTipText(null);
 					}
 				}
 			}
@@ -371,9 +382,10 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ViewerSorter#category(java.lang.Object)
 		 */
+		@Override
 		public int category(Object element) {
 			if (element instanceof File) {
 				if (((File) element).isDirectory()) {
@@ -406,13 +418,15 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog {
 		 * Subclasses may reimplement this method to provide a more optimized
 		 * implementation.
 		 * </p>
-		 * 
+		 *
 		 * @param viewer   the viewer
 		 * @param elements the elements to sort
 		 */
+		@Override
 		public void sort(final Viewer viewer, Object[] elements) {
 			Arrays.sort(elements, new Comparator<Object>() {
 
+				@Override
 				public int compare(Object a, Object b) {
 					if (a instanceof FragmentResourceEntry) {
 						if (b instanceof FragmentResourceEntry) {

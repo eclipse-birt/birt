@@ -42,19 +42,20 @@ public class ReportItemFactoryImpl implements IReportItemFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.model.extension.IElementFactory#newElement(org.eclipse.birt.
 	 * model.api.ReportDesignHandle)
 	 */
 
+	@Override
 	public IReportItem newReportItem(DesignElementHandle item) {
 		return new ReportItemImpl(this, item);
 	}
 
 	/**
 	 * Returns the localized message.
-	 * 
+	 *
 	 * @param key the resource key
 	 * @return the localized message
 	 */
@@ -65,20 +66,22 @@ public class ReportItemFactoryImpl implements IReportItemFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IReportItemFactory#getMessages()
 	 */
 
+	@Override
 	public IMessages getMessages() {
 		return messages;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IReportItemFactory#
 	 * getFactoryStyles(java.lang.String)
 	 */
+	@Override
 	public IStyleDeclaration[] getFactoryStyles(String extensionName) {
 		return null;
 	}

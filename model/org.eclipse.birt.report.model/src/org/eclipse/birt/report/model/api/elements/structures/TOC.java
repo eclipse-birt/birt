@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -87,11 +87,12 @@ public class TOC extends PropertyStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
+	@Override
 	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		assert false;
 		return null;
@@ -99,72 +100,80 @@ public class TOC extends PropertyStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
 	 * .report.model.api.SimpleValueHandle)
 	 */
 
+	@Override
 	public StructureHandle getHandle(SimpleValueHandle valueHandle) {
 		return new TOCHandle(valueHandle.getElementHandle(), getContext());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return TOC_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 
+	@Override
 	public String toString() {
 		return getStringProperty(null, TOC_EXPRESSION);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.elements.structures.StyleRule#
 	 * getIntrinsicProperty(java.lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (TOC_STYLE.equals(propName))
+		if (TOC_STYLE.equals(propName)) {
 			return style;
+		}
 
 		return super.getIntrinsicProperty(propName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.elements.structures.StyleRule#
 	 * setIntrinsicProperty(java.lang.String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
 		if (TOC_STYLE.equals(propName)) {
-			if (value instanceof String)
+			if (value instanceof String) {
 				style = new ElementRefValue(StringUtil.extractNamespace((String) value),
 						StringUtil.extractName((String) value));
-			else if (value instanceof StyleElement)
+			} else if (value instanceof StyleElement) {
 				style = new ElementRefValue(null, (Style) value);
-			else
+			} else {
 				style = (ElementRefValue) value;
-		} else
+			}
+		} else {
 			super.setIntrinsicProperty(propName, value);
+		}
 	}
 
 	/**
 	 * Sets toc expression.
-	 * 
+	 *
 	 * @param expression toc expression
 	 * @throws SemanticException
 	 */
@@ -175,7 +184,7 @@ public class TOC extends PropertyStructure {
 
 	/**
 	 * Gets toc expression.
-	 * 
+	 *
 	 * @return toc expression
 	 */
 

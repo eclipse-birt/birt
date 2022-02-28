@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,23 +54,27 @@ public class FormTextSection extends Section {
 
 	private int width = -1;
 
+	@Override
 	public void createSection() {
 		getLabelControl(parent);
 		getTextControl(parent);
 		getGridPlaceholder(parent);
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) textField.getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - 1 - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 1 - placeholder;
+		}
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillText;
+		}
 
 		if (height > -1) {
 			gd.heightHint = height;
@@ -108,6 +112,7 @@ public class FormTextSection extends Section {
 			textField.setLayoutData(new GridData());
 			textField.addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					textField = null;
 				}
@@ -119,10 +124,11 @@ public class FormTextSection extends Section {
 			while (iter.hasNext()) {
 				String key = (String) iter.next();
 				Object obj = map.get(key);
-				if (obj instanceof Image)
+				if (obj instanceof Image) {
 					textField.setImage(key, (Image) obj);
-				else if (obj instanceof Color)
+				} else if (obj instanceof Color) {
 					textField.setColor(key, (Color) obj);
+				}
 			}
 		} else {
 			checkParent(textField, parent);
@@ -146,10 +152,12 @@ public class FormTextSection extends Section {
 		}
 	}
 
+	@Override
 	public void load() {
 
 	}
 
+	@Override
 	public void setInput(Object input) {
 
 	}
@@ -180,22 +188,30 @@ public class FormTextSection extends Section {
 		this.height = height;
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (textField != null)
+		}
+		if (textField != null) {
 			WidgetUtil.setExcludeGridData(textField, isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (textField != null)
+		}
+		if (textField != null) {
 			textField.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 
 	private Map map = new HashMap();

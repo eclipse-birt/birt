@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,7 +33,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Tests case for parsing and writing ODA OLAP elements.
- * 
+ *
  */
 
 public class OdaCubeParseTest extends BaseTestCase {
@@ -41,7 +41,7 @@ public class OdaCubeParseTest extends BaseTestCase {
 	private final String FILE_NAME = "OdaCubeParserTest.xml"; //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -147,7 +147,7 @@ public class OdaCubeParseTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testWriter() throws Exception {

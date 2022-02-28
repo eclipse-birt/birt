@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,13 +59,14 @@ public class UnitPropertyDescriptor extends PropertyDescriptor {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param propertyHandle The model instance
 	 */
 	public UnitPropertyDescriptor(boolean formStyle) {
 		setFormStyle(formStyle);
 	}
 
+	@Override
 	public void setInput(Object handle) {
 		this.input = handle;
 		getDescriptorProvider().setInput(input);
@@ -73,10 +74,11 @@ public class UnitPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.attributes.widget.PropertyDescriptor
 	 * #resetUIData()
 	 */
+	@Override
 	public void load() {
 		String value = getDescriptorProvider().load().toString();
 
@@ -89,8 +91,9 @@ public class UnitPropertyDescriptor extends PropertyDescriptor {
 		if (getDescriptorProvider() instanceof UnitPropertyDescriptorProvider) {
 			deMeasureValue = ((UnitPropertyDescriptorProvider) getDescriptorProvider()).getMeasureValue();
 
-			if (deMeasureValue == null)
+			if (deMeasureValue == null) {
 				deMeasureValue = ""; //$NON-NLS-1$
+			}
 			if (!deMeasureValue.equals(text.getText())) {
 				text.setText(deMeasureValue);
 			}
@@ -107,9 +110,9 @@ public class UnitPropertyDescriptor extends PropertyDescriptor {
 				ExceptionUtil.handle(e);
 				return;
 			}
-			if (deUnitValue == null)
+			if (deUnitValue == null) {
 				combo.deselectAll();
-			else if (!deUnitValue.equals(combo.getText())) {
+			} else if (!deUnitValue.equals(combo.getText())) {
 				combo.select(Arrays.asList(items).indexOf(deUnitValue));
 			}
 		}
@@ -117,20 +120,22 @@ public class UnitPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
+	@Override
 	public Control getControl() {
 		return container;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Control createControl(Composite parent) {
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -142,10 +147,12 @@ public class UnitPropertyDescriptor extends PropertyDescriptor {
 
 		SelectionListener listener = new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleEvent();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				handleEvent();
 			}
@@ -154,11 +161,13 @@ public class UnitPropertyDescriptor extends PropertyDescriptor {
 		if (isFormStyle()) {
 			text = FormWidgetFactory.getInstance().createText(container, "", //$NON-NLS-1$
 					SWT.SINGLE | SWT.RIGHT);
-		} else
+		} else {
 			text = new Text(container, SWT.SINGLE | SWT.RIGHT);
+		}
 		text.addSelectionListener(listener);
 		text.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				if (combo.getItemCount() > 0 && (combo.getText() == null || combo.getText().length() == 0)) {
 					if (getDescriptorProvider() instanceof UnitPropertyDescriptorProvider) {
@@ -176,14 +185,17 @@ public class UnitPropertyDescriptor extends PropertyDescriptor {
 		});
 		text.addFocusListener(new FocusListener() {
 
+			@Override
 			public void focusGained(FocusEvent e) {
 				dirty = false;
 			}
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				if (!hasError) {
-					if (dirty)
+					if (dirty) {
 						handleEvent();
+					}
 				}
 			}
 		});
@@ -194,8 +206,9 @@ public class UnitPropertyDescriptor extends PropertyDescriptor {
 
 		GridData data = new GridData();
 		data.widthHint = (int) (combo.computeSize(SWT.DEFAULT, SWT.DEFAULT).x * 1.5);
-		if (text.computeSize(SWT.DEFAULT, SWT.DEFAULT).y < combo.computeSize(SWT.DEFAULT, SWT.DEFAULT).y)
+		if (text.computeSize(SWT.DEFAULT, SWT.DEFAULT).y < combo.computeSize(SWT.DEFAULT, SWT.DEFAULT).y) {
 			data.heightHint = combo.computeSize(SWT.DEFAULT, SWT.DEFAULT).y - 2;
+		}
 		text.setLayoutData(data);
 
 		data = new GridData(GridData.FILL_HORIZONTAL);
@@ -232,11 +245,13 @@ public class UnitPropertyDescriptor extends PropertyDescriptor {
 			if (getDescriptorProvider() instanceof UnitPropertyDescriptorProvider) {
 				String unitName = ((UnitPropertyDescriptorProvider) getDescriptorProvider())
 						.getUnitName(combo.getText());
-				if (unitName != null)
+				if (unitName != null) {
 					value += unitName;
+				}
 			}
-			if (value.equals(deMeasureValue + deUnitValue))
+			if (value.equals(deMeasureValue + deUnitValue)) {
 				return;
+			}
 		}
 		try {
 			save(value);
@@ -256,9 +271,11 @@ public class UnitPropertyDescriptor extends PropertyDescriptor {
 		hasError = false;
 	}
 
+	@Override
 	public void save(Object obj) throws SemanticException {
-		if (!isReadOnly)
+		if (!isReadOnly) {
 			getDescriptorProvider().save(obj);
+		}
 	}
 
 	public void setHidden(boolean isHidden) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElement
 import org.eclipse.jface.dialogs.Dialog;
 
 /**
- * 
+ *
  */
 
 public class CrosstabFilterModelProvider extends FilterModelProvider {
@@ -57,12 +57,12 @@ public class CrosstabFilterModelProvider extends FilterModelProvider {
 	/**
 	 * Constant, represents empty String array.
 	 */
-	private static final String[] EMPTY = new String[0];
+	private static final String[] EMPTY = {};
 
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 */
 	public CrosstabFilterModelProvider() {
 		// TODO Auto-generated constructor stub
@@ -70,7 +70,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider {
 
 	/**
 	 * Edit one item into the given position.
-	 * 
+	 *
 	 * @param item DesignElement object
 	 * @param pos  The position.
 	 * @return True if success, otherwise false.
@@ -111,12 +111,13 @@ public class CrosstabFilterModelProvider extends FilterModelProvider {
 
 	/**
 	 * Deletes an item.
-	 * 
+	 *
 	 * @param item DesignElement object
 	 * @param pos  The item's current position
 	 * @return True if success, otherwise false.
 	 * @throws PropertyValueException
 	 */
+	@Override
 	public boolean deleteItem(Object item, int pos) throws PropertyValueException {
 		List list = new ArrayList();
 		list.add(item);
@@ -147,12 +148,13 @@ public class CrosstabFilterModelProvider extends FilterModelProvider {
 
 	/**
 	 * Inserts one item into the given position.
-	 * 
+	 *
 	 * @param item DesignElement object
 	 * @param pos  The position.
 	 * @return True if success, otherwise false.
 	 * @throws SemanticException
 	 */
+	@Override
 	public boolean doAddItem(Object item, int pos) throws SemanticException {
 		if (item instanceof ExtendedItemHandle && ((ExtendedItemHandle) item).getExtensionName().equals("Crosstab")) //$NON-NLS-1$
 		{
@@ -171,15 +173,17 @@ public class CrosstabFilterModelProvider extends FilterModelProvider {
 
 	/**
 	 * Gets property display name of a given element.
-	 * 
+	 *
 	 * @param element Sort object
 	 * @param key     Property key
 	 * @return
 	 */
+	@Override
 	public String getText(Object element, String key) {
 
-		if (!(element instanceof TargetFilterConditionHandle))
+		if (!(element instanceof TargetFilterConditionHandle)) {
 			return "";//$NON-NLS-1$
+		}
 
 		if (key.equals(ILevelViewConstants.LEVEL_PROP)) {
 
@@ -230,10 +234,11 @@ public class CrosstabFilterModelProvider extends FilterModelProvider {
 
 	/**
 	 * Gets the display names of the given property keys.
-	 * 
+	 *
 	 * @param keys Property keys
 	 * @return String array contains display names
 	 */
+	@Override
 	public String[] getColumnNames(String[] keys) {
 		assert keys != null;
 		String[] columnNames = new String[keys.length];
@@ -248,15 +253,17 @@ public class CrosstabFilterModelProvider extends FilterModelProvider {
 
 	/**
 	 * Gets all elements of the given input.
-	 * 
+	 *
 	 * @param input The input object.
 	 * @return Sorts array.
 	 */
+	@Override
 	public Object[] getElements(List input) {
 		List list = new ArrayList();
 		Object obj = input.get(0);
-		if (!(obj instanceof ExtendedItemHandle))
+		if (!(obj instanceof ExtendedItemHandle)) {
 			return EMPTY;
+		}
 		ExtendedItemHandle element = (ExtendedItemHandle) obj;
 		CrosstabReportItemHandle crossTab = null;
 		try {
@@ -334,13 +341,14 @@ public class CrosstabFilterModelProvider extends FilterModelProvider {
 
 	/**
 	 * Moves one item from a position to another.
-	 * 
+	 *
 	 * @param item   DesignElement object
 	 * @param oldPos The item's current position
 	 * @param newPos The item's new position
 	 * @return True if success, otherwise false.
 	 * @throws PropertyValueException
 	 */
+	@Override
 	public boolean moveItem(Object item, int oldPos, int newPos) throws PropertyValueException {
 		// can not move for Crosstab sorting.
 		return false;

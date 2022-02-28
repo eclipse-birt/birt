@@ -42,8 +42,7 @@ public final class RunReportHandler extends AbstractFileHandler {
 			}
 			Map<String, Object> options = new HashMap<>();
 			options.put(WebViewer.FORMAT_KEY, WebViewer.HTML);
-			options.put(WebViewer.RESOURCE_FOLDER_KEY,
-					ReportPlugin.getDefault().getResourceFolder(file.getProject()));
+			options.put(WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault().getResourceFolder(file.getProject()));
 			WebViewer.display(url, options);
 		} finally {
 			Optional.ofNullable(handle).ifPresent(ModuleHandle::close);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -117,7 +117,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Applies this visitor to the given element.
-	 * 
+	 *
 	 * @param handle handle to the element to visit.
 	 */
 
@@ -128,7 +128,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the free form element.
-	 * 
+	 *
 	 * @param obj the handle of the free form to traverse
 	 */
 
@@ -138,9 +138,9 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits auto text element
-	 * 
+	 *
 	 * @param obj
-	 * 
+	 *
 	 */
 
 	protected void visitAutoText(AutoTextHandle obj) {
@@ -149,7 +149,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the data set element.
-	 * 
+	 *
 	 * @param obj the handle of the data set to traverse
 	 */
 
@@ -159,7 +159,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the simple data set element.
-	 * 
+	 *
 	 * @param obj the handle of the simple data set to traverse
 	 */
 
@@ -169,7 +169,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the script data set element.
-	 * 
+	 *
 	 * @param obj the handle of the script data set to traverse
 	 */
 
@@ -179,7 +179,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the joint data set element.
-	 * 
+	 *
 	 * @param obj the handle of the joint data set to traverse
 	 */
 
@@ -189,7 +189,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the data source element.
-	 * 
+	 *
 	 * @param obj the handle of data source to traverse
 	 */
 
@@ -199,7 +199,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the label element.
-	 * 
+	 *
 	 * @param obj the handle of the label to traverse
 	 */
 
@@ -209,7 +209,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the data element.
-	 * 
+	 *
 	 * @param obj the handle of the data to traverse
 	 */
 
@@ -219,7 +219,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the text element.
-	 * 
+	 *
 	 * @param obj the handle of the text to traverse
 	 */
 
@@ -229,7 +229,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the image element.
-	 * 
+	 *
 	 * @param obj the handle of the image to traverse
 	 */
 
@@ -239,7 +239,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the list element.
-	 * 
+	 *
 	 * @param obj the handle of the list to traverse
 	 */
 
@@ -249,7 +249,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the group element.
-	 * 
+	 *
 	 * @param obj the handle of the group to traverse
 	 */
 
@@ -259,7 +259,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the list group element.
-	 * 
+	 *
 	 * @param obj the handle of the list group to traverse
 	 */
 
@@ -269,7 +269,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the table element.
-	 * 
+	 *
 	 * @param obj the handle of the table to traverse
 	 */
 
@@ -279,7 +279,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the table group element.
-	 * 
+	 *
 	 * @param obj the handle of the table group to traverse
 	 */
 
@@ -289,7 +289,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the cell element.
-	 * 
+	 *
 	 * @param obj the handle of the cell to traverse
 	 */
 
@@ -299,7 +299,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the column element.
-	 * 
+	 *
 	 * @param obj the handle of the column to traverse
 	 */
 
@@ -309,7 +309,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the row element.
-	 * 
+	 *
 	 * @param obj the handle of the row to traverse
 	 */
 
@@ -319,7 +319,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the grid element.
-	 * 
+	 *
 	 * @param obj the handle of the grid to traverse
 	 */
 
@@ -329,7 +329,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the line element.
-	 * 
+	 *
 	 * @param obj the handle of the line to traverse
 	 */
 
@@ -339,7 +339,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the master page element.
-	 * 
+	 *
 	 * @param obj the handle of the master page to traverse
 	 */
 
@@ -349,7 +349,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the parameter group element.
-	 * 
+	 *
 	 * @param obj the handle of the parameter group to traverse
 	 */
 
@@ -359,7 +359,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the cascading parameter group element.
-	 * 
+	 *
 	 * @param obj the handle of the cascading parameter group to traverse
 	 */
 	protected void visitCascadingParameterGroup(CascadingParameterGroupHandle obj) {
@@ -368,7 +368,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the module element
-	 * 
+	 *
 	 * @param obj the handle of the module to traverse
 	 */
 
@@ -378,7 +378,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the library element.
-	 * 
+	 *
 	 * @param obj the handle of the library to traverse
 	 */
 
@@ -388,7 +388,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the report design element.
-	 * 
+	 *
 	 * @param obj the handle of the report design to traverse
 	 */
 
@@ -398,7 +398,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the scalar parameter element.
-	 * 
+	 *
 	 * @param obj the handle of the scalar parameter to traverse
 	 */
 
@@ -408,7 +408,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the dynamic filter parameter element.
-	 * 
+	 *
 	 * @param obj the handle of the dynamic filter parameter to traverse.
 	 */
 	protected void visitDynamicFilterParameter(DynamicFilterParameterHandle obj) {
@@ -417,7 +417,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the style element.
-	 * 
+	 *
 	 * @param obj the handle of the style to traverse
 	 */
 
@@ -427,7 +427,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the parameter element.
-	 * 
+	 *
 	 * @param obj the handle of the parameter to traverse
 	 */
 
@@ -437,7 +437,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the report item.
-	 * 
+	 *
 	 * @param obj the handle of report item to traverse
 	 */
 
@@ -447,7 +447,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the styled element.
-	 * 
+	 *
 	 * @param obj the handle of styled element to traverse
 	 */
 
@@ -457,7 +457,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the design element.
-	 * 
+	 *
 	 * @param obj the handle of design element to traverse
 	 */
 
@@ -466,7 +466,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the rectangle element.
-	 * 
+	 *
 	 * @param obj the handle of rectangle to traverse
 	 */
 
@@ -476,7 +476,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the content of the slot.
-	 * 
+	 *
 	 * @param slot the handle of a slot to traverse
 	 */
 
@@ -486,7 +486,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the content of this property.
-	 * 
+	 *
 	 * @param obj      the container element where the contents reside
 	 * @param propName name of the property where the contents reside
 	 */
@@ -496,7 +496,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the multi-line data element.
-	 * 
+	 *
 	 * @param obj the handle of a multi-line data to traverse
 	 */
 
@@ -506,7 +506,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the extended element.
-	 * 
+	 *
 	 * @param obj the handle of an extended element to traverse
 	 */
 
@@ -516,7 +516,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the extended element.
-	 * 
+	 *
 	 * @param obj the handle of an extended element to traverse
 	 */
 
@@ -526,7 +526,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the graphic master page element.
-	 * 
+	 *
 	 * @param obj the handle of a graphic master page to traverse
 	 */
 
@@ -536,7 +536,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the simple master page element.
-	 * 
+	 *
 	 * @param obj the handle of a simple master page to traverse
 	 */
 
@@ -546,7 +546,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the extended data source element.
-	 * 
+	 *
 	 * @param obj the handle of a extended data source to traverse
 	 */
 
@@ -556,7 +556,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the extended data set element.
-	 * 
+	 *
 	 * @param obj the extended data set to traverse
 	 */
 
@@ -566,7 +566,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the theme element.
-	 * 
+	 *
 	 * @param obj the theme to traverse
 	 */
 
@@ -576,7 +576,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the template parameter definition.
-	 * 
+	 *
 	 * @param obj the template parameter definition to traverse
 	 */
 
@@ -586,7 +586,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the template element.
-	 * 
+	 *
 	 * @param obj the template element to traverse
 	 */
 
@@ -596,7 +596,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the template report item.
-	 * 
+	 *
 	 * @param obj the template report item to traverse
 	 */
 
@@ -606,7 +606,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the template data set.
-	 * 
+	 *
 	 * @param obj the template data set to traverse
 	 */
 
@@ -616,7 +616,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the cube element.
-	 * 
+	 *
 	 * @param obj the cube element to traverse
 	 */
 
@@ -626,7 +626,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the dimension element.
-	 * 
+	 *
 	 * @param obj the dimension element to traverse
 	 */
 
@@ -636,7 +636,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the hierarchy element.
-	 * 
+	 *
 	 * @param obj the hierarchy element to traverse
 	 */
 
@@ -646,7 +646,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the level element.
-	 * 
+	 *
 	 * @param obj the level element to traverse
 	 */
 
@@ -656,7 +656,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the measure element.
-	 * 
+	 *
 	 * @param obj the measure element to traverse
 	 */
 
@@ -666,7 +666,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the measure element.
-	 * 
+	 *
 	 * @param obj the measure element to traverse
 	 */
 
@@ -676,7 +676,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the cube element.
-	 * 
+	 *
 	 * @param obj the cube element to traverse
 	 */
 
@@ -686,7 +686,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the dimension element.
-	 * 
+	 *
 	 * @param obj the dimension element to traverse
 	 */
 
@@ -696,7 +696,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the hierarchy element.
-	 * 
+	 *
 	 * @param obj the hierarchy element to traverse
 	 */
 
@@ -706,7 +706,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the level element.
-	 * 
+	 *
 	 * @param obj the level element to traverse
 	 */
 
@@ -716,7 +716,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the measure element.
-	 * 
+	 *
 	 * @param obj the measure element to traverse
 	 */
 
@@ -726,7 +726,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the measure element.
-	 * 
+	 *
 	 * @param obj the measure element to traverse
 	 */
 
@@ -736,7 +736,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the cube element.
-	 * 
+	 *
 	 * @param obj the cube element to traverse
 	 */
 
@@ -746,7 +746,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the dimension element.
-	 * 
+	 *
 	 * @param obj the dimension element to traverse
 	 */
 
@@ -756,7 +756,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the hierarchy element.
-	 * 
+	 *
 	 * @param obj the hierarchy element to traverse
 	 */
 
@@ -766,7 +766,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the level element.
-	 * 
+	 *
 	 * @param obj the level element to traverse
 	 */
 
@@ -776,7 +776,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the measure element.
-	 * 
+	 *
 	 * @param obj the measure element to traverse
 	 */
 
@@ -786,7 +786,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the measure element.
-	 * 
+	 *
 	 * @param obj the measure element to traverse
 	 */
 
@@ -796,7 +796,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the derived data set element.
-	 * 
+	 *
 	 * @param obj the derived data set element to traverse
 	 */
 	protected void visitDerivedDataSet(DerivedDataSetHandle obj) {
@@ -805,7 +805,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the report item theme element.
-	 * 
+	 *
 	 * @param obj the report item theme to traverse
 	 */
 	protected void visitReportItemTheme(ReportItemThemeHandle obj) {
@@ -814,7 +814,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * Visits the abstract theme element.
-	 * 
+	 *
 	 * @param obj the abstract theme to traverse
 	 */
 	protected void visitAbstractTheme(AbstractThemeHandle obj) {
@@ -823,7 +823,7 @@ class DesignVisitorImpl {
 
 	/**
 	 * A class forward the visit of an element to its handle.
-	 * 
+	 *
 	 */
 
 	protected class Forwarder extends ElementVisitor {
@@ -836,17 +836,18 @@ class DesignVisitorImpl {
 
 		/**
 		 * Visits the free form element.
-		 * 
+		 *
 		 * @param obj the free form to traverse
 		 */
 
+		@Override
 		public void visitFreeForm(FreeForm obj) {
 			DesignVisitorImpl.this.visitFreeForm(obj.handle(module));
 		}
 
 		/**
 		 * The module which this visitor visits.
-		 * 
+		 *
 		 * @param module the module
 		 */
 
@@ -856,485 +857,534 @@ class DesignVisitorImpl {
 
 		/**
 		 * Visits the label element.
-		 * 
+		 *
 		 * @param obj the label to traverse
 		 */
 
+		@Override
 		public void visitLabel(Label obj) {
 			DesignVisitorImpl.this.visitLabel(obj.handle(module));
 		}
 
 		/**
 		 * Visits the auto text element
-		 * 
+		 *
 		 * @param obj auto text to traverse
 		 */
 
+		@Override
 		public void visitAutoText(AutoText obj) {
 			DesignVisitorImpl.this.visitAutoText(obj.handle(module));
 		}
 
 		/**
 		 * Visits the data element.
-		 * 
+		 *
 		 * @param obj the data element to traverse
 		 */
 
+		@Override
 		public void visitDataItem(DataItem obj) {
 			DesignVisitorImpl.this.visitDataItem(obj.handle(module));
 		}
 
 		/**
 		 * Visits the text element.
-		 * 
+		 *
 		 * @param obj the text to traverse
 		 */
 
+		@Override
 		public void visitTextItem(TextItem obj) {
 			DesignVisitorImpl.this.visitTextItem(obj.handle(module));
 		}
 
 		/**
 		 * Visits the image element.
-		 * 
+		 *
 		 * @param obj the image to traverse
 		 */
 
+		@Override
 		public void visitImage(ImageItem obj) {
 			DesignVisitorImpl.this.visitImage(obj.handle(module));
 		}
 
 		/**
 		 * Visits the list element.
-		 * 
+		 *
 		 * @param obj the list to traverse
 		 */
 
+		@Override
 		public void visitList(ListItem obj) {
 			DesignVisitorImpl.this.visitList(obj.handle(module));
 		}
 
 		/**
 		 * Visits the list group element.
-		 * 
+		 *
 		 * @param obj the list group to traverse
 		 */
 
+		@Override
 		public void visitListGroup(ListGroup obj) {
 			DesignVisitorImpl.this.visitListGroup(obj.handle(module));
 		}
 
 		/**
 		 * Visits the table element.
-		 * 
+		 *
 		 * @param obj the table to traverse
 		 */
 
+		@Override
 		public void visitTable(TableItem obj) {
 			DesignVisitorImpl.this.visitTable(obj.handle(module));
 		}
 
 		/**
 		 * Visits the table group element.
-		 * 
+		 *
 		 * @param obj the table group to traverse
 		 */
 
+		@Override
 		public void visitTableGroup(TableGroup obj) {
 			DesignVisitorImpl.this.visitTableGroup(obj.handle(module));
 		}
 
 		/**
 		 * Visits the cell element.
-		 * 
+		 *
 		 * @param obj the cell to traverse
 		 */
 
+		@Override
 		public void visitCell(Cell obj) {
 			DesignVisitorImpl.this.visitCell(obj.handle(module));
 		}
 
 		/**
 		 * Visits the column element.
-		 * 
+		 *
 		 * @param obj the column to traverse
 		 */
 
+		@Override
 		public void visitColumn(TableColumn obj) {
 			DesignVisitorImpl.this.visitColumn(obj.handle(module));
 		}
 
 		/**
 		 * Visits the row element.
-		 * 
+		 *
 		 * @param obj the row to traverse
 		 */
 
+		@Override
 		public void visitRow(TableRow obj) {
 			DesignVisitorImpl.this.visitRow(obj.handle(module));
 		}
 
 		/**
 		 * Visits the grid element.
-		 * 
+		 *
 		 * @param obj the grid to traverse
 		 */
 
+		@Override
 		public void visitGrid(GridItem obj) {
 			DesignVisitorImpl.this.visitGrid(obj.handle(module));
 		}
 
 		/**
 		 * Visits the line element.
-		 * 
+		 *
 		 * @param obj the line to traverse
 		 */
 
+		@Override
 		public void visitLine(LineItem obj) {
 			DesignVisitorImpl.this.visitLine(obj.handle(module));
 		}
 
 		/**
 		 * Visits the parameter group element.
-		 * 
+		 *
 		 * @param obj the parameter group to traverse
 		 */
 
+		@Override
 		public void visitParameterGroup(ParameterGroup obj) {
 			DesignVisitorImpl.this.visitParameterGroup(obj.handle(module));
 		}
 
 		/**
 		 * Visits the cascading parameter group element.
-		 * 
+		 *
 		 * @param obj the cascading parameter group to traverse
 		 */
 
+		@Override
 		public void visitCascadingParameterGroup(CascadingParameterGroup obj) {
 			DesignVisitorImpl.this.visitCascadingParameterGroup((CascadingParameterGroupHandle) obj.handle(module));
 		}
 
 		/**
 		 * Visits the library.
-		 * 
+		 *
 		 * @param obj the library to traverse
 		 */
 
+		@Override
 		public void visitLibrary(Library obj) {
 			DesignVisitorImpl.this.visitLibrary(obj.handle());
 		}
 
 		/**
 		 * Visits the report design.
-		 * 
+		 *
 		 * @param obj the report design to traverse
 		 */
 
+		@Override
 		public void visitReportDesign(ReportDesign obj) {
 			DesignVisitorImpl.this.visitReportDesign(obj.handle());
 		}
 
 		/**
 		 * Visits the scalar parameter.
-		 * 
+		 *
 		 * @param obj the scalar parameter to traverse
 		 */
 
+		@Override
 		public void visitScalarParameter(ScalarParameter obj) {
 			DesignVisitorImpl.this.visitScalarParameter(obj.handle(module));
 		}
 
 		/**
 		 * Visits the dynamic filter parameter.
-		 * 
+		 *
 		 * @param obj the dynamic filter parameter to traverse
 		 */
+		@Override
 		public void visitDynamicFilterParameter(DynamicFilterParameter obj) {
 			DesignVisitorImpl.this.visitDynamicFilterParameter(obj.handle(module));
 		}
 
 		/**
 		 * Visits the style element.
-		 * 
+		 *
 		 * @param obj the style to traverse
 		 */
 
+		@Override
 		public void visitStyle(Style obj) {
 			DesignVisitorImpl.this.visitStyle(obj.handle(module));
 		}
 
 		/**
 		 * Visits the rectangle element.
-		 * 
+		 *
 		 * @param obj the rectangle to traverse
 		 */
 
+		@Override
 		public void visitRectangle(RectangleItem obj) {
 			DesignVisitorImpl.this.visitRectangle(obj.handle(module));
 		}
 
 		/**
 		 * Visits the multiline data item.
-		 * 
+		 *
 		 * @param obj the multiline data to traverse
 		 */
 
+		@Override
 		public void visitTextDataItem(TextDataItem obj) {
 			DesignVisitorImpl.this.visitTextDataItem(obj.handle(module));
 		}
 
 		/**
 		 * Visits the extended item.
-		 * 
+		 *
 		 * @param obj the extended item to traverse
 		 */
 
+		@Override
 		public void visitExtendedItem(ExtendedItem obj) {
 			DesignVisitorImpl.this.visitExtendedItem(obj.handle(module));
 		}
 
 		/**
 		 * Visits the script data source element.
-		 * 
+		 *
 		 * @param obj the script data source to traverse
 		 */
 
+		@Override
 		public void visitScriptDataSource(ScriptDataSource obj) {
 			DesignVisitorImpl.this.visitScriptDataSource(obj.handle(module));
 		}
 
 		/**
 		 * Visits the graphic master page element.
-		 * 
+		 *
 		 * @param obj the graphic master page to traverse
 		 */
 
+		@Override
 		public void visitGraphicMasterPage(GraphicMasterPage obj) {
 			DesignVisitorImpl.this.visitGraphicMasterPage(obj.handle(module));
 		}
 
 		/**
 		 * Visits the simple master page element.
-		 * 
+		 *
 		 * @param obj the simple master page to traverse
 		 */
 
+		@Override
 		public void visitSimpleMasterPage(SimpleMasterPage obj) {
 			DesignVisitorImpl.this.visitSimpleMasterPage(obj.handle(module));
 		}
 
 		/**
 		 * Visits the extended data source element.
-		 * 
+		 *
 		 * @param obj the extended data source to traverse
 		 */
 
+		@Override
 		public void visitOdaDataSource(OdaDataSource obj) {
 			DesignVisitorImpl.this.visitExtendedDataSource(obj.handle(module));
 		}
 
 		/**
 		 * Visits the script data set element.
-		 * 
+		 *
 		 * @param obj the script data set to traverse
 		 */
 
+		@Override
 		public void visitScriptDataSet(ScriptDataSet obj) {
 			DesignVisitorImpl.this.visitScriptDataSet(obj.handle(module));
 		}
 
 		/**
 		 * Visits the extended data set element.
-		 * 
+		 *
 		 * @param obj the extended data set to traverse
 		 */
 
+		@Override
 		public void visitOdaDataSet(OdaDataSet obj) {
 			DesignVisitorImpl.this.visitExtendedDataSet(obj.handle(module));
 		}
 
 		/**
 		 * Visits the joint data set element.
-		 * 
+		 *
 		 * @param obj the handle of the joint data set to traverse
 		 */
 
+		@Override
 		public void visitJointDataSet(JointDataSet obj) {
 			DesignVisitorImpl.this.visitJointDataSet(obj.handle(module));
 		}
 
 		/**
 		 * Visits the theme element.
-		 * 
+		 *
 		 * @param obj the theme to traverse
 		 */
 
+		@Override
 		public void visitTheme(Theme obj) {
 			DesignVisitorImpl.this.visitTheme(obj.handle(module));
 		}
 
 		/**
 		 * Visits the template parameter definition.
-		 * 
+		 *
 		 * @param obj the template parameter definition to traverse
 		 */
 
+		@Override
 		public void visitTemplateParameterDefinition(TemplateParameterDefinition obj) {
 			DesignVisitorImpl.this.visitTemplateParameterDefinition(obj.handle(module));
 		}
 
 		/**
 		 * Visits the template report item.
-		 * 
+		 *
 		 * @param obj the template report item to traverse
 		 */
 
+		@Override
 		public void visitTemplateReportItem(TemplateReportItem obj) {
 			DesignVisitorImpl.this.visitTemplateReportItem(obj.handle(module));
 		}
 
 		/**
 		 * Visits the template data set.
-		 * 
+		 *
 		 * @param obj the template data set to traverse
 		 */
 
+		@Override
 		public void visitTemplateDataSet(TemplateDataSet obj) {
 			DesignVisitorImpl.this.visitTemplateDataSet(obj.handle(module));
 		}
 
 		/**
 		 * Visits the cube element.
-		 * 
+		 *
 		 * @param obj the cube element
 		 */
 
+		@Override
 		public void visitTabularCube(TabularCube obj) {
 			DesignVisitorImpl.this.visitTabularCube(obj.handle(module));
 		}
 
 		/**
 		 * Visits the dimension element.
-		 * 
+		 *
 		 * @param obj the dimension element
 		 */
 
+		@Override
 		public void visitTabularDimension(TabularDimension obj) {
 			DesignVisitorImpl.this.visitTabularDimension(obj.handle(module));
 		}
 
 		/**
 		 * Visits the hierarchy element.
-		 * 
+		 *
 		 * @param obj the hierarchy element
 		 */
 
+		@Override
 		public void visitTabularHierarchy(TabularHierarchy obj) {
 			DesignVisitorImpl.this.visitTabularHierarchy(obj.handle(module));
 		}
 
 		/**
 		 * Visits the level element.
-		 * 
+		 *
 		 * @param obj the level element
 		 */
 
+		@Override
 		public void visitTabularLevel(TabularLevel obj) {
 			DesignVisitorImpl.this.visitTabularLevel(obj.handle(module));
 		}
 
 		/**
 		 * Visits the measure element.
-		 * 
+		 *
 		 * @param obj the measure element
 		 */
 
+		@Override
 		public void visitTabularMeasure(TabularMeasure obj) {
 			DesignVisitorImpl.this.visitTabularMeasure(obj.handle(module));
 		}
 
 		/**
 		 * Visits the measure group.
-		 * 
+		 *
 		 * @param obj the measure group
 		 */
+		@Override
 		public void visitTabularMeasureGroup(TabularMeasureGroup obj) {
 			DesignVisitorImpl.this.visitTabularMeasureGroup(obj.handle(module));
 		}
 
 		/**
 		 * Visits the cube element.
-		 * 
+		 *
 		 * @param obj the cube element
 		 */
 
+		@Override
 		public void visitOdaCube(OdaCube obj) {
 			DesignVisitorImpl.this.visitOdaCube(obj.handle(module));
 		}
 
 		/**
 		 * Visits the dimension element.
-		 * 
+		 *
 		 * @param obj the dimension element
 		 */
 
+		@Override
 		public void visitOdaDimension(OdaDimension obj) {
 			DesignVisitorImpl.this.visitOdaDimension(obj.handle(module));
 		}
 
 		/**
 		 * Visits the hierarchy element.
-		 * 
+		 *
 		 * @param obj the hierarchy element
 		 */
 
+		@Override
 		public void visitOdaHierarchy(OdaHierarchy obj) {
 			DesignVisitorImpl.this.visitOdaHierarchy(obj.handle(module));
 		}
 
 		/**
 		 * Visits the level element.
-		 * 
+		 *
 		 * @param obj the level element
 		 */
 
+		@Override
 		public void visitOdaLevel(OdaLevel obj) {
 			DesignVisitorImpl.this.visitOdaLevel(obj.handle(module));
 		}
 
 		/**
 		 * Visits the measure element.
-		 * 
+		 *
 		 * @param obj the measure element
 		 */
 
+		@Override
 		public void visitOdaMeasure(OdaMeasure obj) {
 			DesignVisitorImpl.this.visitOdaMeasure(obj.handle(module));
 		}
 
 		/**
 		 * Visits the measure group.
-		 * 
+		 *
 		 * @param obj the measure group
 		 */
+		@Override
 		public void visitOdaMeasureGroup(OdaMeasureGroup obj) {
 			DesignVisitorImpl.this.visitOdaMeasureGroup(obj.handle(module));
 		}
 
 		/**
 		 * Visits the derived data set.
-		 * 
+		 *
 		 * @param obj the derived data set
 		 */
+		@Override
 		public void visitDerivedDataSet(DerivedDataSet obj) {
 			DesignVisitorImpl.this.visitDerivedDataSet(obj.handle(module));
 		}
 
 		/**
 		 * Visits the report item theme.
-		 * 
+		 *
 		 * @param obj the report item theme to traverse
 		 */
+		@Override
 		public void visitReportItemTheme(ReportItemTheme obj) {
 			DesignVisitorImpl.this.visitReportItemTheme(obj.handle(module));
 		}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +18,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 
 /**
- * 
+ *
  */
 
 public class ParameterDefn implements IParameterDefn {
@@ -31,7 +31,7 @@ public class ParameterDefn implements IParameterDefn {
 	private int[] supportedDataTypes;
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param displayName
 	 * @param isOptional
@@ -82,9 +82,10 @@ public class ParameterDefn implements IParameterDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getName()
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -98,53 +99,59 @@ public class ParameterDefn implements IParameterDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getDescription()
 	 */
+	@Override
 	public String getDescription() {
 		return description;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#isDataField()
 	 */
+	@Override
 	public boolean isDataField() {
 		return isDataField;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#isOptional()
 	 */
+	@Override
 	public boolean isOptional() {
 		return isOptional;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#supportDataType(
 	 * int)
 	 */
+	@Override
 	public boolean supportDataType(int dataType) {
-		if (dataType == DataType.UNKNOWN_TYPE)
+		if (dataType == DataType.UNKNOWN_TYPE) {
 			return true;
+		}
 
 		for (int i = 0; i < supportedDataTypes.length; i++) {
 			if (supportedDataTypes[i] == DataType.ANY_TYPE || supportedDataTypes[i] == dataType) {

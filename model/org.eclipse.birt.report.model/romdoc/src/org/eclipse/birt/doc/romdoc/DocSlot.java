@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,6 +31,7 @@ public class DocSlot extends DocObject {
 		defn = slot;
 	}
 
+	@Override
 	public String getName() {
 		return defn.getName();
 	}
@@ -44,24 +45,25 @@ public class DocSlot extends DocObject {
 	}
 
 	public String getContents() {
-		ArrayList list = new ArrayList();
+		ArrayList list = new ArrayList(((SlotDefn) defn).getContentElements());
 
-		list.addAll(((SlotDefn) defn).getContentElements());
 		Collections.sort(list, new ElementComparator());
 		Iterator iter = list.iterator();
-		StringBuffer contents = new StringBuffer();
+		StringBuilder contents = new StringBuilder();
 		while (iter.hasNext()) {
 			ElementDefn element = (ElementDefn) iter.next();
-			if (contents.length() > 0)
+			if (contents.length() > 0) {
 				contents.append(", ");
+			}
 			contents.append("<a href=\"");
 			contents.append(element.getName());
 			contents.append(".html\">");
 			contents.append(element.getName());
 			contents.append("</a>");
 		}
-		if (defn.isMultipleCardinality())
+		if (defn.isMultipleCardinality()) {
 			contents.insert(0, "List of ");
+		}
 		return contents.toString();
 	}
 
@@ -69,9 +71,10 @@ public class DocSlot extends DocObject {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
+		@Override
 		public int compare(Object arg0, Object arg1) {
 			ElementDefn e1 = (ElementDefn) arg0;
 			ElementDefn e2 = (ElementDefn) arg1;
@@ -98,8 +101,9 @@ public class DocSlot extends DocObject {
 
 	public String getStyle() {
 		String style = defn.getSelector();
-		if (style == null)
+		if (style == null) {
 			return "None";
+		}
 
 		String target = style;
 		if (style.endsWith("-n")) {
@@ -107,7 +111,7 @@ public class DocSlot extends DocObject {
 			style = style.substring(0, style.length() - 1) + "<i>n</i>";
 		}
 
-		StringBuffer link = new StringBuffer();
+		StringBuilder link = new StringBuilder();
 		link.append("<a href=\"../styles.html#");
 		link.append(target);
 		link.append("\">");

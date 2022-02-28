@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -121,7 +121,7 @@ public class PlaceResources {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param shell
 	 * @param projectPath
 	 * @param fileName
@@ -130,12 +130,14 @@ public class PlaceResources {
 	public static void copyExcludedRptDesignes(Shell shell, String projectPath, String fileName, boolean copyJavaFile) {
 		try {
 			String path = new URL(fileName).getPath();
-			if (path == null)
+			if (path == null) {
 				return;
+			}
 			path = path.substring(0, path.lastIndexOf('/'));
 			Enumeration enumeration = SampleIncludedSourceEntry.getEntries(path);
-			if (enumeration == null)
+			if (enumeration == null) {
 				return;
+			}
 			while (enumeration.hasMoreElements()) {
 				URL reportURL = (URL) enumeration.nextElement();
 				String filename = reportURL.getFile();

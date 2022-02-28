@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -35,17 +35,20 @@ public class IActionTest extends BaseEmitter {
 	final static String INPUT = "IActionTest.rptdesign";
 	private String reportName = INPUT;
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
 		copyResource_INPUT(INPUT, INPUT);
 	}
 
+	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
 		removeResource();
 	}
 
+	@Override
 	protected String getReportName() {
 		return reportName;
 	}
@@ -149,6 +152,7 @@ public class IActionTest extends BaseEmitter {
 		assertNull(action.getSystemId());
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void startImage(IImageContent image) {
 		IAction action = new Action(image.getHyperlinkAction());
@@ -166,6 +170,7 @@ public class IActionTest extends BaseEmitter {
 		assertTrue(action.isBookmark());
 	}
 
+	@Override
 	public void startData(IDataContent data) {
 		IAction action = new Action(data.getHyperlinkAction());
 		assertEquals(IHyperlinkAction.ACTION_BOOKMARK, action.getType());
@@ -173,6 +178,7 @@ public class IActionTest extends BaseEmitter {
 		assertEquals("labelbk", action.getActionString());
 	}
 
+	@Override
 	public void startLabel(ILabelContent label) {
 		if (label.getLabelText().equals("label1")) {
 			IAction action = new Action(label.getHyperlinkAction());

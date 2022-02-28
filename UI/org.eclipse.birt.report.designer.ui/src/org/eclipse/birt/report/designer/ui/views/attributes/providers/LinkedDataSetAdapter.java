@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,7 +33,7 @@ public class LinkedDataSetAdapter {
 		if (helper != null) {
 			return helper.getVisibleLinkedDataSetsDataSetHandles(handle);
 		}
-		return new ArrayList<DataSetHandle>();
+		return new ArrayList<>();
 	}
 
 	public List<CubeHandle> getVisibleLinkedDataSetsCubeHandles(ModuleHandle handle) {
@@ -42,7 +42,7 @@ public class LinkedDataSetAdapter {
 		if (helper != null) {
 			return helper.getVisibleLinkedDataSetsCubeHandles(handle);
 		}
-		return new ArrayList<CubeHandle>();
+		return new ArrayList<>();
 	}
 
 	public List<String> getVisibleLinkedDataSets() {
@@ -51,7 +51,7 @@ public class LinkedDataSetAdapter {
 		if (helper != null) {
 			return helper.getVisibleLinkedDataSets();
 		}
-		return new ArrayList<String>();
+		return new ArrayList<>();
 	}
 
 	public boolean setLinkedDataModel(ReportItemHandle handle, Object value) {

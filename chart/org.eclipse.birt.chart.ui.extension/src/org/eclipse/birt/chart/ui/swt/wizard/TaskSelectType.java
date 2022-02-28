@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -100,7 +100,7 @@ import org.eclipse.swt.widgets.TableItem;
  */
 public class TaskSelectType extends SimpleTask implements SelectionListener, ITaskChangeListener, ITaskPreviewable {
 	/**
-	 * 
+	 *
 	 * TaskSelectTypeUIDescriptor is used to create UI in misc area according to the
 	 * order of index
 	 */
@@ -192,7 +192,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 		}
 	}
 
-	protected List<TaskSelectTypeUIDescriptor> lstDescriptor = new LinkedList<TaskSelectTypeUIDescriptor>();
+	protected List<TaskSelectTypeUIDescriptor> lstDescriptor = new LinkedList<>();
 
 	public TaskSelectType() {
 		super(Messages.getString("TaskSelectType.TaskExp")); //$NON-NLS-1$
@@ -215,6 +215,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 		}
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		if (topControl == null || topControl.isDisposed()) {
 			if (context != null) {
@@ -364,10 +365,12 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 	protected void addSeriesTypeUI() {
 		addTypeUIDescriptor(new TaskSelectTypeUIDescriptor() {
 
+			@Override
 			public int getIndex() {
 				return 40;
 			}
 
+			@Override
 			public void createControl(Composite parent) {
 				lblSeriesType = new Label(parent, SWT.WRAP);
 				{
@@ -393,10 +396,12 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 	protected void addMultipleAxesUI() {
 		addTypeUIDescriptor(new TaskSelectTypeUIDescriptor() {
 
+			@Override
 			public int getIndex() {
 				return 30;
 			}
 
+			@Override
 			public void createControl(Composite parent) {
 				lblMultipleY = new Label(parent, SWT.WRAP);
 				{
@@ -431,10 +436,12 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 	protected void addDimensionUI() {
 		addTypeUIDescriptor(new TaskSelectTypeUIDescriptor() {
 
+			@Override
 			public int getIndex() {
 				return 10;
 			}
 
+			@Override
 			public void createControl(Composite parent) {
 				lblDimension = new Label(parent, SWT.WRAP);
 				{
@@ -459,10 +466,12 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 	protected void addOrientationUI() {
 		addTypeUIDescriptor(new TaskSelectTypeUIDescriptor() {
 
+			@Override
 			public int getIndex() {
 				return 50;
 			}
 
+			@Override
 			public void createControl(Composite parent) {
 				lblOrientation = new Label(parent, SWT.WRAP);
 				{
@@ -502,7 +511,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 
 	/**
 	 * This method initializes table
-	 * 
+	 *
 	 */
 	protected void createLeftTypeTable(Composite parent) {
 		cmpLeft = new Composite(parent, SWT.NONE);
@@ -526,7 +535,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void populateChartTypes() {
 		ChartUIUtil.populateTypeTable(getContext());
@@ -546,7 +555,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 
 	/**
 	 * This method initializes cmpSubTypes
-	 * 
+	 *
 	 */
 	protected void createComposite(Vector<IChartSubType> vSubTypes) {
 		Label lblSubtypes = new Label(cmpRight, SWT.NO_FOCUS);
@@ -568,10 +577,10 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 
 	/**
 	 * This method initializes cmpTypeButtons
-	 * 
+	 *
 	 */
 	protected void createSubtypeBtnGroups(Vector<IChartSubType> vSubTypes) {
-		vSubTypeNames = new Vector<String>();
+		vSubTypeNames = new Vector<>();
 		if (cmpTypeButtons != null && !cmpTypeButtons.isDisposed()) {
 			// Remove existing buttons
 			cmpTypeButtons.dispose();
@@ -628,12 +637,14 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 		return dimensionName;
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		// Indicates whether need to update chart model
-		boolean needUpdateModel = false;
+		boolean needUpdateModel;
 		Object oSelected = e.getSource();
 		needUpdateModel = handleWidgetSelected(e);
 
@@ -677,7 +688,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 	}
 
 	protected boolean handleDimensionComboSelected() {
-		String newDimension = null;
+		String newDimension;
 		newDimension = cbDimension.getSelectedItemData();
 
 		if (newDimension == null && sDimension == null) {
@@ -799,7 +810,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 		// be changed
 		if (!getDataServiceProvider().checkState(IDataServiceProvider.PART_CHART)) {
 			// Get the cached orientation
-			if (chartModel != null && chartModel instanceof ChartWithAxes) {
+			if (chartModel instanceof ChartWithAxes) {
 				Orientation lastOrientation = ChartCacheManager.getInstance().findOrientation(sOldType);
 				this.orientation = ChartCacheManager.getInstance().findOrientation(sType);
 
@@ -812,8 +823,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 			}
 		}
 
-		if (chartModel != null && chartModel instanceof ChartWithAxes
-				&& ChartCacheManager.getInstance().findCategory(sType) != null) {
+		if (chartModel instanceof ChartWithAxes && ChartCacheManager.getInstance().findCategory(sType) != null) {
 			boolean bCategory = ChartCacheManager.getInstance().findCategory(sType).booleanValue();
 			if (((ChartWithAxes) chartModel).getAxes().get(0).isSetCategoryAxis()) {
 				((ChartWithAxes) chartModel).getAxes().get(0).setCategoryAxis(bCategory);
@@ -842,19 +852,17 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 
 			sSubType = getSubtypeFromButton(btn);
 			ChartCacheManager.getInstance().cacheSubtype(sType, sSubType);
-		} else {
-			if (this.sSubType != null && getSubtypeFromButton(btn).equals(sSubType)) {
-				// Clicking on the same button should not cause it to be
-				// unselected
-				btn.setSelection(true);
+		} else if (this.sSubType != null && getSubtypeFromButton(btn).equals(sSubType)) {
+			// Clicking on the same button should not cause it to be
+			// unselected
+			btn.setSelection(true);
 
-				// Disable the statement to avoid when un-check all
-				// stacked attributes of series on format tab, the
-				// default chart is painted as side-by-side, but it
-				// can't select stacked button to change chart type to
-				// stacked in chart type tab.
-				// needUpdateModel = false;
-			}
+			// Disable the statement to avoid when un-check all
+			// stacked attributes of series on format tab, the
+			// default chart is painted as side-by-side, but it
+			// can't select stacked button to change chart type to
+			// stacked in chart type tab.
+			// needUpdateModel = false;
 		}
 	}
 
@@ -893,7 +901,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 
 	/**
 	 * Updates the dimension combo according to chart type and axes number
-	 * 
+	 *
 	 * @param sSelectedType Chart type
 	 * @return whether the dimension is changed after updating
 	 */
@@ -942,7 +950,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 
 	/**
 	 * Returns the object which can add adapters
-	 * 
+	 *
 	 * @return chart model object to add adapters
 	 */
 	protected EObject getChartModelObject() {
@@ -973,10 +981,8 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 					adapter.addListener(this);
 				}
 				adapters.add(adapter);
-			} else {
-				if (adapters.get(0) instanceof ChartAdapter) {
-					((ChartAdapter) adapters.get(0)).addListener(this);
-				}
+			} else if (adapters.get(0) instanceof ChartAdapter) {
+				((ChartAdapter) adapters.get(0)).addListener(this);
 			}
 		}
 	}
@@ -1042,7 +1048,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 		}
 
 		if (htSeriesNames == null) {
-			htSeriesNames = new Hashtable<String, Series>(20);
+			htSeriesNames = new Hashtable<>(20);
 		}
 
 		// Populate Series Types List
@@ -1059,7 +1065,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 	 * necessary). It gets called when the type selection changes or when the
 	 * dimension selection changes (since not all sub types are supported for all
 	 * dimension selections).
-	 * 
+	 *
 	 * @param sSelectedType Type from Type List
 	 */
 	protected void createAndDisplayTypesSheet(String sSelectedType) {
@@ -1098,11 +1104,11 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 		// Show the subtypes for the selected type based on current selections
 		// of dimension and orientation
 		String availDim = getAvailableDimension(chartType, sDimension);
-		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>(
+		Vector<IChartSubType> vSubTypes = new Vector<>(
 				chartType.getChartSubtypes(availDim, getAvailableOrientation(chartType, availDim, this.orientation)));
 
 		if (vSubTypes.size() == 0) {
-			vSubTypes = new Vector<IChartSubType>(
+			vSubTypes = new Vector<>(
 					chartType.getChartSubtypes(chartType.getDefaultDimension(), chartType.getDefaultOrientation()));
 			this.sDimension = null;
 			this.orientation = null;
@@ -1163,6 +1169,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 		}
 	}
 
+	@Override
 	public void dispose() {
 		super.dispose();
 
@@ -1233,7 +1240,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 
 	/**
 	 * Updates UI selection according to Chart type
-	 * 
+	 *
 	 */
 	protected void updateSelection() {
 		boolean bOutXtab = !getDataServiceProvider().checkState(IDataServiceProvider.PART_CHART);
@@ -1266,9 +1273,10 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#getContext()
 	 */
+	@Override
 	public ChartWizardContext getContext() {
 		ChartWizardContext context = (ChartWizardContext) super.getContext();
 		context.setModel(this.chartModel);
@@ -1277,10 +1285,11 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#setContext(org.
 	 * eclipse.birt.frameworks.taskwizard.interfaces.IWizardContext)
 	 */
+	@Override
 	public void setContext(IWizardContext context) {
 		super.setContext(context);
 		this.chartModel = ((ChartWizardContext) context).getModel();
@@ -1316,16 +1325,15 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 	private void selectMultipleAxis(int yAxisNum) {
 		if (getContext().isMoreAxesSupported()) {
 			cbMultipleY.select(2);
+		} else if (yAxisNum > 2) {
+			cbMultipleY.select(2);
+			getContext().setMoreAxesSupported(true);
 		} else {
-			if (yAxisNum > 2) {
-				cbMultipleY.select(2);
-				getContext().setMoreAxesSupported(true);
-			} else {
-				cbMultipleY.select(yAxisNum > 0 ? yAxisNum - 1 : 0);
-			}
+			cbMultipleY.select(yAxisNum > 0 ? yAxisNum - 1 : 0);
 		}
 	}
 
+	@Override
 	public void changeTask(Notification notification) {
 		if (previewPainter != null) {
 			doPreview();
@@ -1335,8 +1343,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 	private void checkDataTypeForChartWithAxes() {
 		// To check the data type of base series and orthogonal series in chart
 		// with axes
-		List<SeriesDefinition> sdList = new ArrayList<SeriesDefinition>();
-		sdList.addAll(ChartUIUtil.getBaseSeriesDefinitions(getChartModel()));
+		List<SeriesDefinition> sdList = new ArrayList<>(ChartUIUtil.getBaseSeriesDefinitions(getChartModel()));
 		for (int i = 0; i < sdList.size(); i++) {
 			SeriesDefinition sd = sdList.get(i);
 			Series series = sd.getDesignTimeSeries();
@@ -1393,7 +1400,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 				if (chartModel instanceof ChartWithAxes) {
 					DataType dataType = getDataServiceProvider().getDataType(expression);
 					SeriesDefinition baseSD = (ChartUIUtil.getBaseSeriesDefinitions(chartModel).get(0));
-					SeriesDefinition orthSD = null;
+					SeriesDefinition orthSD;
 					orthSD = (SeriesDefinition) series.eContainer();
 					String aggFunc = null;
 					try {
@@ -1518,16 +1525,17 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask#getImage()
 	 */
+	@Override
 	public Image getImage() {
 		return UIHelper.getImage(ChartUIConstants.IMAGE_TASK_TYPE);
 	}
 
 	/**
 	 * Rotates Axis Title when transposing
-	 * 
+	 *
 	 * @param cwa chart model
 	 */
 	private void rotateAxisTitle(ChartWithAxes cwa) {
@@ -1555,6 +1563,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 		}
 	}
 
+	@Override
 	public IChartPreviewPainter createPreviewPainter() {
 		ChartPreviewPainter painter = new ChartPreviewPainter(getContext());
 		getPreviewCanvas().addPaintListener(painter);
@@ -1570,6 +1579,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 		return getContext().getModel();
 	}
 
+	@Override
 	public void doPreview() {
 		// To update data type after chart type conversion
 		try {
@@ -1588,6 +1598,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 			// Add a task to retrieve data and bind data to chart.
 			lpt.addTask(new LivePreviewTask() {
 
+				@Override
 				public void run() {
 					if (previewPainter != null) {
 						setParameter(ChartLivePreviewThread.PARAM_CHART_MODEL, ChartUIUtil.prepareLivePreview(chart,
@@ -1599,11 +1610,13 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 			// Add a task to render chart.
 			lpt.addTask(new LivePreviewTask() {
 
+				@Override
 				public void run() {
 					if (previewCanvas != null && previewCanvas.getDisplay() != null
 							&& !previewCanvas.getDisplay().isDisposed()) {
 						previewCanvas.getDisplay().syncExec(new Runnable() {
 
+							@Override
 							public void run() {
 								// Repaint chart.
 								if (previewPainter != null) {
@@ -1626,10 +1639,12 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 		}
 	}
 
+	@Override
 	public Canvas getPreviewCanvas() {
 		return previewCanvas;
 	}
 
+	@Override
 	public boolean isPreviewable() {
 		return true;
 	}
@@ -1667,10 +1682,12 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 	protected void addOptionalUIDescriptor() {
 		addTypeUIDescriptor(new TaskSelectTypeUIDescriptor() {
 
+			@Override
 			public int getIndex() {
 				return 20;
 			}
 
+			@Override
 			public void createControl(Composite parent) {
 				lblOutput = new Label(parent, SWT.WRAP);
 				{
@@ -1687,6 +1704,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 					cbOutput.setLayoutData(gd);
 					cbOutput.addListener(SWT.Selection, new Listener() {
 
+						@Override
 						public void handleEvent(Event event) {
 							String outputFormat = outputFormats[cbOutput.getSelectionIndex()];
 							getContext().setOutputFormat(outputFormat);
@@ -1695,7 +1713,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 							setDefaultSubtypeSelection();
 
 							// Update apply button
-							if (container != null && container instanceof ChartWizard) {
+							if (container instanceof ChartWizard) {
 								((ChartWizard) container).updateApplyButton();
 							}
 						}
@@ -1717,7 +1735,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 
 	/**
 	 * Return available orientation even if it is not set.
-	 * 
+	 *
 	 * @param chartType
 	 * @param dimension
 	 * @param refOrientation
@@ -1735,7 +1753,7 @@ public class TaskSelectType extends SimpleTask implements SelectionListener, ITa
 
 	/**
 	 * Returns available dimension.
-	 * 
+	 *
 	 * @param ct
 	 * @param refDimension
 	 * @return dimension available dimension.

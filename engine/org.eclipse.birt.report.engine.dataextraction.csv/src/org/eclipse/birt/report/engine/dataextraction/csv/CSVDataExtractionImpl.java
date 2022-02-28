@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,6 +56,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl {
 	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#initialize(org.eclipse.birt.report.engine.api.script.IReportContext,
 	 *      org.eclipse.birt.report.engine.api.IDataExtractionOption)
 	 */
+	@Override
 	public void initialize(IReportContext context, IDataExtractionOption options) throws BirtException {
 		super.initialize(context, options);
 		initCsvOptions(options);
@@ -64,7 +65,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl {
 	/**
 	 * Initializes the CSV options based on the data extraction option. If the
 	 * passed option doesn't contain common options, use default values.
-	 * 
+	 *
 	 * @param option options
 	 */
 	private void initCsvOptions(IDataExtractionOption options) {
@@ -104,6 +105,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl {
 	/**
 	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#output(org.eclipse.birt.report.engine.api.IExtractionResults)
 	 */
+	@Override
 	public void output(IExtractionResults results) throws BirtException {
 		if (results == null) {
 			throw new BirtException(PLUGIN_ID,
@@ -127,15 +129,15 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl {
 					columnLabels[i] = metaData.getColumnLabel(i);
 				}
 			} else {
-				Map<String, String> nameLabelMap = new HashMap<String, String>();
+				Map<String, String> nameLabelMap = new HashMap<>();
 				for (int i = 0; i < count; i++) {
 					String colName = metaData.getColumnName(i);
 					String colLabel = metaData.getColumnLabel(i);
 					nameLabelMap.put(colName, colLabel);
 				}
 				int selectedCount = selectedColumnNames.length;
-				List<String> labelList = new ArrayList<String>();
-				List<String> nameList = new ArrayList<String>();
+				List<String> labelList = new ArrayList<>();
+				List<String> nameList = new ArrayList<>();
 				for (int i = 0; i < selectedCount; i++) {
 					String label = nameLabelMap.get(selectedColumnNames[i]);
 					if (label != null) {
@@ -191,7 +193,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl {
 
 	/**
 	 * Creates a CSV-row containing the data type names of the given types array.
-	 * 
+	 *
 	 * @param types column typee array
 	 * @return CSV-row containing the data type names the result set
 	 */
@@ -205,14 +207,14 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl {
 
 	/**
 	 * Returns the column types for the selected columns.
-	 * 
+	 *
 	 * @param columnNames selected columns
 	 * @param results     result set
 	 * @return
 	 * @throws BirtException
 	 */
 	private int[] getColumnTypes(String[] columnNames, IExtractionResults results) throws BirtException {
-		Map<String, Integer> typesMap = new HashMap<String, Integer>();
+		Map<String, Integer> typesMap = new HashMap<>();
 		int count = results.getResultMetaData().getColumnCount();
 		for (int i = 0; i < count; i++) {
 			String colName = results.getResultMetaData().getColumnName(i);
@@ -234,7 +236,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl {
 
 	/**
 	 * Outputs a given String to the output stream using the configured encoding.
-	 * 
+	 *
 	 * @param s string to output
 	 * @throws IOException
 	 * @throws UnsupportedEncodingException

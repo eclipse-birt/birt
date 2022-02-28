@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -23,9 +23,9 @@ import org.eclipse.birt.chart.model.attribute.TickStyle;
  * '<em><b>Grid</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
+ *
  * This type defines the grid associated with an axis.
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -55,11 +55,11 @@ public interface Grid extends IChartObject {
 	 * Returns the value of the '<em><b>Line Attributes</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * Holds formatting information for the grid lines.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Line Attributes</em>' containment reference.
 	 * @see #setLineAttributes(LineAttributes)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getGrid_LineAttributes()
@@ -73,7 +73,7 @@ public interface Grid extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.Grid#getLineAttributes
 	 * <em>Line Attributes</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Line Attributes</em>' containment
 	 *              reference.
 	 * @see #getLineAttributes()
@@ -86,11 +86,11 @@ public interface Grid extends IChartObject {
 	 * value is <code>"Left"</code>. The literals are from the enumeration
 	 * {@link org.eclipse.birt.chart.model.attribute.TickStyle}. <!-- begin-user-doc
 	 * --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies how the tick is to be marked for the grid line.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Tick Style</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.TickStyle
 	 * @see #isSetTickStyle()
@@ -106,7 +106,7 @@ public interface Grid extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.component.Grid#getTickStyle <em>Tick
 	 * Style</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Tick Style</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.TickStyle
 	 * @see #isSetTickStyle()
@@ -120,7 +120,7 @@ public interface Grid extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.component.Grid#getTickStyle <em>Tick
 	 * Style</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetTickStyle()
 	 * @see #getTickStyle()
 	 * @see #setTickStyle(TickStyle)
@@ -132,7 +132,7 @@ public interface Grid extends IChartObject {
 	 * Returns whether the value of the '
 	 * {@link org.eclipse.birt.chart.model.component.Grid#getTickStyle <em>Tick
 	 * Style</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Tick Style</em>' attribute is set.
 	 * @see #unsetTickStyle()
 	 * @see #getTickStyle()
@@ -145,11 +145,11 @@ public interface Grid extends IChartObject {
 	 * Returns the value of the '<em><b>Tick Attributes</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * Specifies the formatting information for the tick.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Tick Attributes</em>' containment reference.
 	 * @see #setTickAttributes(LineAttributes)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getGrid_TickAttributes()
@@ -163,7 +163,7 @@ public interface Grid extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.Grid#getTickAttributes
 	 * <em>Tick Attributes</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Tick Attributes</em>' containment
 	 *              reference.
 	 * @see #getTickAttributes()
@@ -174,11 +174,11 @@ public interface Grid extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Tick Size</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the formatting information for the tick.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Tick Size</em>' attribute.
 	 * @see #isSetTickSize()
 	 * @see #unsetTickSize()
@@ -194,7 +194,7 @@ public interface Grid extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.component.Grid#getTickSize <em>Tick
 	 * Size</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Tick Size</em>' attribute.
 	 * @see #isSetTickSize()
 	 * @see #unsetTickSize()
@@ -207,7 +207,7 @@ public interface Grid extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.component.Grid#getTickSize <em>Tick
 	 * Size</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetTickSize()
 	 * @see #getTickSize()
 	 * @see #setTickSize(double)
@@ -219,7 +219,7 @@ public interface Grid extends IChartObject {
 	 * Returns whether the value of the '
 	 * {@link org.eclipse.birt.chart.model.component.Grid#getTickSize <em>Tick
 	 * Size</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Tick Size</em>' attribute is set.
 	 * @see #unsetTickSize()
 	 * @see #getTickSize()
@@ -231,11 +231,11 @@ public interface Grid extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Tick Count</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the frequency of the grid lines per unit of the scale.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Tick Count</em>' attribute.
 	 * @see #isSetTickCount()
 	 * @see #unsetTickCount()
@@ -251,7 +251,7 @@ public interface Grid extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.component.Grid#getTickCount <em>Tick
 	 * Count</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Tick Count</em>' attribute.
 	 * @see #isSetTickCount()
 	 * @see #unsetTickCount()
@@ -264,7 +264,7 @@ public interface Grid extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.component.Grid#getTickCount <em>Tick
 	 * Count</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetTickCount()
 	 * @see #getTickCount()
 	 * @see #setTickCount(int)
@@ -276,7 +276,7 @@ public interface Grid extends IChartObject {
 	 * Returns whether the value of the '
 	 * {@link org.eclipse.birt.chart.model.component.Grid#getTickCount <em>Tick
 	 * Count</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Tick Count</em>' attribute is set.
 	 * @see #unsetTickCount()
 	 * @see #getTickCount()
@@ -288,6 +288,7 @@ public interface Grid extends IChartObject {
 	/**
 	 * @generated
 	 */
+	@Override
 	Grid copyInstance();
 
 } // Grid

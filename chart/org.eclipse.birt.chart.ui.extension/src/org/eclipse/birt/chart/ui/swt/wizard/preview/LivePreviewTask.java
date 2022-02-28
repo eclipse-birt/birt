@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import java.util.Map;
  * wrap their live preview transaction and add this task into current
  * ChartLivePreview thread. The <code>ChartLivePreviewThread</code> is
  * responsible to run all added task.
- * 
+ *
  * @since 2.5.2
  */
 
@@ -33,9 +33,9 @@ public class LivePreviewTask implements Runnable {
 
 	private String description;
 
-	private Map<String, Object> parameters = new HashMap<String, Object>();
+	private Map<String, Object> parameters = new HashMap<>();
 
-	private List<LivePreviewTask> tasks = new ArrayList<LivePreviewTask>();
+	private List<LivePreviewTask> tasks = new ArrayList<>();
 
 	/**
 	 * Constructor.
@@ -46,7 +46,7 @@ public class LivePreviewTask implements Runnable {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param name
 	 * @param description
 	 */
@@ -57,7 +57,7 @@ public class LivePreviewTask implements Runnable {
 
 	/**
 	 * Returns name of this task.
-	 * 
+	 *
 	 * @return name of task
 	 */
 	public String getName() {
@@ -66,7 +66,7 @@ public class LivePreviewTask implements Runnable {
 
 	/**
 	 * Returns description of this task.
-	 * 
+	 *
 	 * @return description of task.
 	 */
 	public String getDescription() {
@@ -75,7 +75,7 @@ public class LivePreviewTask implements Runnable {
 
 	/**
 	 * Add a sub task.
-	 * 
+	 *
 	 * @param task
 	 */
 	public void addTask(LivePreviewTask task) {
@@ -84,7 +84,7 @@ public class LivePreviewTask implements Runnable {
 
 	/**
 	 * Remove a sub task.
-	 * 
+	 *
 	 * @param index
 	 */
 	public void removeTask(int index) {
@@ -93,7 +93,7 @@ public class LivePreviewTask implements Runnable {
 
 	/**
 	 * Remove a sub task.
-	 * 
+	 *
 	 * @param task
 	 */
 	public void removeTask(LivePreviewTask task) {
@@ -102,7 +102,7 @@ public class LivePreviewTask implements Runnable {
 
 	/**
 	 * Returns all sub tasks.
-	 * 
+	 *
 	 * @return all sub tasks.
 	 */
 	public LivePreviewTask[] getTasks() {
@@ -118,7 +118,7 @@ public class LivePreviewTask implements Runnable {
 
 	/**
 	 * Saves parameter.
-	 * 
+	 *
 	 * @param key
 	 * @param parameter
 	 */
@@ -128,7 +128,7 @@ public class LivePreviewTask implements Runnable {
 
 	/**
 	 * Returns stored parameter.
-	 * 
+	 *
 	 * @param key
 	 * @return stored parameter.
 	 */
@@ -138,7 +138,7 @@ public class LivePreviewTask implements Runnable {
 
 	/**
 	 * Sets parameters map.
-	 * 
+	 *
 	 * @param parameters
 	 */
 	public void setParameters(Map<String, Object> parameters) {
@@ -147,7 +147,7 @@ public class LivePreviewTask implements Runnable {
 
 	/**
 	 * Returns parameters map.
-	 * 
+	 *
 	 * @return parameters map.
 	 */
 	public Map<String, Object> getParameters() {
@@ -159,9 +159,10 @@ public class LivePreviewTask implements Runnable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Runnable#run()
 	 */
+	@Override
 	public void run() {
 		for (LivePreviewTask lpt : tasks) {
 			lpt.run();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor implement
 	private boolean useDescribeEventHandler = false;
 
 	private String fetchScript = null;
-	private HashMap<IDataSetInstanceHandle, Scriptable> sharedScopes = new HashMap<IDataSetInstanceHandle, Scriptable>();
+	private HashMap<IDataSetInstanceHandle, Scriptable> sharedScopes = new HashMap<>();
 
 	private final String openMethodID, closeMethodID, fetchMethodID, describeMethodID;
 
@@ -73,6 +73,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor implement
 
 	}
 
+	@Override
 	protected void initEventHandler() {
 		super.initEventHandler();
 		if (eventHandler != null) {
@@ -84,38 +85,45 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor implement
 		}
 	}
 
+	@Override
 	public void handleOpen(IDataSetInstanceHandle dataSet) throws BirtException {
 		initEventHandler();
 		try {
 			if (!this.useOpenEventHandler) {
 				ScriptStatus status = handleJS(getScriptScope(dataSet), dataSet.getName(), OPEN,
 						((ScriptDataSetHandle) dataSetHandle).getOpen(), openMethodID);
-				if (status.didRun())
+				if (status.didRun()) {
 					return;
+				}
 			}
-			if (scriptedEventHandler != null)
+			if (scriptedEventHandler != null) {
 				scriptedEventHandler.open(new DataSetInstance(dataSet));
+			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
 	}
 
+	@Override
 	public void handleClose(IDataSetInstanceHandle dataSet) {
 		initEventHandler();
 		try {
 			if (!this.useCloseEventHandler) {
 				ScriptStatus status = handleJS(getScriptScope(dataSet), dataSet.getName(), CLOSE,
 						((ScriptDataSetHandle) dataSetHandle).getClose(), closeMethodID);
-				if (status.didRun())
+				if (status.didRun()) {
 					return;
+				}
 			}
-			if (scriptedEventHandler != null)
+			if (scriptedEventHandler != null) {
 				scriptedEventHandler.close(new DataSetInstance(dataSet));
+			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
 	}
 
+	@Override
 	public boolean handleFetch(IDataSetInstanceHandle dataSet, IDataRow row) {
 		initEventHandler();
 		try {
@@ -124,21 +132,24 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor implement
 						fetchMethodID);
 				if (status.didRun()) {
 					Object result = status.result();
-					if (result instanceof Boolean)
+					if (result instanceof Boolean) {
 						return ((Boolean) result).booleanValue();
-					else
+					} else {
 						throw new DataException(ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
 								new Object[] { "Fetch", result });
+					}
 				}
 			}
-			if (scriptedEventHandler != null)
+			if (scriptedEventHandler != null) {
 				return scriptedEventHandler.fetch(new DataSetInstance(dataSet), new UpdatableDataSetRow(row));
+			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
 		return false;
 	}
 
+	@Override
 	public boolean handleDescribe(IDataSetInstanceHandle dataSet, IScriptDataSetMetaDataDefinition metaData)
 			throws BirtException {
 		initEventHandler();
@@ -148,16 +159,18 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor implement
 						((ScriptDataSetHandle) dataSetHandle).getDescribe(), describeMethodID);
 				if (status.didRun()) {
 					Object result = status.result();
-					if (result instanceof Boolean)
+					if (result instanceof Boolean) {
 						return ((Boolean) result).booleanValue();
-					else
+					} else {
 						throw new DataException(ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
 								new Object[] { "Describe", result });
+					}
 				}
 			}
-			if (scriptedEventHandler != null)
+			if (scriptedEventHandler != null) {
 				return scriptedEventHandler.describe(new DataSetInstance(dataSet),
 						new ScriptedDataSetMetaData(metaData));
+			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
@@ -166,8 +179,9 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor implement
 
 	private Scriptable getScriptScope(IDataSetInstanceHandle dataSet) throws DataException {
 		Scriptable result = this.sharedScopes.get(dataSet);
-		if (result != null)
+		if (result != null) {
 			return result;
+		}
 
 		result = (Scriptable) Context.javaToJS(new DataSetInstance(dataSet), this.scope);
 		result.setParentScope(this.scope);

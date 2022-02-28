@@ -8,36 +8,33 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.jar.Manifest;
-import java.lang.Integer;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Replace;
-
 import org.dom4j.Document;
-import org.dom4j.io.SAXReader;
+import org.dom4j.DocumentFactory;
 import org.dom4j.Element;
 import org.dom4j.dom.DOMElement;
-import org.dom4j.DocumentFactory;
-import org.dom4j.io.XMLWriter;
 import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
 
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-2.0.html
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
 /**
  * Update Birt exported plugin version.
- * 
+ *
  * @author Rock Yu
- * 
+ *
  */
 public class VersionUpdater extends Task {
 
@@ -92,17 +89,11 @@ public class VersionUpdater extends Task {
 	String pluginId = null;
 	String pluginVersion = null;
 
-	/**
-	 * Set of dtp plugins, each item is a DTP plugin id.
-	 */
-
-	private static Set dtpPlugins = null;
-
 	private static String ENTRYNAME = "entry";
 
 	/**
 	 * Path of the project.
-	 * 
+	 *
 	 * @param path
 	 */
 	public void setProjectPath(File path) {
@@ -121,6 +112,7 @@ public class VersionUpdater extends Task {
 	 * For OSGI plugins,
 	 */
 
+	@Override
 	public void execute() {
 		if (this.projectPath == null) {
 			throw new BuildException("Please specify the correct projectPath."); //$NON-NLS-1$
@@ -130,14 +122,15 @@ public class VersionUpdater extends Task {
 
 		File manifestFile = new File(new File(projectPath, "META-INF"), "MANIFEST.MF"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		if (manifestFile.exists())
+		if (manifestFile.exists()) {
 			this.updateManifest(manifestFile);
+		}
 	}
 
 	/**
 	 * Update OSGI plugins which define some of the project attributes in the
 	 * manifest file.
-	 * 
+	 *
 	 * @param manifest
 	 * @throws IOException
 	 * @throws FileNotFoundException
@@ -198,10 +191,11 @@ public class VersionUpdater extends Task {
 			pluginVersion = StringUtil.trimString(mani.getMainAttributes().getValue("Bundle-Version")); //$NON-NLS-1$
 		}
 
-		if (pluginId == null)
+		if (pluginId == null) {
 			this.handleErrorOutput("Can not find Bundle-SymbolicName for manifest under " + this.projectPath); //$NON-NLS-1$
-		else if (pluginVersion == null)
+		} else if (pluginVersion == null) {
 			this.handleErrorOutput("Can not identify Bundle-Version for manifest under " + this.projectPath); //$NON-NLS-1$
+		}
 
 	}
 
@@ -213,7 +207,7 @@ public class VersionUpdater extends Task {
 	 * Set the suffix that will be appended to the version of the plugin. For
 	 * example, if current plugin.version="2.0.0", suffix is ".v20060228-1725", the
 	 * out of the version will be "2.0.0.v20060228-1725"
-	 * 
+	 *
 	 * @param suffix
 	 */
 
@@ -225,7 +219,7 @@ public class VersionUpdater extends Task {
 	 * Set the daysInPast, which will be write to CVS information file. If the code
 	 * hasn't been changed, (daysInPast+1) will be written to the file, or "1" will
 	 * be written to the log file.
-	 * 
+	 *
 	 * @param daysInpast
 	 */
 
@@ -237,7 +231,7 @@ public class VersionUpdater extends Task {
 	 * Set the oldVersion, which indicates the timestamp used last time. If the code
 	 * hasn't been changed, it will be written to the cvs information file again, or
 	 * the new timestamp(suffix) will be written to the cvs information file.
-	 * 
+	 *
 	 * @param oldVersion
 	 */
 
@@ -249,7 +243,7 @@ public class VersionUpdater extends Task {
 	 * Set the logpath, the CVS infomation logs will be generated under that folder.
 	 * the name of these logs will be ${projectName}_DaysInPast.xml. They will be
 	 * checked into CVS in top build script.
-	 * 
+	 *
 	 * @param logPath
 	 */
 
@@ -259,7 +253,7 @@ public class VersionUpdater extends Task {
 
 	/**
 	 * set the plugId , the id of the plug-in which need to be updated.
-	 * 
+	 *
 	 * @param plugId
 	 */
 	public void setPlugId(String plugId) {
@@ -268,7 +262,7 @@ public class VersionUpdater extends Task {
 
 	/**
 	 * check the cvslog file to decide if to update
-	 * 
+	 *
 	 * @author
 	 * @param xmlf
 	 * @return
@@ -362,7 +356,7 @@ public class VersionUpdater extends Task {
 			if (name.equalsIgnoreCase(versionTag)) {
 				this.oldVersion = element.getText();
 			} else if (name.equalsIgnoreCase(dayTag)) {
-				this.daysInPast = Integer.valueOf(element.getText().trim()).intValue();
+				this.daysInPast = Integer.parseInt(element.getText().trim());
 
 			}
 		}

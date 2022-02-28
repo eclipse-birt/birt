@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 public class Package extends PartContainer {
 	private static Logger logger = Logger.getLogger(Package.class.getName());
 
-	private List<ContentType> contents = new ArrayList<ContentType>();
+	private List<ContentType> contents = new ArrayList<>();
 
 	private String tempFileName;
 	private ArchiveWriter archiveWriter;
@@ -75,6 +75,7 @@ public class Package extends PartContainer {
 		return this;
 	}
 
+	@Override
 	public String getAbsoluteUri() {
 		return uri;
 	}
@@ -200,6 +201,7 @@ public class Package extends PartContainer {
 		return zipStream;
 	}
 
+	@Override
 	protected String getRelationshipUri() {
 		return "/_rels/.rels";
 
@@ -225,12 +227,14 @@ public class Package extends PartContainer {
 		/**
 		 * @see java.io.FilterOutputStream#write(byte[], int, int)
 		 */
+		@Override
 		public void write(byte[] b, int off, int len) throws IOException {
 			// call zipstream directly.
 			// if we don't, then FilterOutputStream will call write(int) byte by byte
 			zipStream.write(b, off, len);
 		}
 
+		@Override
 		public void close() {
 			hasEntryWriter = false;
 			try {

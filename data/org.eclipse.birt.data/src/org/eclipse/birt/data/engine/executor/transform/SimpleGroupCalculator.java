@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2011 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.executor.transform;
@@ -76,22 +76,24 @@ public class SimpleGroupCalculator implements IGroupCalculator {
 
 			// Convert group key name to index for faster future access
 			// assume priority of keyColumn is higher than keyIndex
-			if (keyColumn != null)
+			if (keyColumn != null) {
 				keyIndex = rsMeta.getFieldIndex(keyColumn);
+			}
 
 			this.groupBys[i] = GroupBy.newInstance(groups[i], keyIndex, keyColumn, rsMeta.getFieldValueClass(keyIndex));
 		}
 		this.groupInstanceIndex = new Integer[groupBys.length];
 		Arrays.fill(this.groupInstanceIndex, 0);
-		this.groupAggrs = new ArrayList<List<String>>();
-		this.runningAggrs = new ArrayList<String>();
-		this.overallAggrs = new ArrayList<String>();
+		this.groupAggrs = new ArrayList<>();
+		this.runningAggrs = new ArrayList<>();
+		this.overallAggrs = new ArrayList<>();
 		this.aggrOutput = new DataOutputStream[0];
 		for (int i = 0; i < groups.length; i++) {
 			this.groupAggrs.add(new ArrayList<String>());
 		}
 	}
 
+	@Override
 	public void setAggrHelper(IProgressiveAggregationHelper aggrHelper) throws DataException {
 		this.aggrHelper = aggrHelper;
 		for (String aggrName : this.aggrHelper.getAggrNames()) {
@@ -108,11 +110,9 @@ public class SimpleGroupCalculator implements IGroupCalculator {
 	}
 
 	private int getBreakingGroup(IResultObject obj1, IResultObject obj2) throws DataException {
-		if (obj1 == null)
+		if ((obj1 == null) || (obj2 == null)) {
 			return 0;
-
-		if (obj2 == null)
-			return 0;
+		}
 
 		for (int i = 0; i < this.groupBys.length; i++) {
 			int columnIndex = groupBys[i].getColumnIndex();
@@ -124,22 +124,27 @@ public class SimpleGroupCalculator implements IGroupCalculator {
 		return this.groupBys.length + 1;
 	}
 
+	@Override
 	public int getStartingGroup() throws DataException {
 		return this.getBreakingGroup(previous, current);
 	}
 
+	@Override
 	public int getEndingGroup() throws DataException {
 		return this.getBreakingGroup(current, next);
 	}
 
+	@Override
 	public void registerPreviousResultObject(IResultObject previous) {
 		this.previous = previous;
 	}
 
+	@Override
 	public void registerCurrentResultObject(IResultObject current) {
 		this.current = current;
 	}
 
+	@Override
 	public void registerNextResultObject(RowResultSet rowResultSet) throws DataException {
 		this.next = rowResultSet.getNext();
 	}
@@ -213,8 +218,9 @@ public class SimpleGroupCalculator implements IGroupCalculator {
 		if (this.previousGroupAggrs != null && this.streamManager != null) {
 			try {
 				for (int i = 0; i < this.previousGroupAggrs.length; i++) {
-					if (this.previousGroupAggrs[i] == null)
+					if (this.previousGroupAggrs[i] == null) {
 						continue;
+					}
 					for (int j = 0; j < this.previousGroupAggrs[i].length; j++) {
 						IOUtil.writeObject(this.aggrOutput[i], previousGroupAggrs[i][j]);
 					}
@@ -231,10 +237,11 @@ public class SimpleGroupCalculator implements IGroupCalculator {
 
 	/**
 	 * Do grouping, and fill group indexes
-	 * 
+	 *
 	 * @param stopsign
 	 * @throws DataException
 	 */
+	@Override
 	public void next(int rowId) throws DataException {
 		savePreviousGroupInfos();
 		savePreviousGroupAggrs();
@@ -271,11 +278,13 @@ public class SimpleGroupCalculator implements IGroupCalculator {
 			// [ breakLevel ... groupDefs.length - 1]
 			for (int level = breakLevel; level < groupInstanceIndex.length; level++) {
 				GroupInfo group = new GroupInfo();
-				if (previousGroupInstances != null)
+				if (previousGroupInstances != null) {
 					previousGroupInstances[level] = group;
+				}
 
-				if (level != 0)
+				if (level != 0) {
 					group.parent = groupInstanceIndex[level - 1] - 1;
+				}
 				if (level == groupInstanceIndex.length - 1) {
 					// at leaf group level, first child is the first row, which
 					// is current row
@@ -329,8 +338,9 @@ public class SimpleGroupCalculator implements IGroupCalculator {
 				}
 
 				for (int i = 0; previousGroupAggrs != null && i < previousGroupAggrs.length; i++) {
-					if (previousGroupAggrs[i] == null)
+					if (previousGroupAggrs[i] == null) {
 						continue;
+					}
 					for (int j = 0; j < groupAggrs.get(i).size(); j++) {
 						previousGroupAggrs[i][j] = this.aggrHelper.getLatestAggrValue(groupAggrs.get(i).get(j));
 					}
@@ -360,7 +370,7 @@ public class SimpleGroupCalculator implements IGroupCalculator {
 
 	/**
 	 * Helper method to get the group break level between 2 rows
-	 * 
+	 *
 	 * @param currRow
 	 * @param prevRow
 	 * @return
@@ -395,6 +405,7 @@ public class SimpleGroupCalculator implements IGroupCalculator {
 		return breakLevel;
 	}
 
+	@Override
 	public void close() throws DataException {
 		try {
 			savePreviousGroupInfos();
@@ -412,15 +423,17 @@ public class SimpleGroupCalculator implements IGroupCalculator {
 			}
 			if (this.aggrOutput != null) {
 				for (int i = 0; i < this.aggrOutput.length; i++) {
-					if (this.aggrOutput[i] != null)
+					if (this.aggrOutput[i] != null) {
 						this.aggrOutput[i].close();
+					}
 				}
 				this.aggrOutput = null;
 			}
 			if (this.aggrIndexOutput != null) {
 				for (int i = 0; i < this.aggrIndexOutput.length; i++) {
-					if (this.aggrIndexOutput[i] != null)
+					if (this.aggrIndexOutput[i] != null) {
 						this.aggrIndexOutput[i].close();
+					}
 				}
 				this.aggrIndexOutput = null;
 			}
@@ -437,6 +450,7 @@ public class SimpleGroupCalculator implements IGroupCalculator {
 		}
 	}
 
+	@Override
 	public void doSave(StreamManager manager) throws DataException {
 		try {
 			this.streamManager = manager;
@@ -502,16 +516,20 @@ public class SimpleGroupCalculator implements IGroupCalculator {
 		}
 	}
 
+	@Override
 	public boolean isAggrAtIndexAvailable(String aggrName, int currentIndex) throws DataException {
 		assert this.aggrHelper != null;
-		if (this.aggrHelper.getAggrInfo(aggrName).getAggregation().getType() == IAggrFunction.RUNNING_AGGR)
+		if (this.aggrHelper.getAggrInfo(aggrName).getAggregation().getType() == IAggrFunction.RUNNING_AGGR) {
 			return true;
-		if (this.aggrHelper.getAggrInfo(aggrName).getGroupLevel() == 0)
+		}
+		if (this.aggrHelper.getAggrInfo(aggrName).getGroupLevel() == 0) {
 			return this.current == null;
+		}
 		return this.latestAggrAvailableIndex[this.aggrHelper.getAggrInfo(aggrName).getGroupLevel() - 1] >= currentIndex;
 
 	}
 
+	@Override
 	public Integer[] getGroupInstanceIndex() {
 		return this.groupInstanceIndex;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +59,7 @@ import org.eclipse.gef.RequestConstants;
  * <p>
  * Table cell element editPart
  * </p>
- * 
+ *
  */
 public class TableCellEditPart extends AbstractCellEditPart {
 	/**
@@ -69,7 +69,7 @@ public class TableCellEditPart extends AbstractCellEditPart {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param obj
 	 */
 	public TableCellEditPart(Object obj) {
@@ -79,18 +79,20 @@ public class TableCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
+	@Override
 	protected List getModelChildren() {
 		return getCellAdapter().getChildren();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		CellFigure figure = new CellFigure();
 		ReportFlowLayout rflayout = new ReportFlowLayout();
@@ -123,10 +125,11 @@ public class TableCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.editparts.
 	 * AbstractReportEditPart#refreshFigure()
 	 */
+	@Override
 	public void refreshFigure() {
 		CellBorder cborder = new CellBorder();
 
@@ -182,9 +185,10 @@ public class TableCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ReportFlowLayoutEditPolicy());
@@ -193,34 +197,37 @@ public class TableCellEditPart extends AbstractCellEditPart {
 
 	/**
 	 * Gets the row number
-	 * 
+	 *
 	 * @return the row number
 	 */
+	@Override
 	public int getRowNumber() {
 		return getCellAdapter().getRowNumber();
 	}
 
 	/**
 	 * Gets the column number
-	 * 
+	 *
 	 * @return the column number
 	 */
+	@Override
 	public int getColumnNumber() {
 		return getCellAdapter().getColumnNumber();
 	}
 
 	/**
 	 * Gets the column span
-	 * 
+	 *
 	 * @return the column span
 	 */
+	@Override
 	public int getColSpan() {
 		return getCellAdapter().getColumnSpan();
 	}
 
 	/**
 	 * Sets the column span
-	 * 
+	 *
 	 * @param colSpan
 	 */
 	public void setColumnSpan(int colSpan) {
@@ -233,16 +240,17 @@ public class TableCellEditPart extends AbstractCellEditPart {
 
 	/**
 	 * Gets the row span
-	 * 
+	 *
 	 * @return the row span
 	 */
+	@Override
 	public int getRowSpan() {
 		return getCellAdapter().getRowSpan();
 	}
 
 	/**
 	 * Sets the row span
-	 * 
+	 *
 	 * @param rowSpan
 	 */
 	public void setRowSpan(int rowSpan) {
@@ -255,9 +263,10 @@ public class TableCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPart#getTargetEditPart(org.eclipse.gef.Request)
 	 */
+	@Override
 	public EditPart getTargetEditPart(Request request) {
 		return super.getTargetEditPart(request);
 	}
@@ -266,6 +275,7 @@ public class TableCellEditPart extends AbstractCellEditPart {
 		return (CellHandleAdapter) getModelAdapter();
 	}
 
+	@Override
 	public void showTargetFeedback(Request request) {
 		if (this.getSelected() == 0 && isActive() && request.getType() == RequestConstants.REQ_SELECTION) {
 
@@ -278,6 +288,7 @@ public class TableCellEditPart extends AbstractCellEditPart {
 		super.showTargetFeedback(request);
 	}
 
+	@Override
 	public void eraseTargetFeedback(Request request) {
 		if (isActive()) {
 			this.getViewer().setCursor(null);
@@ -285,6 +296,7 @@ public class TableCellEditPart extends AbstractCellEditPart {
 		super.eraseTargetFeedback(request);
 	}
 
+	@Override
 	protected void addChildVisual(EditPart part, int index) {
 		// make sure we don't keep a select cell cursor after new contents
 		// are added
@@ -294,7 +306,7 @@ public class TableCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#updateBaseBorder(org.eclipse.birt.report.model.api.
@@ -303,6 +315,7 @@ public class TableCellEditPart extends AbstractCellEditPart {
 	 * BaseBorder)
 	 */
 	// now suport the row border, so interest the bottom and top.
+	@Override
 	protected void updateBaseBorder(DesignElementHandle handle, BaseBorder border) {
 		super.updateBaseBorder(handle, border);
 		DesignElementHandle parent = ((DesignElementHandle) getModel()).getContainer();
@@ -311,20 +324,16 @@ public class TableCellEditPart extends AbstractCellEditPart {
 			if (border instanceof CellBorder) {
 				((CellBorder) border).setBottomFrom(CellBorder.FROM_ROW);
 			}
-		} else {
-			if (border instanceof CellBorder) {
-				((CellBorder) border).setBottomFrom(CellBorder.FROM_CELL);
-			}
+		} else if (border instanceof CellBorder) {
+			((CellBorder) border).setBottomFrom(CellBorder.FROM_CELL);
 		}
 		if (DesignChoiceConstants.LINE_STYLE_NONE.equals(border.topStyle)) {
 			updateTopBorder(parent, border);
 			if (border instanceof CellBorder) {
 				((CellBorder) border).setTopFrom(CellBorder.FROM_ROW);
 			}
-		} else {
-			if (border instanceof CellBorder) {
-				((CellBorder) border).setTopFrom(CellBorder.FROM_CELL);
-			}
+		} else if (border instanceof CellBorder) {
+			((CellBorder) border).setTopFrom(CellBorder.FROM_CELL);
 		}
 		if (DesignChoiceConstants.LINE_STYLE_NONE.equals(border.leftStyle)) {
 			if (getColumnNumber() == 1) {
@@ -339,9 +348,11 @@ public class TableCellEditPart extends AbstractCellEditPart {
 		}
 	}
 
+	@Override
 	public Object getAdapter(Class key) {
 		if (key == ISelectionFilter.class) {
 			return new ISelectionFilter() {
+				@Override
 				public List filterEditpart(List editparts) {
 					int size = editparts.size();
 					List copy = new ArrayList(editparts);
@@ -389,7 +400,7 @@ public class TableCellEditPart extends AbstractCellEditPart {
 
 	/**
 	 * Gets the column and rwo drag handle
-	 * 
+	 *
 	 * @return
 	 */
 	protected List getHandleList() {
@@ -421,11 +432,12 @@ public class TableCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#activate()
 	 */
+	@Override
 	public void activate() {
 		if (handles == null) {
 			handles = getHandleList();
@@ -442,11 +454,12 @@ public class TableCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#deactivate()
 	 */
+	@Override
 	public void deactivate() {
 		// IFigure layer = getLayer( CrosstabTableEditPart.CELL_HANDLE_LAYER );
 		IFigure layer = getLayer(LayerConstants.HANDLE_LAYER);

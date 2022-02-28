@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,7 +60,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 
 	/**
 	 * Test clear 'resultSet' property before version 3.2.2
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -73,7 +73,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 
 	/**
 	 * Test clear 'resultSetHint' property between version 3.2.2 and 3.2.6
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -87,7 +87,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * Tests the compatibility for private and public driver properties in ODA data
 	 * source.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -107,7 +107,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * Tests the compatibility for old ODA driver model property name in ODA data
 	 * source.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -121,7 +121,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * Tests the compatibility for the design file created from the deprecated
 	 * extension point odaDriverModel.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 	public void testOdaDriverModelExtensionPoint() throws Exception {
@@ -133,7 +133,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 
 	/**
 	 * Tests the compatibility for encrypted property.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -151,7 +151,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * Tests the compatibility for "columnName" member of ComputedColumn structure.
 	 * "columnName" is renamed to "name".
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -179,7 +179,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 
 	/**
 	 * Test cachedRowCount property in SimpleDataSet
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -200,7 +200,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	 * <p>
 	 * Old version: <property name="cheetSheet">cheet sheet </property> <br>
 	 * New version: <property name="cheatSheet">cheat sheet </property>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -216,7 +216,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * Old version: <property name="groupStart">message </property> New version:
 	 * <property name="intervalBase">message </property>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -237,7 +237,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	 * Old version: <expression name="contentTypeExpr">a.row </expression>
 	 * <p>
 	 * New version: <property name="contentType">html </property>
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -259,7 +259,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 
 	/**
 	 * Tests OdaDataSource with driver name or extension name.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -273,7 +273,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 
 	/**
 	 * Tests OdaDataSet with type
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -287,7 +287,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 
 	/**
 	 * Tests DataSetParam structure with isNullable.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -348,7 +348,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * If the extension id is invalid, related properties should be parsed and the
 	 * file can be opened.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -370,11 +370,11 @@ public class ParserCompatibilityTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 * 
+	 *
 	 * "onRow" property value of table/list is set to be "onCreate" of detail rows.
-	 * 
+	 *
 	 * "onFinish", "onStart" property values are ignored.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -399,9 +399,9 @@ public class ParserCompatibilityTest extends BaseTestCase {
 
 	/**
 	 * Test compatibility of page breaks.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testCompatibilityOfPageBreaks() throws Exception {
@@ -429,7 +429,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 
 	/**
 	 * Tests compatibility of the format property.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -442,7 +442,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 
 	/**
 	 * Test all properties of the obsolete multi-line-data.
-	 * 
+	 *
 	 * @throws Exception if opening design file failed.
 	 */
 
@@ -468,7 +468,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * The backward compatibility for the old design in BIRT 1.0 or before. The flat
 	 * file extension is not datatools.connectivity.oda....
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -491,8 +491,8 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	 * The rule is by taking 1) the current ResultSet�s column name as the
 	 * �nativeName�, and 2) the ResultSetHints�s column name as the �name�, in the
 	 * merged OdaResultSetColumn structure.
-	 * 
-	 * 
+	 *
+	 *
 	 * @throws Exception
 	 */
 
@@ -508,9 +508,9 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	 * ScriptdaDataSet.resultSet was removed. And the obsolete
 	 * ScriptdaDataSet.resultSet are renamed to the new
 	 * ScriptdaDataSet.resultSetHints.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testScriptDataSetResultSets() throws Exception {
@@ -524,7 +524,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * Tests parse odadataset and odadatasouce if the extensionid is deprecated ,
 	 * convert it to new one. this function apply after version 3.2.7
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -547,7 +547,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	 * <li>for version between 3 and 3.2.8, if no TOC specified, uses key expression
 	 * as TOC.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -574,7 +574,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	 * If visibilities of ODA Properties defined in plugin.xml are "hidden", treat
 	 * them as private driver properties. The old design file with such properties
 	 * will be converted.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -587,7 +587,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * allowNull and allowBlank on ScalarParameter have been replaced by
 	 * "isRequired". Rules are:
-	 * 
+	 *
 	 * <table>
 	 * <th align="left">For string data type</th>
 	 * <tr>
@@ -597,7 +597,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	 * <td>Set isRequired=false, if allowBalnk=true</td>
 	 * </tr>
 	 * <br>
-	 * 
+	 *
 	 * <th align="left">For non string data type</th>
 	 * <tr>
 	 * <td>Set isRequired=true; if allowNull=false</td>
@@ -606,7 +606,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	 * <td>Set isRequired=false, if allowNull=true</td>
 	 * </tr>
 	 * </table>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -621,7 +621,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * Since the design file version 3.2.11. THe aggregate on becomes the
 	 * simple-property-list. The previous type is string.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -637,7 +637,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	 * Since version 3.2.13, all the level is unique within dimension scope not
 	 * general scope in the design.Test the parser for level reference and computed
 	 * column conversion.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testCompatibileLevelName() throws Exception {
@@ -650,7 +650,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * If the design version is less than 3.2.13 and element names contain /,\,/.!;,
 	 * these characters should be automatically changed to _.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -664,7 +664,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * If the design version is less than 3.2.16 and the string value is converted
 	 * into the list value.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -686,8 +686,8 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	 * <p>
 	 * Used TextItem.CONTENT as test cases. What saw in the design file should be
 	 * consistent with the text in the cases.
-	 * 
-	 * 
+	 *
+	 *
 	 * @throws Exception
 	 */
 
@@ -727,7 +727,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * Tests compatibility for parameter type property in <ScalarParameter>,
 	 * <OdaDataSet> and <JointDataSet>.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testParameterType() throws Exception {
@@ -801,7 +801,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	 * value of the newHandlerOnEachEvent property will be true. If the
 	 * eventHandlerClass has no value, the default value of the
 	 * newHandlerOnEachEvent is false.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testNewHandlerOnEachEventProp() throws Exception {
@@ -815,7 +815,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * Test backward compatibility. If the version is less than 3.2.18, the master
 	 * page margin is set left-1.25in,top-1.00in,right-1.25in,bottom-1.00in.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testPageMargin() throws Exception {
@@ -829,7 +829,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	 * Test backward compatibility. If the version is less than 3.2.18, the master
 	 * page locates in report design extends the master page locates in library
 	 * which has the margin value, the master page margin will not be set.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testExtendedPageMargin() throws Exception {
@@ -849,7 +849,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * Tests query text property parser compatibility. The contents in the property
 	 * should be kept when the query text property is converted to literal XML.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testQueryTextParser() throws Exception {
@@ -861,7 +861,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 
 	/**
 	 * Test backward compatibility. Uses ScalarParameter.defaultValue as examples.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -877,7 +877,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * Tests backward compatibility. The variableName property value will be
 	 * converted to name property value of the variableElement.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testVariableNameParser() throws Exception {
@@ -891,7 +891,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * Tests the compatibility about the default value change of layoutPreference.
 	 * In 3.2.20, we change it from auto layout to fixed layout.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testReportLayoutPreference() throws Exception {
@@ -905,7 +905,7 @@ public class ParserCompatibilityTest extends BaseTestCase {
 	/**
 	 * Tests the compatibility about the display name id. In 3.2.20, the
 	 * displayNameID is converted from string type to resourceKey type.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDisplayNameID() throws Exception {

@@ -38,7 +38,7 @@
    </url>
 
    <requires>
-      <import plugin="com.lowagie.text"/>
+      <import plugin="com.github.librepdf.openpdf"/>
       <import plugin="javax.el"/>
       <import plugin="javax.servlet.jsp"/>
       <import plugin="javax.wsdl"/>

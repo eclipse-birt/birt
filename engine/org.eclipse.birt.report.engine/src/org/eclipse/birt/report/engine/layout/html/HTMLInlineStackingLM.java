@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -47,12 +47,14 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM {
 		super(factory);
 	}
 
+	@Override
 	public void initialize(HTMLAbstractLM parent, IContent content, IReportItemExecutor executor,
 			IContentEmitter emitter) throws BirtException {
 		super.initialize(parent, content, executor, emitter);
 		initializedChildren = false;
 	}
 
+	@Override
 	public void close() throws BirtException {
 		childrenLayouts.clear();
 		childrenExecutors.clear();
@@ -81,7 +83,7 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM {
 
 	/**
 	 * layout the children, return if it should create a new page after this layout.
-	 * 
+	 *
 	 * @return
 	 */
 	protected boolean resumeLayout() throws BirtException {
@@ -113,6 +115,7 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM {
 		return hasNextPage;
 	}
 
+	@Override
 	protected boolean isChildrenFinished() {
 		int size = childrenLayouts.size();
 		for (int i = 0; i < size; i++) {
@@ -124,6 +127,7 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM {
 		return true;
 	}
 
+	@Override
 	protected boolean layoutNodes() throws BirtException {
 		if (!initializedChildren) {
 			initializedChildren = true;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004，2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -175,8 +175,9 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 	 * prepare the meta data of DataExtractionTask.
 	 */
 	private void prepareMetaData() throws EngineException {
-		if (isMetaDataPrepared == true)
+		if (isMetaDataPrepared) {
 			return;
+		}
 
 		IDataEngine dataEngine = executionContext.getDataEngine();
 		dataEngine.prepare(report, executionContext.getAppContext());
@@ -197,7 +198,7 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 				}
 				queryId2NameMapping.put(queryId, queryName);
 				queryId2QueryMapping.put(queryId, query);
-				;
+
 			}
 		}
 
@@ -213,7 +214,7 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 
 	/**
 	 * get the query name through query id.
-	 * 
+	 *
 	 * @param queryId
 	 * @return query name
 	 */
@@ -223,7 +224,7 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 
 	/**
 	 * get the query defintion from the query id
-	 * 
+	 *
 	 * @param queryId
 	 * @return
 	 */
@@ -309,7 +310,7 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 
 	/**
 	 * get the result set name used by the instance.
-	 * 
+	 *
 	 * @param iid instance id
 	 * @return result set name.
 	 */
@@ -329,7 +330,7 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 
 	/**
 	 * get the resultset id from the query id.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -349,7 +350,7 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 
 	/**
 	 * get the rset id from the rset name.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -369,7 +370,7 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 
 	/**
 	 * get the rset name from the rset id.
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
@@ -377,6 +378,7 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 		return (String) rsetName2IdMapping.get(name);
 	}
 
+	@Override
 	public void setInstanceID(InstanceID iid) {
 		assert iid != null;
 
@@ -391,6 +393,7 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 		selectedColumns = null;
 	}
 
+	@Override
 	public void selectResultSet(String displayName) {
 		assert displayName != null;
 
@@ -410,10 +413,12 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 		selectedColumns = null;
 	}
 
+	@Override
 	public List getMetaData() throws EngineException {
 		return getResultSetList();
 	}
 
+	@Override
 	public List getResultSetList() throws EngineException {
 		prepareMetaData();
 		if (instanceId != null) {
@@ -439,7 +444,7 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 
 	/**
 	 * get the metadata of a result set.
-	 * 
+	 *
 	 * @param rsetName
 	 * @return
 	 */
@@ -456,7 +461,7 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 
 	/**
 	 * get a result set.
-	 * 
+	 *
 	 * @param rsetName
 	 * @return
 	 */
@@ -471,10 +476,12 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 		return null;
 	}
 
+	@Override
 	public void selectColumns(String[] columnNames) {
 		selectedColumns = columnNames;
 	}
 
+	@Override
 	public IExtractionResults extract() throws EngineException {
 		String rsetName = resultSetName;
 		if (rsetName == null) {
@@ -724,13 +731,14 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 
 	/**
 	 * copy a query.
-	 * 
+	 *
 	 * @param query
 	 * @return
 	 */
 	private QueryDefinition queryCopy(QueryDefinition query) {
-		if (null == query)
+		if (null == query) {
 			return null;
+		}
 
 		QueryDefinition newQuery = new QueryDefinition((BaseQueryDefinition) query.getParentQuery());
 
@@ -755,6 +763,7 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 	 *                               for now, i.e., LHS must be a column name, only
 	 *                               <, >, = and startWith is supported.
 	 */
+	@Override
 	public void setFilters(IFilterDefinition[] simpleFilterExpression) {
 		filterExpressions = simpleFilterExpression;
 	}
@@ -762,6 +771,7 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 	/**
 	 * @param simpleSortExpression
 	 */
+	@Override
 	public void setSorts(ISortDefinition[] simpleSortExpression) {
 		setSorts(simpleSortExpression, false);
 	}
@@ -775,10 +785,12 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 	/**
 	 * @param maxRows
 	 */
+	@Override
 	public void setMaxRows(int maxRows) {
 		this.maxRows = maxRows;
 	}
 
+	@Override
 	public void extract(IExtractionOption options) throws BirtException {
 		DataExtractionOption option = null;
 		if (options == null) {
@@ -822,31 +834,35 @@ public class DataExtractionTaskV0 extends EngineTask implements IDataExtractionT
 		return dataExtraction;
 	}
 
+	@Override
 	public void setStartRow(int startRow) {
 		this.startRow = startRow;
 	}
 
+	@Override
 	public void setDistinctValuesOnly(boolean distinct) {
 		this.distinct = distinct;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.IDataExtractionTask#setCubeExportEnabled(
 	 * boolean)
 	 */
+	@Override
 	public void setCubeExportEnabled(boolean isCubeExportEnabled) {
 		this.isCubeExportEnabled = isCubeExportEnabled;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.IDataExtractionTask#isCubeExportEnabled()
 	 */
+	@Override
 	public boolean isCubeExportEnabled() {
 		return this.isCubeExportEnabled;
 	}

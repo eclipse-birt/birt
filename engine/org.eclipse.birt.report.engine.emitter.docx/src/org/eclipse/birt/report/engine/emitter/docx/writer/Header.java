@@ -22,7 +22,6 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.wpml.WordUtil;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
-
 import org.eclipse.birt.report.engine.ooxml.IPart;
 import org.eclipse.birt.report.engine.ooxml.ImageManager.ImagePart;
 
@@ -41,6 +40,7 @@ public class Header extends BasicComponent {
 		this.headerWidth = headerWidth;
 	}
 
+	@Override
 	void start() {
 		writer.startWriter();
 		writer.openTag("w:hdr");
@@ -48,6 +48,7 @@ public class Header extends BasicComponent {
 		startHeaderFooterContainer(headerHeight, headerWidth, true);
 	}
 
+	@Override
 	void end() {
 		endHeaderFooterContainer();
 		writer.closeTag("w:hdr");
@@ -55,10 +56,12 @@ public class Header extends BasicComponent {
 		writer.close();
 	}
 
+	@Override
 	protected int getImageID() {
 		return document.getImageID();
 	}
 
+	@Override
 	protected int getMhtTextId() {
 		return document.getMhtTextId();
 	}

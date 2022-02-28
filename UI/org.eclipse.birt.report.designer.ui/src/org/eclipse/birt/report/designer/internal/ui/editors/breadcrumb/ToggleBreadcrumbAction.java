@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.ui.IWorkbenchPage;
 
 /**
  * Action to hide and show the editor breadcrumb.
- * 
+ *
  * @since 2.6.2
  */
 public class ToggleBreadcrumbAction extends Action implements IPropertyChangeListener, IPerspectiveListener {
@@ -58,6 +58,7 @@ public class ToggleBreadcrumbAction extends Action implements IPropertyChangeLis
 	/*
 	 * @see IAction#actionPerformed
 	 */
+	@Override
 	public void run() {
 		fStore.setValue(getPreferenceKey(), isChecked());
 	}
@@ -78,9 +79,11 @@ public class ToggleBreadcrumbAction extends Action implements IPropertyChangeLis
 	/*
 	 * @see IPropertyChangeListener#propertyChange(PropertyChangeEvent)
 	 */
+	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (event.getProperty().equals(getPreferenceKey()))
-			setChecked(Boolean.valueOf(event.getNewValue().toString()).booleanValue());
+		if (event.getProperty().equals(getPreferenceKey())) {
+			setChecked(Boolean.parseBoolean(event.getNewValue().toString()));
+		}
 	}
 
 	/**
@@ -105,21 +108,23 @@ public class ToggleBreadcrumbAction extends Action implements IPropertyChangeLis
 	 */
 	private String getPreferenceKey() {
 		IPerspectiveDescriptor perspective = fPage.getPerspective();
-		if (perspective == null)
+		if (perspective == null) {
 			return null;
+		}
 		return GraphicalEditorWithFlyoutPalette.EDITOR_SHOW_BREADCRUMB + "." + perspective.getId(); //$NON-NLS-1$
 	}
 
 	/*
 	 * @see org.eclipse.ui.IPerspectiveListener#perspectiveActivated(org.eclipse.ui.
 	 * IWorkbenchPage, org.eclipse.ui.IPerspectiveDescriptor)
-	 * 
+	 *
 	 * @since 3.4
 	 */
+	@Override
 	public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor perspective) {
 		boolean isChecked = fStore.getBoolean(getPreferenceKey());
 		if (isChecked != isChecked()) {
-			Boolean value = Boolean.valueOf(isChecked);
+			Boolean value = isChecked;
 			fStore.firePropertyChangeEvent(getPreferenceKey(), value, value);
 		}
 	}
@@ -128,6 +133,7 @@ public class ToggleBreadcrumbAction extends Action implements IPropertyChangeLis
 	 * @see org.eclipse.ui.IPerspectiveListener#perspectiveChanged(org.eclipse.ui.
 	 * IWorkbenchPage, org.eclipse.ui.IPerspectiveDescriptor, java.lang.String)
 	 */
+	@Override
 	public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor perspective, String changeId) {
 	}
 }

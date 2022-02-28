@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.querydefn;
@@ -61,7 +61,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 	private boolean distinctValue;
 
 	private IScriptExpression dataSetACL;
-	private Map<String, IScriptExpression> columnACL = new HashMap<String, IScriptExpression>();
+	private Map<String, IScriptExpression> columnACL = new HashMap<>();
 	private IScriptExpression rowACL;
 	private String nullOrdering;
 	private ULocale uLocale;
@@ -72,7 +72,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 
 	/**
 	 * Instantiates a data set with given name.
-	 * 
+	 *
 	 * @param name Name of data set
 	 */
 	public BaseDataSetDesign(String name) {
@@ -81,7 +81,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 
 	/**
 	 * Instantiates a data set with given name and data source name.
-	 * 
+	 *
 	 * @param name           Name of data set
 	 * @param dataSourceName Name of data source used by this data set. Can be null
 	 *                       or empty if this data set does not specify a data
@@ -95,6 +95,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getName()
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -103,6 +104,8 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 	 * @deprecated
 	 * @return cache row count
 	 */
+	@Deprecated
+	@Override
 	public int getCacheRowCount() {
 		return cacheRowCount;
 	}
@@ -111,6 +114,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 	 * @deprecated
 	 * @param cacheRowCount
 	 */
+	@Deprecated
 	public void setCacheRowCount(int cacheRowCount) {
 		this.cacheRowCount = cacheRowCount;
 	}
@@ -118,6 +122,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#useDistinctValue()
 	 */
+	@Override
 	public boolean needDistinctValue() {
 		return this.distinctValue;
 	}
@@ -132,13 +137,14 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getDataSourceName()
 	 */
+	@Override
 	public String getDataSourceName() {
 		return dataSourceName;
 	}
 
 	/**
 	 * Specifies the data source (connection) name.
-	 * 
+	 *
 	 * @param dataSourceName The name of the dataSource to set.
 	 */
 	public void setDataSource(String dataSourceName) {
@@ -148,50 +154,58 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getComputedColumns()()
 	 */
+	@Override
 	public List getComputedColumns() {
-		if (computedColumns == null)
+		if (computedColumns == null) {
 			computedColumns = new ArrayList();
+		}
 		return computedColumns;
 	}
 
 	/**
 	 * Adds a new computed column to the data set. Ignores given computed column if
 	 * null.
-	 * 
+	 *
 	 * @param column Could be null.
 	 */
 	public void addComputedColumn(IComputedColumn column) {
-		if (column != null)
+		if (column != null) {
 			getComputedColumns().add(column);
+		}
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getFilters()
 	 */
+	@Override
 	public List getFilters() {
-		if (filters == null)
+		if (filters == null) {
 			filters = new ArrayList();
+		}
 		return filters;
 	}
 
 	/**
 	 * Adds a filter to the filter list. Ignores given filter if null.
-	 * 
+	 *
 	 * @param filter Could be null.
 	 */
 	public void addFilter(IFilterDefinition filter) {
-		if (filter != null)
+		if (filter != null) {
 			getFilters().add(filter);
+		}
 	}
 
 	/**
 	 * Get sort hints defined.
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getSortHints()
 	 */
+	@Override
 	public List<ISortDefinition> getSortHints() {
-		if (sortHints == null)
-			sortHints = new ArrayList<ISortDefinition>();
+		if (sortHints == null) {
+			sortHints = new ArrayList<>();
+		}
 		return sortHints;
 	}
 
@@ -199,20 +213,23 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 	 * Add a sort ordering to sort hints.
 	 * <p>
 	 * Ignore when sort hint is <code>NULL</code>.
-	 * 
+	 *
 	 * @param sortHint Reference to <code>ISortDefinition</code>
 	 */
 	public void addSortHint(ISortDefinition sortHint) {
-		if (sortHint != null)
+		if (sortHint != null) {
 			getSortHints().add(sortHint);
+		}
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getParameters()
 	 */
+	@Override
 	public List getParameters() {
-		if (parameters == null)
+		if (parameters == null) {
 			parameters = new ArrayList();
+		}
 		return parameters;
 	}
 
@@ -220,16 +237,19 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 	 * Adds a parameter definition to the data set.
 	 */
 	public void addParameter(IParameterDefinition param) {
-		if (param != null)
+		if (param != null) {
 			getParameters().add(param);
+		}
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getResultSetHints()
 	 */
+	@Override
 	public List getResultSetHints() {
-		if (resultSetHints == null)
+		if (resultSetHints == null) {
 			resultSetHints = new ArrayList();
+		}
 		return resultSetHints;
 	}
 
@@ -237,32 +257,37 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 	 * Adds a column to the result set hints definition.
 	 */
 	public void addResultSetHint(IColumnDefinition col) {
-		if (col != null)
+		if (col != null) {
 			getResultSetHints().add(col);
+		}
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getInputParamBindings()
 	 */
+	@Override
 	public Collection getInputParamBindings() {
-		if (inputParamBindings == null)
+		if (inputParamBindings == null) {
 			inputParamBindings = new ArrayList();
+		}
 		return inputParamBindings;
 	}
 
 	/**
 	 * Adds an input parameter binding. Ignores given binding if null.
-	 * 
+	 *
 	 * @param binding Could be null.
 	 */
 	public void addInputParamBinding(IInputParameterBinding binding) {
-		if (binding != null)
+		if (binding != null) {
 			getInputParamBindings().add(binding);
+		}
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getBeforeOpenScript()
 	 */
+	@Override
 	public String getBeforeOpenScript() {
 		return beforeOpenScript;
 	}
@@ -277,13 +302,14 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getAfterOpenScript()
 	 */
+	@Override
 	public String getAfterOpenScript() {
 		return afterOpenScript;
 	}
 
 	/**
 	 * Sets the <code>afterOpen</code> script for the data set
-	 * 
+	 *
 	 * @param afterOpenScript The AfterOpen script to set.
 	 */
 	public void setAfterOpenScript(String afterOpenScript) {
@@ -293,6 +319,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getOnFetchScript()
 	 */
+	@Override
 	public String getOnFetchScript() {
 		return onFetchScript;
 	}
@@ -307,6 +334,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getBeforeCloseScript()
 	 */
+	@Override
 	public String getBeforeCloseScript() {
 		return beforeCloseScript;
 	}
@@ -321,6 +349,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getAfterCloseScript()
 	 */
+	@Override
 	public String getAfterCloseScript() {
 		return afterCloseScript;
 	}
@@ -335,6 +364,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getEventHandler()
 	 */
+	@Override
 	public IBaseDataSetEventHandler getEventHandler() {
 		return eventHandler;
 	}
@@ -348,19 +378,21 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getRowFetchLimit()
 	 */
+	@Override
 	public int getRowFetchLimit() {
 		return this.fetchRowLimit;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IBaseDataSetDesign#setRowFetchLimit(int)
 	 */
+	@Override
 	public void setRowFetchLimit(int max) {
 		this.fetchRowLimit = max <= 0 ? 0 : max;
 	}
@@ -389,10 +421,12 @@ public class BaseDataSetDesign implements IBaseDataSetDesign {
 		this.rowACL = expr;
 	}
 
+	@Override
 	public ULocale getCompareLocale() {
 		return this.uLocale;
 	}
 
+	@Override
 	public String getNullsOrdering() {
 		return this.nullOrdering;
 	}

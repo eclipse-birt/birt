@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -144,7 +144,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 
 /**
  * Base report graphical editor with flyout palette.
- * 
+ *
  */
 abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutPalette implements IMediatorColleague {
 
@@ -167,7 +167,7 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param parent
 	 */
 	public ReportEditorWithPalette(IEditorPart parent) {
@@ -190,25 +190,28 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPaletteRoot
 	 * ()
 	 */
+	@Override
 	abstract protected PaletteRoot getPaletteRoot();
 
 	/*
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#
 	 * getPalettePreferences()
 	 */
+	@Override
 	protected FlyoutPreferences getPalettePreferences() {
 		return new ReportFlyoutPalettePreferences();
 	}
 
 	/**
 	 * Creates reusable actions for all BIRT graphical editors. (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
 	 */
+	@Override
 	protected void createActions() {
 		super.createActions();
 		// register merge and split actions
@@ -521,6 +524,7 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 	// SessionHandleAdapter.getInstance().getMediator().addColleague(this);
 	// }
 
+	@Override
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
@@ -533,7 +537,7 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void setContents() {
 		getGraphicalViewer().setContents(getModel());
@@ -570,9 +574,10 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#configureGraphicalViewer()
 	 */
+	@Override
 	protected void configureGraphicalViewer() {
 		super.configureGraphicalViewer();
 
@@ -609,7 +614,7 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 	// add supoet the report media, may be use a helpler
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
 	 * ( org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest )
@@ -617,10 +622,12 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 
 	private Object fLastSentPostElement = null;
 
+	@Override
 	public boolean isInterested(IMediatorRequest request) {
 		return request instanceof ReportRequest;
 	}
 
+	@Override
 	public void performRequest(IMediatorRequest request) {
 		if (ReportRequest.SELECTION.equals(request.getType())) {
 			handleSelectionChange((ReportRequest) request);
@@ -635,11 +642,13 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 		final List list = request.getSelectionModelList();
 		if (list.size() != 1) {
 			fLastSentPostElement = null;
-		} else
+		} else {
 			fLastSentPostElement = DEUtil.getInputFirstElement(list);
+		}
 
 		Display.getDefault().timerExec(100, new Runnable() {
 
+			@Override
 			public void run() {
 				if (fLastSentPostElement == null && DEUtil.getInputSize(list) <= 0) {
 					setBreadcrumbInput(null);
@@ -662,14 +671,12 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 		}
 
 		final List list = request.getSelectionModelList();
-		if (list.size() != 1) {
-			return;
-		}
-		if (request.getSource() instanceof ParameterHandle && list.get(0) instanceof DataItemHandle) {
+		if ((list.size() != 1) || (request.getSource() instanceof ParameterHandle && list.get(0) instanceof DataItemHandle)) {
 			return;
 		}
 		Display.getCurrent().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				Object part = viewer.getEditPartRegistry().get(list.get(0));
 				if (part instanceof EditPart) {
@@ -695,13 +702,14 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 		}
 		getGraphicalViewer().setSelection(new StructuredSelection(select));
 
-		if (select.size() > 0)
+		if (select.size() > 0) {
 			getGraphicalViewer().reveal((EditPart) select.get(select.size() - 1));
+		}
 	}
 
 	/**
 	 * Returns the created event if the given event is editpart event
-	 * 
+	 *
 	 * @param event the selection changed event
 	 * @return the created event
 	 */
@@ -724,10 +732,11 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 				return null;
 			}
 			Object object = getGraphicalViewer().getEditPartRegistry().get(tableParent);
-			if (!(object instanceof TableEditPart))
+			if (!(object instanceof TableEditPart)) {
 				return null;
+			}
 			TableEditPart part = (TableEditPart) object;
-			int[] selectRows = new int[] { adapter.getRowNumber() };
+			int[] selectRows = { adapter.getRowNumber() };
 			for (int i = 1; i < size; i++) {
 				Object o = list.get(i);
 				if (o instanceof RowHandle) {
@@ -781,7 +790,7 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 				return null;
 			}
 			TableEditPart part = (TableEditPart) getGraphicalViewer().getEditPartRegistry().get(tableParent);
-			int[] selectColumns = new int[] { adapter.getColumnNumber() };
+			int[] selectColumns = { adapter.getColumnNumber() };
 			for (int i = 1; i < size; i++) {
 				Object o = list.get(i);
 				if (o instanceof ColumnHandle) {
@@ -897,10 +906,11 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IEditorPart#init(org.eclipse.ui.IEditorSite,
 	 * org.eclipse.ui.IEditorInput)
 	 */
+	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		super.init(site, input);
 		if (getModel() == null) {
@@ -911,7 +921,7 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 	/**
 	 * Get internal report modulehandle cached by current page. if model havn't been
 	 * set, get the editor input modulehandle.
-	 * 
+	 *
 	 * @return
 	 */
 	final protected ModuleHandle getModel() {
@@ -925,7 +935,7 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 
 	/**
 	 * Set the report model
-	 * 
+	 *
 	 * @param model
 	 */
 	protected void setModel(ModuleHandle model) {
@@ -934,9 +944,10 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isDirty()
 	 */
+	@Override
 	public boolean isDirty() {
 		ModuleHandle newModel = getProvider().queryReportModuleHandle();
 
@@ -951,10 +962,11 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
 	 * IProgressMonitor)
 	 */
+	@Override
 	public void doSave(IProgressMonitor monitor) {
 		// if ( getEditorInput( ) instanceof IFileEditorInput )
 		// {
@@ -1002,9 +1014,10 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#doSaveAs()
 	 */
+	@Override
 	public void doSaveAs() {
 		final IReportProvider provider = getProvider();
 
@@ -1022,12 +1035,14 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 
 			IRunnableWithProgress op = new IRunnableWithProgress() {
 
+				@Override
 				public synchronized final void run(IProgressMonitor monitor)
 						throws InvocationTargetException, InterruptedException {
 					final InvocationTargetException[] iteHolder = new InvocationTargetException[1];
 					try {
 						IWorkspaceRunnable workspaceRunnable = new IWorkspaceRunnable() {
 
+							@Override
 							public void run(IProgressMonitor pm) throws CoreException {
 								try {
 									execute(pm);
@@ -1147,6 +1162,7 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 	// UIUtil.createFolder( (IFolder) container, monitor );
 	// }
 	// }
+	@Override
 	public Object getAdapter(Class type) {
 		if (type == IContentOutlinePage.class) {
 
@@ -1178,10 +1194,11 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
 	 * GraphicalEditorWithFlyoutPalette#dispose()
 	 */
+	@Override
 	public void dispose() {
 		if (getCommandStack() != null) {
 			getCommandStack().flush();
@@ -1195,6 +1212,7 @@ abstract public class ReportEditorWithPalette extends GraphicalEditorWithFlyoutP
 		manager = null;
 	}
 
+	@Override
 	public void preferenceChange(PreferenceChangeEvent event) {
 		paletteRoot = null;
 		getEditDomain().setPaletteRoot(getPaletteRoot());

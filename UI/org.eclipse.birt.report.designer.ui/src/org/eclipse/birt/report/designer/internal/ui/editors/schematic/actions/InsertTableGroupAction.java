@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ public class InsertTableGroupAction extends InsertRowAction {
 
 	/**
 	 * Constructs new instance.
-	 * 
+	 *
 	 * @param part
 	 */
 	public InsertTableGroupAction(IWorkbenchPart part) {
@@ -45,10 +45,11 @@ public class InsertTableGroupAction extends InsertRowAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.
 	 * InsertRowAction#calculateEnabled()
 	 */
+	@Override
 	protected boolean calculateEnabled() {
 		return getTableEditPart() != null;
 	}
@@ -56,6 +57,7 @@ public class InsertTableGroupAction extends InsertRowAction {
 	/**
 	 * Creates the group and run an Edit Action on it to configure it.
 	 */
+	@Override
 	public void run() {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println("Insert table group action >> Run ..."); //$NON-NLS-1$

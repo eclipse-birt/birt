@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -79,7 +79,7 @@ public class HTMLEmitterUtil {
 	 * Outputs the 'bookmark' property. Destination anchors in HTML documents may be
 	 * specified either by the A element (naming it with the 'name' attribute), or
 	 * by any other elements (naming with the 'id' attribute).
-	 * 
+	 *
 	 * @param tagName  The tag's name.
 	 * @param bookmark The bookmark value.
 	 */
@@ -122,7 +122,7 @@ public class HTMLEmitterUtil {
 
 	/**
 	 * Convert DimensionType to a pixel value.
-	 * 
+	 *
 	 * @param d DimensionType value
 	 * @return pixel value
 	 */
@@ -210,14 +210,15 @@ public class HTMLEmitterUtil {
 			return BROWSER_FIREFOX2;
 		} else if (userAgent.contains("Firefox")) {
 			return BROWSER_FIREFOX;
-		} else
+		} else {
 			return BROWSER_UNKNOW;
+		}
 	}
 
 	/**
 	 * build overflow style which displays the vertical or horizontal scrollbar
 	 * automatically if content inside the div tag exceed the limit in any aspect.
-	 * 
+	 *
 	 * @param buf          - the buffer to build the overflow style
 	 * @param style        - the style of current report item
 	 * @param outputHidden - whether to output the overflow property with hidden

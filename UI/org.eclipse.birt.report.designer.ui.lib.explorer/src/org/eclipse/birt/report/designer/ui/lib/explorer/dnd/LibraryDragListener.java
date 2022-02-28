@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,11 +46,12 @@ public class LibraryDragListener extends DesignElementDragAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDragAdapter#
 	 * validateTransfer(java.lang.Object)
 	 */
+	@Override
 	protected boolean validateTransfer(Object transfer) {
 		if (transfer instanceof ReportElementHandle || transfer instanceof EmbeddedImageHandle) {
 			if (transfer instanceof ScalarParameterHandle
@@ -69,6 +70,7 @@ public class LibraryDragListener extends DesignElementDragAdapter {
 		return false;
 	}
 
+	@Override
 	public void dragStart(DragSourceEvent event) {
 		boolean doit = !getViewer().getSelection().isEmpty();
 		if (doit) {
@@ -76,22 +78,26 @@ public class LibraryDragListener extends DesignElementDragAdapter {
 			List objectList = selection.toList();
 			selectionList.clear();
 			for (int i = 0; i < objectList.size(); i++) {
-				if (objectList.get(i) instanceof ReportResourceEntry)
+				if (objectList.get(i) instanceof ReportResourceEntry) {
 					selectionList.add(((ReportResourceEntry) objectList.get(i)).getReportElement());
-				else
+				} else {
 					selectionList.add(objectList.get(i));
+				}
 			}
 			Object[] objects = selectionList.toArray();
 			if (validateType(objects)) {
-				for (int i = 0; i < objects.length; i++)
+				for (int i = 0; i < objects.length; i++) {
 					if (!validateTransfer(objects[i])) {
 						doit = false;
 						break;
 					}
-			} else
+				}
+			} else {
 				doit = false;
-			if (doit)
+			}
+			if (doit) {
 				TemplateTransfer.getInstance().setTemplate(objects);
+			}
 		}
 		event.doit = doit;
 		if (Policy.TRACING_DND_DRAG && doit) {

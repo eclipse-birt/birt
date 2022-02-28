@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -66,7 +66,7 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * 
+ *
  */
 
 public class CubeCursorImpl implements ICubeCursor {
@@ -89,12 +89,12 @@ public class CubeCursorImpl implements ICubeCursor {
 		this.cubeView = view;
 		this.cx = cx;
 
-		this.dimensionCursorMap = new HashMap<DimLevel, DimensionCursor>();
+		this.dimensionCursorMap = new HashMap<>();
 		populateDimensionCursor();
 		this.outerResults = OlapExpressionUtil.createQueryResultsScriptable(outerResults);
 
 		this.bindingMap = new HashMap();
-		this.dimLevelMap = new HashMap<String, DimLevel>();
+		this.dimLevelMap = new HashMap<>();
 		this.validBindingSet = new HashSet();
 		this.dataTypeMap = new HashMap();
 		List<IBinding> allBindings = CubeQueryDefinitionUtil.getAllBindings(queryDefn);
@@ -106,10 +106,12 @@ public class CubeCursorImpl implements ICubeCursor {
 			if (binding.getAggrFunction() == null) {
 				this.bindingMap.put(bindingName, expr);
 				if (expr instanceof IScriptExpression) {
-					if (!isSimpleDimensionExpression(((IScriptExpression) expr).getText()))
+					if (!isSimpleDimensionExpression(((IScriptExpression) expr).getText())) {
 						OLAPExpressionCompiler.compile(cx.newContext(this.scope), expr);
-				} else
+					}
+				} else {
 					OLAPExpressionCompiler.compile(cx.newContext(this.scope), expr);
+				}
 			}
 			dataTypeMap.put(bindingName, Integer.valueOf(binding.getDataType()));
 		}
@@ -137,180 +139,217 @@ public class CubeCursorImpl implements ICubeCursor {
 		return false;
 	}
 
+	@Override
 	public List getOrdinateEdge() throws OLAPException {
 		return this.cursor.getOrdinateEdge();
 	}
 
+	@Override
 	public Collection getPageEdge() throws OLAPException {
 		return this.cursor.getPageEdge();
 	}
 
+	@Override
 	public void synchronizePages() throws OLAPException {
 		this.cursor.synchronizePages();
 	}
 
+	@Override
 	public void close() throws OLAPException {
 		this.cursor.close();
 	}
 
+	@Override
 	public InputStream getAsciiStream(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public InputStream getAsciiStream(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public BigDecimal getBigDecimal(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public BigDecimal getBigDecimal(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public InputStream getBinaryStream(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public InputStream getBinaryStream(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Blob getBlob(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Blob getBlob(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public boolean getBoolean(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public boolean getBoolean(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public byte getByte(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public byte getByte(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public byte[] getBytes(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public byte[] getBytes(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Reader getCharacterStream(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Reader getCharacterStream(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Clob getClob(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Clob getClob(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Date getDate(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Date getDate(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Date getDate(int arg0, Calendar arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Date getDate(String arg0, Calendar arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public double getDouble(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public double getDouble(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public float getFloat(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public float getFloat(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public int getInt(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public int getInt(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public long getLong(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public long getLong(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public RowDataMetaData getMetaData() throws OLAPException {
 		return this.cursor.getMetaData();
 	}
 
+	@Override
 	public Object getObject(int arg0) throws OLAPException {
 		return null;
 	}
 
+	@Override
 	public Object getObject(String arg0) throws OLAPException {
 		Object result = null;
 
@@ -325,48 +364,49 @@ public class CubeCursorImpl implements ICubeCursor {
 				throw new OLAPException(DataResourceHandle.getInstance()
 						.getMessage(ResourceConstants.COLUMN_BINDING_NOT_EXIST, new String[] { arg0 }));
 			}
+		} else if (this.bindingMap.get(arg0) == null) {
+			result = this.cursor.getObject(arg0);
 		} else {
-			if (this.bindingMap.get(arg0) == null) {
-				result = this.cursor.getObject(arg0);
-			} else {
+			try {
+				IBaseExpression expr = (IBaseExpression) this.bindingMap.get(arg0);
+				DimLevel dimLevel;
 				try {
-					IBaseExpression expr = (IBaseExpression) this.bindingMap.get(arg0);
-					DimLevel dimLevel;
-					try {
-						if (dimLevelMap.containsKey(arg0)) {
-							dimLevel = dimLevelMap.get(arg0);
-						} else {
-							dimLevel = OlapExpressionUtil.getTargetDimLevel(((ScriptExpression) expr).getText());
-							dimLevelMap.put(arg0, dimLevel);
-						}
-					} catch (Exception ex) {
-						dimLevel = null;
-						dimLevelMap.put(arg0, null);
+					if (dimLevelMap.containsKey(arg0)) {
+						dimLevel = dimLevelMap.get(arg0);
+					} else {
+						dimLevel = OlapExpressionUtil.getTargetDimLevel(((ScriptExpression) expr).getText());
+						dimLevelMap.put(arg0, dimLevel);
 					}
-
-					if (dimLevel != null) {
-						DimensionCursor dimCursor = this.dimensionCursorMap.get(dimLevel);
-						if (dimCursor != null) {
-							try {
-								if (dimLevel.getAttrName() != null)
-									result = dimCursor.getObject(OlapExpressionUtil
-											.getAttributeColumnName(dimLevel.getLevelName(), dimLevel.getAttrName()));
-								else
-									result = dimCursor.getObject(dimLevel.getLevelName());
-							} catch (Exception e) {
-								result = null;
-							}
-						} else
-							result = ScriptEvalUtil.evalExpr(expr, cx.newContext(scope),
-									org.eclipse.birt.core.script.ScriptExpression.defaultID, 0);
-					} else
-						result = ScriptEvalUtil.evalExpr(expr, cx.newContext(scope),
-								org.eclipse.birt.core.script.ScriptExpression.defaultID, 0);
-				} catch (Exception e) {
-					throw new OLAPException(e.getLocalizedMessage());
+				} catch (Exception ex) {
+					dimLevel = null;
+					dimLevelMap.put(arg0, null);
 				}
 
+				if (dimLevel != null) {
+					DimensionCursor dimCursor = this.dimensionCursorMap.get(dimLevel);
+					if (dimCursor != null) {
+						try {
+							if (dimLevel.getAttrName() != null) {
+								result = dimCursor.getObject(OlapExpressionUtil
+										.getAttributeColumnName(dimLevel.getLevelName(), dimLevel.getAttrName()));
+							} else {
+								result = dimCursor.getObject(dimLevel.getLevelName());
+							}
+						} catch (Exception e) {
+							result = null;
+						}
+					} else {
+						result = ScriptEvalUtil.evalExpr(expr, cx.newContext(scope),
+								org.eclipse.birt.core.script.ScriptExpression.defaultID, 0);
+					}
+				} else {
+					result = ScriptEvalUtil.evalExpr(expr, cx.newContext(scope),
+							org.eclipse.birt.core.script.ScriptExpression.defaultID, 0);
+				}
+			} catch (Exception e) {
+				throw new OLAPException(e.getLocalizedMessage());
 			}
+
 		}
 
 		if (result instanceof DataException) {
@@ -385,23 +425,26 @@ public class CubeCursorImpl implements ICubeCursor {
 	}
 
 	private void populateDimensionCursor() throws OLAPException {
-		if (this.cubeView.getPageEdgeView() != null && this.queryDefn.getEdge(ICubeQueryDefinition.PAGE_EDGE) != null)
+		if (this.cubeView.getPageEdgeView() != null && this.queryDefn.getEdge(ICubeQueryDefinition.PAGE_EDGE) != null) {
 			populateDimensionObjects(this.queryDefn.getEdge(ICubeQueryDefinition.PAGE_EDGE).getDimensions(),
 					cubeView.getPageEdgeView().getEdgeCursor().getDimensionCursor().iterator());
+		}
 
 		/*
 		 * Populate Row Edge dimension objects.
 		 */
-		if (cubeView.getRowEdgeView() != null && this.queryDefn.getEdge(ICubeQueryDefinition.ROW_EDGE) != null)
+		if (cubeView.getRowEdgeView() != null && this.queryDefn.getEdge(ICubeQueryDefinition.ROW_EDGE) != null) {
 			populateDimensionObjects(this.queryDefn.getEdge(ICubeQueryDefinition.ROW_EDGE).getDimensions(),
 					cubeView.getRowEdgeView().getEdgeCursor().getDimensionCursor().iterator());
+		}
 
 		/*
 		 * Populate Column Edge dimension objects.
 		 */
-		if (cubeView.getColumnEdgeView() != null && this.queryDefn.getEdge(ICubeQueryDefinition.COLUMN_EDGE) != null)
+		if (cubeView.getColumnEdgeView() != null && this.queryDefn.getEdge(ICubeQueryDefinition.COLUMN_EDGE) != null) {
 			populateDimensionObjects(this.queryDefn.getEdge(ICubeQueryDefinition.COLUMN_EDGE).getDimensions(),
 					cubeView.getColumnEdgeView().getEdgeCursor().getDimensionCursor().iterator());
+		}
 	}
 
 	private void populateDimensionObjects(List<IDimensionDefinition> dimensions, Iterator iterator) {
@@ -415,100 +458,120 @@ public class CubeCursorImpl implements ICubeCursor {
 		}
 	}
 
+	@Override
 	public Object getObject(int arg0, Map arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Object getObject(String arg0, Map arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public short getShort(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public short getShort(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public String getString(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public String getString(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Time getTime(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Time getTime(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Time getTime(int arg0, Calendar arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Time getTime(String arg0, Calendar arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Timestamp getTimestamp(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Timestamp getTimestamp(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Timestamp getTimestamp(int arg0, Calendar arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Timestamp getTimestamp(String arg0, Calendar arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public String getId() throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public String getName() throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public void setId(String value) throws OLAPException {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setName(String value) throws OLAPException {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public Scriptable getScope() {
 		return this.scope;
 	}
 
+	@Override
 	public java.lang.Object clone() {
 		return null;
 	}

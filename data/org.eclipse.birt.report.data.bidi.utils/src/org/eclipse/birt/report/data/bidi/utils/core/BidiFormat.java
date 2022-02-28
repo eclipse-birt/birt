@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008, 2009 IBM Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * IBM Corporation - initial API and implementation
@@ -16,7 +16,7 @@ package org.eclipse.birt.report.data.bidi.utils.core;
 
 /**
  * @author fira@il.ibm.com (bidi_hcg)
- * 
+ *
  */
 public class BidiFormat {
 	private final static char ORDERING_SCHEME_LOGICAL_CODE = 'I';
@@ -57,8 +57,9 @@ public class BidiFormat {
 	}
 
 	public BidiFormat(String bidiFormatString) {
-		if (!isValidBidiFormat(bidiFormatString))
+		if (!isValidBidiFormat(bidiFormatString)) {
 			bidiFormatString = BidiConstants.DEFAULT_BIDI_FORMAT_STR;
+		}
 		bidiFormatString = bidiFormatString.toUpperCase();
 		orderingScheme = getOrderingSchemeFromStr(bidiFormatString);
 		textDirection = getTextDirectionFromStr(bidiFormatString);
@@ -94,38 +95,44 @@ public class BidiFormat {
 	public String getBiDiFormatString() {
 		StringBuffer buf = new StringBuffer(MAX_INDX + 1);
 
-		if (orderingScheme.equals(BidiConstants.ORDERING_SCHEME_LOGICAL))
+		if (orderingScheme.equals(BidiConstants.ORDERING_SCHEME_LOGICAL)) {
 			buf.append(ORDERING_SCHEME_LOGICAL_CODE);
-		else if (orderingScheme.equals(BidiConstants.ORDERING_SCHEME_VISUAL))
+		} else if (orderingScheme.equals(BidiConstants.ORDERING_SCHEME_VISUAL)) {
 			buf.append(ORDERING_SCHEME_VISUAL_CODE);
+		}
 
-		if (textDirection.equals(BidiConstants.TEXT_DIRECTION_LTR))
+		if (textDirection.equals(BidiConstants.TEXT_DIRECTION_LTR)) {
 			buf.append(TEXT_DIRECTION_LTR_CODE);
-		else if (textDirection.equals(BidiConstants.TEXT_DIRECTION_RTL))
+		} else if (textDirection.equals(BidiConstants.TEXT_DIRECTION_RTL)) {
 			buf.append(TEXT_DIRECTION_RTL_CODE);
-		else if (textDirection.equals(BidiConstants.TEXT_DIRECTION_CONTEXTLTR))
+		} else if (textDirection.equals(BidiConstants.TEXT_DIRECTION_CONTEXTLTR)) {
 			buf.append(TEXT_DIRECTION_CONTEXTUALLTR_CODE);
-		else if (textDirection.equals(BidiConstants.TEXT_DIRECTION_CONTEXTRTL))
+		} else if (textDirection.equals(BidiConstants.TEXT_DIRECTION_CONTEXTRTL)) {
 			buf.append(TEXT_DIRECTION_CONTEXTUALRTL_CODE);
+		}
 
-		if (symSwap)
+		if (symSwap) {
 			buf.append(SYMSWAPP_YES);
-		else
+		} else {
 			buf.append(SYMSWAPP_NO);
+		}
 
-		if (textShaping.equals(BidiConstants.SHAPING_NOMINAL))
+		if (textShaping.equals(BidiConstants.SHAPING_NOMINAL)) {
 			buf.append(SHAPING_NOMINAL_CODE);
-		else if (textShaping.equals(BidiConstants.SHAPING_SHAPED))
+		} else if (textShaping.equals(BidiConstants.SHAPING_SHAPED)) {
 			buf.append(SHAPING_SHAPED_CODE);
-		if (numeralShaping.equals(BidiConstants.NUMSHAPING_NOMINAL))
+		}
+		if (numeralShaping.equals(BidiConstants.NUMSHAPING_NOMINAL)) {
 			buf.append(NUMSHAPING_NOMINAL_CODE);
-		else if (numeralShaping.equals(BidiConstants.NUMSHAPING_NATIONAL))
+		} else if (numeralShaping.equals(BidiConstants.NUMSHAPING_NATIONAL)) {
 			buf.append(NUMSHAPING_NATIONAL_CODE);
-		else if (numeralShaping.equals(BidiConstants.NUMSHAPING_CONTEXT))
+		} else if (numeralShaping.equals(BidiConstants.NUMSHAPING_CONTEXT)) {
 			buf.append(NUMSHAPING_CONTEXTUAL_CODE);
+		}
 
-		if (buf.length() < MAX_INDX)
+		if (buf.length() < MAX_INDX) {
 			return BidiConstants.DEFAULT_BIDI_FORMAT_STR;
+		}
 
 		return String.valueOf(buf);
 
@@ -133,19 +140,23 @@ public class BidiFormat {
 
 	private static String getOrderingSchemeFromStr(String bidiFormatStr) {
 		char code = bidiFormatStr.charAt(ORDERING_SCHEME_INDX);
-		if (code == ORDERING_SCHEME_LOGICAL_CODE)
+		if (code == ORDERING_SCHEME_LOGICAL_CODE) {
 			return BidiConstants.ORDERING_SCHEME_LOGICAL;
+		}
 		return BidiConstants.ORDERING_SCHEME_VISUAL;
 	}
 
 	public static String getTextDirectionFromStr(String bidiFormatStr) {
 		char code = bidiFormatStr.charAt(TEXT_DIRECTION_INDX);
-		if (code == TEXT_DIRECTION_RTL_CODE)
+		if (code == TEXT_DIRECTION_RTL_CODE) {
 			return BidiConstants.TEXT_DIRECTION_RTL;
-		if (code == TEXT_DIRECTION_CONTEXTUALLTR_CODE)
+		}
+		if (code == TEXT_DIRECTION_CONTEXTUALLTR_CODE) {
 			return BidiConstants.TEXT_DIRECTION_CONTEXTLTR;
-		if (code == TEXT_DIRECTION_CONTEXTUALRTL_CODE)
+		}
+		if (code == TEXT_DIRECTION_CONTEXTUALRTL_CODE) {
 			return BidiConstants.TEXT_DIRECTION_CONTEXTRTL;
+		}
 		return BidiConstants.TEXT_DIRECTION_LTR;
 	}
 
@@ -156,68 +167,76 @@ public class BidiFormat {
 
 	protected static String getTextShapingFromStr(String bidiFormatStr) {
 		char code = bidiFormatStr.charAt(TEXT_SHAPING_INDX);
-		if (code == SHAPING_NOMINAL_CODE)
+		if (code == SHAPING_NOMINAL_CODE) {
 			return BidiConstants.SHAPING_NOMINAL;
+		}
 		return BidiConstants.SHAPING_SHAPED;
 	}
 
 	protected static String getNumeralShapingFromStr(String bidiFormatStr) {
 		char code = bidiFormatStr.charAt(NUMERAL_SHAPING_INDX);
-		if (code == NUMSHAPING_CONTEXTUAL_CODE)
+		if (code == NUMSHAPING_CONTEXTUAL_CODE) {
 			return BidiConstants.NUMSHAPING_CONTEXT;
-		if (code == NUMSHAPING_NATIONAL_CODE)
+		}
+		if (code == NUMSHAPING_NATIONAL_CODE) {
 			return BidiConstants.NUMSHAPING_NATIONAL;
+		}
 		return BidiConstants.NUMSHAPING_NOMINAL;
 	}
 
 	public void update(String fieldName, Object value) {
 		if (BidiConstants.BIDI_FORMAT_ORIENTATION.equals(fieldName)
 				|| BidiConstants.BIDI_FORMAT_CONTENT_ORIENTATION.equals(fieldName)
-				|| BidiConstants.BIDI_FORMAT_METADATA_ORIENTATION.equals(fieldName))
+				|| BidiConstants.BIDI_FORMAT_METADATA_ORIENTATION.equals(fieldName)) {
 			updateTextDirection(value.toString());
-		else if (BidiConstants.BIDI_FORMAT_ORDERINGSCHEME.equals(fieldName)
+		} else if (BidiConstants.BIDI_FORMAT_ORDERINGSCHEME.equals(fieldName)
 				|| BidiConstants.BIDI_FORMAT_CONTENT_ORDERINGSCHEME.equals(fieldName)
-				|| BidiConstants.BIDI_FORMAT_METADATA_ORDERINGSCHEME.equals(fieldName))
+				|| BidiConstants.BIDI_FORMAT_METADATA_ORDERINGSCHEME.equals(fieldName)) {
 			updateOrderingScheme(value.toString());
-		else if (BidiConstants.BIDI_FORMAT_SYMSWAP.equals(fieldName)
+		} else if (BidiConstants.BIDI_FORMAT_SYMSWAP.equals(fieldName)
 				|| BidiConstants.BIDI_FORMAT_CONTENT_SYMSWAP.equals(fieldName)
-				|| BidiConstants.BIDI_FORMAT_METADATA_SYMSWAP.equals(fieldName))
+				|| BidiConstants.BIDI_FORMAT_METADATA_SYMSWAP.equals(fieldName)) {
 			updateSymSwap(value);
-		else if (BidiConstants.BIDI_FORMAT_TEXTSHAPING.equals(fieldName)
+		} else if (BidiConstants.BIDI_FORMAT_TEXTSHAPING.equals(fieldName)
 				|| BidiConstants.BIDI_FORMAT_CONTENT_TEXTSHAPING.equals(fieldName)
-				|| BidiConstants.BIDI_FORMAT_METADATA_TEXTSHAPING.equals(fieldName))
+				|| BidiConstants.BIDI_FORMAT_METADATA_TEXTSHAPING.equals(fieldName)) {
 			updateTextShaping(value.toString());
-		else
+		} else {
 			// BiDiConstants.BIDI_FOMAT_NUMSHAPING.equals(fieldName)
 			updateNumericShaping(value.toString());
+		}
 	}
 
 	private void updateTextDirection(String value) {
 		if ((BidiConstants.TEXT_DIRECTION_LTR.equals(value)) || (BidiConstants.TEXT_DIRECTION_RTL.equals(value))
 				|| (BidiConstants.TEXT_DIRECTION_CONTEXTLTR.equals(value))
-				|| (BidiConstants.TEXT_DIRECTION_CONTEXTRTL.equals(value)))
+				|| (BidiConstants.TEXT_DIRECTION_CONTEXTRTL.equals(value))) {
 			textDirection = value;
+		}
 	}
 
 	private void updateOrderingScheme(String value) {
 		if ((BidiConstants.ORDERING_SCHEME_LOGICAL.equals(value))
-				|| (BidiConstants.ORDERING_SCHEME_VISUAL.equals(value)))
+				|| (BidiConstants.ORDERING_SCHEME_VISUAL.equals(value))) {
 			orderingScheme = value;
+		}
 	}
 
 	private void updateSymSwap(Object value) {
-		symSwap = (Boolean.valueOf(value.toString())).booleanValue();
+		symSwap = Boolean.parseBoolean(value.toString());
 	}
 
 	private void updateTextShaping(String value) {
-		if ((BidiConstants.SHAPING_NOMINAL.equals(value)) || (BidiConstants.SHAPING_SHAPED.equals(value)))
+		if ((BidiConstants.SHAPING_NOMINAL.equals(value)) || (BidiConstants.SHAPING_SHAPED.equals(value))) {
 			textShaping = value;
+		}
 	}
 
 	private void updateNumericShaping(String value) {
 		if ((BidiConstants.NUMSHAPING_CONTEXT.equals(value)) || (BidiConstants.NUMSHAPING_NATIONAL.equals(value))
-				|| (BidiConstants.NUMSHAPING_NOMINAL.equals(value)))
+				|| (BidiConstants.NUMSHAPING_NOMINAL.equals(value))) {
 			numeralShaping = value;
+		}
 	}
 
 	public static boolean isValidBidiFormat(String str) {
@@ -228,11 +247,13 @@ public class BidiFormat {
 		if (this.numeralShaping.equals(biDiFormat.numeralShaping)
 				&& this.orderingScheme.equals(biDiFormat.orderingScheme)
 				&& this.textDirection.equals(biDiFormat.textDirection)
-				&& this.textShaping.equals(biDiFormat.textShaping) && this.symSwap == biDiFormat.symSwap)
+				&& this.textShaping.equals(biDiFormat.textShaping) && this.symSwap == biDiFormat.symSwap) {
 			return true;
+		}
 		return false;
 	}
 
+	@Override
 	public String toString() {
 		return this.getBiDiFormatString();
 	}

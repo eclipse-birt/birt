@@ -32,7 +32,7 @@
 
    <plugins>
       <plugin id="com.ibm.icu"/>
-      <plugin id="com.lowagie.text"/>
+      <plugin id="com.github.librepdf.openpdf"/>
       <plugin id="javax.annotation"/>
       <plugin id="javax.el"/>
       <plugin id="javax.inject"/>

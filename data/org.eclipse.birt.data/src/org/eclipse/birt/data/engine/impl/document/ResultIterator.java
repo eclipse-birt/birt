@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -99,8 +99,9 @@ public class ResultIterator implements IResultIterator {
 		this.subQueryName = subQueryName;
 		this.currParentIndex = currParentIndex;
 		this.qd = qd;
-		if (qd instanceof QueryDefinition)
+		if (qd instanceof QueryDefinition) {
 			this.isSummary = ((QueryDefinition) this.qd).isSummaryQuery();
+		}
 
 		this.prepare();
 		this.hasFirstNext = doNext();
@@ -112,8 +113,9 @@ public class ResultIterator implements IResultIterator {
 	private void prepare() throws DataException {
 		String rootID = QueryResultIDUtil.get1PartID(this.queryResultID);
 		String selfID = QueryResultIDUtil.get2PartID(this.queryResultID);
-		if (selfID == null)
+		if (selfID == null) {
 			selfID = this.queryResultID;
+		}
 
 		RDLoad valueLoader = RDUtil.newLoad(tempDir, this.context,
 				new QueryResultInfo(rootID, null, selfID, this.subQueryName, this.currParentIndex));
@@ -128,6 +130,7 @@ public class ResultIterator implements IResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getQueryResults()
 	 */
+	@Override
 	public IQueryResults getQueryResults() {
 		return queryResults;
 	}
@@ -135,6 +138,7 @@ public class ResultIterator implements IResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getScope()
 	 */
+	@Override
 	public Scriptable getScope() {
 		return null;
 	}
@@ -142,23 +146,27 @@ public class ResultIterator implements IResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getResultMetaData()
 	 */
+	@Override
 	public IResultMetaData getResultMetaData() throws BirtException {
 		// If it is summary table, we do not save result metadata.
 		if (this.queryResults.getPreparedQuery() != null
 				&& this.queryResults.getPreparedQuery().getReportQueryDefn() != null
-				&& this.queryResults.getPreparedQuery().getReportQueryDefn().isSummaryQuery())
+				&& this.queryResults.getPreparedQuery().getReportQueryDefn().isSummaryQuery()) {
 			return null;
+		}
 
 		// TODO: Refactor me. We actually should use #isEmpty() method. However it is
 		// risk to do that in current stage of development.
-		if (this.exprResultSet instanceof EmptyExprResultSet)
+		if (this.exprResultSet instanceof EmptyExprResultSet) {
 			return new ResultMetaData(new ResultClass(new ArrayList()));
+		}
 		return this.queryResults.getResultMetaData();
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#next()
 	 */
+	@Override
 	public boolean next() throws DataException {
 		if (!this.isFirstNext) {
 			return this.doNext();
@@ -176,10 +184,12 @@ public class ResultIterator implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getValue(java.lang.String)
 	 */
+	@Override
 	public Object getValue(String name) throws BirtException {
 		Object result = this.exprResultSet.getValue(name);
-		if (result != null && result instanceof BirtException)
+		if (result instanceof BirtException) {
 			throw (BirtException) result;
+		}
 		return result;
 	}
 
@@ -187,6 +197,7 @@ public class ResultIterator implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getBoolean(java.lang.String)
 	 */
+	@Override
 	public Boolean getBoolean(String name) throws BirtException {
 		return DataTypeUtil.toBoolean(getValue(name));
 	}
@@ -195,6 +206,7 @@ public class ResultIterator implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getInteger(java.lang.String)
 	 */
+	@Override
 	public Integer getInteger(String name) throws BirtException {
 		return DataTypeUtil.toInteger(getValue(name));
 	}
@@ -203,6 +215,7 @@ public class ResultIterator implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getDouble(java.lang.String)
 	 */
+	@Override
 	public Double getDouble(String name) throws BirtException {
 		return DataTypeUtil.toDouble(getValue(name));
 	}
@@ -211,6 +224,7 @@ public class ResultIterator implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getString(java.lang.String)
 	 */
+	@Override
 	public String getString(String name) throws BirtException {
 		return DataTypeUtil.toString(getValue(name));
 	}
@@ -220,6 +234,7 @@ public class ResultIterator implements IResultIterator {
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getBigDecimal(java.lang.
 	 * String)
 	 */
+	@Override
 	public BigDecimal getBigDecimal(String name) throws BirtException {
 		return DataTypeUtil.toBigDecimal(getValue(name));
 	}
@@ -228,6 +243,7 @@ public class ResultIterator implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getDate(java.lang.String)
 	 */
+	@Override
 	public Date getDate(String name) throws BirtException {
 		return DataTypeUtil.toDate(getValue(name));
 	}
@@ -236,6 +252,7 @@ public class ResultIterator implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getBlob(java.lang.String)
 	 */
+	@Override
 	public Blob getBlob(String name) throws BirtException {
 		return DataTypeUtil.toBlob(getValue(name));
 	}
@@ -244,6 +261,7 @@ public class ResultIterator implements IResultIterator {
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getBytes(java.lang.String)
 	 */
+	@Override
 	public byte[] getBytes(String name) throws BirtException {
 		return DataTypeUtil.toBytes(getValue(name));
 	}
@@ -251,15 +269,18 @@ public class ResultIterator implements IResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowId()
 	 */
+	@Override
 	public int getRowId() throws BirtException {
-		if (this.exprResultSet.isEmpty())
+		if (this.exprResultSet.isEmpty()) {
 			return -1;
+		}
 		return this.exprResultSet.getCurrentId();
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowIndex()
 	 */
+	@Override
 	public int getRowIndex() throws BirtException {
 		return this.exprResultSet.getCurrentIndex();
 	}
@@ -267,6 +288,7 @@ public class ResultIterator implements IResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#moveTo(int)
 	 */
+	@Override
 	public void moveTo(int rowIndex) throws BirtException {
 		if (rowIndex >= 0) {
 			this.isFirstNext = false;
@@ -277,6 +299,7 @@ public class ResultIterator implements IResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getStartingGroupLevel()
 	 */
+	@Override
 	public int getStartingGroupLevel() throws BirtException {
 		return this.exprResultSet.getStartingGroupLevel();
 	}
@@ -284,6 +307,7 @@ public class ResultIterator implements IResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getEndingGroupLevel()
 	 */
+	@Override
 	public int getEndingGroupLevel() throws BirtException {
 		return this.exprResultSet.getEndingGroupLevel();
 	}
@@ -291,16 +315,19 @@ public class ResultIterator implements IResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#skipToEnd(int)
 	 */
+	@Override
 	public void skipToEnd(int groupLevel) throws BirtException {
 		this.exprResultSet.skipToEnd(groupLevel);
 	}
 
+	@Override
 	public IResultIterator getSecondaryIterator(ScriptContext context, String subQueryName) throws DataException {
 		try {
 			Scriptable scope = null;
-			if (context != null)
+			if (context != null) {
 				scope = ((IDataScriptEngine) context.getScriptEngine(IDataScriptEngine.ENGINE_NAME))
 						.getJSScope(context);
+			}
 			return this.getSecondaryIterator(subQueryName, scope);
 		} catch (BirtException e) {
 			throw DataException.wrap(e);
@@ -312,14 +339,16 @@ public class ResultIterator implements IResultIterator {
 	 * org.eclipse.birt.data.engine.api.IResultIterator#getSecondaryIterator(java.
 	 * lang.String, org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	public IResultIterator getSecondaryIterator(String subQueryName, Scriptable scope) throws DataException {
 		String queryResultsID = null;
 		String baseQueryResultsID = null;
 		int rootIdIdex = queryResultID.indexOf("/");
-		if (rootIdIdex > -1)
+		if (rootIdIdex > -1) {
 			baseQueryResultsID = queryResultID.substring(0, rootIdIdex);
-		else
+		} else {
 			baseQueryResultsID = queryResultID;
+		}
 
 		if (this.subQueryName == null) {
 			queryResultsID = queryResultID;
@@ -355,6 +384,7 @@ public class ResultIterator implements IResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#close()
 	 */
+	@Override
 	public void close() throws BirtException {
 		this.exprResultSet.close();
 	}
@@ -364,15 +394,17 @@ public class ResultIterator implements IResultIterator {
 	 * org.eclipse.birt.data.engine.api.IResultIterator#findGroup(java.lang.Object[]
 	 * )
 	 */
+	@Override
 	public boolean findGroup(Object[] groupKeyValues) throws BirtException {
 		throw new DataException(ResourceConstants.NOT_SUPPORT_IN_PRESENTATION);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#isEmpty()
 	 */
+	@Override
 	public boolean isEmpty() throws BirtException {
 		return exprResultSet.isEmpty();
 	}
@@ -381,10 +413,12 @@ public class ResultIterator implements IResultIterator {
 		return this.exprResultSet;
 	}
 
+	@Override
 	public boolean isBeforeFirst() throws BirtException {
 		return !isEmpty() && getRowIndex() < 0;
 	}
 
+	@Override
 	public boolean isFirst() throws BirtException {
 		return !isEmpty() && getRowIndex() == 0;
 	}

@@ -1,17 +1,19 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
+
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,16 +45,14 @@ import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
-
-import testutil.ConfigText;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import testutil.ConfigText;
 
 /**
- * 
+ *
  */
 public class JointDataSetTest extends APITestCase {
 	//
@@ -64,6 +64,7 @@ public class JointDataSetTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Impl.TestJointDataSet.TableName"),
 				ConfigText.getString("Impl.TestJointDataSet.TableSQL"),
@@ -83,7 +84,7 @@ public class JointDataSetTest extends APITestCase {
 
 	/**
 	 * Basic test to get MD for all columns
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -94,7 +95,7 @@ public class JointDataSetTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -106,7 +107,7 @@ public class JointDataSetTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -118,7 +119,7 @@ public class JointDataSetTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -141,7 +142,7 @@ public class JointDataSetTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -153,7 +154,7 @@ public class JointDataSetTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -165,7 +166,7 @@ public class JointDataSetTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -176,7 +177,7 @@ public class JointDataSetTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -187,7 +188,7 @@ public class JointDataSetTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -198,7 +199,7 @@ public class JointDataSetTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -209,7 +210,7 @@ public class JointDataSetTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -221,7 +222,7 @@ public class JointDataSetTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param joinType
 	 * @return
 	 * @throws Exception
@@ -290,8 +291,9 @@ public class JointDataSetTest extends APITestCase {
 		do {
 			ro = ri.getCurrentResult();
 			count++;
-			if (count == 49)
+			if (count == 49) {
 				System.out.print("ar");
+			}
 			for (int i = 0; i < ri.getResultClass().getFieldCount(); i++) {
 				s += ro.getFieldValue(i + 1) + "\t\t\t";
 			}
@@ -354,8 +356,9 @@ public class JointDataSetTest extends APITestCase {
 		do {
 			ro = ri.getCurrentResult();
 			count++;
-			if (count == 49)
+			if (count == 49) {
 				System.out.print("ar");
+			}
 			for (int i = 0; i < ri.getResultClass().getFieldCount(); i++) {
 				s += ro.getFieldValue(i + 1) + "\t\t\t";
 			}
@@ -375,12 +378,14 @@ public class JointDataSetTest extends APITestCase {
 		OdaDataSetDesign dset1 = newDataSet("dset1", "Select ID, CITY, STORE FROM " + this.getTestTableName()
 				+ " where ID > 4 and ID <> 7 and ID <> 9 order by ID asc");
 
-		if (ADD_FETCH_LIMIT)
+		if (ADD_FETCH_LIMIT) {
 			dset1.setRowFetchLimit(6);
+		}
 		OdaDataSetDesign dset2 = newDataSet("dset2", "Select ID, SKU, CATEGORY, PRICE FROM " + this.getTestTableName()
 				+ " where ID < 20 and ID <> 10 and ID <> 13 order by ID asc");
-		if (ADD_FETCH_LIMIT)
+		if (ADD_FETCH_LIMIT) {
 			dset2.setRowFetchLimit(6);
+		}
 
 		QueryDefinition query1 = this.newReportQuery(dset1);
 		QueryResults qr1 = (QueryResults) this.dataEngine.prepare(query1).execute(null);
@@ -391,8 +396,8 @@ public class JointDataSetTest extends APITestCase {
 		IResultIterator it1 = ((ResultIterator) qr1.getResultIterator()).getOdiResult();
 		IResultIterator it2 = ((ResultIterator) qr2.getResultIterator()).getOdiResult();
 
-		int[] isFromLeft = new int[] { 1, 1, 1, 2, 2, 2, 2 };
-		int[] index = new int[] { 1, 2, 3, 1, 2, 3, 4 };
+		int[] isFromLeft = { 1, 1, 1, 2, 2, 2, 2 };
+		int[] index = { 1, 2, 3, 1, 2, 3, 4 };
 		List projectedColumns = new ArrayList();
 		projectedColumns.add(new ResultFieldMetadata(1, "dset1::" + it1.getResultClass().getFieldName(1),
 				it1.getResultClass().getFieldName(1), it1.getResultClass().getFieldValueClass(1),
@@ -437,12 +442,13 @@ public class JointDataSetTest extends APITestCase {
 			fetchRowLimit = 4;
 		}
 
-		if (populateType == BINARY_TREE_POPULATOR)
+		if (populateType == BINARY_TREE_POPULATOR) {
 			populator = JointDataSetPopulatorFactory.getBinaryTreeDataSetPopulator(it1, it2, meta, matcher, joinType,
 					((DataEngineImpl) this.dataEngine).getSession(), fetchRowLimit);
-		else
+		} else {
 			populator = JointDataSetPopulatorFactory.getCartesianJointDataSetPopulator(it1, it2, meta, matcher,
 					joinType, ((DataEngineImpl) this.dataEngine).getSession(), fetchRowLimit);
+		}
 
 		IResultObject ro;
 		String s = "";
@@ -454,8 +460,9 @@ public class JointDataSetTest extends APITestCase {
 		int count = 0;
 		while ((ro = populator.next()) != null) {
 			count++;
-			if (count == 49)
+			if (count == 49) {
 				System.out.print("ar");
+			}
 			for (int i = 0; i < resultClass.getFieldCount(); i++) {
 				s += ro.getFieldValue(i + 1) + "\t\t\t";
 			}

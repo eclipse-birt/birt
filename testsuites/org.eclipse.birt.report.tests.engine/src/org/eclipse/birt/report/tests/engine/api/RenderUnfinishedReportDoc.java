@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine.api;
@@ -41,12 +41,14 @@ public class RenderUnfinishedReportDoc extends EngineCase {
 	private String docfolder = null;
 	private String outputHtml = null;
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
 		copyResource_INPUT(INPUT, INPUT);
 	}
 
+	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
 		removeResource();
@@ -61,6 +63,7 @@ public class RenderUnfinishedReportDoc extends EngineCase {
 
 		IRenderTask renderTask;
 
+		@Override
 		public void onPage(int pageNumber, boolean checkpoint, IReportDocumentInfo doc) {
 			if (pageNumber == 1) {
 				try {

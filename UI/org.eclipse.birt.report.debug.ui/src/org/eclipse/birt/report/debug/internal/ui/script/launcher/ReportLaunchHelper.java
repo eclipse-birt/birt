@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -131,7 +131,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants {
 				Object[] temp = (Object[]) obj;
 				for (int i = 0; i < temp.length; i++) {
 					String value = String.valueOf(temp[i]);
-					StringBuffer buff = new StringBuffer();
+					StringBuilder buff = new StringBuilder();
 					buff.append("-D"); //$NON-NLS-1$
 					buff.append(ATTR_MULPARAMRTER);
 					buff.append(i);
@@ -149,7 +149,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants {
 				} else {
 					value = String.valueOf(obj);
 				}
-				StringBuffer buff = new StringBuffer();
+				StringBuilder buff = new StringBuilder();
 				buff.append("-D"); //$NON-NLS-1$
 				buff.append(ATTR_PARAMRTER);
 				buff.append(key);
@@ -165,7 +165,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants {
 	void addDataLimitArgs(List list) {
 		String value = ReportPlugin.getDefault().getPluginPreferences()
 				.getString(ReportPlugin.DATA_MODEL_MEMORY_LIMIT_PREFERENCE);
-		StringBuffer buff = new StringBuffer();
+		StringBuilder buff = new StringBuilder();
 		buff.append("-D"); //$NON-NLS-1$
 		buff.append(ATTR_DATA_LIMIT_SIZE);// $NON-NLS-1$
 		buff.append("="); //$NON-NLS-1$
@@ -231,7 +231,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants {
 
 	private static String convertClassPath(String[] cp) {
 		int pathCount = 0;
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		if (cp == null || cp.length == 0) {
 			return ""; //$NON-NLS-1$
 		}
@@ -264,7 +264,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants {
 
 	/**
 	 * Gets the parameter
-	 * 
+	 *
 	 * @param params
 	 * @return
 	 */
@@ -337,10 +337,11 @@ public class ReportLaunchHelper implements IReportLaunchConstants {
 			return getParameterValues(fileName, taskType, engine, paramValues);
 		}
 
-		final Object[] result = new Object[] { Boolean.FALSE };
+		final Object[] result = { Boolean.FALSE };
 
 		Runnable r = new Runnable() {
 
+			@Override
 			public void run() {
 				result[0] = Boolean.valueOf(getParameterValues(fileName, taskType, engine, paramValues));
 			}
@@ -360,6 +361,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants {
 
 			Thread monitorThread = new Thread(new Runnable() {
 
+				@Override
 				public void run() {
 
 					while (!process.isTerminated()) {
@@ -371,6 +373,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants {
 					}
 					DebugUI.getStandardDisplay().asyncExec(new Runnable() {
 
+						@Override
 						public void run() {
 							try {
 								if (process.getExitValue() == ReportLauncher.EXIT_OK) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - modification of Batik's FontVariantManager.java to support BIRT's CSS rules
@@ -36,6 +36,7 @@ public class FontVariantManager extends IdentifierManager {
 	 * Implements
 	 * {@link org.apache.batik.css.engine.value.ValueManager#isInheritedProperty()}.
 	 */
+	@Override
 	public boolean isInheritedProperty() {
 		return true;
 	}
@@ -44,6 +45,7 @@ public class FontVariantManager extends IdentifierManager {
 	 * Implements
 	 * {@link org.apache.batik.css.engine.value.ValueManager#getPropertyName()}.
 	 */
+	@Override
 	public String getPropertyName() {
 		return CSSConstants.CSS_FONT_VARIANT_PROPERTY;
 	}
@@ -52,6 +54,7 @@ public class FontVariantManager extends IdentifierManager {
 	 * Implements
 	 * {@link org.apache.batik.css.engine.value.ValueManager#getDefaultValue()}.
 	 */
+	@Override
 	public Value getDefaultValue() {
 		return CSSValueConstants.NORMAL_VALUE;
 	}
@@ -59,6 +62,7 @@ public class FontVariantManager extends IdentifierManager {
 	/**
 	 * Implements {@link IdentifierManager#getIdentifiers()}.
 	 */
+	@Override
 	public StringMap getIdentifiers() {
 		return values;
 	}

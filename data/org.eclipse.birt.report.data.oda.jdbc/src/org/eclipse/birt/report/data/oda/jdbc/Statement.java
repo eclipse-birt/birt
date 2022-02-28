@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,9 +34,9 @@ import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfileProperty;
 
 /**
- * 
+ *
  * The class implements the org.eclipse.datatools.connectivity.IQuery interface.
- * 
+ *
  */
 public class Statement implements IQuery {
 
@@ -63,7 +63,7 @@ public class Statement implements IQuery {
 
 	/**
 	 * assertNull(Object o)
-	 * 
+	 *
 	 * @param o the object that need to be tested null or not. if null, throw
 	 *          exception
 	 */
@@ -75,10 +75,10 @@ public class Statement implements IQuery {
 	}
 
 	/**
-	 * 
+	 *
 	 * Constructor Statement(java.sql.Connection connection) use JDBC's Connection
 	 * to construct it.
-	 * 
+	 *
 	 */
 	public Statement(java.sql.Connection connection) throws OdaException {
 		if (connection != null)
@@ -96,6 +96,7 @@ public class Statement implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#prepare(java.lang.String)
 	 */
+	@Override
 	public void prepare(String command) throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, Statement.class.getName(), "prepare",
 				"Statement.prepare( \"" + command + "\" )");
@@ -125,6 +126,7 @@ public class Statement implements IQuery {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setAppContext(java.lang.Object)
 	 */
+	@Override
 	public void setAppContext(Object context) throws OdaException {
 		// do nothing; no support for pass-through application context
 	}
@@ -133,9 +135,11 @@ public class Statement implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.IQuery#setProperty(java.lang.String,
 	 * java.lang.String)
 	 */
+	@Override
 	public void setProperty(String name, String value) throws OdaException {
-		if (name == null)
+		if (name == null) {
 			throw new NullPointerException("name is null");
+		}
 
 		if (name.equals("queryTimeOut")) {
 			// Ignore null or empty value
@@ -160,8 +164,9 @@ public class Statement implements IQuery {
 					// value
 					double rows = Double.parseDouble(value);
 					// We do not honor the fetch size > 10000.
-					if (rows > 10000)
+					if (rows > 10000) {
 						rows = 10000;
+					}
 					this.preStat.setFetchSize((int) rows);
 
 				} else {
@@ -193,6 +198,7 @@ public class Statement implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#close()
 	 */
+	@Override
 	public void close() throws OdaException {
 		logger.logp(java.util.logging.Level.FINER, Statement.class.getName(), "close", "Statement.close( )");
 		try {
@@ -203,8 +209,9 @@ public class Statement implements IQuery {
 		} catch (SQLException e) {
 			try {
 				if (DBConfig.getInstance().qualifyPolicy(this.conn.getMetaData().getDriverName(),
-						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION))
+						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION)) {
 					return;
+				}
 			} catch (SQLException e1) {
 
 			}
@@ -217,6 +224,7 @@ public class Statement implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#setMaxRows(int)
 	 */
+	@Override
 	public void setMaxRows(int max) {
 		logger.logp(java.util.logging.Level.FINEST, Statement.class.getName(), "setMaxRows",
 				"Statement.setMaxRows( " + max + " )");
@@ -229,6 +237,7 @@ public class Statement implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#getMaxRows()
 	 */
+	@Override
 	public int getMaxRows() {
 		logger.logp(java.util.logging.Level.FINEST, Statement.class.getName(), "getMaxRows", "Statement.getMaxRows( )");
 		return this.maxrows;
@@ -238,13 +247,15 @@ public class Statement implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#getMetaData()
 	 */
+	@Override
 	public IResultSetMetaData getMetaData() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, Statement.class.getName(), "getMetaData",
 				"Statement.getMetaData( )");
 		assertNotNull(preStat);
 
-		if (this.cachedResultMetaData != null)
+		if (this.cachedResultMetaData != null) {
 			return this.cachedResultMetaData;
+		}
 		DBConfig config = DBConfig.getInstance();
 		try {
 			String driverName = this.conn.getMetaData().getDriverName();
@@ -312,13 +323,14 @@ public class Statement implements IQuery {
 			// retrieving metadata from prepared statement, and then we have to
 			// get metaData from ResultSet by executing query.
 			this.cachedResultSet = executeQuery();
-			if (this.cachedResultSet != null)
+			if (this.cachedResultSet != null) {
 				cachedResultMetaData = this.cachedResultSet.getMetaData();
+			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void getMetaUsingPolicy0() {
 		java.sql.ResultSetMetaData resultmd;
@@ -329,20 +341,22 @@ public class Statement implements IQuery {
 			// for jtds driver 0.9, when the sql query is very simple is
 			// returns the metadata as normal. But if the sql query is complex, i.e. involve
 			// some joins, the metadata is not rechieved.
-			if (resultmd != null && resultmd.getColumnCount() > 0)
+			if (resultmd != null && resultmd.getColumnCount() > 0) {
 				this.cachedResultMetaData = new ResultSetMetaData(resultmd);
+			}
 		} catch (Throwable e) {
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws OdaException
 	 */
 	private void getMetaUsingPolicy1() throws OdaException {
 		this.cachedResultSet = executeQuery();
-		if (this.cachedResultSet != null)
+		if (this.cachedResultSet != null) {
 			cachedResultMetaData = this.cachedResultSet.getMetaData();
+		}
 	}
 
 	private void getMetaUsingPolicy2() throws OdaException {
@@ -360,6 +374,7 @@ public class Statement implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#executeQuery()
 	 */
+	@Override
 	public IResultSet executeQuery() throws OdaException {
 		logger.logp(java.util.logging.Level.FINER, Statement.class.getName(), "executeQuery",
 				"Statement.executeQuery( )");
@@ -411,9 +426,10 @@ public class Statement implements IQuery {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#cancel()
 	 */
+	@Override
 	public void cancel() throws OdaException {
 		try {
 			if (this.preStat != null) {
@@ -433,8 +449,9 @@ public class Statement implements IQuery {
 
 		try {
 			IConnectionPoolManager manager = ConnectionPoolFactory.getInstance();
-			if (manager != null)
+			if (manager != null) {
 				manager.closeConnection(this.conn);
+			}
 		} catch (Exception e) {
 
 		}
@@ -443,6 +460,7 @@ public class Statement implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#setInt(java.lang.String, int)
 	 */
+	@Override
 	public void setInt(String parameterName, int value) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("No named Parameter supported.");
@@ -453,6 +471,7 @@ public class Statement implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#setInt(int, int)
 	 */
+	@Override
 	public void setInt(int parameterId, int value) throws OdaException {
 		assertNotNull(preStat);
 		try {
@@ -470,6 +489,7 @@ public class Statement implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.IQuery#setDouble(java.lang.String,
 	 * double)
 	 */
+	@Override
 	public void setDouble(String parameterName, double value) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("No named Parameter supported.");
@@ -480,6 +500,7 @@ public class Statement implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#setDouble(int, double)
 	 */
+	@Override
 	public void setDouble(int parameterId, double value) throws OdaException {
 		assertNotNull(preStat);
 		try {
@@ -498,6 +519,7 @@ public class Statement implements IQuery {
 	 * org.eclipse.datatools.connectivity.IQuery#setBigDecimal(java.lang.String,
 	 * java.math.BigDecimal)
 	 */
+	@Override
 	public void setBigDecimal(String parameterName, BigDecimal value) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("No named Parameter supported.");
@@ -509,6 +531,7 @@ public class Statement implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.IQuery#setBigDecimal(int,
 	 * java.math.BigDecimal)
 	 */
+	@Override
 	public void setBigDecimal(int parameterId, BigDecimal value) throws OdaException {
 		assertNotNull(preStat);
 		try {
@@ -528,6 +551,7 @@ public class Statement implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.IQuery#setString(java.lang.String,
 	 * java.lang.String)
 	 */
+	@Override
 	public void setString(String parameterName, String value) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("No named Parameter supported.");
@@ -539,6 +563,7 @@ public class Statement implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.IQuery#setString(int,
 	 * java.lang.String)
 	 */
+	@Override
 	public void setString(int parameterId, String value) throws OdaException {
 		assertNotNull(preStat);
 		try {
@@ -556,6 +581,7 @@ public class Statement implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.IQuery#setDate(java.lang.String,
 	 * java.sql.Date)
 	 */
+	@Override
 	public void setDate(String parameterName, Date value) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("No named Parameter supported.");
@@ -566,6 +592,7 @@ public class Statement implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#setDate(int, java.sql.Date)
 	 */
+	@Override
 	public void setDate(int parameterId, Date value) throws OdaException {
 		assertNotNull(preStat);
 		try {
@@ -581,11 +608,12 @@ public class Statement implements IQuery {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(java.lang.String,
 	 * boolean)
 	 */
+	@Override
 	public void setBoolean(String parameterName, boolean value) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("No named Parameter supported.");
@@ -595,9 +623,10 @@ public class Statement implements IQuery {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(int, boolean)
 	 */
+	@Override
 	public void setBoolean(int parameterId, boolean value) throws OdaException {
 		assertNotNull(preStat);
 		try {
@@ -616,6 +645,7 @@ public class Statement implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.IQuery#setTime(java.lang.String,
 	 * java.sql.Time)
 	 */
+	@Override
 	public void setTime(String parameterName, Time value) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("No named Parameter supported.");
@@ -626,6 +656,7 @@ public class Statement implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#setTime(int, java.sql.Time)
 	 */
+	@Override
 	public void setTime(int parameterId, Time value) throws OdaException {
 		assertNotNull(preStat);
 		try {
@@ -643,6 +674,7 @@ public class Statement implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.IQuery#setTimestamp(java.lang.String,
 	 * java.sql.Timestamp)
 	 */
+	@Override
 	public void setTimestamp(String parameterName, Timestamp value) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("No named Parameter supported.");
@@ -654,6 +686,7 @@ public class Statement implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.IQuery#setTimestamp(int,
 	 * java.sql.Timestamp)
 	 */
+	@Override
 	public void setTimestamp(int parameterId, Timestamp value) throws OdaException {
 		assertNotNull(preStat);
 		try {
@@ -671,11 +704,12 @@ public class Statement implements IQuery {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setObject(java.lang.String,
 	 * java.lang.Object)
 	 */
+	@Override
 	public void setObject(String parameterName, Object value) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("No named Parameter supported.");
@@ -685,10 +719,11 @@ public class Statement implements IQuery {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setObject(int,
 	 * java.lang.Object)
 	 */
+	@Override
 	public void setObject(int parameterId, Object value) throws OdaException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
@@ -697,6 +732,7 @@ public class Statement implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(java.lang.String)
 	 */
+	@Override
 	public void setNull(String parameterName) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("No named Parameter supported.");
@@ -708,6 +744,7 @@ public class Statement implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(int)
 	 */
+	@Override
 	public void setNull(int parameterId) throws OdaException {
 		assertNotNull(preStat);
 		try {
@@ -727,6 +764,7 @@ public class Statement implements IQuery {
 	 * @see
 	 * org.eclipse.datatools.connectivity.IQuery#findInParameter(java.lang.String)
 	 */
+	@Override
 	public int findInParameter(String parameterName) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("No named Parameter supported.");
@@ -737,6 +775,7 @@ public class Statement implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#getParameterMetaData()
 	 */
+	@Override
 	public IParameterMetaData getParameterMetaData() throws OdaException {
 		assertNotNull(preStat);
 		try {
@@ -755,6 +794,7 @@ public class Statement implements IQuery {
 	 * org.eclipse.datatools.connectivity.IQuery#setSortSpec(org.eclipse.datatools.
 	 * connectivity.SortSpec)
 	 */
+	@Override
 	public void setSortSpec(SortSpec sortBy) throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("setSortSpec is not supported.");
@@ -765,6 +805,7 @@ public class Statement implements IQuery {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#getSortSpec()
 	 */
+	@Override
 	public SortSpec getSortSpec() throws OdaException {
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException("setSortSpec is not supported.");
@@ -775,11 +816,12 @@ public class Statement implements IQuery {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setSpecification(org.eclipse.
 	 * datatools.connectivity.oda.spec.QuerySpecification)
 	 */
+	@Override
 	@SuppressWarnings("restriction")
 	public void setSpecification(QuerySpecification querySpec) throws OdaException, UnsupportedOperationException {
 		this.querySpec = querySpec;
@@ -787,9 +829,10 @@ public class Statement implements IQuery {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getSpecification()
 	 */
+	@Override
 	@SuppressWarnings("restriction")
 	public QuerySpecification getSpecification() {
 		return this.querySpec;
@@ -797,13 +840,15 @@ public class Statement implements IQuery {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getEffectiveQueryText()
 	 */
+	@Override
 	public String getEffectiveQueryText() {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void clearInParameters() throws OdaException {
 		assertNotNull(preStat);
 		try {
@@ -827,9 +872,10 @@ public class Statement implements IQuery {
 	}
 
 	private void addLog(String methodName, int parameterId, String value) {
-		if (logger.isLoggable(Level.FINEST))
+		if (logger.isLoggable(Level.FINEST)) {
 			logger.logp(Level.FINEST, Statement.class.getName(), methodName,
 					"parameter " + parameterId + " = " + value);
+		}
 
 	}
 
@@ -840,7 +886,7 @@ public class Statement implements IQuery {
 
 	/**
 	 * This API is meant to execute the update/DML sql query.
-	 * 
+	 *
 	 * @return
 	 * @throws OdaException
 	 */

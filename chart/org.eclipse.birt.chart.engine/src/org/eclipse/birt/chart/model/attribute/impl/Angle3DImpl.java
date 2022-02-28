@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -119,7 +119,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 	/**
 	 * The default value of the '{@link #getXAngle() <em>XAngle</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getXAngle()
 	 * @generated
 	 * @ordered
@@ -129,7 +129,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 	/**
 	 * The cached value of the '{@link #getXAngle() <em>XAngle</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getXAngle()
 	 * @generated
 	 * @ordered
@@ -139,7 +139,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 	/**
 	 * This is true if the XAngle attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -148,7 +148,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 	/**
 	 * The default value of the '{@link #getYAngle() <em>YAngle</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getYAngle()
 	 * @generated
 	 * @ordered
@@ -158,7 +158,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 	/**
 	 * The cached value of the '{@link #getYAngle() <em>YAngle</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getYAngle()
 	 * @generated
 	 * @ordered
@@ -168,7 +168,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 	/**
 	 * This is true if the YAngle attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -177,7 +177,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 	/**
 	 * The default value of the '{@link #getZAngle() <em>ZAngle</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getZAngle()
 	 * @generated
 	 * @ordered
@@ -187,7 +187,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 	/**
 	 * The cached value of the '{@link #getZAngle() <em>ZAngle</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getZAngle()
 	 * @generated
 	 * @ordered
@@ -197,7 +197,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 	/**
 	 * This is true if the ZAngle attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -206,7 +206,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -216,7 +216,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -226,7 +226,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 	/**
 	 * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -234,7 +234,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected Angle3DImpl() {
@@ -243,7 +243,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -253,199 +253,223 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public double getXAngle() {
 		return xAngle;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setXAngle(double newXAngle) {
 		double oldXAngle = xAngle;
 		xAngle = newXAngle;
 		boolean oldXAngleESet = xAngleESet;
 		xAngleESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.ANGLE3_D__XANGLE, oldXAngle, xAngle,
 					!oldXAngleESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetXAngle() {
 		double oldXAngle = xAngle;
 		boolean oldXAngleESet = xAngleESet;
 		xAngle = XANGLE_EDEFAULT;
 		xAngleESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.ANGLE3_D__XANGLE, oldXAngle,
 					XANGLE_EDEFAULT, oldXAngleESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetXAngle() {
 		return xAngleESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public double getYAngle() {
 		return yAngle;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setYAngle(double newYAngle) {
 		double oldYAngle = yAngle;
 		yAngle = newYAngle;
 		boolean oldYAngleESet = yAngleESet;
 		yAngleESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.ANGLE3_D__YANGLE, oldYAngle, yAngle,
 					!oldYAngleESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetYAngle() {
 		double oldYAngle = yAngle;
 		boolean oldYAngleESet = yAngleESet;
 		yAngle = YANGLE_EDEFAULT;
 		yAngleESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.ANGLE3_D__YANGLE, oldYAngle,
 					YANGLE_EDEFAULT, oldYAngleESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetYAngle() {
 		return yAngleESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public double getZAngle() {
 		return zAngle;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setZAngle(double newZAngle) {
 		double oldZAngle = zAngle;
 		zAngle = newZAngle;
 		boolean oldZAngleESet = zAngleESet;
 		zAngleESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.ANGLE3_D__ZANGLE, oldZAngle, zAngle,
 					!oldZAngleESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetZAngle() {
 		double oldZAngle = zAngle;
 		boolean oldZAngleESet = zAngleESet;
 		zAngle = ZANGLE_EDEFAULT;
 		zAngleESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.ANGLE3_D__ZANGLE, oldZAngle,
 					ZANGLE_EDEFAULT, oldZAngleESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetZAngle() {
 		return zAngleESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public AngleType getType() {
 		return type;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setType(AngleType newType) {
 		AngleType oldType = type;
 		type = newType == null ? TYPE_EDEFAULT : newType;
 		boolean oldTypeESet = typeESet;
 		typeESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.ANGLE3_D__TYPE, oldType, type,
 					!oldTypeESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetType() {
 		AngleType oldType = type;
 		boolean oldTypeESet = typeESet;
 		type = TYPE_EDEFAULT;
 		typeESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.ANGLE3_D__TYPE, oldType,
 					TYPE_EDEFAULT, oldTypeESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetType() {
 		return typeESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -465,7 +489,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -489,7 +513,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -513,7 +537,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -533,44 +557,50 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (xAngle: "); //$NON-NLS-1$
-		if (xAngleESet)
+		if (xAngleESet) {
 			result.append(xAngle);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", yAngle: "); //$NON-NLS-1$
-		if (yAngleESet)
+		if (yAngleESet) {
 			result.append(yAngle);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", zAngle: "); //$NON-NLS-1$
-		if (zAngleESet)
+		if (zAngleESet) {
 			result.append(zAngle);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", type: "); //$NON-NLS-1$
-		if (typeESet)
+		if (typeESet) {
 			result.append(type);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.attribute.Angle3D#getAxisAngle()
 	 */
+	@Override
 	public double getAxisAngle() {
 		AngleType at = getType();
 
@@ -586,10 +616,11 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.attribute.Angle3D#set(double, double,
 	 * double)
 	 */
+	@Override
 	public void set(double x, double y, double z) {
 		setXAngle(x);
 		setYAngle(y);
@@ -601,6 +632,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D {
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
+	@Override
 	public Angle3D copyInstance() {
 		Angle3DImpl dest = new Angle3DImpl();
 		dest.set(this);

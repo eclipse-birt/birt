@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -84,7 +84,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * This is for a chart using a cube data source
- * 
+ *
  */
 
 public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
@@ -113,7 +113,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 	private Combo cmbType, cmbFunction, cmbAggOn;
 	private Composite paramsComposite;
 	private Button btnDisplayNameID;
-	private Map<String, Control> paramsMap = new HashMap<String, Control>();
+	private Map<String, Control> paramsMap = new HashMap<>();
 
 	private Composite composite;
 	private Text txtDisplayName, txtDisplayNameID;
@@ -123,6 +123,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 	private Object container;
 	protected final ExpressionCodec exprCodec = ChartModelHelper.instance().createExpressionCodec();
 
+	@Override
 	public void createContent(Composite parent) {
 		composite = parent;
 
@@ -140,6 +141,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 
 		txtName.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				validate();
 			}
@@ -150,6 +152,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 		lbDisplayNameID.setText(DISPLAY_NAME_ID);
 		lbDisplayNameID.addTraverseListener(new TraverseListener() {
 
+			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
 					e.detail = SWT.TRAVERSE_NONE;
@@ -168,6 +171,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 		btnDisplayNameID.setToolTipText(Messages.getString("ResourceKeyDescriptor.button.browse.tooltip")); //$NON-NLS-1$
 		btnDisplayNameID.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				openKeySelectionDialog();
 			}
@@ -208,6 +212,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 		}
 	}
 
+	@Override
 	public void initDialog() {
 		txtDisplayName.setFocus();
 		if (isAggregate()) {
@@ -227,11 +232,12 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 			setDisplayName(getBinding().getDisplayName());
 			setDisplayNameID(getBinding().getDisplayNameID());
 			if (getBinding().getDataType() != null) {
-				if (DATA_TYPE_CHOICE_SET.findChoice(getBinding().getDataType()) != null)
+				if (DATA_TYPE_CHOICE_SET.findChoice(getBinding().getDataType()) != null) {
 					setTypeSelect(DATA_TYPE_CHOICE_SET.findChoice(getBinding().getDataType()).getDisplayName());
-				else
+				} else {
 					// the old type 'any'
 					cmbType.setText(""); //$NON-NLS-1$
+				}
 			}
 
 			if (txtExpression != null) {
@@ -252,13 +258,14 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 		String[] aggOns = getAggOns(handle);
 		cmbAggOn.setItems(aggOns);
 
-		StringBuffer aggstr = new StringBuffer();
+		StringBuilder aggstr = new StringBuilder();
 		if (getBinding() != null) {
 			List aggOnList = getBinding().getAggregateOnList();
 			int i = 0;
 			for (Iterator iterator = aggOnList.iterator(); iterator.hasNext();) {
-				if (i > 0)
+				if (i > 0) {
 					aggstr.append(","); //$NON-NLS-1$
+				}
 				String name = (String) iterator.next();
 				aggstr.append(name);
 				i++;
@@ -276,7 +283,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 
 	private String[] getAggOns(ReportItemHandle handle) {
 		String catExpr = null, yopExpr = null;
-		List<String> aggOnList = new ArrayList<String>();
+		List<String> aggOnList = new ArrayList<>();
 		aggOnList.add(ALL);
 
 		Chart chart;
@@ -362,8 +369,9 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 
 	private String[] getFunctionDisplayNames() {
 		IAggrFunction[] choices = getFunctions();
-		if (choices == null)
+		if (choices == null) {
 			return new String[0];
+		}
 
 		String[] displayNames = new String[choices.length];
 		for (int i = 0; i < choices.length; i++) {
@@ -374,8 +382,9 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 
 	private IAggrFunction getFunctionByDisplayName(String displayName) {
 		IAggrFunction[] choices = getFunctions();
-		if (choices == null)
+		if (choices == null) {
 			return null;
+		}
 
 		for (int i = 0; i < choices.length; i++) {
 			if (choices[i].getDisplayName().equals(displayName)) {
@@ -440,34 +449,39 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 	}
 
 	private void setName(String name) {
-		if (name != null && txtName != null)
+		if (name != null && txtName != null) {
 			txtName.setText(name);
+		}
 	}
 
 	private void setDisplayNameID(String displayNameID) {
-		if (displayNameID != null && txtDisplayNameID != null)
+		if (displayNameID != null && txtDisplayNameID != null) {
 			txtDisplayNameID.setText(displayNameID);
+		}
 	}
 
 	private void setDisplayName(String displayName) {
-		if (displayName != null && txtDisplayName != null)
+		if (displayName != null && txtDisplayName != null) {
 			txtDisplayName.setText(displayName);
+		}
 	}
 
 	private void setTypeSelect(String typeSelect) {
 		if (dataTypes != null && cmbType != null) {
 			cmbType.setItems(dataTypes);
-			if (typeSelect != null)
+			if (typeSelect != null) {
 				cmbType.select(getItemIndex(cmbType.getItems(), typeSelect));
-			else
+			} else {
 				cmbType.select(0);
+			}
 		}
 	}
 
 	private int getItemIndex(String[] items, String item) {
 		for (int i = 0; i < items.length; i++) {
-			if (items[i].equals(item))
+			if (items[i].equals(item)) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -484,6 +498,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 
 		cmbFunction.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleFunctionSelectEvent();
 				validate();
@@ -500,8 +515,9 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 		layout.marginWidth = layout.marginHeight = 0;
 		layout.numColumns = 3;
 		Layout parentLayout = paramsComposite.getParent().getLayout();
-		if (parentLayout instanceof GridLayout)
+		if (parentLayout instanceof GridLayout) {
 			layout.horizontalSpacing = ((GridLayout) parentLayout).horizontalSpacing;
+		}
 		paramsComposite.setLayout(layout);
 
 		new Label(composite, SWT.NONE).setText(FILTER_CONDITION);
@@ -531,6 +547,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 		createExpressionButton(composite, txtExpression);
 		txtExpression.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				validate();
 			}
@@ -566,8 +583,9 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 						if (controls[i] instanceof Label
 								&& ((GridData) controls[i].getLayoutData()).horizontalSpan == 1) {
 							int labelWidth = controls[i].getBounds().width - controls[i].getBorderWidth() * 2;
-							if (labelWidth > width)
+							if (labelWidth > width) {
 								width = labelWidth;
+							}
 						}
 					}
 				}
@@ -577,8 +595,9 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 					lblParam.setText(param.getDisplayName() + ":"); //$NON-NLS-1$
 					GridData gd = new GridData();
 					gd.widthHint = lblParam.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
-					if (gd.widthHint < width)
+					if (gd.widthHint < width) {
 						gd.widthHint = width;
+					}
 					lblParam.setLayoutData(gd);
 
 					if (param.isDataField()) {
@@ -589,6 +608,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 
 						cmbDataField.addModifyListener(new ModifyListener() {
 
+							@Override
 							public void modifyText(ModifyEvent e) {
 								validate();
 							}
@@ -601,6 +621,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 						Text txtParam = new Text(paramsComposite, SWT.BORDER);
 						txtParam.addModifyListener(new ModifyListener() {
 
+							@Override
 							public void modifyText(ModifyEvent e) {
 								validate();
 							}
@@ -642,6 +663,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 		ExpressionButtonUtil.createExpressionButton(parent, text, expressionProvider, bindingHolder);
 	}
 
+	@Override
 	public void validate() {
 		if (txtName != null && (txtName.getText() == null || txtName.getText().trim().equals(""))) //$NON-NLS-1$
 		{
@@ -701,23 +723,22 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 		}
 	}
 
+	@Override
 	public boolean differs(ComputedColumnHandle binding) {
 		if (isAggregate()) {
-			if (!strEquals(binding.getName(), txtName.getText()))
+			if (!strEquals(binding.getName(), txtName.getText()) || !strEquals(binding.getDisplayName(), txtDisplayName.getText()) || !strEquals(binding.getDisplayNameID(), txtDisplayNameID.getText()) || !strEquals(binding.getDataType(), getDataType())) {
 				return true;
-			if (!strEquals(binding.getDisplayName(), txtDisplayName.getText()))
+			}
+			if (!strEquals(binding.getAggregateFunction(), getFunctionByDisplayName(cmbFunction.getText()).getName())) {
 				return true;
-			if (!strEquals(binding.getDisplayNameID(), txtDisplayNameID.getText()))
-				return true;
-			if (!strEquals(binding.getDataType(), getDataType()))
-				return true;
-			if (!strEquals(binding.getAggregateFunction(), getFunctionByDisplayName(cmbFunction.getText()).getName()))
-				return true;
+			}
 			if (!exprEquals((Expression) binding.getExpressionProperty(ComputedColumn.FILTER_MEMBER).getValue(),
-					ExpressionButtonUtil.getExpression(txtFilter)))
+					ExpressionButtonUtil.getExpression(txtFilter))) {
 				return true;
-			if (!strEquals(cmbAggOn.getText(), binding.getAggregateOn()))
+			}
+			if (!strEquals(cmbAggOn.getText(), binding.getAggregateOn())) {
 				return true;
+			}
 
 			for (Iterator iterator = binding.argumentsIterator(); iterator.hasNext();) {
 				AggregationArgumentHandle handle = (AggregationArgumentHandle) iterator.next();
@@ -733,17 +754,13 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 			}
 
 		} else {
-			if (!strEquals(txtName.getText(), binding.getName()))
+			if (!strEquals(txtName.getText(), binding.getName()) || !strEquals(txtDisplayName.getText(), binding.getDisplayName()) || !strEquals(txtDisplayNameID.getText(), binding.getDisplayNameID()) || !strEquals(getDataType(), binding.getDataType())) {
 				return true;
-			if (!strEquals(txtDisplayName.getText(), binding.getDisplayName()))
-				return true;
-			if (!strEquals(txtDisplayNameID.getText(), binding.getDisplayNameID()))
-				return true;
-			if (!strEquals(getDataType(), binding.getDataType()))
-				return true;
+			}
 			if (!exprEquals(ExpressionButtonUtil.getExpression(txtExpression),
-					(Expression) binding.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER).getValue()))
+					(Expression) binding.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER).getValue())) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -755,11 +772,12 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 			return false;
 		} else if (left != null && right == null) {
 			return false;
-		} else if (left.getStringExpression() == null && right.getStringExpression() == null)
+		} else if (left.getStringExpression() == null && right.getStringExpression() == null) {
 			return true;
-		else if (strEquals(left.getStringExpression(), right.getStringExpression())
-				&& strEquals(left.getType(), right.getType()))
+		} else if (strEquals(left.getStringExpression(), right.getStringExpression())
+				&& strEquals(left.getType(), right.getType())) {
 			return true;
+		}
 		return false;
 	}
 
@@ -773,12 +791,15 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 	}
 
 	private boolean strEquals(String left, String right) {
-		if (left == right)
+		if (left == right) {
 			return true;
-		if (left == null)
+		}
+		if (left == null) {
 			return "".equals(right); //$NON-NLS-1$
-		if (right == null)
+		}
+		if (right == null) {
 			return "".equals(left); //$NON-NLS-1$
+		}
 		return left.equals(right);
 	}
 
@@ -791,6 +812,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 		return ""; //$NON-NLS-1$
 	}
 
+	@Override
 	public ComputedColumnHandle editBinding(ComputedColumnHandle binding) throws SemanticException {
 		if (isAggregate()) {
 			binding.setDisplayName(txtDisplayName.getText());
@@ -812,8 +834,9 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 
 			while (token.hasMoreTokens()) {
 				String agg = token.nextToken();
-				if (!agg.equals(ALL))
+				if (!agg.equals(ALL)) {
 					binding.addAggregateOn(agg);
+				}
 			}
 
 			binding.clearArgumentList();
@@ -856,6 +879,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 		return binding;
 	}
 
+	@Override
 	public ComputedColumnHandle newBinding(ReportItemHandle bindingHolder, String name) throws SemanticException {
 		ComputedColumn column = StructureFactory.newComputedColumn(bindingHolder,
 				name == null ? txtName.getText() : name);
@@ -863,24 +887,27 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 		return editBinding(binding);
 	}
 
+	@Override
 	public void setContainer(Object container) {
 		this.container = container;
 	}
 
+	@Override
 	public boolean canProcessAggregation() {
 		return true;
 	}
 
 	private URL[] getAvailableResourceUrls() {
-		List<URL> urls = new ArrayList<URL>();
+		List<URL> urls = new ArrayList<>();
 		String[] baseNames = getBaseNames();
-		if (baseNames == null)
+		if (baseNames == null) {
 			return urls.toArray(new URL[0]);
-		else {
+		} else {
 			for (int i = 0; i < baseNames.length; i++) {
 				URL url = getModuleHandle().findResource(baseNames[i], IResourceLocator.MESSAGE_FILE);
-				if (url != null)
+				if (url != null) {
 					urls.add(url);
+				}
 			}
 			return urls.toArray(new URL[0]);
 		}
@@ -888,17 +915,18 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper {
 
 	private String[] getBaseNames() {
 		List<String> resources = getModuleHandle().getIncludeResources();
-		if (resources == null)
+		if (resources == null) {
 			return null;
-		else
+		} else {
 			return resources.toArray(new String[0]);
+		}
 	}
 
 	private URL[] getResourceURLs() {
 		String[] baseNames = getBaseNames();
-		if (baseNames == null)
+		if (baseNames == null) {
 			return null;
-		else {
+		} else {
 			URL[] urls = new URL[baseNames.length];
 			for (int i = 0; i < baseNames.length; i++) {
 				urls[i] = getModuleHandle().findResource(baseNames[i], IResourceLocator.MESSAGE_FILE);

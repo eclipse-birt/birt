@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -70,7 +70,7 @@ public class PreviewLabel extends Canvas {
 
 	/**
 	 * Default constructor.
-	 * 
+	 *
 	 * @param parent widget parent.
 	 * @param style  create style.
 	 */
@@ -81,6 +81,7 @@ public class PreviewLabel extends Canvas {
 
 		addPaintListener(new PaintListener() {
 
+			@Override
 			public void paintControl(PaintEvent e) {
 				PreviewLabel.this.paintControl(e);
 			}
@@ -88,6 +89,7 @@ public class PreviewLabel extends Canvas {
 
 		addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				if (fontCreated) {
 					getFont().dispose();
@@ -97,6 +99,7 @@ public class PreviewLabel extends Canvas {
 
 		addListener(SWT.Traverse, new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
 				switch (e.detail) {
 				case SWT.TRAVERSE_PAGE_NEXT:
@@ -117,11 +120,13 @@ public class PreviewLabel extends Canvas {
 	void initAccessible() {
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
+			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point pt = toControl(new Point(e.x, e.y));
 				e.childID = (getBounds().contains(pt)) ? ACC.CHILDID_SELF : ACC.CHILDID_NONE;
 			}
 
+			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(location.x, location.y);
@@ -131,18 +136,22 @@ public class PreviewLabel extends Canvas {
 				e.height = location.height;
 			}
 
+			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
+			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_LABEL;
 			}
 
+			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
 
+			@Override
 			public void getValue(AccessibleControlEvent e) {
 				e.result = text;
 			}
@@ -152,12 +161,15 @@ public class PreviewLabel extends Canvas {
 		Accessible accessible = getAccessible();
 		accessible.addAccessibleListener(new AccessibleAdapter() {
 
+			@Override
 			public void getName(AccessibleEvent e) {
 				e.result = text;
-				if (e.result == null)
+				if (e.result == null) {
 					getHelp(e);
+				}
 			}
 
+			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
@@ -199,7 +211,7 @@ public class PreviewLabel extends Canvas {
 
 	/**
 	 * Sets if update the view whenever the font style has been changed.
-	 * 
+	 *
 	 * @param onthefly
 	 */
 	public void setUpdateOnthefly(boolean onthefly) {
@@ -208,7 +220,7 @@ public class PreviewLabel extends Canvas {
 
 	/**
 	 * Sets the label text.
-	 * 
+	 *
 	 * @param txt text.
 	 */
 	public void setText(String txt) {
@@ -217,7 +229,7 @@ public class PreviewLabel extends Canvas {
 
 	/**
 	 * Sets if the label has the underline style.
-	 * 
+	 *
 	 * @param underline
 	 */
 	public void setUnderline(boolean underline) {
@@ -226,7 +238,7 @@ public class PreviewLabel extends Canvas {
 
 	/**
 	 * Sets if the label has the line-through style.
-	 * 
+	 *
 	 * @param linethrough
 	 */
 	public void setLinethrough(boolean linethrough) {
@@ -235,7 +247,7 @@ public class PreviewLabel extends Canvas {
 
 	/**
 	 * Sets if the label has the over-line style.
-	 * 
+	 *
 	 * @param overline
 	 */
 	public void setOverline(boolean overline) {
@@ -244,7 +256,7 @@ public class PreviewLabel extends Canvas {
 
 	/**
 	 * Sets the font family.
-	 * 
+	 *
 	 * @param fontFamily family name.
 	 */
 	public void setFontFamily(String fontFamily) {
@@ -257,7 +269,7 @@ public class PreviewLabel extends Canvas {
 
 	/**
 	 * Sets the font size.
-	 * 
+	 *
 	 * @param fontSize size value.
 	 */
 	public void setFontSize(int fontSize) {
@@ -270,7 +282,7 @@ public class PreviewLabel extends Canvas {
 
 	/**
 	 * Sets the font weight. NOTE: only win32 system support this style.
-	 * 
+	 *
 	 * @param fontWeight weight value.
 	 */
 	public void setFontWeight(int fontWeight) {
@@ -283,7 +295,7 @@ public class PreviewLabel extends Canvas {
 
 	/**
 	 * Sets if has a bold style.
-	 * 
+	 *
 	 * @param isBold
 	 */
 	public void setBold(boolean isBold) {
@@ -298,7 +310,7 @@ public class PreviewLabel extends Canvas {
 
 	/**
 	 * Sets if has a italic style.
-	 * 
+	 *
 	 * @param isItalic
 	 */
 	public void setItalic(boolean isItalic) {

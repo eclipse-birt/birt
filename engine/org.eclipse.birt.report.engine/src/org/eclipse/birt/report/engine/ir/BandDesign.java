@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -32,7 +32,7 @@ abstract public class BandDesign extends ReportItemDesign {
 
 	/**
 	 * get section in this band
-	 * 
+	 *
 	 * @param index section index
 	 * @return Returns the sections.
 	 */
@@ -43,7 +43,7 @@ abstract public class BandDesign extends ReportItemDesign {
 
 	/**
 	 * get total sections
-	 * 
+	 *
 	 * @return total count sections in this list band.
 	 */
 	public int getContentCount() {
@@ -52,7 +52,7 @@ abstract public class BandDesign extends ReportItemDesign {
 
 	/**
 	 * get all the sections.
-	 * 
+	 *
 	 * @return array list contains all the sections
 	 */
 	public ArrayList getContents() {
@@ -61,7 +61,7 @@ abstract public class BandDesign extends ReportItemDesign {
 
 	/**
 	 * set the section of this band
-	 * 
+	 *
 	 * @param item The sections to set.
 	 */
 	public void addContent(ReportItemDesign item) {
@@ -78,7 +78,7 @@ abstract public class BandDesign extends ReportItemDesign {
 
 	/**
 	 * get band type
-	 * 
+	 *
 	 * @return the band type
 	 */
 	public int getBandType() {
@@ -87,13 +87,14 @@ abstract public class BandDesign extends ReportItemDesign {
 
 	/**
 	 * set band type
-	 * 
+	 *
 	 * @param bandType the band type
 	 */
 	public void setBandType(int bandType) {
 		this.bandType = bandType;
 	}
 
+	@Override
 	public Object accept(IReportItemVisitor visitor, Object value) {
 		return visitor.visitBand(this, value);
 	}

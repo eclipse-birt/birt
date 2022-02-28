@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 package org.eclipse.birt.report.designer.ui.widget;
@@ -44,11 +44,12 @@ public class PopupSelectionList {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.eclipse.swt.events.ShellAdapter#shellDeactivated(org.eclipse.swt.events.
 			 * ShellEvent)
 			 */
+			@Override
 			public void shellDeactivated(ShellEvent e) {
 				closeShell();
 			}
@@ -59,10 +60,11 @@ public class PopupSelectionList {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.swt.events.MouseAdapter#mouseUp(org.eclipse.swt.events.
 			 * MouseEvent)
 			 */
+			@Override
 			public void mouseUp(MouseEvent e) {
 				closeShell();
 			}
@@ -73,10 +75,11 @@ public class PopupSelectionList {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.swt.events.KeyAdapter#keyReleased(org.eclipse.swt.events.
 			 * KeyEvent)
 			 */
+			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.character == SWT.CR) {
 					closeShell();
@@ -133,8 +136,9 @@ public class PopupSelectionList {
 
 		Display display = shell.getDisplay();
 		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
+			if (!display.readAndDispatch()) {
 				display.sleep();
+			}
 		}
 		return result;
 	}
@@ -183,7 +187,7 @@ public class PopupSelectionList {
 	}
 
 	private String getSeparator(int maxChars) {
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		for (int n = 0; n < maxChars; n++) {
 			buf.append("_"); //$NON-NLS-1$
 		}

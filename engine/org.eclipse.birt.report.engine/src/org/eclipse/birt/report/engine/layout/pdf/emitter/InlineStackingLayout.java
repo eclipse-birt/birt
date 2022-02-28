@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -29,6 +29,7 @@ public class InlineStackingLayout extends ContainerLayout implements IInlineStac
 		super(context, parent, content);
 	}
 
+	@Override
 	protected void addToRoot(AbstractArea area) {
 		currentContext.root.addChild(area);
 		area.setAllocatedPosition(currentContext.currentIP + offsetX, currentContext.currentBP + offsetY);
@@ -40,11 +41,13 @@ public class InlineStackingLayout extends ContainerLayout implements IInlineStac
 		}
 	}
 
+	@Override
 	protected void closeLayout(ContainerContext currentContext, int index, boolean finished) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	protected void createRoot() {
 		// TODO Auto-generated method stub
 	}
@@ -81,7 +84,7 @@ public class InlineStackingLayout extends ContainerLayout implements IInlineStac
 
 	/**
 	 * Calculates the max baseline, and update the root height if necessary.
-	 * 
+	 *
 	 * @return the max baseline.
 	 */
 	private int getMaxBaseLine() {
@@ -104,26 +107,31 @@ public class InlineStackingLayout extends ContainerLayout implements IInlineStac
 		return maxChildrenBaseLine;
 	}
 
+	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean endLine() throws BirtException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public int getMaxLineWidth() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public boolean isEmptyLine() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void setTextIndent(ITextContent textContent) {
 		// TODO Auto-generated method stub
 

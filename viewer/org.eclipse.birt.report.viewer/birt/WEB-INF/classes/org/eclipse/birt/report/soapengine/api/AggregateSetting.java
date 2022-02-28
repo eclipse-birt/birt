@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -36,7 +36,7 @@ public class AggregateSetting implements java.io.Serializable {
 
 	/**
 	 * Gets the enable value for this AggregateSetting.
-	 * 
+	 *
 	 * @return enable
 	 */
 	public java.lang.Boolean getEnable() {
@@ -45,7 +45,7 @@ public class AggregateSetting implements java.io.Serializable {
 
 	/**
 	 * Sets the enable value for this AggregateSetting.
-	 * 
+	 *
 	 * @param enable
 	 */
 	public void setEnable(java.lang.Boolean enable) {
@@ -54,7 +54,7 @@ public class AggregateSetting implements java.io.Serializable {
 
 	/**
 	 * Gets the showInFooter value for this AggregateSetting.
-	 * 
+	 *
 	 * @return showInFooter
 	 */
 	public java.lang.Boolean getShowInFooter() {
@@ -63,7 +63,7 @@ public class AggregateSetting implements java.io.Serializable {
 
 	/**
 	 * Sets the showInFooter value for this AggregateSetting.
-	 * 
+	 *
 	 * @param showInFooter
 	 */
 	public void setShowInFooter(java.lang.Boolean showInFooter) {
@@ -72,7 +72,7 @@ public class AggregateSetting implements java.io.Serializable {
 
 	/**
 	 * Gets the groupName value for this AggregateSetting.
-	 * 
+	 *
 	 * @return groupName
 	 */
 	public java.lang.String getGroupName() {
@@ -81,7 +81,7 @@ public class AggregateSetting implements java.io.Serializable {
 
 	/**
 	 * Sets the groupName value for this AggregateSetting.
-	 * 
+	 *
 	 * @param groupName
 	 */
 	public void setGroupName(java.lang.String groupName) {
@@ -90,14 +90,18 @@ public class AggregateSetting implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof AggregateSetting))
+		if (!(obj instanceof AggregateSetting)) {
 			return false;
+		}
 		AggregateSetting other = (AggregateSetting) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -116,6 +120,7 @@ public class AggregateSetting implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

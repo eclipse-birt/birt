@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handleAdpter
 	 * @param measureHandle
 	 */
@@ -55,18 +55,20 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
+	@Override
 	public boolean canExecute() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public void execute() {
 		transStart(NAME);
 		CrosstabReportItemHandle reportHandle = handleAdpter.getCrosstabCellHandle().getCrosstab();

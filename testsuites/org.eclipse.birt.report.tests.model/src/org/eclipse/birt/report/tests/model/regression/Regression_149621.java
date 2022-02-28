@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -33,6 +33,7 @@ public class Regression_149621 extends BaseTestCase {
 	private String filename1 = "Regression_149621_1.xml"; //$NON-NLS-1$
 	private String outfile = "Regression_149621_out.xml"; //$NON-NLS-1$
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -41,6 +42,7 @@ public class Regression_149621 extends BaseTestCase {
 		copyInputToFile(INPUT_FOLDER + "/" + filename1);
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}

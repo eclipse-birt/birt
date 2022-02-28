@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -93,26 +93,31 @@ public class BooleanPropertyType extends PropertyType {
 	 * </ul>
 	 * <p>
 	 * Boolean property type is stored as <code>java.lang.Boolean</code> internally.
-	 * 
+	 *
 	 * @return the value(Boolean Type) to store for the property of type Boolean.
 	 *         Returns <code>null</code> if the <code>value</code> parameter is
 	 *         null.
-	 * 
+	 *
 	 */
 
+	@Override
 	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
-		if (value instanceof String)
+		if (value instanceof String) {
 			return validateInputString(module, element, defn, (String) value);
-		if (value instanceof Boolean)
+		}
+		if (value instanceof Boolean) {
 			return value;
+		}
 
 		if (value instanceof Integer || value instanceof Double || value instanceof Float
-				|| value instanceof BigDecimal)
+				|| value instanceof BigDecimal) {
 			return ((Number) value).intValue() == 0 ? Boolean.FALSE : Boolean.TRUE;
+		}
 
 		throw new PropertyValueException(value, PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, getTypeCode());
 	}
@@ -125,12 +130,13 @@ public class BooleanPropertyType extends PropertyType {
 	 * <li>"true" and "false" (Java and XML constants).</li>
 	 * </ul>
 	 * <p>
-	 * 
+	 *
 	 * @return the value(Boolean Type) to store for the property from xml of type
 	 *         Boolean. Returns <code>null</code> if the <code>value</code>
 	 *         parameter is null or a blank string.
 	 */
 
+	@Override
 	public Object validateXml(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
 		assert value == null || value instanceof String;
@@ -138,13 +144,15 @@ public class BooleanPropertyType extends PropertyType {
 
 		tmpValue = StringUtil.trimString(tmpValue);
 
-		if (tmpValue == null)
+		if (tmpValue == null) {
 			return null;
+		}
 
-		if (tmpValue.equalsIgnoreCase(TRUE))
+		if (tmpValue.equalsIgnoreCase(TRUE)) {
 			return Boolean.TRUE;
-		else if (tmpValue.equalsIgnoreCase(FALSE))
+		} else if (tmpValue.equalsIgnoreCase(FALSE)) {
 			return Boolean.FALSE;
+		}
 
 		throw new PropertyValueException(tmpValue, PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				getTypeCode());
@@ -152,20 +160,22 @@ public class BooleanPropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
+	@Override
 	public int getTypeCode() {
 		return BOOLEAN_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#getName()
 	 */
 
+	@Override
 	public String getName() {
 		return BOOLEAN_TYPE_NAME;
 	}
@@ -177,15 +187,17 @@ public class BooleanPropertyType extends PropertyType {
 	 * <li>Value <code>true</code> will be convert into {@link #INT_TRUE}</li>
 	 * <li>Value <code>false</code> will be convert into {@link #INT_FALSE}</li>
 	 * </ul>
-	 * 
+	 *
 	 * @return The boolean value as an integer, return <code>0</code> if value is
 	 *         null; return {@link #INT_TRUE}if value is true; return
 	 *         {@link #INT_FALSE}if value is false.
 	 */
 
+	@Override
 	public int toInteger(Module module, Object value) {
-		if (value == null)
+		if (value == null) {
 			return 0;
+		}
 
 		return ((Boolean) value).booleanValue() ? INT_TRUE : INT_FALSE;
 	}
@@ -197,14 +209,16 @@ public class BooleanPropertyType extends PropertyType {
 	 * <li>Value <code>true</code> will be convert into "true"</li>
 	 * <li>Value <code>false</code> will be convert into "false"</li>
 	 * </ul>
-	 * 
+	 *
 	 * @return The boolean value as a string, return null if value is null; return
 	 *         "true" if value is true; return "false" if value is false.
 	 */
 
+	@Override
 	public String toString(Module module, PropertyDefn defn, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		return ((Boolean) value).booleanValue() ? TRUE : FALSE;
 	}
@@ -217,16 +231,18 @@ public class BooleanPropertyType extends PropertyType {
 	 * <li>Value <code>true</code> will be convert into <code>true</code></li>
 	 * <li>Value <code>false</code> will be convert into <code>false</code></li>
 	 * </ul>
-	 * 
+	 *
 	 * @return The value as a <code>boolean</code>, return <code>false</code> if
 	 *         value is null; return <code>true</code> if value is true; return
 	 *         <code>false</code> if value is false.
-	 * 
+	 *
 	 */
 
+	@Override
 	public boolean toBoolean(Module module, Object value) {
-		if (value == null)
+		if (value == null) {
 			return false;
+		}
 
 		return ((Boolean) value).booleanValue();
 	}
@@ -242,24 +258,27 @@ public class BooleanPropertyType extends PropertyType {
 	 * </ul>
 	 * <p>
 	 * Boolean property type is stored as <code>java.lang.Boolean</code> internally.
-	 * 
+	 *
 	 * @return the value(Boolean Type) to store for the property of type Boolean.
 	 *         Returns <code>null</code> if the <code>value</code> parameter is null
 	 *         or a blank string.
-	 * 
+	 *
 	 */
 
+	@Override
 	public Object validateInputString(Module module, DesignElement element, PropertyDefn defn, String value)
 			throws PropertyValueException {
-		if (StringUtil.isBlank(value))
+		if (StringUtil.isBlank(value)) {
 			return null;
+		}
 
 		// 1. Internal boolean name.
 
-		if (value.equalsIgnoreCase(TRUE))
+		if (value.equalsIgnoreCase(TRUE)) {
 			return Boolean.TRUE;
-		else if (value.equalsIgnoreCase(FALSE))
+		} else if (value.equalsIgnoreCase(FALSE)) {
 			return Boolean.FALSE;
+		}
 
 		// 2. A localized Boolean name. Convert the localized
 		// Boolean name into Boolean instance.
@@ -276,14 +295,16 @@ public class BooleanPropertyType extends PropertyType {
 	/**
 	 * Returns a localized display name of the boolean value. The value should be a
 	 * <code>Boolean</code> type or it can be null.
-	 * 
+	 *
 	 * @return the display string for the boolean value; return <code>null</code> if
 	 *         the value is null.
 	 */
 
+	@Override
 	public String toDisplayString(Module module, PropertyDefn defn, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		// return a localized name for True or False.
 

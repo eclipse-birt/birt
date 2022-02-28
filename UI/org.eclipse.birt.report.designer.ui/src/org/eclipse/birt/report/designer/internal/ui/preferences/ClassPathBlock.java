@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,13 +39,13 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * 
+ *
  */
 
 public class ClassPathBlock extends OptionsConfigurationBlock {
 
-	private static final String[] ALL_ARCHIVES_FILTER_EXTENSIONS = new String[] { "*.jar;*.zip", "*.*" }; //$NON-NLS-1$ //$NON-NLS-2$
-	public static final String[] JAR_ZIP_FILTER_EXTENSIONS = new String[] { "*.jar;*.zip" }; //$NON-NLS-1$
+	private static final String[] ALL_ARCHIVES_FILTER_EXTENSIONS = { "*.jar;*.zip", "*.*" }; //$NON-NLS-1$ //$NON-NLS-2$
+	public static final String[] JAR_ZIP_FILTER_EXTENSIONS = { "*.jar;*.zip" }; //$NON-NLS-1$
 	private static Key PREF_CLASSPATH;
 	private final TreeListDialogField fLibrariesList;
 
@@ -64,7 +64,7 @@ public class ClassPathBlock extends OptionsConfigurationBlock {
 	public ClassPathBlock(IStatusChangeListener context, IProject project) {
 		super(context, ReportPlugin.getDefault(), project);
 		PREF_CLASSPATH = getReportKey(ReportPlugin.CLASSPATH_PREFERENCE);
-		String[] buttonLabels = new String[] { Messages.getString("ClassPathBlock_button.addExtJars"), //$NON-NLS-1$
+		String[] buttonLabels = { Messages.getString("ClassPathBlock_button.addExtJars"), //$NON-NLS-1$
 				Messages.getString("ClassPathBlock_button.addExtFolder"), //$NON-NLS-1$
 
 				/* */null, Messages.getString("ClassPathBlock_button.up"), //$NON-NLS-1$
@@ -90,11 +90,12 @@ public class ClassPathBlock extends OptionsConfigurationBlock {
 	}
 
 	private Key[] getKeys() {
-		Key[] keys = new Key[] { PREF_CLASSPATH };
+		Key[] keys = { PREF_CLASSPATH };
 		return keys;
 	}
 
 	// -------- UI creation
+	@Override
 	public Control createContents(Composite parent) {
 		setShell(parent.getShell());
 		PixelConverter converter = new PixelConverter(parent);
@@ -112,25 +113,30 @@ public class ClassPathBlock extends OptionsConfigurationBlock {
 
 	private class LibrariesAdapter implements IDialogFieldListener, ITreeListAdapter {
 
-		private final Object[] EMPTY_ARR = new Object[0];
+		private final Object[] EMPTY_ARR = {};
 
 		// -------- IListAdapter --------
+		@Override
 		public void customButtonPressed(TreeListDialogField field, int index) {
 			libaryPageCustomButtonPressed(field, index);
 		}
 
+		@Override
 		public void selectionChanged(TreeListDialogField field) {
 			libaryPageSelectionChanged(field);
 		}
 
+		@Override
 		public void doubleClicked(TreeListDialogField field) {
 			libaryPageDoubleClicked(field);
 		}
 
+		@Override
 		public void keyPressed(TreeListDialogField field, KeyEvent event) {
 			libaryPageKeyPressed(field, event);
 		}
 
+		@Override
 		public Object[] getChildren(TreeListDialogField field, Object element) {
 			if (element instanceof CPListElement) {
 				return ((CPListElement) element).getChildren(false);
@@ -138,16 +144,19 @@ public class ClassPathBlock extends OptionsConfigurationBlock {
 			return EMPTY_ARR;
 		}
 
+		@Override
 		public Object getParent(TreeListDialogField field, Object element) {
 			return null;
 		}
 
+		@Override
 		public boolean hasChildren(TreeListDialogField field, Object element) {
 			return getChildren(field, element).length > 0;
 		}
 
 		// ---------- IDialogFieldListener --------
 
+		@Override
 		public void dialogFieldChanged(DialogField field) {
 			libaryPageDialogFieldChanged(field);
 		}
@@ -155,7 +164,7 @@ public class ClassPathBlock extends OptionsConfigurationBlock {
 
 	/**
 	 * A button has been pressed.
-	 * 
+	 *
 	 * @param field the dialog field containing the button
 	 * @param index the index of the button
 	 */
@@ -389,7 +398,7 @@ public class ClassPathBlock extends OptionsConfigurationBlock {
 
 	public static List<String> getEntries(String value) {
 		List elements = readClassPathEntry(value);
-		List<String> retValue = new ArrayList<String>();
+		List<String> retValue = new ArrayList<>();
 		for (int i = 0; i < elements.size(); i++) {
 			retValue.add(((CPListElement) elements.get(i)).getPath().toFile().getAbsolutePath());
 		}
@@ -424,11 +433,11 @@ public class ClassPathBlock extends OptionsConfigurationBlock {
 	@Override
 	public boolean performApply() {
 		// String value = ""; //$NON-NLS-1$
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		List list = fLibrariesList.getElements();
 
 		for (int i = 0; i < list.size(); i++) {
-			StringBuffer entryScript = new StringBuffer();
+			StringBuilder entryScript = new StringBuilder();
 			CPListElement element = (CPListElement) list.get(i);
 
 			entryScript.append(element.getPath().toFile().getAbsolutePath());
@@ -516,8 +525,9 @@ public class ClassPathBlock extends OptionsConfigurationBlock {
 		}
 
 		File file = new File(res);
-		if (file.isDirectory())
+		if (file.isDirectory()) {
 			return new IPath[] { new Path(file.getAbsolutePath()) };
+		}
 
 		return null;
 	}
@@ -534,8 +544,9 @@ public class ClassPathBlock extends OptionsConfigurationBlock {
 		}
 
 		File file = new File(res);
-		if (file.isDirectory())
+		if (file.isDirectory()) {
 			return new Path(file.getAbsolutePath());
+		}
 
 		return null;
 	}

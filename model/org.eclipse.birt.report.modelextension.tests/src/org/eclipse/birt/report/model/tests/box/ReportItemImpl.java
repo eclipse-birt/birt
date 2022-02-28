@@ -56,7 +56,7 @@ public class ReportItemImpl extends ReportItem implements IReportItem {
 
 	/**
 	 * Constructs an element.
-	 * 
+	 *
 	 * @param extDefn
 	 * @param elementHandle
 	 */
@@ -70,29 +70,32 @@ public class ReportItemImpl extends ReportItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#serialize(java.lang
 	 * .String)
 	 */
+	@Override
 	public ByteArrayOutputStream serialize(String propName) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#deserialize(java.lang
 	 * .String, java.io.ByteArrayInputStream)
 	 */
+	@Override
 	public void deserialize(String propName, ByteArrayInputStream data) throws ExtendedElementException {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#getProperty(java.lang
 	 * .String)
 	 */
+	@Override
 	public Object getProperty(String propName) {
 		if (USAGE_PROP.equalsIgnoreCase(propName)) {
 			return usage;
@@ -103,26 +106,29 @@ public class ReportItemImpl extends ReportItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#checkProperty(java.
 	 * lang.String, java.lang.Object)
 	 */
+	@Override
 	public void checkProperty(String propName, Object value) throws ExtendedElementException {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#setProperty(java.lang
 	 * .String, java.lang.Object)
 	 */
+	@Override
 	public void setProperty(String propName, Object value) {
 		moduleHandle.getCommandStack().execute(getElementCommand(propName, value));
 	}
 
 	public void doSetProperty(String propName, Object value) {
-		if (value == null)
+		if (value == null) {
 			return;
+		}
 
 		if (USAGE_PROP.equalsIgnoreCase(propName)) {
 			usage = value.toString();
@@ -131,9 +137,10 @@ public class ReportItemImpl extends ReportItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#validate()
 	 */
+	@Override
 	public List validate() {
 		ExtendedElementException exception = new ExtendedElementException(extItemHandle.getElement(),
 				"test.testingbox.plugin", "1", null);//$NON-NLS-1$ //$NON-NLS-2$
@@ -147,16 +154,17 @@ public class ReportItemImpl extends ReportItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#copy()
 	 */
+	@Override
 	public IReportItem copy() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#getElementCommand(java
 	 * .lang.String, java.lang.Object)
 	 */
@@ -166,20 +174,22 @@ public class ReportItemImpl extends ReportItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IElement#getPropertyDefinitions()
 	 */
+	@Override
 	public IPropertyDefinition[] getPropertyDefinitions() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IElement#refreshPropertyDefinition ()
 	 */
+	@Override
 	public boolean refreshPropertyDefinition() {
 		if (refreshNeeded) {
 			refreshNeeded = false;
@@ -196,35 +206,39 @@ public class ReportItemImpl extends ReportItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getMethods()
 	 */
 
+	@Override
 	public IPropertyDefinition[] getMethods() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.extension.ReportItem#getSimpleElement()
 	 */
 
+	@Override
 	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement() {
 		return new Box(this, (ExtendedItemHandle) extItemHandle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#getMethods(java
 	 * .lang.String)
 	 */
 
+	@Override
 	public IMethodInfo[] getMethods(String methodName) {
-		if ("onPrepare".equalsIgnoreCase(methodName)) //$NON-NLS-1$
+		if ("onPrepare".equalsIgnoreCase(methodName)) { //$NON-NLS-1$
 			return null;
+		}
 
 		if ("onRender".equalsIgnoreCase(methodName)) //$NON-NLS-1$
 		{
@@ -259,16 +273,18 @@ public class ReportItemImpl extends ReportItem implements IReportItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.extension.ReportItem#checkCompatibility ()
 	 */
+	@Override
 	public CompatibilityStatus checkCompatibility() {
 		try {
 			Map propMap = ((ExtendedItemHandle) extItemHandle).getUndefinedProperties();
 			UndefinedPropertyInfo shape = (UndefinedPropertyInfo) propMap.get("shape"); //$NON-NLS-1$
-			if (shape != null)
+			if (shape != null) {
 				extItemHandle.setProperty("shape", "cube"); //$NON-NLS-1$ //$NON-NLS-2$
+			}
 
 			Map illegalContents = ((ExtendedItemHandle) extItemHandle).getIllegalContents();
 			String propName = "header"; //$NON-NLS-1$
@@ -284,8 +300,9 @@ public class ReportItemImpl extends ReportItem implements IReportItem {
 
 		boolean hasCompatibilities = false;
 		ExtendedItemHandle extHandle = (ExtendedItemHandle) extItemHandle;
-		if (!extHandle.getUndefinedProperties().isEmpty() || !extHandle.getIllegalContents().isEmpty())
+		if (!extHandle.getUndefinedProperties().isEmpty() || !extHandle.getIllegalContents().isEmpty()) {
 			hasCompatibilities = true;
+		}
 		int type = hasCompatibilities ? CompatibilityStatus.CONVERT_COMPATIBILITY_TYPE : CompatibilityStatus.OK_TYPE;
 		return new CompatibilityStatus(Collections.EMPTY_LIST, type);
 	}

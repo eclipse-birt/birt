@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -27,7 +27,7 @@ abstract public class BundleFile {
 
 	/**
 	 * BundleFile constructor
-	 * 
+	 *
 	 * @param basefile The File object where this BundleFile is persistently stored.
 	 */
 	public BundleFile(Bundle bundle, File basefile) {
@@ -49,13 +49,14 @@ abstract public class BundleFile {
 
 	/**
 	 * Returns the base file for this BundleFile
-	 * 
+	 *
 	 * @return the base file for this BundleFile
 	 */
 	public File getBaseFile() {
 		return basefile;
 	}
 
+	@Override
 	public String toString() {
 		return String.valueOf(basefile);
 	}

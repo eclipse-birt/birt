@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -67,7 +67,7 @@ public class TabularCubeParserTest extends BaseTestCase {
 	private final String PARSE_TEST_FILE = "CubeParserTest_5.xml"; //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -242,7 +242,7 @@ public class TabularCubeParserTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testWriter() throws Exception {
@@ -370,7 +370,7 @@ public class TabularCubeParserTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testCommand() throws Exception {
@@ -399,7 +399,7 @@ public class TabularCubeParserTest extends BaseTestCase {
 
 	/**
 	 * Tests cases for cube1 extends another cube2.
-	 * 
+	 *
 	 * <ul>
 	 * <li>if one new access control is added to the cube1. Access controls on cube2
 	 * will be copies to cube1 first.
@@ -407,7 +407,7 @@ public class TabularCubeParserTest extends BaseTestCase {
 	 * access controls on the level cube2 will be copies to the level of cube1
 	 * first.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -430,7 +430,7 @@ public class TabularCubeParserTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testMergeDimensionConditions() throws Exception {
@@ -451,7 +451,7 @@ public class TabularCubeParserTest extends BaseTestCase {
 	 * When we delete an element, we will remove the structure whose member refers
 	 * the deleted element. However, this feature only works for the first level
 	 * structure. It does not work for the second structure.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testClearStructureForElementRemove() throws Exception {
@@ -464,28 +464,18 @@ public class TabularCubeParserTest extends BaseTestCase {
 		assertTrue(compareFile("CubeParserTest_golden_4.xml")); //$NON-NLS-1$
 	}
 
-	private static void checkNotificationStatus(MyListener listener) {
-		assertEquals(NotificationEvent.PROPERTY_EVENT, listener.getEventType());
-		assertEquals(TabularCubeHandle.ACCESS_CONTROLS_PROP, listener.getPropName());
-
-		listener.reset();
-	}
-
 	private static class MyListener implements Listener {
 
 		private String propName = null;
 		private int eventType = -1;
 
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			eventType = ev.getEventType();
 
 			assert eventType == NotificationEvent.PROPERTY_EVENT;
 
 			propName = ((PropertyEvent) ev).getPropertyName();
-		}
-
-		MyListener() {
-
 		}
 
 		String getPropName() {

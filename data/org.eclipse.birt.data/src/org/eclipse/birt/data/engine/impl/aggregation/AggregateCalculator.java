@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -76,7 +76,7 @@ class AggregateCalculator {
 	/**
 	 * For the given odi resultset, calcaulate the value of aggregate from
 	 * aggregateTable
-	 * 
+	 *
 	 * @param aggrTable
 	 * @param odiResult
 	 */
@@ -119,10 +119,11 @@ class AggregateCalculator {
 		int count = 1;
 		for (int i = 0; i < this.aggrCount; i++) {
 			validAggregations.add(Integer.valueOf(i));
-			if (this.getAggrInfo(i).aggregation.getNumberOfPasses() > 1)
+			if (this.getAggrInfo(i).aggregation.getNumberOfPasses() > 1) {
 				populateAggrValue[i] = false;
-			else
+			} else {
 				populateAggrValue[i] = true;
+			}
 			accumulatorManagers[i] = new AccumulatorManager(this.getAggrInfo(i).aggregation);
 		}
 
@@ -150,7 +151,7 @@ class AggregateCalculator {
 	/**
 	 * Make a pass to all aggregations. Iterator over entire result set. At each
 	 * row, call each aggregate aggregationtion.
-	 * 
+	 *
 	 * @param scope
 	 * @param populateAggrValue
 	 * @param validAggregationArray
@@ -169,11 +170,12 @@ class AggregateCalculator {
 					continue;
 				}
 
-				if (onRow(index, startingGroupLevel, endingGroupLevel, scope, cx, populateAggrValue[index]) == false) {
+				if (!onRow(index, startingGroupLevel, endingGroupLevel, scope, cx, populateAggrValue[index])) {
 					addInvalidAggrMsg(index, endingGroupLevel);
 
-					if (invalidAggrSet == null)
+					if (invalidAggrSet == null) {
 						invalidAggrSet = new HashSet();
+					}
 					invalidAggrSet.add(Integer.valueOf(index));
 				}
 			}
@@ -181,7 +183,7 @@ class AggregateCalculator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 * @param endingGroupLevel
 	 */
@@ -189,13 +191,14 @@ class AggregateCalculator {
 		assert invalidAggrMsg != null;
 
 		if (getAggrInfo(index).aggregation.getType() == IAggrFunction.RUNNING_AGGR
-				|| endingGroupLevel <= getAggrInfo(index).groupLevel)
+				|| endingGroupLevel <= getAggrInfo(index).groupLevel) {
 			aggrValues[index].add(invalidAggrMsg.get(Integer.valueOf(index)));
+		}
 	}
 
 	/**
 	 * Calculate the value by row
-	 * 
+	 *
 	 * @param aggrIndex
 	 * @param startingGroupLevel
 	 * @param endingGroupLevel
@@ -225,14 +228,15 @@ class AggregateCalculator {
 			try {
 				Object filterResult = ExprEvaluateUtil.evaluateCompiledExpression(aggrInfo.filter, odiResult, scope,
 						cx);
-				if (filterResult == null)
+				if (filterResult == null) {
 					accepted = true;
-				else
-
+				} else {
 					accepted = DataTypeUtil.toBoolean(filterResult).booleanValue();
+				}
 			} catch (BirtException e) {
-				if (invalidAggrMsg == null)
+				if (invalidAggrMsg == null) {
 					invalidAggrMsg = new HashMap();
+				}
 				invalidAggrMsg.put(Integer.valueOf(aggrIndex), e);
 
 				return false;
@@ -240,8 +244,9 @@ class AggregateCalculator {
 		}
 
 		if (aggrInfo.calculateLevel > 0) {
-			if (startingGroupLevel > aggrInfo.calculateLevel)
+			if (startingGroupLevel > aggrInfo.calculateLevel) {
 				accepted = false;
+			}
 		}
 
 		if (accepted) {
@@ -253,8 +258,9 @@ class AggregateCalculator {
 
 				acc.onRow(aggrArgs[aggrIndex]);
 			} catch (DataException e) {
-				if (invalidAggrMsg == null)
+				if (invalidAggrMsg == null) {
 					invalidAggrMsg = new HashMap();
+				}
 				invalidAggrMsg.put(Integer.valueOf(aggrIndex), e);
 
 				return false;
@@ -305,7 +311,7 @@ class AggregateCalculator {
 
 	/**
 	 * Prepare next run of aggregation pass.
-	 * 
+	 *
 	 * @param validAggregations
 	 * @param populateAggrValue
 	 * @param count
@@ -354,7 +360,7 @@ class AggregateCalculator {
 
 		/**
 		 * Constructor.
-		 * 
+		 *
 		 * @param aggregation
 		 */
 		AccumulatorManager(IAggrFunction aggregation) {
@@ -362,20 +368,22 @@ class AggregateCalculator {
 			this.cursor = -1;
 
 			int passNum = aggregation.getNumberOfPasses();
-			if (passNum < 2)
+			if (passNum < 2) {
 				this.accumulator = aggregation.newAccumulator();
-			else
+			} else {
 				this.cachedAcc = new ArrayList();
+			}
 		}
 
 		/**
 		 * Get the current accumulator.
-		 * 
+		 *
 		 * @return
 		 */
 		Accumulator getCurrentAccumulator() {
-			if (this.accumulator != null)
+			if (this.accumulator != null) {
 				return this.accumulator;
+			}
 			if (cachedAcc.size() == 0) {
 				cachedAcc.add(aggregation.newAccumulator());
 			}
@@ -384,12 +392,13 @@ class AggregateCalculator {
 
 		/**
 		 * Get the next accumulator. If there is no next accumulator, populate one.
-		 * 
+		 *
 		 * @return
 		 */
 		Accumulator next() {
-			if (this.accumulator != null)
+			if (this.accumulator != null) {
 				return this.accumulator;
+			}
 			cursor++;
 			if (cachedAcc.size() > cursor) {
 				return (Accumulator) cachedAcc.get(cursor);

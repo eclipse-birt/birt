@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -17,7 +17,7 @@ import java.util.Stack;
 
 /**
  * The adapter to work on the specified compound record.
- * 
+ *
  */
 
 class TransactionAdapter {
@@ -53,20 +53,20 @@ class TransactionAdapter {
 	static final int NONUNDOABLE_RECORD = 4;
 
 	/**
-	 * 
+	 *
 	 */
 
 	private ActivityStack stack;
 
 	/**
-	 * 
+	 *
 	 */
 
-	protected Stack<List<ActivityRecord>> needUndoPersistentRecords = new Stack<List<ActivityRecord>>();
+	protected Stack<List<ActivityRecord>> needUndoPersistentRecords = new Stack<>();
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param stack
 	 */
 
@@ -78,9 +78,9 @@ class TransactionAdapter {
 	 * Commits the current transaction. There must be an active transaction. If
 	 * nested transactions are active, this method will finish the inner- most
 	 * transaction.
-	 * 
+	 *
 	 * @param record
-	 * 
+	 *
 	 * @see #startTrans(String)
 	 */
 
@@ -119,7 +119,7 @@ class TransactionAdapter {
 	/**
 	 * Undoes all actions done so far in the innermost transaction. Does not undo
 	 * any parent transactions.
-	 * 
+	 *
 	 * @param record the record that rolls back
 	 */
 
@@ -147,7 +147,7 @@ class TransactionAdapter {
 	/**
 	 * Returns a new compound record according to the the given record type. The
 	 * record type can be one of followings:
-	 * 
+	 *
 	 * <ul>
 	 * <li>FILTER_RECORD
 	 * <li>LAYOUT_RECORD
@@ -155,7 +155,7 @@ class TransactionAdapter {
 	 * <li>NONUNDOABLE_RECORD
 	 * <li>DEFAULT_RECORD
 	 * </ul>
-	 * 
+	 *
 	 * @param recordType the type of the compound record
 	 * @param label      the transaction label
 	 * @return the new compound record
@@ -171,22 +171,25 @@ class TransactionAdapter {
 		case FILTER_RECORD:
 
 			if (!transStack.isEmpty()) {
-				if (transStack.peek() instanceof LayoutCompoundRecord)
+				if (transStack.peek() instanceof LayoutCompoundRecord) {
 					return createNewRecord(LAYOUT_RECORD, label);
-				else if (transStack.peek() instanceof NonUndoableCompoundRecord)
+				} else if (transStack.peek() instanceof NonUndoableCompoundRecord) {
 					return createNewRecord(NONUNDOABLE_RECORD, label);
+				}
 			}
 
-			if (!transStack.isEmpty() && transStack.peek() instanceof FilterEventsCompoundRecord)
+			if (!transStack.isEmpty() && transStack.peek() instanceof FilterEventsCompoundRecord) {
 				outerMost = false;
+			}
 
 			retRecord = new FilterEventsCompoundRecord(label, outerMost);
 
 			break;
 		case LAYOUT_RECORD:
 
-			if (!transStack.isEmpty() && transStack.peek() instanceof LayoutCompoundRecord)
+			if (!transStack.isEmpty() && transStack.peek() instanceof LayoutCompoundRecord) {
 				outerMost = false;
+			}
 
 			retRecord = new LayoutCompoundRecord(label, outerMost);
 			break;
@@ -201,12 +204,13 @@ class TransactionAdapter {
 		default:
 
 			if (!transStack.isEmpty()) {
-				if (transStack.peek() instanceof LayoutCompoundRecord)
+				if (transStack.peek() instanceof LayoutCompoundRecord) {
 					return createNewRecord(LAYOUT_RECORD, label);
-				else if (transStack.peek() instanceof FilterEventsCompoundRecord)
+				} else if (transStack.peek() instanceof FilterEventsCompoundRecord) {
 					return createNewRecord(FILTER_RECORD, label);
-				else if (transStack.peek() instanceof NonUndoableCompoundRecord)
+				} else if (transStack.peek() instanceof NonUndoableCompoundRecord) {
 					return createNewRecord(NONUNDOABLE_RECORD, label);
+				}
 			}
 
 			retRecord = new CompoundRecord(label);

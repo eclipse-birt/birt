@@ -43,9 +43,9 @@ public class AbstractOdfEmitterContext {
 	 * Style manager for the global styles defined in styles.xml (ex: master page)
 	 */
 	protected StyleManager globalStyleManager;
-	protected LinkedList<TableInfo> tables = new LinkedList<TableInfo>();
+	protected LinkedList<TableInfo> tables = new LinkedList<>();
 
-	protected Stack<Boolean> cellind = new Stack<Boolean>();
+	protected Stack<Boolean> cellind = new Stack<>();
 
 	protected MasterPageManager masterPageManager;
 

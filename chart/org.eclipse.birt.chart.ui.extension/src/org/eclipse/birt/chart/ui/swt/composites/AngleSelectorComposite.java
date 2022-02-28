@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -44,27 +44,27 @@ import org.eclipse.swt.widgets.Display;
 public final class AngleSelectorComposite extends Canvas
 		implements PaintListener, MouseListener, MouseMoveListener, DisposeListener, ControlListener {
 	/**
-	 *  
+	 *
 	 */
 	private transient final Point p = new Point(0, 0);
 
 	/**
-	 *  
+	 *
 	 */
 	private transient int iLastAngle = 0, iRadius = 0;
 
 	/**
-	 *  
+	 *
 	 */
 	private transient boolean bMouseDown = false;
 
 	/**
-	 *  
+	 *
 	 */
 	private transient IAngleChangeListener iacl = null;
 
 	/**
-	 *  
+	 *
 	 */
 	private transient Color clrBG = null;
 
@@ -86,7 +86,7 @@ public final class AngleSelectorComposite extends Canvas
 	private transient final int[] iaPolygon = new int[6];
 
 	/**
-	 * 
+	 *
 	 * @param coParent
 	 * @param iStyle
 	 * @param iAngle
@@ -107,11 +107,12 @@ public final class AngleSelectorComposite extends Canvas
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.
 	 * PaintEvent)
 	 */
+	@Override
 	public void paintControl(PaintEvent pev) {
 		final Display d = Display.getCurrent();
 		final GC gcCanvas = pev.gc;
@@ -162,14 +163,14 @@ public final class AngleSelectorComposite extends Canvas
 	}
 
 	/**
-	 * 
+	 *
 	 * @param d
 	 * @param gc
 	 * @param x
 	 * @param y
 	 * @param bSelected
 	 */
-	private static final void bigPoint(Display d, GC gc, int x, int y, boolean bSelected) {
+	private static void bigPoint(Display d, GC gc, int x, int y, boolean bSelected) {
 		gc.setForeground(d.getSystemColor(SWT.COLOR_BLACK));
 		gc.setBackground(d.getSystemColor(bSelected ? SWT.COLOR_RED : SWT.COLOR_BLACK));
 		final int[] iaXY = { x, y - 3, x - 3, y, x, y + 3, x + 3, y }; // TBD: REUSE INSTANCE VAR
@@ -178,26 +179,26 @@ public final class AngleSelectorComposite extends Canvas
 	}
 
 	/**
-	 * 
+	 *
 	 * @param d
 	 * @param gc
 	 * @param x
 	 * @param y
 	 * @param bSelected
 	 */
-	private static final void smallPoint(Display d, GC gc, int x, int y, boolean bSelected) {
+	private static void smallPoint(Display d, GC gc, int x, int y, boolean bSelected) {
 		gc.setForeground(d.getSystemColor(bSelected ? SWT.COLOR_RED : SWT.COLOR_BLACK));
 		gc.drawRectangle(x - 1, y - 1, 1, 1);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dAngle
 	 * @param gc
 	 * @param x
 	 * @param y
 	 */
-	private final void drawHand(Display d, GC gc, int x, int y, int r, double dAngleInDegrees, boolean bErase) {
+	private void drawHand(Display d, GC gc, int x, int y, int r, double dAngleInDegrees, boolean bErase) {
 		gc.setForeground(bErase ? clrBG : d.getSystemColor(SWT.COLOR_BLACK));
 		gc.setBackground(bErase ? clrBG : d.getSystemColor(SWT.COLOR_RED));
 
@@ -224,21 +225,23 @@ public final class AngleSelectorComposite extends Canvas
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
+	@Override
 	public void mouseDoubleClick(MouseEvent arg0) {
 		// UNUSED
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
+	@Override
 	public void mouseDown(MouseEvent mev) {
 		bMouseDown = true;
 		updateAngle(mev.x, mev.y);
@@ -246,38 +249,43 @@ public final class AngleSelectorComposite extends Canvas
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
+	@Override
 	public void mouseUp(MouseEvent mev) {
 		bMouseDown = false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.MouseMoveListener#mouseMove(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
+	@Override
 	public void mouseMove(MouseEvent mev) {
-		if (!bMouseDown)
+		if (!bMouseDown) {
 			return; // MOUSE DRAG FILTER = (DOWN + MOVE)
+		}
 		updateAngle(mev.x, mev.y);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 */
-	private final void updateAngle(int mx, int my) {
+	private void updateAngle(int mx, int my) {
 		int iAngle = (int) Math.toDegrees(Math.atan2(-(my - p.y), mx - p.x));
-		if (iAngle > 90)
+		if (iAngle > 90) {
 			iAngle = 90; // UPPER LIMIT
-		if (iAngle < -90)
+		}
+		if (iAngle < -90) {
 			iAngle = -90; // LOWER LIMIT
+		}
 		if (iAngle == iLastAngle) // OPTIMIZED REFRESH
 		{
 			return;
@@ -318,15 +326,15 @@ public final class AngleSelectorComposite extends Canvas
 
 	/**
 	 * Associates a listener with this custom widget
-	 * 
+	 *
 	 * @param iacl
 	 */
-	public final void setAngleChangeListener(IAngleChangeListener iacl) {
+	public void setAngleChangeListener(IAngleChangeListener iacl) {
 		this.iacl = iacl;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param iNewAngle
 	 */
 	public void setAngle(int iNewAngle) {
@@ -335,11 +343,12 @@ public final class AngleSelectorComposite extends Canvas
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt.events.
 	 * DisposeEvent)
 	 */
+	@Override
 	public void widgetDisposed(DisposeEvent e) {
 		if (imgBuffer != null) {
 			gcBuffer.dispose();
@@ -351,11 +360,12 @@ public final class AngleSelectorComposite extends Canvas
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.ControlListener#controlResized(org.eclipse.swt.events.
 	 * ControlEvent)
 	 */
+	@Override
 	public void controlResized(ControlEvent e) {
 		if (imgBuffer != null) {
 			gcBuffer.dispose();
@@ -367,23 +377,26 @@ public final class AngleSelectorComposite extends Canvas
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt.events.
 	 * ControlEvent)
 	 */
+	@Override
 	public void controlMoved(ControlEvent e) {
 		// NOT USED
 	}
 
 	void initAccessible() {
 		getAccessible().addAccessibleListener(new AccessibleAdapter() {
+			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
 		});
 
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
+			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point testPoint = toControl(new Point(e.x, e.y));
 				if (getBounds().contains(testPoint)) {
@@ -391,6 +404,7 @@ public final class AngleSelectorComposite extends Canvas
 				}
 			}
 
+			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(new Point(location.x, location.y));
@@ -400,14 +414,17 @@ public final class AngleSelectorComposite extends Canvas
 				e.height = location.height;
 			}
 
+			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
+			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_COMBOBOX;
 			}
 
+			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}

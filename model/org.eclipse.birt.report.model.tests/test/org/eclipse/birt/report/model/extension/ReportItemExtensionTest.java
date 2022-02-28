@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -113,7 +113,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Override
@@ -296,7 +296,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the function of TestPeerElement and ExtendedItem to get/set property.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -392,7 +392,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the inheritance cases.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -450,7 +450,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the property search. TODO: test getFactoryProperty.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -481,7 +481,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 	/**
 	 * Tests all the style property definition and style property values in
 	 * ExtendedItem.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -610,7 +610,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 		assertNotNull(iter.next());
 		assertNotNull(iter.next());
 
-		ArrayList<ExtendedItemHandle> list = new ArrayList<ExtendedItemHandle>();
+		ArrayList<ExtendedItemHandle> list = new ArrayList<>();
 
 		list.add(extendedHandle);
 
@@ -644,7 +644,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle.findElement("right extended item"); //$NON-NLS-1$
 		assertNotNull(extendedHandle);
 
-		ArrayList<ExtendedItemHandle> list = new ArrayList<ExtendedItemHandle>();
+		ArrayList<ExtendedItemHandle> list = new ArrayList<>();
 
 		list.add(extendedHandle);
 
@@ -749,7 +749,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the commands: execute, redo , undo and check property.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -780,7 +780,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 	/**
 	 * Tests all the cases about dynamic property list of extended element in
 	 * ExtendedItem.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -790,7 +790,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle.findElement("right extended item"); //$NON-NLS-1$
 		assertNotNull(extendedHandle);
 
-		Set<String> set = new HashSet<String>();
+		Set<String> set = new HashSet<>();
 		Iterator<?> iter = extendedHandle.getPropertyIterator();
 		while (iter.hasNext()) {
 			set.add(((PropertyHandle) iter.next()).getDefn().getName());
@@ -939,7 +939,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 	/**
 	 * Test master page can't insert chart and crosstab Now forbidden all extended
 	 * item. see bugzill 188196
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -957,7 +957,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests adding extended item.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -980,9 +980,9 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Test create a child extended item base on another.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testAddExtendedItem2() throws Exception {
@@ -1001,7 +1001,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the clone issues: property values, handle, element.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1040,7 +1040,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 	 * Tests the notification mechanism: if the dynamic property list is changed
 	 * after setting one extension property value, or not. There are different
 	 * events.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1078,7 +1078,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the setting and getting choice extension property.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -1101,7 +1101,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the setting and getting choice property defined in dynamic property.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -1123,7 +1123,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests <code>PropertyInvisible</code> tags in extension plugin.xml.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -1153,7 +1153,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 	/**
 	 * Tests opening the design file with wrong extension. The element behaves as an
 	 * extended item.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -1184,7 +1184,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests method calls on an extended item without the valid extension.
-	 * 
+	 *
 	 * @param itemHandle the handle of extended item.
 	 * @throws SemanticException
 	 */
@@ -1225,7 +1225,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 	/**
 	 * Tests opening the design file without extension. The element behaves as an
 	 * extended item.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -1255,7 +1255,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Returns a new extended item handle, which is inserted into body.
-	 * 
+	 *
 	 * @param name          the element name
 	 * @param extensionName the extension name
 	 * @return the new extended item handle
@@ -1273,7 +1273,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests lazy initializing extension.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -1319,9 +1319,9 @@ public class ReportItemExtensionTest extends BaseTestCase {
 	 * The element type stored in some certain slot was defined in ROM. But after
 	 * loading in the extension elements, we should show the extension element type
 	 * within the slot which can hold ExtendedItem.
-	 * 
+	 *
 	 * @throws DesignFileException
-	 * 
+	 *
 	 */
 
 	public void testTheSlotDefn() throws DesignFileException {
@@ -1361,7 +1361,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the semantic check of data set required.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1395,7 +1395,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests creating extension element in the design/library.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1436,7 +1436,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
@@ -1458,9 +1458,9 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Test get localized message in <code>ExtendedElementException</code>
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testLocalizedMessage() throws Exception {
@@ -1482,7 +1482,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 	/**
 	 * Tests the validation method for the latest version design file. Same case
 	 * with testLocalizedMessage( ).
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -1504,7 +1504,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the display lable of the extension defined selector.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1517,7 +1517,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the use-properties by call getPropertyDefns().
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1534,7 +1534,7 @@ public class ReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests get/set altText and altTextID properties.
-	 * 
+	 *
 	 * @throws Exception if opening design file failed.
 	 */
 	public void testAltTextProperty() throws Exception {

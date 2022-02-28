@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ public class Category implements IScriptFunctionCategory {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param name
 	 * @param desc
 	 */
@@ -41,12 +41,12 @@ public class Category implements IScriptFunctionCategory {
 		this.name = name;
 		this.desc = desc;
 		this.isVisible = true;
-		this.functions = new ArrayList<IScriptFunction>();
+		this.functions = new ArrayList<>();
 	}
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param name
 	 * @param desc
 	 */
@@ -54,31 +54,33 @@ public class Category implements IScriptFunctionCategory {
 		this.name = name;
 		this.desc = desc;
 		this.isVisible = isVisible;
-		this.functions = new ArrayList<IScriptFunction>();
+		this.functions = new ArrayList<>();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.script.functionservice.INamedObject#getName()
 	 */
+	@Override
 	public String getName() {
 		return this.name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.core.script.functionservice.IDescribable#getDescription()
 	 */
+	@Override
 	public String getDescription() {
 		return this.desc;
 	}
 
 	/**
 	 * Add a function to this category.
-	 * 
+	 *
 	 */
 	public void addFunction(IScriptFunction function) {
 		this.functions.add(function);
@@ -86,18 +88,20 @@ public class Category implements IScriptFunctionCategory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.script.functionservice.IScriptFunctionCategory#
 	 * getFunctions()
 	 */
+	@Override
 	public IScriptFunction[] getFunctions() {
 		return this.functions.toArray(new IScriptFunction[0]);
 	}
 
 	/**
 	 * Returns whether the category is visible.
-	 * 
+	 *
 	 */
+	@Override
 	public boolean isVisible() {
 		return this.isVisible;
 	}

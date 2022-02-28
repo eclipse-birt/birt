@@ -37,6 +37,8 @@
 		<junit-version>4.13.2</junit-version>
 		<maven-jar-plugin-version>3.2.0</maven-jar-plugin-version>
 		<maven-surefire-plugin-version>2.22.0</maven-surefire-plugin-version>
+		<tycho.version>2.5.0</tycho.version>
+		<cbi-version>1.3.1</cbi-version>
 	</properties>
 
 	<!-- make release builds in particular quicker and more reliable -->
@@ -48,7 +50,6 @@
 			</activation>
 			<properties>
 				<eclipse.release.name>latest</eclipse.release.name>
-				<tycho.version>2.5.0</tycho.version>
 				<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/latest/</eclipse.repo.url>
 				<emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
 				<gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
@@ -74,22 +75,9 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>org.eclipse.tycho.extras</groupId>
-						<artifactId>tycho-pack200a-plugin</artifactId>
-						<version>${tycho.version}</version>
-						<executions>
-							<execution>
-								<id>pack200-normalize</id>
-								<goals>
-									<goal>normalize</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
 						<groupId>org.eclipse.cbi.maven.plugins</groupId>
 						<artifactId>eclipse-jarsigner-plugin</artifactId>
-						<version>1.1.3</version>
+						<version>${cbi-version}</version>
 						<executions>
 							<execution>
 								<id>sign</id>
@@ -99,19 +87,32 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<groupId>org.eclipse.tycho.extras</groupId>
-						<artifactId>tycho-pack200b-plugin</artifactId>
-						<version>${tycho.version}</version>
+
+					<!-- plugin>
+						<groupId>org.eclipse.cbi.maven.plugins</groupId>
+						<artifactId>eclipse-winsigner-plugin</artifactId>
+						<version>${cbi-version}</version>
 						<executions>
 							<execution>
-								<id>pack200-pack</id>
+								<id>sign</id>
 								<goals>
-									<goal>pack</goal>
+									<goal>sign</goal>
 								</goals>
+								<phase>package</phase>
+								<configuration>
+									<signFiles>
+										<signFile>build/birt-packages/birt-report-all-in-one/target/products/org.eclipse.birt.report.designer.all/win32/win32/x86_64/eclipse/birt.exe</signFile>
+										<signFile>build/birt-packages/birt-report-all-in-one/target/products/org.eclipse.birt.report.designer.all/win32/win32/x86_64/eclipse/birtc.exe</signFile>
+										<signFile>build/birt-packages/birt-report-all-in-one/target/products/org.eclipse.birt.report.designer.all/win32/win32/x86_64/eclipse/eclipse.exe</signFile>
+										<signFile>build/birt-packages/birt-report-all-in-one/target/products/org.eclipse.birt.report.designer.all/win32/win32/x86_64/eclipse/eclipsec.exe</signFile>
+										<signFile>build/birt-packages/birt-report-rcp/target/products/org.eclipse.birt.report.designer.rcp/win32/win32/x86_64/birt/birt.exe</signFile>
+										<signFile>build/birt-packages/birt-report-rcp/target/products/org.eclipse.birt.report.designer.rcp/win32/win32/x86_64/birt/birtc.exe</signFile>
+									</signFiles>
+								</configuration>
 							</execution>
 						</executions>
-					</plugin>
+					</plugin -->
+
 				</plugins>
 			</build>
 		</profile>
@@ -197,6 +198,11 @@
 							<version>${tycho.version}</version>
 						</dependency>
 					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.cbi.maven.plugins</groupId>
+					<artifactId>eclipse-winsigner-plugin</artifactId>
+					<version>${cbi-version}</version>
 				</plugin>
 				<plugin>
 					<groupId>org.eclipse.tycho.extras</groupId>
@@ -341,7 +347,7 @@
 							<os>macosx</os>
 							<ws>cocoa</ws>
 							<arch>aarch64</arch>
-						</environment>						
+						</environment>
 					</environments>
 					<filters>
 						<!-- restrict Jetty bundles to specific version only -->

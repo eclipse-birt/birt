@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ *
  */
 public class ExprManager {
 	private List bindingExprs;
@@ -64,8 +64,9 @@ public class ExprManager {
 	 * @param groupLevel
 	 */
 	public void addBindingExpr(String groupKey, Map resultsExprMap, int groupLevel) {
-		if (resultsExprMap == null)
+		if (resultsExprMap == null) {
 			return;
+		}
 
 		bindingExprs.add(new GroupBindingColumn(groupKey, groupLevel, resultsExprMap));
 	}
@@ -86,14 +87,15 @@ public class ExprManager {
 	 */
 	public IBaseExpression getExpr(String name) throws DataException {
 		IBaseExpression baseExpr = getBindingExpr(name);
-		if (baseExpr == null)
+		if (baseExpr == null) {
 			baseExpr = getAutoBindingExpr(name);
+		}
 
 		return baseExpr;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 * @throws DataException
@@ -102,11 +104,13 @@ public class ExprManager {
 		for (int i = 0; i < bindingExprs.size(); i++) {
 			GroupBindingColumn gcb = (GroupBindingColumn) bindingExprs.get(i);
 			if (entryLevel != OVERALL_GROUP) {
-				if (gcb.getGroupLevel() > entryLevel)
+				if (gcb.getGroupLevel() > entryLevel) {
 					continue;
+				}
 			}
-			if (gcb.getBinding(name) != null)
+			if (gcb.getBinding(name) != null) {
 				return gcb.getBinding(name);
+			}
 		}
 
 		if (this.autoBindingMap.containsKey(name)) {
@@ -126,12 +130,14 @@ public class ExprManager {
 		for (int i = 0; i < bindingExprs.size(); i++) {
 			GroupBindingColumn gcb = (GroupBindingColumn) bindingExprs.get(i);
 			if (entryLevel != OVERALL_GROUP) {
-				if (gcb.getGroupLevel() > entryLevel)
+				if (gcb.getGroupLevel() > entryLevel) {
 					continue;
+				}
 			}
 			Object o = gcb.getExpression(name);
-			if (o != null)
+			if (o != null) {
 				return (IBaseExpression) o;
+			}
 		}
 		return null;
 	}
@@ -146,7 +152,7 @@ public class ExprManager {
 
 	/**
 	 * TODO: remove me
-	 * 
+	 *
 	 * @return
 	 */
 	public List getBindingExprs() {
@@ -155,7 +161,7 @@ public class ExprManager {
 
 	/**
 	 * TODO: remove me
-	 * 
+	 *
 	 * @return
 	 */
 	public Map getAutoBindingExprMap() {
@@ -164,10 +170,10 @@ public class ExprManager {
 
 	/**
 	 * TODO: remove me
-	 * 
+	 *
 	 * Set the entry group level of the expr manager. The column bindings of groups
 	 * with group level greater than the given key will not be visible to outside.
-	 * 
+	 *
 	 * @param i
 	 */
 	void setEntryGroupLevel(int i) {

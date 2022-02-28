@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,6 +58,7 @@ import org.eclipse.jface.window.Window;
 public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter {
 	private IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance().getAdapter();
 
+	@Override
 	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		if (!(transfer instanceof ReportElementHandle) || adapter == null
 				|| !adapter.isExtendedDataItem((ReportElementHandle) transfer)) {
@@ -66,15 +67,17 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter {
 		if (target instanceof EditPart) {
 			EditPart editPart = (EditPart) target;
 			if (editPart.getModel() instanceof IVirtualValidator) {
-				if (handleValidate(editPart, transfer).size() > 0)
+				if (handleValidate(editPart, transfer).size() > 0) {
 					return DNDService.LOGIC_TRUE;
-				else
+				} else {
 					return DNDService.LOGIC_FALSE;
+				}
 			}
 		}
 		return DNDService.LOGIC_UNKNOW;
 	}
 
+	@Override
 	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		if (target instanceof EditPart) {
 			EditPart targetPart = (EditPart) target;

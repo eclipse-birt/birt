@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public class FilterConditionImpl implements IFilterCondition {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param condition
 	 */
 
@@ -42,7 +42,7 @@ public class FilterConditionImpl implements IFilterCondition {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param condition
 	 */
 
@@ -52,7 +52,7 @@ public class FilterConditionImpl implements IFilterCondition {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param conditionHandle
 	 */
 
@@ -62,7 +62,7 @@ public class FilterConditionImpl implements IFilterCondition {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param columnHandle
 	 */
 
@@ -70,18 +70,22 @@ public class FilterConditionImpl implements IFilterCondition {
 		filterConditionImpl = condition;
 	}
 
+	@Override
 	public String getOperator() {
 		return filterConditionImpl.getOperator();
 	}
 
+	@Override
 	public String getValue1() {
 		return filterConditionImpl.getValue1();
 	}
 
+	@Override
 	public String getValue2() {
 		return filterConditionImpl.getValue2();
 	}
 
+	@Override
 	public void setOperator(String operator) throws ScriptException {
 		try {
 
@@ -92,6 +96,7 @@ public class FilterConditionImpl implements IFilterCondition {
 
 	}
 
+	@Override
 	public void setValue1(String value1) throws ScriptException {
 		try {
 
@@ -102,6 +107,7 @@ public class FilterConditionImpl implements IFilterCondition {
 
 	}
 
+	@Override
 	public void setValue2(String value2) throws ScriptException {
 		try {
 
@@ -112,14 +118,17 @@ public class FilterConditionImpl implements IFilterCondition {
 
 	}
 
+	@Override
 	public IStructure getStructure() {
 		return filterConditionImpl.getStructure();
 	}
 
+	@Override
 	public String getExpr() {
 		return filterConditionImpl.getExpr();
 	}
 
+	@Override
 	public void setExpr(String expr) throws ScriptException {
 		try {
 

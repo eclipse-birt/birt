@@ -31,7 +31,7 @@ import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.model.layout.Legend;
 
 /**
- * 
+ *
  */
 
 public class Radar {

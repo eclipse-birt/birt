@@ -28,7 +28,7 @@ public interface IFilterByRow extends IResultObjectEvent {
 
 	/**
 	 * Set current working filters.
-	 * 
+	 *
 	 * @param filterSetType Filter set type
 	 * @throws DataException If any error occurs.
 	 */

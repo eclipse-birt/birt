@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -26,7 +26,7 @@ package org.eclipse.birt.chart.model.attribute;
  * <!-- begin-model-doc --> EmbeddedImage extends type Image to devote itself to
  * representing an embedded image, by which the image data will be encoded into
  * a string.
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -48,7 +48,7 @@ public interface EmbeddedImage extends Image {
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The string
 	 * attribute "Data" provides the encoded image data for the image. <!--
 	 * end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Data</em>' attribute.
 	 * @see #setData(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getEmbeddedImage_Data()
@@ -62,7 +62,7 @@ public interface EmbeddedImage extends Image {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.EmbeddedImage#getData
 	 * <em>Data</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Data</em>' attribute.
 	 * @see #getData()
 	 * @generated
@@ -72,6 +72,7 @@ public interface EmbeddedImage extends Image {
 	/**
 	 * @generated
 	 */
+	@Override
 	EmbeddedImage copyInstance();
 
 } // EmbeddedImage

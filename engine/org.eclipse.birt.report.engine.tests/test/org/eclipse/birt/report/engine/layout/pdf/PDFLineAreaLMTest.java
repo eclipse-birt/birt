@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ public class PDFLineAreaLMTest extends PDFLayoutTest {
 	 * Test case for bugzilla bug
 	 * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=168804">168804</a> :
 	 * Text only containing multiple line break are ignored in pdf
-	 * 
+	 *
 	 * @throws EngineException
 	 */
 	public void testMutipleLineBreakHeight() throws EngineException {
@@ -48,7 +48,7 @@ public class PDFLineAreaLMTest extends PDFLayoutTest {
 	 * Test case for bugzilla bug
 	 * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=157189">157189</a> :
 	 * HTML BR tags cease to work for text element after page break in PDF
-	 * 
+	 *
 	 * @throws EngineException
 	 */
 	public void estForeignContent() throws EngineException {

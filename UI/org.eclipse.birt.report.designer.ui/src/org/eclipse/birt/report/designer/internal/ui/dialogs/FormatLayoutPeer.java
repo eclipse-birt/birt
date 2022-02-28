@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -78,7 +78,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 
 	protected static final int DEFAULT_CATEGORY_CONTAINER_WIDTH = 220;
 
-	private List<IFormatChangeListener> listeners = new ArrayList<IFormatChangeListener>();
+	private List<IFormatChangeListener> listeners = new ArrayList<>();
 
 	protected int pageAlignment;
 
@@ -154,6 +154,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 		typeChoicer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		typeChoicer.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				reLayoutSubPages();
 				updateTextByLocale();
@@ -169,6 +170,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 		localeChoicer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		localeChoicer.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateDefaultsByLocale();
 				updateTextByLocale();
@@ -210,6 +212,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 		typeChoicer = new XCombo(container, true, isFormStyle);
 		typeChoicer.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				reLayoutSubPages();
 				updateTextByLocale();
@@ -225,6 +228,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 		localeChoicer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		localeChoicer.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateDefaultsByLocale();
 				updateTextByLocale();
@@ -267,7 +271,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 	protected abstract void createCategoryPages(Composite parent);
 
 	protected void createCategoryPatterns() {
-	};
+	}
 
 	private void createFormatCodePages(Composite parent) {
 		createHorizontalGeneralFormatCodePage(parent);
@@ -312,6 +316,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 			customFormatCodeTextBox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			customFormatCodeTextBox.addModifyListener(new ModifyListener() {
 
+				@Override
 				public void modifyText(ModifyEvent e) {
 					if (hasLoaded) {
 						updatePreview();
@@ -320,10 +325,12 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 			});
 			customFormatCodeTextBox.addFocusListener(new FocusListener() {
 
+				@Override
 				public void focusLost(FocusEvent e) {
 					notifyFormatChange();
 				}
 
+				@Override
 				public void focusGained(FocusEvent e) {
 				}
 			});
@@ -337,6 +344,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 		}
 	}
 
+	@Override
 	public void setInput(String formatString) {
 		if (formatString == null) {
 			setInput(null, null);
@@ -362,6 +370,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 		setInput(categoryStr, patternStr, null);
 	}
 
+	@Override
 	public void setInput(String categoryStr, String patternStr, ULocale locale) {
 		hasLoaded = false;
 
@@ -378,7 +387,6 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 		oldLocale = localeStr;
 
 		hasLoaded = true;
-		return;
 	}
 
 	protected abstract void initiatePageLayout(String categoryStr, String patternStr, String localeStr);
@@ -389,7 +397,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 	 * This updates the default settings on current page when locale is changed.
 	 */
 	protected void updateDefaultsByLocale() {
-	};
+	}
 
 	/**
 	 * This updates the all the page based on current settings.
@@ -458,6 +466,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 				customFormatCodeTextBox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 				customFormatCodeTextBox.addModifyListener(new ModifyListener() {
 
+					@Override
 					public void modifyText(ModifyEvent e) {
 						if (hasLoaded) {
 							updatePreview();
@@ -466,10 +475,12 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 				});
 				customFormatCodeTextBox.addFocusListener(new FocusListener() {
 
+					@Override
 					public void focusLost(FocusEvent e) {
 						notifyFormatChange();
 					}
 
+					@Override
 					public void focusGained(FocusEvent e) {
 					}
 				});
@@ -529,6 +540,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 		customPreviewTextBox.setLayoutData(data);
 		customPreviewTextBox.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				setDefaultPreviewText(customPreviewTextBox.getText());
 				if (hasLoaded) {
@@ -595,6 +607,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 	/**
 	 * Returns the category resulted from the page.
 	 */
+	@Override
 	public String getCategory() {
 		return category;
 	}
@@ -603,10 +616,12 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 	 * Returns the patternStr from the page.
 	 */
 
+	@Override
 	public String getPattern() {
 		return pattern;
 	}
 
+	@Override
 	public ULocale getLocale() {
 		return getLocaleByDisplayName(locale);
 	}
@@ -617,9 +632,10 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 
 	/**
 	 * Determines the format string is modified or not from the page.
-	 * 
+	 *
 	 * @return Returns true if the format string is modified.
 	 */
+	@Override
 	public boolean isFormatModified() {
 		String c = getCategory();
 		String p = getPattern();
@@ -652,6 +668,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 		isDirty = dirty;
 	}
 
+	@Override
 	public boolean isDirty() {
 		return isDirty;
 	}
@@ -671,7 +688,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 
 	protected String getCustomGuideText() {
 		return null;
-	};
+	}
 
 	final protected String getPreviewText() {
 		return previewText;
@@ -719,6 +736,7 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 		return data;
 	}
 
+	@Override
 	public void addFormatChangeListener(IFormatChangeListener listener) {
 		if (!listeners.contains(listener)) {
 			listeners.add(listener);
@@ -849,11 +867,11 @@ public abstract class FormatLayoutPeer implements IFormatPage {
 
 		public void setEnabled(boolean enabled) {
 			if (cba != null) {
-				if (cba.getEnabled() != enabled)
+				if (cba.getEnabled() != enabled) {
 					cba.setEnabled(enabled);
-			} else {
-				if (cbb.getEnabled() != enabled)
-					cbb.setEnabled(enabled);
+				}
+			} else if (cbb.getEnabled() != enabled) {
+				cbb.setEnabled(enabled);
 			}
 		}
 

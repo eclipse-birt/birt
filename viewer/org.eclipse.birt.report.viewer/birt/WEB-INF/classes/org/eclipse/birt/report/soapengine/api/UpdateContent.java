@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -39,7 +39,7 @@ public class UpdateContent implements java.io.Serializable {
 
 	/**
 	 * Gets the target value for this UpdateContent.
-	 * 
+	 *
 	 * @return target
 	 */
 	public java.lang.String getTarget() {
@@ -48,7 +48,7 @@ public class UpdateContent implements java.io.Serializable {
 
 	/**
 	 * Sets the target value for this UpdateContent.
-	 * 
+	 *
 	 * @param target
 	 */
 	public void setTarget(java.lang.String target) {
@@ -57,7 +57,7 @@ public class UpdateContent implements java.io.Serializable {
 
 	/**
 	 * Gets the content value for this UpdateContent.
-	 * 
+	 *
 	 * @return content
 	 */
 	public java.lang.String getContent() {
@@ -66,7 +66,7 @@ public class UpdateContent implements java.io.Serializable {
 
 	/**
 	 * Sets the content value for this UpdateContent.
-	 * 
+	 *
 	 * @param content
 	 */
 	public void setContent(java.lang.String content) {
@@ -75,7 +75,7 @@ public class UpdateContent implements java.io.Serializable {
 
 	/**
 	 * Gets the initializationId value for this UpdateContent.
-	 * 
+	 *
 	 * @return initializationId
 	 */
 	public org.eclipse.birt.report.soapengine.api.ReportId[] getInitializationId() {
@@ -84,7 +84,7 @@ public class UpdateContent implements java.io.Serializable {
 
 	/**
 	 * Sets the initializationId value for this UpdateContent.
-	 * 
+	 *
 	 * @param initializationId
 	 */
 	public void setInitializationId(org.eclipse.birt.report.soapengine.api.ReportId[] initializationId) {
@@ -101,7 +101,7 @@ public class UpdateContent implements java.io.Serializable {
 
 	/**
 	 * Gets the bookmark value for this UpdateContent.
-	 * 
+	 *
 	 * @return bookmark
 	 */
 	public java.lang.String getBookmark() {
@@ -110,7 +110,7 @@ public class UpdateContent implements java.io.Serializable {
 
 	/**
 	 * Sets the bookmark value for this UpdateContent.
-	 * 
+	 *
 	 * @param bookmark
 	 */
 	public void setBookmark(java.lang.String bookmark) {
@@ -119,14 +119,18 @@ public class UpdateContent implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof UpdateContent))
+		if (!(obj instanceof UpdateContent)) {
 			return false;
+		}
 		UpdateContent other = (UpdateContent) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -148,6 +152,7 @@ public class UpdateContent implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

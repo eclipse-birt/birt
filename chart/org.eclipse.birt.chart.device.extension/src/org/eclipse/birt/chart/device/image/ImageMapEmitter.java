@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ *
  */
 
 public class ImageMapEmitter implements IImageMapEmitter {
@@ -70,7 +70,7 @@ public class ImageMapEmitter implements IImageMapEmitter {
 	private final static String POLY_SHAPE = "poly"; //$NON-NLS-1$
 
 	// Use this registry to make sure one callback method only be added once
-	private Map<String, Boolean> callbackMethodsRegistry = new HashMap<String, Boolean>(5);
+	private Map<String, Boolean> callbackMethodsRegistry = new HashMap<>(5);
 
 	private volatile boolean hasMultipleMenu = false;
 
@@ -93,9 +93,11 @@ public class ImageMapEmitter implements IImageMapEmitter {
 		this.dpi = dpi;
 	}
 
+	@Override
 	public String getImageMap() {
 		Collections.sort(saList, new Comparator<ShapedAction>() {
 
+			@Override
 			public int compare(ShapedAction o1, ShapedAction o2) {
 				// z-order value is marker size, not the z-order in series
 				// definition.
@@ -360,7 +362,7 @@ public class ImageMapEmitter implements IImageMapEmitter {
 
 	/**
 	 * Convert AWT shape to image map coordinates.
-	 * 
+	 *
 	 * @param shape
 	 * @return
 	 */
@@ -369,7 +371,7 @@ public class ImageMapEmitter implements IImageMapEmitter {
 			return null;
 		}
 
-		ArrayList<Double> al = new ArrayList<Double>();
+		ArrayList<Double> al = new ArrayList<>();
 
 		FlatteningPathIterator pitr = new FlatteningPathIterator(shape.getPathIterator(null), 1);
 		double[] data = new double[6];
@@ -411,7 +413,7 @@ public class ImageMapEmitter implements IImageMapEmitter {
 			return null;
 		}
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < al.size(); i++) {
 			Double db = al.get(i);
@@ -462,7 +464,7 @@ public class ImageMapEmitter implements IImageMapEmitter {
 	 * When 1). The action is supported, and the action type is INVOKE_SCRIPT. 2).
 	 * The script has not been added into ImageMap. 3). The action acts on the value
 	 * series area. Add the script into ImageMap.
-	 * 
+	 *
 	 * @param sa ShapedAction
 	 * @param sb StringBuffer
 	 */

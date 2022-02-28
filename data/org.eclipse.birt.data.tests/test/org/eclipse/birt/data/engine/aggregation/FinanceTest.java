@@ -1,24 +1,26 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
 package org.eclipse.birt.data.engine.aggregation;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.impl.BuildInAggregationFactory;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
-
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -36,10 +38,10 @@ public class FinanceTest {
 	 */
 	@Test
 	public void testIrr() throws Exception {
-		double b[] = new double[] { -70000d, 12000d, 15000d, 18000d, 21000d, 26000d };
-		double a[] = new double[] { -70000, 12000, 15000 };
-		double c[] = new double[] { -70000d, 12000d, 15000d, 18000d, 21000d };
-		double d[] = new double[] { -70000d, 22000d, 25000d, 30000d, 31000d };
+		double b[] = { -70000d, 12000d, 15000d, 18000d, 21000d, 26000d };
+		double a[] = { -70000, 12000, 15000 };
+		double c[] = { -70000d, 12000d, 15000d, 18000d, 21000d };
+		double d[] = { -70000d, 22000d, 25000d, 30000d, 31000d };
 
 		IAggrFunction ag = buildInAggrFactory.getAggregation("irr");
 		Accumulator ac = ag.newAccumulator();
@@ -103,8 +105,8 @@ public class FinanceTest {
 	public void testMirr() throws Exception {
 		// If the value of the guess is far from the correct answer, application
 		// can't get the correct result and will report error
-		double a[] = new double[] { -120000, 39000, 30000, 21000, 37000, 46000 };
-		double b[] = new double[] { -120000, 39000, 30000, 21000 };
+		double a[] = { -120000, 39000, 30000, 21000, 37000, 46000 };
+		double b[] = { -120000, 39000, 30000, 21000 };
 		IAggrFunction ag = buildInAggrFactory.getAggregation("mirr");
 		Accumulator ac = ag.newAccumulator();
 		assertEquals(IBuildInAggregation.TOTAL_MIRR_FUNC, ag.getName());
@@ -155,7 +157,7 @@ public class FinanceTest {
 		assertTrue(!ag.getParameterDefn()[0].isOptional());
 		assertFalse(!ag.getParameterDefn()[1].isOptional());
 
-		double a[] = new double[] { -10000, 3000, 4200, 6800 };
+		double a[] = { -10000, 3000, 4200, 6800 };
 
 		ac.start();
 		for (int i = 0; i < a.length; i++) {
@@ -188,8 +190,8 @@ public class FinanceTest {
 		assertTrue(!ag.getParameterDefn()[0].isOptional());
 		assertFalse(!ag.getParameterDefn()[1].isOptional());
 
-		double a[] = new double[] { -10000, 3000, 4200, 6800 };
-		double b[] = new double[] { -9090.90909090909, -6611.570247933883, -3456.0480841472577, 1188.4434123352216 };
+		double a[] = { -10000, 3000, 4200, 6800 };
+		double b[] = { -9090.90909090909, -6611.570247933883, -3456.0480841472577, 1188.4434123352216 };
 
 		ac.start();
 		for (int i = 0; i < a.length; i++) {

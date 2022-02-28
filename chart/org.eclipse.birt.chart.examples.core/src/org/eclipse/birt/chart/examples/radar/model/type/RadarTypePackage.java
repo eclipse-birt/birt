@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -15,7 +15,6 @@
 package org.eclipse.birt.chart.examples.radar.model.type;
 
 import org.eclipse.birt.chart.model.component.ComponentPackage;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -31,11 +30,11 @@ import org.eclipse.emf.ecore.EReference;
  * <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc --> <!-- begin-model-doc -->
- * 
+ *
  * Schema file for the chart.model package.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.examples.radar.model.type.RadarTypeFactory
  * @model kind="package"
  * @generated
@@ -43,21 +42,21 @@ import org.eclipse.emf.ecore.EReference;
 public interface RadarTypePackage extends EPackage {
 	/**
 	 * The package name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	String eNAME = "type";
 
 	/**
 	 * The package namespace URI. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	String eNS_URI = "http://www.birt.eclipse.org/RadarChartModelType";
 
 	/**
 	 * The package namespace name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	String eNS_PREFIX = "type";
@@ -65,7 +64,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The singleton instance of the package. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	RadarTypePackage eINSTANCE = org.eclipse.birt.chart.examples.radar.model.type.impl.RadarTypePackageImpl.init();
@@ -74,7 +73,7 @@ public interface RadarTypePackage extends EPackage {
 	 * The meta object id for the
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl
 	 * <em>Radar Series</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.impl.RadarTypePackageImpl#getRadarSeries()
 	 * @generated
@@ -84,7 +83,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -93,7 +92,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -102,7 +101,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Data Definition</b></em>' containment
 	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -111,7 +110,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Series Identifier</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -120,7 +119,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Data Point</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -129,7 +128,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Data Sets</b></em>' map. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -138,7 +137,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Label Position</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -147,7 +146,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Stacked</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -156,7 +155,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -165,7 +164,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Translucent</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -174,7 +173,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Curve Fitting</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -183,7 +182,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Cursor</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -192,7 +191,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Marker</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -201,7 +200,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Line Attributes</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -210,7 +209,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Palette Line Color</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -219,7 +218,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Background Oval Transparent</b></em>'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -228,7 +227,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Web Line Attributes</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -237,7 +236,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Show Web Labels</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -246,7 +245,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Show Cat Labels</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -255,7 +254,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Radar Auto Scale</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -264,7 +263,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Web Label Max</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -273,7 +272,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Web Label Min</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -282,7 +281,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Web Label Unit</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -291,7 +290,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Fill Polys</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -300,7 +299,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Connect Endpoints</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -309,7 +308,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Web Label</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -318,7 +317,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Cat Label</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -327,7 +326,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Web Label Format Specifier</b></em>'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -336,7 +335,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Cat Label Format Specifier</b></em>'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -345,7 +344,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Plot Steps</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -354,7 +353,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * The number of structural features of the '<em>Radar Series</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -364,7 +363,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for class
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries
 	 * <em>Radar Series</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for class '<em>Radar Series</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries
 	 * @generated
@@ -375,7 +374,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getMarker
 	 * <em>Marker</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Marker</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getMarker()
 	 * @see #getRadarSeries()
@@ -387,7 +386,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getLineAttributes
 	 * <em>Line Attributes</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Line
 	 *         Attributes</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getLineAttributes()
@@ -400,7 +399,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isPaletteLineColor
 	 * <em>Palette Line Color</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Palette Line Color</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isPaletteLineColor()
 	 * @see #getRadarSeries()
@@ -413,7 +412,7 @@ public interface RadarTypePackage extends EPackage {
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isBackgroundOvalTransparent
 	 * <em>Background Oval Transparent</em>}'. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Background Oval
 	 *         Transparent</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isBackgroundOvalTransparent()
@@ -426,7 +425,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLineAttributes
 	 * <em>Web Line Attributes</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Web Line
 	 *         Attributes</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLineAttributes()
@@ -439,7 +438,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isShowWebLabels
 	 * <em>Show Web Labels</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Show Web Labels</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isShowWebLabels()
 	 * @see #getRadarSeries()
@@ -451,7 +450,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isShowCatLabels
 	 * <em>Show Cat Labels</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Show Cat Labels</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isShowCatLabels()
 	 * @see #getRadarSeries()
@@ -463,7 +462,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isRadarAutoScale
 	 * <em>Radar Auto Scale</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Radar Auto Scale</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isRadarAutoScale()
 	 * @see #getRadarSeries()
@@ -475,7 +474,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelMax
 	 * <em>Web Label Max</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Web Label Max</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelMax()
 	 * @see #getRadarSeries()
@@ -487,7 +486,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelMin
 	 * <em>Web Label Min</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Web Label Min</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelMin()
 	 * @see #getRadarSeries()
@@ -499,7 +498,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelUnit
 	 * <em>Web Label Unit</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Web Label Unit</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelUnit()
 	 * @see #getRadarSeries()
@@ -511,7 +510,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isFillPolys
 	 * <em>Fill Polys</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Fill Polys</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isFillPolys()
 	 * @see #getRadarSeries()
@@ -523,7 +522,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isConnectEndpoints
 	 * <em>Connect Endpoints</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Connect Endpoints</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isConnectEndpoints()
 	 * @see #getRadarSeries()
@@ -535,7 +534,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabel
 	 * <em>Web Label</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Web Label</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabel()
 	 * @see #getRadarSeries()
@@ -547,7 +546,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getCatLabel
 	 * <em>Cat Label</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Cat Label</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getCatLabel()
 	 * @see #getRadarSeries()
@@ -560,7 +559,7 @@ public interface RadarTypePackage extends EPackage {
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelFormatSpecifier
 	 * <em>Web Label Format Specifier</em>}'. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Web Label Format
 	 *         Specifier</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelFormatSpecifier()
@@ -574,7 +573,7 @@ public interface RadarTypePackage extends EPackage {
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getCatLabelFormatSpecifier
 	 * <em>Cat Label Format Specifier</em>}'. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Cat Label Format
 	 *         Specifier</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getCatLabelFormatSpecifier()
@@ -587,7 +586,7 @@ public interface RadarTypePackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getPlotSteps
 	 * <em>Plot Steps</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Plot Steps</em>'.
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getPlotSteps()
 	 * @see #getRadarSeries()
@@ -598,7 +597,7 @@ public interface RadarTypePackage extends EPackage {
 	/**
 	 * Returns the factory that creates the instances of the model. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the factory that creates the instances of the model.
 	 * @generated
 	 */
@@ -613,7 +612,7 @@ public interface RadarTypePackage extends EPackage {
 	 * <li>and each data type</li>
 	 * </ul>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	interface Literals {
@@ -621,7 +620,7 @@ public interface RadarTypePackage extends EPackage {
 		 * The meta object literal for the
 		 * '{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl
 		 * <em>Radar Series</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @see org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl
 		 * @see org.eclipse.birt.chart.examples.radar.model.type.impl.RadarTypePackageImpl#getRadarSeries()
 		 * @generated
@@ -631,7 +630,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Marker</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference RADAR_SERIES__MARKER = eINSTANCE.getRadarSeries_Marker();
@@ -639,7 +638,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Line Attributes</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference RADAR_SERIES__LINE_ATTRIBUTES = eINSTANCE.getRadarSeries_LineAttributes();
@@ -647,7 +646,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Palette Line Color</b></em>'
 		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute RADAR_SERIES__PALETTE_LINE_COLOR = eINSTANCE.getRadarSeries_PaletteLineColor();
@@ -655,7 +654,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Background Oval Transparent</b></em>'
 		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute RADAR_SERIES__BACKGROUND_OVAL_TRANSPARENT = eINSTANCE.getRadarSeries_BackgroundOvalTransparent();
@@ -663,7 +662,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Web Line Attributes</b></em>'
 		 * containment reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference RADAR_SERIES__WEB_LINE_ATTRIBUTES = eINSTANCE.getRadarSeries_WebLineAttributes();
@@ -671,7 +670,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Show Web Labels</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute RADAR_SERIES__SHOW_WEB_LABELS = eINSTANCE.getRadarSeries_ShowWebLabels();
@@ -679,7 +678,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Show Cat Labels</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute RADAR_SERIES__SHOW_CAT_LABELS = eINSTANCE.getRadarSeries_ShowCatLabels();
@@ -687,7 +686,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Radar Auto Scale</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute RADAR_SERIES__RADAR_AUTO_SCALE = eINSTANCE.getRadarSeries_RadarAutoScale();
@@ -695,7 +694,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Web Label Max</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute RADAR_SERIES__WEB_LABEL_MAX = eINSTANCE.getRadarSeries_WebLabelMax();
@@ -703,7 +702,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Web Label Min</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute RADAR_SERIES__WEB_LABEL_MIN = eINSTANCE.getRadarSeries_WebLabelMin();
@@ -711,7 +710,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Web Label Unit</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute RADAR_SERIES__WEB_LABEL_UNIT = eINSTANCE.getRadarSeries_WebLabelUnit();
@@ -719,7 +718,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Fill Polys</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute RADAR_SERIES__FILL_POLYS = eINSTANCE.getRadarSeries_FillPolys();
@@ -727,7 +726,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Connect Endpoints</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute RADAR_SERIES__CONNECT_ENDPOINTS = eINSTANCE.getRadarSeries_ConnectEndpoints();
@@ -735,7 +734,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Web Label</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference RADAR_SERIES__WEB_LABEL = eINSTANCE.getRadarSeries_WebLabel();
@@ -743,7 +742,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Cat Label</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference RADAR_SERIES__CAT_LABEL = eINSTANCE.getRadarSeries_CatLabel();
@@ -751,7 +750,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Web Label Format Specifier</b></em>'
 		 * containment reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference RADAR_SERIES__WEB_LABEL_FORMAT_SPECIFIER = eINSTANCE.getRadarSeries_WebLabelFormatSpecifier();
@@ -759,7 +758,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Cat Label Format Specifier</b></em>'
 		 * containment reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference RADAR_SERIES__CAT_LABEL_FORMAT_SPECIFIER = eINSTANCE.getRadarSeries_CatLabelFormatSpecifier();
@@ -767,7 +766,7 @@ public interface RadarTypePackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Plot Steps</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute RADAR_SERIES__PLOT_STEPS = eINSTANCE.getRadarSeries_PlotSteps();

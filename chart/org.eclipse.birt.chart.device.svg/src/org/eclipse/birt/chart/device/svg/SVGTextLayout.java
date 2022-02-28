@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ import org.eclipse.birt.chart.device.util.ChartTextLayout;
  * This class provides a bridge between the java.awt.TextLayout class with the
  * SVG Renderer. The draw method is redirected to the SVG Graphic Context draw
  * string method.
- * 
+ *
  */
 
 public class SVGTextLayout extends ChartTextLayout {
@@ -37,10 +37,11 @@ public class SVGTextLayout extends ChartTextLayout {
 
 	@Override
 	public void draw(Graphics2D g2d, float x, float y) {
-		if (frc.isAntiAliased())
+		if (frc.isAntiAliased()) {
 			g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		else
+		} else {
 			g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+		}
 		g2d.drawString(value, x, y);
 	}
 

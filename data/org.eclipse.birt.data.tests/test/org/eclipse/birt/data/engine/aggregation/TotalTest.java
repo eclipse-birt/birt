@@ -1,16 +1,21 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
 package org.eclipse.birt.data.engine.aggregation;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -22,9 +27,7 @@ import org.eclipse.birt.data.aggregation.impl.BuildInAggregationFactory;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
-
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -46,7 +49,6 @@ public class TotalTest {
 	private Object[] doubleArray3PercentSum = { new Integer(208), new Integer(41), null, new Integer(625), null,
 			new Integer(83), new Integer(20), new Integer(20) };
 	private String[] str1 = { "4", "-43", "4", "23", "-15", "-6", "4", "-6", "3", "63", "33", "-6", "-23", "34" };
-	private String[] str3 = { "4", "-43", "4o", "23", "-15", "-6", "4", "-6", "3", "63", "33", "-6", "-23", "34" };
 	private double[] doubleArray4 = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 	private double[] doubleArray5 = { 1, 2, 2, 3, 1, 3, 4, 1, 2 };
 	private double[] doubleArray6 = { 1, 2, 2, 3, 1, 3, 4, 2, 1 };
@@ -54,30 +56,28 @@ public class TotalTest {
 	private Object[] anyObjectArray2 = { "aa", "bb", null, new Integer(0), null, new Double(1), new Float(0), null,
 			false, new Date(1000000L) };
 
-	private Date[] dates = new Date[] { new Date(1000000L), new Date(2000000L), new Date(3000000L),
+	private Date[] dates = { new Date(1000000L), new Date(2000000L), new Date(3000000L), new Date(4000000L) };
+
+	private Date[] dates2 = { new Date(1000000L), new Date(2000000L), new Date(2000000L), new Date(3000000L),
 			new Date(4000000L) };
 
-	private Date[] dates2 = new Date[] { new Date(1000000L), new Date(2000000L), new Date(2000000L), new Date(3000000L),
-			new Date(4000000L) };
+	private String[] str2 = { "test", "string", "array", "for", "aggregation" };
 
-	private String[] str2 = new String[] { "test", "string", "array", "for", "aggregation" };
+	private String[] str4 = { "test", "string", "array", "for", "aggregation", "test", "string", "array", "for",
+			"aggregation" };
 
-	private String[] str4 = new String[] { "test", "string", "array", "for", "aggregation", "test", "string", "array",
-			"for", "aggregation" };
-
-	private BigDecimal[] bigDecimalArray = new BigDecimal[] { new BigDecimal("1"), new BigDecimal("3"),
-			new BigDecimal("5"), new BigDecimal("4"), new BigDecimal("6"), new BigDecimal("8"), new BigDecimal("3"),
-			new BigDecimal("4"), new BigDecimal("5"), new BigDecimal("7"), new BigDecimal("9"), new BigDecimal("10"),
-			new BigDecimal("4"), new BigDecimal("6"), new BigDecimal("7") };
+	private BigDecimal[] bigDecimalArray = { new BigDecimal("1"), new BigDecimal("3"), new BigDecimal("5"),
+			new BigDecimal("4"), new BigDecimal("6"), new BigDecimal("8"), new BigDecimal("3"), new BigDecimal("4"),
+			new BigDecimal("5"), new BigDecimal("7"), new BigDecimal("9"), new BigDecimal("10"), new BigDecimal("4"),
+			new BigDecimal("6"), new BigDecimal("7") };
 
 	private int[] bigDecimalRankAsc = { 1, 2, 7, 4, 9, 13, 2, 4, 7, 11, 14, 15, 4, 9, 11 };
 
-	private int[] bigDecimalPercentRank = new int[] { 0, 71, 428, 214, 571, 857, 71, 214, 428, 714, 928, 1000, 214, 571,
-			714
+	private int[] bigDecimalPercentRank = { 0, 71, 428, 214, 571, 857, 71, 214, 428, 714, 928, 1000, 214, 571, 714
 
 	};
 
-	private int[] bigDecimalPercentSum = new int[] { 12, 36, 60, 48, 73, 97, 36, 48, 60, 85, 109, 121, 48, 73, 85 };
+	private int[] bigDecimalPercentSum = { 12, 36, 60, 48, 73, 97, 36, 48, 60, 85, 109, 121, 48, 73, 85 };
 
 	private BuildInAggregationFactory buildInAggrFactory = new BuildInAggregationFactory();
 
@@ -252,7 +252,7 @@ public class TotalTest {
 		result = "";
 		separator = "#";
 		exceedsMaxLength = false;
-		LinkedHashSet<String> objects = new LinkedHashSet<String>();
+		LinkedHashSet<String> objects = new LinkedHashSet<>();
 		for (int i = 0; i < anyObjectArray2.length; i++) {
 			if (anyObjectArray2[i] != null) {
 				objects.add(anyObjectArray2[i].toString());
@@ -347,7 +347,7 @@ public class TotalTest {
 
 		// null-value handling
 		{
-			BigDecimal[] arr = new BigDecimal[] { null, null, new BigDecimal("1.0"), null, new BigDecimal("2.5") };
+			BigDecimal[] arr = { null, null, new BigDecimal("1.0"), null, new BigDecimal("2.5") };
 			ac.start();
 			for (int i = 0; i < arr.length; i++) {
 				ac.onRow(new Object[] { arr[i] });
@@ -417,9 +417,8 @@ public class TotalTest {
 
 		// test Total.sum() for heterogeneous Number array data
 		{
-			Number numberArray[] = new Number[] { BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN,
-					Double.valueOf("0.1"), new BigDecimal("0.1"), new BigDecimal(0.1D), new BigDecimal("0.1"),
-					new Double(0.1D), };
+			Number numberArray[] = { BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN, Double.valueOf("0.1"),
+					new BigDecimal("0.1"), new BigDecimal(0.1D), new BigDecimal("0.1"), new Double(0.1D), };
 			ac.start();
 			for (int i = 0; i < numberArray.length; i++) {
 				ac.onRow(new Object[] { numberArray[i] });
@@ -1235,10 +1234,10 @@ public class TotalTest {
 
 	@Test
 	public void testTotalMovingAve() throws Exception {
-		double[] values1 = new double[] { 1.0, 2.0, 3.0, 3.25, 3.8, 4.5, 4.285714285714286, 4.25, 4.75, 5.25, 5.75, 6.5,
-				6.25, 6, 6.5 };
-		String[] values2 = new String[] { "4", "-19.5", "-11.66666666666666666666666666666667", "-3", "-5.4", "-5.5",
-				"-5.5", "0.6666666666666666666666666666666667", "0.5", "7.166666666666666666666666666666667",
+		double[] values1 = { 1.0, 2.0, 3.0, 3.25, 3.8, 4.5, 4.285714285714286, 4.25, 4.75, 5.25, 5.75, 6.5, 6.25, 6,
+				6.5 };
+		String[] values2 = { "4", "-19.5", "-11.66666666666666666666666666666667", "-3", "-5.4", "-5.5", "-5.5",
+				"0.6666666666666666666666666666666667", "0.5", "7.166666666666666666666666666666667",
 				"15.16666666666666666666666666666667", "15.16666666666666666666666666666667",
 				"10.66666666666666666666666666666667", "17.33333333333333333333333333333333" };
 		IAggrFunction ag = buildInAggrFactory.getAggregation("movingAve");
@@ -1275,8 +1274,8 @@ public class TotalTest {
 		assertEquals(null, ac.getValue());
 
 		// test Total.MovingAve() for BigDecimal data
-		BigDecimal[] expectResults = new BigDecimal[] { new BigDecimal("1.0"), new BigDecimal("2.0"),
-				new BigDecimal("3.0"), new BigDecimal("3.25"), new BigDecimal("3.8"), new BigDecimal("4.5"),
+		BigDecimal[] expectResults = { new BigDecimal("1.0"), new BigDecimal("2.0"), new BigDecimal("3.0"),
+				new BigDecimal("3.25"), new BigDecimal("3.8"), new BigDecimal("4.5"),
 				new BigDecimal("4.285714285714285714285714285714286"), new BigDecimal("4.25"), new BigDecimal("4.75"),
 				new BigDecimal("5.25"), new BigDecimal("5.75"), new BigDecimal("6.5"), new BigDecimal("6.25"),
 				new BigDecimal("6.0"), new BigDecimal("6.5") };
@@ -1672,7 +1671,7 @@ public class TotalTest {
 		for (int i = 0; i < doubleArray3.length; i++) {
 			ac.onRow(new Object[] { doubleArray3[i] });
 			assertEquals(doubleArray3PercentSum[i] == null ? new Integer(0) : doubleArray3PercentSum[i],
-					new Integer((int) (new Double(ac.getValue().toString()).doubleValue() * 1000)));
+					new Integer((int) (Double.parseDouble(ac.getValue().toString()) * 1000)));
 		}
 		ac.finish();
 		// DataException should be throwed if the parameter is non-numeric

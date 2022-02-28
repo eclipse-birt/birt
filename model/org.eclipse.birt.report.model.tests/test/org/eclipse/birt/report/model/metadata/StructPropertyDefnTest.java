@@ -13,22 +13,22 @@ package org.eclipse.birt.report.model.metadata;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
- * 
+ *
  * Unit test for Class StructPropertyDefn.
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testDefnType()}</td>
  * <td>Tests the type of <code>StructPropertyDefn</code>.</td>
  * <td>It is <code>PropertyDefn.STRUCT_PROPERTY.</code></td>
  * </tr>
- * 
- * 
+ *
+ *
  */
 
 public class StructPropertyDefnTest extends BaseTestCase {

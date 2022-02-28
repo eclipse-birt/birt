@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010, 2011 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -95,7 +95,7 @@ public class BundleLoader {
 
 	protected Properties loadProperties(URL root) {
 		InputStream in = openInputStream(root, PROPERTIES_ENTRY);
-		;
+
 		if (in == null) {
 			return null;
 		}
@@ -126,8 +126,8 @@ public class BundleLoader {
 
 			Element root = document.getDocumentElement();
 
-			ArrayList<ExtensionPoint> extensionPoints = new ArrayList<ExtensionPoint>();
-			ArrayList<Extension> extensions = new ArrayList<Extension>();
+			ArrayList<ExtensionPoint> extensionPoints = new ArrayList<>();
+			ArrayList<Extension> extensions = new ArrayList<>();
 			NodeList elements = root.getChildNodes();
 			for (int i = 0; i < elements.getLength(); i++) {
 				Node node = elements.item(i);
@@ -181,7 +181,7 @@ public class BundleLoader {
 		extension.label = name;
 		extension.extensionPointId = point;
 
-		ArrayList<IConfigurationElement> configurations = new ArrayList<IConfigurationElement>();
+		ArrayList<IConfigurationElement> configurations = new ArrayList<>();
 		NodeList children = element.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node node = children.item(i);
@@ -200,7 +200,7 @@ public class BundleLoader {
 		config.parent = parent;
 		config.name = element.getNodeName();
 
-		config.attributes = new HashMap<String, String>();
+		config.attributes = new HashMap<>();
 		NamedNodeMap nodeAttrs = element.getAttributes();
 		for (int i = 0; i < nodeAttrs.getLength(); i++) {
 			Node attr = nodeAttrs.item(i);
@@ -210,7 +210,7 @@ public class BundleLoader {
 			config.attributes.put(nodeName, nodeValue);
 		}
 
-		ArrayList<ConfigurationElement> childConfigs = new ArrayList<ConfigurationElement>();
+		ArrayList<ConfigurationElement> childConfigs = new ArrayList<>();
 		NodeList children = element.getChildNodes();
 
 		for (int i = 0; i < children.getLength(); i++) {

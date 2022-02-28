@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,10 +28,10 @@ class CompatibleCDATATextPropertyState extends TextPropertyState {
 	/**
 	 * Constructs a <code>CompatibleIgnorePropertyState</code> to parse an removed
 	 * property.
-	 * 
+	 *
 	 * @param theHandler the parser handle
 	 * @param element    the element that holds the obsolete property
-	 * 
+	 *
 	 */
 
 	public CompatibleCDATATextPropertyState(ModuleParserHandler theHandler, DesignElement element) {
@@ -40,14 +40,16 @@ class CompatibleCDATATextPropertyState extends TextPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetProperty
 	 * (org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
+	@Override
 	protected void doSetProperty(PropertyDefn propDefn, Object valueToSet) {
-		if (valueToSet == null)
+		if (valueToSet == null) {
 			return;
+		}
 
 		assert valueToSet instanceof String;
 
@@ -61,22 +63,24 @@ class CompatibleCDATATextPropertyState extends TextPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#generalJumpTo()
 	 */
 
+	@Override
 	protected AbstractParseState generalJumpTo() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.parser.ExpressionState#versionConditionalJumpTo
 	 * ()
 	 */
 
+	@Override
 	protected AbstractParseState versionConditionalJumpTo() {
 		return null;
 	}

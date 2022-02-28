@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * The default resource locator will search in the folder where the design file
  * is located.
- * 
+ *
  * @see org.eclipse.birt.report.model.util.ResourceLocatorImpl
  * @see org.eclipse.birt.report.model.core.DesignSession
  */
@@ -42,20 +42,21 @@ public class SessionHandle extends SessionHandleImpl {
 
 	/**
 	 * Constructs a handle for the session with the given locale.
-	 * 
+	 *
 	 * @param locale the user's locale. If null, then the system locale is assumed.
-	 * 
+	 *
 	 * @deprecated to use ICU4J, this method is replaced by: SessionHandle(ULocale
 	 *             locale)
 	 */
 
+	@Deprecated
 	public SessionHandle(Locale locale) {
 		super(locale);
 	}
 
 	/**
 	 * Constructs a handle for the session with the given locale.
-	 * 
+	 *
 	 * @param locale the user's locale which is <code>ULocale</code>. If null, then
 	 *               the system locale is assumed.
 	 */

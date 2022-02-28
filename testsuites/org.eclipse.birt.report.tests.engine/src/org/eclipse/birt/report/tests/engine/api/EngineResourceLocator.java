@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -28,9 +28,11 @@ public class EngineResourceLocator implements IResourceLocator {
 		this.path = path;
 	}
 
+	@Override
 	public URL findResource(ModuleHandle moduleHandle, String filename, int type) {
-		if (path == null || path.equals(""))
+		if (path == null || path.equals("")) {
 			return null;
+		}
 
 		try {
 			URL url = new URL(path + filename);
@@ -42,6 +44,7 @@ public class EngineResourceLocator implements IResourceLocator {
 		return null;
 	}
 
+	@Override
 	public URL findResource(ModuleHandle moduleHandle, String fileName, int type, Map appContext) {
 		// TODO Auto-generated method stub
 		return null;

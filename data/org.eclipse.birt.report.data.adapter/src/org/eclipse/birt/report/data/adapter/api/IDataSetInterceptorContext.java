@@ -18,9 +18,9 @@ package org.eclipse.birt.report.data.adapter.api;
 
 public interface IDataSetInterceptorContext {
 
-	public DataRequestSession getRequestSession(String dataSource);
+	DataRequestSession getRequestSession(String dataSource);
 
-	public void registDataRequestSession(String dataSource, DataRequestSession session);
+	void registDataRequestSession(String dataSource, DataRequestSession session);
 
-	public void close();
+	void close();
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,15 +18,15 @@ import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.OdaException;
-import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
  * DataSourceMetaData implements the ODA interface IDataSetMetaData.
- * 
+ *
  */
 public class DataSourceMetaData implements IDataSetMetaData {
 
@@ -39,7 +39,7 @@ public class DataSourceMetaData implements IDataSetMetaData {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param connection the IConnection that creates this object
 	 * @param dbMeta     the JDBC DatabaseMetaData related to this object.
 	 */
@@ -51,9 +51,10 @@ public class DataSourceMetaData implements IDataSetMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#getConnection()
 	 */
+	@Override
 	public IConnection getConnection() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, DataSourceMetaData.class.getName(), "getConnection",
 				"DataSourceMetaData.getConnection( )");
@@ -62,11 +63,12 @@ public class DataSourceMetaData implements IDataSetMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.IDataSetMetaData#getDataSourceObjects(java
 	 * .lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
+	@Override
 	public IResultSet getDataSourceObjects(String catalog, String schema, String object, String version)
 			throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, DataSourceMetaData.class.getName(), "getDataSourceObjects",
@@ -76,11 +78,12 @@ public class DataSourceMetaData implements IDataSetMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.IDataSetMetaData#getDataSourceMajorVersion
 	 * ()
 	 */
+	@Override
 	public int getDataSourceMajorVersion() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, DataSourceMetaData.class.getName(), "getDataSourceMajorVersion",
 				"DataSourceMetaData.getDataSourceMajorVersion( )");
@@ -93,11 +96,12 @@ public class DataSourceMetaData implements IDataSetMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.IDataSetMetaData#getDataSourceMinorVersion
 	 * ()
 	 */
+	@Override
 	public int getDataSourceMinorVersion() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, DataSourceMetaData.class.getName(), "getDataSourceMinorVersion",
 				"DataSourceMetaData.getDataSourceMinorVersion( )");
@@ -110,11 +114,12 @@ public class DataSourceMetaData implements IDataSetMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.IDataSetMetaData#getDataSourceProductName(
 	 * )
 	 */
+	@Override
 	public String getDataSourceProductName() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, DataSourceMetaData.class.getName(), "getDataSourceProductName",
 				"DataSourceMetaData.getDataSourceProductName( )");
@@ -127,10 +132,11 @@ public class DataSourceMetaData implements IDataSetMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#
 	 * getDataSourceProductVersion()
 	 */
+	@Override
 	public String getDataSourceProductVersion() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, DataSourceMetaData.class.getName(), "getDataSourceProductVersion",
 				"DataSourceMetaData.getDataSourceProductVersion( )");
@@ -143,9 +149,10 @@ public class DataSourceMetaData implements IDataSetMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#getSQLStateType()
 	 */
+	@Override
 	public int getSQLStateType() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, DataSourceMetaData.class.getName(), "getSQLStateType",
 				"DataSourceMetaData.getSQLStateType( )");
@@ -165,10 +172,11 @@ public class DataSourceMetaData implements IDataSetMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#
 	 * supportsMultipleOpenResults()
 	 */
+	@Override
 	public boolean supportsMultipleOpenResults() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, DataSourceMetaData.class.getName(), "supportsMultipleOpenResults",
 				"DataSourceMetaData.supportsMultipleOpenResults( )");
@@ -177,10 +185,11 @@ public class DataSourceMetaData implements IDataSetMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#
 	 * supportsMultipleResultSets()
 	 */
+	@Override
 	public boolean supportsMultipleResultSets() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, DataSourceMetaData.class.getName(), "supportsMultipleResultSets",
 				"DataSourceMetaData.supportsMultipleResultSets( )");
@@ -189,10 +198,11 @@ public class DataSourceMetaData implements IDataSetMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.IDataSetMetaData#supportsNamedResultSets()
 	 */
+	@Override
 	public boolean supportsNamedResultSets() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, DataSourceMetaData.class.getName(), "supportsNamedResultSets",
 				"DataSourceMetaData.supportsNamedResultSets( )");
@@ -201,10 +211,11 @@ public class DataSourceMetaData implements IDataSetMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.IDataSetMetaData#supportsNamedParameters()
 	 */
+	@Override
 	public boolean supportsNamedParameters() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, DataSourceMetaData.class.getName(), "supportsNamedParameters",
 				"DataSourceMetaData.supportsNamedParameters( )");
@@ -213,10 +224,11 @@ public class DataSourceMetaData implements IDataSetMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.IDataSetMetaData#supportsInParameters()
 	 */
+	@Override
 	public boolean supportsInParameters() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, DataSourceMetaData.class.getName(), "supportsInParameters",
 				"DataSourceMetaData.supportsInParameters( )");
@@ -225,10 +237,11 @@ public class DataSourceMetaData implements IDataSetMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.IDataSetMetaData#supportsOutParameters()
 	 */
+	@Override
 	public boolean supportsOutParameters() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, DataSourceMetaData.class.getName(), "supportsOutParameters",
 				"DataSourceMetaData.supportsOutParameters( )");
@@ -237,9 +250,10 @@ public class DataSourceMetaData implements IDataSetMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#getSortMode()
 	 */
+	@Override
 	public int getSortMode() {
 		logger.logp(java.util.logging.Level.FINEST, DataSourceMetaData.class.getName(), "getSortMode",
 				"DataSourceMetaData.getSortMode( )");

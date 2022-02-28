@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,16 +27,16 @@ public interface IReportItemQuery {
 
 	/**
 	 * passes a handle to the extended report item model to the query extension
-	 * 
+	 *
 	 * @param modelHandle a handle to the extended item model object
 	 */
-	public void setModelObject(ExtendedItemHandle modelHandle);
+	void setModelObject(ExtendedItemHandle modelHandle);
 
 	/**
 	 * returns the report queries that the extension uses. Report queries provide
 	 * data requirement specification to allow the data module in engine to prepare
 	 * for data access.
-	 * 
+	 *
 	 * @param parent an <I>in</I> parameter specifying the parent query for the
 	 *               queries generated for this extended item. Could be null if the
 	 *               extended item defines its own data set
@@ -46,9 +46,10 @@ public interface IReportItemQuery {
 	 *                       array
 	 * @deprecated since 2.2
 	 */
-	public IBaseQueryDefinition[] getReportQueries(IBaseQueryDefinition parent) throws BirtException;
+	@Deprecated
+	IBaseQueryDefinition[] getReportQueries(IBaseQueryDefinition parent) throws BirtException;
 
-	public IDataQueryDefinition[] createReportQueries(IDataQueryDefinition parent) throws BirtException;
+	IDataQueryDefinition[] createReportQueries(IDataQueryDefinition parent) throws BirtException;
 
 	/**
 	 * set query context

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,30 +22,30 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test cases for use library joint data set in the report design.
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
- * 
+ *
+ *
  * <tr>
  * <td>{@link #testGetJointConditionDataSet()}</td>
  * <td>Report uses a joint data set from library.</td>
  * <td>Values from getLeftDataSet/getRightDataSet are with library
  * namespace.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 
 public class LibraryJointDataSetTest extends BaseTestCase {
 
 	/**
 	 * Tests JointDataSetHandle.getLeftDataSet/getLeftDataSet
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -62,7 +62,7 @@ public class LibraryJointDataSetTest extends BaseTestCase {
 
 	/**
 	 * For bug 201038, can't throw out exception when remove data set.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

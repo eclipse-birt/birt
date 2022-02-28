@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,13 +42,14 @@ public class ODAProviderFactory implements IODAProviderFactory, IODAFilterExprPr
 
 	/**
 	 * Returns the ODAProviderFactory instance.
-	 * 
+	 *
 	 * @return ODAProviderFactory instance.
 	 */
 
 	public static ODAProviderFactory getInstance() {
-		if (instance == null)
+		if (instance == null) {
 			instance = new ODAProviderFactory();
+		}
 		return instance;
 	}
 
@@ -88,32 +89,38 @@ public class ODAProviderFactory implements IODAProviderFactory, IODAFilterExprPr
 
 	/**
 	 * Returns the ODAProvider based on the element and the extension Id.
-	 * 
+	 *
 	 * @param element     the ODA element.
 	 * @param extensionID The extension Id used to create the corresponding ODA
 	 *                    element definition.
 	 * @return the ODA provider instance.
 	 */
+	@Override
 	public ODAProvider createODAProvider(DesignElement element, String extensionID) {
 		IODAProviderFactory provider = getODAProvider();
-		if (provider != null)
+		if (provider != null) {
 			return provider.createODAProvider(element, extensionID);
+		}
 
 		return null;
 	}
 
+	@Override
 	public IFilterExprDefinition createFilterExprDefinition() {
 		IODAProviderFactory provider = getODAProvider();
-		if (provider != null)
+		if (provider != null) {
 			return provider.createFilterExprDefinition();
+		}
 
 		return null;
 	}
 
+	@Override
 	public IFilterExprDefinition createFilterExprDefinition(String birtFilterExpr) {
 		IODAProviderFactory provider = getODAProvider();
-		if (provider != null)
+		if (provider != null) {
 			return provider.createFilterExprDefinition(birtFilterExpr);
+		}
 
 		return null;
 	}
@@ -121,13 +128,14 @@ public class ODAProviderFactory implements IODAProviderFactory, IODAFilterExprPr
 	/**
 	 * Set the base factory for this class. This method should be called before any
 	 * other operation.
-	 * 
+	 *
 	 * @param base The real factory class used to create the ODA provider.
 	 */
 
 	public synchronized static void initeTheFactory(IODAProviderFactory base) {
-		if (baseFactory != null)
+		if (baseFactory != null) {
 			return;
+		}
 
 		baseFactory = base;
 	}
@@ -135,13 +143,14 @@ public class ODAProviderFactory implements IODAProviderFactory, IODAFilterExprPr
 	/**
 	 * Set the base factory for this class. This method should be called before any
 	 * other operation.
-	 * 
+	 *
 	 * @param base The real factory class used to create the ODA provider.
 	 */
 
 	public synchronized static void initFilterExprFactory(IODAFilterExprProvider provider) {
-		if (filterProvider != null)
+		if (filterProvider != null) {
 			return;
+		}
 
 		filterProvider = provider;
 	}
@@ -156,10 +165,11 @@ public class ODAProviderFactory implements IODAProviderFactory, IODAFilterExprPr
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.filterExtension.IODAFilterExprProvider
 	 * #getMappedFilterExprDefinitions(java.lang.String, java.lang.String)
 	 */
+	@Override
 	public List<IFilterExprDefinition> getMappedFilterExprDefinitions(String odaDatasetExtensionId,
 			String odaDataSourceExtensionId) {
 		IODAFilterExprProvider provider = getFilterProvider();
@@ -171,10 +181,11 @@ public class ODAProviderFactory implements IODAProviderFactory, IODAFilterExprPr
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.filterExtension.IODAFilterExprProvider
 	 * #supportOdaExtensionFilters()
 	 */
+	@Override
 	public boolean supportOdaExtensionFilters() {
 		IODAFilterExprProvider provider = getFilterProvider();
 		if (provider != null) {
@@ -185,10 +196,11 @@ public class ODAProviderFactory implements IODAProviderFactory, IODAFilterExprPr
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.filterExtension.IODAFilterExprProvider
 	 * #supportODAFilterPushDown(java.lang.String, java.lang.String)
 	 */
+	@Override
 	public boolean supportODAFilterPushDown(String dataSourceExtId, String dataSetExtId) {
 		IODAFilterExprProvider provider = getFilterProvider();
 		if (provider != null) {

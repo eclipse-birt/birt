@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -30,10 +30,12 @@ import testutil.ConfigText;
 
 public class MultiPass_NestedQueryTest extends APITestCase {
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestData.TableName"),
 				ConfigText.getString("Api.TestData.TableSQL"), ConfigText.getString("Api.TestData.TestDataFileName"));
@@ -41,14 +43,14 @@ public class MultiPass_NestedQueryTest extends APITestCase {
 
 	/**
 	 * filter on group with nested query expression
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void test_NestedAggregation() throws Exception {
 		String sqlStatement = "select COUNTRY,AMOUNT,SALE_DATE from " + getTestTableName();
 		((OdaDataSetDesign) this.dataSet).setQueryText(sqlStatement);
 
-		IBaseExpression[] expressions = new IBaseExpression[] { new ScriptExpression("dataSetRow.COUNTRY", 0),
+		IBaseExpression[] expressions = { new ScriptExpression("dataSetRow.COUNTRY", 0),
 				new ScriptExpression("dataSetRow.AMOUNT", 0), new ScriptExpression("dataSetRow.SALE_DATE", 0) };
 
 		String names[] = { "COL_COUNTRY", "COL_AMOUNT", "COL_SALE_DATE" };

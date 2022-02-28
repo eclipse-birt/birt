@@ -1,18 +1,22 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.impl;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.APITestCase;
@@ -24,11 +28,9 @@ import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.junit.Test;
 
 import testutil.ConfigText;
-
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Result metadata test case 1
@@ -38,6 +40,7 @@ public class ResultMetaDataTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Impl.TestData3.TableName"),
 				ConfigText.getString("Impl.TestData3.TableSQL"),
@@ -134,21 +137,21 @@ public class ResultMetaDataTest extends APITestCase {
 	 * "Select intCol, intCol + intCol, floatCol * intCol FROM " +
 	 * this.getTestTableName( ) ); QueryDefinition query = this.newReportQuery( dset
 	 * );
-	 * 
+	 *
 	 * // Add a BIRT computed column ComputedColumn compCol = new ComputedColumn(
 	 * "ComputedCol1", "row.intCol * 2" ); dset.addComputedColumn( compCol );
-	 * 
+	 *
 	 * // Add a column hint for column #2 (the unnamed computed col)
 	 * ColumnDefinition coldef = new ColumnDefinition( "intCol_plus_intCol" );
 	 * coldef.setColumnPosition( 2 ); dset.addResultSetHint( coldef );
-	 * 
+	 *
 	 * // Give the BIRT computed column an alias coldef = new ColumnDefinition(
 	 * "ComputedCol1" ); coldef.setAlias( "ComputedCol1_alias" );
 	 * dset.addResultSetHint( coldef );
-	 * 
+	 *
 	 * IPreparedQuery pq = this.dataEngine.prepare( query ); IQueryResults qr =
 	 * pq.execute( null );
-	 * 
+	 *
 	 * IResultMetaData md = qr.getResultMetaData( ); this.printMetadadata( md );
 	 * checkOutputFile(); }
 	 */

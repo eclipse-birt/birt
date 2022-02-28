@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,11 +36,13 @@ public class GetParameterDefinitionTaskTest extends EngineCase {
 	static final String DYNAMIC_FILTER_DESIGN = "org/eclipse/birt/report/engine/api/impl/DynamicFilterParameter.xml";
 	static final String REPORT_DESIGN = "GetParameterTaskTest.rptdesign"; //$NON-NLS-1$
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		copyResource(REPORT_DESIGN_RESOURCE, REPORT_DESIGN);
 	}
 
+	@Override
 	public void tearDown() throws Exception {
 		removeFile(REPORT_DESIGN);
 		super.tearDown();
@@ -99,8 +101,9 @@ public class GetParameterDefinitionTaskTest extends EngineCase {
 		if (param instanceof IDynamicFilterParameterDefn) {
 			IDynamicFilterParameterDefn dynParam = (IDynamicFilterParameterDefn) param;
 			assertNotNull(dynParam.getColumn());
-		} else
+		} else {
 			fail();
+		}
 	}
 
 	public void testMultipleValues() throws EngineException {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c)2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -213,7 +213,7 @@ public class TableProcessor implements HTMLConstants {
 			}
 			column.setInlineStyle(sp.getStyle());
 			Object w = sp.getProperty(StyleProperties.WIDTH);
-			if (w != null && w instanceof DimensionType) {
+			if (w instanceof DimensionType) {
 				column.setWidth((DimensionType) w);
 			}
 		}
@@ -227,7 +227,7 @@ public class TableProcessor implements HTMLConstants {
 		private Hashtable<Integer, Integer> records;
 		private int index;
 		{
-			records = new Hashtable<Integer, Integer>();
+			records = new Hashtable<>();
 			index = 0;
 		}
 
@@ -289,8 +289,9 @@ public class TableProcessor implements HTMLConstants {
 		}
 
 		public void processNodes() {
-			if (records.containsKey(index))
+			if (records.containsKey(index)) {
 				columnCount += records.get(index);
+			}
 			for (Node node = element.getFirstChild(); node != null; node = node.getNextSibling()) {
 				int current = index;
 				assert (node.getNodeType() == Node.ELEMENT_NODE);
@@ -356,10 +357,12 @@ public class TableProcessor implements HTMLConstants {
 			this.cell = cell;
 		}
 
+		@Override
 		public boolean isEmpty() {
 			return cell != null;
 		}
 
+		@Override
 		public void reset() {
 		}
 	}

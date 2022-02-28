@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,7 +45,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * The class generates JavaScript contents for multiple URL values.
- * 
+ *
  * @since 2.5
  */
 
@@ -58,7 +58,7 @@ public class MultiActionValuesScriptGenerator {
 
 	/**
 	 * Returns javascript content.
-	 * 
+	 *
 	 * @return js content
 	 */
 	public static String getJSContent(ActionValue values) {
@@ -89,7 +89,7 @@ public class MultiActionValuesScriptGenerator {
 
 	/**
 	 * Returns javascript key for current URL values.
-	 * 
+	 *
 	 * @return js key
 	 */
 	public static String getJSKey(ActionValue values) {
@@ -122,7 +122,7 @@ public class MultiActionValuesScriptGenerator {
 
 	/**
 	 * Appends chart variable values to scripts.
-	 * 
+	 *
 	 * @param sb
 	 */
 	public static StringBuilder appendInteractivityVariables(StringBuilder sb) {
@@ -231,10 +231,11 @@ public class MultiActionValuesScriptGenerator {
 		sb.append("\t mii.target = '" + target + "';\n"); //$NON-NLS-1$//$NON-NLS-2$
 		if (uv.getTooltip() != null && uv.getTooltip().trim().length() > 0) {
 			String tooltip = transferAdapter.transformToJsConstants(uv.getTooltip());
-			if (tooltip.startsWith("\"") || tooltip.startsWith("'")) //$NON-NLS-1$//$NON-NLS-2$
+			if (tooltip.startsWith("\"") || tooltip.startsWith("'")) { //$NON-NLS-1$//$NON-NLS-2$
 				sb.append("\t mii.tooltip = " + tooltip + ";\n"); //$NON-NLS-1$//$NON-NLS-2$
-			else
+			} else { // $NON-NLS-1$//$NON-NLS-2$
 				sb.append("\t mii.tooltip = '" + tooltip + "';\n"); //$NON-NLS-1$//$NON-NLS-2$
+			}
 		}
 
 		sb.append("\t menuInfo.addItemInfo(mii);\n"); //$NON-NLS-1$
@@ -277,7 +278,7 @@ public class MultiActionValuesScriptGenerator {
 	 * @return list valid url values
 	 */
 	public static List<URLValue> getValidURLValues(MultiURLValues multiUrlValue) {
-		List<URLValue> validURLValues = new ArrayList<URLValue>();
+		List<URLValue> validURLValues = new ArrayList<>();
 		if (multiUrlValue == null) {
 			return validURLValues;
 		}
@@ -297,7 +298,7 @@ public class MultiActionValuesScriptGenerator {
 
 	/**
 	 * Check if the specified action contains redirection items.
-	 * 
+	 *
 	 * @param action
 	 * @return boolean
 	 * @since 2.5.2
@@ -322,7 +323,7 @@ public class MultiActionValuesScriptGenerator {
 	 * @return list valid actions
 	 */
 	public static List<Action> getValidActions(MultipleActions multiActions) {
-		List<Action> validActions = new ArrayList<Action>();
+		List<Action> validActions = new ArrayList<>();
 		if (multiActions == null) {
 			return validActions;
 		}
@@ -371,8 +372,6 @@ public class MultiActionValuesScriptGenerator {
 					sb.append("\n"); //$NON-NLS-1$
 				}
 				br.close();
-			} catch (FileNotFoundException e) {
-				logger.log(e);
 			} catch (IOException e) {
 				logger.log(e);
 			}

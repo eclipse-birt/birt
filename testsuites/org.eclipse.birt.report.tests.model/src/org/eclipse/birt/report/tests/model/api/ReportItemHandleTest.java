@@ -1,21 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.api;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
@@ -25,14 +22,17 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /**
  * Test ReportItemHandle.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
- * 
+ *
  * <tr>
  * <td>{@link #testACL()}</td>
  * </tr>
@@ -57,10 +57,11 @@ public class ReportItemHandleTest extends BaseTestCase {
 	}
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -69,12 +70,13 @@ public class ReportItemHandleTest extends BaseTestCase {
 
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}
 
 	/**
-	 * 
+	 *
 	 */
 
 	class InnerReportItemHandle extends ReportItemHandle {
@@ -86,7 +88,7 @@ public class ReportItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests ACLExpression for report item
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 	public void testACL() throws SemanticException {

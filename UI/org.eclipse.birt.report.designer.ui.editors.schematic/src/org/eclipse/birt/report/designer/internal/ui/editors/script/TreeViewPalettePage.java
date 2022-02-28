@@ -1,15 +1,15 @@
 /*******************************************************************************
  * Copyright (c) 2004 IBM Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     IBM Corporation - initial API and implementation
- *     Actuate Corporation - Copy and change to fit BIRT requirement 
+ *     Actuate Corporation - Copy and change to fit BIRT requirement
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.editors.script;
@@ -51,7 +51,7 @@ public class TreeViewPalettePage extends Page implements PalettePage, IAdaptable
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 */
 	public TreeViewPalettePage() {
 		treeCommon = new ExpressionTreeSupport();
@@ -59,9 +59,10 @@ public class TreeViewPalettePage extends Page implements PalettePage, IAdaptable
 
 	/**
 	 * Creates the palette viewer and its control.
-	 * 
+	 *
 	 * @see Page#createControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public void createControl(Composite parent) {
 		tree = new Tree(parent, SWT.NONE);
 		treeCommon.setTree(tree);
@@ -79,6 +80,7 @@ public class TreeViewPalettePage extends Page implements PalettePage, IAdaptable
 
 		tree.addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				treeCommon.removeDropSupportToViewer();
 			}
@@ -88,7 +90,7 @@ public class TreeViewPalettePage extends Page implements PalettePage, IAdaptable
 	/**
 	 * get tool tip text from a string array that contains the text, usage and
 	 * description
-	 * 
+	 *
 	 * @param tuple
 	 * @return
 	 */
@@ -98,9 +100,10 @@ public class TreeViewPalettePage extends Page implements PalettePage, IAdaptable
 	// }
 	/**
 	 * Releases the palette viewer from the edit domain
-	 * 
+	 *
 	 * @see Page#dispose()
 	 */
+	@Override
 	public void dispose() {
 		tree.dispose();
 		super.dispose();
@@ -109,6 +112,7 @@ public class TreeViewPalettePage extends Page implements PalettePage, IAdaptable
 	/**
 	 * @see IAdaptable#getAdapter(java.lang.Class)
 	 */
+	@Override
 	public Object getAdapter(Class adapter) {
 		return null;
 	}
@@ -117,15 +121,17 @@ public class TreeViewPalettePage extends Page implements PalettePage, IAdaptable
 	 * @return the palette viewer's control
 	 * @see Page#getControl()
 	 */
+	@Override
 	public Control getControl() {
 		return tree;
 	}
 
 	/**
 	 * Sets focus on the palette's control
-	 * 
+	 *
 	 * @see Page#setFocus()
 	 */
+	@Override
 	public void setFocus() {
 		tree.setFocus();
 		treeCommon.updateParametersTree();

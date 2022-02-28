@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ public class SeparatorFieldEditor extends FieldEditor {
 
 	/**
 	 * Default constructor, show a separating line.
-	 * 
+	 *
 	 * @param parent
 	 */
 	public SeparatorFieldEditor(Composite parent) {
@@ -39,7 +39,7 @@ public class SeparatorFieldEditor extends FieldEditor {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param parent
 	 * @param showLine if show a separating line or only gain some space.
 	 */
@@ -49,9 +49,10 @@ public class SeparatorFieldEditor extends FieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditor#adjustForNumColumns(int)
 	 */
+	@Override
 	protected void adjustForNumColumns(int numColumns) {
 		if (lb != null) {
 			((GridData) lb.getLayoutData()).horizontalSpan = numColumns;
@@ -60,10 +61,11 @@ public class SeparatorFieldEditor extends FieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditor#doFillIntoGrid(org.eclipse.swt.
 	 * widgets.Composite, int)
 	 */
+	@Override
 	protected void doFillIntoGrid(Composite parent, int numColumns) {
 		if (getPreferenceName().equals("TRUE")) //$NON-NLS-1$
 		{
@@ -79,29 +81,32 @@ public class SeparatorFieldEditor extends FieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditor#getLabelControl()
 	 */
+	@Override
 	protected Label getLabelControl() {
 		return lb;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.preference.FieldEditor#getLabelControl(org.eclipse.swt.
 	 * widgets.Composite)
 	 */
+	@Override
 	public Label getLabelControl(Composite parent) {
 		return lb;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditor#doLoad()
 	 */
+	@Override
 	protected void doLoad() {
 		/**
 		 * Does nothing.
@@ -110,9 +115,10 @@ public class SeparatorFieldEditor extends FieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditor#doLoadDefault()
 	 */
+	@Override
 	protected void doLoadDefault() {
 		/**
 		 * Does nothing.
@@ -121,9 +127,10 @@ public class SeparatorFieldEditor extends FieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditor#doStore()
 	 */
+	@Override
 	protected void doStore() {
 		/**
 		 * Does nothing.
@@ -132,9 +139,10 @@ public class SeparatorFieldEditor extends FieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditor#getNumberOfControls()
 	 */
+	@Override
 	public int getNumberOfControls() {
 		return 1;
 	}

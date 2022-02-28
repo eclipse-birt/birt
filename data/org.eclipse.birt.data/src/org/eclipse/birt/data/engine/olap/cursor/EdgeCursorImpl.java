@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
 /**
  * An EdgeCursor is a cursor used to navigate along an EdgeView. User could
  * navigate the edgeCursor and retrieve data from its dimension cursors.
- * 
+ *
  */
 class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 
@@ -36,12 +36,13 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 
 	EdgeCursorImpl(BirtEdgeView view, boolean isPage, IEdgeAxis axis, CubeCursor cursor) throws OLAPException {
 		super(new EdgeNavigator(axis), null);
-		if (isPage)
+		if (isPage) {
 			pageOwner = cursor;
-		else
+		} else {
 			ordinateOwner = cursor;
+		}
 		view.setEdgeCursor(this);
-		dimensionCursorList = new ArrayList<DimensionCursorImpl>();
+		dimensionCursorList = new ArrayList<>();
 		for (int i = view.getPageEndingIndex() + 1; i < axis.getAllDimensionAxis().length; i++) {
 			DimensionCursorImpl dimCursor = new DimensionCursorImpl(this, axis.getDimensionAxis(i),
 					new DimensionNavigator(axis.getDimensionAxis(i)));
@@ -58,6 +59,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 	/*
 	 * @see javax.olap.cursor.EdgeCursor#getDimensionCursor()
 	 */
+	@Override
 	public List getDimensionCursor() throws OLAPException {
 		return dimensionCursorList;
 	}
@@ -65,6 +67,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 	/*
 	 * @see javax.olap.cursor.EdgeCursor#getOrdinateOwner()
 	 */
+	@Override
 	public CubeCursor getOrdinateOwner() throws OLAPException {
 		return this.ordinateOwner;
 	}
@@ -72,6 +75,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 	/*
 	 * @see javax.olap.cursor.EdgeCursor#getPageOwner()
 	 */
+	@Override
 	public CubeCursor getPageOwner() throws OLAPException {
 		return this.pageOwner;
 	}
@@ -80,6 +84,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 	 * @see
 	 * javax.olap.cursor.EdgeCursor#setOrdinateOwner(javax.olap.cursor.CubeCursor)
 	 */
+	@Override
 	public void setOrdinateOwner(CubeCursor value) throws OLAPException {
 		this.ordinateOwner = value;
 	}
@@ -87,6 +92,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 	/*
 	 * @see javax.olap.cursor.EdgeCursor#setPageOwner(javax.olap.cursor.CubeCursor)
 	 */
+	@Override
 	public void setPageOwner(CubeCursor value) throws OLAPException {
 		this.pageOwner = value;
 	}

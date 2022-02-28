@@ -16,13 +16,13 @@ import java.util.List;
 
 /**
  * Convert the selection list to model list
- * 
+ *
  */
 public interface IRequestConverter {
 
 	/**
 	 * Convert the selection list to model list
-	 * 
+	 *
 	 * @param list
 	 * @return
 	 */

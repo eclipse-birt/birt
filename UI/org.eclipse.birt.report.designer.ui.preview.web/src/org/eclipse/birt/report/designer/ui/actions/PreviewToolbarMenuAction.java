@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - Initial implementation.
  ******************************************************************************/
 
@@ -38,10 +38,11 @@ public class PreviewToolbarMenuAction extends PreviewSupport implements IWorkben
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IWorkbenchWindowPulldownDelegate#getMenu(org.eclipse.swt
 	 * .widgets.Control)
 	 */
+	@Override
 	public Menu getMenu(Control parent) {
 		return getPreviewMenu(parent, true);
 	}
@@ -50,18 +51,21 @@ public class PreviewToolbarMenuAction extends PreviewSupport implements IWorkben
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
 	 *      IWorkbenchWindow)
 	 */
+	@Override
 	public void init(IWorkbenchWindow window) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.actions.PreviewAction#dispose()
 	 */
+	@Override
 	public void dispose() {
 	}
 
+	@Override
 	public void run(IAction action) {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println("Preview action >> Run ..."); //$NON-NLS-1$
@@ -73,6 +77,7 @@ public class PreviewToolbarMenuAction extends PreviewSupport implements IWorkben
 	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
 	 *      .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
+	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		action.setEnabled(isEnable());
 	}
@@ -84,8 +89,9 @@ public class PreviewToolbarMenuAction extends PreviewSupport implements IWorkben
 					.findContentTypesFor(editor.getEditorInput().getName());
 			for (IContentType type : contentTypes) {
 				if (type.getId().equals("org.eclipse.birt.report.designer.ui.editors.reportdesign") //$NON-NLS-1$
-						|| type.getId().equals("org.eclipse.birt.report.designer.ui.editors.reporttemplate")) //$NON-NLS-1$
+						|| type.getId().equals("org.eclipse.birt.report.designer.ui.editors.reporttemplate")) {
 					return true;
+				}
 			}
 		}
 		return false;

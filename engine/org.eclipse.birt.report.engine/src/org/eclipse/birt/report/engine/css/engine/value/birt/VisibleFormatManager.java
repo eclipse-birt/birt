@@ -1,18 +1,19 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.birt;
 
+import org.apache.batik.css.engine.StyleMap;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.css.engine.ValueManager;
@@ -47,6 +48,7 @@ public class VisibleFormatManager extends AbstractValueManager {
 	/**
 	 * Implements {@link ValueManager#isInheritedProperty()}.
 	 */
+	@Override
 	public boolean isInheritedProperty() {
 		return true;
 	}
@@ -54,6 +56,7 @@ public class VisibleFormatManager extends AbstractValueManager {
 	/**
 	 * Implements {@link ValueManager#getPropertyName()}.
 	 */
+	@Override
 	public String getPropertyName() {
 		return BIRTConstants.BIRT_VISIBLE_FORMAT_PROPERTY;
 	}
@@ -61,6 +64,7 @@ public class VisibleFormatManager extends AbstractValueManager {
 	/**
 	 * Implements {@link ValueManager#getDefaultValue()}.
 	 */
+	@Override
 	public org.eclipse.birt.report.engine.css.engine.value.Value getDefaultValue() {
 		return DEFAULT_VALUE;
 	}
@@ -68,6 +72,7 @@ public class VisibleFormatManager extends AbstractValueManager {
 	/**
 	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
 	 */
+	@Override
 	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		switch (lu.getLexicalUnitType()) {
 		case LexicalUnit.SAC_INHERIT:
@@ -88,7 +93,7 @@ public class VisibleFormatManager extends AbstractValueManager {
 				break;
 
 			case LexicalUnit.SAC_IDENT:
-				StringBuffer sb = new StringBuffer(lu.getStringValue());
+				StringBuilder sb = new StringBuilder(lu.getStringValue());
 				lu = lu.getNextLexicalUnit();
 				if (lu != null && lu.getLexicalUnitType() == LexicalUnit.SAC_IDENT) {
 					do {

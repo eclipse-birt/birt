@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,7 @@ import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 
 /**
- * 
+ *
  *
  */
 
@@ -52,13 +52,15 @@ class PropertyHandleHelperImpl {
 			MasterPage masterPage = (MasterPage) element.getElement();
 			if (!masterPage.isCustomType(module)) {
 
-				if (IMasterPageModel.HEIGHT_PROP.equals(propName) || IMasterPageModel.WIDTH_PROP.equals(propName))
+				if (IMasterPageModel.HEIGHT_PROP.equals(propName) || IMasterPageModel.WIDTH_PROP.equals(propName)) {
 					return true;
+				}
 			}
 		} else if (element instanceof GroupHandle) {
 			DesignElementHandle tmpContainer = element.getContainer();
-			if (tmpContainer == null)
+			if (tmpContainer == null) {
 				return false;
+			}
 
 			return (GroupPropSearchStrategy.getDataBindingPropties().contains(propName)
 					&& ((ListingElement) tmpContainer.getElement()).isDataBindingReferring(module));
@@ -67,22 +69,26 @@ class PropertyHandleHelperImpl {
 
 			boolean retValue = containsProp && ((ReportItem) element.getElement()).isDataBindingReferring(module);
 
-			if (retValue)
+			if (retValue) {
 				return true;
+			}
 
-			if (!containsProp)
+			if (!containsProp) {
 				containsProp = ExtendedItemPropSearchStrategy.isHostViewProperty(element.getElement(), propName);
+			}
 
-			if (element instanceof ExtendedItemHandle)
+			if (element instanceof ExtendedItemHandle) {
 				return (containsProp && (element.getContainer() instanceof MultiViewsHandle));
+			}
 		} else if (element instanceof RowHandle && ITableRowModel.REPEATABLE_PROP.equals(propName)) {
 			return !rowRepeatableVisibleInContext(element);
 		} else if (element instanceof TabularDimensionHandle) {
 			// can not edit any property in the cube dimension that has defined
 			// share dimension
 			TabularDimension dimension = (TabularDimension) element.getElement();
-			if (dimension.hasSharedDimension(element.getModule()))
+			if (dimension.hasSharedDimension(element.getModule())) {
 				return true;
+			}
 
 		}
 
@@ -91,8 +97,9 @@ class PropertyHandleHelperImpl {
 		while (container != null) {
 			if (container instanceof TabularDimensionHandle) {
 				TabularDimension dimension = (TabularDimension) container.getElement();
-				if (dimension.hasSharedDimension(container.getModule()))
+				if (dimension.hasSharedDimension(container.getModule())) {
 					return true;
+				}
 			}
 
 			container = container.getContainer();
@@ -103,7 +110,7 @@ class PropertyHandleHelperImpl {
 
 	/**
 	 * Returns whether the repeatable of the row is visible in the report context.
-	 * 
+	 *
 	 * @param handle the design element handle.
 	 * @return <code>true</code> if the value is visible. Otherwise
 	 *         <code>false</code>.
@@ -128,7 +135,7 @@ class PropertyHandleHelperImpl {
 
 	/**
 	 * Returns whether the property value is visible in the report context.
-	 * 
+	 *
 	 * @return <code>true</code> if the value is visible. Otherwise
 	 *         <code>false</code>.
 	 */

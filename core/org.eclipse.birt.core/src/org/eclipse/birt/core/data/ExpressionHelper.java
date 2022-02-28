@@ -22,7 +22,7 @@ import org.eclipse.birt.core.exception.BirtException;
 /**
  * None-static version of <code> ExpressionParserUtility </code>, which caches
  * parsed expressions and avoid repeat parsing the same expressions.
- * 
+ *
  */
 public class ExpressionHelper {
 
@@ -32,38 +32,43 @@ public class ExpressionHelper {
 
 	public ExpressionHelper() {
 		exprParser = new ExpressionParserUtility();
-		parsedRowExprs = new HashMap<String, CompileResult>();
-		parsedDataSetExprs = new HashMap<String, CompileResult>();
+		parsedRowExprs = new HashMap<>();
+		parsedDataSetExprs = new HashMap<>();
 	}
 
 	public synchronized String getColumnName(String oldExpression) throws BirtException {
-		if (oldExpression == null || oldExpression.trim().length() == 0)
+		if (oldExpression == null || oldExpression.trim().length() == 0) {
 			return null;
+		}
 
 		CompileResult result = extractColumnExpressions(oldExpression, ExpressionUtil.DATASET_ROW_INDICATOR);
 
-		if (result.getColumnReference().size() != 1 || !result.isDirectColumnRef())
+		if (result.getColumnReference().size() != 1 || !result.isDirectColumnRef()) {
 			return null;
+		}
 
 		return ((IColumnBinding) result.getColumnReference().get(0)).getResultSetColumnName();
 	}
 
 	public synchronized String getColumnBindingName(String oldExpression) throws BirtException {
-		if (oldExpression == null || oldExpression.trim().length() == 0)
+		if (oldExpression == null || oldExpression.trim().length() == 0) {
 			return null;
+		}
 
 		CompileResult result = extractColumnExpressions(oldExpression, ExpressionUtil.ROW_INDICATOR);
 
-		if (result.getColumnReference().size() != 1 || !result.isDirectColumnRef())
+		if (result.getColumnReference().size() != 1 || !result.isDirectColumnRef()) {
 			return null;
+		}
 
 		return ((IColumnBinding) result.getColumnReference().get(0)).getResultSetColumnName();
 	}
 
 	private CompileResult extractColumnExpressions(String expression, String indicator) throws BirtException {
 		CompileResult result = getParsedExpression(expression, indicator);
-		if (result != null)
+		if (result != null) {
 			return result;
+		}
 		extractExpressions(expression, indicator);
 		return getParsedExpression(expression, indicator);
 	}
@@ -77,8 +82,9 @@ public class ExpressionHelper {
 
 	private void cacheParsedExpression(String expression, List parseResult, String indicator) {
 		HashMap<String, CompileResult> cache = getExpressionCache(indicator);
-		if (cache == null)
+		if (cache == null) {
 			return;
+		}
 		cache.put(expression,
 				new CompileResult(parseResult, exprParser.hasAggregation(), exprParser.isDirectColumnRef()));
 	}

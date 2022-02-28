@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -84,7 +84,7 @@ public class NewReportPageSupport {
 
 	/**
 	 * Creates the project name specification controls.
-	 * 
+	 *
 	 * @param parent the parent composite
 	 */
 	private final void createFileNameGroup(Composite parent) {
@@ -117,7 +117,7 @@ public class NewReportPageSupport {
 
 	/**
 	 * Creates the project location specification controls.
-	 * 
+	 *
 	 * @param parent the parent composite
 	 */
 	private final void createFileLocationGroup(Composite parent) {
@@ -144,6 +144,7 @@ public class NewReportPageSupport {
 
 		SelectionListener listener = new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				useDefaults = useDefaultsButton.getSelection();
 				browseButton.setEnabled(!useDefaults);
@@ -164,7 +165,7 @@ public class NewReportPageSupport {
 	/**
 	 * Returns the value of the file name field with leading and trailing spaces
 	 * removed.
-	 * 
+	 *
 	 * @return the file name in the field
 	 */
 	public String getFileName() {
@@ -177,18 +178,19 @@ public class NewReportPageSupport {
 	/**
 	 * Returns the value of the project location field with leading and trailing
 	 * spaces removed.
-	 * 
+	 *
 	 * @return the project location directory in the field
 	 */
 	public IPath getFileLocationFullPath() {
-		if (locationPathField == null)
+		if (locationPathField == null) {
 			return new Path(""); //$NON-NLS-1$
+		}
 		return new Path(locationPathField.getText().trim());
 	}
 
 	/**
 	 * Creates the project location specification controls.
-	 * 
+	 *
 	 * @param group   the parent composite
 	 * @param enabled the initial enabled state of the widgets created
 	 */
@@ -214,6 +216,7 @@ public class NewReportPageSupport {
 		browseButton.setText(LABEL_BROWSE);
 		browseButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				handleLocationBrowseButtonPressed();
 			}
@@ -266,7 +269,7 @@ public class NewReportPageSupport {
 	 * Sets the initial file name that this page will use when created. The name is
 	 * ignored if the createControl(Composite) method has already been called.
 	 * Leading and trailing spaces in the name are ignored.
-	 * 
+	 *
 	 * @param name initial file name for this page
 	 */
 	public void setInitialFileName(String name) {

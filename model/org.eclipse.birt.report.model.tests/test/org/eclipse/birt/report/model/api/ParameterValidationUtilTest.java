@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,16 +39,17 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Tests the validation of the boolean type.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -56,7 +57,7 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 		// in the JAPAN locale
 
 		ThreadResources.setLocale(ULocale.ENGLISH);
-		String value = null;
+		String value;
 
 		assertEquals(null,
 				ParameterValidationUtil.validate(DesignChoiceConstants.PARAM_TYPE_BOOLEAN, null, null, ULocale.JAPAN));
@@ -108,16 +109,16 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests the validation of the float and decimal type.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testNumber() throws Exception {
 		double input = 123.4564d;
 
 		// validates the input and get the locale and format independent result
-		String value = "123.0"; //$NON-NLS-1$
+		String value; //$NON-NLS-1$
 		ThreadResources.setLocale(ULocale.FRANCE);
 		NumberFormatter formatter = new NumberFormatter(ThreadResources.getLocale());
 		formatter.applyPattern(DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER);
@@ -167,9 +168,9 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests the validation of the time type.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testTime() throws Exception {
@@ -191,9 +192,9 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests the validation of date type.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testDate() throws Exception {
@@ -215,7 +216,7 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests validation of date time type.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -245,12 +246,12 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests the validation of the date time type.
-	 * 
+	 *
 	 * @param format the format choice string
 	 * @param result the validation result string
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	private void testDateTimeByFormat(String format, String result) throws Exception {
@@ -258,7 +259,7 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 
 		ThreadResources.setLocale(ULocale.JAPAN);
 		TimeZone timeZone = TimeZone.getTimeZone("Europe/Berlin");
-		String value = null;
+		String value;
 		final SimpleDateFormat formatPattern = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //$NON-NLS-1$
 		formatPattern.setTimeZone(timeZone);
 		Calendar dateCal = Calendar.getInstance(ThreadResources.getLocale());
@@ -306,7 +307,7 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests the validation of the string type.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -339,7 +340,7 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests the function of getDisplayValue().
-	 * 
+	 *
 	 */
 	public void testGetDisplayValue() {
 		// date time type

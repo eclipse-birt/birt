@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask {
 	protected CrosstabViewHandle crosstabView = null;
 
 	/**
-	 * 
+	 *
 	 * @param focus
 	 */
 	public CrosstabViewTask(CrosstabViewHandle focus) {
@@ -51,7 +51,7 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param measureList
 	 * @param functionList
 	 * @return
@@ -64,8 +64,9 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask {
 
 	CrosstabCellHandle addGrandTotal(List<MeasureViewHandle> measureList, List<String> functionList,
 			boolean needTransaction) throws SemanticException {
-		if (!isValidParameters(functionList, measureList))
+		if (!isValidParameters(functionList, measureList)) {
 			return null;
+		}
 
 		verifyTotalMeasureFunctions(crosstabView.getAxisType(), functionList, measureList);
 
@@ -138,12 +139,9 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask {
 	}
 
 	private void setAggregationFunction(MeasureViewHandle measureView, String function) throws SemanticException {
-		if (crosstabView.getGrandTotal() == null || measureView == null)
-			return;
-
 		// if crosstab is not found, or level and measure not reside in the same
 		// one then return null
-		if (crosstab == null || crosstab != measureView.getCrosstab()) {
+		if (crosstabView.getGrandTotal() == null || measureView == null || crosstab == null || crosstab != measureView.getCrosstab()) {
 			return;
 		}
 
@@ -273,7 +271,7 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask {
 	/**
 	 * Removes a dimension view that refers a cube dimension name with the given
 	 * name from the design tree.
-	 * 
+	 *
 	 * @param name name of the dimension view to remove
 	 * @throws SemanticException
 	 */
@@ -291,7 +289,7 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask {
 
 	/**
 	 * Removes a dimension view in the given position. Index is 0-based integer.
-	 * 
+	 *
 	 * @param index the position index of the dimension to remove, 0-based integer
 	 * @throws SemanticException
 	 */
@@ -311,8 +309,9 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask {
 	}
 
 	void removeDimension(DimensionViewHandle dimensionView, boolean needTransaction) throws SemanticException {
-		if (dimensionView == null || dimensionView.getContainer() != crosstabView)
+		if (dimensionView == null || dimensionView.getContainer() != crosstabView) {
 			return;
+		}
 
 		CommandStack stack = null;
 
@@ -364,7 +363,7 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask {
 
 	/**
 	 * Add dimension view into crosstab view.
-	 * 
+	 *
 	 * @param dimensionView
 	 * @param targetIndex
 	 * @param needTransaction

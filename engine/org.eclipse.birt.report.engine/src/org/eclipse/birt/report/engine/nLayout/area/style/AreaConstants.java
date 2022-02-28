@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -23,7 +23,7 @@ public abstract class AreaConstants {
 	public final static int REPEAT_Y = 2;
 	public final static int REPEAT = 3;
 
-	public static HashMap<CSSValue, Integer> repeatMap = new HashMap<CSSValue, Integer>();
+	public static HashMap<CSSValue, Integer> repeatMap = new HashMap<>();
 
 	static {
 		repeatMap.put(IStyle.NO_REPEAT_VALUE, NO_REPEAT);
@@ -75,7 +75,7 @@ public abstract class AreaConstants {
 	 */
 	public final static int BORDER_STYLE_HIDDEN = 29;
 
-	public static HashMap<CSSValue, Integer> valueStyleMap = new HashMap<CSSValue, Integer>();
+	public static HashMap<CSSValue, Integer> valueStyleMap = new HashMap<>();
 	static {
 		valueStyleMap.put(IStyle.DOTTED_VALUE, BORDER_STYLE_DOTTED);
 		valueStyleMap.put(IStyle.SOLID_VALUE, BORDER_STYLE_SOLID);
@@ -90,7 +90,7 @@ public abstract class AreaConstants {
 
 	}
 
-	public static HashMap<String, Integer> stringStyleMap = new HashMap<String, Integer>();
+	public static HashMap<String, Integer> stringStyleMap = new HashMap<>();
 	static {
 		stringStyleMap.put(IStyle.CSS_DOTTED_VALUE, BORDER_STYLE_DOTTED);
 		stringStyleMap.put(IStyle.CSS_SOLID_VALUE, BORDER_STYLE_SOLID);

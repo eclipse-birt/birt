@@ -10,6 +10,8 @@
 *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.rd;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -40,13 +42,11 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryLocator;
 import org.eclipse.birt.data.engine.core.DataException;
-
-import testutil.ConfigText;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import testutil.ConfigText;
 
 /**
  * Test case for interactive viewing
@@ -81,6 +81,7 @@ public class ViewingTest extends RDTestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestData.TableName"),
 				ConfigText.getString("Api.TestData.TableSQL"), ConfigText.getString("Api.TestData.TestDataFileName"));
@@ -111,7 +112,7 @@ public class ViewingTest extends RDTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.rd.RDTestCase#tearDown()
 	 */
 	@After
@@ -148,7 +149,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * With filter
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -169,7 +170,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * With group
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -191,7 +192,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * With group and filter
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -652,13 +653,15 @@ public class ViewingTest extends RDTestCase {
 		subRowExprName[0] = "sub1";
 		subRowExprName[1] = "sub2";
 		subRowExprName[2] = "sub3";
-		for (int i = 0; i < subRowExprName.length; i++)
+		for (int i = 0; i < subRowExprName.length; i++) {
 			abc += subRowExprName[i] + "  ";
+		}
 		this.testPrintln(abc);
 		do {
 			abc = "";
-			for (int i = 0; i < subRowExprName.length; i++)
+			for (int i = 0; i < subRowExprName.length; i++) {
 				abc += ri.getValue(subRowExprName[i]) + "  ";
+			}
 			this.testPrintln(abc + ri.getRowId());
 		} while (ri.next());
 
@@ -668,7 +671,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -695,7 +698,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -722,7 +725,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -754,7 +757,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -782,7 +785,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -814,7 +817,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -843,7 +846,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -876,7 +879,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -934,7 +937,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -991,7 +994,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -1047,7 +1050,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -1106,7 +1109,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -1133,7 +1136,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -1212,7 +1215,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -1241,7 +1244,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -1279,7 +1282,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance, add a filter
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -1320,7 +1323,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Test filter by group instance, add a filter
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -1450,11 +1453,13 @@ public class ViewingTest extends RDTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			for (int i = 0; i < rowBeArray.length; i++)
+			for (int i = 0; i < rowBeArray.length; i++) {
 				expectedValue.add(ri.getValue(this.rowExprName[i]));
+			}
 
-			for (int i = 0; i < totalBeArray.length; i++)
+			for (int i = 0; i < totalBeArray.length; i++) {
 				expectedValue.add(ri.getValue(this.totalExprName[i]));
+			}
 		}
 
 		ri.close();
@@ -1470,7 +1475,7 @@ public class ViewingTest extends RDTestCase {
 		qd.setDistinctValue(true);
 		qd.addBinding(new Binding("CITY", new ScriptExpression("dataSetRow[\"CITY\"]")));
 		IFilterDefinition[] filters = new IFilterDefinition[1];
-		List<String> operandList = new ArrayList<String>();
+		List<String> operandList = new ArrayList<>();
 		operandList.add("\"CHINA\"");
 		filters[0] = new FilterDefinition(
 				new ConditionalExpression("dataSetRow[\"COUNTRY\"]", IConditionalExpression.OP_IN, operandList));
@@ -1485,7 +1490,7 @@ public class ViewingTest extends RDTestCase {
 		queryResultID = qr.getID();
 
 		IResultIterator ri = qr.getResultIterator();
-		List<String> cities = new ArrayList<String>();
+		List<String> cities = new ArrayList<>();
 		while (ri.next()) {
 			cities.add(ri.getString("CITY"));
 		}
@@ -1505,7 +1510,7 @@ public class ViewingTest extends RDTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	private void genNotDistinctBasicIV() throws BirtException {
@@ -1535,7 +1540,7 @@ public class ViewingTest extends RDTestCase {
 	private QueryDefinition newGenIVReportQuery() {
 		QueryDefinition qd = newReportQuery();
 
-		if (GEN_add_filter == true) {
+		if (GEN_add_filter) {
 			// do filtering on column 4
 			String columnBindingNameFilter = "AMOUNT_1";
 			IBaseExpression columnBindingExprFilter = new ScriptExpression("dataSetRow.AMOUNT");
@@ -1545,7 +1550,7 @@ public class ViewingTest extends RDTestCase {
 			qd.addFilter(GEN_filterDefn);
 		}
 
-		if (GEN_make_empty == true) {
+		if (GEN_make_empty) {
 			// do filtering on column 4
 			String columnBindingNameFilter = "AMOUNT_1";
 			IBaseExpression columnBindingExprFilter = new ScriptExpression("dataSetRow.AMOUNT");
@@ -1562,7 +1567,7 @@ public class ViewingTest extends RDTestCase {
 		qd.addResultSetExpression(columnBindingNameSort, columnBindingExprSort);
 		qd.addSort(sortDefn);
 
-		if (GEN_add_group == true) {
+		if (GEN_add_group) {
 			// add grouping on column1
 			String columnBindingNameGroup = "COUNTRY2";
 			IBaseExpression columnBindingExprGroup = new ScriptExpression("dataSetRow.COUNTRY");
@@ -1572,7 +1577,7 @@ public class ViewingTest extends RDTestCase {
 			qd.addGroup(gd);
 		}
 
-		if (GEN_add_secondGroup == true) {
+		if (GEN_add_secondGroup) {
 			// add grouping on column1
 			String columnBindingNameGroup = "CITY2";
 			IBaseExpression columnBindingExprGroup = new ScriptExpression("dataSetRow.CITY");
@@ -1606,11 +1611,11 @@ public class ViewingTest extends RDTestCase {
 	private QueryDefinition newPreIVReportQuery() throws DataException {
 		QueryDefinition qd = new QueryDefinition();
 
-		if (GEN_add_filter == true) {
+		if (GEN_add_filter) {
 			qd.addFilter(GEN_filterDefn);
 		}
 
-		if (PRE_add_filter == true) {
+		if (PRE_add_filter) {
 			// do filtering on column 4
 			ScriptExpression filterExpr = new ScriptExpression("row.AMOUNT_1>200");
 			FilterDefinition fd = new FilterDefinition(filterExpr);
@@ -1625,7 +1630,7 @@ public class ViewingTest extends RDTestCase {
 			qd.addSort(sd);
 		}
 
-		if (PRE_add_group == true) {
+		if (PRE_add_group) {
 			// add grouping on column1
 			String columnBindingNameGroup = "COUNTRY2";
 			IBaseExpression columnBindingExprGroup = new ScriptExpression("dataSetRow.COUNTRY");
@@ -1635,7 +1640,7 @@ public class ViewingTest extends RDTestCase {
 			qd.addGroup(gd);
 		}
 
-		if (GEN_add_secondGroup == true) {
+		if (GEN_add_secondGroup) {
 			// add grouping on column1
 			String columnBindingNameGroup = "CITY2";
 			IBaseExpression columnBindingExprGroup = new ScriptExpression("dataSetRow.CITY");
@@ -1676,19 +1681,23 @@ public class ViewingTest extends RDTestCase {
 			do {
 				String abc = "";
 
-				for (int i = 0; i < rowExprName.length; i++)
+				for (int i = 0; i < rowExprName.length; i++) {
 					abc += ri.getValue(rowExprName[i]) + "  ";
-				for (int i = 0; i < totalExprName.length; i++)
+				}
+				for (int i = 0; i < totalExprName.length; i++) {
 					abc += ri.getValue(totalExprName[i]) + "  ";
-				if (this.PRE_printExtraAggr)
+				}
+				if (this.PRE_printExtraAggr) {
 					abc += ri.getValue("Count_on_1st_group") + "  " + ri.getValue("Count_on_2nd_group") + "  "
 							+ ri.getValue("Count_on_2nd_group_1") + "  " + ri.getValue("Count_on_2nd_group_1_2") + "  "
 							+ ri.getValue("Count_on_1st_group_10") + "  ";
-				if (this.PRE_printGroupInfo)
+				}
+				if (this.PRE_printGroupInfo) {
 					this.testPrintln(abc + ri.getRowId() + " " + ri.getRowIndex() + " " + ri.getStartingGroupLevel()
 							+ " " + ri.getEndingGroupLevel());
-				else
+				} else {
 					this.testPrintln(abc + ri.getRowId());
+				}
 			} while (ri.next());
 		}
 		ri.close();
@@ -1710,10 +1719,12 @@ public class ViewingTest extends RDTestCase {
 
 		ri.moveTo(0);
 		String abc = "";
-		for (int i = 0; i < rowExprName.length; i++)
+		for (int i = 0; i < rowExprName.length; i++) {
 			abc += rowExprName[i] + "  ";
-		for (int i = 0; i < totalExprName.length; i++)
+		}
+		for (int i = 0; i < totalExprName.length; i++) {
 			abc += totalExprName[i] + "  ";
+		}
 		if (qd.getGroups().size() > 0) {
 			abc += "starting level  " + "ending level  ";
 		}
@@ -1721,40 +1732,16 @@ public class ViewingTest extends RDTestCase {
 		do {
 			abc = "";
 
-			for (int i = 0; i < rowExprName.length; i++)
+			for (int i = 0; i < rowExprName.length; i++) {
 				abc += ri.getValue(rowExprName[i]) + "  ";
-			for (int i = 0; i < totalExprName.length; i++)
+			}
+			for (int i = 0; i < totalExprName.length; i++) {
 				abc += ri.getValue(totalExprName[i]) + "  ";
+			}
 			abc += ri.getRowId();
 			if (qd.getGroups().size() > 0) {
 				abc += "  " + ri.getStartingGroupLevel() + "  " + ri.getEndingGroupLevel();
 			}
-			this.testPrintln(abc);
-		} while (ri.next());
-
-		ri.close();
-		myPreDataEngine.shutdown();
-	}
-
-	private void _preBasicIV2(QueryDefinition qd) throws BirtException {
-		HashMap appContext = new HashMap();
-		appContext.put(DataEngine.MEMORY_BUFFER_SIZE, 10);
-		IQueryResults qr = myPreDataEngine.prepare(qd, appContext).execute(null);
-
-		IResultIterator ri = qr.getResultIterator();
-		String[] rowExprName = { "COUNTRY_1", "CITY_1", "AMOUNT_1" };
-		ri.moveTo(0);
-		String abc = "";
-		for (int i = 0; i < rowExprName.length; i++)
-			abc += rowExprName[i] + "  ";
-		this.testPrintln(abc);
-		do {
-			abc = "";
-
-			for (int i = 0; i < rowExprName.length; i++)
-				abc += ri.getValue(rowExprName[i]) + "  ";
-			abc += ri.getRowId();
-
 			this.testPrintln(abc);
 		} while (ri.next());
 
@@ -1771,14 +1758,16 @@ public class ViewingTest extends RDTestCase {
 		String[] rowExprName = { "CITY" };
 		ri.moveTo(0);
 		String abc = "";
-		for (int i = 0; i < rowExprName.length; i++)
+		for (int i = 0; i < rowExprName.length; i++) {
 			abc += rowExprName[i] + "  ";
+		}
 		this.testPrintln(abc);
 		do {
 			abc = "";
 
-			for (int i = 0; i < rowExprName.length; i++)
+			for (int i = 0; i < rowExprName.length; i++) {
 				abc += ri.getValue(rowExprName[i]) + "  ";
+			}
 			abc += ri.getRowId();
 
 			this.testPrintln(abc);
@@ -1796,14 +1785,16 @@ public class ViewingTest extends RDTestCase {
 		IResultIterator ri = qr.getResultIterator();
 		ri.moveTo(0);
 		String abc = "";
-		for (int i = 0; i < rowExprName.length; i++)
+		for (int i = 0; i < rowExprName.length; i++) {
 			abc += rowExprName[i] + "  ";
+		}
 		this.testPrintln(abc);
 		do {
 			abc = "";
 
-			for (int i = 0; i < rowExprName.length; i++)
+			for (int i = 0; i < rowExprName.length; i++) {
 				abc += ri.getValue(rowExprName[i]) + "  ";
+			}
 			abc += ri.getRowId();
 
 			this.testPrintln(abc);
@@ -1815,7 +1806,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * With group and filter
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	public void atestBasicIVSubQuery1() throws Exception {
@@ -1836,7 +1827,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * With group and filter
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -1888,8 +1879,9 @@ public class ViewingTest extends RDTestCase {
 		exprs[1] = new ScriptExpression("dataSetRow[\"AMOUNT\"]");
 		exprs[2] = new ScriptExpression("dataSetRow[\"CITY\"]");
 
-		for (int i = 0; i < subRowExprName.length; i++)
+		for (int i = 0; i < subRowExprName.length; i++) {
 			subqueryDefn.addResultSetExpression(subRowExprName[i], exprs[i]);
+		}
 
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare(qd).execute(scope);
@@ -1899,11 +1891,13 @@ public class ViewingTest extends RDTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			for (int i = 0; i < rowBeArray.length; i++)
+			for (int i = 0; i < rowBeArray.length; i++) {
 				expectedValue.add(ri.getValue(this.rowExprName[i]));
+			}
 
-			for (int i = 0; i < totalBeArray.length; i++)
+			for (int i = 0; i < totalBeArray.length; i++) {
 				expectedValue.add(ri.getValue(this.totalExprName[i]));
+			}
 
 			IResultIterator subRi = ri.getSecondaryIterator("IAMTEST", scope);
 
@@ -1938,8 +1932,9 @@ public class ViewingTest extends RDTestCase {
 		exprs[1] = new ScriptExpression("dataSetRow.AMOUNT");
 		exprs[2] = new ScriptExpression("dataSetRow.CITY");
 
-		for (int i = 0; i < subRowExprName.length; i++)
+		for (int i = 0; i < subRowExprName.length; i++) {
 			subqueryDefn.addResultSetExpression(subRowExprName[i], exprs[i]);
+		}
 		subqueryDefn.setApplyOnGroupFlag(true);
 
 		IQueryResults qr = myPreDataEngine.prepare(qd).execute(null);
@@ -1948,10 +1943,12 @@ public class ViewingTest extends RDTestCase {
 		ri.moveTo(0);
 		do {
 			String abc = "";
-			for (int i = 0; i < rowExprName.length; i++)
+			for (int i = 0; i < rowExprName.length; i++) {
 				abc += ri.getValue(rowExprName[i]) + "  ";
-			for (int i = 0; i < totalExprName.length; i++)
+			}
+			for (int i = 0; i < totalExprName.length; i++) {
 				abc += ri.getValue(totalExprName[i]) + "  ";
+			}
 
 			this.testPrintln(abc + ri.getRowId());
 
@@ -2011,7 +2008,7 @@ public class ViewingTest extends RDTestCase {
 
 	/**
 	 * Add expression on the row of group
-	 * 
+	 *
 	 * @param rowBeArray
 	 * @param totalBeArray
 	 * @param qd
@@ -2022,18 +2019,21 @@ public class ViewingTest extends RDTestCase {
 		int num = rowBeArray.length;
 		int num2 = totalBeArray.length;
 
-		for (int i = 0; i < num; i++)
+		for (int i = 0; i < num; i++) {
 			qd.addResultSetExpression(this.rowExprName[i], rowBeArray[i]);
+		}
 
-		for (int i = 0; i < num2; i++)
+		for (int i = 0; i < num2; i++) {
 			qd.addBinding(totalBeArray[i]);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.rd.RDTestCase#useFolderArchive()
 	 */
+	@Override
 	protected boolean useFolderArchive() {
 		return true;
 	}

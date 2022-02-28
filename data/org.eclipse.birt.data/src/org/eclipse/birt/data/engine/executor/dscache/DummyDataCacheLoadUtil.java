@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -37,10 +37,12 @@ public class DummyDataCacheLoadUtil implements ILoadUtil {
 		this.rowID = 0;
 	}
 
+	@Override
 	public IResultObject loadObject() throws DataException {
 		IResultObject source = this.sourceLoadUtil.loadObject();
-		if (source == null)
+		if (source == null) {
 			return null;
+		}
 		this.rowID++;
 		IResultClass actualResultClass = this.cacheObject.getResultClass();
 		Object[] actual = new Object[actualResultClass.getFieldCount()];
@@ -82,14 +84,17 @@ public class DummyDataCacheLoadUtil implements ILoadUtil {
 			return false;
 		} else if (dataType == Object.class) {
 			return null;
-		} else
+		} else {
 			return null;
+		}
 	}
 
+	@Override
 	public IResultClass loadResultClass() throws DataException {
 		return this.cacheObject.getResultClass();
 	}
 
+	@Override
 	public void close() throws DataException {
 		this.sourceLoadUtil.close();
 	}

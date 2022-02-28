@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -43,13 +43,13 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 /**
  * The Edit Part corresponding to the Column of a Table
- * 
+ *
  * @see
  *      <p>
  *      NodeDditPartHelper
  *      <p>
  *      for other methods defined here
- * 
+ *
  */
 public class AttributeEditPart extends NodeEditPartHelper implements Listener
 
@@ -79,12 +79,13 @@ public class AttributeEditPart extends NodeEditPartHelper implements Listener
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 
-		ColumnFigure columnFigure = null;
+		ColumnFigure columnFigure;
 		columnFigure = new AttributeFigure();
 		FlowLayout layout = new FlowLayout();
 		layout.setMinorSpacing(2);
@@ -106,9 +107,10 @@ public class AttributeEditPart extends NodeEditPartHelper implements Listener
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		// // TODO Auto-generated method stub
 		ColumnSelectionEditPolicy colEditPol = new ColumnSelectionEditPolicy();
@@ -117,10 +119,12 @@ public class AttributeEditPart extends NodeEditPartHelper implements Listener
 
 	}
 
+	@Override
 	public IFigure getChopFigure() {
 		return ((AbstractGraphicalEditPart) this.getParent()).getFigure();
 	}
 
+	@Override
 	protected List getModelSourceConnections() {
 		List sourcejoins = new ArrayList();
 
@@ -145,13 +149,15 @@ public class AttributeEditPart extends NodeEditPartHelper implements Listener
 		return sourcejoins;
 	}
 
+	@Override
 	public DragTracker getDragTracker(Request request) {
 
 		List connectionList = getModelSourceConnections();
 		for (int i = 0; i < connectionList.size(); i++) {
 			DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) connectionList.get(i);
-			if (joinCondition.getHierarchyKey().equals(getColumnName()))
+			if (joinCondition.getHierarchyKey().equals(getColumnName())) {
 				return super.getDragTracker(request);
+			}
 		}
 
 		ConnectionCreation connection = new ConnectionCreation(this);
@@ -159,17 +165,20 @@ public class AttributeEditPart extends NodeEditPartHelper implements Listener
 
 	}
 
+	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 		if (isActive() && !isDelete()) {
 			refreshSourceConnections();
 		}
 	}
 
+	@Override
 	public void deactivate() {
 		super.deactivate();
 		cube.removeListener(this);
 	}
 
+	@Override
 	public void activate() {
 		super.activate();
 		cube.addListener(this);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public class ExpressionImpl implements IExpression {
 
 	/**
 	 * Constructor with the given expression.
-	 * 
+	 *
 	 * @param expr
 	 */
 
@@ -42,7 +42,7 @@ public class ExpressionImpl implements IExpression {
 
 	/**
 	 * Constructor with the given expression handle.
-	 * 
+	 *
 	 * @param exprHandle
 	 */
 
@@ -52,66 +52,75 @@ public class ExpressionImpl implements IExpression {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IExpression#getExpression()
 	 */
 
+	@Override
 	public Object getExpression() {
-		if (exprHandle != null)
+		if (exprHandle != null) {
 			return exprHandle.getExpression();
-		else if (expr != null)
+		} else if (expr != null) {
 			return expr.getExpression();
+		}
 
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IExpression#getType()
 	 */
+	@Override
 	public String getType() {
-		if (exprHandle != null)
+		if (exprHandle != null) {
 			return exprHandle.getType();
-		else if (expr != null)
+		} else if (expr != null) {
 			return expr.getType();
+		}
 
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IExpression#setExpression
 	 * (java.lang.Object)
 	 */
 
+	@Override
 	public void setExpression(Object value) throws SemanticException {
-		if (exprHandle != null)
+		if (exprHandle != null) {
 			exprHandle.setExpression(value);
-		else if (expr != null)
+		} else if (expr != null) {
 			expr = new Expression(value, expr.getType());
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IExpression#setType(java.
 	 * lang.String)
 	 */
+	@Override
 	public void setType(String type) throws SemanticException {
-		if (exprHandle != null)
+		if (exprHandle != null) {
 			exprHandle.setType(type);
-		else if (expr != null)
+		} else if (expr != null) {
 			expr = new Expression(expr.getExpression(), type);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IExpression#getTypes()
 	 */
 
+	@Override
 	public IExpressionType getTypes() {
 		return ExpressionTypeImpl.getInstance();
 	}

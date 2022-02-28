@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,6 +28,7 @@ public abstract class ChartPreviewPainterBase extends PreviewPainterBase<ChartWi
 		super(wizardContext);
 	}
 
+	@Override
 	protected void doRenderModel(IChartObject object) {
 		Chart chart = (Chart) object;
 		// If not use live preview, use sample data to create runtime series

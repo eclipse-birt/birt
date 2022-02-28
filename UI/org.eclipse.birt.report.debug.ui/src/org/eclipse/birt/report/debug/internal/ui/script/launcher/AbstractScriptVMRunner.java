@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ public abstract class AbstractScriptVMRunner extends AbstractVMRunner {
 
 	/**
 	 * Constractor
-	 * 
+	 *
 	 * @param instance
 	 */
 	public AbstractScriptVMRunner(IVMInstall instance) {
@@ -47,20 +47,22 @@ public abstract class AbstractScriptVMRunner extends AbstractVMRunner {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jdt.launching.AbstractVMRunner#getPluginIdentifier()
 	 */
+	@Override
 	protected String getPluginIdentifier() {
 		return DebugUI.getUniqueIdentifier();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jdt.launching.IVMRunner#run(org.eclipse.jdt.launching.
 	 * VMRunnerConfiguration, org.eclipse.debug.core.ILaunch,
 	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
+	@Override
 	public void run(VMRunnerConfiguration configuration, ILaunch launch, IProgressMonitor monitor)
 			throws CoreException {
 		// donothing now see delegate
@@ -81,7 +83,7 @@ public abstract class AbstractScriptVMRunner extends AbstractVMRunner {
 
 	/**
 	 * Add the arguments
-	 * 
+	 *
 	 * @param args
 	 * @param v
 	 */
@@ -96,13 +98,13 @@ public abstract class AbstractScriptVMRunner extends AbstractVMRunner {
 
 	/**
 	 * Add the separator
-	 * 
+	 *
 	 * @param cp
 	 * @return
 	 */
 	protected String convertClassPath(String[] cp) {
 		int pathCount = 0;
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		if (cp.length == 0) {
 			return ""; //$NON-NLS-1$
 		}
@@ -118,7 +120,7 @@ public abstract class AbstractScriptVMRunner extends AbstractVMRunner {
 
 	/**
 	 * Gets the work dir.
-	 * 
+	 *
 	 * @param config
 	 * @return
 	 * @throws CoreException
@@ -137,18 +139,19 @@ public abstract class AbstractScriptVMRunner extends AbstractVMRunner {
 
 	/**
 	 * Change the list to the command line
-	 * 
+	 *
 	 * @param commandLine
 	 * @return
 	 */
 	protected static String renderCommandLine(String[] commandLine) {
-		if (commandLine.length < 1)
+		if (commandLine.length < 1) {
 			return ""; //$NON-NLS-1$
-		StringBuffer buf = new StringBuffer();
+		}
+		StringBuilder buf = new StringBuilder();
 		for (int i = 0; i < commandLine.length; i++) {
 			buf.append(' ');
 			char[] characters = commandLine[i].toCharArray();
-			StringBuffer command = new StringBuffer();
+			StringBuilder command = new StringBuilder();
 			boolean containsSpace = false;
 			for (int j = 0; j < characters.length; j++) {
 				char character = characters[j];

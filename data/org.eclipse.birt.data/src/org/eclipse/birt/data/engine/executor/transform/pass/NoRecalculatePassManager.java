@@ -32,6 +32,7 @@ public class NoRecalculatePassManager extends PassManager {
 		super(populator);
 	}
 
+	@Override
 	protected void prepareQueryResultSet() throws DataException {
 		populator.getExpressionProcessor().setDataSetMode(false);
 		ResultSetProcessUtil.doPopulateNoUpdateAggrFiltering(populator, iccState, computedColumnHelper, filterByRow,

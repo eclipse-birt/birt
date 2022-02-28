@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -43,7 +43,7 @@ public class TableColContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Gets the canNoRepeatValue value for this TableColContextMenuState.
-	 * 
+	 *
 	 * @return canNoRepeatValue Can set NoRepeatValue in a table column
 	 */
 	public boolean isCanNoRepeatValue() {
@@ -52,7 +52,7 @@ public class TableColContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Sets the canNoRepeatValue value for this TableColContextMenuState.
-	 * 
+	 *
 	 * @param canNoRepeatValue Can set NoRepeatValue in a table column
 	 */
 	public void setCanNoRepeatValue(boolean canNoRepeatValue) {
@@ -61,7 +61,7 @@ public class TableColContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Gets the canRepeatValue value for this TableColContextMenuState.
-	 * 
+	 *
 	 * @return canRepeatValue Can unset NoRepeatValue in a table column
 	 */
 	public boolean isCanRepeatValue() {
@@ -70,7 +70,7 @@ public class TableColContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Sets the canRepeatValue value for this TableColContextMenuState.
-	 * 
+	 *
 	 * @param canRepeatValue Can unset NoRepeatValue in a table column
 	 */
 	public void setCanRepeatValue(boolean canRepeatValue) {
@@ -79,7 +79,7 @@ public class TableColContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Gets the canExpand value for this TableColContextMenuState.
-	 * 
+	 *
 	 * @return canExpand Can expand a group column
 	 */
 	public boolean isCanExpand() {
@@ -88,7 +88,7 @@ public class TableColContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Sets the canExpand value for this TableColContextMenuState.
-	 * 
+	 *
 	 * @param canExpand Can expand a group column
 	 */
 	public void setCanExpand(boolean canExpand) {
@@ -97,7 +97,7 @@ public class TableColContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Gets the canCollapse value for this TableColContextMenuState.
-	 * 
+	 *
 	 * @return canCollapse Can collapse a group column
 	 */
 	public boolean isCanCollapse() {
@@ -106,7 +106,7 @@ public class TableColContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Sets the canCollapse value for this TableColContextMenuState.
-	 * 
+	 *
 	 * @param canCollapse Can collapse a group column
 	 */
 	public void setCanCollapse(boolean canCollapse) {
@@ -115,14 +115,18 @@ public class TableColContextMenuState implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof TableColContextMenuState))
+		if (!(obj instanceof TableColContextMenuState)) {
 			return false;
+		}
 		TableColContextMenuState other = (TableColContextMenuState) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -137,6 +141,7 @@ public class TableColContextMenuState implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

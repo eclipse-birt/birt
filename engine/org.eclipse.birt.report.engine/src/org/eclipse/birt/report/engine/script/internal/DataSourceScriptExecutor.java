@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -73,78 +73,95 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements IBase
 		}
 	}
 
+	@Override
 	public void handleBeforeOpen(IDataSourceInstanceHandle dataSource) {
 		initEventHandler();
-		if (reportContext == null)
+		if (reportContext == null) {
 			return;
+		}
 		try {
 			if (!this.useBeforeOpenEventHandler) {
 				ScriptStatus status = handleJS(dataSource.getScriptScope(), dataSource.getName(), BEFORE_OPEN,
 						dataSourceHandle.getBeforeOpen(), beforeOpenMethodID);
-				if (status.didRun())
+				if (status.didRun()) {
 					return;
+				}
 			}
-			if (eventHandler != null)
+			if (eventHandler != null) {
 				eventHandler.beforeOpen(new DataSourceInstance(dataSource), reportContext);
+			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
 	}
 
+	@Override
 	public void handleBeforeClose(IDataSourceInstanceHandle dataSource) {
 		initEventHandler();
-		if (reportContext == null)
+		if (reportContext == null) {
 			return;
+		}
 		try {
 			if (!this.useBeforeCloseEventHandler) {
 				ScriptStatus status = handleJS(dataSource.getScriptScope(), dataSource.getName(), BEFORE_CLOSE,
 						dataSourceHandle.getBeforeClose(), beforeCloseMethodID);
-				if (status.didRun())
+				if (status.didRun()) {
 					return;
+				}
 			}
-			if (eventHandler != null)
+			if (eventHandler != null) {
 				eventHandler.beforeClose(new DataSourceInstance(dataSource), reportContext);
+			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
 	}
 
+	@Override
 	public void handleAfterOpen(IDataSourceInstanceHandle dataSource) {
 		initEventHandler();
-		if (reportContext == null)
+		if (reportContext == null) {
 			return;
+		}
 		try {
 			if (!this.useAfterOpenEventHandler) {
 				ScriptStatus status = handleJS(dataSource.getScriptScope(), dataSource.getName(), AFTER_OPEN,
 						dataSourceHandle.getAfterOpen(), afterOpenMethodID);
-				if (status.didRun())
+				if (status.didRun()) {
 					return;
+				}
 			}
-			if (eventHandler != null)
+			if (eventHandler != null) {
 				eventHandler.afterOpen(new DataSourceInstance(dataSource), reportContext);
+			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
 	}
 
+	@Override
 	public void handleAfterClose(IDataSourceInstanceHandle dataSource) {
 		initEventHandler();
-		if (reportContext == null)
+		if (reportContext == null) {
 			return;
+		}
 		try {
 			if (!this.useAfterCloseEventHandler) {
 				ScriptStatus status = handleJS(dataSource.getScriptScope(), dataSource.getName(), AFTER_CLOSE,
 						dataSourceHandle.getAfterClose(), afterCloseMethodID);
-				if (status.didRun())
+				if (status.didRun()) {
 					return;
+				}
 			}
-			if (eventHandler != null)
+			if (eventHandler != null) {
 				eventHandler.afterClose(reportContext);
+			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
 	}
 
+	@Override
 	protected ScriptStatus handleJS(Scriptable scope, String name, String method, String script, String id) {
 		return handleJS(scope, DATA_SOURCE, name, method, script, id);
 	}

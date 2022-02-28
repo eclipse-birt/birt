@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
@@ -61,10 +61,12 @@ public class JsDebugFrame implements DebugFrame, VMStackFrame, VMConstants {
 		return script;
 	}
 
+	@Override
 	public String getName() {
 		return script.getSourceName();
 	}
 
+	@Override
 	public int getLineNumber() {
 		return lineNo;
 	}
@@ -85,9 +87,11 @@ public class JsDebugFrame implements DebugFrame, VMStackFrame, VMConstants {
 		return (JsContextData) cx.getDebuggerContextData();
 	}
 
+	@Override
 	public void onDebuggerStatement(Context arg0) {
 	}
 
+	@Override
 	public void onEnter(Context arg0, Scriptable arg1, Scriptable arg2, Object[] arg3) {
 		int currentState = debugger.currentState();
 
@@ -112,11 +116,13 @@ public class JsDebugFrame implements DebugFrame, VMStackFrame, VMConstants {
 		}
 	}
 
+	@Override
 	public void onExceptionThrown(Context arg0, Throwable arg1) {
 		System.out.println(">>>> Debugger exception occured:"); //$NON-NLS-1$
 		arg1.printStackTrace();
 	}
 
+	@Override
 	public void onExit(Context arg0, boolean arg1, Object arg2) {
 		int currentState = debugger.currentState();
 
@@ -125,7 +131,6 @@ public class JsDebugFrame implements DebugFrame, VMStackFrame, VMConstants {
 		}
 
 		cx = arg0;
-		;
 
 		JsContextData contextData = contextData(arg0);
 
@@ -134,6 +139,7 @@ public class JsDebugFrame implements DebugFrame, VMStackFrame, VMConstants {
 		System.out.println(">>>> Exit script."); //$NON-NLS-1$
 	}
 
+	@Override
 	public void onLineChange(Context arg0, int arg1) {
 		int currentState = debugger.currentState();
 
@@ -195,6 +201,7 @@ public class JsDebugFrame implements DebugFrame, VMStackFrame, VMConstants {
 		contextData.targetFrmaeDepth = -1;
 	}
 
+	@Override
 	public synchronized VMValue evaluate(String expression) {
 		int currentState = debugger.currentState();
 
@@ -231,10 +238,12 @@ public class JsDebugFrame implements DebugFrame, VMStackFrame, VMConstants {
 		return result;
 	}
 
+	@Override
 	public VMVariable[] getVariables() {
 		// TODO ensure current context
 		return (VMVariable[]) Context.call(new ContextAction() {
 
+			@Override
 			public Object run(Context arg0) {
 				try {
 					return getVariablesImpl(arg0);

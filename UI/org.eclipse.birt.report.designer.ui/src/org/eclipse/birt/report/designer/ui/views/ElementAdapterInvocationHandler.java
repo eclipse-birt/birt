@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,6 +33,7 @@ public class ElementAdapterInvocationHandler implements InvocationHandler {
 		this.adapters = adapters;
 	}
 
+	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		try {
 			if (adapters != null && adapters.size() > 0) {
@@ -41,8 +42,9 @@ public class ElementAdapterInvocationHandler implements InvocationHandler {
 					List allResult = new ArrayList();
 					for (Iterator iter = adapters.iterator(); iter.hasNext();) {
 						Object result = method.invoke(iter.next(), args);
-						if (result != null)
+						if (result != null) {
 							allResult.addAll(Arrays.asList((Object[]) result));
+						}
 					}
 					Object a = java.lang.reflect.Array.newInstance(returnType.getComponentType(), allResult.size());
 					return allResult.toArray((Object[]) a);
@@ -57,8 +59,9 @@ public class ElementAdapterInvocationHandler implements InvocationHandler {
 					boolean returnValue = false;
 					for (Iterator iter = adapters.iterator(); iter.hasNext();) {
 						Boolean result = (Boolean) method.invoke(iter.next(), args);
-						if (returnValue != result.booleanValue())
+						if (returnValue != result.booleanValue()) {
 							returnValue = returnValue ^ result.booleanValue();
+						}
 					}
 					return Boolean.valueOf(returnValue);
 				} else if (returnType == Void.TYPE) {

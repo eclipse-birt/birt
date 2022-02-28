@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,9 +59,10 @@ public class CrosstavCellDragHandle extends AbstractHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
 	 */
+	@Override
 	protected DragTracker createDragTracker() {
 		CrosstabHandleAdapter adapter = ((CrosstabTableEditPart) getOwner().getParent()).getCrosstabHandleAdapter();
 		if (cursorDirection == PositionConstants.EAST
@@ -73,20 +74,25 @@ public class CrosstavCellDragHandle extends AbstractHandle {
 		}
 		// return null;
 		return new ResizeTracker(getOwner(), cursorDirection) {
+			@Override
 			protected void showTargetFeedback() {
 
 			}
 
+			@Override
 			protected void eraseTargetFeedback() {
 
 			}
 
+			@Override
 			protected void showSourceFeedback() {
 			}
 
+			@Override
 			protected void eraseSourceFeedback() {
 			}
 
+			@Override
 			protected Command getCommand() {
 				return UnexecutableCommand.INSTANCE;
 			}
@@ -95,9 +101,10 @@ public class CrosstavCellDragHandle extends AbstractHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
+	@Override
 	public void paintFigure(Graphics g) {
 //		Rectangle r = getBounds( );
 //		r.shrink( 1, 1 );
@@ -119,19 +126,21 @@ public class CrosstavCellDragHandle extends AbstractHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.IFigure#containsPoint(int, int)
 	 */
+	@Override
 	public boolean containsPoint(int x, int y) {
 		return getBounds().getCopy().shrink(-1, -1).contains(x, y);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.draw2d.Figure#setBounds(org.eclipse.draw2d.geometry.Rectangle)
 	 */
+	@Override
 	public void setBounds(Rectangle rect) {
 		if (start == end && cursorDirection == PositionConstants.SOUTH) {
 			rect.y = rect.y - rect.height;

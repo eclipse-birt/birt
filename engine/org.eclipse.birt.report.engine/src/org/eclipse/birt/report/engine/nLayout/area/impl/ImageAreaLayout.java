@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -67,6 +67,7 @@ public class ImageAreaLayout implements ILayout {
 		this.context = context;
 	}
 
+	@Override
 	public void layout() throws BirtException {
 		initialize();
 		if (layout != null) {
@@ -198,7 +199,7 @@ public class ImageAreaLayout implements ILayout {
 		/**
 		 * get intrinsic dimension of image in pixels. Now only support png, bmp, jpg,
 		 * gif.
-		 * 
+		 *
 		 * @return
 		 * @throws IOException
 		 * @throws MalformedURLException
@@ -260,24 +261,23 @@ public class ImageAreaLayout implements ILayout {
 						dim.setDimension(intrinsic.getWidth(), intrinsic.getHeight());
 					}
 				}
-			} else {
-				if (specifiedWidth >= 0) {
-					if (specifiedHeight >= 0) {
-						dim.setDimension(specifiedWidth, specifiedHeight);
-					} else {
-						dim.setDimension(specifiedWidth, intrinsic.getHeight());
-					}
+			} else if (specifiedWidth >= 0) {
+				if (specifiedHeight >= 0) {
+					dim.setDimension(specifiedWidth, specifiedHeight);
 				} else {
-					if (specifiedHeight >= 0) {
-						dim.setDimension(intrinsic.getWidth(), specifiedHeight);
-					} else {
-						dim.setDimension(intrinsic.getWidth(), intrinsic.getHeight());
-					}
+					dim.setDimension(specifiedWidth, intrinsic.getHeight());
+				}
+			} else {
+				if (specifiedHeight >= 0) {
+					dim.setDimension(intrinsic.getWidth(), specifiedHeight);
+				} else {
+					dim.setDimension(intrinsic.getWidth(), intrinsic.getHeight());
 				}
 			}
 			return dim;
 		}
 
+		@Override
 		public void layout() throws BirtException {
 			init();
 
@@ -399,38 +399,38 @@ public class ImageAreaLayout implements ILayout {
 					imageArea.setHeight(actualHeight);
 					root.setContentWidth(imageArea.getWidth());
 					root.setContentHeight(imageArea.getHeight());
+				} else // Fix Bugzilla – Bug 268921 [Automation][Regression]Fit to
+				// page does not work in PDF
+				if (context.getPageOverflow() == IPDFRenderOption.FIT_TO_PAGE_SIZE
+						|| context.getPageOverflow() == IPDFRenderOption.ENLARGE_PAGE_SIZE) {
+					imageArea.setWidth(actualWidth);
+					imageArea.setHeight(actualHeight);
+					root.setContentHeight(actualHeight);
+					root.setContentWidth(actualWidth);
 				} else {
-					// Fix Bugzilla – Bug 268921 [Automation][Regression]Fit to
-					// page does not work in PDF
-					if (context.getPageOverflow() == IPDFRenderOption.FIT_TO_PAGE_SIZE
-							|| context.getPageOverflow() == IPDFRenderOption.ENLARGE_PAGE_SIZE) {
-						imageArea.setWidth(actualWidth);
-						imageArea.setHeight(actualHeight);
-						root.setContentHeight(actualHeight);
-						root.setContentWidth(actualWidth);
-					} else {
-						imageArea.setWidth(actualWidth);
-						imageArea.setHeight(actualHeight);
-						root.setNeedClip(true);
-						root.setContentHeight(Math.min(maxHeight, cHeight));
-						root.setContentWidth(Math.min(maxWidth, cWidth));
-						// Fix Bugzilla - Bug 271555 The right and bottom border are still shown even
-						// the chart exceeds the page size and got cut in PDF [1200]
-						// a temporary solution. root should set the same dimension with imageArea, but
-						// currently can not find a solution to avoid empty page when a large image is
-						// put into a grid
-						if (maxWidth < cWidth) {
-							// default box style is unmodified.
-							// creates a new instance when style is default style.
-							if (root.getBoxStyle() == BoxStyle.DEFAULT)
-								root.setBoxStyle(new BoxStyle(BoxStyle.DEFAULT));
-							root.getBoxStyle().setRightBorder(null);
+					imageArea.setWidth(actualWidth);
+					imageArea.setHeight(actualHeight);
+					root.setNeedClip(true);
+					root.setContentHeight(Math.min(maxHeight, cHeight));
+					root.setContentWidth(Math.min(maxWidth, cWidth));
+					// Fix Bugzilla - Bug 271555 The right and bottom border are still shown even
+					// the chart exceeds the page size and got cut in PDF [1200]
+					// a temporary solution. root should set the same dimension with imageArea, but
+					// currently can not find a solution to avoid empty page when a large image is
+					// put into a grid
+					if (maxWidth < cWidth) {
+						// default box style is unmodified.
+						// creates a new instance when style is default style.
+						if (root.getBoxStyle() == BoxStyle.DEFAULT) {
+							root.setBoxStyle(new BoxStyle(BoxStyle.DEFAULT));
 						}
-						if (maxHeight < cHeight) {
-							if (root.getBoxStyle() == BoxStyle.DEFAULT)
-								root.setBoxStyle(new BoxStyle(BoxStyle.DEFAULT));
-							root.getBoxStyle().setBottomBorder(null);
+						root.getBoxStyle().setRightBorder(null);
+					}
+					if (maxHeight < cHeight) {
+						if (root.getBoxStyle() == BoxStyle.DEFAULT) {
+							root.setBoxStyle(new BoxStyle(BoxStyle.DEFAULT));
 						}
+						root.getBoxStyle().setBottomBorder(null);
 					}
 				}
 			} else {
@@ -506,7 +506,7 @@ public class ImageAreaLayout implements ILayout {
 
 		/**
 		 * Creates legend for chart.
-		 * 
+		 *
 		 * @param imageContent the image content of the chart.
 		 * @param imageArea    the imageArea of the chart.
 		 */
@@ -530,7 +530,7 @@ public class ImageAreaLayout implements ILayout {
 				if (map.length() == 0) {
 					continue;
 				}
-				Map<String, String> attributes = new TreeMap<String, String>();
+				Map<String, String> attributes = new TreeMap<>();
 				Matcher matcher = pattern.matcher(map);
 				while (matcher.find()) {
 					attributes.put(matcher.group(1), matcher.group(2));
@@ -559,7 +559,7 @@ public class ImageAreaLayout implements ILayout {
 			if (url == null || url.length() == 0) {
 				return;
 			}
-			url = url.replaceAll("&amp;", "&");
+			url = url.replace("&amp;", "&");
 			ActionContent link = new ActionContent();
 			String bookmark = getBookmark(url);
 			if (bookmark != null) {
@@ -574,7 +574,7 @@ public class ImageAreaLayout implements ILayout {
 		/**
 		 * Creates an image map container, which is an empty container with an hyper
 		 * link.
-		 * 
+		 *
 		 * @param x      x coordinate of lower left corner of the container.
 		 * @param y      y coordinate of lower left corner of the container.
 		 * @param width  width of the container.
@@ -593,10 +593,10 @@ public class ImageAreaLayout implements ILayout {
 		/**
 		 * Calculates the absolute positions of image map when given the position of
 		 * image. The image map position is relative to the left up corner of the image.
-		 * 
+		 *
 		 * The argument and returned value are both 4 length integer area, the four
 		 * value of which are x, y of up left corner, width and height respectively.
-		 * 
+		 *
 		 * @param area      rectangle area of a image map.
 		 * @param imageArea image area of the image in which the image map is.
 		 * @return absolute position of the image map.
@@ -638,11 +638,11 @@ public class ImageAreaLayout implements ILayout {
 		/**
 		 * Parse the image map position from a string which is of format "x1, y1, x2,
 		 * y2".
-		 * 
+		 *
 		 * @param string the position string.
 		 * @return a array which contains the x, y coordinate of left up corner, width
 		 *         and height in sequence.
-		 * 
+		 *
 		 */
 		private int[] getArea(String string) {
 			if (string == null) {
@@ -656,9 +656,8 @@ public class ImageAreaLayout implements ILayout {
 				area[2] = Integer.parseInt(rawDatas[4]) - area[0];
 				area[3] = Integer.parseInt(rawDatas[5]) - area[1];
 				return area;
-			} else {
-				if (rawDatas.length >= 6)
-					return generateRectangleByPolygon(rawDatas);
+			} else if (rawDatas.length >= 6) {
+				return generateRectangleByPolygon(rawDatas);
 			}
 			return null;
 		}
@@ -729,7 +728,7 @@ public class ImageAreaLayout implements ILayout {
 
 		/**
 		 * Parses out bookmark name from a url for interanl bookmark.
-		 * 
+		 *
 		 * @param url the url string
 		 * @return the bookmark name.
 		 */

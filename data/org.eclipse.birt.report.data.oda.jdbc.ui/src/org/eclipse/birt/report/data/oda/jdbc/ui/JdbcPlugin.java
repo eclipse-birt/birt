@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -24,7 +24,7 @@ import org.osgi.framework.BundleContext;
 /**
  * The main plugin class to be used in the desktop. It contains logic for
  * actions to be performed during the loading and unloading of the plugin.
- * 
+ *
  * It also provides mechanism of internationalization, by helping to load
  * strings from the properties file
  */
@@ -65,6 +65,7 @@ public class JdbcPlugin extends AbstractUIPlugin {
 	/**
 	 * This method is called when the plug-in is stopped
 	 */
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		ConnectionMetaDataManager.getInstance().clearCache();
 		super.stop(context);

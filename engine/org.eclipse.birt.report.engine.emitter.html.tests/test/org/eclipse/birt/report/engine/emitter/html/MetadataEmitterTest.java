@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +59,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase {
 	 * <li>list
 	 * <li>chart
 	 * <li>all template items
-	 * 
+	 *
 	 * @throws EngineException
 	 * @throws IOException
 	 */
@@ -79,7 +79,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase {
 	/**
 	 * Tests meatadata of data items in table hader/footer or table group
 	 * header/footer and using the dataset of the table will be output.
-	 * 
+	 *
 	 * @throws EngineException
 	 * @throws IOException
 	 */
@@ -107,7 +107,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws EngineException
 	 * @throws IOException
 	 */
@@ -127,7 +127,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase {
 	/**
 	 * Test group icon will be displayed with group key even when the key is in a
 	 * grid without query.
-	 * 
+	 *
 	 * @throws EngineException
 	 * @throws IOException
 	 */
@@ -147,7 +147,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws EngineException
 	 * @throws IOException
 	 */
@@ -157,7 +157,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase {
 		HTMLRenderOption options = new HTMLRenderOption();
 		options.setDisplayGroupIcon(true);
 		String content = getRenderResult(designFile, true, options).content;
-		content = content.replaceAll("\n", "\"\n\"+\\\\n");
+		content = content.replace("\n", "\"\n\"+\\n");
 		String regex = "<table[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"./images/iv/collapsexpand.gif\"[^<>]*>[^<>]*</img>"
 				+ "[^<>]*</td[^<>]*>[^<>]*<td[^<>]*>[^<>]*<div[^<>]*>[^<>]*GroupHead";
 		Matcher matcher = Pattern.compile(regex).matcher(content);
@@ -165,7 +165,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws EngineException
 	 * @throws IOException
 	 */
@@ -175,7 +175,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase {
 		HTMLRenderOption options = new HTMLRenderOption();
 		options.setWrapTemplateTable(true);
 		String content = getRenderResult(designFile, true, options).content;
-		content = content.replaceAll("\n", "\"\n\"+\\\\n");
+		content = content.replace("\n", "\"\n\"+\\n");
 		String regex = "<table[^<>]*>[^<>]*<tbody[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"./bizRD/images/sidetab_active.png\"[^<>]*>";
 		Matcher matcher = Pattern.compile(regex).matcher(content);
 		assertEquals(true, matcher.find());
@@ -202,7 +202,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase {
 		HTMLRenderOption options = new HTMLRenderOption();
 		options.setDisplayGroupIcon(displayFilterIcon);
 		String content = getRenderResult(designFile, isRenderTask, options).content;
-		content = content.replaceAll("\n", "\"\n\"+\\\\n");
+		content = content.replace("\n", "\"\n\"+\\n");
 		String regex = "<table[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"./images/iv/collapsexpand.gif\"[^<>]*>";
 		assertString(displayFilterIcon, content, regex);
 		String imageRegex = " src=\"./images/iv/collapsexpand.gif\"";

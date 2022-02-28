@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,15 +45,15 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * TestCases for PropertyHandle class.
- * 
+ *
  * <p>
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>testItemOperations</td>
  * <td>Tests on adding, moving, removing, inserting, replacing maps rules in a
@@ -61,7 +61,7 @@ import com.ibm.icu.util.ULocale;
  * <td>The operations can be completed successfully and the output file matches
  * the golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>testSetGetValues</td>
  * <td>Sets and gets the property value in different prototype like float,
@@ -69,22 +69,22 @@ import com.ibm.icu.util.ULocale;
  * <td>Values can be set/gotten correctly and the output file matches the golden
  * file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>testOtherOperations</td>
  * <td>Gets the property definition.</td>
  * <td>Retrieves the property definition correctly.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Gets the structure handle of FONT_WEIGHT and MAP_RULE properties.</td>
  * <td>The structure handle of FONT_WEIGHT is null and the structure handle of
  * MAP_RULE is <code>null</code>.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 
 public class PropertyHandleTest extends BaseTestCase {
@@ -143,7 +143,7 @@ public class PropertyHandleTest extends BaseTestCase {
 	/**
 	 * tests the localized property value and non-localized property value can be
 	 * returned correctly.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 	public void testGetDisplayValue() throws SemanticException {
@@ -168,7 +168,7 @@ public class PropertyHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests add, move, remove, insert, replace map rules in a style.
-	 * 
+	 *
 	 * @throws Exception if the property is not a list property, the index of the
 	 *                   item is invalid or the output file cannot be saved
 	 *                   correctly.
@@ -275,7 +275,7 @@ public class PropertyHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests to set and get property values.
-	 * 
+	 *
 	 * @throws Exception if values are invalid or the output file cannot be saved
 	 *                   correctly.
 	 */
@@ -340,16 +340,16 @@ public class PropertyHandleTest extends BaseTestCase {
 
 	/**
 	 * test whether the two property handle are equal.
-	 * 
+	 *
 	 * case1: get property handle twice from style.font-family. These two handle
 	 * should be equal.
-	 * 
+	 *
 	 * case2: get property handle from style.font-family and
 	 * style.BACKGROUND_ATTACHMENT_PROP. These two proeprty handles should not be
 	 * equal.
-	 * 
+	 *
 	 * case3: a property handle should not be equal to null.
-	 * 
+	 *
 	 * case4: get property handle from different element but same property. These
 	 * two handle should not be equal.
 	 */
@@ -374,13 +374,13 @@ public class PropertyHandleTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * test get the reference element value list if the property is a element
 	 * referencable type.
-	 * 
+	 *
 	 * case1: get the data set list. case2: get the data source list. case3: get the
 	 * style list.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testgetReferenceElementValueList() throws Exception {
@@ -503,14 +503,14 @@ public class PropertyHandleTest extends BaseTestCase {
 	/**
 	 * Tests the cached member reference, which is used to make the structure handle
 	 * can not be broken by adding or dropping structure .
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 	public void testCachedMemberRef() throws Exception {
 		StyleHandle style = designHandle.findStyle("Style1"); //$NON-NLS-1$
 		PropertyHandle propHandle = style.getPropertyHandle(Style.MAP_RULES_PROP);
 
-		ArrayList<Object> list = new ArrayList<Object>();
+		ArrayList<Object> list = new ArrayList<>();
 		Iterator<?> iter = propHandle.iterator();
 		while (iter.hasNext()) {
 			StructureHandle structHandle = (StructureHandle) iter.next();
@@ -600,7 +600,7 @@ public class PropertyHandleTest extends BaseTestCase {
 	 * child elements.
 	 * <p>
 	 * 2)Test setting intrinsic and non-intrinsic properties.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws Exception
 	 */
@@ -645,7 +645,7 @@ public class PropertyHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests get int value of a property.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -662,7 +662,7 @@ public class PropertyHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests setValue method.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -671,7 +671,7 @@ public class PropertyHandleTest extends BaseTestCase {
 		OdaDataSetHandle odaHandle = (OdaDataSetHandle) designHandle.getElementByID(35);
 		assertNotNull(odaHandle);
 		PropertyHandle propHandle = odaHandle.getPropertyHandle(OdaDataSetHandle.RESULT_SET_PROP);
-		propHandle.setValue(new ArrayList<Object>());
+		propHandle.setValue(new ArrayList<>());
 		assertFalse(propHandle.iterator().hasNext());
 
 		super.compareFile("PropertyHandleTest_setValue_golden.xml");//$NON-NLS-1$

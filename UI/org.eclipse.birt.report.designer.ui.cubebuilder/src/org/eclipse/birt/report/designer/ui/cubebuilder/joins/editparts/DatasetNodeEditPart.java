@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - Initial implementation.
  ******************************************************************************/
 
@@ -41,7 +41,7 @@ import org.eclipse.gef.tools.DragEditPartsTracker;
 
 /**
  * Edit Part corresponding to a Table object.
- * 
+ *
  */
 public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener {
 
@@ -62,9 +62,10 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		String name = (cube.getDataSet()).getName() + " "//$NON-NLS-1$
 				+ Messages.getString("DatasetNodeEditPart.Primary.Dataset"); //$NON-NLS-1$
@@ -76,9 +77,10 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener 
 
 	/**
 	 * Returns the Children for this Edit Part. It returns a List of ColumnEditParts
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
+	@Override
 	protected List getModelChildren() {
 
 		List childList = new ArrayList();
@@ -96,9 +98,10 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
 	 */
+	@Override
 	protected void refreshVisuals() {
 		Rectangle r;
 		if (!UIHelper.existIntProperty(cube.getRoot(), UIHelper.getId(cube.getDataSet(), cube),
@@ -108,8 +111,9 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener 
 			int posX = 250 - width / 2 - 40;
 			int posY = 200 - height / 2 - 20;
 			r = new Rectangle(setPosX(posX), setPosY(posY), getWidth(), getHeight());
-		} else
+		} else {
 			r = new Rectangle(getPosX(), getPosY(), getWidth(), getHeight());
+		}
 		getFigure().setBounds(r);
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), r);
 
@@ -161,19 +165,21 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new TableSelectionEditPolicy());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.editors.graphical.editparts.
 	 * NodeEditPartHelper#getChopFigure()
 	 */
+	@Override
 	public IFigure getChopFigure() {
 		// TODO Auto-generated method stub
 		return null;
@@ -181,31 +187,36 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.GraphicalEditPart#getContentPane()
 	 */
+	@Override
 	public IFigure getContentPane() {
 		return tableNode;
 	}
 
+	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 		if (isActive() && !isDelete()) {
 			refresh();
 		}
 	}
 
+	@Override
 	public void deactivate() {
 		// TODO Auto-generated method stub
 		super.deactivate();
 		cube.getRoot().removeListener(this);
 	}
 
+	@Override
 	public void activate() {
 		// TODO Auto-generated method stub
 		super.activate();
 		cube.getRoot().addListener(this);
 	}
 
+	@Override
 	public DragTracker getDragTracker(Request req) {
 		DragEditPartsTracker track = new DragEditPartsTracker(this);
 		return track;

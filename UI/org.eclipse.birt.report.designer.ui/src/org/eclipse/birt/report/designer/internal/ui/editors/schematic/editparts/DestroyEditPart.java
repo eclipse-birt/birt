@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.swt.SWT;
 
 /**
- * 
+ *
  */
 
 public class DestroyEditPart extends DummyEditpart {
@@ -43,11 +43,12 @@ public class DestroyEditPart extends DummyEditpart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#refreshFigure()
 	 */
+	@Override
 	public void refreshFigure() {
 		StyleHandle style = ((DesignElementHandle) getModel()).getPrivateStyle();
 		((LabelFigure) getFigure()).setFont(FontManager.getFont("Dialog", 10, SWT.ITALIC)); //$NON-NLS-1$
@@ -69,9 +70,10 @@ public class DestroyEditPart extends DummyEditpart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		LabelFigure label = new LabelFigure();
 		return label;
@@ -84,11 +86,12 @@ public class DestroyEditPart extends DummyEditpart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#isinterest(java.lang.Object)
 	 */
+	@Override
 	public boolean isinterest(Object model) {
 		if (!(model instanceof DesignElementHandle)) {
 			return false;

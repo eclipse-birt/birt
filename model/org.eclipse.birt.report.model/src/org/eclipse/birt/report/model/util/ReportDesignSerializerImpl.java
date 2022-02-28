@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -156,7 +156,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 * container/content relationship.
 	 */
 
-	private Stack<DesignElement> elements = new Stack<DesignElement>();
+	private Stack<DesignElement> elements = new Stack<>();
 
 	/**
 	 * Elements are not directly in source design. Hence, it should be created with
@@ -165,7 +165,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 * The value is the newly created and will be inserted to design.
 	 */
 
-	private Map<DesignElement, DesignElement> externalElements = new LinkedHashMap<DesignElement, DesignElement>(
+	private Map<DesignElement, DesignElement> externalElements = new LinkedHashMap<>(
 			ModelUtil.MAP_CAPACITY_MEDIUM);
 
 	/**
@@ -174,20 +174,20 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 * with embedded images.
 	 */
 
-	private Map<IStructure, IStructure> externalStructs = new LinkedHashMap<IStructure, IStructure>(
+	private Map<IStructure, IStructure> externalStructs = new LinkedHashMap<>(
 			ModelUtil.MAP_CAPACITY_LOW);
 
 	/**
 	 * Cubes that need to build the dimension condition. It stores newCube/oldCube
 	 * pair.
 	 */
-	private Map<Cube, Cube> cubes = new LinkedHashMap<Cube, Cube>(ModelUtil.MAP_CAPACITY_LOW);
+	private Map<Cube, Cube> cubes = new LinkedHashMap<>(ModelUtil.MAP_CAPACITY_LOW);
 
 	/**
 	 * Dimensions that need to build the 'defaultHierarchy'. It stores
 	 * newDimension/oldDimension pair.
 	 */
-	private Map<Dimension, Dimension> dimensions = new LinkedHashMap<Dimension, Dimension>(ModelUtil.MAP_CAPACITY_LOW);
+	private Map<Dimension, Dimension> dimensions = new LinkedHashMap<>(ModelUtil.MAP_CAPACITY_LOW);
 
 	/**
 	 * The element is on process.
@@ -199,14 +199,14 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 * Saves all property bindings.
 	 */
 
-	private List<PropertyBinding> propertyBindings = new ArrayList<PropertyBinding>();
+	private List<PropertyBinding> propertyBindings = new ArrayList<>();
 
 	/**
 	 * Map to store the pairs of localization report item theme. Key is the
 	 * qualified name of old ReportItemTheme instance in the source design while
 	 * value is the new created local reportItemThem in the target design.
 	 */
-	protected Map<String, ReportItemTheme> reportItemThemes = new LinkedHashMap<String, ReportItemTheme>(
+	protected Map<String, ReportItemTheme> reportItemThemes = new LinkedHashMap<>(
 			ModelUtil.MAP_CAPACITY_MEDIUM);
 
 	/**
@@ -215,15 +215,15 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 * the ReportItemTheme name in report item after referred ReportItemTheme is
 	 * renamed.
 	 */
-	protected Map<ReportItemTheme, List<ReportItem>> ReportItemThemeMapping = new LinkedHashMap<ReportItemTheme, List<ReportItem>>(
+	protected Map<ReportItemTheme, List<ReportItem>> ReportItemThemeMapping = new LinkedHashMap<>(
 			ModelUtil.MAP_CAPACITY_MEDIUM);
 
-	protected Map<ExtendedItem, StyleHandle[]> referencedStyleMap = new LinkedHashMap<ExtendedItem, StyleHandle[]>(
+	protected Map<ExtendedItem, StyleHandle[]> referencedStyleMap = new LinkedHashMap<>(
 			ModelUtil.MAP_CAPACITY_LOW);
 
 	/**
 	 * Returns the newly created report design.
-	 * 
+	 *
 	 * @return the newly created report design.
 	 */
 
@@ -233,11 +233,12 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDesignElement
 	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public void visitReportDesign(ReportDesign obj) {
 		long startTime = 0;
 		long endTime = 0;
@@ -252,8 +253,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		visitSlots(obj, targetDesign, IReportDesignModel.SLOT_COUNT);
 
 		List<IElementPropertyDefn> properties = obj.getContents();
-		if (properties.size() > 0)
+		if (properties.size() > 0) {
 			visitContainerProperties(obj, targetDesign, properties);
+		}
 
 		// visit external selectors
 		localizeExternalSelectors();
@@ -269,8 +271,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 		// add property bindings to the design, do this after external elements
 		// have been added to the target design: support empty list now
-		if (propertyBindings != null && !propertyBindings.isEmpty())
+		if (propertyBindings != null && !propertyBindings.isEmpty()) {
 			targetDesign.setProperty(IModuleModel.PROPERTY_BINDINGS_PROP, propertyBindings);
+		}
 
 		// add report item themes to design tree
 		addThemes();
@@ -290,8 +293,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			endTime = Calendar.getInstance().getTimeInMillis();
 
 			String filename = sourceDesign.getFileName();
-			if (filename == null)
+			if (filename == null) {
 				filename = ""; //$NON-NLS-1$
+			}
 			logger.fine("total time to flatten design " + filename //$NON-NLS-1$
 					+ " in milliseconds " + (endTime - startTime)); //$NON-NLS-1$
 		}
@@ -313,21 +317,24 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * By calling this method directly/indirectly, the obj must in the source design
 	 * directly. Must not be in the included libraries of source design.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDesignElement(org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public void visitDesignElement(DesignElement obj) {
 		DesignElement newElement = localize(obj);
 		ElementDefn elementDefn = (ElementDefn) obj.getDefn();
 
 		if (obj.isContainer()) {
 			int slotCount = elementDefn.getSlotCount();
-			if (slotCount > 0)
+			if (slotCount > 0) {
 				visitSlots(obj, newElement, slotCount);
+			}
 			List<IElementPropertyDefn> properties = obj.getContents();
-			if (properties.size() > 0)
+			if (properties.size() > 0) {
 				visitContainerProperties(obj, newElement, properties);
+			}
 		}
 
 		currentNewElement = newElement;
@@ -335,12 +342,13 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitContentElement
 	 * (org.eclipse.birt.report.model.elements.ContentElement)
 	 */
 
+	@Override
 	public void visitExtendedItem(ExtendedItem obj) {
 		super.visitExtendedItem(obj);
 
@@ -374,7 +382,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	private void processAllReferencedStyle() {
 		if (!referencedStyleMap.isEmpty()) {
-			Map<StyleHandle, String> processedStyles = new HashMap<StyleHandle, String>();
+			Map<StyleHandle, String> processedStyles = new HashMap<>();
 			Iterator<ExtendedItem> iter = referencedStyleMap.keySet().iterator();
 			while (iter.hasNext()) {
 				ExtendedItem item = iter.next();
@@ -386,7 +394,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	private void processExtendedItemReferencedStyle(ExtendedItem extendedItem, StyleHandle[] styles,
 			Map<StyleHandle, String> processedStyles) {
 
-		HashMap<String, String> styleMap = new HashMap<String, String>();
+		HashMap<String, String> styleMap = new HashMap<>();
 		// add style and get the style name maps.
 		for (int i = 0; i < styles.length; i++) {
 			if (!processedStyles.containsKey(styles[i])) {
@@ -450,16 +458,14 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 */
 
 	private void addExternalElements() {
-		List<DesignElement> tmpElements = new ArrayList<DesignElement>();
-		tmpElements.addAll(externalElements.keySet());
-
-		List<DesignElement> processedElements = new ArrayList<DesignElement>();
+		List<DesignElement> tmpElements = new ArrayList<>(externalElements.keySet());
+		List<DesignElement> processedElements = new ArrayList<>();
 		int index = 0;
 
 		// need to collect old names here for OLAP elements like measures,
 		// dimensions, levels.
 
-		Map<DesignElement, List<String>> tmpOLAPNames = new HashMap<DesignElement, List<String>>();
+		Map<DesignElement, List<String>> tmpOLAPNames = new HashMap<>();
 		for (int i = 0; i < tmpElements.size(); i++) {
 			DesignElement tmpElement = tmpElements.get(i);
 
@@ -496,19 +502,20 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Justifies whether this element needs to update binding expression caused by
 	 * the renaming action.
-	 * 
+	 *
 	 * @param element
 	 * @return
 	 */
 	protected boolean needUpdateBinding(DesignElement element) {
-		if (element instanceof Cube)
+		if (element instanceof Cube) {
 			return true;
+		}
 		return false;
 	}
 
 	/**
 	 * Setups the container relationship for each external element.
-	 * 
+	 *
 	 * @param elements          the elements to add
 	 * @param processedElements elements that have been added
 	 * @param originalElement   the corresponding element in the source design
@@ -516,8 +523,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	private void addExternalElement(List<DesignElement> elements, List<DesignElement> processedElements,
 			DesignElement originalElement) {
-		if (processedElements.contains(originalElement))
+		if (processedElements.contains(originalElement)) {
 			return;
+		}
 
 		DesignElement originalContainer = originalElement.getContainer();
 		if (elements.contains(originalContainer)) {
@@ -532,8 +540,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 		ContainerContext context = null;
 
-		if (tmpContainer != null)
+		if (tmpContainer != null) {
 			context = originalElement.getContainerInfo().createContext(tmpContainer);
+		}
 
 		if (context == null && originalContainer instanceof Theme) {
 			int newId = IReportDesignModel.STYLE_SLOT;
@@ -570,8 +579,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 		assert context != null;
 
-		if (context.contains(targetDesign, tmpElement))
+		if (context.contains(targetDesign, tmpElement)) {
 			return;
+		}
 
 		String originalName = originalElement.getName();
 		addElement(targetDesign, context, tmpElement);
@@ -591,22 +601,23 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Gathers names for OLAP elements such as dimensions, levels and measures. For
 	 * levels, get their full names.
-	 * 
+	 *
 	 * @param module the module
 	 * @param cube   the OLAP cube
 	 * @return a list containing names in strings.
 	 */
 
 	private List<String> collectOLAPNames(Module module, DesignElement cube) {
-		List<String> retMap = new ArrayList<String>();
+		List<String> retMap = new ArrayList<>();
 
 		LevelContentIterator iter = new LevelContentIterator(module, cube, 3);
 		while (iter.hasNext()) {
 			DesignElement innerElement = iter.next();
-			if (innerElement instanceof Dimension || innerElement instanceof Measure)
+			if (innerElement instanceof Dimension || innerElement instanceof Measure) {
 				retMap.add(innerElement.getName());
-			else if (innerElement instanceof Level)
+			} else if (innerElement instanceof Level) {
 				retMap.add(((Level) innerElement).getFullName());
+			}
 		}
 
 		return retMap;
@@ -614,7 +625,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Setups name mapping between old/new OLAP element names.
-	 * 
+	 *
 	 * @param oldNames old names in strings
 	 * @param newNames new names in strings
 	 * @return a map. The key is the old name and the value is corresponding new
@@ -622,7 +633,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 */
 
 	private Map<String, String> buildOLAPNameMap(List<String> oldNames, List<String> newNames) {
-		Map<String, String> retMap = new HashMap<String, String>();
+		Map<String, String> retMap = new HashMap<>();
 		for (int i = 0; i < oldNames.size(); i++) {
 			String oldName = oldNames.get(i);
 			String newName = newNames.get(i);
@@ -635,7 +646,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Updates OLAP elements names in column bindings by using the name map.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param cube    the cube used by other elements
 	 * @param nameMap a map. The key is the old name and the value is corresponding
@@ -652,8 +663,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			List<Object> columnBindings = (List) client.getLocalProperty(module,
 					IReportItemModel.BOUND_DATA_COLUMNS_PROP);
 
-			if (columnBindings == null || columnBindings.isEmpty())
+			if (columnBindings == null || columnBindings.isEmpty()) {
 				return;
+			}
 
 			for (int j = 0; j < columnBindings.size(); j++) {
 				ComputedColumn binding = (ComputedColumn) columnBindings.get(j);
@@ -670,7 +682,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Updates the expression of column binding. The dimension and level names will
 	 * be changed if necessary.
-	 * 
+	 *
 	 * @param binding the column binding
 	 * @param nameMap the name map
 	 */
@@ -679,17 +691,20 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 		Expression objExpr = binding.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER);
 
-		if (objExpr == null)
+		if (objExpr == null) {
 			return;
+		}
 
 		Expression newExpr = getUpdatedExpression(objExpr, nameMap);
-		if (newExpr != null)
+		if (newExpr != null) {
 			binding.setExpressionProperty(ComputedColumn.EXPRESSION_MEMBER, newExpr);
+		}
 	}
 
 	private Expression getUpdatedExpression(Expression old, Map<String, String> nameMap) {
-		if (old == null)
+		if (old == null) {
 			return null;
+		}
 
 		String expr = old.getStringExpression();
 		String type = old.getType();
@@ -711,7 +726,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Updates the expression of column binding. The dimension and level names will
 	 * be changed if necessary.
-	 * 
+	 *
 	 * @param expr    the expression of column binding
 	 * @param nameMap the name map
 	 * @param type    the type of the expression
@@ -719,7 +734,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 */
 
 	protected Map<String, String> getUpdateBindingMap(String expr, Map<String, String> nameMap, String type) {
-		Map<String, String> updateMap = new HashMap<String, String>();
+		Map<String, String> updateMap = new HashMap<>();
 		if (IExpressionType.JAVASCRIPT.equalsIgnoreCase(type)) {
 			// for the measure expression case
 			Set<String> measureNameSet = null;
@@ -733,8 +748,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			if (measureNameSet != null && !measureNameSet.isEmpty()) {
 				for (String measureName : measureNameSet) {
 					String newName = nameMap.get(measureName);
-					if (newName != null)
+					if (newName != null) {
 						updateMap.put(measureName, newName);
+					}
 				}
 			} else {
 				Set<IDimLevel> tmpSet = null;
@@ -751,11 +767,13 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 					String oldName = tmpObj.getDimensionName();
 					String newName = nameMap.get(oldName);
-					if (newName == null)
+					if (newName == null) {
 						continue;
+					}
 
-					if (!newName.equals(oldName))
+					if (!newName.equals(oldName)) {
 						updateMap.put(oldName, newName);
+					}
 				}
 			}
 
@@ -766,7 +784,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Updates aggregation on list of column binding. Each aggregation on refers to
 	 * a level name.The level names will be changed if necessary.
-	 * 
+	 *
 	 * @param binding the column binding
 	 * @param nameMap the name map
 	 */
@@ -777,8 +795,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			String levelFullName = aggreOnList.get(i);
 			String newName = nameMap.get(levelFullName);
 
-			if (newName == null)
+			if (newName == null) {
 				continue;
+			}
 
 			aggreOnList.set(i, newName);
 		}
@@ -792,12 +811,14 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			for (AggregationArgument aggArg : arguments) {
 				Expression objExpr = aggArg.getExpressionProperty(AggregationArgument.VALUE_MEMBER);
 
-				if (objExpr == null)
+				if (objExpr == null) {
 					return;
+				}
 
 				Expression newExpr = getUpdatedExpression(objExpr, nameMap);
-				if (newExpr != null)
+				if (newExpr != null) {
 					aggArg.setExpressionProperty(AggregationArgument.VALUE_MEMBER, newExpr);
+				}
 			}
 		}
 	}
@@ -810,19 +831,21 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			for (CalculationArgument calArg : calculationArgs) {
 				Expression objExpr = calArg.getExpressionProperty(CalculationArgument.VALUE_MEMBER);
 
-				if (objExpr == null)
+				if (objExpr == null) {
 					return;
+				}
 
 				Expression newExpr = getUpdatedExpression(objExpr, nameMap);
-				if (newExpr != null)
+				if (newExpr != null) {
 					calArg.setExpressionProperty(CalculationArgument.VALUE_MEMBER, newExpr);
+				}
 
 			}
 		}
 	}
 
 	private void updateDerivedMeasure(Module module, Cube cube, Map<String, String> nameMap) {
-		List<Measure> derivedMeasureList = new ArrayList<Measure>();
+		List<Measure> derivedMeasureList = new ArrayList<>();
 
 		LevelContentIterator iter = new LevelContentIterator(module, cube, 3);
 		while (iter.hasNext()) {
@@ -860,7 +883,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 * Adds an element to the context. This method will handle container
 	 * relationship, element name and element id for the inserted content and all
 	 * its children.
-	 * 
+	 *
 	 * @param module
 	 * @param context
 	 * @param content
@@ -879,10 +902,11 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			// logic of makeUniqueName of NameHelper to ensure the style in the
 			// report item theme will not be added into style name context in
 			// the report design, and then remove this patch
-			if (content instanceof ReportItemTheme)
+			if (content instanceof ReportItemTheme) {
 				module.makeUniqueName(content);
-			else
+			} else {
 				module.rename(context.getElement(), content);
+			}
 		}
 		addElement2NameSpace(content);
 
@@ -904,21 +928,23 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Adds an element to the name space. If the module is null, or element is null,
 	 * or element is not in the tree of module, then do nothing.
-	 * 
+	 *
 	 * @param module
 	 * @param element
 	 */
 
 	private void addElement2NameSpace(DesignElement element) {
-		if (element == null || !element.isManagedByNameSpace())
+		if (element == null || !element.isManagedByNameSpace()) {
 			return;
+		}
 
 		if (element.getName() != null) {
 			NameExecutor executor = new NameExecutor(targetDesign, element);
 			NameSpace namespace = executor.getNameSpace();
 			if (namespace != null) {
-				if (namespace.contains(element.getName()))
+				if (namespace.contains(element.getName())) {
 					throw new RuntimeException("element name is not unique"); //$NON-NLS-1$
+				}
 				namespace.insert(element);
 			}
 		}
@@ -926,56 +952,61 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitStyle(org.
 	 * eclipse.birt.report.model.elements.Style)
 	 */
 
+	@Override
 	public void visitStyle(Style obj) {
 		visitDesignElement(obj);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTheme(org.
 	 * eclipse.birt.report.model.elements.Theme)
 	 */
 
+	@Override
 	public void visitTheme(Theme obj) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitReportItem
 	 * (org.eclipse.birt.report.model.elements.ReportItem)
 	 */
 
+	@Override
 	public void visitReportItem(ReportItem obj) {
 		visitStyledElement(obj);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitScalarParameter
 	 * (org.eclipse.birt.report.model.elements.ScalarParameter)
 	 */
 
+	@Override
 	public void visitScalarParameter(ScalarParameter obj) {
 		visitParameter(obj);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitStyledElement
 	 * (org.eclipse.birt.report.model.core.StyledElement)
 	 */
 
+	@Override
 	public void visitStyledElement(StyledElement obj) {
 		visitDesignElement(obj);
 
@@ -987,7 +1018,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Resolves style reference in the target element. This method will copy the
 	 * resolved element reference from the source element to the target design.
-	 * 
+	 *
 	 * @param targetDesign the target design to add the copied style
 	 * @param target       the target element to resolve the style
 	 * @param source       the source element
@@ -998,7 +1029,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		// property search path. 1. for element private value; 2. for shared
 		// style value; 3. for values defined on extends parent, 4. for selector
 
-		Set<String> notEmptyProperties = new HashSet<String>();
+		Set<String> notEmptyProperties = new HashSet<>();
 
 		// first step to localize private style properties.
 		// handle values defined on virtual/extends parents.
@@ -1028,7 +1059,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 				List<ReportItem> reportItems = ReportItemThemeMapping.get(targetTheme);
 				{
 					if (reportItems == null) {
-						reportItems = new ArrayList<ReportItem>();
+						reportItems = new ArrayList<>();
 						reportItems.add(targetItem);
 						ReportItemThemeMapping.put(targetTheme, reportItems);
 					} else {
@@ -1044,7 +1075,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		List<ReportItem> reportItems = ReportItemThemeMapping.get(targetTheme);
 		{
 			if (reportItems == null) {
-				reportItems = new ArrayList<ReportItem>();
+				reportItems = new ArrayList<>();
 				reportItems.add(targetItem);
 				ReportItemThemeMapping.put(targetTheme, reportItems);
 			} else {
@@ -1055,11 +1086,12 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitorImpl#
 	 * visitTabularDimension
 	 * (org.eclipse.birt.report.model.elements.olap.TabularDimension)
 	 */
+	@Override
 	public void visitTabularDimension(TabularDimension obj) {
 		if (obj.getSharedDimension(sourceDesign) != null) {
 			TabularDimension newElement = (TabularDimension) localize(obj);
@@ -1069,8 +1101,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			targetDesign.manageId(newElement, true);
 
 			currentNewElement = newElement;
-		} else
+		} else {
 			super.visitTabularDimension(obj);
+		}
 	}
 
 	/**
@@ -1108,7 +1141,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 * <li>localize private style properties.
 	 * <li>localize style properties on extends/virtual parents.
 	 * </ul>
-	 * 
+	 *
 	 * @param target             the target element
 	 * @param source             the source element
 	 * @param notEmptyProperties
@@ -1136,17 +1169,18 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 				}
 			}
 
-			if (tmpElement.isVirtualElement())
+			if (tmpElement.isVirtualElement()) {
 				tmpElement = (StyledElement) tmpElement.getVirtualParent();
-			else
+			} else {
 				tmpElement = (StyledElement) tmpElement.getExtendsElement();
+			}
 		}
 
 	}
 
 	/**
 	 * Copies local properties from <code>style</code> to the <code>target</code>.
-	 * 
+	 *
 	 * @param target       the target element
 	 * @param style        the style element
 	 * @param targetDesign the module of the target element
@@ -1154,8 +1188,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	private void localizePrivateStyleProperties(DesignElement target, DesignElement source, Module root,
 			Set<String> notEmptyProperties) {
-		if (!source.hasLocalPropertyValues())
+		if (!source.hasLocalPropertyValues()) {
 			return;
+		}
 
 		// copy all the local values in the style
 
@@ -1168,17 +1203,20 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			// the property may be user-defined property. So, the value may be
 			// null.
 
-			if (prop == null || !prop.isStyleProperty())
+			if (prop == null || !prop.isStyleProperty()) {
 				continue;
+			}
 
 			String propName = prop.getName();
-			if (notEmptyProperties.contains(propName))
+			if (notEmptyProperties.contains(propName)) {
 				continue;
+			}
 
 			ElementPropertyDefn targetProp = target.getPropertyDefn(propName);
 
-			if (targetProp == null)
+			if (targetProp == null) {
 				continue;
+			}
 
 			if (target.getLocalProperty(targetDesign, prop) != null) {
 				notEmptyProperties.add(propName);
@@ -1189,8 +1227,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 			// only handle values that not set in the target element
 
-			if (value == null)
+			if (value == null) {
 				continue;
+			}
 
 			switch (targetProp.getTypeCode()) {
 			case IPropertyType.LIST_TYPE:
@@ -1209,98 +1248,106 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitMasterPage
 	 * (org.eclipse.birt.report.model.elements.MasterPage)
 	 */
 
+	@Override
 	public void visitMasterPage(MasterPage obj) {
 		visitStyledElement(obj);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitGroup(org.
 	 * eclipse.birt.report.model.elements.GroupElement)
 	 */
 
+	@Override
 	public void visitGroup(GroupElement obj) {
 		visitDesignElement(obj);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitRow(org.eclipse
 	 * .birt.report.model.elements.TableRow)
 	 */
 
+	@Override
 	public void visitRow(TableRow obj) {
 		visitStyledElement(obj);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitCell(org.eclipse
 	 * .birt.report.model.elements.Cell)
 	 */
 
+	@Override
 	public void visitCell(Cell obj) {
 		visitStyledElement(obj);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitColumn(org
 	 * .eclipse.birt.report.model.elements.TableColumn)
 	 */
 
+	@Override
 	public void visitColumn(TableColumn obj) {
 		visitStyledElement(obj);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDataSet(org
 	 * .eclipse.birt.report.model.elements.DataSet)
 	 */
 
+	@Override
 	public void visitDataSet(DataSet obj) {
 		visitDesignElement(obj);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDataSource
 	 * (org.eclipse.birt.report.model.elements.DataSource)
 	 */
 
+	@Override
 	public void visitDataSource(DataSource obj) {
 		visitDesignElement(obj);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.elements.ElementVisitor#
 	 * visitTemplateParameterDefinition
 	 * (org.eclipse.birt.report.model.elements.TemplateParameterDefinition)
 	 */
 
+	@Override
 	public void visitTemplateParameterDefinition(TemplateParameterDefinition obj) {
 		visitDesignElement(obj);
 	}
 
 	/**
 	 * Visits the slots of the element.
-	 * 
+	 *
 	 * @param obj the element to traverse
 	 */
 
@@ -1308,8 +1355,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		elements.push(newElement);
 		for (int i = 0; i < slotCount; i++) {
 			// report item theme slot has serialized in localizeReportItemThemes
-			if (obj == sourceDesign && i == IReportDesignModel.THEMES_SLOT)
+			if (obj == sourceDesign && i == IReportDesignModel.THEMES_SLOT) {
 				continue;
+			}
 			visitContents(sourceDesign, new ContainerContext(obj, i));
 		}
 		elements.pop();
@@ -1317,20 +1365,21 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Visits the slots of the element.
-	 * 
+	 *
 	 * @param obj the element to traverse
 	 */
 
 	private void visitExternalSlots(DesignElement obj, DesignElement newElement, int slotCount) {
 		elements.push(newElement);
-		for (int i = 0; i < slotCount; i++)
+		for (int i = 0; i < slotCount; i++) {
 			visitExternalContents(sourceDesign, new ContainerContext(obj, i));
+		}
 		elements.pop();
 	}
 
 	/**
 	 * Visits the container properties of the given element.
-	 * 
+	 *
 	 * @param obj
 	 * @param newElement
 	 * @param properties
@@ -1348,7 +1397,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Returns a newly created element by given elements. Do not copies values here.
 	 * It only concerns names, container/content relationship.
-	 * 
+	 *
 	 * @param element the design element
 	 * @return a newly created element
 	 */
@@ -1359,23 +1408,24 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		ContainerContext containment = null;
 		DesignElement container = elements.peek();
 		String containmentProp = sourceContainment.getPropertyName();
-		if (containmentProp != null)
+		if (containmentProp != null) {
 			containment = new ContainerContext(container, containmentProp);
-		else
+		} else {
 			containment = new ContainerContext(container, sourceContainment.getSlotID());
+		}
 		DesignElement newElement = newElement(element.getDefn().getName(), element.getName(), containment).getElement();
 
 		// if the element is an external element. do not add to the design now.
 		// should be added in the end by addExternalElements.
 
 		Set<DesignElement> externalOriginalElements = externalElements.keySet();
-		if (externalOriginalElements.contains(element))
-			return newElement;
+		
 
 		// setup container relationship
 
-		if (element instanceof ReportDesign)
+		if (externalOriginalElements.contains(element) || (element instanceof ReportDesign)) {
 			return newElement;
+		}
 
 		if (newElement instanceof GroupElement) {
 			newElement.setProperty(GroupElement.GROUP_NAME_PROP,
@@ -1390,8 +1440,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		// included libraries but not add it to id-map, therefore we need NOT
 		// manage element ID for it is unique as expected. Add it to id-map
 		// directly
-		if (!(newElement instanceof ContentElement))
+		if (!(newElement instanceof ContentElement)) {
 			targetDesign.addElementID(newElement);
+		}
 
 		return newElement;
 	}
@@ -1399,7 +1450,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Creates a structure by the given structure. The given structure must be a
 	 * structure that is not directly defined in the source design.
-	 * 
+	 *
 	 * @param struct the source structure
 	 * @return the new structure
 	 */
@@ -1416,15 +1467,16 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 * <p>
 	 * By calling this method directly/indirectly, the obj must in the source design
 	 * directly. Must not be in the included libraries of source design.
-	 * 
+	 *
 	 * @param element the element to localize
 	 */
 
 	protected DesignElement localize(DesignElement element) {
 		DesignElement newElement = createNewElement(element);
 		DesignElement extendsElement = element.getExtendsElement();
-		if (extendsElement != null)
+		if (extendsElement != null) {
 			targetDesign.cacheFlattenElement(extendsElement, newElement);
+		}
 		localizePropertyValues(element, newElement);
 		localizePropertyBindings(element, newElement);
 
@@ -1457,7 +1509,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 * The id in the bindings is changed from <code>element</code> to
 	 * <code>newElement</code>. The binding that is near to the report design takes
 	 * the higher priority.
-	 * 
+	 *
 	 * @param element    the source element
 	 * @param newElement the target element
 	 */
@@ -1467,7 +1519,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		DesignElementHandle tmpElementHandle = element.getHandle(element.getRoot());
 		List<PropertyBinding> elementBindings = tmpElementHandle.getPropertyBindings();
 
-		List<PropertyBinding> newList = new ArrayList<PropertyBinding>();
+		List<PropertyBinding> newList = new ArrayList<>();
 		long newID = newElement.getID();
 
 		for (int i = 0; i < elementBindings.size(); i++) {
@@ -1484,7 +1536,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param source
 	 * @return the localized design
 	 */
@@ -1500,8 +1552,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		// handle module options
 		ModuleOption options = source.getOptions();
 		try {
-			if (options != null)
+			if (options != null) {
 				targetDesign.setOptions(((ModuleOption) options.copy()));
+			}
 		} catch (CloneNotSupportedException e) {
 			assert false;
 		}
@@ -1533,13 +1586,15 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		// second, copy all the external report item themes in the libraries
 		// whether it is referred or not
 		List<Library> libraries = source.getLibraries();
-		if (libraries == null || libraries.isEmpty())
+		if (libraries == null || libraries.isEmpty()) {
 			return;
+		}
 
 		for (Library lib : libraries) {
 			List<DesignElement> themes = lib.getSlot(ILibraryModel.THEMES_SLOT).getContents();
-			if (themes == null || themes.isEmpty())
+			if (themes == null || themes.isEmpty()) {
 				continue;
+			}
 
 			for (DesignElement theme : themes) {
 				if (theme instanceof ReportItemTheme) {
@@ -1568,8 +1623,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		} catch (CloneNotSupportedException e) {
 			// do nothing
 		}
-		if (newTheme == null)
+		if (newTheme == null) {
 			return;
+		}
 
 		reportItemThemes.put(sourceTheme.getHandle(sourceTheme.getRoot()).getQualifiedName(), newTheme);
 
@@ -1577,15 +1633,17 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	}
 
 	private void addReportItemThemes() {
-		if (reportItemThemes == null || reportItemThemes.isEmpty())
+		if (reportItemThemes == null || reportItemThemes.isEmpty()) {
 			return;
+		}
 		Iterator<ReportItemTheme> themeIter = reportItemThemes.values().iterator();
 		while (themeIter.hasNext()) {
 			ReportItemTheme newTheme = themeIter.next();
 
 			// for original design theme, do nothing
-			if (newTheme.getContainer() != null)
+			if (newTheme.getContainer() != null) {
 				continue;
+			}
 
 			// add external library theme
 			ContainerContext context = new ContainerContext(targetDesign, IReportDesignModel.THEMES_SLOT);
@@ -1608,8 +1666,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	private void addThemes() {
 		Theme sourceTheme = sourceDesign.getTheme();
-		if (sourceTheme == null)
+		if (sourceTheme == null) {
 			return;
+		}
 		String themeName = sourceTheme.getName();
 		Theme newTheme = new Theme();
 		String namespace = sourceTheme.getRoot().getNamespace();
@@ -1629,13 +1688,13 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Gets the script library names of root element.
-	 * 
+	 *
 	 * @param ScriptLibList the list of script library.
 	 * @return the script library names of root element.
 	 */
 
 	private List<Object> getRootScriptLibsName(List<Object> scriptLibList) {
-		List<Object> scriptLibsPath = new ArrayList<Object>();
+		List<Object> scriptLibsPath = new ArrayList<>();
 
 		for (int i = 0; i < scriptLibList.size(); i++) {
 			ScriptLib sourceScriptLib = (ScriptLib) scriptLibList.get(i);
@@ -1647,22 +1706,23 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Gets the script library of root element.
-	 * 
+	 *
 	 * @param root the root element
 	 * @return the script library of root element.
 	 */
 
 	private List<Object> getRootScriptLibs(ReportDesign root) {
 		Object obj = root.getProperty(root, IModuleModel.SCRIPTLIBS_PROP);
-		if (obj == null)
+		if (obj == null) {
 			return Collections.emptyList();
+		}
 
 		return (List<Object>) obj;
 	}
 
 	/**
 	 * Flattens the scriptLibs of the libraries to the report design.
-	 * 
+	 *
 	 * @param source the source element
 	 * @param target the target element
 	 */
@@ -1671,8 +1731,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 		List<Library> libs = source.getAllLibraries();
 
-		List<Object> targetValueList = new ArrayList<Object>();
-		targetValueList.addAll(getRootScriptLibs(source));
+		List<Object> targetValueList = new ArrayList<>(getRootScriptLibs(source));
 		List<Object> relativePathList = getRootScriptLibsName(targetValueList);
 
 		ElementPropertyDefn propDefn = source.getPropertyDefn(IModuleModel.SCRIPTLIBS_PROP);
@@ -1682,8 +1741,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 			Object obj = lib.getProperty(lib, propDefn);
 
-			if (obj == null)
+			if (obj == null) {
 				continue;
+			}
 
 			List<Object> sourceValueList = (List<Object>) obj;
 
@@ -1705,13 +1765,14 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			}
 		}
 
-		if (!targetValueList.isEmpty())
+		if (!targetValueList.isEmpty()) {
 			target.setProperty(propDefn, targetValueList);
+		}
 	}
 
 	/**
 	 * Flattens the included resources of the library to the report design.
-	 * 
+	 *
 	 * @param source the source element
 	 * @param target the target element
 	 */
@@ -1722,7 +1783,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Flattens the included scripts of the library to the report design.
-	 * 
+	 *
 	 * @param source the source element
 	 * @param target the target element
 	 */
@@ -1733,7 +1794,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Flattens the included values (resources and scripts) of the library to the
 	 * report design.
-	 * 
+	 *
 	 * @param source   the source element
 	 * @param target   the target element
 	 * @param propName the property name of the value
@@ -1742,37 +1803,41 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		ElementPropertyDefn propDefn = source.getPropertyDefn(propName);
 
 		Object obj = source.getProperty(source, propDefn);
-		List<Object> newValues = new ArrayList<Object>();
-		if (obj != null)
+		List<Object> newValues = new ArrayList<>();
+		if (obj != null) {
 			newValues.addAll((List<Object>) obj);
+		}
 
 		for (Library lib : source.getAllLibraries()) {
 			Object libObj = lib.getProperty(lib, propDefn);
 
-			if (libObj == null)
+			if (libObj == null) {
 				continue;
+			}
 
 			for (Object value : (List<Object>) libObj) {
-				if (!newValues.contains(value))
+				if (!newValues.contains(value)) {
 					newValues.add(value);
+				}
 			}
 		}
 
-		if (!newValues.isEmpty())
+		if (!newValues.isEmpty()) {
 			target.setProperty(propDefn, newValues);
+		}
 	}
 
 	// css style related methods.
 
 	/**
 	 * Localizes the css style sheets from the source to the target.
-	 * 
+	 *
 	 * @param source the source module
 	 * @param target the target module
 	 */
 
 	private void visitCssStyleSheets(ReportDesign source, ReportDesign target) {
-		List<CssStyleSheet> allSheet = new ArrayList<CssStyleSheet>();
+		List<CssStyleSheet> allSheet = new ArrayList<>();
 		List<CssStyleSheet> sheets = source.getCsses();
 		for (int i = 0; i < sheets.size(); i++) {
 			CssStyleSheet sheet = sheets.get(i);
@@ -1811,7 +1876,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Localizes a css style sheets.
-	 * 
+	 *
 	 */
 
 	private CssStyleSheet visitCssStyleSheet(CssStyleSheet sheet) {
@@ -1832,7 +1897,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Localizes a css style.
-	 * 
+	 *
 	 */
 
 	private CssStyle visitCssStyle(CssStyle style) {
@@ -1845,14 +1910,15 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Creates am element by the given element. The given element must be the one
 	 * that is not directly defined in the source design.
-	 * 
+	 *
 	 * @param struct the source element
 	 * @return the new element
 	 */
 
 	private DesignElement visitExternalElement(DesignElement element) {
-		if (element instanceof Theme)
+		if (element instanceof Theme) {
 			return null;
+		}
 
 		// ElementFactory factory = new ElementFactory( targetDesign );
 		// DesignElement newElement = factory.newElement(
@@ -1864,11 +1930,13 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		IElementDefn elementDefn = newElement.getDefn();
 		if (elementDefn.isContainer()) {
 			int slotCount = elementDefn.getSlotCount();
-			if (slotCount > 0)
+			if (slotCount > 0) {
 				visitExternalSlots(element, newElement, slotCount);
+			}
 			List<IElementPropertyDefn> properties = elementDefn.getContents();
-			if (properties.size() > 0)
+			if (properties.size() > 0) {
 				visitExternalContainerProperties(element, newElement, properties);
+			}
 		}
 
 		localizePropertyValues(element, newElement);
@@ -1888,7 +1956,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Creates am element by the given element. The given element must be the one
 	 * that is not directly defined in the source design.
-	 * 
+	 *
 	 * @param struct the source element
 	 * @return the new element
 	 */
@@ -1943,7 +2011,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Returns elements that extends the given element or the element contains the
 	 * given element.
-	 * 
+	 *
 	 * @param element the given element
 	 * @return a list containing elements.
 	 */
@@ -1953,8 +2021,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 		DesignElement sourceContainer = sourceElement;
 		while (sourceContainer != null) {
-			if (sourceContainer.getExtendsElement() != null)
+			if (sourceContainer.getExtendsElement() != null) {
 				break;
+			}
 
 			sourceContainer = sourceContainer.getContainer();
 		}
@@ -1969,8 +2038,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 			for (int i = 0; i < clients.size(); i++) {
 				DesignElement tmpDerived = clients.get(i);
-				if (tmpDerived.getRoot() == sourceDesign && tmpDerived == sourceContainer)
+				if (tmpDerived.getRoot() == sourceDesign && tmpDerived == sourceContainer) {
 					return tmpDerived;
+				}
 			}
 
 			tmpElement = tmpElement.getContainer();
@@ -1981,7 +2051,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Returns the element of which the virtual parent is the given element.
-	 * 
+	 *
 	 * @param module        the root
 	 * @param container     the element
 	 * @param virtualParent the virtual parent element
@@ -1993,8 +2063,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 		while (iter1.hasNext()) {
 			DesignElement tmpElement = iter1.next();
-			if (tmpElement.getBaseId() == virtualParent.getID())
+			if (tmpElement.getBaseId() == virtualParent.getID()) {
 				return tmpElement;
+			}
 		}
 
 		return null;
@@ -2002,7 +2073,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Visits the container properties of the given element.
-	 * 
+	 *
 	 * @param obj
 	 * @param newElement
 	 * @param properties
@@ -2021,7 +2092,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Visits the contents of the given context. Allows a derived class to traverse
 	 * downward though the design tree.
-	 * 
+	 *
 	 * @param module  the module where the contents reside
 	 * @param context the container context where the contents reside
 	 */
@@ -2046,7 +2117,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Creates am element by the given element. The given element must be the one
 	 * that is not directly defined in the source design.
-	 * 
+	 *
 	 * @param element     the source element
 	 * @param elementRoot the root of the element
 	 */
@@ -2054,8 +2125,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	private void visitExternalSelector(Style element, Module elementRoot) {
 		String tmpStyleName = element.getName().toLowerCase();
 
-		if (MetaDataDictionary.getInstance().getPredefinedStyle(tmpStyleName) == null)
+		if (MetaDataDictionary.getInstance().getPredefinedStyle(tmpStyleName) == null) {
 			return;
+		}
 
 		Style sourceDesignStyle = (Style) targetDesign.findNativeStyle(tmpStyleName);
 
@@ -2074,8 +2146,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		while (iter1.hasNext()) {
 			String elem = iter1.next();
 
-			if (sourceDesignStyle.getLocalProperty(targetDesign, elem) != null)
+			if (sourceDesignStyle.getLocalProperty(targetDesign, elem) != null) {
 				continue;
+			}
 
 			Object value = element.getLocalProperty(elementRoot, elem);
 			sourceDesignStyle.setProperty(elem, value);
@@ -2084,7 +2157,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Copies user property definitions from element to newElement.
-	 * 
+	 *
 	 * @param element    the source element
 	 * @param newElement the target element
 	 */
@@ -2098,16 +2171,18 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 				iter = current.getLocalUserProperties().iterator();
 				while (iter.hasNext()) {
 					UserPropertyDefn uDefn = iter.next();
-					if (newElement.getLocalUserPropertyDefn(uDefn.getName()) != null)
+					if (newElement.getLocalUserPropertyDefn(uDefn.getName()) != null) {
 						continue;
+					}
 					newElement.addUserPropertyDefn((UserPropertyDefn) uDefn.copy());
 				}
 			}
 
-			if (current.isVirtualElement())
+			if (current.isVirtualElement()) {
 				current = current.getVirtualParent();
-			else
+			} else {
 				current = current.getExtendsElement();
+			}
 
 		} while (current != null);
 
@@ -2124,7 +2199,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Copies all values from element to newElement. Structure, element reference
 	 * values, etc. are dumped as a new copy.
-	 * 
+	 *
 	 * @param element    the source element
 	 * @param newElement the target element
 	 */
@@ -2136,8 +2211,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		localizeUserPropDefn(element, newElement);
 
 		Module root = element.getRoot();
-		if (element instanceof IExtendableElement)
+		if (element instanceof IExtendableElement) {
 			ModelUtil.duplicateExtensionIdentifier(element, newElement, root);
+		}
 
 		// get properties from ascendants.
 
@@ -2155,8 +2231,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 					|| IDesignElementModel.USER_PROPERTIES_PROP.equals(propName)
 					|| ISupportThemeElementConstants.THEME_PROP.equals(propName)
 					|| IModuleModel.LIBRARIES_PROP.equals(propName)
-					|| IModuleModel.PROPERTY_BINDINGS_PROP.equals(propName))
+					|| IModuleModel.PROPERTY_BINDINGS_PROP.equals(propName)) {
 				continue;
+			}
 
 			// style properties are handled in styledElement.
 
@@ -2177,8 +2254,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 				}
 			}
 
-			if (value == null)
+			if (value == null) {
 				continue;
+			}
 
 			switch (propDefn.getTypeCode()) {
 			case IPropertyType.ELEMENT_REF_TYPE:
@@ -2194,8 +2272,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			case IPropertyType.LIST_TYPE:
 				if (propDefn.getSubTypeCode() == IPropertyType.ELEMENT_REF_TYPE) {
 					handleElementRefValueList(newElement, propDefn, (List) value);
-				} else if (newElement.getLocalProperty(null, propDefn) == null)
+				} else if (newElement.getLocalProperty(null, propDefn) == null) {
 					newElement.setProperty(propDefn, ModelUtil.copyValue(propDefn, value));
+				}
 				break;
 			case IPropertyType.STRUCT_TYPE:
 
@@ -2207,10 +2286,11 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 				// library cube; in this case, no need special handle for
 				// dimension condition, so call handleStructureValue is ok.
 				if (newElement instanceof Cube && ITabularCubeModel.DIMENSION_CONDITIONS_PROP.equals(propDefn.getName())
-						&& element.getRoot() == sourceDesign)
+						&& element.getRoot() == sourceDesign) {
 					handleDimensionConditions((Cube) newElement, (Cube) element);
-				else
+				} else {
 					handleStructureValue(newElement, propDefn, value);
+				}
 				break;
 			case IPropertyType.ELEMENT_TYPE:
 				break;
@@ -2224,8 +2304,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 						newElement.setEncryptionHelper(propDefn, encryption);
 						value = EncryptionUtil.encrypt(propDefn, encryption, value);
 						newElement.setProperty(propDefn, value);
-					} else
+					} else {
 						newElement.setProperty(propDefn, value);
+					}
 				}
 			}
 		}
@@ -2234,7 +2315,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Gets the localizable property value for the given property definition.
 	 * Generally, return value of <code>getPropertyFromSelf</code>.
-	 * 
+	 *
 	 * @param module
 	 * @param element
 	 * @param propDefn
@@ -2246,23 +2327,26 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param newCube
 	 * @param cube
 	 */
 	private void handleDimensionConditions(Cube newCube, Cube cube) {
-		if (newCube.getLocalProperty(targetDesign, ITabularCubeModel.DIMENSION_CONDITIONS_PROP) != null)
+		if (newCube.getLocalProperty(targetDesign, ITabularCubeModel.DIMENSION_CONDITIONS_PROP) != null) {
 			return;
-		if (cubes.get(newCube) == null)
+		}
+		if (cubes.get(newCube) == null) {
 			cubes.put(newCube, cube);
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void localizeDimensionConditions() {
-		if (cubes.isEmpty())
+		if (cubes.isEmpty()) {
 			return;
+		}
 		Iterator<Cube> iter = cubes.keySet().iterator();
 		while (iter.hasNext()) {
 			Cube newCube = iter.next();
@@ -2282,8 +2366,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 					ElementRefValue hierarchyRef = (ElementRefValue) dimensionCond.getLocalProperty(sourceDesign,
 							DimensionCondition.HIERARCHY_MEMBER);
 					// if hierarchy is not resolved, do nothing
-					if (hierarchyRef == null || !hierarchyRef.isResolved())
+					if (hierarchyRef == null || !hierarchyRef.isResolved()) {
 						continue;
+					}
 
 					DesignElement hierarchy = hierarchyRef.getElement();
 					assert hierarchy != null;
@@ -2305,8 +2390,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 					// handle all the join conditions
 					List<Object> joinConditionList = (List) dimensionCond.getProperty(sourceDesign,
 							DimensionCondition.JOIN_CONDITIONS_MEMBER);
-					if (joinConditionList == null || joinConditionList.isEmpty())
+					if (joinConditionList == null || joinConditionList.isEmpty()) {
 						continue;
+					}
 					List<Object> newJoinConditionList = (List) newDimensionCond.getProperty(targetDesign,
 							DimensionCondition.JOIN_CONDITIONS_MEMBER);
 					for (int j = 0; j < joinConditionList.size(); j++) {
@@ -2314,8 +2400,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 						DimensionJoinCondition newJoinCond = (DimensionJoinCondition) newJoinConditionList.get(j);
 						ElementRefValue levelRef = (ElementRefValue) joinCond.getLocalProperty(sourceDesign,
 								DimensionJoinCondition.LEVEL_MEMBER);
-						if (levelRef == null || !levelRef.isResolved())
+						if (levelRef == null || !levelRef.isResolved()) {
 							continue;
+						}
 						DesignElement level = levelRef.getElement();
 						assert level != null;
 						int levelIndex = level.getIndex(sourceDesign);
@@ -2323,8 +2410,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 						// if level is not in the hierarchy that referred by
 						// dimension condition, then this dimension condition is
 						// invalid, no need to do validation
-						if (level.getContainer() != hierarchy)
+						if (level.getContainer() != hierarchy) {
 							continue;
+						}
 
 						// according to the level index and set the referred
 						// level
@@ -2340,23 +2428,26 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param newCube
 	 * @param cube
 	 */
 	private void handleDefaultHierarchy(Dimension newDimension, Dimension dimension) {
-		if (newDimension.getLocalProperty(targetDesign, IDimensionModel.DEFAULT_HIERARCHY_PROP) != null)
+		if (newDimension.getLocalProperty(targetDesign, IDimensionModel.DEFAULT_HIERARCHY_PROP) != null) {
 			return;
-		if (dimensions.get(newDimension) == null)
+		}
+		if (dimensions.get(newDimension) == null) {
 			dimensions.put(newDimension, dimension);
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void localizeDefaultHierarchy() {
-		if (dimensions.isEmpty())
+		if (dimensions.isEmpty()) {
 			return;
+		}
 		Iterator<Dimension> iter = dimensions.keySet().iterator();
 		while (iter.hasNext()) {
 			Dimension newDimension = iter.next();
@@ -2369,14 +2460,17 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	private DesignElement getContent(Module module, DesignElement element, String propName, int index) {
 		Object value = element.getProperty(module, propName);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 		if (value instanceof List) {
 			List valueList = (List) value;
-			if (index >= 0 && index < valueList.size())
+			if (index >= 0 && index < valueList.size()) {
 				return (DesignElement) valueList.get(index);
-		} else if (value instanceof DesignElement && index == 0)
+			}
+		} else if (value instanceof DesignElement && index == 0) {
 			return (DesignElement) value;
+		}
 
 		return null;
 
@@ -2385,7 +2479,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Localize values if the property type is content element or content element
 	 * list.
-	 * 
+	 *
 	 * @param newElement the target element
 	 * @param propDefn   the property definition
 	 * @param valueList  the original property value
@@ -2411,7 +2505,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Localize values if the property type is structure or structure list.
-	 * 
+	 *
 	 * @param newElement the target element
 	 * @param propDefn   the property definition
 	 * @param valueList  the original property value
@@ -2431,11 +2525,11 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Returns the copy of <code>value</code>. Structure, structure list, element
 	 * reference values, etc. are dumped as a new copy.
-	 * 
+	 *
 	 * @param propDefn the property/member definition
 	 * @param value    the source value
 	 * @return the copy of <code>value</code>
-	 * 
+	 *
 	 */
 
 	private Object createNewStructureValue(PropertyDefn propDefn, Object value) {
@@ -2450,8 +2544,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 				Structure newStruct = doCreateNewStructureValue((Structure) sourceValue.get(i));
 				((List) newValue).add(newStruct);
 			}
-		} else
+		} else {
 			newValue = doCreateNewStructureValue((Structure) value);
+		}
 
 		return newValue;
 	}
@@ -2459,11 +2554,11 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Returns the copy of <code>value</code>. Structure, structure list, element
 	 * reference values, etc. are dumped as a new copy.
-	 * 
+	 *
 	 * @param propDefn the property/member definition
 	 * @param value    the source value
 	 * @return the copy of <code>value</code>
-	 * 
+	 *
 	 */
 
 	private Structure doCreateNewStructureValue(Structure struct) {
@@ -2474,8 +2569,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			StructPropertyDefn memberDefn = (StructPropertyDefn) iter.next();
 			Object value = struct.getLocalProperty(sourceDesign, memberDefn);
 
-			if (value == null)
+			if (value == null) {
 				continue;
+			}
 
 			switch (memberDefn.getTypeCode()) {
 			case IPropertyType.ELEMENT_REF_TYPE:
@@ -2494,7 +2590,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Localize values if the property type is element reference value.
-	 * 
+	 *
 	 * @param newElement the target element
 	 * @param propDefn   the property definition
 	 * @param value      the original property value
@@ -2515,13 +2611,14 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			assert newRefEelement != null;
 
 			structure.setProperty(propDefn, new ElementRefValue(null, newRefEelement));
-		} else
+		} else {
 			structure.setProperty(propDefn, new ElementRefValue(value.getLibraryNamespace(), value.getName()));
+		}
 	}
 
 	/**
 	 * Localize values if the property type is element reference list.
-	 * 
+	 *
 	 * @param newElement the target element
 	 * @param propDefn   the property definition
 	 * @param valueList  the original property value
@@ -2529,7 +2626,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	private void handleElementRefValueList(DesignElement newElement, PropertyDefn propDefn,
 			List<ElementRefValue> valueList) {
-		List<ElementRefValue> values = new ArrayList<ElementRefValue>();
+		List<ElementRefValue> values = new ArrayList<>();
 		for (int i = 0; i < valueList.size(); i++) {
 			// try to resolve every
 
@@ -2552,7 +2649,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Localize values if the property type is structure reference value.
-	 * 
+	 *
 	 * @param newElement the target element
 	 * @param propDefn   the property definition
 	 * @param value      the original property value
@@ -2565,13 +2662,14 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			EmbeddedImage newEmbeddedIamge = localizeExternalEmbeddedImage(targetEmbeddedImage);
 
 			newElement.setProperty(propDefn, new StructRefValue(null, newEmbeddedIamge));
-		} else
+		} else {
 			newElement.setProperty(propDefn, ModelUtil.copyValue(propDefn, value));
+		}
 	}
 
 	/**
 	 * Localize values if the property type is element reference value.
-	 * 
+	 *
 	 * @param newElement the target element
 	 * @param propDefn   the property definition
 	 * @param value      the original property value
@@ -2590,19 +2688,21 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 				// if the element is a referencable styled element such as:
 				// Chart -> hostChart.
 
-				if (refElement instanceof ReferencableStyledElement)
+				if (refElement instanceof ReferencableStyledElement) {
 					newRefElement = visitExternalReferencableStyledElement((ReferencableStyledElement) refElement,
 							sourceElement);
-				else
+				} else {
 					newRefElement = visitExternalElement(refElement);
+				}
 			}
 
 			// if it is theme, newRefElement can be null.
 
-			if (newRefElement != null)
+			if (newRefElement != null) {
 				newElement.setProperty(propDefn, new ElementRefValue(null, newRefElement));
-			else
+			} else {
 				newElement.setProperty(propDefn, new ElementRefValue(null, refElement.getName()));
+			}
 		} else {
 			setElementRefProperty(newElement, propDefn, value);
 		}
@@ -2633,7 +2733,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 * Justifies the referred element to be exported to the target or not. If it
 	 * comes from the other module rather than the source design and the module is
 	 * library, then it should be exported to target design. otherwise false.
-	 * 
+	 *
 	 * @param element
 	 * @return
 	 */
@@ -2660,8 +2760,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		if (element.isVirtualElement()) {
 			DesignElement focus = element;
 			while (focus != null) {
-				if (focus.getDynamicExtendsElement(module) != null)
+				if (focus.getDynamicExtendsElement(module) != null) {
 					return true;
+				}
 				focus = focus.getContainer();
 			}
 		}
@@ -2671,7 +2772,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Localizes embedded images in sourceEmbeddedImage to the new list of
 	 * targetEmbeddedImage.
-	 * 
+	 *
 	 * @param sourceEmbeddedImage the source images
 	 * @param targetContext       the target context to add the embedded image
 	 */
@@ -2679,8 +2780,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	private void localizeEmbeddedImage(List<Object> sourceEmbeddedImage, StructureContext targetContext) {
 
 		List targetEmeddedImage = targetContext.getList(targetDesign);
-		if (targetEmeddedImage == null)
+		if (targetEmeddedImage == null) {
 			targetEmeddedImage = Collections.emptyList();
+		}
 		for (int i = 0; i < sourceEmbeddedImage.size(); i++) {
 			EmbeddedImage sourceImage = (EmbeddedImage) sourceEmbeddedImage.get(i);
 
@@ -2697,7 +2799,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Localizs member values of embedded images in sourceEmbeddedImage to the
 	 * targetEmbeddedImage.
-	 * 
+	 *
 	 * @param sourceEmbeddedImage the source images
 	 * @param targetEmeddedImage  the target images
 	 */
@@ -2711,8 +2813,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 			StructRefValue refValue = (StructRefValue) tmpEmeddedImage.getProperty(sourceDesign,
 					ReferencableStructure.LIB_REFERENCE_MEMBER);
-			if (refValue == null)
+			if (refValue == null) {
 				break;
+			}
 
 			tmpEmeddedImage = (EmbeddedImage) refValue.getTargetStructure();
 		}
@@ -2724,7 +2827,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	/**
 	 * Localizes an embedded image to the cached map when the sourceEmbeddedImage is
 	 * not directly in the source design.
-	 * 
+	 *
 	 * @param sourceEmbeddedImage the source embedded image
 	 * @return the new embedded image
 	 */
@@ -2732,8 +2835,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	private EmbeddedImage localizeExternalEmbeddedImage(EmbeddedImage sourceEmbeddedImage) {
 		EmbeddedImage newEmeddedImage = (EmbeddedImage) getCache(sourceEmbeddedImage);
 
-		if (newEmeddedImage != null)
+		if (newEmeddedImage != null) {
 			return newEmeddedImage;
+		}
 
 		newEmeddedImage = (EmbeddedImage) visitExternalStruct(sourceEmbeddedImage);
 		localizeEmbeddedImageValues(sourceEmbeddedImage, newEmeddedImage);
@@ -2760,7 +2864,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Determines whether the given name embedded image is a local one.
-	 * 
+	 *
 	 * @param imageName
 	 * @param sourceDesign
 	 * @return true if the embedded image is a local one, otherwise false
@@ -2770,15 +2874,16 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance()
 				.getStructure(EmbeddedImage.EMBEDDED_IMAGE_STRUCT);
 
-		if (StructureRefUtil.findNativeStructure(targetDesign, defn, imageName) != null)
+		if (StructureRefUtil.findNativeStructure(targetDesign, defn, imageName) != null) {
 			return true;
+		}
 
 		return false;
 	}
 
 	/**
 	 * Returns the container for the target element.
-	 * 
+	 *
 	 * @param sourceElement the source element
 	 * @param target        the target element
 	 * @return the container of <code>target</code>
@@ -2789,33 +2894,35 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		DesignElement sourceContainer = sourceElement.getContainer();
 		long containerId = sourceContainer.getID();
 
-		DesignElement tmpContainer = null;
+		DesignElement tmpContainer;
 
 		tmpContainer = externalElements.get(sourceContainer);
-		if (tmpContainer == null)
+		if (tmpContainer == null) {
 			tmpContainer = targetDesign.getElementByID(containerId);
+		}
 
-		if (tmpContainer == null)
+		if (tmpContainer == null) {
 			return null;
+		}
 
-		if (sourceContainer.getElementName().equalsIgnoreCase(tmpContainer.getElementName()))
+		if (sourceContainer.getElementName().equalsIgnoreCase(tmpContainer.getElementName()) || (sourceContainer instanceof Module && tmpContainer == targetDesign)) {
 			return tmpContainer;
+		}
 
-		if (sourceContainer instanceof Module && tmpContainer == targetDesign)
-			return tmpContainer;
-
-		if (sourceContainer instanceof Theme)
+		if (sourceContainer instanceof Theme) {
 			return targetDesign;
+		}
 
 		return tmpContainer;
 	}
 
 	/**
 	 * Visits the member value.
-	 * 
+	 *
 	 * @param obj the member value to traverse
 	 */
 
+	@Override
 	public void visitMemberValue(MemberValue obj) {
 		visitDesignElement(obj);
 	}
@@ -2824,10 +2931,10 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 * Creates a design element specified by the element type name. Element type
 	 * names are defined in rom.def or extension elements. They are managed by the
 	 * meta-data system.
-	 * 
+	 *
 	 * @param elementTypeName the element type name
 	 * @param name            the optional element name
-	 * 
+	 *
 	 * @return design element, <code>null</code> returned if the element definition
 	 *         name is not a valid element type name.
 	 */
@@ -2846,8 +2953,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		if (elemDefn != null) {
 			DesignElement element = ElementFactoryUtil.newElementExceptExtendedItem(targetDesign, elementTypeName,
 					name);
-			if (element == null)
+			if (element == null) {
 				return null;
+			}
 			return element.getHandle(targetDesign);
 		}
 		return null;
@@ -2857,12 +2965,12 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 * Creates a design element specified by the element type name. Element type
 	 * names are defined in rom.def or extension elements. They are managed by the
 	 * meta-data system.
-	 * 
+	 *
 	 * @param elementTypeName the element type name
 	 * @param name            the optional element name
 	 * @param targetContext   the contain context where the created element will be
 	 *                        inserted
-	 * 
+	 *
 	 * @return design element, <code>null</code> returned if the element definition
 	 *         name is not a valid element type name.
 	 */
@@ -2880,8 +2988,9 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 		elemDefn = (ElementDefn) MetaDataDictionary.getInstance().getElement(elementTypeName);
 		if (elemDefn != null) {
 			DesignElement element = newElement(targetDesign, targetContext, elementTypeName, name);
-			if (element == null)
+			if (element == null) {
 				return null;
+			}
 			return element.getHandle(targetDesign);
 		}
 		return null;
@@ -2891,13 +3000,13 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	 * Creates a design element specified by the element type name. Element type
 	 * names are defined in rom.def or extension elements. They are managed by the
 	 * meta-data system.
-	 * 
+	 *
 	 * @param module            the module to create an element
 	 * @param targetContainment the container context where the created element will
 	 *                          be inserted
 	 * @param elementTypeName   the element type name
 	 * @param name              the optional element name
-	 * 
+	 *
 	 * @return design element, <code>null</code> returned if the element definition
 	 *         name is not a valid element type name.
 	 */
@@ -2906,17 +3015,18 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			String name) {
 
 		DesignElement element = ElementFactoryUtil.newElement(elementTypeName, name);
-		if (targetContainment.isManagedByNameSpace())
+		if (targetContainment.isManagedByNameSpace()) {
 			module.rename(targetContainment.getElement(), element);
+		}
 		return element;
 	}
 
 	/**
 	 * Creates an extension element specified by the extension type name.
-	 * 
+	 *
 	 * @param elementTypeName the element type name
 	 * @param name            the optional element name
-	 * 
+	 *
 	 * @return design element, <code>null</code> returned if the extension with the
 	 *         given type name is not found
 	 */
@@ -2924,18 +3034,20 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 	protected DesignElementHandle newExtensionElement(String elementTypeName, String name) {
 		MetaDataDictionary dd = MetaDataDictionary.getInstance();
 		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd.getExtension(elementTypeName);
-		if (extDefn == null)
+		if (extDefn == null) {
 			return null;
+		}
 		String extensionPoint = extDefn.getExtensionPoint();
-		if (PeerExtensionLoader.EXTENSION_POINT.equalsIgnoreCase(extensionPoint))
+		if (PeerExtensionLoader.EXTENSION_POINT.equalsIgnoreCase(extensionPoint)) {
 			return newExtendedItem(name, elementTypeName);
+		}
 
 		return null;
 	}
 
 	/**
 	 * Creates a new extended item.
-	 * 
+	 *
 	 * @param name          the optional extended item name. Can be
 	 *                      <code>null</code>.
 	 * @param extensionName the required extension name
@@ -2954,7 +3066,7 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/**
 	 * Creates a new extended item which extends from a given parent.
-	 * 
+	 *
 	 * @param name          the optional extended item name. Can be
 	 *                      <code>null</code>.
 	 * @param extensionName the required extension name
@@ -2968,14 +3080,17 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 			throws ExtendsException {
 		MetaDataDictionary dd = MetaDataDictionary.getInstance();
 		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd.getExtension(extensionName);
-		if (extDefn == null)
+		if (extDefn == null) {
 			return null;
+		}
 
-		if (parent != null)
+		if (parent != null) {
 			assert ((ExtendedItem) parent.getElement()).getExtDefn() == extDefn;
+		}
 
-		if (!(extDefn instanceof PeerExtensionElementDefn))
+		if (!(extDefn instanceof PeerExtensionElementDefn)) {
 			throw new IllegalOperationException("Only report item extension can be created through this method."); //$NON-NLS-1$
+		}
 
 		ExtendedItem element = new ExtendedItem(name);
 
@@ -3001,22 +3116,24 @@ class ReportDesignSerializerImpl extends ElementVisitor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitContentElement
 	 * (org.eclipse.birt.report.model.elements.ContentElement)
 	 */
 
+	@Override
 	public void visitContentElement(ContentElement obj) {
 		visitDesignElement(obj);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitorImpl#
 	 * visitReportItemTheme (org.eclipse.birt.report.model.elements.ReportItemTheme)
 	 */
+	@Override
 	public void visitReportItemTheme(ReportItemTheme obj) {
 		visitDesignElement(obj);
 		ReportItemTheme newTheme = (ReportItemTheme) currentNewElement;

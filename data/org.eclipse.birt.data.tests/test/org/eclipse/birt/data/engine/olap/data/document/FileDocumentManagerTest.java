@@ -1,18 +1,22 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.olap.data.document;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -21,14 +25,12 @@ import java.util.Date;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
- * 
+ *
  */
 
 public class FileDocumentManagerTest {
@@ -45,8 +47,9 @@ public class FileDocumentManagerTest {
 			new BigDecimal(3.33), new BigDecimal(4.44), new BigDecimal(5.55) };
 	private Bytes[] bytes = new Bytes[6];
 	{
-		for (int i = 0; i < bytes.length; i++)
+		for (int i = 0; i < bytes.length; i++) {
 			bytes[i] = new Bytes(generateBytes(generateRandomInt(100)));
+		}
 	}
 
 	@Before
@@ -156,13 +159,15 @@ public class FileDocumentManagerTest {
 		IDocumentObject[] docObjs = generateDocumentObjects(1);
 		long pointer = docObjs[0].getFilePointer();
 
-		for (int i = 0; i < doubles.length; i++)
+		for (int i = 0; i < doubles.length; i++) {
 			docObjs[0].writeDouble(doubles[i]);
+		}
 
 		docObjs[0].seek(pointer);
 
-		for (int i = 0; i < doubles.length; i++)
+		for (int i = 0; i < doubles.length; i++) {
 			assertEquals(docObjs[0].readDouble(), doubles[i], 2);
+		}
 
 		closeDocumentObjects(docObjs);
 	}
@@ -172,13 +177,15 @@ public class FileDocumentManagerTest {
 		IDocumentObject[] docObjs = generateDocumentObjects(1);
 		long pointer = docObjs[0].getFilePointer();
 
-		for (int i = 0; i < ints.length; i++)
+		for (int i = 0; i < ints.length; i++) {
 			docObjs[0].writeInt(ints[i]);
+		}
 
 		docObjs[0].seek(pointer);
 
-		for (int i = 0; i < ints.length; i++)
+		for (int i = 0; i < ints.length; i++) {
 			assertEquals(docObjs[0].readInt(), ints[i]);
+		}
 
 		closeDocumentObjects(docObjs);
 	}
@@ -188,13 +195,15 @@ public class FileDocumentManagerTest {
 		IDocumentObject[] docObjs = generateDocumentObjects(1);
 		long pointer = docObjs[0].getFilePointer();
 
-		for (int i = 0; i < strings.length; i++)
+		for (int i = 0; i < strings.length; i++) {
 			docObjs[0].writeString(strings[i]);
+		}
 
 		docObjs[0].seek(pointer);
 
-		for (int i = 0; i < strings.length; i++)
+		for (int i = 0; i < strings.length; i++) {
 			assertEquals(docObjs[0].readString(), strings[i]);
+		}
 
 		closeDocumentObjects(docObjs);
 	}
@@ -204,13 +213,15 @@ public class FileDocumentManagerTest {
 		IDocumentObject[] docObjs = generateDocumentObjects(1);
 		long pointer = docObjs[0].getFilePointer();
 
-		for (int i = 0; i < booleans.length; i++)
+		for (int i = 0; i < booleans.length; i++) {
 			docObjs[0].writeBoolean(booleans[i]);
+		}
 
 		docObjs[0].seek(pointer);
 
-		for (int i = 0; i < booleans.length; i++)
+		for (int i = 0; i < booleans.length; i++) {
 			assertEquals(docObjs[0].readBoolean(), booleans[i]);
+		}
 
 		closeDocumentObjects(docObjs);
 	}
@@ -220,13 +231,15 @@ public class FileDocumentManagerTest {
 		IDocumentObject[] docObjs = generateDocumentObjects(1);
 		long pointer = docObjs[0].getFilePointer();
 
-		for (int i = 0; i < dates.length; i++)
+		for (int i = 0; i < dates.length; i++) {
 			docObjs[0].writeDate(dates[i]);
+		}
 
 		docObjs[0].seek(pointer);
 
-		for (int i = 0; i < dates.length; i++)
+		for (int i = 0; i < dates.length; i++) {
 			assertEquals(docObjs[0].readDate(), dates[i]);
+		}
 
 		closeDocumentObjects(docObjs);
 
@@ -237,13 +250,15 @@ public class FileDocumentManagerTest {
 		IDocumentObject[] docObjs = generateDocumentObjects(1);
 		long pointer = docObjs[0].getFilePointer();
 
-		for (int i = 0; i < bigDecimals.length; i++)
+		for (int i = 0; i < bigDecimals.length; i++) {
 			docObjs[0].writeBigDecimal(bigDecimals[i]);
+		}
 
 		docObjs[0].seek(pointer);
 
-		for (int i = 0; i < bigDecimals.length; i++)
+		for (int i = 0; i < bigDecimals.length; i++) {
 			assertEquals(docObjs[0].readBigDecimal(), bigDecimals[i]);
+		}
 
 		closeDocumentObjects(docObjs);
 
@@ -254,13 +269,15 @@ public class FileDocumentManagerTest {
 		IDocumentObject[] docObjs = generateDocumentObjects(1);
 		long pointer = docObjs[0].getFilePointer();
 
-		for (int i = 0; i < bytes.length; i++)
+		for (int i = 0; i < bytes.length; i++) {
 			docObjs[0].writeBytes(bytes[i]);
+		}
 
 		docObjs[0].seek(pointer);
 
-		for (int i = 0; i < bytes.length; i++)
+		for (int i = 0; i < bytes.length; i++) {
 			assertEquals(docObjs[0].readBytes(), bytes[i]);
+		}
 
 		closeDocumentObjects(docObjs);
 	}
@@ -270,13 +287,15 @@ public class FileDocumentManagerTest {
 		IDocumentObject[] docObjs = generateDocumentObjects(1);
 		long pointer = docObjs[0].getFilePointer();
 
-		for (int i = 0; i < ints.length; i++)
+		for (int i = 0; i < ints.length; i++) {
 			docObjs[0].writeShort(ints[i]);
+		}
 
 		docObjs[0].seek(pointer);
 
-		for (int i = 0; i < ints.length; i++)
+		for (int i = 0; i < ints.length; i++) {
 			assertEquals(docObjs[0].readShort(), ints[i]);
+		}
 
 		closeDocumentObjects(docObjs);
 	}
@@ -339,8 +358,9 @@ public class FileDocumentManagerTest {
 		docObjs[0].write(out, 1023, 2);
 		docObjs[0].seek(pointer);
 
-		for (int i = 0; i < out.length; i++)
+		for (int i = 0; i < out.length; i++) {
 			assertEquals(docObjs[0].readByte(), out[i]);
+		}
 
 		docObjs[0].close();
 
@@ -350,8 +370,9 @@ public class FileDocumentManagerTest {
 		docObjs[1].write(out, 0, out.length);
 		docObjs[1].seek(pointer);
 
-		for (int i = 0; i < out.length; i++)
+		for (int i = 0; i < out.length; i++) {
 			assertEquals(docObjs[1].readByte(), out[i]);
+		}
 
 		closeDocumentObjects(docObjs);
 	}
@@ -370,12 +391,14 @@ public class FileDocumentManagerTest {
 		docObjs[0].write(out, 4000, 1120);
 
 		docObjs[0].seek(pointer0);
-		for (int i = 0; i < out.length; i++)
+		for (int i = 0; i < out.length; i++) {
 			assertEquals(docObjs[0].readByte(), out[i]);
+		}
 
 		docObjs[1].seek(pointer1);
-		for (int i = 0; i < out.length; i++)
+		for (int i = 0; i < out.length; i++) {
 			assertEquals(docObjs[1].readByte(), out[i]);
+		}
 
 		closeDocumentObjects(docObjs);
 	}
@@ -396,8 +419,9 @@ public class FileDocumentManagerTest {
 		for (int i = 0; i < docObjs.length; i++) {
 			docObjs[i].seek(pointer[i]);
 
-			for (int j = 0; j < out[i].length; j++)
+			for (int j = 0; j < out[i].length; j++) {
 				assertEquals(docObjs[i].readByte(), out[i][j]);
+			}
 
 			docObjs[i].close();
 		}
@@ -418,8 +442,9 @@ public class FileDocumentManagerTest {
 		for (int i = 0; i < docObjs.length; i++) {
 			docObjs[i].seek(pointer[i]);
 
-			for (int j = 0; j < out.length; j++)
+			for (int j = 0; j < out.length; j++) {
 				assertEquals(docObjs[i].readByte(), out[j]);
+			}
 
 			docObjs[i].close();
 		}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -16,9 +16,6 @@ package org.eclipse.birt.report.engine.emitter.pptx.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import org.eclipse.birt.report.engine.emitter.pptx.TreeVisitor;
-import org.junit.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +24,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.eclipse.birt.report.engine.emitter.pptx.TreeVisitor;
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -54,7 +53,7 @@ public class TreeVisitorTest extends TreeVisitor<String> {
 		if (numberOfNodes == 0) {
 			return;
 		}
-		ArrayList<TreeNode> childrenlist = new ArrayList<TreeNode>();
+		ArrayList<TreeNode> childrenlist = new ArrayList<>();
 		int idx = 0;
 		for (int i = 0; i < numberOfNodes; i++) {
 			Node node = nodes.item(i);
@@ -83,10 +82,11 @@ public class TreeVisitorTest extends TreeVisitor<String> {
 		}
 
 		public TreeNode skipRow(TreeNode node, final int count) {
-			IFilter<String> ifilter = new IFilter<String>() {
+			IFilter<String> ifilter = new IFilter<>() {
 
 				int rowCount = 0;
 
+				@Override
 				public int getRowCount() {
 					return rowCount;
 				}

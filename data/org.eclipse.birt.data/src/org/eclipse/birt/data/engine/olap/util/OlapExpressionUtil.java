@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -69,8 +69,8 @@ public class OlapExpressionUtil {
 
 	public static Set<IDimLevel> getAggregateOnLevel(IBinding targetBinding, List<IBinding> bindings,
 			Set<IDimLevel> mostDetailed) throws DataException {
-		Set<String> visited = new HashSet<String>();
-		Set<IDimLevel> valid = new HashSet<IDimLevel>();
+		Set<String> visited = new HashSet<>();
+		Set<IDimLevel> valid = new HashSet<>();
 		try {
 			getBindings(visited, valid, targetBinding, bindings, mostDetailed);
 		} catch (BirtException e) {
@@ -87,8 +87,8 @@ public class OlapExpressionUtil {
 
 	public static Set<IDimLevel> getAggregateOnLevel(IBaseExpression expr, List<IBinding> bindings,
 			Set<IDimLevel> mostDetailed) throws DataException {
-		Set<String> visited = new HashSet<String>();
-		Set<IDimLevel> valid = new HashSet<IDimLevel>();
+		Set<String> visited = new HashSet<>();
+		Set<IDimLevel> valid = new HashSet<>();
 		try {
 			getBindings(visited, valid, expr, bindings, mostDetailed);
 		} catch (BirtException e) {
@@ -99,8 +99,9 @@ public class OlapExpressionUtil {
 
 	private static void getBindings(Set<String> visited, Set<IDimLevel> aggOn, IBaseExpression expr,
 			List<IBinding> bindings, Set<IDimLevel> mostDetailed) throws DataException, CoreException {
-		if (expr == null)
+		if (expr == null) {
 			return;
+		}
 		List<String> currentVisitBindings = ExpressionCompilerUtil.extractColumnExpression(expr,
 				ExpressionUtil.DATA_INDICATOR);
 		currentVisitBindings.removeAll(visited);
@@ -131,8 +132,9 @@ public class OlapExpressionUtil {
 				aggOn.addAll(ExpressionUtil.getReferencedDimLevel(expr));
 			}
 
-			if (!CubeQueryDefinitionUtil.isRunnnigAggr(binding.getAggrFunction()))
+			if (!CubeQueryDefinitionUtil.isRunnnigAggr(binding.getAggrFunction())) {
 				return;
+			}
 		}
 
 		List<String> currentVisitBindings = ExpressionCompilerUtil.extractColumnExpression(binding.getExpression(),
@@ -159,8 +161,9 @@ public class OlapExpressionUtil {
 
 	private static IBinding getBinding(String bindingName, List<IBinding> bindings) throws DataException {
 		for (int i = 0; i < bindings.size(); i++) {
-			if (bindings.get(i).getBindingName().equals(bindingName))
+			if (bindings.get(i).getBindingName().equals(bindingName)) {
 				return bindings.get(i);
+			}
 		}
 		return null;
 	}
@@ -180,8 +183,9 @@ public class OlapExpressionUtil {
 	 * @return
 	 */
 	public static boolean isReferenceToDimLevel(String expr) {
-		if (expr == null)
+		if (expr == null) {
 			return false;
+		}
 		return expr.trim().matches("\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E");
 	}
 
@@ -197,8 +201,9 @@ public class OlapExpressionUtil {
 	 * @throws DataException
 	 */
 	private static String[] getTargetAttribute(String expr, List bindings) throws DataException {
-		if (expr == null)
+		if (expr == null) {
 			return null;
+		}
 		expr = expr.trim();
 		if (!(expr.matches("\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E")
 				|| expr.matches("\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E"))) {
@@ -257,12 +262,14 @@ public class OlapExpressionUtil {
 	 * @return
 	 */
 	public static String getMeasure(String expr) throws DataException {
-		if (expr == null)
+		if (expr == null) {
 			return null;
+		}
 
 		String result = findMeasure(expr);
-		if (result == null)
+		if (result == null) {
 			throw new DataException(ResourceConstants.INVALID_MEASURE_REF, expr);
+		}
 
 		return result;
 
@@ -271,13 +278,14 @@ public class OlapExpressionUtil {
 	/**
 	 * This method is to get the dimension name with expression patter like
 	 * dimension["name"] reference expression.
-	 * 
+	 *
 	 * @param expr
 	 * @return
 	 */
 	public static String getDimensionName(String expr) throws DataException {
-		if (expr == null || expr.trim().length() == 0)
+		if (expr == null || expr.trim().length() == 0) {
 			return null;
+		}
 		try {
 			List<String> result = ExpressionCompilerUtil.extractColumnExpression(new ScriptExpression(expr),
 					"dimension");
@@ -297,11 +305,9 @@ public class OlapExpressionUtil {
 	 * @return
 	 */
 	private static String findMeasure(String expr) {
-		if (expr == null)
+		if ((expr == null) || !expr.trim().matches("\\Qmeasure[\"\\E.*\\Q\"]\\E")) {
 			return null;
-
-		if (!expr.trim().matches("\\Qmeasure[\"\\E.*\\Q\"]\\E"))
-			return null;
+		}
 		try {
 			List<String> result = ExpressionCompilerUtil.extractColumnExpression(new ScriptExpression(expr), "measure");
 			if (result != null && result.size() == 1) {
@@ -336,18 +342,20 @@ public class OlapExpressionUtil {
 	 * @throws DataException
 	 */
 	public static boolean isDirectRerenrence(IBaseExpression expression, List<IBinding> bindings) throws DataException {
-		if (!(expression instanceof IScriptExpression))
+		if (!(expression instanceof IScriptExpression)) {
 			return false;
+		}
 		String expr = ((IScriptExpression) expression).getText();
-		if (expr == null)
+		if (expr == null) {
 			return false;
+		}
 		expr = expr.trim();
 		if (expr.matches("\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E")
-				|| expr.matches("\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E"))// dimension
+				|| expr.matches("\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E")) {
 			return true;
-		else if (findMeasure(expr) != null)// measure
+		} else if (findMeasure(expr) != null) { // measure
 			return true;
-		else if (expr.matches("\\Qdata[\"\\E.*\\Q\"]\\E"))// data binding
+		} else if (expr.matches("\\Qdata[\"\\E.*\\Q\"]\\E"))// data binding
 		{
 			List result;
 			try {
@@ -368,14 +376,13 @@ public class OlapExpressionUtil {
 	}
 
 	public static IBinding getDirectMeasureBinding(IBinding binding, List<IBinding> bindings) throws DataException {
-		if (binding == null)
+		if ((binding == null) || !(binding.getExpression() instanceof IScriptExpression)) {
 			return null;
-		if (!(binding.getExpression() instanceof IScriptExpression))
-			return null;
+		}
 		String expr = ((IScriptExpression) binding.getExpression()).getText();
-		if (expr == null)
+		if (expr == null) {
 			return null;
-		else if (expr.trim().matches("\\Qmeasure[\"\\E.*\\Q\"]\\E"))// measure
+		} else if (expr.trim().matches("\\Qmeasure[\"\\E.*\\Q\"]\\E"))// measure
 		{
 			return binding;
 		} else if (expr.trim().matches(".*\\Qdata[\"\\E.*\\Q\"]\\E.*"))// data binding
@@ -391,14 +398,13 @@ public class OlapExpressionUtil {
 	}
 
 	public static IBinding getRefMeasureBinding(IBinding binding, List<IBinding> bindings) throws DataException {
-		if (binding == null)
+		if ((binding == null) || !(binding.getExpression() instanceof IScriptExpression)) {
 			return null;
-		if (!(binding.getExpression() instanceof IScriptExpression))
-			return null;
+		}
 		String expr = ((IScriptExpression) binding.getExpression()).getText();
-		if (expr == null)
+		if (expr == null) {
 			return null;
-		else if (expr.trim().matches(".*\\Qmeasure[\"\\E.*\\Q\"]\\E.*"))// measure
+		} else if (expr.trim().matches(".*\\Qmeasure[\"\\E.*\\Q\"]\\E.*"))// measure
 		{
 			return binding;
 		} else if (expr.trim().matches(".*\\Qdata[\"\\E.*\\Q\"]\\E.*"))// data binding
@@ -420,10 +426,9 @@ public class OlapExpressionUtil {
 	 * @return
 	 */
 	public static String getBindingName(String expr) {
-		if (expr == null)
+		if ((expr == null) || !expr.trim().matches(".*\\Qdata[\"\\E.*\\Q\"]\\E.*")) {
 			return null;
-		if (!expr.trim().matches(".*\\Qdata[\"\\E.*\\Q\"]\\E.*"))
-			return null;
+		}
 		try {
 			List<String> result = ExpressionCompilerUtil.extractColumnExpression(new ScriptExpression(expr), "data");
 			if (result != null && result.size() == 1) {
@@ -474,10 +479,11 @@ public class OlapExpressionUtil {
 	 * @throws DataException
 	 */
 	public static CubeAggrDefnOnMeasure[] getAggrDefns(List bindings) throws DataException {
-		if (bindings == null || bindings.size() == 0)
+		if (bindings == null || bindings.size() == 0) {
 			return new CubeAggrDefnOnMeasure[0];
+		}
 
-		List<CubeAggrDefnOnMeasure> cubeAggrDefns = new ArrayList<CubeAggrDefnOnMeasure>();
+		List<CubeAggrDefnOnMeasure> cubeAggrDefns = new ArrayList<>();
 		for (Iterator it = bindings.iterator(); it.hasNext();) {
 			IBinding binding = ((IBinding) it.next());
 			try {
@@ -512,12 +518,13 @@ public class OlapExpressionUtil {
 	 */
 	public static CubeNestAggrDefn[] getAggrDefnsByNestBinding(List<IBinding> bindings, IBinding[] basedBindings)
 			throws DataException {
-		if (bindings == null || bindings.size() == 0)
+		if (bindings == null || bindings.size() == 0) {
 			return new CubeNestAggrDefn[0];
+		}
 
-		List<IBinding> based = new ArrayList<IBinding>(Arrays.asList(basedBindings));
+		List<IBinding> based = new ArrayList<>(Arrays.asList(basedBindings));
 
-		List<CubeNestAggrDefn> cubeAggrDefns = new ArrayList<CubeNestAggrDefn>();
+		List<CubeNestAggrDefn> cubeAggrDefns = new ArrayList<>();
 		for (IBinding binding : bindings) {
 			try {
 				if (binding.getAggrFunction() != null) {
@@ -565,11 +572,12 @@ public class OlapExpressionUtil {
 	}
 
 	public static Set<String> getDerivedMeasureNames(List<IBinding> bindings) throws DataException {
-		Set<String> directRef = new HashSet<String>();
-		Set<String> all = new HashSet<String>();
+		Set<String> directRef = new HashSet<>();
+		Set<String> all = new HashSet<>();
 		for (IBinding binding : bindings) {
-			if (isReferenceToLevelOrMeasure(binding.getExpression(), bindings))
+			if (isReferenceToLevelOrMeasure(binding.getExpression(), bindings)) {
 				all.add(binding.getBindingName());
+			}
 			if (isDirectRerenrence(binding.getExpression(), bindings)) {
 				directRef.add(binding.getBindingName());
 			}
@@ -582,20 +590,21 @@ public class OlapExpressionUtil {
 			throws DataException {
 		String measure = OlapExpressionCompiler.getReferencedScriptObject(expression,
 				ScriptConstants.MEASURE_SCRIPTABLE);
-		if (measure != null)
+		if (measure != null) {
 			return true;
+		}
 		String dimension = OlapExpressionCompiler.getReferencedScriptObject(expression,
 				ScriptConstants.DIMENSION_SCRIPTABLE);
-		if (dimension != null)
+		if (dimension != null) {
 			return true;
+		}
 		List bindingNames = ExpressionCompilerUtil.extractColumnExpression(expression,
 				ScriptConstants.DATA_BINDING_SCRIPTABLE);
 		for (int i = 0; i < bindingNames.size(); i++) {
 			IBinding binding = getBinding((String) bindingNames.get(i), bindings);
-			if (binding == null)
+			if ((binding == null) || isReferenceToLevelOrMeasure(binding.getExpression(), bindings)) {
 				return true;
-			if (isReferenceToLevelOrMeasure(binding.getExpression(), bindings))
-				return true;
+			}
 		}
 		return false;
 	}
@@ -616,9 +625,9 @@ public class OlapExpressionUtil {
 				bindingName = OlapExpressionCompiler.getReferencedScriptObject(expr,
 						ScriptConstants.DATA_SET_BINDING_SCRIPTABLE);
 			}
-			if (bindingName == null)
+			if (bindingName == null) {
 				return null;
-			else {
+			} else {
 				for (int i = 0; i < bindings.size(); i++) {
 					IBinding binding = (IBinding) bindings.get(i);
 					if (binding.getBindingName().equals(bindingName)) {
@@ -657,11 +666,12 @@ public class OlapExpressionUtil {
 	 * @return
 	 */
 	public static boolean isComplexDimensionExpr(String expr) {
-		if (expr == null)
+		if (expr == null) {
 			return false;
+		}
 
-		String exprTrimed = expr.trim().replaceAll("\\n", "").replaceAll("\\r", "").replaceAll("\\t", "")
-				.replaceAll(" ", "");
+		String exprTrimed = expr.trim().replaceAll("\\n", "").replaceAll("\\r", "").replaceAll("\\t", "").replace(" ",
+				"");
 		try {
 			boolean referToAttribute = isReferenceToAttribute(new ScriptExpression(expr), new ArrayList());
 
@@ -673,14 +683,12 @@ public class OlapExpressionUtil {
 				} else {
 					return false;
 				}
+			} else if (exprTrimed.matches("\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?")
+					|| exprTrimed.matches("\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E")
+					|| exprTrimed.matches("\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?")) {
+				return true;
 			} else {
-				if (exprTrimed.matches("\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?")
-						|| exprTrimed.matches("\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E")
-						|| exprTrimed.matches("\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?")) {
-					return true;
-				} else {
-					return false;
-				}
+				return false;
 			}
 
 		} catch (DataException e) {

@@ -31,7 +31,7 @@ public class FormatSpecifierHandler implements IFormatSpecifierHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IFormatSpecifierHandler#
 	 * handleFormatSpecifier(org.eclipse.swt.widgets.Shell,
 	 * org.eclipse.birt.chart.model.attribute.AxisType, java.lang.String,
@@ -39,6 +39,7 @@ public class FormatSpecifierHandler implements IFormatSpecifierHandler {
 	 * org.eclipse.birt.chart.model.attribute.FormatSpecifier, java.lang.String,
 	 * org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext)
 	 */
+	@Override
 	public FormatSpecifier handleFormatSpecifier(Shell shellParent, String title, AxisType[] axisTypes,
 			FormatSpecifier formatspecifier, EObject target, String attrName, ChartWizardContext context) {
 		FormatSpecifierDialog editor = new FormatSpecifierDialog(shellParent, formatspecifier, axisTypes, title);

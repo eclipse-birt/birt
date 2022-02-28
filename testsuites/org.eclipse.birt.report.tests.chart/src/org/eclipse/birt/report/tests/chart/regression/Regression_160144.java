@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -56,7 +56,7 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * </p>
  * Scatter chart, Y series data is negative, marker type is crosshair, the
  * marker can not be displayed
- * 
+ *
  * Scatter chart, Y series data is negative, marker type is crosshair, the
  * marker can not be displayed
  * <p>
@@ -71,8 +71,8 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * Actual Rerulst: 1.When the data is negative, the marker can not be displayed
  * <p>
  * Expected Results: 1.The marker can be displayed
- * 
- * 
+ *
+ *
  * </p>
  * <b>Test description:</b>
  * <p>
@@ -101,7 +101,7 @@ public class Regression_160144 extends ChartTestCase {
 
 	/**
 	 * execute application
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
