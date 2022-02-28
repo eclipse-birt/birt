@@ -17,6 +17,7 @@ package org.eclipse.birt.report.engine.emitter.pdf;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
@@ -215,6 +216,7 @@ public class PDFRender extends PageDeviceRender {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void createBookmark(IArea area, int x, int y) {
 		String bookmark = area.getBookmark();
 		if (null != bookmark) {
@@ -222,6 +224,32 @@ public class PDFRender extends PageDeviceRender {
 			int width = getWidth(area);
 			currentPage.createBookmark(bookmark, x, y, width, height);
 			bookmarks.add(bookmark);
+
+			// Make the bookmark available in the appContext.
+			// Note that the y value goes downwards, that means y=0 is the top of the page.
+			// This is different from PDF.
+			// The x,y,width,height values are all integers, measured in thousandth points.
+			// That means a value of 1000 is 1mm.
+			// An A4 page has a width of ~ 595275 and a height of ~ 841890.
+			// The page numbers start at 1.
+
+			@SuppressWarnings("rawtypes")
+			Map appContext = context.getAppContext();
+
+			Map<String, BookmarkInfo> bookmarksInContext = (Map<String, BookmarkInfo>) appContext.get("Bookmarks"); //$NON-NLS-1$
+			if (bookmarksInContext == null) {
+				bookmarksInContext = new HashMap<String, BookmarkInfo>();
+				appContext.put("Bookmarks", bookmarksInContext); //$NON-NLS-1$
+			}
+			final int pageNumber = this.currentPageDevice.writer.getCurrentPageNumber();
+			BookmarkInfo bm = new BookmarkInfo(bookmark, pageNumber, x, y, width, height);
+			bookmarksInContext.put(bookmark, bm);
+
+			// Note: We could use a similar approach to export the TOC.
+			// (see TOCHandler.java, PDFPageDevice.java and other methods here).
+			// This could possibly be used for
+			// generating section-wise page-numbering based on the TOC.
+
 		}
 	}
 
