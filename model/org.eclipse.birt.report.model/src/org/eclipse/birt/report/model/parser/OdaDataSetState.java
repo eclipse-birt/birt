@@ -16,9 +16,12 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -198,6 +201,7 @@ public class OdaDataSetState extends SimpleDataSetState {
 		mergeResultSetAndResultSetHints(tmpElement);
 		doCompatibleRemoveResultSetProperty(tmpElement);
 		doCompatibleRemoveResultSetHitProperty(tmpElement);
+		doCompatibleConvertComputedColumnsConcatenateProperites(tmpElement);
 
 		TemplateParameterDefinition refTemplateParam = tmpElement.getTemplateParameterElement(handler.getModule());
 		if (refTemplateParam == null) {
@@ -333,6 +337,64 @@ public class OdaDataSetState extends SimpleDataSetState {
 				}
 			}
 
+		}
+	}
+
+	/**
+	 * Converts old properties, that used translated strings (Message.getString()), to constants.
+	 *
+	 * @param dataSet the OdaDataSet to convert.
+	 */
+	private void doCompatibleConvertComputedColumnsConcatenateProperites(OdaDataSet dataSet) {
+
+		if (handler.versionNumber >= VersionUtil.VERSION_3_2_24) {
+			return;
+		}
+
+		/*
+		 * The constants that we should convert to/from is defined in
+		 * org.eclipse.birt.data.aggregation.impl.Constants and is because of dependency
+		 * reasons to available here.
+		 *
+		 * These are:
+		 *
+		 * Constants.SEPARATOR_DISPLAY_NAME -> Constants.SEPARATOR_NAME
+		 * Constants.MAXLENGTH__DISPLAY_NAME -> Constants.MAXLENGTH_NAME
+		 * Constants.SHOWALLVALUES_DISPLAY_NAME -> Constants.SHOWALLVALUES_NAME
+		 *
+		 * This conversion will only work if the old report was saved with the
+		 * Locale.ROOT locale (en) since all translations of the display names are not
+		 * reachable because of the same dependency problems stated about.
+		 *
+		 * Since old reports and versions of BIRT also have this problem I guess that it
+		 * is a decent solution.
+		 *
+		 */
+		List<Object> computedColumnProperty = dataSet.getListProperty(null, IDataSetModel.COMPUTED_COLUMNS_PROP);
+		for (Object item : computedColumnProperty) {
+			if (item instanceof ComputedColumn) {
+				ComputedColumn computedColumn = (ComputedColumn) item;
+				String stringProperty = computedColumn.getAggregateFunction();
+				if (Objects.equals(stringProperty, "CONCATENATE")) { //$NON-NLS-1$
+					Object property = computedColumn.getProperty(null, ComputedColumn.ARGUMENTS_MEMBER);
+
+					if (property instanceof List) {
+						List<Object> arguments = (List<Object>) property;
+						for (Object argItem : arguments) {
+							if (argItem instanceof AggregationArgument) {
+								AggregationArgument aggreagationArg = (AggregationArgument) argItem;
+								if (aggreagationArg.getName().equals("Separat&or")) { //$NON-NLS-1$
+									aggreagationArg.setName("Separator"); //$NON-NLS-1$
+								} else if (aggreagationArg.getName().equals("Ma&x length")) { //$NON-NLS-1$
+									aggreagationArg.setName("Maxlength"); //$NON-NLS-1$
+								} else if (aggreagationArg.getName().equals("Sho&w all values")) { //$NON-NLS-1$
+									aggreagationArg.setName("Showallvalues"); //$NON-NLS-1$
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 
