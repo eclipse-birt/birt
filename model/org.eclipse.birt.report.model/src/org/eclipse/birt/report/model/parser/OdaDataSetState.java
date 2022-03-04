@@ -201,7 +201,7 @@ public class OdaDataSetState extends SimpleDataSetState {
 		mergeResultSetAndResultSetHints(tmpElement);
 		doCompatibleRemoveResultSetProperty(tmpElement);
 		doCompatibleRemoveResultSetHitProperty(tmpElement);
-		doCompatibleConvertComputedColumnsConcatenateProperites(tmpElement);
+		doCompatibleConvertComputedColumnsConcatenateProperties(tmpElement);
 
 		TemplateParameterDefinition refTemplateParam = tmpElement.getTemplateParameterElement(handler.getModule());
 		if (refTemplateParam == null) {
@@ -345,7 +345,7 @@ public class OdaDataSetState extends SimpleDataSetState {
 	 *
 	 * @param dataSet the OdaDataSet to convert.
 	 */
-	private void doCompatibleConvertComputedColumnsConcatenateProperites(OdaDataSet dataSet) {
+	private void doCompatibleConvertComputedColumnsConcatenateProperties(OdaDataSet dataSet) {
 
 		if (handler.versionNumber >= VersionUtil.VERSION_3_2_24) {
 			return;
