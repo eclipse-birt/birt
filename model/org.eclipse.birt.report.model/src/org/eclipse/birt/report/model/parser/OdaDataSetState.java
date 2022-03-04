@@ -371,24 +371,26 @@ public class OdaDataSetState extends SimpleDataSetState {
 		 *
 		 */
 		List<Object> computedColumnProperty = dataSet.getListProperty(null, IDataSetModel.COMPUTED_COLUMNS_PROP);
-		for (Object item : computedColumnProperty) {
-			if (item instanceof ComputedColumn) {
-				ComputedColumn computedColumn = (ComputedColumn) item;
-				String stringProperty = computedColumn.getAggregateFunction();
-				if (Objects.equals(stringProperty, "CONCATENATE")) { //$NON-NLS-1$
-					Object property = computedColumn.getProperty(null, ComputedColumn.ARGUMENTS_MEMBER);
+		if (computedColumnProperty != null) {
+			for (Object item : computedColumnProperty) {
+				if (item instanceof ComputedColumn) {
+					ComputedColumn computedColumn = (ComputedColumn) item;
+					String stringProperty = computedColumn.getAggregateFunction();
+					if (Objects.equals(stringProperty, "CONCATENATE")) { //$NON-NLS-1$
+						Object property = computedColumn.getProperty(null, ComputedColumn.ARGUMENTS_MEMBER);
 
-					if (property instanceof List) {
-						List<Object> arguments = (List<Object>) property;
-						for (Object argItem : arguments) {
-							if (argItem instanceof AggregationArgument) {
-								AggregationArgument aggreagationArg = (AggregationArgument) argItem;
-								if (aggreagationArg.getName().equals("Separat&or")) { //$NON-NLS-1$
-									aggreagationArg.setName("Separator"); //$NON-NLS-1$
-								} else if (aggreagationArg.getName().equals("Ma&x length")) { //$NON-NLS-1$
-									aggreagationArg.setName("Maxlength"); //$NON-NLS-1$
-								} else if (aggreagationArg.getName().equals("Sho&w all values")) { //$NON-NLS-1$
-									aggreagationArg.setName("Showallvalues"); //$NON-NLS-1$
+						if (property instanceof List) {
+							List<Object> arguments = (List<Object>) property;
+							for (Object argItem : arguments) {
+								if (argItem instanceof AggregationArgument) {
+									AggregationArgument aggreagationArg = (AggregationArgument) argItem;
+									if (aggreagationArg.getName().equals("Separat&or")) { //$NON-NLS-1$
+										aggreagationArg.setName("Separator"); //$NON-NLS-1$
+									} else if (aggreagationArg.getName().equals("Ma&x length")) { //$NON-NLS-1$
+										aggreagationArg.setName("Maxlength"); //$NON-NLS-1$
+									} else if (aggreagationArg.getName().equals("Sho&w all values")) { //$NON-NLS-1$
+										aggreagationArg.setName("Showallvalues"); //$NON-NLS-1$
+									}
 								}
 							}
 						}
