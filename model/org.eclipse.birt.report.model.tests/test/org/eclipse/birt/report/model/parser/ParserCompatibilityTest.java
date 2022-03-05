@@ -16,7 +16,10 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
+import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -160,6 +163,50 @@ public class ParserCompatibilityTest extends BaseTestCase {
 		save();
 		assertTrue(compareFile("CompatibleComputedColumnProperty_golden.xml"));//$NON-NLS-1$
 
+	}
+
+	/**
+	 * Tests the compatibility for the CONCATENATE aggregation function.
+	 *
+	 * argument names are converted like this.
+	 *
+	 * Constants.SEPARATOR_DISPLAY_NAME -> Constants.SEPARATOR_NAME
+	 * Constants.MAXLENGTH__DISPLAY_NAME -> Constants.MAXLENGTH_NAME
+	 * Constants.SHOWALLVALUES_DISPLAY_NAME -> Constants.SHOWALLVALUES_NAME
+	 *
+	 * @throws Exception
+	 */
+	public void testComputedColumnsConcatenateProperties() throws Exception {
+		openDesign("CompatibleConvertComputedColumnsConcatenateProperites.xml");//$NON-NLS-1$
+		OdaDataSetHandle dataSetHandle = (OdaDataSetHandle) designHandle.findDataSet("test-data-set"); //$NON-NLS-1$
+		assertNotNull(dataSetHandle);
+
+		Iterator computedColumns = dataSetHandle.computedColumnsIterator();
+		assertTrue(computedColumns.hasNext());
+		ComputedColumnHandle computedColumn = (ComputedColumnHandle) computedColumns.next();
+
+		assertEquals(null, computedColumn.getExpression());
+		assertEquals("CONCATENATE", computedColumn.getAggregateFunction()); //$NON-NLS-1$
+		Iterator argumentsIterator = computedColumn.argumentsIterator();
+
+		int correctlyConvertedValues = 0;
+		while (argumentsIterator.hasNext()) {
+			AggregationArgumentHandle argument = (AggregationArgumentHandle) argumentsIterator.next();
+			String name = argument.getName();
+			String value = argument.getValue();
+
+			if (Objects.equals(name, "Separator")) { //$NON-NLS-1$
+				assertEquals("|", value); //$NON-NLS-1$
+				correctlyConvertedValues++;
+			} else if (Objects.equals(name, "Maxlength")) { //$NON-NLS-1$
+				assertEquals("1234567890", value); //$NON-NLS-1$
+				correctlyConvertedValues++;
+			} else if (Objects.equals(name, "Showallvalues")) { //$NON-NLS-1$
+				assertEquals("true", value); //$NON-NLS-1$
+				correctlyConvertedValues++;
+			}
+		}
+		assertEquals(3, correctlyConvertedValues);
 	}
 
 	/**
@@ -915,4 +962,5 @@ public class ParserCompatibilityTest extends BaseTestCase {
 
 		assertTrue(compareFile("CompatibleDisplayNameIDTest_golden.xml"));//$NON-NLS-1$
 	}
+
 }
