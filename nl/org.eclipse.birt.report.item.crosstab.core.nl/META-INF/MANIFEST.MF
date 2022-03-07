@@ -1,8 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Crosstab Plug-in NLS Support
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.item.crosstab.core.nl1
 Bundle-Version: 4.9.0.qualifier
 Fragment-Host: org.eclipse.birt.report.item.crosstab.core;bundle-version="[2.1.0,5.0.0)"
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.report.item.crosstab.core.nl1
+Export-Package: org.eclipse.birt.report.item.crosstab.core.i18n;x-internal:=true

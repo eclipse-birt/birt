@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Model
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.model; singleton:=true
 Bundle-Version: 4.9.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.model.plugin.ModelPlugin
@@ -9,7 +9,7 @@ Bundle-ClassPath: tests.jar,
  modelFragment_internal.jar,
  .
 Eclipse-ExtensibleAPI: true 
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.birt.report.model.tests,org.eclipse.birt.report.item.crosstab.core",
  org.eclipse.birt.report.model.api,
  org.eclipse.birt.report.model.api.activity,

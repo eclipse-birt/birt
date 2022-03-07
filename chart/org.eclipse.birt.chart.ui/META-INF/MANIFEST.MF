@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Chart Library UI Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.chart.ui; singleton:=true
 Bundle-Version: 4.9.0.qualifier
 Bundle-Activator: org.eclipse.birt.chart.ui.plugin.ChartUIPlugin
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.eclipse.birt.chart.ui.i18n,
  org.eclipse.birt.chart.ui.integrate,
  org.eclipse.birt.chart.ui.plugin,

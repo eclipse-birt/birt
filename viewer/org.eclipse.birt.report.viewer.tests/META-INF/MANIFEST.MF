@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT report viewer tests fragment
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.viewer.tests
 Bundle-Version: 4.9.0.qualifier
 Fragment-Host: org.eclipse.birt.report.viewer;bundle-version="2.3.1"
@@ -8,5 +8,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.birt.report.viewer
 Require-Bundle: org.junit;bundle-version="3.8.1";resolution:=optional;visibility:=reexport,
  javax.servlet-api;bundle-version="3.1.0"
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.report.viewer.tests

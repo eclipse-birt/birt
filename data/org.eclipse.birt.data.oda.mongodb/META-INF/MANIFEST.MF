@@ -5,11 +5,13 @@ Bundle-SymbolicName: org.eclipse.birt.data.oda.mongodb;singleton:=true
 Bundle-Version: 4.9.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.data.oda.mongodb.Activator
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
-Export-Package: org.eclipse.birt.data.oda.mongodb.impl,
- org.eclipse.birt.data.oda.mongodb.internal.impl;x-friends:="org.eclipse.birt.data.oda.mongodb.ui"
-Require-Bundle: org.eclipse.core.runtime,
+Export-Package: org.eclipse.birt.data.oda.mongodb;x-internal:=true,
+ org.eclipse.birt.data.oda.mongodb.impl,
+ org.eclipse.birt.data.oda.mongodb.internal.impl;x-friends:="org.eclipse.birt.data.oda.mongodb.ui",
+ org.eclipse.birt.data.oda.mongodb.nls;x-internal:=true
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.23.0",
  org.eclipse.datatools.connectivity.oda;bundle-version="[3.3.0,4.0.0)",
  org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.2.0,4.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-11

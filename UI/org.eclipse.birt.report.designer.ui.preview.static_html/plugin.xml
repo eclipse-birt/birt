@@ -26,7 +26,7 @@
              category="org.eclipse.birt.report.designer.ui.preferences"
              class="org.eclipse.birt.report.designer.ui.preview.static_html.preferences.PreferencePage"
              id="org.eclipse.birt.report.designer.ui.preview.static_html.preferences.PreferencePage"
-             name="New Preview Prototype Preferences">
+             name="%page.name">
        </page>
     </extension>
     <extension

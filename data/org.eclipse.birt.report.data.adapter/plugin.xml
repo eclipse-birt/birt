@@ -15,12 +15,12 @@
  *******************************************************************************
 -->
 <plugin>
-   <extension-point id="DataSetInterceptor" name="Data Set Interceptor" schema="schema/DataSetInterceptor.exsd"/>
-   <extension-point id="CubeInterceptor" name="Cube Interceptor" schema="schema/CubeInterceptor.exsd"/>
+   <extension-point id="DataSetInterceptor" name="%extension-point.name" schema="schema/DataSetInterceptor.exsd"/>
+   <extension-point id="CubeInterceptor" name="%extension-point.name.0" schema="schema/CubeInterceptor.exsd"/>
      
      <extension
          id="DataAdapterFactory"
-         name="DataAdapterFactory"
+         name="%extension.name"
          point="org.eclipse.birt.core.FactoryService">
    		<factory class="org.eclipse.birt.report.data.adapter.impl.DataAdapterFactory"/>
 	 </extension>

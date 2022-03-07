@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Tests Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.prototype.excel.tests
 Bundle-Version: 4.9.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.prototype.excel.tests.Activator
@@ -12,5 +12,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: com.ibm.icu.util;version="3.4.4",
  org.osgi.framework;version="1.5.0"
 Bundle-ClassPath: emitterexceltests.jar
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.prototype.excel.tests
+Export-Package: org.eclipse.birt.report.engine.emitter.prototype.excel;x-internal:=true,
+ org.eclipse.birt.report.engine.emitter.prototype.excel.tests;x-internal:=true

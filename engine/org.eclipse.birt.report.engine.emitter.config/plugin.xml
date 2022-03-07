@@ -15,11 +15,11 @@
  *******************************************************************************
 -->
 <plugin>
-   <extension-point id="org.eclipse.birt.report.engine.emitter.config" name="Emitter Descriptor" schema="schema/org.eclipse.birt.report.engine.emitter.config.exsd"/>
-   <extension-point id="org.eclipse.birt.report.engine.emitter.config.DefaultConfigLoader" name="Default Config Loader" schema="schema/org.eclipse.birt.report.engine.emitter.config.defaultconfigloader.exsd"/>
+   <extension-point id="org.eclipse.birt.report.engine.emitter.config" name="%extension-point.name" schema="schema/org.eclipse.birt.report.engine.emitter.config.exsd"/>
+   <extension-point id="org.eclipse.birt.report.engine.emitter.config.DefaultConfigLoader" name="%extension-point.name.0" schema="schema/org.eclipse.birt.report.engine.emitter.config.defaultconfigloader.exsd"/>
    <extension
          id="EmitterConfigurationManagerFactory"
-         name="EmitterConfigurationManagerFactory"
+         name="%extension.name"
          point="org.eclipse.birt.core.FactoryService">
       <factory
             class="org.eclipse.birt.report.engine.emitter.config.impl.EmitterConfigurationManagerFactory">
@@ -27,7 +27,7 @@
    </extension>
    <extension
          id="DefaultConfigLoader"
-         name="DefaultConfigLoader"
+         name="%extension.name.0"
          point="org.eclipse.birt.report.engine.emitter.config.DefaultConfigLoader">
          <descriptor
               class="org.eclipse.birt.report.engine.emitter.config.impl.JarConfigLoader"

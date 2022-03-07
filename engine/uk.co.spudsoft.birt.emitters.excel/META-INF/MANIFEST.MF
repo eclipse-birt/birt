@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SpudSoft BIRT Excel Emitters
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: uk.co.spudsoft.birt.emitters.excel;singleton:=true
 Bundle-Version: 4.9.0.qualifier
 Bundle-Activator: uk.co.spudsoft.birt.emitters.excel.framework.ExcelEmitterPlugin
-Bundle-Vendor: SpudSoft
-Require-Bundle: org.eclipse.birt.report.engine,
+Bundle-Vendor: %Bundle-Vendor
+Require-Bundle: org.eclipse.birt.report.engine;bundle-version="4.9.0",
  org.apache.poi;bundle-version="[4.1.1,5.0.0)",
  org.apache.poi.ooxml;bundle-version="[4.1.1,5.0.0)",
  org.apache.poi.ooxml.schemas;bundle-version="[4.1.1,5.0.0)",
@@ -16,6 +16,7 @@ Bundle-ClassPath: .,
  lib/commons-codec-1.5.jar
 Bundle-ActivationPolicy: lazy
 Export-Package: uk.co.spudsoft.birt.emitters.excel,
- uk.co.spudsoft.birt.emitters.excel.framework
+ uk.co.spudsoft.birt.emitters.excel.framework,
+ uk.co.spudsoft.birt.emitters.excel.handlers;x-internal:=true
 Eclipse-BundleShape: dir
 Automatic-Module-Name: uk.co.spudsoft.birt.emitters.excel

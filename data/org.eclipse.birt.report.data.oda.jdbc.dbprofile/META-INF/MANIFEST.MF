@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.birt.report.data.oda.jdbc.dbprofile;singleton:=
 Bundle-Version: 4.9.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.report.data.oda.jdbc.dbprofile.Activator
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.data.oda.jdbc.dbprofile,
  org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl;x-friends:="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui",

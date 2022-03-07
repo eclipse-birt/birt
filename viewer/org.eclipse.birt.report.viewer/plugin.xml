@@ -15,7 +15,7 @@
  *******************************************************************************
 -->
 <plugin>
-   <extension-point id="browser" name="Web Browser" schema="schema/browser.exsd"/>
+   <extension-point id="browser" name="%extension-point.name" schema="schema/browser.exsd"/>
    <extension
          point="org.eclipse.birt.report.viewer.browser">
       <browser

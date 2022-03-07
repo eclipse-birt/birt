@@ -1,12 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT ODA-JDBC Bridge Driver
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.data.oda.jdbc;singleton:=true
 Bundle-Version: 4.9.0.qualifier
 Bundle-ClassPath: oda-jdbc.jar,
  derby.jar
 Bundle-Activator: org.eclipse.birt.report.data.oda.plugin.OdaJdbcPlugin
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,5.0.0)",
  org.eclipse.datatools.connectivity.oda;bundle-version="[3.2.0,4.0.0)",

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-SymbolicName: org.apache.axis
 Eclipse-SourceReferences: scm:cvs:pserver:dev.eclipse.org:/cvsroot/tools:org.eclipse.orbit/org.apache.axis;tag=v201411182030
 Require-Bundle: javax.xml.rpc;bundle-version="1.1.2",

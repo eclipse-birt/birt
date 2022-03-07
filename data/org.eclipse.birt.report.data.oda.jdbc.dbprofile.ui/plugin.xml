@@ -89,9 +89,9 @@
          point="org.eclipse.ui.navigator.navigatorContent">
       <commonFilter
             activeByDefault="true"
-            description="The filter to hide this ODA DB Profile Category from the Data Source Explorer view"
+            description="%commonFilter.description"
             id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.commonFilter"
-            name="BIRT ODA Databases Profile Category Filter">
+            name="%commonFilter.name">
          <filterExpression>
             <and>
                <instanceof
