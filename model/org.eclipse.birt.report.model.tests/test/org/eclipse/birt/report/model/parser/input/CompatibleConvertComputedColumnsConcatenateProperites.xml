@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <data-sources>
+        <oda-data-source name="test-data-source"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="test-data-set">
+		    <property name="dataSource">test-data-source</property>
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">concatenated_column</property>
+                    <property name="dataType">string</property>
+                    <property name="aggregateFunction">CONCATENATE</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value">row["TESTROW"]</expression>
+                        </structure>
+                        <structure>
+                            <property name="name">Separat&amp;or</property>
+                            <expression name="value">|</expression>
+                        </structure>
+                        <structure>
+                            <property name="name">Ma&amp;x length</property>
+                            <expression name="value">1234567890</expression>
+                        </structure>
+                        <structure>
+                            <property name="name">Sho&amp;w all values</property>
+                            <expression name="value">true</expression>
+                        </structure>
+                    </list-property>
+                </structure>
+            </list-property>
+     	</oda-data-set>
+    </data-sets>
+</report>
