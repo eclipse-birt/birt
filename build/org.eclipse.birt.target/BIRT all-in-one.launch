@@ -30,10 +30,11 @@
     <stringAttribute key="pde.version" value="3.3"/>
     <stringAttribute key="product" value="org.eclipse.platform.ide"/>
     <setAttribute key="selected_target_bundles">
-        <setEntry value="com.ibm.icu*67.1.0.v20200706-1749@default:default"/>
         <setEntry value="com.github.librepdf.openpdf@default:default"/>
-        <setEntry value="com.sun.jna*5.8.0.v20210503-0343@default:default"/>
-        <setEntry value="com.sun.jna.platform*5.8.0.v20210406-1004@default:default"/>
+        <setEntry value="com.ibm.icu*67.1.0.v20200706-1749@default:default"/>
+        <setEntry value="com.ibm.icu*70.1.0@default:default"/>
+        <setEntry value="com.sun.jna.platform@default:default"/>
+        <setEntry value="com.sun.jna@default:default"/>
         <setEntry value="jakarta.annotation-api@default:default"/>
         <setEntry value="jakarta.servlet-api@default:default"/>
         <setEntry value="javax.activation@default:default"/>
@@ -53,6 +54,7 @@
         <setEntry value="org.apache.batik.anim@default:default"/>
         <setEntry value="org.apache.batik.awt.util@default:default"/>
         <setEntry value="org.apache.batik.bridge@default:default"/>
+        <setEntry value="org.apache.batik.codec@default:default"/>
         <setEntry value="org.apache.batik.constants@default:default"/>
         <setEntry value="org.apache.batik.css@default:default"/>
         <setEntry value="org.apache.batik.dom.svg@default:default"/>
@@ -205,7 +207,9 @@
         <setEntry value="org.eclipse.equinox.p2.core@default:default"/>
         <setEntry value="org.eclipse.equinox.p2.director.app@default:default"/>
         <setEntry value="org.eclipse.equinox.p2.director@default:default"/>
+        <setEntry value="org.eclipse.equinox.p2.directorywatcher@default:default"/>
         <setEntry value="org.eclipse.equinox.p2.engine@default:default"/>
+        <setEntry value="org.eclipse.equinox.p2.extensionlocation@default:default"/>
         <setEntry value="org.eclipse.equinox.p2.garbagecollector@default:default"/>
         <setEntry value="org.eclipse.equinox.p2.jarprocessor@default:default"/>
         <setEntry value="org.eclipse.equinox.p2.metadata.repository@default:default"/>
@@ -287,7 +291,7 @@
         <setEntry value="org.eclipse.ltk.core.refactoring@default:default"/>
         <setEntry value="org.eclipse.ltk.ui.refactoring@default:default"/>
         <setEntry value="org.eclipse.orbit.mongodb@default:default"/>
-        <setEntry value="org.eclipse.osgi*3.17.100.v20211104-1730@-1:true"/>
+        <setEntry value="org.eclipse.osgi*3.17.200.v20220215-2237@1:true"/>
         <setEntry value="org.eclipse.osgi.compatibility.state@default:false"/>
         <setEntry value="org.eclipse.osgi.services*3.10.200.v20210723-0643@2:true"/>
         <setEntry value="org.eclipse.osgi.services*3.9.0.v20200511-1725@2:true"/>
@@ -378,6 +382,8 @@
     <setAttribute key="selected_workspace_bundles">
         <setEntry value="javax.xml.rpc@default:default"/>
         <setEntry value="org.apache.axis@default:default"/>
+        <setEntry value="org.apache.batik.dom.birt.ext@default:false"/>
+        <setEntry value="org.apache.batik.transcoder.birt.ext@default:false"/>
         <setEntry value="org.eclipse.birt.axis.overlay@default:false"/>
         <setEntry value="org.eclipse.birt.build@default:default"/>
         <setEntry value="org.eclipse.birt.chart.cshelp@default:default"/>
@@ -412,7 +418,6 @@
         <setEntry value="org.eclipse.birt.core.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.core.script.function.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.core.script.function@default:default"/>
-        <setEntry value="org.eclipse.birt.core.testhelper@default:false"/>
         <setEntry value="org.eclipse.birt.core.ui.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.core.ui@default:default"/>
         <setEntry value="org.eclipse.birt.core@default:default"/>
@@ -506,7 +511,6 @@
         <setEntry value="org.eclipse.birt.report.designer.ui.views@default:default"/>
         <setEntry value="org.eclipse.birt.report.designer.ui@default:default"/>
         <setEntry value="org.eclipse.birt.report.engine.dataextraction.csv.nl1@default:false"/>
-        <setEntry value="org.eclipse.birt.report.engine.dataextraction.csv.tests@default:false"/>
         <setEntry value="org.eclipse.birt.report.engine.dataextraction.csv@default:default"/>
         <setEntry value="org.eclipse.birt.report.engine.dataextraction.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.report.engine.dataextraction@default:default"/>
@@ -547,21 +551,16 @@
         <setEntry value="org.eclipse.birt.report.engine.odf@default:default"/>
         <setEntry value="org.eclipse.birt.report.engine.ooxml@default:default"/>
         <setEntry value="org.eclipse.birt.report.engine.script.javascript@default:default"/>
-        <setEntry value="org.eclipse.birt.report.engine.testhelper@default:false"/>
         <setEntry value="org.eclipse.birt.report.engine@default:default"/>
         <setEntry value="org.eclipse.birt.report.extension.tutorial_1@default:default"/>
         <setEntry value="org.eclipse.birt.report.extension.tutorial_2@default:default"/>
         <setEntry value="org.eclipse.birt.report.item.crosstab.core.nl1@default:false"/>
-        <setEntry value="org.eclipse.birt.report.item.crosstab.core.tests@default:false"/>
         <setEntry value="org.eclipse.birt.report.item.crosstab.core@default:default"/>
         <setEntry value="org.eclipse.birt.report.item.crosstab.ui.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.report.item.crosstab.ui@default:default"/>
         <setEntry value="org.eclipse.birt.report.model.adapter.oda@default:default"/>
         <setEntry value="org.eclipse.birt.report.model.nl1@default:false"/>
-        <setEntry value="org.eclipse.birt.report.model.testhelper@default:false"/>
-        <setEntry value="org.eclipse.birt.report.model.testresources@default:false"/>
         <setEntry value="org.eclipse.birt.report.model@default:default"/>
-        <setEntry value="org.eclipse.birt.report.viewer.tests@default:false"/>
         <setEntry value="org.eclipse.birt.report.viewer@default:default"/>
         <setEntry value="org.eclipse.birt.report.viewers.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.resources.nl1@default:false"/>
