@@ -44,18 +44,16 @@
     <stringAttribute key="product" value="org.eclipse.birt.report.designer.ui.rcp.BIRT"/>
     <booleanAttribute key="run_in_ui_thread" value="true"/>
     <setAttribute key="selected_target_bundles">
+        <setEntry value="com.github.librepdf.openpdf@default:default"/>
         <setEntry value="com.google.gson@default:default"/>
         <setEntry value="com.google.guava@default:default"/>
         <setEntry value="com.google.javascript@default:default"/>
         <setEntry value="com.google.protobuf@default:default"/>
         <setEntry value="com.ibm.icu*67.1.0.v20200706-1749@default:default"/>
         <setEntry value="com.jcraft.jsch@default:default"/>
-        <setEntry value="com.github.librepdf.openpdf@default:default"/>
         <setEntry value="com.sun.el@default:default"/>
-        <setEntry value="com.sun.jna*4.5.1.v20190425-1842@default:default"/>
-        <setEntry value="com.sun.jna*5.8.0.v20210503-0343@default:default"/>
-        <setEntry value="com.sun.jna.platform*4.5.1.v20190425-1842@default:default"/>
-        <setEntry value="com.sun.jna.platform*5.8.0.v20210406-1004@default:default"/>
+        <setEntry value="com.sun.jna.platform@default:default"/>
+        <setEntry value="com.sun.jna@default:default"/>
         <setEntry value="jakarta.annotation-api@default:default"/>
         <setEntry value="jakarta.el@default:default"/>
         <setEntry value="jakarta.servlet-api@default:default"/>
@@ -108,7 +106,6 @@
         <setEntry value="org.apache.felix.gogo.runtime@default:default"/>
         <setEntry value="org.apache.felix.gogo.shell@default:default"/>
         <setEntry value="org.apache.felix.scr@1:true"/>
-        <setEntry value="org.apache.httpcomponents.httpclient.win@default:default"/>
         <setEntry value="org.apache.httpcomponents.httpclient@default:default"/>
         <setEntry value="org.apache.httpcomponents.httpcore@default:default"/>
         <setEntry value="org.apache.jasper.glassfish@default:default"/>
@@ -313,8 +310,6 @@
         <setEntry value="org.eclipse.e4.ui.workbench@default:default"/>
         <setEntry value="org.eclipse.ecf.filetransfer@default:default"/>
         <setEntry value="org.eclipse.ecf.identity@default:default"/>
-        <setEntry value="org.eclipse.ecf.provider.filetransfer.httpclient45.win32@default:default"/>
-        <setEntry value="org.eclipse.ecf.provider.filetransfer.httpclient45@default:default"/>
         <setEntry value="org.eclipse.ecf.provider.filetransfer.ssl@default:false"/>
         <setEntry value="org.eclipse.ecf.provider.filetransfer@default:default"/>
         <setEntry value="org.eclipse.ecf.ssl@default:false"/>
@@ -434,6 +429,7 @@
         <setEntry value="org.eclipse.jem.workbench@default:default"/>
         <setEntry value="org.eclipse.jem@default:default"/>
         <setEntry value="org.eclipse.jetty.annotations@default:default"/>
+        <setEntry value="org.eclipse.jetty.apache-jsp@default:default"/>
         <setEntry value="org.eclipse.jetty.deploy@default:default"/>
         <setEntry value="org.eclipse.jetty.http@default:default"/>
         <setEntry value="org.eclipse.jetty.io@default:default"/>
@@ -516,7 +512,7 @@
         <setEntry value="org.eclipse.ltk.core.refactoring@default:default"/>
         <setEntry value="org.eclipse.ltk.ui.refactoring@default:default"/>
         <setEntry value="org.eclipse.orbit.mongodb@default:default"/>
-        <setEntry value="org.eclipse.osgi*3.17.0.v20210823-1805@-1:true"/>
+        <setEntry value="org.eclipse.osgi*3.17.200.v20220215-2237@1:true"/>
         <setEntry value="org.eclipse.osgi.compatibility.state@default:false"/>
         <setEntry value="org.eclipse.osgi.services*3.10.200.v20210723-0643@default:default"/>
         <setEntry value="org.eclipse.osgi.services*3.9.0.v20200511-1725@default:default"/>
@@ -549,9 +545,6 @@
         <setEntry value="org.eclipse.swt.win32.win32.x86_64@default:false"/>
         <setEntry value="org.eclipse.swt@default:default"/>
         <setEntry value="org.eclipse.team.core@default:default"/>
-        <setEntry value="org.eclipse.team.cvs.core@default:default"/>
-        <setEntry value="org.eclipse.team.cvs.ssh2@default:default"/>
-        <setEntry value="org.eclipse.team.cvs.ui@default:default"/>
         <setEntry value="org.eclipse.team.genericeditor.diff.extension@default:default"/>
         <setEntry value="org.eclipse.team.ui@default:default"/>
         <setEntry value="org.eclipse.text.quicksearch@default:default"/>
@@ -693,15 +686,17 @@
         <setEntry value="org.junit.platform.launcher@default:default"/>
         <setEntry value="org.junit.platform.runner@default:default"/>
         <setEntry value="org.junit.platform.suite.api@default:default"/>
+        <setEntry value="org.junit.platform.suite.commons@default:default"/>
+        <setEntry value="org.junit.platform.suite.engine@default:default"/>
         <setEntry value="org.junit.vintage.engine@default:default"/>
         <setEntry value="org.junit@default:default"/>
+        <setEntry value="org.mortbay.jasper.apache-el@default:default"/>
+        <setEntry value="org.mortbay.jasper.apache-jsp@default:default"/>
         <setEntry value="org.mozilla.javascript@default:default"/>
-        <setEntry value="org.objectweb.asm*9.1.0.v20210209-1849@default:default"/>
         <setEntry value="org.objectweb.asm*9.1.0@default:default"/>
         <setEntry value="org.objectweb.asm*9.2.0@default:default"/>
         <setEntry value="org.objectweb.asm.commons*9.1.0@default:default"/>
         <setEntry value="org.objectweb.asm.commons*9.2.0@default:default"/>
-        <setEntry value="org.objectweb.asm.tree*9.1.0.v20210209-1849@default:default"/>
         <setEntry value="org.objectweb.asm.tree*9.1.0@default:default"/>
         <setEntry value="org.objectweb.asm.tree*9.2.0@default:default"/>
         <setEntry value="org.objectweb.asm.tree.analysis*9.1.0@default:default"/>
