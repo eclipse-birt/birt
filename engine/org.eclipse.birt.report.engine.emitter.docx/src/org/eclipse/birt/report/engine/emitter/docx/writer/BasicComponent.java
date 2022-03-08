@@ -387,7 +387,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		Element body = null;
 		ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
 		HTMLWriter htmlWriter = new HTMLWriter();
-		htmlWriter.enableCompactmode(true); // HVB, bug 519375
+		htmlWriter.enableCompactMode(true); // HVB, bug 519375
 		htmlWriter.open(byteOut);
 		if (doc != null) {
 			NodeList bodys = doc.getElementsByTagName("body");
