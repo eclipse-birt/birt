@@ -48,7 +48,12 @@ public class ChartUIHelperBase implements IChartUIHelper {
 
 	@Override
 	public boolean useDataSetRow(Object reportItem, String expression) throws BirtException {
-		// Default implementation, do nothing
-		return false;
+		/*
+		 * Default implementation is a bit simple, this behavior is copied from
+		 * org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent.
+		 * enableAggEditor( String expression ) prior to the refactoring that yielded
+		 * this method. According to the javadoc it should be more comprehensive though.
+		 */
+		return expression.startsWith("data"); //$NON-NLS-1$
 	}
 }
