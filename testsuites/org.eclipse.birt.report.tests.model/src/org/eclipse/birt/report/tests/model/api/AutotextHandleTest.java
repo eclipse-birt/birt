@@ -1,17 +1,17 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.report.tests.model.api;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -31,6 +31,9 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /**
  * TestCases for AutoTextHandle class. AutoTextHandle can be created from
  * ElementFactory.
@@ -40,22 +43,22 @@ import com.ibm.icu.util.ULocale;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
- * 
+ *
+ *
  * <tr>
  * <td>{@link #testAddAndDeleteAutotext()}</td>
  * <td>Add and delete autotext to master page.</td>
  * <td>Autotext can be added and deleted, only one autotext allowed as top level
  * in master page.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testStyleOnAutotext()}</td>
  * <td>Apply style to autotext item.</td>
  * <td>Style properties are set into autotext.</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class AutotextHandleTest extends BaseTestCase {
 	private ElementFactory factory = null;
@@ -74,6 +77,7 @@ public class AutotextHandleTest extends BaseTestCase {
 		return new TestSuite(AutotextHandleTest.class);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		SessionHandle designSession = DesignEngine.newSession(ULocale.ENGLISH);
@@ -87,7 +91,7 @@ public class AutotextHandleTest extends BaseTestCase {
 
 	/**
 	 * test add and delete Autotext
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testAddAndDeleteAutotext() throws Exception {
@@ -124,7 +128,7 @@ public class AutotextHandleTest extends BaseTestCase {
 
 	/**
 	 * test apply style to autotext.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testStyleOnAutotext() throws Exception {

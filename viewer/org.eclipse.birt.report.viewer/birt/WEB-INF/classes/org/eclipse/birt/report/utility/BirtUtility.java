@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -71,7 +73,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Utilities for Birt Report Service
- * 
+ *
  */
 public class BirtUtility {
 
@@ -87,23 +89,26 @@ public class BirtUtility {
 
 	/**
 	 * Add current task in http session
-	 * 
+	 *
 	 * @param request
 	 * @param task
 	 */
 	public static void addTask(HttpServletRequest request, IEngineTask task) {
-		if (request == null || task == null)
+		if (request == null || task == null) {
 			return;
+		}
 
 		try {
 			// get task id
 			BaseAttributeBean attrBean = (BaseAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
-			if (attrBean == null)
+			if (attrBean == null) {
 				return;
+			}
 
 			String taskid = attrBean.getTaskId();
-			if (taskid == null)
+			if (taskid == null) {
 				return;
+			}
 
 			// get task map
 			HttpSession session = request.getSession(true);
@@ -125,28 +130,32 @@ public class BirtUtility {
 
 	/**
 	 * Remove task from http session
-	 * 
+	 *
 	 * @param request
 	 */
 	public static void removeTask(HttpServletRequest request) {
-		if (request == null)
+		if (request == null) {
 			return;
+		}
 
 		try {
 			// get task id
 			BaseAttributeBean attrBean = (BaseAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
-			if (attrBean == null)
+			if (attrBean == null) {
 				return;
+			}
 
 			String taskid = attrBean.getTaskId();
-			if (taskid == null)
+			if (taskid == null) {
 				return;
+			}
 
 			// get task map
 			HttpSession session = request.getSession(true);
 			Map map = (Map) session.getAttribute(IBirtConstants.TASK_MAP);
-			if (map == null)
+			if (map == null) {
 				return;
+			}
 
 			// remove task
 			synchronized (map) {
@@ -158,25 +167,28 @@ public class BirtUtility {
 
 	/**
 	 * Cancel the current engine task by task id
-	 * 
+	 *
 	 * @param request
 	 * @param taskid
 	 * @throws Exception
 	 */
 	public static void cancelTask(HttpServletRequest request, String taskid) throws Exception {
-		if (taskid == null)
+		if (taskid == null) {
 			return;
+		}
 
 		// get task map
 		HttpSession session = request.getSession();
-		if (session == null)
+		if (session == null) {
 			return;
+		}
 
 		Map map = (Map) session.getAttribute(IBirtConstants.TASK_MAP);
 		if (map != null && map.containsKey(taskid)) {
 			BaseTaskBean bean = (BaseTaskBean) map.get(taskid);
-			if (bean == null)
+			if (bean == null) {
 				return;
+			}
 
 			// cancel task
 			IEngineTask task = bean.getTask();
@@ -193,39 +205,43 @@ public class BirtUtility {
 
 	/**
 	 * Returns the parameter handle list
-	 * 
+	 *
 	 * @param reportDesignHandle
 	 * @return
 	 * @throws ReportServiceException
 	 */
 	public static List getParameterList(IViewerReportDesignHandle reportDesignHandle) throws ReportServiceException {
 		IReportRunnable runnable = (IReportRunnable) reportDesignHandle.getDesignObject();
-		if (runnable == null)
+		if (runnable == null) {
 			return null;
+		}
 
 		ModuleHandle model = runnable.getDesignHandle().getModuleHandle();
-		if (model == null)
+		if (model == null) {
 			return null;
+		}
 
 		return model.getFlattenParameters();
 	}
 
 	/**
 	 * find the parameter definition by parameter name
-	 * 
+	 *
 	 * @param parameterList
 	 * @param paramName
 	 * @return
 	 */
 	public static ParameterDefinition findParameterDefinition(Collection parameterList, String paramName) {
-		if (parameterList == null || paramName == null)
+		if (parameterList == null || paramName == null) {
 			return null;
+		}
 
 		// find parameter definition
 		for (Iterator iter = parameterList.iterator(); iter.hasNext();) {
 			ParameterDefinition parameter = (ParameterDefinition) iter.next();
-			if (parameter == null)
+			if (parameter == null) {
 				continue;
+			}
 
 			String name = parameter.getName();
 			if (paramName.equals(name)) {
@@ -238,7 +254,7 @@ public class BirtUtility {
 
 	/**
 	 * find the parameter handle by parameter name
-	 * 
+	 *
 	 * @param reportDesignHandle
 	 * @param paramName
 	 * @return
@@ -246,24 +262,27 @@ public class BirtUtility {
 	 */
 	public static ParameterHandle findParameter(IViewerReportDesignHandle reportDesignHandle, String paramName)
 			throws ReportServiceException {
-		if (paramName == null)
+		if (paramName == null) {
 			return null;
+		}
 
 		IReportRunnable runnable = (IReportRunnable) reportDesignHandle.getDesignObject();
-		if (runnable == null)
+		if (runnable == null) {
 			return null;
+		}
 
 		// get module handle from report runnable
 		ModuleHandle model = runnable.getDesignHandle().getModuleHandle();
-		if (model == null)
+		if (model == null) {
 			return null;
+		}
 
 		return model.findParameter(paramName);
 	}
 
 	/**
 	 * Gets the module option map from the request.
-	 * 
+	 *
 	 * @param request the request
 	 * @return the module options
 	 */
@@ -277,15 +296,16 @@ public class BirtUtility {
 
 	/**
 	 * Get Display Text of select parameters
-	 * 
+	 *
 	 * @param parameters
 	 * @param displayTexts
 	 * @param request
 	 * @return Map
 	 */
 	public static Map getDisplayTexts(Collection parameters, Map displayTexts, HttpServletRequest request) {
-		if (displayTexts == null)
+		if (displayTexts == null) {
 			displayTexts = new HashMap();
+		}
 
 		Enumeration params = request.getParameterNames();
 		while (params != null && params.hasMoreElements()) {
@@ -297,10 +317,11 @@ public class BirtUtility {
 				// TODO: Currently, Multi-value parameter doesn't support
 				// displayText.( set to NULL value )
 				if (parameter != null) {
-					if (parameter.isMultiValue())
+					if (parameter.isMultiValue()) {
 						displayTexts.put(paramName, null);
-					else
+					} else {
 						displayTexts.put(paramName, ParameterAccessor.getParameter(request, param));
+					}
 				}
 			}
 		}
@@ -310,19 +331,21 @@ public class BirtUtility {
 
 	/**
 	 * Get locale parameter list
-	 * 
+	 *
 	 * @param locParams
 	 * @param request
 	 * @return List
 	 */
 	public static List getLocParams(List locParams, HttpServletRequest request) {
-		if (locParams == null)
+		if (locParams == null) {
 			locParams = new ArrayList();
+		}
 
 		String[] arrs = request.getParameterValues(ParameterAccessor.PARAM_ISLOCALE);
 		if (arrs != null) {
-			for (int i = 0; i < arrs.length; i++)
+			for (int i = 0; i < arrs.length; i++) {
 				locParams.add(arrs[i]);
+			}
 		}
 
 		return locParams;
@@ -330,7 +353,7 @@ public class BirtUtility {
 
 	/**
 	 * Check whether missing parameter or not.
-	 * 
+	 *
 	 * @param task
 	 * @param parameters
 	 * @return
@@ -362,25 +385,19 @@ public class BirtUtility {
 				List values = (List) parameterValue;
 				for (int i = 0; i < values.size(); i++) {
 					Object value = values.get(i);
-					if (value == null) {
-						missingParameter = true;
-						break;
-					}
-
-					if (value instanceof String && ((String) value).length() <= 0) {
+					if ((value == null) || (value instanceof String && ((String) value).length() <= 0)) {
 						missingParameter = true;
 						break;
 					}
 				}
 
-				if (missingParameter)
-					break;
-			} else {
-				// Blank Value
-				if (parameterValue instanceof String && ((String) parameterValue).length() <= 0) {
-					missingParameter = true;
+				if (missingParameter) {
 					break;
 				}
+			} else // Blank Value
+			if (parameterValue instanceof String && ((String) parameterValue).length() <= 0) {
+				missingParameter = true;
+				break;
 			}
 		}
 
@@ -389,7 +406,7 @@ public class BirtUtility {
 
 	/**
 	 * Handle SOAP operation. Parse report parameters and display text
-	 * 
+	 *
 	 * @param operation
 	 * @param bean
 	 * @param parameterMap
@@ -398,8 +415,9 @@ public class BirtUtility {
 	 */
 	public static void handleOperation(Operation operation, ViewerAttributeBean bean, Map parameterMap,
 			Map displayTexts) throws Exception {
-		if (operation == null || bean == null || parameterMap == null || displayTexts == null)
+		if (operation == null || bean == null || parameterMap == null || displayTexts == null) {
 			return;
+		}
 
 		// convert parameter from SOAP operation
 		List locs = new ArrayList();
@@ -410,8 +428,9 @@ public class BirtUtility {
 			String paramName = oprands[i].getName();
 			Object paramValue = oprands[i].getValue();
 
-			if (paramName == null || paramValue == null)
+			if (paramName == null || paramValue == null) {
 				continue;
+			}
 
 			if (paramName.equalsIgnoreCase(ParameterAccessor.PARAM_ISLOCALE)) {
 				// parameter value is a locale string
@@ -424,33 +443,32 @@ public class BirtUtility {
 				// TODO: Currently, Multi-value parameter doesn't support
 				// displayText.( set to NULL value )
 				if (parameter != null) {
-					if (parameter.isMultiValue())
+					if (parameter.isMultiValue()) {
 						displayTexts.put(displayTextParam, null);
-					else
+					} else {
 						displayTexts.put(displayTextParam, paramValue);
+					}
 				}
 				continue;
+			} else // Check if it's the parameter value list set to null
+			if (ParameterAccessor.PARAM_ISNULLLIST.equalsIgnoreCase(paramName)) {
+				paramName = (String) paramValue;
+				// remove from the map rather than set to null, so it get
+				// the chance to use the default values
+				params.remove(paramName);
 			} else {
-				// Check if it's the parameter value list set to null
-				if (ParameterAccessor.PARAM_ISNULLLIST.equalsIgnoreCase(paramName)) {
+				// Check if it's the parameter value set to null
+				if (ParameterAccessor.PARAM_ISNULL.equalsIgnoreCase(paramName)) {
 					paramName = (String) paramValue;
-					// remove from the map rather than set to null, so it get
-					// the chance to use the default values
-					params.remove(paramName);
-				} else {
-					// Check if it's the parameter value set to null
-					if (ParameterAccessor.PARAM_ISNULL.equalsIgnoreCase(paramName)) {
-						paramName = (String) paramValue;
-						paramValue = null;
-					}
-
-					List list = (List) params.get(paramName);
-					if (list == null) {
-						list = new ArrayList();
-						params.put(paramName, list);
-					}
-					list.add(paramValue);
+					paramValue = null;
 				}
+
+				List list = (List) params.get(paramName);
+				if (list == null) {
+					list = new ArrayList();
+					params.put(paramName, list);
+				}
+				list.add(paramValue);
 			}
 		}
 
@@ -462,8 +480,9 @@ public class BirtUtility {
 
 			// find the parameter
 			ParameterDefinition parameter = bean.findParameterDefinition(paramName);
-			if (parameter == null)
+			if (parameter == null) {
 				continue;
+			}
 
 			String pattern = parameter.getPattern();
 			String dataType = ParameterDataTypeConverter.convertDataType(parameter.getDataType());
@@ -502,12 +521,12 @@ public class BirtUtility {
 
 	/**
 	 * Returns report runnable from design file
-	 * 
+	 *
 	 * @param request
 	 * @param path
 	 * @return
 	 * @throws EngineException
-	 * 
+	 *
 	 */
 	public static IReportRunnable getRunnableFromDesignFile(HttpServletRequest request, String designFile, Map options)
 			throws EngineException {
@@ -556,7 +575,7 @@ public class BirtUtility {
 
 	/**
 	 * Returns report title from design
-	 * 
+	 *
 	 * @param reportDesignHandle
 	 * @return
 	 * @throws ReportServiceException
@@ -576,8 +595,9 @@ public class BirtUtility {
 					} else {
 						reportTitle = (String) runnable.getProperty(IReportRunnable.TITLE);
 					}
-				} else
+				} else {
 					reportTitle = (String) runnable.getProperty(IReportRunnable.TITLE);
+				}
 			}
 		}
 
@@ -608,18 +628,18 @@ public class BirtUtility {
 	/**
 	 * Converts the given text into HTML code. Replaces the newlines into <BR>
 	 * and the leading spaces/tabs into &nbsp;
-	 * 
+	 *
 	 * @param text
 	 * @return
 	 */
 	public static String toHtml(String text) {
-		return text.replaceAll("\n", "<BR/>"); // .replaceAll(
+		return text.replace("\n", "<BR/>"); // .replaceAll(
 		// "^([\s])*[^\s]", "&nbsp;");
 	}
 
 	/**
 	 * Creates an axis fault based on a given exception.
-	 * 
+	 *
 	 * @param qName QName of the fault
 	 * @param e     exception
 	 * @return axis fault
@@ -632,7 +652,7 @@ public class BirtUtility {
 
 	/**
 	 * Creates an axis fault based on a given exception.
-	 * 
+	 *
 	 * @param qName QName of the fault
 	 * @param e     exception
 	 * @return axis fault
@@ -649,7 +669,7 @@ public class BirtUtility {
 
 	/**
 	 * Creates an axis fault grouping the given exceptions list
-	 * 
+	 *
 	 * @param qName      QName of the fault
 	 * @param exceptions list of exceptions
 	 * @return axis fault
@@ -673,13 +693,13 @@ public class BirtUtility {
 
 	/**
 	 * Append Error Message with stack trace
-	 * 
+	 *
 	 * @param out
 	 * @param e
 	 * @throws IOException
 	 */
 	public static void appendErrorMessage(OutputStream out, Exception e) throws IOException {
-		StringBuffer message = new StringBuffer();
+		StringBuilder message = new StringBuilder();
 		message.append("<html>\n<head>\n<title>" //$NON-NLS-1$
 				+ BirtResources.getMessage("birt.viewer.title.error") //$NON-NLS-1$
 				+ "</title>\n"); //$NON-NLS-1$
@@ -723,7 +743,7 @@ public class BirtUtility {
 
 	/**
 	 * Returns the detail message of exception
-	 * 
+	 *
 	 * @param tx
 	 * @return
 	 */
@@ -742,7 +762,7 @@ public class BirtUtility {
 
 	/**
 	 * Write message into output stream.
-	 * 
+	 *
 	 * @param out
 	 * @param message
 	 * @param msgType
@@ -751,17 +771,19 @@ public class BirtUtility {
 	public static void writeMessage(OutputStream out, String content, String msgType, boolean isCloseWin)
 			throws IOException {
 		String fontColor = "black"; //$NON-NLS-1$
-		if (IBirtConstants.MSG_ERROR.equalsIgnoreCase(msgType))
+		if (IBirtConstants.MSG_ERROR.equalsIgnoreCase(msgType)) {
 			fontColor = "red"; //$NON-NLS-1$
+		}
 
-		StringBuffer message = new StringBuffer();
+		StringBuilder message = new StringBuilder();
 		message.append("<html><head><title>" //$NON-NLS-1$
 				+ BirtResources.getMessage("birt.viewer.title." + msgType) //$NON-NLS-1$
 				+ "</title>");//$NON-NLS-1$
 		message.append("<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=utf-8\"></head>") //$NON-NLS-1$
 				.append("<body"); //$NON-NLS-1$
-		if (isCloseWin)
+		if (isCloseWin) {
 			message.append(" onload=\"javascript:window.close()\""); //$NON-NLS-1$
+		}
 		message.append(" style=\"background-color: #ECE9D8;\"><div style=\"font-size:10pt;\"><font color=\"" + fontColor //$NON-NLS-1$
 				+ "\">" //$NON-NLS-1$
 				+ content + "</font></div></body></html>"); //$NON-NLS-1$
@@ -772,7 +794,7 @@ public class BirtUtility {
 
 	/**
 	 * Handle print action
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @throws Exception
@@ -795,19 +817,21 @@ public class BirtUtility {
 
 	/**
 	 * Returns toc style from TOCNode
-	 * 
+	 *
 	 * @param node
 	 * @return
 	 */
 	public static String getTOCStyle(TOCNode node) {
-		if (node == null)
+		if (node == null) {
 			return null;
+		}
 
 		IScriptStyle scriptStyle = node.getTOCStyle();
-		if (scriptStyle == null)
+		if (scriptStyle == null) {
 			return null;
+		}
 
-		StringBuffer style = new StringBuffer();
+		StringBuilder style = new StringBuilder();
 
 		// background-attachment
 		style.append(getStyle(scriptStyle, "getBackgroundAttachment", //$NON-NLS-1$
@@ -900,8 +924,9 @@ public class BirtUtility {
 			textDecoration += textUnderline + " "; //$NON-NLS-1$
 		}
 
-		if (textDecoration.length() > 0)
+		if (textDecoration.length() > 0) {
 			style.append("text-decoration:" + textDecoration + ";"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
 
 		// word-spacing
 		style.append(getStyle(scriptStyle, "getWordSpacing", "word-spacing"));//$NON-NLS-1$ //$NON-NLS-2$
@@ -911,7 +936,7 @@ public class BirtUtility {
 
 	/**
 	 * Returns the CSS text
-	 * 
+	 *
 	 * @param obj
 	 * @param methodName
 	 * @param cssAttr
@@ -923,15 +948,16 @@ public class BirtUtility {
 		assert cssAttr != null;
 
 		String style = invokeGetStyle(obj, methodName);
-		if (style == null || NONE.equalsIgnoreCase(style))
+		if (style == null || NONE.equalsIgnoreCase(style)) {
 			return ""; //$NON-NLS-1$
+		}
 
 		return cssAttr + ":" + style + ";"; //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/**
 	 * Invoke GET method
-	 * 
+	 *
 	 * @param obj
 	 * @param methodName
 	 * @return
@@ -941,12 +967,14 @@ public class BirtUtility {
 
 		try {
 			Method method = IScriptStyle.class.getMethod(methodName, new Class[] {});
-			if (method == null)
+			if (method == null) {
 				return null;
+			}
 
 			Object value = method.invoke(obj, new Object[] {});
-			if (value != null)
+			if (value != null) {
 				style = (String) value;
+			}
 		} catch (Exception e) {
 		}
 
@@ -955,13 +983,13 @@ public class BirtUtility {
 
 	/**
 	 * Returns appcontext
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
 	public static Map getAppContext(HttpServletRequest request) {
 		HashMap context = new HashMap();
-		Boolean isDesigner = Boolean.valueOf(ParameterAccessor.isDesigner());
+		Boolean isDesigner = ParameterAccessor.isDesigner();
 		context.put("org.eclipse.birt.data.engine.dataset.cache.option", //$NON-NLS-1$
 				isDesigner);
 		context.put(EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST, request);
@@ -984,8 +1012,9 @@ public class BirtUtility {
 
 		// Cube memory size
 		int cubeMemorySize = ParameterAccessor.getCubeMemorySize(request);
-		if (cubeMemorySize >= 0)
+		if (cubeMemorySize >= 0) {
 			context.put(DataEngine.IN_MEMORY_CUBE_SIZE, Integer.valueOf(cubeMemorySize));
+		}
 
 		// add resource path to app context
 		context.put(IBirtConstants.APPCONTEXT_BIRT_RESOURCE_PATH, ParameterAccessor.getResourceFolder(request));
@@ -1003,15 +1032,16 @@ public class BirtUtility {
 
 	/**
 	 * Find toc id from document instance by name
-	 * 
+	 *
 	 * @param doc
 	 * @param name
 	 * @param options
 	 * @return
 	 */
 	public static String findTocByName(IReportDocument doc, String name, InputOptions options) {
-		if (doc == null || name == null)
+		if (doc == null || name == null) {
 			return null;
+		}
 
 		String tocid = null;
 
@@ -1022,8 +1052,9 @@ public class BirtUtility {
 			locale = (Locale) options.getOption(InputOptions.OPT_LOCALE);
 			timeZone = (TimeZone) options.getOption(InputOptions.OPT_TIMEZONE);
 		}
-		if (locale == null)
+		if (locale == null) {
 			locale = Locale.getDefault();
+		}
 
 		// get TOC tree
 		ITOCTree tocTree = null;
@@ -1033,33 +1064,37 @@ public class BirtUtility {
 		} else {
 			tocTree = doc.getTOCTree(DesignChoiceConstants.FORMAT_TYPE_VIEWER, ULocale.forLocale(locale));
 		}
-		if (tocTree == null)
+		if (tocTree == null) {
 			return null;
+		}
 
 		List tocList = tocTree.findTOCByValue(name);
-		if (tocList != null && tocList.size() > 0)
+		if (tocList != null && tocList.size() > 0) {
 			tocid = ((TOCNode) tocList.get(0)).getBookmark();
+		}
 
 		return tocid;
 	}
 
 	/**
 	 * Output file content
-	 * 
+	 *
 	 * @param filePath
 	 * @param out
 	 * @param isDelete
 	 * @exception IOException
 	 */
 	public static void outputFile(String filePath, OutputStream out, boolean isDelete) throws IOException {
-		if (filePath == null)
+		if (filePath == null) {
 			return;
+		}
 		File file = new File(filePath);
-		if (!file.exists())
+		if (!file.exists()) {
 			return;
+		}
 
 		FileInputStream in = new FileInputStream(file);
-		try {
+		try (in) {
 			byte[] buf = new byte[512];
 			int len = 0;
 			while ((len = in.read(buf)) > 0) {
@@ -1067,11 +1102,10 @@ public class BirtUtility {
 			}
 			out.flush();
 		} finally {
-			in.close();
-
 			try {
-				if (isDelete)
+				if (isDelete) {
 					file.delete();
+				}
 			} catch (Exception e) {
 
 			}
@@ -1081,22 +1115,23 @@ public class BirtUtility {
 
 	/**
 	 * Get current resource system id
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
 	private static String getSystemId(HttpServletRequest request) {
 		String systemId = null;
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
-		if (attrBean != null)
+		if (attrBean != null) {
 			systemId = attrBean.getReportDesignName();
+		}
 
 		return systemId;
 	}
 
 	/**
 	 * Log error message in problem view
-	 * 
+	 *
 	 * @param systemId
 	 * @param message
 	 * @param elementId
@@ -1108,9 +1143,10 @@ public class BirtUtility {
 			if (clz != null) {
 				Method mt = clz.getMethod("error", new Class[] { //$NON-NLS-1$
 						String.class, String.class, long.class, int.class });
-				if (mt != null)
+				if (mt != null) {
 					mt.invoke(null,
 							new Object[] { systemId, message, Long.valueOf(elementId), Integer.valueOf(lineNumber) });
+				}
 			}
 		} catch (Exception e) {
 		}
@@ -1118,15 +1154,16 @@ public class BirtUtility {
 
 	/**
 	 * Log engine error message in problem view
-	 * 
+	 *
 	 * @param request
 	 * @param moduleHandle
 	 * @param errors
 	 */
 	public static void error(HttpServletRequest request, List errors) {
 		String systemId = getSystemId(request);
-		if (systemId == null)
+		if (systemId == null) {
 			return;
+		}
 
 		String isCleared = (String) request.getAttribute(VIEWER_MARKER_CLEARED);
 		if (isCleared == null) {
@@ -1136,8 +1173,9 @@ public class BirtUtility {
 		}
 
 		// no error
-		if (errors == null || errors.size() <= 0)
+		if (errors == null || errors.size() <= 0) {
 			return;
+		}
 
 		Iterator it = errors.iterator();
 		while (it.hasNext()) {
@@ -1171,7 +1209,7 @@ public class BirtUtility {
 
 	/**
 	 * clear all errors related current resource in problem view
-	 * 
+	 *
 	 * @param systemId
 	 */
 	private static void clearErrors(String systemId) {
@@ -1180,8 +1218,9 @@ public class BirtUtility {
 			if (clz != null) {
 				Method mt = clz.getMethod("clear", new Class[] { //$NON-NLS-1$
 						String.class });
-				if (mt != null)
+				if (mt != null) {
 					mt.invoke(null, new Object[] { systemId });
+				}
 			}
 		} catch (Exception e) {
 		}
@@ -1189,7 +1228,7 @@ public class BirtUtility {
 
 	/**
 	 * Returns the application classloader
-	 * 
+	 *
 	 * @return ClassLoader
 	 */
 	public static ClassLoader getAppClassLoader() {
@@ -1200,8 +1239,9 @@ public class BirtUtility {
 			if (clz != null) {
 				Method mt = clz.getMethod("getAppClassLoader", new Class[] { //$NON-NLS-1$
 				});
-				if (mt != null)
+				if (mt != null) {
 					classLoader = (ClassLoader) mt.invoke(null, new Object[] {});
+				}
 			}
 		} catch (Exception e) {
 		}
@@ -1235,7 +1275,7 @@ public class BirtUtility {
 
 	/**
 	 * Get the appcontext from extension
-	 * 
+	 *
 	 * @param appContextName
 	 * @param context
 	 * @return
@@ -1246,8 +1286,9 @@ public class BirtUtility {
 			if (clz != null) {
 				Method mt = clz.getMethod("getAppContext", new Class[] { //$NON-NLS-1$
 						String.class, Map.class });
-				if (mt != null)
+				if (mt != null) {
 					context = (Map) mt.invoke(null, new Object[] { appContextName, context });
+				}
 			}
 		} catch (Exception e) {
 		}
@@ -1257,7 +1298,7 @@ public class BirtUtility {
 
 	/**
 	 * Converts a Java time zone to an ICU time zone.
-	 * 
+	 *
 	 * @param timeZone Java time zone
 	 * @return ICU time zone
 	 */

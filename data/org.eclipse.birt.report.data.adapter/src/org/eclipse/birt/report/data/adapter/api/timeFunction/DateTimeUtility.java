@@ -1,9 +1,12 @@
 /**
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ import com.ibm.icu.util.Calendar;
 public class DateTimeUtility {
 	/**
 	 * Return date portion according the expected time type
-	 * 
+	 *
 	 * @param date
 	 * @param timeType see DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH
 	 *                 etc portions.
@@ -36,8 +39,9 @@ public class DateTimeUtility {
 		if (calendar == null) {
 			calendar = Calendar.getInstance();
 		}
-		if (date == null)
+		if (date == null) {
 			return new Integer(0);
+		}
 		if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH.equals(timeType)) {
 			return new Integer(getCalendar(calendar, date).get(Calendar.DAY_OF_MONTH));
 		} else if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK.equals(timeType)) {
@@ -51,7 +55,7 @@ public class DateTimeUtility {
 		} else if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH.equals(timeType)) {
 			return new Integer(getCalendar(calendar, date).get(Calendar.MONTH) + 1);
 		} else if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals(timeType)) {
-			int month = -1;
+			int month;
 			month = getCalendar(calendar, date).get(Calendar.MONTH);
 			int quarter = -1;
 			switch (month) {
@@ -188,7 +192,7 @@ public class DateTimeUtility {
 			} else {
 				dayCountPerQtr = dayCountPerQtr_NLY;
 			}
-			int dayOfQtr = 0;
+			int dayOfQtr;
 			int totalDaysTillQtr = 0;
 			for (int i = 0; i < quarter - 1; i++) {
 				totalDaysTillQtr += dayCountPerQtr[i];
@@ -205,9 +209,10 @@ public class DateTimeUtility {
 		} else if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE.equals(timeType)) {
 			return new Integer(getCalendar(calendar, date).get(Calendar.MINUTE));
 		} else if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals(timeType)) {
-			return Integer.valueOf(getCalendar(calendar, date).get(Calendar.SECOND));
-		} else
+			return getCalendar(calendar, date).get(Calendar.SECOND);
+		} else {
 			throw new AdapterException(ResourceConstants.INVALID_DATE_TIME_TYPE, timeType);
+		}
 	}
 
 	private static Calendar getCalendar(Calendar calendar, Object d) {

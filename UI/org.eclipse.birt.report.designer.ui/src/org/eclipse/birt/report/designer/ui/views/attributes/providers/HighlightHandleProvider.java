@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,12 +34,12 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 
 /**
  * Helper class for highlight rule handle operation.
- * 
+ *
  * @since 2.5
  */
 public class HighlightHandleProvider {
 
-	private static final HighlightRuleHandle[] EMPTY = new HighlightRuleHandle[0];
+	private static final HighlightRuleHandle[] EMPTY = {};
 
 	public static final int EXPRESSION_TYPE_ROW = 0;
 	public static final int EXPRESSION_TYPE_DATA = 1;
@@ -63,7 +66,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Returns the final font family name.
-	 * 
+	 *
 	 * @param fontFamily
 	 * @return
 	 */
@@ -79,7 +82,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Returns the style handle for current design element.
-	 * 
+	 *
 	 * @return
 	 */
 	public StyleHandle getStyleHandle() {
@@ -88,7 +91,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Returns the current design element handle.
-	 * 
+	 *
 	 * @return
 	 */
 	public DesignElementHandle getDesignElementHandle() {
@@ -97,7 +100,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Returns the column text for each highlight item.
-	 * 
+	 *
 	 * @param element     highlight rule handle element.
 	 * @param columnIndex
 	 * @return
@@ -151,7 +154,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Swaps the two neighbour-items, no edge check.
-	 * 
+	 *
 	 * @param pos       item position.
 	 * @param direction negative - UP or LEFT, positive or zero - BOTTOM or RIGHT
 	 * @return
@@ -165,7 +168,7 @@ public class HighlightHandleProvider {
 		} else {
 			/**
 			 * Original code: phandle.moveItem( pos, pos + 1 );
-			 * 
+			 *
 			 * Changes due to model api changes. since property handle now treats moving
 			 * from 0-0, 0-1 as the same.
 			 */
@@ -177,7 +180,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Deletes specified highlight rule item from current highlight rules property.
-	 * 
+	 *
 	 * @param pos item position.
 	 * @return
 	 * @throws PropertyValueException
@@ -188,8 +191,9 @@ public class HighlightHandleProvider {
 		phandle.removeItem(pos);
 
 		try {
-			if (phandle.getListValue() == null || phandle.getListValue().size() == 0)
+			if (phandle.getListValue() == null || phandle.getListValue().size() == 0) {
 				elementHandle.setProperty(StyleHandle.HIGHLIGHT_RULES_PROP, null);
+			}
 		} catch (SemanticException e) {
 			ExceptionHandler.handle(e);
 		}
@@ -199,7 +203,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Adds new highlight rule item to current highlight rules property.
-	 * 
+	 *
 	 * @param rule new highlight rule item.
 	 * @param pos  current highlight rule items count.
 	 * @return new created highlight rule handle.
@@ -220,7 +224,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Returns all highlight rule items from current DesignElement.
-	 * 
+	 *
 	 * @param inputElement design element handle.
 	 * @return
 	 */

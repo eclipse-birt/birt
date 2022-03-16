@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,12 +21,12 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  */
 public interface IExpressionConverter {
 
-	static final String EXPRESSION_CLASS_CUBE = "cube"; //$NON-NLS-1$
-	static final String EXPRESSION_CLASS_TABLE = "table"; //$NON-NLS-1$
+	String EXPRESSION_CLASS_CUBE = "cube"; //$NON-NLS-1$
+	String EXPRESSION_CLASS_TABLE = "table"; //$NON-NLS-1$
 
 	/**
 	 * Returns the binding expression by given name.
-	 * 
+	 *
 	 * @param bindingName
 	 * @return
 	 */
@@ -31,7 +34,7 @@ public interface IExpressionConverter {
 
 	/**
 	 * Returns the parameter expression by given name.
-	 * 
+	 *
 	 * @param paramName
 	 * @return
 	 */
@@ -39,7 +42,7 @@ public interface IExpressionConverter {
 
 	/**
 	 * Returns the cube binding expression by given name.
-	 * 
+	 *
 	 * @param bindingName
 	 * @return
 	 */
@@ -47,7 +50,7 @@ public interface IExpressionConverter {
 
 	/**
 	 * Returns the dimension/level/attribute expression for given names.
-	 * 
+	 *
 	 * @param dimensionName
 	 * @param levelName
 	 * @param attributeName
@@ -57,7 +60,7 @@ public interface IExpressionConverter {
 
 	/**
 	 * Returns the measure expression for given name.
-	 * 
+	 *
 	 * @param measureName
 	 * @return
 	 */
@@ -65,7 +68,7 @@ public interface IExpressionConverter {
 
 	/**
 	 * Returns the first binding that found referenced in the given expression.
-	 * 
+	 *
 	 * @param expression
 	 * @return
 	 */
@@ -73,7 +76,7 @@ public interface IExpressionConverter {
 
 	/**
 	 * Returns the result set column expression by given column name.
-	 * 
+	 *
 	 * @param bindingName
 	 * @return
 	 */
@@ -82,7 +85,7 @@ public interface IExpressionConverter {
 	/**
 	 * Returns the expression as the representation for the given constant value and
 	 * type.
-	 * 
+	 *
 	 * @param value    The constant value string.
 	 * @param dataType The type constants defined as
 	 *                 {@link DesignChoiceConstants#CHOICE_COLUMN_DATA_TYPE}
@@ -92,7 +95,7 @@ public interface IExpressionConverter {
 
 	/**
 	 * Convert the specific expression to the target script type expression.
-	 * 
+	 *
 	 * @param expr       the specific expression
 	 * @param scriptType the target script type
 	 * @param exprClass  the expression class, dimension, binding, measure, etc.

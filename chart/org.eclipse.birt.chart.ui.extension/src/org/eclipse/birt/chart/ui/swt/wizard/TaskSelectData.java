@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -74,7 +77,7 @@ import org.eclipse.swt.widgets.Listener;
  * This task is used for data binding. The UI is mainly managed by
  * SelectDataDynamicArea. For the sake of customization, use IChartDataSheet
  * implementation to create specific UI sections.
- * 
+ *
  */
 public class TaskSelectData extends SimpleTask implements ITaskChangeListener, ITaskPreviewable, Listener {
 
@@ -97,6 +100,7 @@ public class TaskSelectData extends SimpleTask implements ITaskChangeListener, I
 		setDescription(Messages.getString("TaskSelectData.Task.Description")); //$NON-NLS-1$
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		getDataSheet().setChartModel(getChartModel());
 		getDataSheet().addListener(this);
@@ -326,6 +330,7 @@ public class TaskSelectData extends SimpleTask implements ITaskChangeListener, I
 		}
 	}
 
+	@Override
 	public IChartPreviewPainter createPreviewPainter() {
 		ChartPreviewPainter painter = new ChartPreviewPainter((ChartWizardContext) getContext());
 		getPreviewCanvas().addPaintListener(painter);
@@ -345,6 +350,7 @@ public class TaskSelectData extends SimpleTask implements ITaskChangeListener, I
 		return ((ChartWizardContext) getContext()).getDataServiceProvider();
 	}
 
+	@Override
 	public void dispose() {
 		super.dispose();
 		// No need to dispose other widgets
@@ -369,6 +375,7 @@ public class TaskSelectData extends SimpleTask implements ITaskChangeListener, I
 		return dynamicArea;
 	}
 
+	@Override
 	public void handleEvent(Event event) {
 		if (event.data == getDataSheet() || event.data instanceof BaseDataDefinitionComponent) {
 			if (event.type == IChartDataSheet.EVENT_PREVIEW) {
@@ -427,6 +434,7 @@ public class TaskSelectData extends SimpleTask implements ITaskChangeListener, I
 		}
 	}
 
+	@Override
 	public void changeTask(Notification notification) {
 		if (previewPainter != null) {
 			if (notification == null) {
@@ -499,7 +507,7 @@ public class TaskSelectData extends SimpleTask implements ITaskChangeListener, I
 				if (getChartModel() instanceof ChartWithAxes) {
 					DataType dataType = getDataServiceProvider().getDataType(expression);
 					SeriesDefinition baseSD = (ChartUIUtil.getBaseSeriesDefinitions(getChartModel()).get(0));
-					SeriesDefinition orthSD = null;
+					SeriesDefinition orthSD;
 					orthSD = (SeriesDefinition) series.eContainer();
 
 					String aggFunc = null;
@@ -636,7 +644,7 @@ public class TaskSelectData extends SimpleTask implements ITaskChangeListener, I
 	}
 
 	private void updateApplyButton() {
-		if (container != null && container instanceof ChartWizard) {
+		if (container instanceof ChartWizard) {
 			((ChartWizard) container).updateApplyButton();
 		}
 	}
@@ -652,9 +660,10 @@ public class TaskSelectData extends SimpleTask implements ITaskChangeListener, I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask#getImage()
 	 */
+	@Override
 	public Image getImage() {
 		return UIHelper.getImage(ChartUIConstants.IMAGE_TASK_DATA);
 	}
@@ -663,6 +672,7 @@ public class TaskSelectData extends SimpleTask implements ITaskChangeListener, I
 		return ((ChartWizardContext) getContext()).getDataSheet();
 	}
 
+	@Override
 	public void doPreview() {
 		if (getChartModel() instanceof ChartWithAxes) {
 			checkDataTypeForChartWithAxes();
@@ -672,6 +682,7 @@ public class TaskSelectData extends SimpleTask implements ITaskChangeListener, I
 		LivePreviewTask lpt = new LivePreviewTask(Messages.getString("TaskFormatChart.LivePreviewTask.BindData"), null); //$NON-NLS-1$
 		// Add a task to retrieve data and bind data to chart.
 		lpt.addTask(new LivePreviewTask() {
+			@Override
 			public void run() {
 				if (previewPainter != null) {
 					setParameter(ChartLivePreviewThread.PARAM_CHART_MODEL,
@@ -683,11 +694,13 @@ public class TaskSelectData extends SimpleTask implements ITaskChangeListener, I
 
 		// Add a task to render chart.
 		lpt.addTask(new LivePreviewTask() {
+			@Override
 			public void run() {
 				if (previewCanvas != null && previewCanvas.getDisplay() != null
 						&& !previewCanvas.getDisplay().isDisposed()) {
 					previewCanvas.getDisplay().syncExec(new Runnable() {
 
+						@Override
 						public void run() {
 							// Repaint chart.
 							if (previewPainter != null) {
@@ -706,10 +719,12 @@ public class TaskSelectData extends SimpleTask implements ITaskChangeListener, I
 		((ChartLivePreviewThread) ((ChartWizardContext) context).getLivePreviewThread()).add(lpt);
 	}
 
+	@Override
 	public Canvas getPreviewCanvas() {
 		return previewCanvas;
 	}
 
+	@Override
 	public boolean isPreviewable() {
 		return true;
 	}

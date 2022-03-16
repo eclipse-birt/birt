@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -32,14 +34,17 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 		this.colorManager = colorManager;
 	}
 
+	@Override
 	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
 		return new String[] { IDocument.DEFAULT_CONTENT_TYPE, XMLPartitionScanner.XML_COMMENT,
 				XMLPartitionScanner.XML_TAG };
 	}
 
+	@Override
 	public ITextDoubleClickStrategy getDoubleClickStrategy(ISourceViewer sourceViewer, String contentType) {
-		if (doubleClickStrategy == null)
+		if (doubleClickStrategy == null) {
 			doubleClickStrategy = new XMLDoubleClickStrategy();
+		}
 		return doubleClickStrategy;
 	}
 
@@ -61,6 +66,7 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 		return tagScanner;
 	}
 
+	@Override
 	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
 		PresentationReconciler reconciler = new PresentationReconciler();
 

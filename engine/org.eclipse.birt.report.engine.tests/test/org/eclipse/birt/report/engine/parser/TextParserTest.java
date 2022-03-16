@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -11,15 +14,15 @@
 
 package org.eclipse.birt.report.engine.parser;
 
-import junit.framework.TestCase;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import junit.framework.TestCase;
+
 /**
  * Test case for DOM parser.
- * 
+ *
  * @version $Revision: 1.3 $ $Date: 2007/02/06 09:51:36 $
  */
 public class TextParserTest extends TestCase {

@@ -1,7 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.document;
 
@@ -25,12 +31,12 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 
 /**
- * 
+ *
  */
 
 public class BindingIOUtil {
 	/**
-	 * 
+	 *
 	 * @param dos
 	 * @param binding
 	 * @throws DataException
@@ -162,18 +168,24 @@ public class BindingIOUtil {
 	}
 
 	private static TimePeriodType getPeriodType(String type) {
-		if (type == null)
+		if (type == null) {
 			return null;
-		if (type.equals(TimePeriodType.YEAR.toString()))
+		}
+		if (type.equals(TimePeriodType.YEAR.toString())) {
 			return TimePeriodType.YEAR;
-		if (type.equals(TimePeriodType.QUARTER.toString()))
+		}
+		if (type.equals(TimePeriodType.QUARTER.toString())) {
 			return TimePeriodType.QUARTER;
-		if (type.equals(TimePeriodType.MONTH.toString()))
+		}
+		if (type.equals(TimePeriodType.MONTH.toString())) {
 			return TimePeriodType.MONTH;
-		if (type.equals(TimePeriodType.WEEK.toString()))
+		}
+		if (type.equals(TimePeriodType.WEEK.toString())) {
 			return TimePeriodType.WEEK;
-		if (type.equals(TimePeriodType.DAY.toString()))
+		}
+		if (type.equals(TimePeriodType.DAY.toString())) {
 			return TimePeriodType.DAY;
+		}
 		return null;
 	}
 }

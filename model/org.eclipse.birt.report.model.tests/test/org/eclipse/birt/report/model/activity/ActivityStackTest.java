@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,268 +55,268 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testExecute()}</td>
  * <td>initial activityRecord and execute it</td>
  * <td>state can change by controlling</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>add transition before execute</td>
  * <td>canUndo is false</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testUndo()}</td>
  * <td>execute record</td>
  * <td>counter is one</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>undo execute</td>
  * <td>counter is zero</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testRedo()}</td>
  * <td>execute record</td>
  * <td>counter is one</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>undo execute</td>
  * <td>counter is zero</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>redo execute</td>
  * <td>counter is one</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testCanUndo()}</td>
  * <td>execute record</td>
  * <td>canUndo is true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>undo execute</td>
  * <td>canUndo is false</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>execute record under transition</td>
  * <td>canUndo is false</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>commit record under transition</td>
  * <td>canUndo is true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testCanRedo()}</td>
  * <td>execute record</td>
  * <td>canUndo is false</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>undo execute</td>
  * <td>canUndo is true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>redo</td>
  * <td>canUndo is false</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>put in transition and execute record</td>
  * <td>canUndo is false</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>commit transition</td>
  * <td>canUndo is true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testFlush()}</td>
  * <td>when initial state of as can't do undo and redo operation , flush</td>
  * <td>canUndo and canRedo both false and no exception throws out</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>add two records , and let one in the undo stack and one in the redo
  * stack.</td>
  * <td>let canUndo and canRedo both true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>call flush method</td>
  * <td>canUndo and canRedo both false</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetRecords()}</td>
  * <td>execute three times</td>
  * <td>get the right activityID</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSetStackLimit()}</td>
  * <td>execute three times</td>
  * <td>size of the undo stack is three</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>set stack limit to just two</td>
  * <td>size of the undo stack is two</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetRedoRecord()}</td>
  * <td>get initial redoRecord</td>
  * <td>0</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>execute and undo one time</td>
  * <td>get one record</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetUndoRecord()}</td>
  * <td>get initial undoRecord</td>
  * <td>null</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>execute and undo one time</td>
  * <td>get one record</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetRedoLabel()}</td>
  * <td>get initial redoLabel</td>
  * <td>null</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>set label , then execute and undo one time</td>
  * <td>get the same label</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetUndoLabel()}</td>
  * <td>get initial undoRecord</td>
  * <td>0</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>set label ,then execute one time</td>
  * <td>get the same label</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testStartTrans()}</td>
  * <td>execute record and commit transition</td>
  * <td>after commit , canUndo is true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>nested transactions , two levels</td>
  * <td>first commit , canUndo still is false after second commit ( outer commit
  * ) ,canUndo is true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetCurrentTransNo()}</td>
  * <td>execute twice and check number</td>
  * <td>2</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>undo and redo operation</td>
  * <td>1 , then change to 2</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>execute one time and check number</td>
  * <td>3</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testNotification()}</td>
  * <td>execute one record</td>
  * <td>transaction done should be notified.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>undo the above execution</td>
  * <td>transaction undone should be notified.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>redo the above execution</td>
  * <td>transaction redone should be notified.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>execute one transaction of two records</td>
  * <td>transaction done should be notified.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>undo the above transaction</td>
  * <td>transaction undone should be notified.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>redo the above transaction</td>
  * <td>transaction redone should be notified.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>start one transaction, but roll it back</td>
  * <td>no listener should be notified.</td>
  * </tr>
  * </table>
- * 
+ *
  * <tr>
  * <td>{@link #testRedoUndoStack()}</td>
  * <td>Test redo/undo stack for executing records/transactions</td>
  * <td>Redo/undo stacks are expected.</td>
  * </tr>
- * 
+ *
  */
 
 public class ActivityStackTest extends BaseTestCase {
@@ -340,6 +343,7 @@ public class ActivityStackTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -351,6 +355,7 @@ public class ActivityStackTest extends BaseTestCase {
 	/*
 	 * @see TestCase#tearDown()
 	 */
+	@Override
 	protected void tearDown() throws Exception {
 		this.designElement = null;
 		this.record = null;
@@ -370,7 +375,7 @@ public class ActivityStackTest extends BaseTestCase {
 	 * <li>state can change by controlling</li>
 	 * <li>canUndo is false</li>
 	 * </ul>
-	 * 
+	 *
 	 */
 	public void testExecute() {
 		// initial state of the Record.
@@ -838,7 +843,7 @@ public class ActivityStackTest extends BaseTestCase {
 	 * <li>1 , then change to 2</li>
 	 * <li>3</li>
 	 * </ul>
-	 * 
+	 *
 	 */
 
 	public void testGetCurrentTransNo() {
@@ -871,7 +876,7 @@ public class ActivityStackTest extends BaseTestCase {
 
 	/**
 	 * Tests the event notification of record execution and stack change.
-	 * 
+	 *
 	 */
 
 	public void testNotification() {
@@ -949,7 +954,7 @@ public class ActivityStackTest extends BaseTestCase {
 
 	/**
 	 * Tests undo/redo stack status when executing a record or an transaction.
-	 * 
+	 *
 	 * The redo stack will be cleared only when the activity stack executing a
 	 * top-most record/transaction. Otherwise, the redo stack doesn't change.
 	 */
@@ -1048,9 +1053,9 @@ public class ActivityStackTest extends BaseTestCase {
 
 	/**
 	 * Tests persistent transaction feature.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testPersistentTransaction() throws Exception {
@@ -1153,7 +1158,7 @@ public class ActivityStackTest extends BaseTestCase {
 
 	/**
 	 * test the undo sequence after a persistent transaction is committed.
-	 * 
+	 *
 	 * @throws ContentException
 	 * @throws NameException
 	 */
@@ -1230,7 +1235,7 @@ public class ActivityStackTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws ContentException
 	 * @throws NameException
 	 */
@@ -1300,7 +1305,7 @@ public class ActivityStackTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws ContentException
 	 * @throws NameException
 	 */
@@ -1376,7 +1381,7 @@ public class ActivityStackTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws ContentException
 	 * @throws NameException
 	 */
@@ -1455,7 +1460,7 @@ public class ActivityStackTest extends BaseTestCase {
 
 	/**
 	 * Tests cases for persistent transaction undo for bug 215321.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testPersistentTransactionUndo_1() throws Exception {
@@ -1493,7 +1498,7 @@ public class ActivityStackTest extends BaseTestCase {
 	/**
 	 * Tests slient transaction feature. Starts the transaction and executes
 	 * records, but there is no event received.
-	 * 
+	 *
 	 * <ul>
 	 * <li>Silent transaction with add() operations. Before the commit, the layout
 	 * is not updated.</li>
@@ -1507,9 +1512,9 @@ public class ActivityStackTest extends BaseTestCase {
 	 * <li>Silent transaction with add() methods(). The layout is updated after the
 	 * commit.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testLayoutTransaction() throws Exception {
@@ -1657,7 +1662,7 @@ public class ActivityStackTest extends BaseTestCase {
 
 	/**
 	 * Test filter event transaction.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -1713,7 +1718,7 @@ public class ActivityStackTest extends BaseTestCase {
 	/**
 	 * test the send notification is correct when the FilterEventCompoundRecord is
 	 * in a normal compound record.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -1730,9 +1735,7 @@ public class ActivityStackTest extends BaseTestCase {
 		try {
 			designHandle.getBody().add(table);
 			designHandle.getBody().add(grid);
-		} catch (ContentException e) {
-			assert false;
-		} catch (NameException e) {
+		} catch (ContentException | NameException e) {
 			assert false;
 		}
 
@@ -1783,7 +1786,7 @@ public class ActivityStackTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 
 	private static class ElementListener implements Listener {
@@ -1792,21 +1795,17 @@ public class ActivityStackTest extends BaseTestCase {
 
 		public static class Notification {
 
-			DesignElementHandle target = null;
-			NotificationEvent event = null;
-
 			Notification(DesignElementHandle element, NotificationEvent event) {
-				this.target = element;
-				this.event = event;
 			}
 		}
 
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			this.notifications.add(new Notification(focus, ev));
 		}
 
 		/**
-		 * 
+		 *
 		 */
 
 		public void restart() {
@@ -1853,9 +1852,9 @@ public class ActivityStackTest extends BaseTestCase {
 
 		/**
 		 * Constructor
-		 * 
+		 *
 		 * @param target
-		 * 
+		 *
 		 * @param activityID
 		 */
 		public MockupActivityRecord(MockupDesignElement target, int activityID) {
@@ -1865,7 +1864,7 @@ public class ActivityStackTest extends BaseTestCase {
 
 		/**
 		 * Constructor
-		 * 
+		 *
 		 * @param target
 		 */
 		public MockupActivityRecord(MockupDesignElement target) {
@@ -1874,10 +1873,11 @@ public class ActivityStackTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord
 		 * #execute()
 		 */
+		@Override
 		public void execute() {
 			this.executed = true;
 
@@ -1888,10 +1888,11 @@ public class ActivityStackTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord
 		 * #undo()
 		 */
+		@Override
 		public void undo() {
 			if (this.canUndo) {
 				this.target.decrease();
@@ -1902,10 +1903,11 @@ public class ActivityStackTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord
 		 * #redo()
 		 */
+		@Override
 		public void redo() {
 			if (this.canRedo) {
 				this.target.increase();
@@ -1916,25 +1918,28 @@ public class ActivityStackTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
 		 * #getTarget()
 		 */
+		@Override
 		public DesignElement getTarget() {
 			return this.target;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
 		 * #getEvent()
 		 */
 
+		@Override
 		public NotificationEvent getEvent() {
 			return new MockupEvent();
 		}
 
+		@Override
 		protected List getPostTasks() {
 			this.sendNotification = true;
 
@@ -1945,11 +1950,12 @@ public class ActivityStackTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations
 		 * (Stack)
 		 */
 
+		@Override
 		public void rollback() {
 			undo();
 		}
@@ -1958,7 +1964,7 @@ public class ActivityStackTest extends BaseTestCase {
 		 * Returns <code>true</code> if need to hold the event at this time. We need to
 		 * hold the event if it is sent inside a transaction that declared to filter
 		 * notification events( <code>FilterEventsCompoundRecord</code>).
-		 * 
+		 *
 		 * @param transStack the transaction stack.
 		 * @return <code>true</code> if need to hold the event at this time, returns
 		 *         <code>false</code> otherwise.
@@ -1966,8 +1972,9 @@ public class ActivityStackTest extends BaseTestCase {
 		protected final boolean holdEvent(Stack transStack) {
 			if (transStack != null && !transStack.isEmpty()) {
 				CompoundRecord cr = (CompoundRecord) transStack.peek();
-				if (cr instanceof FilterEventsCompoundRecord)
+				if (cr instanceof FilterEventsCompoundRecord) {
 					return true;
+				}
 			}
 
 			return false;
@@ -1979,9 +1986,10 @@ public class ActivityStackTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.activity.NotificationEvent#getEventType ()
 		 */
+		@Override
 		public int getEventType() {
 			return NotificationEvent.CONTENT_EVENT;
 		}
@@ -2013,29 +2021,32 @@ public class ActivityStackTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.elements.DesignElement# apply
 		 * (org.eclipse.birt.report.model.design.report.elements.DesignVisitor)
 		 */
+		@Override
 		public void apply(ElementVisitor visitor) {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.elements.DesignElement#
 		 * getElementName()
 		 */
+		@Override
 		public String getElementName() {
 			return ReportDesignConstants.TABLE_ITEM;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.elements.DesignElement#
 		 * getHandle (org.eclipse.birt.report.model.design.core.activity.DesignContext)
 		 */
+		@Override
 		public DesignElementHandle getHandle(Module rootElement) {
 			return null;
 		}
@@ -2050,11 +2061,12 @@ public class ActivityStackTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.model.activity.ActivityStackListener#stackChanged
 		 * (org.eclipse.birt.report.model.activity.ActivityStackEvent)
 		 */
+		@Override
 		public void stackChanged(ActivityStackEvent event) {
 			this.event = event;
 			action = event.getAction();
@@ -2068,11 +2080,12 @@ public class ActivityStackTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.core.Listener#elementChanged(org.eclipse
 		 * .birt.report.model.api.DesignElementHandle,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			event = ev;
 			assertNotNull(event);

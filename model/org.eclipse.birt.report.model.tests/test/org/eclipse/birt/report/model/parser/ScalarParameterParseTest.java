@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,31 +42,31 @@ import com.ibm.icu.util.ULocale;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
- * 
+ *
+ *
  * <tr>
  * <td>{@link #testProperties()}</td>
  * <td>parse the design file and check all the properties of scalar parameter
  * </td>
  * <td>Content of the property is consistent with the design file</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testWrite()}</td>
  * <td>parse, write and parse, write again. The result of two writer files is
  * the same.</td>
  * <td>The two writer file is the same.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 
 public class ScalarParameterParseTest extends BaseTestCase {
 
 	/**
 	 * Test the write for user-defined properties.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -161,7 +164,7 @@ public class ScalarParameterParseTest extends BaseTestCase {
 		handle2.setListlimit(300);
 
 		ScalarParameterHandle handle3 = (ScalarParameterHandle) params.get(2);
-		List<Expression> valueList = new ArrayList<Expression>();
+		List<Expression> valueList = new ArrayList<>();
 		valueList.add(new Expression("default_value_1", ExpressionType.CONSTANT)); //$NON-NLS-1$
 		valueList.add(null);
 		valueList.add(new Expression("default_value_2", ExpressionType.CONSTANT)); //$NON-NLS-1$
@@ -173,7 +176,7 @@ public class ScalarParameterParseTest extends BaseTestCase {
 
 	/**
 	 * Test the properties for user-defined properties.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -225,8 +228,9 @@ public class ScalarParameterParseTest extends BaseTestCase {
 		int count = 0;
 
 		Iterator iter = null;
-		for (iter = handle.choiceIterator(); iter.hasNext(); count++)
+		for (iter = handle.choiceIterator(); iter.hasNext(); count++) {
 			choices[count] = (StructureHandle) (iter.next());
+		}
 
 		assertEquals(3, count);
 
@@ -271,7 +275,7 @@ public class ScalarParameterParseTest extends BaseTestCase {
 
 	/**
 	 * Gets the <code>ULocale<code> according to the input property name.
-	 * 
+	 *
 	 * @param handle   the handle.
 	 * @param propName the property name
 	 * @return the ulocale
@@ -285,12 +289,12 @@ public class ScalarParameterParseTest extends BaseTestCase {
 
 	/**
 	 * Tests backward compatibility.
-	 * 
+	 *
 	 * Case 1
 	 * <ul>
 	 * <li>"literal value" --> literal value
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

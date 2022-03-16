@@ -1,21 +1,33 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.report.tests.model.api;
+
+import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
+import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
-import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.TextItemHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.ParameterHandle;
-import org.eclipse.birt.report.model.api.LabelHandle;
-import org.eclipse.birt.report.model.api.ImageHandle;
-import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.api.GridHandle;
-import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
  * TestCases for report design including library.
@@ -23,25 +35,25 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
- * 
- * 
+ *
+ *
  * <tr>
  * <td>{@link #testDesignIncludeLibrary()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testDuplicateDesign()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testNoLibrary()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testDBRefer()}</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class DesignIncludeLibraryTest extends BaseTestCase {
 	String fileName = "DesignIncludeLibraryTest.xml"; //$NON-NLS-1$
@@ -64,6 +76,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 		return new TestSuite(DesignIncludeLibraryTest.class);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -77,7 +90,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 
 	/**
 	 * Test report includes library
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDesignIncludeLibrary() throws Exception {
@@ -178,7 +191,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 
 	/**
 	 * Test extend item from library
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDuplicateDesign() throws Exception {
@@ -215,7 +228,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 
 	/**
 	 * Test include an no-exiting library
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testNoLibrary() throws Exception {
@@ -232,7 +245,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 
 	/**
 	 * Test Data source/dataset reference from library
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDBRefer() throws Exception {

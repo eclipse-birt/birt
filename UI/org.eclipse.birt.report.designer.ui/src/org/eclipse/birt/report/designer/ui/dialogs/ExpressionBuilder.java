@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -175,7 +178,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 	private static final String TOOL_TIP_TEXT_CALENDAR = Messages.getString("ExpressionBuilder.toolTipText.calendar"); //$NON-NLS-1$
 
-	private static final Object[] EMPTY = new Object[0];
+	private static final Object[] EMPTY = {};
 
 	private static final String SORTING_PREFERENCE_KEY = "ExpressionBuilder.preference.enable.sorting"; //$NON-NLS-1$
 
@@ -198,12 +201,12 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 	private boolean showLeafOnlyInFunctionTable = false;
 	private Object[] defaultSelection;
 
-	private Map<ToolItem, Integer> toolItemType = new HashMap<ToolItem, Integer>();
+	private Map<ToolItem, Integer> toolItemType = new HashMap<>();
 
 	/**
 	 * Create an expression builder under the given parent shell with the given
 	 * initial expression
-	 * 
+	 *
 	 * @param parentShell    the parent shell
 	 * @param initExpression the initial expression
 	 */
@@ -214,6 +217,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		this.preferenceStore = new ScopedPreferenceStore(new InstanceScope(), "org.eclipse.ui.editors"); //$NON-NLS-1$
 	}
 
+	@Override
 	protected void setShellStyle(int newShellStyle) {
 		newShellStyle |= SWT.MAX | SWT.RESIZE;
 		super.setShellStyle(newShellStyle);
@@ -222,7 +226,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 	/**
 	 * Create an expression builder under the default parent shell with the given
 	 * initial expression
-	 * 
+	 *
 	 * @param initExpression the initial expression
 	 */
 	public ExpressionBuilder(String initExpression) {
@@ -232,7 +236,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 	/**
 	 * Create an expression builder under the default parent shell without an
 	 * initail expression
-	 * 
+	 *
 	 */
 	public ExpressionBuilder() {
 		this(null);
@@ -251,6 +255,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 			this.leafOnly = leafOnly;
 		}
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			if (viewer == categoryTable) {
 				return provider.getCategory();
@@ -276,10 +281,10 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 					&& getAdapter().isExtendedDataItem((ReportElementHandle) inputElement)) {
 				return new Object[] { inputElement };
 			} else if (inputElement instanceof LevelHandle) {
-				List<Object> childrenList = new ArrayList<Object>();
+				List<Object> childrenList = new ArrayList<>();
 				childrenList.add(inputElement);
 
-				List<LevelAttributeHandle> attribs = new ArrayList<LevelAttributeHandle>();
+				List<LevelAttributeHandle> attribs = new ArrayList<>();
 
 				for (Iterator iterator = ((LevelHandle) inputElement).attributesIterator(); iterator.hasNext();) {
 					attribs.add((LevelAttributeHandle) iterator.next());
@@ -289,6 +294,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 					// sort attribute list
 					Collections.sort(attribs, new Comparator<LevelAttributeHandle>() {
 
+						@Override
 						public int compare(LevelAttributeHandle o1, LevelAttributeHandle o2) {
 							return Collator.getInstance().compare(o1.getName(), o2.getName());
 						}
@@ -323,9 +329,11 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 			return true;
 		}
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			if (viewer == subCategoryTable) {
 				functionTable.setInput(null);
@@ -335,6 +343,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 	private ISelectionChangedListener selectionListener = new ISelectionChangedListener() {
 
+		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 			Viewer target = null;
@@ -353,9 +362,9 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 				if (table.getSelectionCount() == 1) {
 					messageLine.getParent().setVisible(true);
 					String message = provider.getDisplayText(table.getSelection()[0].getData());
-					message = message.replaceAll("&", "&amp;"); //$NON-NLS-1$//$NON-NLS-2$
-					message = message.replaceAll("<", "&lt;"); //$NON-NLS-1$ //$NON-NLS-2$
-					message = message.replaceAll(">", "&gt;"); //$NON-NLS-1$//$NON-NLS-2$
+					message = message.replace("&", "&amp;"); //$NON-NLS-1$//$NON-NLS-2$
+					message = message.replace("<", "&lt;"); //$NON-NLS-1$ //$NON-NLS-2$
+					message = message.replace(">", "&gt;"); //$NON-NLS-1$//$NON-NLS-2$
 					messageLine.setText("<form><p> <b>" //$NON-NLS-1$
 							+ Messages.getString("ExpressionBuilder.Label.Hint") //$NON-NLS-1$
 							+ "</b>: " //$NON-NLS-1$
@@ -371,38 +380,47 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 	private class ExpressionLabelProvider implements ITableLabelProvider, ILabelProvider {
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return provider.getImage(element);
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			return provider.getDisplayText(element);
 		}
 
+		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return true;
 		}
 
+		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 
+		@Override
 		public Image getImage(Object element) {
 			return provider.getImage(element);
 		}
 
+		@Override
 		public String getText(Object element) {
 			return provider.getDisplayText(element);
 		}
-	};
+	}
 
 	private IDoubleClickListener doubleClickListener = new IDoubleClickListener() {
 
+		@Override
 		public void doubleClick(DoubleClickEvent event) {
 			IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 			if (selection.isEmpty()) {
@@ -410,7 +428,6 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 			}
 			if (event.getSource() == functionTable) {
 				insertSelection(selection);
-				return;
 			}
 		}
 	};
@@ -438,6 +455,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		}
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		createExpressionField(composite);
@@ -465,6 +483,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 			class BorderPainter implements PaintListener {
 
+				@Override
 				public void paintControl(PaintEvent event) {
 					Composite composite = (Composite) event.widget;
 					Control[] children = composite.getChildren();
@@ -484,9 +503,11 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 			private BorderPainter borderPainter;
 
+			@Override
 			public void paintBordersFor(Composite parent) {
-				if (borderPainter == null)
+				if (borderPainter == null) {
 					borderPainter = new BorderPainter();
+				}
 				parent.addPaintListener(borderPainter);
 			}
 
@@ -504,6 +525,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 		toolBar.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
+			@Override
 			public void getName(AccessibleEvent e) {
 				if (e.childID != ACC.CHILDID_SELF) {
 					Accessible accessible = (Accessible) e.getSource();
@@ -547,10 +569,11 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
 			 * .swt.events.SelectionEvent)
 			 */
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				validateScript();
 			}
@@ -561,6 +584,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		calendar.setToolTipText(TOOL_TIP_TEXT_CALENDAR);
 		calendar.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				generateDate(toolBar, calendar);
 			}
@@ -572,6 +596,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		toolItemType.put(item, operationType);
 		item.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				sourceViewer.doOperation(operationType);
 				updateToolItems();
@@ -595,6 +620,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		JSSourceViewerConfiguration.updateSourceFont(sourceViewer);
 		sourceViewer.getTextWidget().addKeyListener(new KeyAdapter() {
 
+			@Override
 			public void keyPressed(KeyEvent e) {
 				updateToolItems();
 				if (isUndoKeyPress(e)) {
@@ -616,6 +642,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 		sourceViewer.getTextWidget().addBidiSegmentListener(new BidiSegmentListener() {
 
+			@Override
 			public void lineGetSegments(BidiSegmentEvent event) {
 				event.segments = UIUtil.getExpressionBidiSegments(event.lineText);
 			}
@@ -623,6 +650,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 		sourceViewer.getTextWidget().addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				resetOkButtonStatus(true);
 			}
@@ -630,6 +658,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 		sourceViewer.getTextWidget().addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateToolItems();
 			}
@@ -665,6 +694,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		operatorsArea.setLayout(UIUtil.createGridLayoutWithoutMargin(operators.length, true));
 		SelectionAdapter selectionAdapter = new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Button button = (Button) e.getSource();
 				insertText((String) button.getData());
@@ -679,7 +709,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 				String text = operators[i].symbol;
 				if (text.indexOf("&") != -1) //$NON-NLS-1$
 				{
-					text = text.replaceAll("&", "&&"); //$NON-NLS-1$ //$NON-NLS-2$
+					text = text.replace("&", "&&"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				button.setText(text);
 				// button.setToolTipText( operators[i].tooltip );
@@ -714,6 +744,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		categoryLabel.setText(LABEL_CATEGORY);
 		categoryLabel.addTraverseListener(new TraverseListener() {
 
+			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
 					e.detail = SWT.TRAVERSE_NONE;
@@ -726,6 +757,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		subCategoryLabel.setText(LABEL_SUB_CATEGORY);
 		subCategoryLabel.addTraverseListener(new TraverseListener() {
 
+			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
 					e.detail = SWT.TRAVERSE_NONE;
@@ -744,6 +776,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 		functionLabel.addTraverseListener(new TraverseListener() {
 
+			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
 					e.detail = SWT.TRAVERSE_NONE;
@@ -785,9 +818,11 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 		functionTable.getControl().addKeyListener(new KeyListener() {
 
+			@Override
 			public void keyPressed(KeyEvent e) {
 			}
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.character == ' ') {
 					IStructuredSelection selection = (IStructuredSelection) functionTable.getSelection();
@@ -833,25 +868,31 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		treeViewer.setLabelProvider(new ExpressionLabelProvider());
 		treeViewer.setContentProvider(new ITreeContentProvider() {
 
+			@Override
 			public Object[] getChildren(Object parentElement) {
 				return provider.getChildren(parentElement);
 			}
 
+			@Override
 			public Object getParent(Object element) {
 				return null;
 			}
 
+			@Override
 			public boolean hasChildren(Object element) {
 				return provider.hasChildren(element);
 			}
 
+			@Override
 			public Object[] getElements(Object inputElement) {
 				return getChildren(inputElement);
 			}
 
+			@Override
 			public void dispose() {
 			}
 
+			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			}
 		});
@@ -871,9 +912,11 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		column.setWidth(200);
 		table.getShell().addControlListener(new ControlAdapter() {
 
+			@Override
 			public void controlResized(ControlEvent e) {
 				Display.getCurrent().asyncExec(new Runnable() {
 
+					@Override
 					public void run() {
 						if (column != null && !column.isDisposed()) {
 							column.setWidth(table.getSize().x > 204 ? table.getSize().x - 4 : 200);
@@ -887,6 +930,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 		table.addMouseTrackListener(new MouseTrackAdapter() {
 
+			@Override
 			public void mouseHover(MouseEvent event) {
 				Widget widget = event.widget;
 				if (widget == table) {
@@ -914,9 +958,10 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 	 * <p>
 	 * The <code>BaseDialog</code> override the method in order to make Help button
 	 * split with other buttons.
-	 * 
+	 *
 	 * @param button the button to be set layout data to
 	 */
+	@Override
 	protected void setButtonLayoutData(Button button) {
 		GridData gridData;
 		if (button.getText().equals(IDialogConstants.HELP_LABEL)) {
@@ -931,6 +976,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		button.setLayoutData(gridData);
 	}
 
+	@Override
 	protected Control createContents(Composite parent) {
 		Control control = super.createContents(parent);
 		getShell().setText(title);
@@ -946,6 +992,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		return control;
 	}
 
+	@Override
 	protected void okPressed() {
 		if (!validateScript()) {
 			MessageDialog dialog = new MessageDialog(getShell(), Messages.getString("ExpressionBuilder.Script.Warning"), //$NON-NLS-1$
@@ -963,16 +1010,17 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Returns the result of the expression builder.
-	 * 
+	 *
 	 * @return the result
 	 */
+	@Override
 	public String getResult() {
 		return expression;
 	}
 
 	/**
 	 * Sets the expression provider for the expression builder
-	 * 
+	 *
 	 * @param provider the expression provider
 	 */
 	public void setExpressionProvider(IExpressionProvider provider) {
@@ -981,20 +1029,21 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Sets the expression provider for the expression builder
-	 * 
+	 *
 	 * @param provider the expression provider
-	 * 
+	 *
 	 * @deprecated use {@link #setExpressionProvider(IExpressionProvider)}
 	 */
+	@Deprecated
 	public void setExpressionProvier(IExpressionProvider provider) {
 		setExpressionProvider(provider);
 	}
 
 	/**
 	 * Sets default seletion for the expression builder
-	 * 
+	 *
 	 * @param selection
-	 * 
+	 *
 	 * @since 2.3.1
 	 */
 	public void setDefaultSelection(Object... selection) {
@@ -1003,7 +1052,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Sets the dialog title of the expression builder
-	 * 
+	 *
 	 * @param newTitle the new dialog title
 	 */
 	public void setDialogTitle(String newTitle) {
@@ -1019,7 +1068,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Insert a text string into the text area
-	 * 
+	 *
 	 * @param text
 	 */
 	protected void insertText(String text) {
@@ -1040,7 +1089,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Creates the source viewer to be used by this editor.
-	 * 
+	 *
 	 * @param parent the parent control
 	 * @return the source viewer
 	 */
@@ -1115,9 +1164,9 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Creates a new line number ruler column that is appropriately initialized.
-	 * 
+	 *
 	 * @param annotationModel
-	 * 
+	 *
 	 * @return the created line number column
 	 */
 	private IVerticalRulerColumn createLineNumberRulerColumn() {
@@ -1129,7 +1178,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Creates a new line number ruler column that is appropriately initialized.
-	 * 
+	 *
 	 * @return the created line number column
 	 */
 	private CompositeRuler createCompositeRuler() {
@@ -1141,7 +1190,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Creates the vertical ruler to be used by this editor.
-	 * 
+	 *
 	 * @return the vertical ruler
 	 */
 	private IVerticalRuler createVerticalRuler() {
@@ -1157,7 +1206,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Validates the current script.
-	 * 
+	 *
 	 * @return <code>true</code> if no error was found, <code>false</code>
 	 *         otherwise.
 	 */
@@ -1189,10 +1238,12 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		final Shell shell = new Shell(UIUtil.getDefaultShell(), SWT.NO_FOCUS);
 		shell.addShellListener(new ShellAdapter() {
 
+			@Override
 			public void shellDeactivated(ShellEvent e) {
 				shell.close();
 			}
 
+			@Override
 			public void shellIconified(ShellEvent e) {
 				shell.close();
 			}
@@ -1203,10 +1254,11 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 		for (int i = 0; i < toolBar.getItemCount(); i++) {
 			ToolItem item = toolBar.getItem(i);
-			if (item != calendar)
+			if (item != calendar) {
 				point.x += item.getWidth();
-			else
+			} else {
 				break;
+			}
 		}
 		shell.setLocation(point);
 		GridLayout layout = new GridLayout();
@@ -1239,15 +1291,18 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		okBtn.setFocus();
 		okBtn.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					Calendar cal = Calendar.getInstance();
 					cal.set(colorDialog.getYear(), colorDialog.getMonth(), colorDialog.getDay());
 					insertText(DEUtil.addQuote(DateFormatISO8601.format(cal.getTime())));
-					if (!shell.isDisposed())
+					if (!shell.isDisposed()) {
 						shell.close();
-					if (sourceViewer != null && !sourceViewer.getTextWidget().isDisposed())
+					}
+					if (sourceViewer != null && !sourceViewer.getTextWidget().isDisposed()) {
 						sourceViewer.getTextWidget().setFocus();
+					}
 				} catch (BirtException e1) {
 					ExceptionHandler.handle(e1);
 				}
@@ -1295,14 +1350,17 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 	protected void resetOkButtonStatus(Boolean enabled) {
 		Button okButton = getButton(OK);
-		if (okButton != null && okButton.isEnabled() != enabled)
+		if (okButton != null && okButton.isEnabled() != enabled) {
 			okButton.setEnabled(enabled);
+		}
 	}
 
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
-		if (isEditModal())
+		if (isEditModal()) {
 			resetOkButtonStatus(false);
+		}
 	}
 
 	protected IExtendedDataModelUIAdapter getAdapter() {

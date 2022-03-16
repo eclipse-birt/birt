@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,27 +58,30 @@ public class Hierarchy implements IHierarchy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IHierarchy#getLevels()
 	 */
+	@Override
 	public ILevel[] getLevels() {
 		return levels;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IHierarchy#getName()
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IHierarchy#close()
 	 */
+	@Override
 	public void close() throws IOException {
 		for (int i = 0; i < levels.length; i++) {
 			levels[i].close();
@@ -92,15 +98,16 @@ public class Hierarchy implements IHierarchy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IHierarchy#size()
 	 */
+	@Override
 	public int size() {
 		return levels[levels.length - 1].size();
 	}
 
 	/**
-	 * 
+	 *
 	 * @param datasetIterator
 	 * @param levelDefs
 	 * @param stopSign
@@ -146,7 +153,7 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	private void closeWriteDocuemntObject() throws IOException {
@@ -161,19 +168,21 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	private void openReadDocuemntObject() throws IOException {
-		if (documentObj == null)
+		if (documentObj == null) {
 			documentObj = documentManager.openDocumentObject(NamingUtil.getHierarchyDocName(dimensionName, name));
-		if (offsetDocObj == null)
+		}
+		if (offsetDocObj == null) {
 			offsetDocObj = documentManager
 					.openDocumentObject(NamingUtil.getHierarchyOffsetDocName(dimensionName, name));
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws DataException
 	 */
@@ -210,7 +219,7 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -219,7 +228,7 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -228,7 +237,7 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param iterator
 	 * @param levelDefs
 	 * @throws IOException
@@ -243,7 +252,7 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param iterator
 	 * @param levelDef
 	 * @throws IOException
@@ -269,7 +278,7 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param levelDefs
 	 * @param keyDataType
 	 * @param attributesDataType
@@ -293,8 +302,9 @@ public class Hierarchy implements IHierarchy {
 		int currentIndex = 0;
 		IndexKey indexKey = null;
 		while (obj != null) {
-			if (stopSign.isStopped())
+			if (stopSign.isStopped()) {
 				break;
+			}
 			DimensionRow dimRows = (DimensionRow) obj;
 			Member[] levelMembers = dimRows.getMembers();
 			for (int i = 0; i < indexKeyLists.length; i++) {
@@ -334,7 +344,7 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sortedDimMembers
 	 * @throws IOException
 	 * @throws DataException
@@ -354,7 +364,7 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimensionMember
 	 * @param keyDataType
 	 * @param attributesDataType
@@ -370,7 +380,7 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param levelMember
 	 * @param keyDataType
 	 * @param attributesDataType
@@ -390,7 +400,7 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -408,7 +418,7 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param level
 	 * @return
 	 * @throws IOException
@@ -442,13 +452,15 @@ public class Hierarchy implements IHierarchy {
 		documentObj.seek(0);
 		int size = documentObj.readInt();
 		BufferedStructureArray resultArray = new BufferedStructureArray(DimensionRow.getCreator(), size + 1);
-		if (size == 0)
+		if (size == 0) {
 			return resultArray;
+		}
 		offsetDocObj.seek(0);
 		documentObj.seek(offsetDocObj.readInt());
 		for (int i = 0; i < size; i++) {
-			if (stopSign.isStopped())
+			if (stopSign.isStopped()) {
 				break;
+			}
 			resultArray.add(readDimensionRow());
 		}
 
@@ -456,7 +468,7 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimPosition
 	 * @return
 	 * @throws IOException
@@ -468,7 +480,7 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param offset
 	 * @return
 	 * @throws IOException
@@ -480,7 +492,7 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param iterator
 	 * @param levelDefs
 	 * @return
@@ -520,7 +532,7 @@ public class Hierarchy implements IHierarchy {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param iterator
 	 * @param IDColumn
 	 * @param attributeCols

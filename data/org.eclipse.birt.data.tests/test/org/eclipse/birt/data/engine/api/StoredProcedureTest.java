@@ -1,15 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.api;
+
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,15 +26,13 @@ import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import testutil.ConfigText;
 import testutil.JDBCDataSource;
 import testutil.JDBCOdaDataSource;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
 /**
  * to test stored procedure in derby database
@@ -48,6 +51,7 @@ public class StoredProcedureTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestBlobAndClob.TableName"),
 				ConfigText.getString("Api.TestBlobAndClob.TableSQL"),
@@ -58,8 +62,9 @@ public class StoredProcedureTest extends APITestCase {
 	 * Creates a test procedure
 	 */
 	protected void createTestProcedure() throws Exception {
-		if (dataSourceInstance == null)
+		if (dataSourceInstance == null) {
 			dataSourceInstance = JDBCDataSource.newInstance();
+		}
 
 		this.dataSourceInstance.createStoredProcedure(ConfigText.getString("Api.TestProcedure.ProcedureName"),
 				ConfigText.getString("Api.TestProcedure.ProcedureSQL"), true);
@@ -90,8 +95,9 @@ public class StoredProcedureTest extends APITestCase {
 				Iterator iterator = inputParamDefns.iterator();
 				while (iterator.hasNext()) {
 					ParameterDefinition paramDefn = (ParameterDefinition) iterator.next();
-					if (paramDefn.isInputMode())
+					if (paramDefn.isInputMode()) {
 						((OdaDataSetDesign) baseDataset).addParameter(paramDefn);
+					}
 				}
 			}
 			QueryDefinition queryDefn = new QueryDefinition();
@@ -108,12 +114,13 @@ public class StoredProcedureTest extends APITestCase {
 
 	/**
 	 * new a JDBC dataset with specified datasetname and querytext
-	 * 
+	 *
 	 * @param datasetName
 	 * @param queryText
 	 * @return dataset
 	 * @throws Exception
 	 */
+	@Override
 	protected OdaDataSetDesign newDataSet(String datasetName, String queryText) throws Exception {
 		OdaDataSetDesign dset = new OdaDataSetDesign(datasetName);
 		dset.setDataSource(this.dataSource.getName());
@@ -125,7 +132,7 @@ public class StoredProcedureTest extends APITestCase {
 
 	/**
 	 * Used to create query text for data set
-	 * 
+	 *
 	 * @return query text of data set
 	 */
 	protected String getCallableSQL() {
@@ -135,7 +142,7 @@ public class StoredProcedureTest extends APITestCase {
 
 	/**
 	 * the procedure "testProc"
-	 * 
+	 *
 	 * @param inputParam
 	 */
 	public static void selectData(int inputParam) {

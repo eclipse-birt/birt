@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -25,7 +28,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * The class loads an animation GIF and play it in UI.
- * 
+ *
  * @since 2.5.2
  */
 public class ImageViewer extends Canvas {
@@ -55,7 +58,7 @@ public class ImageViewer extends Canvas {
 
 	/**
 	 * Set image data.
-	 * 
+	 *
 	 * @param imageData
 	 */
 	public void setImage(ImageData imageData) {
@@ -70,7 +73,7 @@ public class ImageViewer extends Canvas {
 
 	/**
 	 * Set image data.
-	 * 
+	 *
 	 * @param repeatCount 0 forever
 	 */
 	public void setImages(ImageData[] imageDatas, int repeatCount) {
@@ -100,20 +103,24 @@ public class ImageViewer extends Canvas {
 
 	@Override
 	public void dispose() {
-		if (image != null)
+		if (image != null) {
 			image.dispose();
+		}
 
-		if (images != null)
-			for (int i = 0; i < images.length; i++)
+		if (images != null) {
+			for (int i = 0; i < images.length; i++) {
 				images[i].dispose();
+			}
+		}
 
 		super.dispose();
 	}
 
 	protected void paint(Event e) {
 		Image image = getCurrentImage();
-		if (image == null)
+		if (image == null) {
 			return;
+		}
 
 		GC gc = e.gc;
 		gc.drawImage(image, origin.x, origin.y);
@@ -133,11 +140,13 @@ public class ImageViewer extends Canvas {
 
 	void addListeners() {
 		addListener(SWT.Resize, new Listener() {
+			@Override
 			public void handleEvent(Event e) {
 				resize();
 			}
 		});
 		addListener(SWT.Paint, new Listener() {
+			@Override
 			public void handleEvent(Event e) {
 				paint(e);
 			}
@@ -146,8 +155,9 @@ public class ImageViewer extends Canvas {
 
 	void resize() {
 		Image image = getCurrentImage();
-		if (image == null)
+		if (image == null) {
 			return;
+		}
 
 		redraw();
 	}
@@ -196,43 +206,51 @@ public class ImageViewer extends Canvas {
 			// second image since there is no "second last"
 			// image to use.
 			transition = id.disposalMethod;
-			if (i == 0 && transition == SWT.DM_FILL_PREVIOUS)
+			if (i == 0 && transition == SWT.DM_FILL_PREVIOUS) {
 				transition = SWT.DM_FILL_NONE;
+			}
 		}
 	}
 
 	Image getCurrentImage() {
-		if (image != null)
+		if (image != null) {
 			return image;
+		}
 
-		if (images == null)
+		if (images == null) {
 			return null;
+		}
 
 		return images[current];
 	}
 
 	void startAnimationTimer() {
-		if (images == null || images.length < 2)
+		if (images == null || images.length < 2) {
 			return;
+		}
 
 		final int delay = imageDatas[current].delayTime * 10;
 		display.timerExec(delay, animationTimer = new Runnable() {
+			@Override
 			public void run() {
-				if (isDisposed())
+				if (isDisposed()) {
 					return;
+				}
 
 				current = (current + 1) % images.length;
 				redraw();
 
-				if (current + 1 == images.length && repeatCount != 0 && --repeatCount <= 0)
+				if (current + 1 == images.length && repeatCount != 0 && --repeatCount <= 0) {
 					return;
+				}
 				display.timerExec(delay, this);
 			}
 		});
 	}
 
 	void stopAnimationTimer() {
-		if (animationTimer != null)
+		if (animationTimer != null) {
 			display.timerExec(-1, animationTimer);
+		}
 	}
 }

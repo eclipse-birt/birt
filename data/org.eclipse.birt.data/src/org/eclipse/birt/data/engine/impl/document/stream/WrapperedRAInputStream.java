@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +21,7 @@ import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ *
  */
 
 public class WrapperedRAInputStream extends RAInputStream {
@@ -42,44 +45,54 @@ public class WrapperedRAInputStream extends RAInputStream {
 		}
 	}
 
+	@Override
 	public int available() throws IOException {
 		return this.raIn.available();
 	}
 
+	@Override
 	public long getOffset() throws IOException {
 		return this.raIn.getOffset() - this.startOffset;
 	}
 
+	@Override
 	public long length() throws IOException {
 		return this.size;
 	}
 
+	@Override
 	public void readFully(byte[] b, int off, int len) throws IOException {
 		this.raIn.readFully(b, off, len);
 	}
 
+	@Override
 	public int readInt() throws IOException {
 		return this.raIn.readInt();
 	}
 
+	@Override
 	public long readLong() throws IOException {
 		return this.raIn.readLong();
 	}
 
+	@Override
 	public void refresh() throws IOException {
 		this.raIn.refresh();
 		this.raIn.seek(this.startOffset);
 	}
 
+	@Override
 	public void seek(long localPos) throws IOException {
 		this.raIn.seek(this.startOffset + localPos);
 
 	}
 
+	@Override
 	public int read() throws IOException {
 		return this.raIn.read();
 	}
 
+	@Override
 	public void close() throws IOException {
 		this.raIn.close();
 	}

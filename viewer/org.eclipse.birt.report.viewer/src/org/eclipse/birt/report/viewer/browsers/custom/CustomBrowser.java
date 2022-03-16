@@ -1,22 +1,25 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
 
 package org.eclipse.birt.report.viewer.browsers.custom;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import org.eclipse.birt.report.viewer.ViewerPlugin;
-import org.eclipse.core.runtime.*;
-import org.eclipse.help.browser.*;
-import org.eclipse.osgi.service.environment.*;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.help.browser.IBrowser;
+import org.eclipse.osgi.service.environment.Constants;
 
 /**
  * Custom browser implementation. The original implementation is from HELP.
@@ -28,6 +31,7 @@ public class CustomBrowser implements IBrowser {
 	/**
 	 * @see org.eclipse.help.browser.IBrowser#close()
 	 */
+	@Override
 	public void close() {
 		// Do nothing
 	}
@@ -35,6 +39,7 @@ public class CustomBrowser implements IBrowser {
 	/**
 	 * @see org.eclipse.help.browser.IBrowser#isCloseSupported()
 	 */
+	@Override
 	public boolean isCloseSupported() {
 		return false;
 	}
@@ -42,6 +47,7 @@ public class CustomBrowser implements IBrowser {
 	/**
 	 * @see org.eclipse.help.browser.IBrowser#displayURL(java.lang.String)
 	 */
+	@Override
 	public void displayURL(String url) throws Exception {
 		String path = ViewerPlugin.getDefault().getPluginPreferences().getString(CustomBrowser.CUSTOM_BROWSER_PATH_KEY);
 
@@ -66,6 +72,7 @@ public class CustomBrowser implements IBrowser {
 	/**
 	 * @see org.eclipse.help.browser.IBrowser#isSetLocationSupported()
 	 */
+	@Override
 	public boolean isSetLocationSupported() {
 		return false;
 	}
@@ -73,6 +80,7 @@ public class CustomBrowser implements IBrowser {
 	/**
 	 * @see org.eclipse.help.browser.IBrowser#isSetSizeSupported()
 	 */
+	@Override
 	public boolean isSetSizeSupported() {
 		return false;
 	}
@@ -80,6 +88,7 @@ public class CustomBrowser implements IBrowser {
 	/**
 	 * @see org.eclipse.help.browser.IBrowser#setLocation(int, int)
 	 */
+	@Override
 	public void setLocation(int x, int y) {
 		// Do nothing
 	}
@@ -87,13 +96,14 @@ public class CustomBrowser implements IBrowser {
 	/**
 	 * @see org.eclipse.help.browser.IBrowser#setSize(int, int)
 	 */
+	@Override
 	public void setSize(int width, int height) {
 		// Do nothing
 	}
 
 	/**
 	 * Creates the final command to launch.
-	 * 
+	 *
 	 * @param path
 	 * @param url
 	 * @return String[]

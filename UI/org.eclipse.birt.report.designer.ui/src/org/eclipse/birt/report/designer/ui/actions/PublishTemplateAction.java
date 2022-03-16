@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,26 +59,29 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
 	 */
+	@Override
 	public void dispose() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
 	 * IWorkbenchWindow)
 	 */
+	@Override
 	public void init(IWorkbenchWindow window) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
+	@Override
 	public void run(IAction action) {
 		if (selectReport) {
 			if (reportFile != null) {
@@ -96,7 +102,8 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate {
 								Messages.getString("PublishTemplateAction.SaveBeforeGenerating.dialog.title"), //$NON-NLS-1$
 								null,
 								Messages.getFormattedString("PublishTemplateAction.SaveBeforeGenerating.dialog.message", //$NON-NLS-1$
-										new Object[] { reportFile.getName() }), MessageDialog.CONFIRM,
+										new Object[] { reportFile.getName() }),
+								MessageDialog.CONFIRM,
 								new String[] {
 										Messages.getString(
 												"PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes"), //$NON-NLS-1$
@@ -129,9 +136,9 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate {
 			if (editor != null && editor.isDirty()) {
 				MessageDialog md = new MessageDialog(UIUtil.getDefaultShell(),
 						Messages.getString("PublishTemplateAction.SaveBeforeGenerating.dialog.title"), //$NON-NLS-1$
-						null,
-						Messages.getFormattedString("PublishTemplateAction.SaveBeforeGenerating.dialog.message", //$NON-NLS-1$
-								new Object[] { editor.getTitle() }), MessageDialog.CONFIRM,
+						null, Messages.getFormattedString("PublishTemplateAction.SaveBeforeGenerating.dialog.message", //$NON-NLS-1$
+								new Object[] { editor.getTitle() }),
+						MessageDialog.CONFIRM,
 						new String[] {
 								Messages.getString("PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes"), //$NON-NLS-1$
 								Messages.getString("PublishTemplateAction.SaveBeforeGenerating.dialog.button.no") //$NON-NLS-1$
@@ -155,10 +162,11 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
 	 * .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
+	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		if (selection instanceof TreeSelection) {
 			IFile file = null;
@@ -205,10 +213,11 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate {
 
 /**
  * PublishPage
- * 
+ *
  * @deprecated change to org.eclipse.birt.report.designer.internal.ui.wizards.
  *             WizardReportSettingPage
  */
+@Deprecated
 class PublishPage extends WizardPage {
 
 	private static final String PAGE_TITLE = Messages.getString("PublishTemplateAction.wizard.page.title"); //$NON-NLS-1$
@@ -248,11 +257,12 @@ class PublishPage extends WizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	public void createControl(Composite parent) {
 
 		Composite container = new Composite(parent, SWT.NONE);
@@ -265,20 +275,24 @@ class PublishPage extends WizardPage {
 
 		new Label(container, SWT.NONE).setText(LABEL_DISPLAY_NAME);
 		nameText = createText(container, 2, 1);
-		if (module.getProperty(ModuleHandle.DISPLAY_NAME_PROP) != null)
+		if (module.getProperty(ModuleHandle.DISPLAY_NAME_PROP) != null) {
 			nameText.setText(module.getDisplayName());
+		}
 
 		new Label(container, SWT.NONE).setText(LABEL_DESCRIPTION);
 		descText = createText(container, 2, 5);
-		if (module.getProperty(ModuleHandle.DESCRIPTION_PROP) != null)
+		if (module.getProperty(ModuleHandle.DESCRIPTION_PROP) != null) {
 			descText.setText((String) module.getProperty(ModuleHandle.DESCRIPTION_PROP));
+		}
 
 		new Label(container, SWT.NONE).setText(LABEL_IMAGE);
 		previewImageText = createText(container, 1, 1);
-		if (module.getIconFile() != null)
+		if (module.getIconFile() != null) {
 			previewImageText.setText(module.getIconFile());
+		}
 		previewImageText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				validate();
 			}
@@ -288,10 +302,11 @@ class PublishPage extends WizardPage {
 		chooseBtn.setText(BTN_CHOOSE);
 		chooseBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dialog = new FileDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell());
 				dialog.setText(BROWSE_TITLE);
-				dialog.setFilterExtensions(new String[] { "*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$ //$NON-NLS-2$
+				dialog.setFilterExtensions(new String[] { "*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$
 																							// //$NON-NLS-3$
 																							// //$NON-NLS-4$
 																							// //$NON-NLS-5$
@@ -303,6 +318,7 @@ class PublishPage extends WizardPage {
 				previewImageText.setText(fileName);
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -356,9 +372,10 @@ class PublishPage extends WizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.DialogPage#getDescription()
 	 */
+	@Override
 	public String getDescription() {
 		return descText.getText() == null ? STR_EMPTY : descText.getText().trim();
 	}
@@ -384,8 +401,9 @@ class PublishPage extends WizardPage {
 		if (row > 1) {
 			text = new Text(container, SWT.BORDER | SWT.MULTI | SWT.WRAP);
 			gridData.heightHint = row * 20;
-		} else
+		} else {
 			text = new Text(container, SWT.BORDER | SWT.SINGLE);
+		}
 		text.setLayoutData(gridData);
 		return text;
 	}

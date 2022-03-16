@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -44,7 +47,7 @@ import org.eclipse.emf.common.util.EList;
  * This class is capable of computing the content of a chart (without axes)
  * based on preferred sizes, text rotation, fit ability, scaling, etc and
  * prepares it for rendering.
- * 
+ *
  * WARNING: This is an internal class and subject to change
  */
 public final class PlotWithoutAxes extends PlotComputation {
@@ -55,7 +58,7 @@ public final class PlotWithoutAxes extends PlotComputation {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param xs
 	 * @param cwoa
 	 * @param rtc
@@ -64,7 +67,8 @@ public final class PlotWithoutAxes extends PlotComputation {
 		super(xs, rtc, cwoa);
 	}
 
-	public final void compute(Bounds bo) {
+	@Override
+	public void compute(Bounds bo) {
 		// bo.adjustDueToInsets(cwoa.getPlot().getInsets()); // INSETS DEFINED
 		// IN POINTS: ALREADY COMPENSATED IN GENERATOR!
 		boPlotBackground = goFactory.scaleBounds(bo, dPointToPixel); // CONVERSION
@@ -73,7 +77,7 @@ public final class PlotWithoutAxes extends PlotComputation {
 		// final Series[] sea = cwoa.getRunTimeSeries();
 
 		EList<SeriesDefinition> el = getModel().getSeriesDefinitions();
-		ArrayList<Series> al = new ArrayList<Series>();
+		ArrayList<Series> al = new ArrayList<>();
 		((ChartWithoutAxesImpl) getModel()).recursivelyGetSeries(el, al, 0, 0);
 		final Series[] sea = al.toArray(new Series[al.size()]);
 
@@ -107,27 +111,29 @@ public final class PlotWithoutAxes extends PlotComputation {
 		return colums;
 	}
 
-	public final Size getCellSize() {
+	public Size getCellSize() {
 		return szCell;
 	}
 
-	public final Coordinates getCellCoordinates(int iCell) {
+	public Coordinates getCellCoordinates(int iCell) {
 		return new Coordinates(iCell % iColumns, iCell / iColumns);
 	}
 
-	public final int getColumnCount() {
+	public int getColumnCount() {
 		return iColumns;
 	}
 
-	public final int getRowCount() {
+	public int getRowCount() {
 		return iRows;
 	}
 
-	public final ChartWithoutAxes getModel() {
+	@Override
+	public ChartWithoutAxes getModel() {
 		return (ChartWithoutAxes) cm;
 	}
 
-	public final SeriesRenderingHints getSeriesRenderingHints(SeriesDefinition sdOrthogonal, Series seOrthogonal)
+	@Override
+	public SeriesRenderingHints getSeriesRenderingHints(SeriesDefinition sdOrthogonal, Series seOrthogonal)
 			throws ChartException, IllegalArgumentException {
 		if (seOrthogonal == null || seOrthogonal.getClass() == SeriesImpl.class) {
 			// EMPTY PLOT RENDERING TECHNIQUE

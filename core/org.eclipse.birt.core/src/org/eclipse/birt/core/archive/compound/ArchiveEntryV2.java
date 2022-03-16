@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,6 +42,7 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants {
 		cachedBlock = null;
 	}
 
+	@Override
 	public void close() throws IOException {
 		if (cachedBlock != null) {
 			af.unloadBlock(cachedBlock);
@@ -47,23 +51,28 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants {
 		cachedBlock = null;
 	}
 
+	@Override
 	public synchronized long getLength() throws IOException {
 		return entry.getLength();
 	}
 
+	@Override
 	public synchronized void setLength(long length) throws IOException {
 		ensureSize(length);
 		entry.setLength(length);
 	}
 
+	@Override
 	public synchronized void flush() throws IOException {
 		super.flush();
 	}
 
+	@Override
 	public synchronized void refresh() throws IOException {
 		// TODO: support refresh in future.
 	}
 
+	@Override
 	public synchronized int read(long pos, byte[] b, int off, int len) throws IOException {
 		long length = entry.getLength();
 
@@ -110,6 +119,7 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants {
 		return readSize;
 	}
 
+	@Override
 	public synchronized void write(long pos, byte[] b, int off, int len) throws IOException {
 		ensureSize(pos + len);
 

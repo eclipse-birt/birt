@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -108,11 +111,12 @@ public class FontCanvas extends Canvas implements PaintListener, DisposeListener
 	/*
 	 * (non-Javadoc) Overridden method to render text based on specified font
 	 * information.
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.
 	 * PaintEvent)
 	 */
+	@Override
 	public void paintControl(PaintEvent pe) {
 		if (idr != null && fdCurrent != null && bUseSize) {
 			idr.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, pe.gc);
@@ -301,11 +305,12 @@ public class FontCanvas extends Canvas implements PaintListener, DisposeListener
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt.events.
 	 * DisposeEvent)
 	 */
+	@Override
 	public void widgetDisposed(DisposeEvent e) {
 		if (idr != null) {
 			idr.dispose();

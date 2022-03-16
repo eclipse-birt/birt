@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,13 +50,14 @@ public class TemplateConfigurationBlock extends OptionsConfigurationBlock {
 	}
 
 	private Key[] getKeys() {
-		Key[] keys = new Key[] { PREF_TEMPLATE };
+		Key[] keys = { PREF_TEMPLATE };
 		return keys;
 	}
 
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(Composite)
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		fPixelConverter = new PixelConverter(parent);
 		setShell(parent.getShell());
@@ -121,6 +125,7 @@ public class TemplateConfigurationBlock extends OptionsConfigurationBlock {
 
 			controlTypeHelper.addListener(SWT.Selection, new Listener() {
 
+				@Override
 				public void handleEvent(Event event) {
 					resourceText.setText(event.text);
 				}
@@ -133,6 +138,7 @@ public class TemplateConfigurationBlock extends OptionsConfigurationBlock {
 			browser.setLayoutData(data);
 			browser.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent event) {
 					DirectoryDialog dialog = new DirectoryDialog(
 							PlatformUI.getWorkbench().getDisplay().getActiveShell());
@@ -142,7 +148,7 @@ public class TemplateConfigurationBlock extends OptionsConfigurationBlock {
 					if (folderName == null) {
 						return;
 					}
-					folderName = folderName.replace('\\', '/'); // $NON-NLS-1$ //$NON-NLS-2$
+					folderName = folderName.replace('\\', '/'); // $NON-NLS-1$
 					if (!folderName.endsWith("/")) //$NON-NLS-1$
 					{
 						folderName = folderName + "/"; //$NON-NLS-1$

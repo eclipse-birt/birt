@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -19,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,27 +62,28 @@ public class MDbMetaData {
 	private static final String SYSTEM_NAMESPACE_PREFIX = "system."; //$NON-NLS-1$
 	static final String FIELD_FULL_NAME_SEPARATOR = "."; //$NON-NLS-1$
 
-	private static final Integer NULL_NATIVE_DATA_TYPE = Integer.valueOf(BSON.NULL);
-	private static final Integer STRING_NATIVE_DATA_TYPE = Integer.valueOf(BSON.STRING);
-	private static final Integer BOOLEAN_NATIVE_DATA_TYPE = Integer.valueOf(BSON.BOOLEAN);
-	private static final Integer NUMBER_NATIVE_DATA_TYPE = Integer.valueOf(BSON.NUMBER);
-	private static final Integer NUMBER_INT_NATIVE_DATA_TYPE = Integer.valueOf(BSON.NUMBER_INT);
-	private static final Integer DATE_NATIVE_DATA_TYPE = Integer.valueOf(BSON.DATE);
-	private static final Integer TIMESTAMP_NATIVE_DATA_TYPE = Integer.valueOf(BSON.TIMESTAMP);
-	private static final Integer BINARY_NATIVE_DATA_TYPE = Integer.valueOf(BSON.BINARY);
-	private static final Integer ARRAY_NATIVE_DATA_TYPE = Integer.valueOf(BSON.ARRAY);
-	private static final Integer OBJECT_NATIVE_DATA_TYPE = Integer.valueOf(BSON.OBJECT);
+	private static final Integer NULL_NATIVE_DATA_TYPE = (int) BSON.NULL;
+	private static final Integer STRING_NATIVE_DATA_TYPE = (int) BSON.STRING;
+	private static final Integer BOOLEAN_NATIVE_DATA_TYPE = (int) BSON.BOOLEAN;
+	private static final Integer NUMBER_NATIVE_DATA_TYPE = (int) BSON.NUMBER;
+	private static final Integer NUMBER_INT_NATIVE_DATA_TYPE = (int) BSON.NUMBER_INT;
+	private static final Integer DATE_NATIVE_DATA_TYPE = (int) BSON.DATE;
+	private static final Integer TIMESTAMP_NATIVE_DATA_TYPE = (int) BSON.TIMESTAMP;
+	private static final Integer BINARY_NATIVE_DATA_TYPE = (int) BSON.BINARY;
+	private static final Integer ARRAY_NATIVE_DATA_TYPE = (int) BSON.ARRAY;
+	private static final Integer OBJECT_NATIVE_DATA_TYPE = (int) BSON.OBJECT;
 
 	private MongoDatabase m_connectedDB;
-	private ArrayList<String> collectionNames = new ArrayList<String>();
+	private ArrayList<String> collectionNames = new ArrayList<>();
 
 	public MDbMetaData(Properties connProperties) throws OdaException {
 		m_connectedDB = MDbConnection.getMongoDatabase(connProperties);
 	}
 
 	public MDbMetaData(MongoDatabase connectedDB) {
-		if (connectedDB == null)
+		if (connectedDB == null) {
 			throw new IllegalArgumentException("null"); //$NON-NLS-1$
+		}
 		m_connectedDB = connectedDB;
 	}
 
@@ -105,7 +108,7 @@ public class MDbMetaData {
 	/**
 	 * Returns the sorted list of collection names found in the connected database
 	 * of this instance.
-	 * 
+	 *
 	 * @param excludeSystemCollections true indicates to exclude system collections
 	 *                                 from the returned list; false to include.
 	 */
@@ -123,18 +126,19 @@ public class MDbMetaData {
 			}
 		}
 		if (excludeSystemCollections) {
-			List<String> filteredNames = new ArrayList<String>(collectionNames.size());
+			List<String> filteredNames = new ArrayList<>(collectionNames.size());
 			for (String collectionName : collectionNames) {
-				if (!collectionName.startsWith(SYSTEM_NAMESPACE_PREFIX))
+				if (!collectionName.startsWith(SYSTEM_NAMESPACE_PREFIX)) {
 					filteredNames.add(collectionName);
+				}
 			}
 			return filteredNames;
 		}
 
 		// return the complete list returned by mongoDB, which is already sorted
-		List<String> collectionNamesCopy = new ArrayList<String>(Collections.nCopies(collectionNames.size(), " "));
+		List<String> collectionNamesCopy = new ArrayList<>(Collections.nCopies(collectionNames.size(), " "));
 		Collections.copy(collectionNamesCopy, collectionNames);
-		return new ArrayList<String>(collectionNamesCopy);
+		return new ArrayList<>(collectionNamesCopy);
 	}
 
 	public boolean collectionExists(String collectionName) {
@@ -150,15 +154,16 @@ public class MDbMetaData {
 	}
 
 	public MongoCollection<Document> getCollection(String collectionName) {
-		if (!collectionExists(collectionName))
+		if (!collectionExists(collectionName)) {
 			return null;
+		}
 		return m_connectedDB.getCollection(collectionName);
 	}
 
 	/**
 	 * Returns all fields' name and corresponding metadata found in the specified
 	 * collection.
-	 * 
+	 *
 	 * @param collectionName name of MongoDB collection (i.e. table)
 	 * @param searchLimit    maximum number of documents, i.e. rows to search for
 	 *                       available fields; a zero or negative value would adopt
@@ -177,39 +182,44 @@ public class MDbMetaData {
 		MongoCollection<Document> collection = getCollection(collectionName);
 		if (collection == null && !runtimeProps.hasRunCommand()) {
 			if (runtimeProps.getOperationType() == CommandOperationType.RUN_DB_COMMAND
-					&& runtimeProps.getOperationExpression().isEmpty())
+					&& runtimeProps.getOperationExpression().isEmpty()) {
 				throw new OdaException(Messages.bind(Messages.mDbMetaData_missingCmdExprText,
 						runtimeProps.getOperationType().displayName()));
-			else
+			} else {
 				throw new OdaException(Messages.bind(Messages.mDbMetaData_invalidCollectionName, collectionName));
+			}
 		}
 
-		if (searchLimit <= 0) // no limit specified, applies meta data design-time default
+		if (searchLimit <= 0) { // no limit specified, applies meta data design-time default
 			searchLimit = DEFAULT_META_DATA_SEARCH_LIMIT;
+		}
 
 		// handle optional command operation
 		if (runtimeProps.hasValidCommandOperation()) {
 			QueryModel.validateCommandSyntax(runtimeProps.getOperationType(), runtimeProps.getOperationExpression());
 
 			Iterable<Document> commandResults = null;
-			if (runtimeProps.hasAggregateCommand())
+			if (runtimeProps.hasAggregateCommand()) {
 				commandResults = MDbOperation.callAggregateCmd(collection, runtimeProps);
-			else if (runtimeProps.hasMapReduceCommand()) {
+			} else if (runtimeProps.hasMapReduceCommand()) {
 				commandResults = MDbOperation.callMapReduceCmd(collection, runtimeProps);
 				// skip running $query on output collection in discovering metadata
-			} else if (runtimeProps.hasRunCommand())
+			} else if (runtimeProps.hasRunCommand()) {
 				commandResults = MDbOperation.callDBCommand(m_connectedDB, runtimeProps);
+			}
 
-			if (commandResults != null)
+			if (commandResults != null) {
 				return getMetaData(commandResults, searchLimit);
+			}
 			return sm_emptyFields;
 		}
 
 		// run search query operation by default
 		FindIterable<Document> rowsCursor = collection.find();
 
-		if (searchLimit > 0)
+		if (searchLimit > 0) {
 			rowsCursor.limit(searchLimit);
+		}
 
 		QueryProperties mdCursorProps = runtimeProps != null ? runtimeProps : QueryProperties.defaultValues();
 		MDbOperation.applyPropertiesToCursor(rowsCursor, mdCursorProps, false);
@@ -225,35 +235,41 @@ public class MDbMetaData {
 	}
 
 	static String[] splitFieldName(String fieldFullName) {
-		if (fieldFullName == null || fieldFullName.isEmpty())
+		if (fieldFullName == null || fieldFullName.isEmpty()) {
 			return new String[0];
+		}
 		return fieldFullName.split('\\' + FIELD_FULL_NAME_SEPARATOR);
 	}
 
 	static String getSimpleName(String fieldFullName) {
 		String[] nameFragments = splitFieldName(fieldFullName);
-		if (nameFragments.length == 0)
+		if (nameFragments.length == 0) {
 			return DriverUtil.EMPTY_STRING; // something is wrong; not able to find simple name
+		}
 		return nameFragments[nameFragments.length - 1];
 	}
 
 	static String stripParentName(String fieldFullName, String parentName) {
-		if (parentName == null || parentName.isEmpty())
+		if (parentName == null || parentName.isEmpty()) {
 			return fieldFullName; // nothing applicable to strip
+		}
 		int stripFromIndex = parentName.length() + FIELD_FULL_NAME_SEPARATOR.length();
-		if (stripFromIndex > fieldFullName.length()) // out of bound index
+		if (stripFromIndex > fieldFullName.length()) { // out of bound index
 			return fieldFullName; // n/a in fieldFullName to strip
+		}
 		return fieldFullName.substring(stripFromIndex);
 	}
 
 	static String formatFieldLevelNames(String[] fieldLevelNames, int fromIndex, int toIndex) {
-		if (fromIndex < 0 || toIndex >= fieldLevelNames.length || fromIndex > toIndex)
+		if (fromIndex < 0 || toIndex >= fieldLevelNames.length || fromIndex > toIndex) {
 			throw new IllegalArgumentException("MDbMetaData#formatFieldLevelNames: Index argument(s) out of range."); //$NON-NLS-1$
+		}
 
-		StringBuffer fieldName = new StringBuffer();
+		StringBuilder fieldName = new StringBuilder();
 		for (int i = fromIndex; i <= toIndex; i++) {
-			if (fieldName.length() > 0)
+			if (fieldName.length() > 0) {
 				fieldName.append(FIELD_FULL_NAME_SEPARATOR);
+			}
 			fieldName.append(fieldLevelNames[i]);
 		}
 		return fieldName.toString();
@@ -261,23 +277,26 @@ public class MDbMetaData {
 
 	/**
 	 * Find and return the metadata of the specified field.
-	 * 
+	 *
 	 * @param fieldFullName   the full name of a field
 	 * @param fromDocMetaData the metadata of documents found in a collection
 	 * @return the FieldMetaData instance of the specified field full name
 	 */
 	public static FieldMetaData findFieldByFullName(String fieldFullName, DocumentsMetaData fromDocMetaData) {
 		String[] nameFragments = splitFieldName(fieldFullName);
-		if (nameFragments.length == 0)
+		if (nameFragments.length == 0) {
 			return null; // something is wrong; not able to find a match
+		}
 
 		FieldMetaData firstLevelMd = fromDocMetaData.getFieldMetaData(nameFragments[0]);
-		if (nameFragments.length == 1) // specified field has only 1 level
+		if (nameFragments.length == 1) { // specified field has only 1 level
 			return firstLevelMd;
+		}
 
 		// expects the first level to be a parent field
-		if (!firstLevelMd.hasChildDocuments())
+		if (!firstLevelMd.hasChildDocuments()) {
 			return null; // does not match metadata; not able to find a match
+		}
 		// remove the parent name to get the next level child's full name
 		String childFullName = stripParentName(fieldFullName, nameFragments[0]);
 		return findFieldByFullName(childFullName, firstLevelMd.getChildMetaData());
@@ -285,31 +304,34 @@ public class MDbMetaData {
 
 	/**
 	 * Indicates whether the specified field has flattening support.
-	 * 
+	 *
 	 * @param fieldMd       field metadata; may be that of top-level array field or
 	 *                      a child field
 	 * @param topLevelDocMD top level document metadata returned by
 	 *                      {@link #getAvailableFields(String, int, QueryProperties)}
 	 */
 	public static boolean isFlattenableNestedField(FieldMetaData fieldMd, DocumentsMetaData topLevelDocMD) {
-		if (fieldMd == null)
+		if (fieldMd == null) {
 			return false;
+		}
 		DocumentsMetaData containingDocMD = fieldMd.getContainingMetaData();
 		if (containingDocMD == null) // top-level field
 		{
 			containingDocMD = topLevelDocMD; // use top-level metadata
 		}
 		String cachedAncestorName = containingDocMD.getFlattenableFieldName();
-		if (cachedAncestorName != null && cachedAncestorName.equals(fieldMd.getFullName()))
+		if (cachedAncestorName != null && cachedAncestorName.equals(fieldMd.getFullName())) {
 			return true;
-		if (fieldMd.isChildField())
+		}
+		if (fieldMd.isChildField()) {
 			return isFlattenableNestedField(fieldMd.getParentMetaData(), topLevelDocMD);
+		}
 		return false;
 	}
 
 	/**
 	 * Find the FieldMetaData of each field specified by its full name.
-	 * 
+	 *
 	 * @param fieldFullNames  a list of fields in their full name.
 	 * @param fromDocMetaData the metadata of documents found in a collection
 	 * @return a flattened Map of each field's full name with its corresponding
@@ -318,14 +340,16 @@ public class MDbMetaData {
 	 */
 	public static Map<String, FieldMetaData> flattenFieldsMetaData(List<String> fieldFullNames,
 			DocumentsMetaData fromDocMetaData) {
-		if (fieldFullNames.isEmpty())
+		if (fieldFullNames.isEmpty()) {
 			return Collections.emptyMap(); // done; no fields to find
+		}
 
-		Map<String, FieldMetaData> resultFieldsMD = new LinkedHashMap<String, FieldMetaData>(fieldFullNames.size());
+		Map<String, FieldMetaData> resultFieldsMD = new LinkedHashMap<>(fieldFullNames.size());
 		for (String fieldFullName : fieldFullNames) {
 			FieldMetaData fieldMD = findFieldByFullName(fieldFullName, fromDocMetaData);
-			if (fieldMD != null)
+			if (fieldMD != null) {
 				resultFieldsMD.put(fieldFullName, fieldMD);
+			}
 		}
 		return resultFieldsMD;
 	}
@@ -333,7 +357,7 @@ public class MDbMetaData {
 	/**
 	 * Flatten all the fields, including nested ones, in the specified
 	 * DocumentsMetaData into the specified Map.
-	 * 
+	 *
 	 * @param fromDocMetaData  the metadata of documents found in a collection
 	 * @param toResultFieldsMD the Map to which append the entries for all fields in
 	 *                         the specified DocumentsMetaData
@@ -342,12 +366,14 @@ public class MDbMetaData {
 	 */
 	public static Map<String, FieldMetaData> flattenFieldsMetaData(DocumentsMetaData fromDocMetaData,
 			Map<String, FieldMetaData> toResultFieldsMD) {
-		if (toResultFieldsMD == null)
-			toResultFieldsMD = new LinkedHashMap<String, FieldMetaData>();
+		if (toResultFieldsMD == null) {
+			toResultFieldsMD = new LinkedHashMap<>();
+		}
 		for (FieldMetaData fieldMD : fromDocMetaData.m_fieldsMetaData.values()) {
 			toResultFieldsMD.put(fieldMD.getFullName(), fieldMD);
-			if (fieldMD.hasChildDocuments())
+			if (fieldMD.hasChildDocuments()) {
 				toResultFieldsMD = flattenFieldsMetaData(fieldMD.getChildMetaData(), toResultFieldsMD);
+			}
 		}
 		return toResultFieldsMD;
 	}
@@ -355,7 +381,7 @@ public class MDbMetaData {
 	/**
 	 * An internal utility method. Discover and return the metadata of one or more
 	 * documents in the specified MongoDB cursor, up to the searchLimit count.
-	 * 
+	 *
 	 * @param iterable an inactive MongoDB cursor, before having executed query, to
 	 *                 iterate the results expects caller to have already set
 	 *                 searchLimit and other options on the result cursor
@@ -363,8 +389,9 @@ public class MDbMetaData {
 	 *         metadata found in the specified iterated cursor
 	 */
 	public static DocumentsMetaData getMetaData(Iterable<Document> iterable) {
-		if (iterable == null)
+		if (iterable == null) {
 			return sm_emptyFields;
+		}
 
 		DocumentsMetaData newMetaData = sm_factory.new DocumentsMetaData();
 		for (Document document : iterable) {
@@ -375,8 +402,9 @@ public class MDbMetaData {
 	}
 
 	public static DocumentsMetaData getMetaData(Iterable<Document> iterable, int searchLimit) {
-		if (iterable == null)
+		if (iterable == null) {
 			return sm_emptyFields;
+		}
 
 		DocumentsMetaData newMetaData = sm_factory.new DocumentsMetaData();
 		// iterate thru searchLimit documents to discover metadata
@@ -392,34 +420,41 @@ public class MDbMetaData {
 	}
 
 	private static Integer getPreferredScalarNativeDataType(Set<Integer> nativeDataTypes) {
-		if (nativeDataTypes.isEmpty())
+		if (nativeDataTypes.isEmpty()) {
 			return NULL_NATIVE_DATA_TYPE; // none available
-		if (nativeDataTypes.size() == 1)
+		}
+		if (nativeDataTypes.size() == 1) {
 			return nativeDataTypes.iterator().next(); // return the only data type available
+		}
 
 		// more than one native data types in field
 
-		if (nativeDataTypes.contains(STRING_NATIVE_DATA_TYPE))
+		if (nativeDataTypes.contains(STRING_NATIVE_DATA_TYPE)) {
 			return STRING_NATIVE_DATA_TYPE; // String data type takes precedence over other scalar types
+		}
 
 		// check if any of the native data types map to an ODA String
-		Set<Integer> nonStringNativeDataTypes = new HashSet<Integer>(nativeDataTypes.size());
+		Set<Integer> nonStringNativeDataTypes = new HashSet<>(nativeDataTypes.size());
 		for (Integer nativeDataType : nativeDataTypes) {
 			if (nativeDataType == NULL_NATIVE_DATA_TYPE || nativeDataType == ARRAY_NATIVE_DATA_TYPE
-					|| nativeDataType == OBJECT_NATIVE_DATA_TYPE)
+					|| nativeDataType == OBJECT_NATIVE_DATA_TYPE) {
 				continue; // skip non-scalar data types
+			}
 			int odaDataType = ManifestExplorer.getInstance().getDefaultOdaDataTypeCode(nativeDataType,
 					MongoDBDriver.ODA_DATA_SOURCE_ID, MDbQuery.ODA_DATA_SET_ID);
-			if (odaDataType == Types.CHAR) // maps to ODA String data type
+			if (odaDataType == Types.CHAR) { // maps to ODA String data type
 				return nativeDataType; // String data type takes precedence over other scalar types
+			}
 
 			nonStringNativeDataTypes.add(nativeDataType);
 		}
 
-		if (nonStringNativeDataTypes.isEmpty())
+		if (nonStringNativeDataTypes.isEmpty()) {
 			return NULL_NATIVE_DATA_TYPE; // none available
-		if (nonStringNativeDataTypes.size() == 1)
+		}
+		if (nonStringNativeDataTypes.size() == 1) {
 			return nonStringNativeDataTypes.iterator().next(); // return first element by default
+		}
 
 		// more than one native data types in field are not mapped to ODA String;
 		// check if they have mixed data type categories.
@@ -432,8 +467,9 @@ public class MDbMetaData {
 
 		if (isNumeric && !isDatetime && !isBinary) // numeric only
 		{
-			if (nonStringNativeDataTypes.contains(NUMBER_NATIVE_DATA_TYPE))
+			if (nonStringNativeDataTypes.contains(NUMBER_NATIVE_DATA_TYPE)) {
 				return NUMBER_NATIVE_DATA_TYPE; // Number takes precedence over other numeric data types
+			}
 			return NUMBER_INT_NATIVE_DATA_TYPE; // Integer takes precedence over Boolean
 		}
 
@@ -453,7 +489,7 @@ public class MDbMetaData {
 	public class DocumentsMetaData {
 		// an ordered Map w/ the field name as the key,
 		// and its corresponding metadata as value
-		private Map<String, FieldMetaData> m_fieldsMetaData = new LinkedHashMap<String, FieldMetaData>();
+		private Map<String, FieldMetaData> m_fieldsMetaData = new LinkedHashMap<>();
 
 		// flattening of nested collection is supported for only one applicable field in
 		// a document,
@@ -463,13 +499,15 @@ public class MDbMetaData {
 
 		@SuppressWarnings("unchecked")
 		private void addDocumentMetaData(Object documentObj, FieldMetaData parentMd) {
-			if (documentObj == null)
+			if (documentObj == null) {
 				return;
+			}
 			Document doc = null;
 			if (documentObj instanceof List<?>) {
 				List<Document> docList = (List<Document>) documentObj;
-				if (docList.size() > 0)
+				if (docList.size() > 0) {
 					doc = ((List<Document>) documentObj).get(0);
+				}
 			} else {
 				doc = (Document) documentObj;
 			}
@@ -497,19 +535,13 @@ public class MDbMetaData {
 			return fieldMd;
 		}
 
-		@SuppressWarnings("unused")
-		private void removeField(String fieldName) {
-			if (fieldName != null)
-				m_fieldsMetaData.remove(fieldName);
-		}
-
 		/**
 		 * Returns the simple names of first level fields in the sequence that they were
 		 * discovered from a collection.
 		 */
 		public List<String> getFieldNames() {
 			// maintain the ordering of the fields that they were discovered
-			List<String> docFields = new ArrayList<String>(m_fieldsMetaData.size());
+			List<String> docFields = new ArrayList<>(m_fieldsMetaData.size());
 			for (String fieldName : m_fieldsMetaData.keySet()) {
 				docFields.add(fieldName);
 			}
@@ -525,13 +557,14 @@ public class MDbMetaData {
 		}
 
 		private List<String> sortFieldNames(Set<String> fieldNames) {
-			if (fieldNames == null || fieldNames.isEmpty())
+			if (fieldNames == null || fieldNames.isEmpty()) {
 				return Collections.emptyList();
+			}
 
 			String[] attrNamesArray = (String[]) fieldNames.toArray(new String[fieldNames.size()]);
 			Arrays.sort(attrNamesArray);
 
-			List<String> sortedAttrList = new ArrayList<String>(attrNamesArray.length);
+			List<String> sortedAttrList = new ArrayList<>(attrNamesArray.length);
 			sortedAttrList.addAll(Arrays.asList(attrNamesArray));
 			return sortedAttrList;
 		}
@@ -542,12 +575,14 @@ public class MDbMetaData {
 		}
 
 		public void setFlattenableFields(Map<String, FieldMetaData> resultFieldsMD, boolean isTopLevelDoc) {
-			if (resultFieldsMD == null || resultFieldsMD.isEmpty())
+			if (resultFieldsMD == null || resultFieldsMD.isEmpty()) {
 				return; // no result set fields; nothing to set
+			}
 
 			FieldMetaData flattenableFieldMD = null;
-			if (m_nestedCollFieldName != null)
+			if (m_nestedCollFieldName != null) {
 				flattenableFieldMD = resultFieldsMD.get(m_nestedCollFieldName);
+			}
 
 			if (flattenableFieldMD == null) {
 				// iterate in the sequence of selected fields in result set
@@ -570,15 +605,17 @@ public class MDbMetaData {
 						// done checking on this field
 						fieldLevelMD = null;
 					}
-					if (flattenableFieldMD != null) // done finding the flattenable field
+					if (flattenableFieldMD != null) { // done finding the flattenable field
 						break;
+					}
 				}
 			}
 
 			// set its child document's flattenable field
 			if (flattenableFieldMD != null) {
-				if (flattenableFieldMD.hasChildDocuments())
+				if (flattenableFieldMD.hasChildDocuments()) {
 					flattenableFieldMD.getChildMetaData().setFlattenableFields(resultFieldsMD, false);
+				}
 				return;
 			}
 
@@ -601,12 +638,12 @@ public class MDbMetaData {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
 		public String toString() {
-			StringBuffer buf = new StringBuffer("\n " + getClass().getSimpleName() + ":"); //$NON-NLS-1$ //$NON-NLS-2$
+			StringBuilder buf = new StringBuilder("\n " + getClass().getSimpleName() + ":"); //$NON-NLS-1$ //$NON-NLS-2$
 			buf.append("; flattenableFieldName: " + m_nestedCollFieldName); //$NON-NLS-1$
 			for (Entry<String, FieldMetaData> entry : m_fieldsMetaData.entrySet()) {
 				buf.append("\n  field key: " + entry.getKey()); //$NON-NLS-1$
@@ -643,34 +680,38 @@ public class MDbMetaData {
 		}
 
 		public String getFullName() {
-			if (m_parentMd == null)
+			if (m_parentMd == null) {
 				return getSimpleName();
+			}
 
-			StringBuffer fullName = new StringBuffer(m_parentMd.getFullName());
+			StringBuilder fullName = new StringBuilder(m_parentMd.getFullName());
 			fullName.append(FIELD_FULL_NAME_SEPARATOR);
 			fullName.append(getSimpleName());
 			return fullName.toString();
 		}
 
 		public String getFullDisplayName() {
-			if (m_parentMd == null)
+			if (m_parentMd == null) {
 				return getSimpleDisplayName();
+			}
 
-			StringBuffer fullName = new StringBuffer(m_parentMd.getFullDisplayName());
+			StringBuilder fullName = new StringBuilder(m_parentMd.getFullDisplayName());
 			fullName.append(FIELD_FULL_NAME_SEPARATOR);
 			fullName.append(getSimpleDisplayName());
 			return fullName.toString();
 		}
 
 		String[] getLevelNames() {
-			if (m_nameFragments == null)
+			if (m_nameFragments == null) {
 				m_nameFragments = splitFieldName(getFullName());
+			}
 			return m_nameFragments;
 		}
 
 		private void setParentMetaData(FieldMetaData parentMd) {
-			if (parentMd != null)
+			if (parentMd != null) {
 				m_parentMd = parentMd;
+			}
 		}
 
 		private FieldMetaData getParentMetaData() {
@@ -678,8 +719,9 @@ public class MDbMetaData {
 		}
 
 		private DocumentsMetaData getContainingMetaData() {
-			if (m_parentMd == null)
+			if (m_parentMd == null) {
 				return null;
+			}
 			return m_parentMd.getChildMetaData();
 		}
 
@@ -694,14 +736,15 @@ public class MDbMetaData {
 			// add the data type of given fieldValue to existing set, if exists;
 			// the same named field set in a different doc may have a different data type
 			byte nativeBSonDataTypeCode = Bytes.getType(fieldValue);
-			if (m_nativeDataTypes == null)
-				m_nativeDataTypes = new HashSet<Integer>(2);
+			if (m_nativeDataTypes == null) {
+				m_nativeDataTypes = new HashSet<>(2);
+			}
 			if (nativeBSonDataTypeCode == -1) {
 				if (fieldValue instanceof Document) {
 					nativeBSonDataTypeCode = Bytes.OBJECT;
 				}
 			}
-			m_nativeDataTypes.add(Integer.valueOf(nativeBSonDataTypeCode));
+			m_nativeDataTypes.add((int) nativeBSonDataTypeCode);
 
 			// check if field value contains a document,
 			// iteratively get field document's nested metadata
@@ -720,30 +763,34 @@ public class MDbMetaData {
 
 			if (fieldObjValue != null) // contains nested document
 			{
-				if (m_childDocMetaData == null)
+				if (m_childDocMetaData == null) {
 					m_childDocMetaData = sm_factory.new DocumentsMetaData();
+				}
 				m_childDocMetaData.addDocumentMetaData(fieldObjValue, this);
 			}
 		}
 
 		public Integer getPreferredNativeDataType(boolean isAutoFlattening) {
 			Set<Integer> nativeDataTypes = getNativeDataTypes();
-			if (nativeDataTypes.isEmpty())
+			if (nativeDataTypes.isEmpty()) {
 				return NULL_NATIVE_DATA_TYPE; // none available
+			}
 
 			// determine the preferred data type of a nested array
 			if (hasArrayDataType()) {
 				if (isAutoFlattening) {
 					// if field is an array of scalar data elements,
 					// return the scalar data type
-					if (!hasDocumentDataType())
+					if (!hasDocumentDataType()) {
 						return getScalarNativeDataType();
+					}
 				}
 				return ARRAY_NATIVE_DATA_TYPE;
 			}
 
-			if (hasDocumentDataType())
+			if (hasDocumentDataType()) {
 				return OBJECT_NATIVE_DATA_TYPE;
+			}
 
 			return getPreferredScalarNativeDataType(nativeDataTypes);
 		}
@@ -751,36 +798,40 @@ public class MDbMetaData {
 		/**
 		 * Returns all the known data types of the specified field. The same named field
 		 * could have a different data type in a separate document within a collection.
-		 * 
+		 *
 		 * @param ofField field name
 		 * @return a set of known MongoDB native data type codes
 		 */
 		public Set<Integer> getNativeDataTypes() {
-			if (m_nativeDataTypes == null)
+			if (m_nativeDataTypes == null) {
 				return Collections.emptySet();
+			}
 			return m_nativeDataTypes;
 		}
 
 		private Integer getScalarNativeDataType() {
 			Set<Integer> nativeDataTypes = getNativeDataTypes();
-			Set<Integer> scalarNativeDataTypes = new HashSet<Integer>(nativeDataTypes.size());
+			Set<Integer> scalarNativeDataTypes = new HashSet<>(nativeDataTypes.size());
 			for (Integer nativeDataType : nativeDataTypes) {
-				if (nativeDataType == ARRAY_NATIVE_DATA_TYPE || nativeDataType == OBJECT_NATIVE_DATA_TYPE)
+				if (nativeDataType == ARRAY_NATIVE_DATA_TYPE || nativeDataType == OBJECT_NATIVE_DATA_TYPE) {
 					continue; // skip complex types
+				}
 				scalarNativeDataTypes.add(nativeDataType);
 			}
 			return getPreferredScalarNativeDataType(scalarNativeDataTypes);
 		}
 
 		public boolean isArrayOfScalarValues() {
-			if (!hasArrayDataType())
+			if (!hasArrayDataType()) {
 				return false;
+			}
 			return !hasDocumentDataType();
 		}
 
 		public boolean isArrayOfDocuments() {
-			if (!hasArrayDataType())
+			if (!hasArrayDataType()) {
 				return false;
+			}
 			return hasDocumentDataType();
 		}
 
@@ -793,16 +844,19 @@ public class MDbMetaData {
 		}
 
 		public boolean isDescendantOfArrayField() {
-			if (!isChildField())
+			if (!isChildField()) {
 				return false;
+			}
 			return m_parentMd.hasArrayDataType() || m_parentMd.isDescendantOfArrayField();
 		}
 
 		public String getArrayAncestorName() {
-			if (!isChildField()) // has no parent
+			if (!isChildField()) { // has no parent
 				return null;
-			if (m_parentMd.hasArrayDataType())
+			}
+			if (m_parentMd.hasArrayDataType()) {
 				return m_parentMd.getFullName();
+			}
 			return m_parentMd.getArrayAncestorName();
 		}
 
@@ -819,12 +873,12 @@ public class MDbMetaData {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
 		public String toString() {
-			StringBuffer buf = new StringBuffer("name: " + m_simpleName); //$NON-NLS-1$
+			StringBuilder buf = new StringBuilder("name: " + m_simpleName); //$NON-NLS-1$
 			buf.append("; full display name: " + getFullDisplayName()); //$NON-NLS-1$
 			buf.append("; nativeDataTypes: " + m_nativeDataTypes); //$NON-NLS-1$
 			String parentName = m_parentMd != null ? m_parentMd.getFullDisplayName() : "null"; //$NON-NLS-1$

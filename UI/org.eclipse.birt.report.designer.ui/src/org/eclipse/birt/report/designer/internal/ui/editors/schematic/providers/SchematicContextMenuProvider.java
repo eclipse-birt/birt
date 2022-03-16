@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -184,7 +187,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Constructs a new WorkflowEditorContextMenuProvider instance.
-	 * 
+	 *
 	 * @param viewer         the edit part view
 	 * @param actionRegistry the actions registry
 	 */
@@ -195,7 +198,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets the action registry.
-	 * 
+	 *
 	 * @return the action registry
 	 */
 	public ActionRegistry getActionRegistry() {
@@ -205,7 +208,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 	/**
 	 * Retrieves action item( value ) from the action registry with the given action
 	 * ID( key ).
-	 * 
+	 *
 	 * @param actionID the given atcion ID.
 	 * @return The retrieved action item.
 	 */
@@ -219,7 +222,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets the current selection.
-	 * 
+	 *
 	 * @return The current selection
 	 */
 	protected ISelection getSelection() {
@@ -228,21 +231,23 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Returns a <code>List</code> containing the currently selected objects.
-	 * 
+	 *
 	 * @return A List containing the currently selected objects
 	 */
 	protected List getSelectedObjects() {
-		if (!(getSelection() instanceof IStructuredSelection))
+		if (!(getSelection() instanceof IStructuredSelection)) {
 			return Collections.EMPTY_LIST;
+		}
 		return ((IStructuredSelection) getSelection()).toList();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface
 	 * .action.IMenuManager)
 	 */
+	@Override
 	public void buildContextMenu(IMenuManager menuManager) {
 		if (proxy != null) {
 			proxy.menuAboutToShow(menuManager);
@@ -257,8 +262,10 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 		boolean isExtended = false;
 		if (firstSelectedElement instanceof IAdaptable) {
-			if (((IAdaptable) firstSelectedElement).getAdapter(DesignElementHandle.class) instanceof ExtendedItemHandle)
+			if (((IAdaptable) firstSelectedElement)
+					.getAdapter(DesignElementHandle.class) instanceof ExtendedItemHandle) {
 				isExtended = true;
+			}
 		}
 
 		if (selectedElements instanceof ReportDesignHandle) {
@@ -535,12 +542,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 			subMenu.add(actions[i]);
 		}
 		menuManager.appendToGroup(group_name, subMenu);
-		return;
 	}
 
 	/**
 	 * Creats sub menu in the specified action group of the specified menu manager.
-	 * 
+	 *
 	 * @param menuManager The menu manager contains the action group.
 	 * @param group_name  The action group contains the sub menu.
 	 */
@@ -583,7 +589,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 		 * Extended Items insert actions
 		 */
 
-		CategorizedElementSorter<IAction> elementSorter = new CategorizedElementSorter<IAction>();
+		CategorizedElementSorter<IAction> elementSorter = new CategorizedElementSorter<>();
 
 		List<ExtendedElementUIPoint> points = ExtensionPointManager.getInstance().getExtendedElementPoints();
 		for (Iterator<ExtendedElementUIPoint> iter = points.iterator(); iter.hasNext();) {
@@ -619,6 +625,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 		Collections.sort(actions, new Comparator<IAction>() {
 
+			@Override
 			public int compare(IAction o1, IAction o2) {
 				return Collator.getInstance().compare(o1.getText(), o2.getText());
 			}
@@ -642,7 +649,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Creats sub menu in the specified action group of the specified menu manager.
-	 * 
+	 *
 	 * @param menuManager The menu manager contains the action group.
 	 * @param group_name  The action group contains the sub menu.
 	 */
@@ -656,6 +663,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 		subMenu.add(NoneAction.getInstance());
 		subMenu.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				updateDynamicItems(EditStyleMenuAction.ID, manager);
 			}
@@ -666,6 +674,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 		subMenu.add(NoneAction.getInstance());
 		subMenu.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				updateDynamicItems(ApplyStyleMenuAction.ID, manager);
 			}
@@ -678,6 +687,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 		subMenu.add(NoneAction.getInstance());
 		subMenu.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				updateDynamicItems(DeleteStyleMenuAction.ID, manager);
 			}
@@ -717,7 +727,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 	/**
 	 * Creates report layout preference menu in the specified action group of the
 	 * specified menu manager.
-	 * 
+	 *
 	 * @param menuManager The menu manager contains the action group.
 	 * @param group_name  The action group contains the sub menu.
 	 */
@@ -764,7 +774,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Creats sub menu in the specified action group of the specified menu manager.
-	 * 
+	 *
 	 * @param menuManager The menu manager contains the action group.
 	 * @param group_name  The action group contains the sub menu.
 	 */
@@ -788,6 +798,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 		subMenu.add(NoneAction.getInstance());
 		subMenu.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				updateDynamicItems(ApplyThemeMenuAction.ID, manager);
 			}
@@ -800,14 +811,14 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	private void updateDynamicItems(String actionId, IMenuManager menu) {
 		IAction action = getAction(actionId);
-		if (action != null && action instanceof MenuUpdateAction) {
+		if (action instanceof MenuUpdateAction) {
 			((MenuUpdateAction) action).updateMenu((MenuManager) menu);
 		}
 	}
 
 	/**
 	 * Creats sub menu in the specified action group of the specified menu manager.
-	 * 
+	 *
 	 * @param menuManager The menu manager contains the action group.
 	 * @param group_name  The action group contains the sub menu.
 	 */
@@ -859,7 +870,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets element handles.
-	 * 
+	 *
 	 * @return element handles
 	 */
 	protected List getElements() {
@@ -868,7 +879,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets the current selected object.
-	 * 
+	 *
 	 * @return The current selected object array. If length is one, return the first
 	 */
 	protected Object getSelectedElement() {
@@ -881,7 +892,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets the first selected object.
-	 * 
+	 *
 	 * @return The first selected object
 	 */
 	protected Object getFirstElement() {
@@ -894,7 +905,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets multiple selected elements
-	 * 
+	 *
 	 * @return The (base) class type all the multi selected elements
 	 */
 	private Object getMultiSelectedElement() {
@@ -923,14 +934,15 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets the current selected row objects.
-	 * 
+	 *
 	 * @return The current selected row objects.
 	 */
 
 	public List getRowHandles() {
 		List list = getSelectedObjects();
-		if (list.isEmpty())
+		if (list.isEmpty()) {
 			return Collections.EMPTY_LIST;
+		}
 
 		List rowHandles = new ArrayList();
 		for (int i = 0; i < list.size(); i++) {
@@ -946,13 +958,14 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets the current selected column objects.
-	 * 
+	 *
 	 * @return The current column objects
 	 */
 	public List getColumnHandles() {
 		List list = getSelectedObjects();
-		if (list.isEmpty())
+		if (list.isEmpty()) {
 			return Collections.EMPTY_LIST;
+		}
 
 		List columnHandles = new ArrayList();
 		for (int i = 0; i < list.size(); i++) {
@@ -988,7 +1001,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets table edit part.
-	 * 
+	 *
 	 * @return The current selected table edit part, null if no table edit part is
 	 *         selected.
 	 */
@@ -1024,7 +1037,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets list edit parts.
-	 * 
+	 *
 	 * @return The current selected list edit parts, null if no list edit part is
 	 *         selected.
 	 */
@@ -1051,7 +1064,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Creats sub menu in the specified action group of the specified menu manager.
-	 * 
+	 *
 	 * @param menuManager The menu manager contains the action group.
 	 * @param group_name  The action group contains the sub menu.
 	 */
@@ -1110,7 +1123,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets table edit part.
-	 * 
+	 *
 	 * @return the table edit part
 	 */
 	protected TableEditPart getTableEditPart() {
@@ -1132,7 +1145,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Gets list edit part.
-	 * 
+	 *
 	 * @return The current selected list edit part, null if no list edit part is
 	 *         selected.
 	 */
@@ -1155,7 +1168,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Creats sub menu in the specified action group of the specified menu manager.
-	 * 
+	 *
 	 * @param menuManager The menu manager contains the action group.
 	 * @param group_name  The action group contains the sub menu.
 	 */

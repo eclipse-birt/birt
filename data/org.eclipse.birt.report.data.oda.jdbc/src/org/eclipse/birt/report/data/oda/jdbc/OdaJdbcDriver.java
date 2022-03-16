@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +33,7 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 
 /**
  * This class implements IDriver, which is the entry point for the ODA consumer.
- * 
+ *
  */
 public class OdaJdbcDriver implements IDriver {
 	private static String className = OdaJdbcDriver.class.getName();
@@ -60,10 +63,11 @@ public class OdaJdbcDriver implements IDriver {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.IDriver#getConnection(java.lang.String)
 	 */
+	@Override
 	public IConnection getConnection(String connectionClassName) throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, className, "getConnection",
 				"JDBCConnectionFactory.getConnection( ) connectionClassName=" + connectionClassName);
@@ -72,9 +76,10 @@ public class OdaJdbcDriver implements IDriver {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.IDriver#getMaxConnections()
 	 */
+	@Override
 	public int getMaxConnections() throws OdaException {
 		// The max # of connection is unknown to this Driver; each JDBC driver can have
 		// a limit
@@ -86,6 +91,7 @@ public class OdaJdbcDriver implements IDriver {
 	 * @see org.eclipse.datatools.connectivity.oda.IDriver#setAppContext(java.lang.
 	 * Object)
 	 */
+	@Override
 	public void setAppContext(Object context) throws OdaException {
 		// do nothing; no support for pass-through application context
 	}
@@ -94,6 +100,7 @@ public class OdaJdbcDriver implements IDriver {
 	 * @see org.eclipse.datatools.connectivity.oda.IDriver#setLogConfiguration(org.
 	 * eclipse.datatools.connectivity.oda.LogConfiguration)
 	 */
+	@Override
 	public void setLogConfiguration(LogConfiguration logConfig) throws OdaException {
 		LogConfig.setLogConfiguration(logConfig);
 	}
@@ -110,8 +117,9 @@ public class OdaJdbcDriver implements IDriver {
 		} catch (IllegalArgumentException e) {
 			// ignore and continue to return null
 		}
-		if (extMF != null)
+		if (extMF != null) {
 			return extMF.getDriverLocation();
+		}
 		return null;
 	}
 
@@ -120,8 +128,9 @@ public class OdaJdbcDriver implements IDriver {
 	 */
 	public static File getDriverDirectory() throws OdaException, IOException {
 		URL url = getInstallDirectory();
-		if (url == null)
+		if (url == null) {
 			return null;
+		}
 
 		File result = null;
 		try {
@@ -141,6 +150,7 @@ public class OdaJdbcDriver implements IDriver {
 	public static List getDriverFileList() throws OdaException, IOException {
 		File driverHomeDir = getDriverDirectory();
 		String files[] = driverHomeDir.list(new FilenameFilter() {
+			@Override
 			public boolean accept(File dir, String name) {
 				return isDriverFile(name);
 			}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -85,10 +88,12 @@ public class BIRTActionRenderer extends ActionRendererAdapter {
 
 		public abstract Object evaluate(String expr);
 
+		@Override
 		public int getType() {
 			return BIRTActionRenderer.this.getType(handle);
 		}
 
+		@Override
 		public String getBookmark() {
 			Object value = evaluate(handle.getTargetBookmark());
 			if (value instanceof Number) {
@@ -97,36 +102,44 @@ public class BIRTActionRenderer extends ActionRendererAdapter {
 			return ChartUtil.stringValue(value);
 		}
 
+		@Override
 		public String getActionString() {
 			return BIRTActionRenderer.this.getActionString(this, handle);
 		}
 
+		@Override
 		public String getReportName() {
 			return handle.getReportName();
 		}
 
+		@Override
 		@SuppressWarnings("rawtypes")
 		public Map getParameterBindings() {
 			return BIRTActionRenderer.this.getParameterBindings(this, handle);
 		}
 
+		@Override
 		@SuppressWarnings("rawtypes")
 		public Map getSearchCriteria() {
 			return BIRTActionRenderer.this.getSearchCriteria(this, handle);
 		}
 
+		@Override
 		public String getTargetWindow() {
 			return handle.getTargetWindow();
 		}
 
+		@Override
 		public String getFormat() {
 			return handle.getFormatType();
 		}
 
+		@Override
 		public boolean isBookmark() {
 			return BIRTActionRenderer.this.isBookmark(handle);
 		}
 
+		@Override
 		public String getSystemId() {
 			ModuleHandle mod = eih.getRoot();
 			if (mod != null) {
@@ -135,10 +148,12 @@ public class BIRTActionRenderer extends ActionRendererAdapter {
 			return null;
 		}
 
+		@Override
 		public String getTargetFileType() {
 			return handle.getTargetFileType();
 		}
 
+		@Override
 		public String getTooltip() {
 			return handle.getToolTip();
 		}
@@ -146,7 +161,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param handler
 	 */
 	public BIRTActionRenderer(DesignElementHandle eih, IHTMLActionHandler handler,
@@ -158,7 +173,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter {
 	}
 
 	protected Map<String, Object> getParameterBindings(ChartHyperlinkActionBase chAction, ActionHandle handle) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		MemberHandle params = handle.getParamBindings();
 		// Parameters may be null except for DrillThrough
 		if (params != null) {
@@ -171,7 +186,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter {
 	}
 
 	protected Map<String, Object> getSearchCriteria(ChartHyperlinkActionBase chAction, ActionHandle handle) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		MemberHandle searches = handle.getSearch();
 		// Searches may be null except for DrillThrough
 		if (searches != null) {
@@ -184,12 +199,15 @@ public class BIRTActionRenderer extends ActionRendererAdapter {
 	}
 
 	protected int getType(ActionHandle handle) {
-		if (DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals(handle.getLinkType()))
+		if (DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals(handle.getLinkType())) {
 			return IAction.ACTION_HYPERLINK;
-		if (DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals(handle.getLinkType()))
+		}
+		if (DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals(handle.getLinkType())) {
 			return IAction.ACTION_BOOKMARK;
-		if (DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals(handle.getLinkType()))
+		}
+		if (DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals(handle.getLinkType())) {
 			return IAction.ACTION_DRILLTHROUGH;
+		}
 		return 0;
 	}
 
@@ -204,8 +222,9 @@ public class BIRTActionRenderer extends ActionRendererAdapter {
 			return ChartUtil.stringValue(chAction.evaluate(text));
 		}
 
-		if (DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals(handle.getLinkType()))
+		if (DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals(handle.getLinkType())) {
 			return ChartUtil.stringValue(chAction.evaluate(handle.getTargetBookmark()));
+		}
 		return null;
 	}
 
@@ -243,7 +262,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter {
 		} else if (ActionType.INVOKE_SCRIPT_LITERAL.equals(action.getType())) {
 			ScriptValue sv = (ScriptValue) action.getValue();
 			if (cacheScriptEvaluator == null) {
-				cacheScriptEvaluator = new HashMap<String, String>();
+				cacheScriptEvaluator = new HashMap<>();
 			}
 			String evaluatResult = cacheScriptEvaluator.get(sv.getScript());
 			if (evaluatResult == null) {
@@ -276,12 +295,10 @@ public class BIRTActionRenderer extends ActionRendererAdapter {
 						} catch (ChartException e) {
 							logger.log(e);
 						}
+					} else if (value instanceof Number) {
+						tv.setText(ChartUtil.getDefaultNumberFormat().format(value));
 					} else {
-						if (value instanceof Number) {
-							tv.setText(ChartUtil.getDefaultNumberFormat().format(value));
-						} else {
-							tv.setText(ChartUtil.stringValue(value));
-						}
+						tv.setText(ChartUtil.stringValue(value));
 					}
 				}
 			} else {
@@ -377,7 +394,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter {
 
 	/**
 	 * Set the tooltip.
-	 * 
+	 *
 	 * @param uv
 	 * @param handle
 	 * @since 2.3

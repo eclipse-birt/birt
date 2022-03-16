@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,12 +40,12 @@ public class ResourceHelper {
 
 	/**
 	 * Gets a helper to deal with a bundle of message files.
-	 * 
+	 *
 	 * @param baseName base name of the resource bundle. The name is a common base
 	 *                 name
 	 * @return a correspondent helper instance. Return <code>null</code> if the
 	 *         <code>msgFolder</code> is null or not a directory.
-	 * 
+	 *
 	 */
 
 	public static ResourceHelper getHelper(String baseName) {
@@ -56,9 +59,9 @@ public class ResourceHelper {
 	 * <p>
 	 * If the given locale is <code>null</code>, locale of the current thread will
 	 * be used.
-	 * 
+	 *
 	 * @param locale locale to use when locating the bundles.
-	 * 
+	 *
 	 * @return a message file list for the given locale.
 	 */
 
@@ -73,22 +76,24 @@ public class ResourceHelper {
 	 * <p>
 	 * If the given locale is <code>null</code>, locale of the current thread will
 	 * be used.
-	 * 
+	 *
 	 * @param locale        locale to use when locating the bundles.
 	 * @param appendDefault if <code>true</code>, add the message file with empty
 	 *                      locale into the return list.
-	 * 
+	 *
 	 * @return a message file list for the given locale.
 	 */
 
 	public List<String> getMessageFilenames(ULocale locale, boolean appendDefault) {
-		if (locale == null)
+		if (locale == null) {
 			locale = ThreadResources.getLocale();
+		}
 
-		List<String> bundleNames = new ArrayList<String>();
+		List<String> bundleNames = new ArrayList<>();
 
-		if (this.baseName == null)
+		if (this.baseName == null) {
 			return bundleNames;
+		}
 
 		// find the correspondent message files.
 		// e.g: message
@@ -105,7 +110,7 @@ public class ResourceHelper {
 		if (languageLength > 0 && countryLength > 0) {
 			// LANGUAGE_COUNTRY
 
-			StringBuffer temp = new StringBuffer(baseName);
+			StringBuilder temp = new StringBuilder(baseName);
 			temp.append("_"); //$NON-NLS-1$
 			temp.append(language);
 			temp.append("_"); //$NON-NLS-1$
@@ -113,7 +118,7 @@ public class ResourceHelper {
 
 			// LANGUAGE_COUNTRY_VARIANT
 
-			StringBuffer variantTmp = new StringBuffer(temp.toString());
+			StringBuilder variantTmp = new StringBuilder(temp.toString());
 			if (variantLength > 0) {
 				variantTmp.append("_"); //$NON-NLS-1$
 				variantTmp.append(variant);
@@ -131,7 +136,7 @@ public class ResourceHelper {
 		if (languageLength > 0) {
 			// LANGUAGE
 
-			StringBuffer temp = new StringBuffer(baseName);
+			StringBuilder temp = new StringBuilder(baseName);
 			temp.append("_"); //$NON-NLS-1$
 			temp.append(language);
 			temp.append(".properties"); //$NON-NLS-1$
@@ -141,8 +146,9 @@ public class ResourceHelper {
 
 		// default.
 
-		if (appendDefault)
+		if (appendDefault) {
 			bundleNames.add(baseName + ".properties"); //$NON-NLS-1$
+		}
 
 		return bundleNames;
 	}

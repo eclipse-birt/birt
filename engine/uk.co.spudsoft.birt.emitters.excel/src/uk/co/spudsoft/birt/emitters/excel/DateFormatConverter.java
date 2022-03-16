@@ -1,11 +1,13 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -55,7 +57,7 @@ public class DateFormatConverter {
 		}
 
 		public static String[] tokenize(String format) {
-			List<String> result = new ArrayList<String>();
+			List<String> result = new ArrayList<>();
 
 			DateFormatTokenizer tokenizer = new DateFormatTokenizer(format);
 			String token;
@@ -66,6 +68,7 @@ public class DateFormatConverter {
 			return result.toArray(new String[0]);
 		}
 
+		@Override
 		public String toString() {
 			StringBuilder result = new StringBuilder();
 
@@ -86,7 +89,7 @@ public class DateFormatConverter {
 	private static Map<String, String> localePrefixes = prepareLocalePrefixes();
 
 	private static Map<String, String> prepareTokenConversions() {
-		Map<String, String> result = new HashMap<String, String>();
+		Map<String, String> result = new HashMap<>();
 
 		result.put("EEEE", "dddd");
 		result.put("EEE", "ddd");
@@ -108,7 +111,7 @@ public class DateFormatConverter {
 	}
 
 	private static Map<String, String> prepareLocalePrefixes() {
-		Map<String, String> result = new HashMap<String, String>();
+		Map<String, String> result = new HashMap<>();
 
 		result.put("af", "[$-1010436]");
 		result.put("am", "[$-101045E]");
@@ -324,7 +327,7 @@ public class DateFormatConverter {
 		String token;
 		while ((token = tokenizer.getNextToken()) != null) {
 			if (token.startsWith("'")) {
-				result.append(token.replaceAll("'", "\""));
+				result.append(token.replace('\'', '"'));
 			} else if (!Character.isLetter(token.charAt(0))) {
 				result.append(token);
 			} else {

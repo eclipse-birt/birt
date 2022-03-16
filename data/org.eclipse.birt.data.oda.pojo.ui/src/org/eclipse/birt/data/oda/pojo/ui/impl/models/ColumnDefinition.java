@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,6 +17,7 @@ package org.eclipse.birt.data.oda.pojo.ui.impl.models;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.birt.data.oda.pojo.querymodel.ConstantParameter;
 import org.eclipse.birt.data.oda.pojo.querymodel.IMappingSource;
@@ -23,7 +27,7 @@ import org.eclipse.birt.data.oda.pojo.querymodel.VariableParameter;
 import org.eclipse.birt.data.oda.pojo.ui.util.Constants;
 
 /**
- * 
+ *
  */
 
 public class ColumnDefinition implements Cloneable {
@@ -55,7 +59,7 @@ public class ColumnDefinition implements Cloneable {
 	}
 
 	public List<VariableParameter> getVariableParameters() {
-		List<VariableParameter> paramList = new ArrayList<VariableParameter>();
+		List<VariableParameter> paramList = new ArrayList<>();
 		IMappingSource[] sources = getMappingPath();
 		for (int i = 0; i < sources.length; i++) {
 			if (sources[i] instanceof MethodSource) {
@@ -75,7 +79,7 @@ public class ColumnDefinition implements Cloneable {
 	}
 
 	public String getMappingPathText() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (IMappingSource m : mappingPath) {
 			sb.append(m.getName());
 			if (m instanceof MethodSource) {
@@ -120,7 +124,7 @@ public class ColumnDefinition implements Cloneable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -135,45 +139,37 @@ public class ColumnDefinition implements Cloneable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.hashCode(mappingPath);
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		return result;
+		return Objects.hash(Arrays.hashCode(mappingPath), name, type);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		ColumnDefinition other = (ColumnDefinition) obj;
-		if (!Arrays.equals(mappingPath, other.mappingPath))
+		if (!Arrays.equals(mappingPath, other.mappingPath)) {
 			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
+		}
+		if (!Objects.equals(name, other.name)) {
 			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
+		}
+		if (!Objects.equals(type, other.type)) {
 			return false;
+		}
 		return true;
 	}
 

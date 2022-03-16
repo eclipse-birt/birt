@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
@@ -40,6 +52,7 @@ import org.eclipse.swt.widgets.Text;
 /**
  * @deprecated use {@link DataColumnBindingDialog} instead
  */
+@Deprecated
 public class DataItemBindingDialog extends BaseDialog {
 
 	protected static final String NAME = Messages.getString("DataItemBindingDialog.text.Name"); //$NON-NLS-1$
@@ -104,7 +117,7 @@ public class DataItemBindingDialog extends BaseDialog {
 	protected boolean isCreateNew;
 
 	public DataItemBindingDialog(boolean isCreateNew) {
-		super(isCreateNew == true ? NEW_DATAITEM_TITLE : EDIT_DATAITEM_TITLE);
+		super(isCreateNew ? NEW_DATAITEM_TITLE : EDIT_DATAITEM_TITLE);
 		this.isCreateNew = isCreateNew;
 	}
 
@@ -113,8 +126,9 @@ public class DataItemBindingDialog extends BaseDialog {
 	}
 
 	protected String[] convertListToStrings(List list) {
-		if (list == null)
+		if (list == null) {
 			return null;
+		}
 		String[] strings = new String[list.size()];
 		for (int i = 0; i < list.size(); i++) {
 			strings[i] = list.get(i).toString();
@@ -122,6 +136,7 @@ public class DataItemBindingDialog extends BaseDialog {
 		return strings;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		final Composite composite = (Composite) super.createDialogArea(parent);
 		UIUtil.bindHelp(composite, IHelpContextIds.DATA_ITEM_BINDING_DIALOG);
@@ -136,6 +151,7 @@ public class DataItemBindingDialog extends BaseDialog {
 
 		itemName.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				updateButtonStatus();
 
@@ -160,6 +176,7 @@ public class DataItemBindingDialog extends BaseDialog {
 
 		itemExpression.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				updateButtonStatus();
 			}
@@ -174,6 +191,7 @@ public class DataItemBindingDialog extends BaseDialog {
 		// expressionButton.setLayoutData( gd );
 		expressionButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleExpressionButtonSelectEvent();
 			}
@@ -183,7 +201,7 @@ public class DataItemBindingDialog extends BaseDialog {
 
 		/*
 		 * itemExpression.addModifyListener( new ModifyListener( ) {
-		 * 
+		 *
 		 * public void modifyText( ModifyEvent e ) { if ( ExpressionUtil.hasAggregation(
 		 * itemExpression.getText( ) ) ) { String groupType =
 		 * DEUtil.getGroupControlType( input ); if ( !( bindingColumn != null &&
@@ -201,7 +219,7 @@ public class DataItemBindingDialog extends BaseDialog {
 		 * itemAggregateOn.getVisible( ) ) { aggregateOnLabel.setVisible( false );
 		 * itemAggregateOn.setVisible( false ); hiddenLabel.setVisible( false ); } } }
 		 * );
-		 * 
+		 *
 		 * aggregateOnLabel = new Label( composite, SWT.NONE );
 		 * aggregateOnLabel.setText( AGGREGATE_ON ); itemAggregateOn = new Combo(
 		 * composite, SWT.BORDER | SWT.READ_ONLY ); itemAggregateOn.setLayoutData( new
@@ -218,8 +236,9 @@ public class DataItemBindingDialog extends BaseDialog {
 		List elementsList = DEUtil.getVisiableColumnBindingsList(input);
 		if (elementsList != null && elementsList.size() > 0) {
 			for (int i = 0; i < elementsList.size(); i++) {
-				if (((ComputedColumnHandle) elementsList.get(i)).getName().equals(bindingName))
+				if (((ComputedColumnHandle) elementsList.get(i)).getName().equals(bindingName)) {
 					return (ComputedColumnHandle) elementsList.get(i);
+				}
 			}
 		}
 		return null;
@@ -227,8 +246,9 @@ public class DataItemBindingDialog extends BaseDialog {
 
 	private int getItemIndex(String[] items, String item) {
 		for (int i = 0; i < items.length; i++) {
-			if (items[i].equals(item))
+			if (items[i].equals(item)) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -264,23 +284,26 @@ public class DataItemBindingDialog extends BaseDialog {
 	private void initDataTypes() {
 		if (dataTypes != null && itemType != null) {
 			itemType.setItems(dataTypes);
-			if (typeSelect != null)
+			if (typeSelect != null) {
 				itemType.select(getItemIndex(itemType.getItems(), typeSelect));
-			else
+			} else {
 				itemType.select(0);
+			}
 		}
 	}
 
 	private void initExpression() {
-		if (expression != null && itemExpression != null)
+		if (expression != null && itemExpression != null) {
 			itemExpression.setText(expression);
+		}
 	}
 
 	private String name;
 
 	private void initName() {
-		if (name != null && itemName != null)
+		if (name != null && itemName != null) {
 			itemName.setText(name);
+		}
 	}
 
 	protected void save() throws SemanticException {
@@ -318,12 +341,14 @@ public class DataItemBindingDialog extends BaseDialog {
 					return;
 				}
 
-				if (!(bindingColumn.getName() != null && bindingColumn.getName().equals(itemName.getText().trim())))
+				if (!(bindingColumn.getName() != null && bindingColumn.getName().equals(itemName.getText().trim()))) {
 					bindingColumn.setName(itemName.getText());
+				}
 
 				if (!(bindingColumn.getDisplayName() != null
-						&& bindingColumn.getDisplayName().equals(itemDisplayName.getText().trim())))
+						&& bindingColumn.getDisplayName().equals(itemDisplayName.getText().trim()))) {
 					bindingColumn.setDisplayName(itemDisplayName.getText());
+				}
 
 				for (int i = 0; i < DATA_TYPE_CHOICES.length; i++) {
 					if (DATA_TYPE_CHOICES[i].getDisplayName().endsWith(itemType.getText())) {
@@ -353,6 +378,7 @@ public class DataItemBindingDialog extends BaseDialog {
 		}
 	}
 
+	@Override
 	protected void okPressed() {
 		try {
 			save();
@@ -370,7 +396,7 @@ public class DataItemBindingDialog extends BaseDialog {
 	 * String[aggregateOnList.size( )]; for ( int i = 0; i < aggregateOnList.size(
 	 * ); i++ ) { strings[i] = ( (GroupHandle) aggregateOnList.get( i ) ).getName(
 	 * ); } setAggregateOns( strings ); }
-	 * 
+	 *
 	 * public void setAggregateOns( String[] aggregateOns ) { if ( aggregateOns ==
 	 * null || aggregateOns.length == 0 ) { if ( input != null &&
 	 * DEUtil.getGroupControlType( input ) != DEUtil.TYPE_GROUP_NONE ) {
@@ -379,7 +405,7 @@ public class DataItemBindingDialog extends BaseDialog {
 	 * String[aggregateOns.length + 1]; this.aggregateOns[0] = ALL;
 	 * System.arraycopy( aggregateOns, 0, this.aggregateOns, 1, aggregateOns.length
 	 * ); } initAggregateOns( ); }
-	 * 
+	 *
 	 * public void setAggregateOnSelect( String aggregateOnSelect ) {
 	 * this.aggregateOnSelect = aggregateOnSelect; initAggregateOns( ); }
 	 */
@@ -420,17 +446,15 @@ public class DataItemBindingDialog extends BaseDialog {
 			if (isCreateNew) {
 				createColumnName(input, DEFAULT_ITEM_NAME);
 				setTypeSelect(dataTypes[0]);
+			} else if (bindingColumn != null) {
+				setName(bindingColumn.getName());
+				setDisplayName(bindingColumn.getDisplayName());
+				setTypeSelect(DATA_TYPE_CHOICE_SET.findChoice(bindingColumn.getDataType()).getDisplayName());
+				setExpression(bindingColumn.getExpression());
+				// setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
 			} else {
-				if (bindingColumn != null) {
-					setName(bindingColumn.getName());
-					setDisplayName(bindingColumn.getDisplayName());
-					setTypeSelect(DATA_TYPE_CHOICE_SET.findChoice(bindingColumn.getDataType()).getDisplayName());
-					setExpression(bindingColumn.getExpression());
-					// setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
-				} else {
-					createColumnName(input, ((DataItemHandle) input).getResultSetColumn());
-					setTypeSelect(dataTypes[0]);
-				}
+				createColumnName(input, ((DataItemHandle) input).getResultSetColumn());
+				setTypeSelect(dataTypes[0]);
 			}
 
 		} catch (Exception e) {
@@ -462,11 +486,13 @@ public class DataItemBindingDialog extends BaseDialog {
 
 	protected void handleExpressionButtonSelectEvent() {
 		ExpressionBuilder expression = new ExpressionBuilder(getExpression());
-		if (expressionProvider == null)
+		if (expressionProvider == null) {
 			expressionProvider = new BindingExpressionProvider(DEUtil.getBindingHolder(input), this.bindingColumn);
+		}
 		if (bindingColumn != null) {
-			if (filter != null)
+			if (filter != null) {
 				expressionProvider.removeFilter(filter);
+			}
 			filter = new ComputedColumnExpressionFilter(bindingColumn);
 			expressionProvider.addFilter(filter);
 		}
@@ -490,13 +516,15 @@ public class DataItemBindingDialog extends BaseDialog {
 	protected void updateButtonStatus() {
 		if (DataItemBindingDialog.this.getOkButton() != null) {
 			if (itemName.getText() == null || itemName.getText().trim().equals("") //$NON-NLS-1$
-					|| itemExpression.getText() == null || itemExpression.getText().trim().equals("")) //$NON-NLS-1$
+					|| itemExpression.getText() == null || itemExpression.getText().trim().equals("")) {
 				DataItemBindingDialog.this.getOkButton().setEnabled(false);
-			else
+			} else {
 				DataItemBindingDialog.this.getOkButton().setEnabled(true);
+			}
 		}
 	}
 
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
 		updateButtonStatus();

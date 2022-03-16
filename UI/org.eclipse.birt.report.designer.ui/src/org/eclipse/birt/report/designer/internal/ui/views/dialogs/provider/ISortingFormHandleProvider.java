@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,35 +19,35 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 /**
  * FormPage assistant class, provides form type(Filter, Sorting, Groups and
  * Hight-lights) sensitive data and processes.
- * 
- * 
+ *
+ *
  */
 public interface ISortingFormHandleProvider {
 
 	/**
 	 * Gets the column Names to show in table.
-	 * 
+	 *
 	 * @return String array contains all column names.
 	 */
 	String[] getColumnNames();
 
 	/**
 	 * Gets the width of each column.
-	 * 
+	 *
 	 * @return <code>int<code> array of all columns width.
 	 */
 	int[] getColumnWidths();
 
 	/**
 	 * Gets the hint text for the form.
-	 * 
+	 *
 	 * @return The hint text.
 	 */
 	String getTitle();
 
 	/**
 	 * Deletes an item.
-	 * 
+	 *
 	 * @param pos The item's current position
 	 * @return True if success, otherwise false.
 	 */
@@ -52,16 +55,16 @@ public interface ISortingFormHandleProvider {
 
 	/**
 	 * Adds an item.
-	 * 
+	 *
 	 * @param pos The position to insert a new item
-	 * 
+	 *
 	 * @return True if success, otherwise false.
 	 */
 	boolean doAddItem(int pos) throws Exception;
 
 	/**
 	 * Edits a given item.
-	 * 
+	 *
 	 * @param pos The item's current position
 	 * @return True if success, otherwise false.
 	 */
@@ -69,7 +72,7 @@ public interface ISortingFormHandleProvider {
 
 	/**
 	 * Gets the label for the element under given index.
-	 * 
+	 *
 	 * @param element     The data object.
 	 * @param columnIndex The table column index.
 	 * @return The label for the element under given index
@@ -78,7 +81,7 @@ public interface ISortingFormHandleProvider {
 
 	/**
 	 * Gets the image path for the element under given index.
-	 * 
+	 *
 	 * @param element     The data object.
 	 * @param columnIndex The table column index.
 	 * @return The image path for the element under given index
@@ -87,7 +90,7 @@ public interface ISortingFormHandleProvider {
 
 	/**
 	 * Gets all elements of the given input.
-	 * 
+	 *
 	 * @param inputElement The input object.
 	 * @return Elements array.
 	 */
@@ -96,7 +99,7 @@ public interface ISortingFormHandleProvider {
 	/**
 	 * Returns the value for the given property of the given element. Returns
 	 * <code>null</code> if the element does not have the given property.
-	 * 
+	 *
 	 * @param element  The data object
 	 * @param property The column name
 	 * @return The property value
@@ -105,13 +108,13 @@ public interface ISortingFormHandleProvider {
 
 	/**
 	 * Judges whether to refresh data.
-	 * 
+	 *
 	 * @param event The DE notify event.
 	 * @return True needs refresh, false not need.
 	 */
 	boolean needRefreshed(NotificationEvent event);
 
-	public boolean isEditable();
+	boolean isEditable();
 
 	void setSortingColumnIndex(int index);
 

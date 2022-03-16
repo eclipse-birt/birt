@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,6 +31,7 @@ public class BindingGroupSection extends Section {
 
 	protected BindingGroupDescriptor bindingGroup;
 
+	@Override
 	public void createSection() {
 		getBindingGroupControl(parent);
 		getGridPlaceholder(parent);
@@ -45,6 +49,7 @@ public class BindingGroupSection extends Section {
 			bindingGroup.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			bindingGroup.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					bindingGroup = null;
 				}
@@ -55,17 +60,20 @@ public class BindingGroupSection extends Section {
 		return bindingGroup;
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) bindingGroup.getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
+		}
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = true;
+		}
 
 		if (height > -1) {
 			gd.heightHint = height;
@@ -79,9 +87,11 @@ public class BindingGroupSection extends Section {
 		this.height = height;
 	}
 
+	@Override
 	public void load() {
-		if (bindingGroup != null && !bindingGroup.getControl().isDisposed())
+		if (bindingGroup != null && !bindingGroup.getControl().isDisposed()) {
 			bindingGroup.load();
+		}
 	}
 
 	IDescriptorProvider provider;
@@ -92,26 +102,33 @@ public class BindingGroupSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (bindingGroup != null)
+		if (bindingGroup != null) {
 			bindingGroup.setDescriptorProvider(provider);
+		}
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		bindingGroup.setInput(input);
-		if (getProvider() != null)
+		if (getProvider() != null) {
 			getProvider().setInput(input);
+		}
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (bindingGroup != null)
+		if (bindingGroup != null) {
 			WidgetUtil.setExcludeGridData(bindingGroup.getControl(), isHidden);
+		}
 
 	}
 
+	@Override
 	public void setVisible(boolean isVisable) {
-		if (bindingGroup != null)
+		if (bindingGroup != null) {
 			bindingGroup.getControl().setVisible(isVisable);
+		}
 
 	}
 

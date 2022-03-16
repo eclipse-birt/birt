@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +45,7 @@ public class NameHelperTest extends BaseTestCase {
 	private static final String ADD_ELEMENT_TEST_FILE = "AddVariableElementNameTest.xml"; //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testParser() throws Exception {
@@ -68,7 +71,7 @@ public class NameHelperTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testMakeUniqueName() throws Exception {
@@ -110,8 +113,8 @@ public class NameHelperTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @throws Exception
 	 */
 	public void testResolve() throws Exception {
@@ -130,7 +133,7 @@ public class NameHelperTest extends BaseTestCase {
 
 	/**
 	 * Tests the clear of name helper when the transaction stack is empty.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testClear() throws Exception {
@@ -189,7 +192,7 @@ public class NameHelperTest extends BaseTestCase {
 
 	/**
 	 * Tests verified variable element name.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testAddVariableElementName() throws Exception {
@@ -249,7 +252,7 @@ public class NameHelperTest extends BaseTestCase {
 	/**
 	 * If the variable element with name is drop, its name will be removed from the
 	 * name space.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDeleteVariableElement() throws Exception {

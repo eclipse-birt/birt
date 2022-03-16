@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,20 +52,22 @@ public class ChoicePropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
+	@Override
 	public Control getControl() {
 		return combo;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Control createControl(Composite parent) {
 		if (!isFormStyle()) {
 			combo = new CCombo(parent, style | SWT.READ_ONLY);
@@ -71,20 +76,24 @@ public class ChoicePropertyDescriptor extends PropertyDescriptor {
 		}
 		combo.addControlListener(new ControlListener() {
 
+			@Override
 			public void controlMoved(ControlEvent e) {
 				combo.clearSelection();
 			}
 
+			@Override
 			public void controlResized(ControlEvent e) {
 				combo.clearSelection();
 			}
 		});
 		combo.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleSelectEvent();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				handleSelectEvent();
 			}
@@ -113,21 +122,23 @@ public class ChoicePropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#resetUIData()
 	 */
+	@Override
 	public void load() {
-		String[] items = new String[0];
-		String[] values = null;
+		String[] items = {};
+		String[] values;
 
 		combo.setItems(provider.getItems());
 		values = provider.getValues();
 
 		oldValue = provider.load().toString();
 		boolean stateFlag = ((oldValue == null) == combo.getEnabled());
-		if (stateFlag)
+		if (stateFlag) {
 			combo.setEnabled(oldValue != null);
+		}
 
 		if (provider.isReadOnly()) {
 			combo.setEnabled(false);
@@ -159,23 +170,26 @@ public class ChoicePropertyDescriptor extends PropertyDescriptor {
 
 	/**
 	 * Add a SWT style to the combo widget
-	 * 
+	 *
 	 * @param style The SWT style to add.
 	 */
 	public void addStyle(int style) {
 		this.style |= style;
 	}
 
+	@Override
 	public void save(Object obj) throws SemanticException {
 		provider.save(obj);
 	}
 
 	ChoicePropertyDescriptorProvider provider;
 
+	@Override
 	public void setDescriptorProvider(IDescriptorProvider provider) {
 		super.setDescriptorProvider(provider);
-		if (provider instanceof ChoicePropertyDescriptorProvider)
+		if (provider instanceof ChoicePropertyDescriptorProvider) {
 			this.provider = (ChoicePropertyDescriptorProvider) provider;
+		}
 	}
 
 	public void setHidden(boolean isHidden) {
@@ -186,6 +200,7 @@ public class ChoicePropertyDescriptor extends PropertyDescriptor {
 		combo.setVisible(isVisible);
 	}
 
+	@Override
 	public void setInput(Object input) {
 		super.setInput(input);
 		getDescriptorProvider().setInput(input);

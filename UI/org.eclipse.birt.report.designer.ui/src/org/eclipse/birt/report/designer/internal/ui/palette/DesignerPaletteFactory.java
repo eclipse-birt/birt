@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -34,7 +37,7 @@ import org.eclipse.ui.ISharedImages;
 
 /**
  * Factory to populate report graphical editor palette root.
- * 
+ *
  */
 public class DesignerPaletteFactory extends BasePaletteFactory {
 
@@ -84,7 +87,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory {
 
 	/**
 	 * Creates the palette and returns the palette
-	 * 
+	 *
 	 * @return the editor palette
 	 */
 	public static PaletteRoot createPalette() {
@@ -93,6 +96,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory {
 
 		IExtension extension = new IExtension.Stub() {
 
+			@Override
 			public String getExtendsionIdentify() {
 				return GuiExtensionManager.PALETTE_DESIGNER;
 			}
@@ -138,19 +142,23 @@ public class DesignerPaletteFactory extends BasePaletteFactory {
 			super(label, shortDesc, template, factory, iconSmall, iconLarge);
 		}
 
+		@Override
 		public Tool createTool() {
 			return new ReportCreationTool(factory, null) {
 
+				@Override
 				protected void performCreation(int button) {
 					DNDService.getInstance().performDrop(getTemplate(), getTargetEditPart(), DND.DROP_DEFAULT,
 							new DNDLocation(getLocation()));
 				}
 
+				@Override
 				public void performCreation(EditPart editPart) {
 					DNDService.getInstance().performDrop(getTemplate(), editPart, DND.DROP_DEFAULT,
 							new DNDLocation(getLocation()));
 				}
 
+				@Override
 				protected boolean handleMove() {
 					updateTargetUnderMouse();
 					boolean canMove = DNDService.getInstance().validDrop(getTemplate(), getTargetEditPart(),
@@ -172,7 +180,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory {
 
 	/**
 	 * Creates palette categories and returns the category list
-	 * 
+	 *
 	 * @return Returns the categories list
 	 */
 	protected static List createCategories() {
@@ -183,13 +191,13 @@ public class DesignerPaletteFactory extends BasePaletteFactory {
 
 	/**
 	 * Creates BIRT Normal specified categories and items.
-	 * 
+	 *
 	 * @return Palette Container containing BIRT Normal specified categories
 	 */
 	private static PaletteContainer createContentCategory() {
 		PaletteCategory category = new PaletteCategory(IPreferenceConstants.PALETTE_CONTENT, REPORT_ITEMS_LABEL,
 				ReportPlatformUIImages.getImageDescriptor(ISharedImages.IMG_OBJ_FOLDER));
-		List<CombinedTemplateCreationEntry> entries = new ArrayList<CombinedTemplateCreationEntry>();
+		List<CombinedTemplateCreationEntry> entries = new ArrayList<>();
 
 		CombinedTemplateCreationEntry combined = new ReportCombinedTemplateCreationEntry(ELEMENT_NAME_LABEL,
 				TOOL_TIP_LABEL_REPORT_ITEM, IReportElementConstants.REPORT_ELEMENT_LABEL,

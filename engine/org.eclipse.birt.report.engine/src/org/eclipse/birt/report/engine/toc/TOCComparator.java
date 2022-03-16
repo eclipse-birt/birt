@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -17,18 +17,19 @@ import java.util.Comparator;
 
 /**
  * node id has two version:
- * 
+ *
  * <li>__TOC_[number]
- * 
+ *
  * <li>__TOC_[number]_[number]
- * 
- * 
+ *
+ *
  */
 public class TOCComparator implements Comparator<String> {
 
 	/** length of the "__TOC_", 6 */
 	static final int PREFIX_LENGTH = 6;
 
+	@Override
 	public int compare(String o1, String o2) {
 		int length1 = o1.length();
 		int length2 = o2.length();

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,6 +38,7 @@ public class NodeInputStream extends InputStream implements BTreeConstants {
 		this.offset = BLOCK_SIZE;
 	}
 
+	@Override
 	public int read() throws IOException {
 		int remainSize = available();
 		if (remainSize > 0) {
@@ -43,6 +47,7 @@ public class NodeInputStream extends InputStream implements BTreeConstants {
 		return -1;
 	}
 
+	@Override
 	public int read(byte b[], int off, int len) throws IOException {
 		int readSize = 0;
 		while (readSize < len) {
@@ -62,6 +67,7 @@ public class NodeInputStream extends InputStream implements BTreeConstants {
 		return readSize;
 	}
 
+	@Override
 	public int available() throws IOException {
 		if (offset < BLOCK_SIZE) {
 			return BLOCK_SIZE - offset;

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ab
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
-import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.FilterModelProvider;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -39,7 +41,7 @@ import org.eclipse.swt.widgets.Table;
 /**
  * The filter delegate will create different filter provider for common and
  * sharing query cases at runtime.
- * 
+ *
  * @since 2.3
  */
 public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider {
@@ -89,42 +91,52 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider {
 		return baseProvider.getConcreteFilterProvider();
 	}
 
+	@Override
 	public boolean doAddItem(int pos) throws Exception {
 		return baseProvider.doAddItem(pos);
 	}
 
+	@Override
 	public boolean doDeleteItem(int pos) throws Exception {
 		return baseProvider.doDeleteItem(pos);
 	}
 
+	@Override
 	public boolean doEditItem(int pos) {
 		return baseProvider.doEditItem(pos);
 	}
 
+	@Override
 	public String[] getColumnNames() {
 		return baseProvider.getColumnNames();
 	}
 
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		return baseProvider.getColumnText(element, columnIndex);
 	}
 
+	@Override
 	public int[] getColumnWidths() {
 		return baseProvider.getColumnWidths();
 	}
 
+	@Override
 	public CellEditor[] getEditors(Table table) {
 		return baseProvider.getEditors(table);
 	}
 
+	@Override
 	public Object[] getElements(Object inputElement) {
 		return baseProvider.getElements(inputElement);
 	}
 
+	@Override
 	public Object getValue(Object element, String property) {
 		return baseProvider.getValue(element, property);
 	}
 
+	@Override
 	public String getDisplayName() {
 		return baseProvider.getDisplayName();
 	}
@@ -212,7 +224,7 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider {
 
 	/**
 	 * Create filter provider by specified input.
-	 * 
+	 *
 	 * @param input
 	 * @param providerInput
 	 * @return the created filter provider
@@ -256,16 +268,12 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider {
 			} else {
 				currentProvider = new ChartCubeFilterHandleProvider(new FilterHandleProvider());
 			}
-		}
-
-		else {
-			// It is in table mode.
-			if (ChartItemUtil.isChildOfMultiViewsHandle((DesignElementHandle) handle)) {
-				// Chart is in multi-view.
-				currentProvider = new ChartShareFiltersHandleProvider(baseProvider);
-			} else {
-				currentProvider = new ChartFilterHandleProvider(baseProvider);
-			}
+		} else // It is in table mode.
+		if (ChartItemUtil.isChildOfMultiViewsHandle((DesignElementHandle) handle)) {
+			// Chart is in multi-view.
+			currentProvider = new ChartShareFiltersHandleProvider(baseProvider);
+		} else {
+			currentProvider = new ChartFilterHandleProvider(baseProvider);
 		}
 
 		if (input != null) {
@@ -273,10 +281,6 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider {
 		}
 
 		return currentProvider;
-	}
-
-	private static <T> T getAdapter(Object adaptable, Class<T> type) {
-		return type.cast(ElementAdapterManager.getAdapter(adaptable, type));
 	}
 
 	@Override

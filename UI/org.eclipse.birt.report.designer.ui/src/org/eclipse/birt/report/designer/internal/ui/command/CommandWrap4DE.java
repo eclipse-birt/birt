@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,27 +35,30 @@ public class CommandWrap4DE extends Command {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
+	@Override
 	public boolean canExecute() {
 		return command == null ? false : true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#canUndo()
 	 */
+	@Override
 	public boolean canUndo() {
 		return command == null ? false : command.canUndo();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public void execute() {
 		if (command != null) {
 			if (Policy.TRACING_COMMANDS) {
@@ -64,18 +70,20 @@ public class CommandWrap4DE extends Command {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#getLabel()
 	 */
+	@Override
 	public String getLabel() {
-		return command == null || command.getLabel() == null ? "" : command.getLabel().replaceAll("&", ""); //$NON-NLS-1$
+		return command == null || command.getLabel() == null ? "" : command.getLabel().replace("&", ""); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
+	@Override
 	public void redo() {
 		if (command != null) {
 			if (Policy.TRACING_COMMANDS) {
@@ -87,9 +95,10 @@ public class CommandWrap4DE extends Command {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
+	@Override
 	public void undo() {
 		if (command != null) {
 			if (Policy.TRACING_COMMANDS) {

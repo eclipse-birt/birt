@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
  * This class represents a static label in the report. The label text can be
  * defined in the label, or the label can reference an external message file so
  * that the label can be localized.
- * 
+ *
  */
 
 public class Label extends ReportItem implements ILabelModel {
@@ -37,7 +40,7 @@ public class Label extends ReportItem implements ILabelModel {
 
 	/**
 	 * Constructs the label item with an optional name.
-	 * 
+	 *
 	 * @param theName the optional name
 	 */
 
@@ -47,40 +50,43 @@ public class Label extends ReportItem implements ILabelModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
 	 * report.model.elements.ElementVisitor)
 	 */
 
+	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitLabel(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
+	@Override
 	public String getElementName() {
 		return ReportDesignConstants.LABEL_ITEM;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
 	 * report.model.elements.ReportDesign)
 	 */
 
+	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 * 
+	 *
 	 * @param module the report design
 	 * @return an API handle for this element
 	 */
@@ -94,12 +100,13 @@ public class Label extends ReportItem implements ILabelModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.eclipse.
 	 * birt.report.model.elements.ReportDesign, int)
 	 */
 
+	@Override
 	public String getDisplayLabel(Module module, int level) {
 		String displayLabel = super.getDisplayLabel(module, level);
 		if (level == IDesignElementModel.FULL_LABEL) {

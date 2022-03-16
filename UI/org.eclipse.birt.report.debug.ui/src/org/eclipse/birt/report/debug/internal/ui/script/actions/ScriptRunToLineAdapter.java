@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,12 +44,13 @@ public class ScriptRunToLineAdapter implements IRunToLineTarget {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.ui.actions.IRunToLineTarget#canRunToLine(org.eclipse.ui.
 	 * IWorkbenchPart, org.eclipse.jface.viewers.ISelection,
 	 * org.eclipse.debug.core.model.ISuspendResume)
 	 */
+	@Override
 	public boolean canRunToLine(IWorkbenchPart part, ISelection selection, ISuspendResume target) {
 		if (target instanceof ScriptDebugElement) {
 			IDebugElement element = (IDebugElement) target;
@@ -58,16 +62,16 @@ public class ScriptRunToLineAdapter implements IRunToLineTarget {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.ui.actions.IRunToLineTarget#runToLine(org.eclipse.ui.
 	 * IWorkbenchPart, org.eclipse.jface.viewers.ISelection,
 	 * org.eclipse.debug.core.model.ISuspendResume)
 	 */
+	@Override
 	public void runToLine(IWorkbenchPart part, ISelection selection, ISuspendResume target) throws CoreException {
 		ITextEditor textEditor = getTextEditor(part);
 
 		if (textEditor == null) {
-			return;
 		} else {
 			IEditorInput input = textEditor.getEditorInput();
 
@@ -83,7 +87,6 @@ public class ScriptRunToLineAdapter implements IRunToLineTarget {
 
 			final IDocument document = textEditor.getDocumentProvider().getDocument(input);
 			if (document == null) {
-				return;
 			} else {
 				final int[] validLine = new int[1];
 				// final String[] typeName = new String[1];
@@ -91,6 +94,7 @@ public class ScriptRunToLineAdapter implements IRunToLineTarget {
 				final ITextSelection textSelection = (ITextSelection) selection;
 				Runnable r = new Runnable() {
 
+					@Override
 					public void run() {
 						lineNumber[0] = textSelection.getStartLine() + 1;
 					}
@@ -110,9 +114,6 @@ public class ScriptRunToLineAdapter implements IRunToLineTarget {
 							debugTarget.resume();
 						}
 					}
-				} else {
-					// invalid line
-					return;
 				}
 			}
 

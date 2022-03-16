@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -38,7 +50,7 @@ public interface Location3D extends Location {
 	 * be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Z</em>' attribute.
 	 * @see #isSetZ()
 	 * @see #unsetZ()
@@ -55,7 +67,7 @@ public interface Location3D extends Location {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Location3D#getZ <em>Z</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Z</em>' attribute.
 	 * @see #isSetZ()
 	 * @see #unsetZ()
@@ -68,7 +80,7 @@ public interface Location3D extends Location {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Location3D#getZ <em>Z</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetZ()
 	 * @see #getZ()
 	 * @see #setZ(double)
@@ -80,7 +92,7 @@ public interface Location3D extends Location {
 	 * Returns whether the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Location3D#getZ <em>Z</em>}'
 	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Z</em>' attribute is set.
 	 * @see #unsetZ()
 	 * @see #getZ()
@@ -91,15 +103,16 @@ public interface Location3D extends Location {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.attribute.Location#scale(double)
 	 */
+	@Override
 	void scale(double dScale);
 
 	/**
 	 * Causes the internal (x,y,z) values to be translated by a relative value of
 	 * (dTranslateX, dTranslateY, dTranslateZ)
-	 * 
+	 *
 	 * @param dTranslateX
 	 * @param dTranslateY
 	 * @param dTranslateZ
@@ -108,9 +121,9 @@ public interface Location3D extends Location {
 
 	/**
 	 * A convenience method for defining member variables
-	 * 
+	 *
 	 * NOTE: Manually created
-	 * 
+	 *
 	 * @param dX
 	 * @param dY
 	 * @param dZ
@@ -120,11 +133,12 @@ public interface Location3D extends Location {
 	/**
 	 * Used to link a Location3D to a Vector for live update of the coordinates.
 	 */
-	public void linkToVector(Vector vector);
+	void linkToVector(Vector vector);
 
 	/**
 	 * @generated
 	 */
+	@Override
 	Location3D copyInstance();
 
 } // Location3D

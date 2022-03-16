@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -50,36 +53,40 @@ public class DefaultChartSubTypeImpl implements IChartSubType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartSubType#getName()
 	 */
+	@Override
 	public String getName() {
 		return sTypeName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartSubType#getImage()
 	 */
+	@Override
 	public Image getImage() {
 		return imgType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartSubType#getDescription()
 	 */
+	@Override
 	public String getDescription() {
 		return sDescription;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return sTypeDisplayName;
 	}

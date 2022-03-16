@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -17,7 +20,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
  * The task to perform validation checks after the execution of records.
- * 
+ *
  */
 
 public class ValidationRecordTask extends RecordTask {
@@ -31,7 +34,7 @@ public class ValidationRecordTask extends RecordTask {
 
 	/**
 	 * Constructs a <code>ValidationInterceptorTask</code> with the given module.
-	 * 
+	 *
 	 * @param module the report module
 	 */
 
@@ -42,10 +45,11 @@ public class ValidationRecordTask extends RecordTask {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.RecordTask#doTask(org.eclipse.
 	 * birt.report.model.activity.ActivityRecord, java.util.Stack)
 	 */
+	@Override
 	public void doTask(ActivityRecord record, Stack<CompoundRecord> transStack) {
 		assert validationExecutor != null;
 

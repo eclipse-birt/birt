@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.api.simpleapi;
 
@@ -5,14 +17,14 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
  * Represents a the design of a Cell in the scripting environment
- * 
+ *
  */
 public interface ICell extends IDesignElement {
 
 	/**
 	 * Returns the cell's column span. This is the number of table or grid columns
 	 * occupied by this cell.
-	 * 
+	 *
 	 * @return the column span
 	 */
 	int getColumnSpan();
@@ -20,7 +32,7 @@ public interface ICell extends IDesignElement {
 	/**
 	 * Returns the cell's row span. This is the number of table or grid rows
 	 * occupied by this cell.
-	 * 
+	 *
 	 * @return the row span
 	 */
 	int getRowSpan();
@@ -29,7 +41,7 @@ public interface ICell extends IDesignElement {
 	 * Returns the cell's drop property. This is how the cell should expand to fill
 	 * the entire table or group. This property is valid only for cells within a
 	 * table; but not for cells within a grid.
-	 * 
+	 *
 	 * @return the string value of the drop property
 	 * @see #setDrop(String)
 	 */
@@ -38,23 +50,23 @@ public interface ICell extends IDesignElement {
 	/**
 	 * Sets the cell's drop property. The input value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li>DROP_TYPE_NONE</li>
 	 * <li>DROP_TYPE_DETAIL</li>
 	 * <li>DROP_TYPE_ALL</li>
 	 * </ul>
-	 * 
+	 *
 	 * <p>
-	 * 
+	 *
 	 * Note that This property is valid only for cells within a table; but not for
 	 * cells within a grid.
-	 * 
+	 *
 	 * @param drop the string value of the drop property
-	 * 
+	 *
 	 * @throws SemanticException if the property is locked or the input value is not
 	 *                           one of the above.
-	 * 
+	 *
 	 * @see #getDrop()
 	 */
 	void setDrop(String drop) throws SemanticException;
@@ -62,7 +74,7 @@ public interface ICell extends IDesignElement {
 	/**
 	 * Returns the cell's column property. The return value gives the column in
 	 * which the cell starts. Columns are numbered from 1.
-	 * 
+	 *
 	 * @return the column index, starting from 1.
 	 */
 	int getColumn();
@@ -70,23 +82,23 @@ public interface ICell extends IDesignElement {
 	/**
 	 * Sets the cell's column property. The input value gives the column in which
 	 * the cell starts. Columns are numbered from 1.
-	 * 
+	 *
 	 * @param column the column index, starting from 1.
-	 * 
+	 *
 	 * @throws SemanticException if this property is locked.
 	 */
 	void setColumn(int column) throws SemanticException;
 
 	/**
 	 * Returns the cell's height.
-	 * 
+	 *
 	 * @return the cell's height
 	 */
 	String getHeight();
 
 	/**
 	 * Returns the cell's width.
-	 * 
+	 *
 	 * @return the cell's width
 	 */
 	String getWidth();
@@ -94,7 +106,7 @@ public interface ICell extends IDesignElement {
 	/**
 	 * Sets the number of the diagonal lines that are from top-left to bottom-right
 	 * corner.
-	 * 
+	 *
 	 * @param diagonalNumber the diagonal number.
 	 * @throws SemanticException
 	 */
@@ -103,7 +115,7 @@ public interface ICell extends IDesignElement {
 	/**
 	 * Gets the number of the diagonal lines that are from top-left to bottom-right
 	 * corner.
-	 * 
+	 *
 	 * @return the diagonal number.
 	 */
 	int getDiagonalNumber();
@@ -123,7 +135,7 @@ public interface ICell extends IDesignElement {
 	 * <li><code>LINE_STYLE_INSET</code>
 	 * <li><code>LINE_STYLE_OUTSET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param lineStyle the line style.
 	 * @throws SemanticException if the input value is not one of the above.
 	 */
@@ -144,7 +156,7 @@ public interface ICell extends IDesignElement {
 	 * <li><code>LINE_STYLE_INSET</code>
 	 * <li><code>LINE_STYLE_OUTSET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the line style in string.
 	 */
 	String getDiagonalStyle();
@@ -152,7 +164,7 @@ public interface ICell extends IDesignElement {
 	/**
 	 * Sets the number of the anti-diagonal lines that are from the top-right to
 	 * bottom-left.
-	 * 
+	 *
 	 * @param antidiagonalNumber the anti-diagonal number
 	 * @throws SemanticException
 	 */
@@ -161,7 +173,7 @@ public interface ICell extends IDesignElement {
 	/**
 	 * Gets the number of the anti-diagonal lines that are from the top-right to
 	 * bottom-left.
-	 * 
+	 *
 	 * @return the anti-diagonal number.
 	 */
 	int getAntidiagonalNumber();
@@ -180,7 +192,7 @@ public interface ICell extends IDesignElement {
 	 * <li><code>LINE_STYLE_INSET</code>
 	 * <li><code>LINE_STYLE_OUTSET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the line style in string.
 	 */
 	String getAntidiagonalStyle();
@@ -200,7 +212,7 @@ public interface ICell extends IDesignElement {
 	 * <li><code>LINE_STYLE_INSET</code>
 	 * <li><code>LINE_STYLE_OUTSET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param antidiagonalStyle the new line style.
 	 * @throws SemanticException if the input value is not one of the above.
 	 */
@@ -216,7 +228,7 @@ public interface ICell extends IDesignElement {
 	 * <li><code>LINE_WIDTH_MEDIUM</code>
 	 * <li><code>LINE_WIDTH_THICK</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the thickness of the line.
 	 */
 	String getDiagonalThickness();
@@ -233,7 +245,7 @@ public interface ICell extends IDesignElement {
 	 * <li><code>LINE_WIDTH_MEDIUM</code>
 	 * <li><code>LINE_WIDTH_THICK</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param thickness the thickness of the line.
 	 * @throws SemanticException
 	 */
@@ -249,7 +261,7 @@ public interface ICell extends IDesignElement {
 	 * <li><code>LINE_WIDTH_MEDIUM</code>
 	 * <li><code>LINE_WIDTH_THICK</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the thickness of the line.
 	 */
 	String getAntidiagonalThickness();
@@ -266,7 +278,7 @@ public interface ICell extends IDesignElement {
 	 * <li><code>LINE_WIDTH_MEDIUM</code>
 	 * <li><code>LINE_WIDTH_THICK</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param thickness the thickness of the line.
 	 * @throws SemanticException
 	 */

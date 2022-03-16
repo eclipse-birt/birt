@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine.api;
@@ -32,6 +35,7 @@ import junit.framework.TestSuite;
  */
 public class ReportEngineTest extends EngineCase {
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -39,6 +43,7 @@ public class ReportEngineTest extends EngineCase {
 		copyResource_INPUT("parameter.rptdesign", "parameter.rptdesign");
 	}
 
+	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
 		removeResource();
@@ -95,8 +100,8 @@ public class ReportEngineTest extends EngineCase {
 			designName = designName.replace('/', '\\');
 			String reportName = reportRunner.getReportName().replace('/', '\\');
 			assertEquals("openReportDesign(String) fail",
-					designName.substring(designName.indexOf("org"), designName.length()),
-					reportName.substring(reportName.indexOf("org"), reportName.length()));
+					designName.substring(designName.indexOf("org")),
+					reportName.substring(reportName.indexOf("org")));
 			assertNotNull("openReportDesign(String) fail", reportRunner.getImage("23.gif"));
 		} catch (EngineException ee) {
 			ee.printStackTrace();
@@ -129,9 +134,7 @@ public class ReportEngineTest extends EngineCase {
 			reportRunner = engine.openReportDesign(fis);
 			assertEquals("openReportDesign(InputStream) fail", "<stream>", reportRunner.getReportName());
 			assertNotNull("openReportDesign(InputStream) fail", reportRunner.getImage("23.gif"));
-		} catch (EngineException ee) {
-			ee.printStackTrace();
-		} catch (FileNotFoundException fe) {
+		} catch (EngineException | FileNotFoundException fe) {
 			fe.printStackTrace();
 		}
 		engine.destroy();

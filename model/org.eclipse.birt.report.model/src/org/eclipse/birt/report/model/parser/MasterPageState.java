@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ import org.xml.sax.SAXException;
 
 /**
  * This class parses a master page.
- * 
+ *
  */
 
 public abstract class MasterPageState extends ReportElementState {
@@ -36,7 +39,7 @@ public abstract class MasterPageState extends ReportElementState {
 
 	/**
 	 * Constructs the master page state with the design file parser handler.
-	 * 
+	 *
 	 * @param handler the design file parser handler
 	 */
 
@@ -46,19 +49,21 @@ public abstract class MasterPageState extends ReportElementState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
+	@Override
 	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.ReportElementState#end()
 	 */
+	@Override
 	public void end() throws SAXException {
 
 		if (handler.versionNumber < VersionUtil.VERSION_3_2_18) {
@@ -75,7 +80,7 @@ public abstract class MasterPageState extends ReportElementState {
 	/**
 	 * Sets the margin properties of the master page if the values of these
 	 * properties are not set.
-	 * 
+	 *
 	 * @param marginProp  the the margin property name.
 	 * @param marginValue the margin value.
 	 */

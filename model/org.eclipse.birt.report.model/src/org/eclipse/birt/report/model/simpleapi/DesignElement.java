@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,63 +37,75 @@ public class DesignElement implements IDesignElement {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getStyle()
 	 */
+	@Override
 	public IStyle getStyle() {
 		return new Style(handle.getPrivateStyle());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IReportItem#
 	 * getQualifiedName()
 	 */
 
+	@Override
 	public String getQualifiedName() {
 
 		return handle.getQualifiedName();
 	}
 
+	@Override
 	public String getNamedExpression(String name) {
 		UserPropertyDefnHandle propDefn = handle.getUserPropertyDefnHandle(name);
 		Object userProp = getUserProperty(name);
-		if (propDefn == null || userProp == null || propDefn.getType() != IPropertyType.EXPRESSION_TYPE)
+		if (propDefn == null || userProp == null || propDefn.getType() != IPropertyType.EXPRESSION_TYPE) {
 			return null;
+		}
 		return userProp.toString();
 	}
 
+	@Override
 	public void setNamedExpression(String name, String exp) throws SemanticException {
 		UserPropertyDefnHandle propDefn = handle.getUserPropertyDefnHandle(name);
 
 		if (propDefn == null) {
 			addUserProperty(name, IPropertyType.EXPRESSION_TYPE_NAME);
-		} else if (propDefn.getType() != IPropertyType.EXPRESSION_TYPE)
+		} else if (propDefn.getType() != IPropertyType.EXPRESSION_TYPE) {
 			return;
+		}
 
 		setUserProperty(name, exp);
 	}
 
+	@Override
 	public Object getUserProperty(String name) {
 		return handle.getProperty(name);
 	}
 
+	@Override
 	public void setUserProperty(String name, String value) throws SemanticException {
-		if (handle.getUserPropertyDefnHandle(name) == null)
+		if (handle.getUserPropertyDefnHandle(name) == null) {
 			addUserProperty(name, IPropertyType.STRING_TYPE_NAME);
+		}
 
 		handle.setProperty(name, value);
 	}
 
+	@Override
 	public void setUserProperty(String name, Object value, String type) throws SemanticException {
-		if (handle.getUserPropertyDefnHandle(name) == null)
+		if (handle.getUserPropertyDefnHandle(name) == null) {
 			addUserProperty(name, type);
+		}
 
 		handle.setProperty(name, value);
 
 	}
 
+	@Override
 	public IDesignElement getParent() {
 		return ElementUtil.getElement(handle.getContainer());
 	}
@@ -105,23 +120,26 @@ public class DesignElement implements IDesignElement {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getReport()
 	 */
+	@Override
 	public IReportDesign getReport() {
-		if (handle == null)
+		if (handle == null) {
 			return null;
+		}
 
 		ModuleHandle root = handle.getRoot();
-		if (!(root instanceof ReportDesignHandle))
+		if (!(root instanceof ReportDesignHandle)) {
 			return null;
+		}
 
 		return new ReportDesign((ReportDesignHandle) root);
 	}
 
 	/**
 	 * Sets the property of the design element.
-	 * 
+	 *
 	 * @param propName the property name
 	 * @param value    the value
 	 * @throws SemanticException
@@ -143,10 +161,11 @@ public class DesignElement implements IDesignElement {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#
 	 * getUserPropertyExpression(java.lang.String)
 	 */
+	@Override
 	public Object getUserPropertyExpression(String name) {
 		return handle.getProperty(name);
 	}

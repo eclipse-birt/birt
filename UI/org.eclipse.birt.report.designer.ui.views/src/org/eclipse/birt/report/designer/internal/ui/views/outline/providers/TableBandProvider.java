@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -35,20 +37,22 @@ import org.eclipse.jface.viewers.TreeViewer;
 
 /**
  * Provider for the Table item node
- * 
- * 
+ *
+ *
  */
 public class TableBandProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object.
-	 * 
+	 *
 	 * @param menu   the menu
 	 * @param object the object
 	 */
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
-		if (!(object instanceof SlotHandle))
+		if (!(object instanceof SlotHandle)) {
 			return;
+		}
 		SlotHandle model = (SlotHandle) object;
 		if (((ReportElementHandle) model.getElementHandle()).isValidLayoutForCompoundElement()) {
 			if (model.getElementHandle() instanceof TableHandle && model.getSlotID() == TableHandle.GROUP_SLOT) {
@@ -68,9 +72,10 @@ public class TableBandProvider extends DefaultNodeProvider {
 
 	/**
 	 * Gets the display name of the node
-	 * 
+	 *
 	 * @param object the object
 	 */
+	@Override
 	public String getNodeDisplayName(Object object) {
 		SlotHandle model = (SlotHandle) object;
 		if (model.getElementHandle() instanceof TableHandle) {
@@ -97,11 +102,12 @@ public class TableBandProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(
 	 * java.lang.Object)
 	 */
+	@Override
 	public String getIconName(Object object) {
 		SlotHandle model = (SlotHandle) object;
 		if (model.getElementHandle() instanceof TableHandle) {
@@ -128,11 +134,12 @@ public class TableBandProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#
 	 * performInsert(java.lang.Object, org.eclipse.birt.model.api.SlotHandle,
 	 * java.lang.String, java.lang.String)
 	 */
+	@Override
 	protected boolean performInsert(Object model, SlotHandle slotHandle, String type, String position, Map extendData)
 			throws Exception {
 
@@ -173,7 +180,7 @@ public class TableBandProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#
 	 * createElement(java.lang.Object, java.lang.String)
 	 */
@@ -190,7 +197,7 @@ public class TableBandProvider extends DefaultNodeProvider {
 
 	/**
 	 * Gets the root element of the row
-	 * 
+	 *
 	 * @param model the mode
 	 * @return the root element of the row
 	 */

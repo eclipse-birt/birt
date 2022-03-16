@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,8 +35,9 @@ public class LegacySpecParser extends HtmlDocReader {
 		if (posn != -1) {
 			element.name = fileName.substring(0, posn);
 			posn = element.name.lastIndexOf("/");
-			if (posn != -1)
+			if (posn != -1) {
 				element.name = element.name.substring(posn + 1);
+			}
 		}
 
 		// Parse the document.
@@ -48,10 +52,11 @@ public class LegacySpecParser extends HtmlDocReader {
 
 	private String label(SpecElement element) {
 		String label = "[" + Integer.toString(parser.getLineNo()) + "] ";
-		if (element.type == SpecElement.ELEMENT)
+		if (element.type == SpecElement.ELEMENT) {
 			label += "Element ";
-		else
+		} else {
 			label += "Structure ";
+		}
 		label += element.name + ": ";
 		return label;
 	}
@@ -100,8 +105,9 @@ public class LegacySpecParser extends HtmlDocReader {
 
 	private String getHeaderText(String text) {
 		int posn = text.lastIndexOf("&nbsp;"); //$NON-NLS-1$
-		if (posn != -1)
+		if (posn != -1) {
 			text = text.substring(posn + 6);
+		}
 		return text;
 	}
 
@@ -132,7 +138,7 @@ public class LegacySpecParser extends HtmlDocReader {
 
 	protected String copyBlock() {
 		parser.ignoreWhitespace(false);
-		StringBuffer text = new StringBuffer();
+		StringBuilder text = new StringBuilder();
 		int token;
 		boolean inCell = false;
 		boolean inHead = false;
@@ -141,17 +147,20 @@ public class LegacySpecParser extends HtmlDocReader {
 		boolean inList = false;
 		for (;;) {
 			token = getToken();
-			if (token == HTMLParser.EOF)
+			if (token == HTMLParser.EOF) {
 				break;
+			}
 			if (token == HTMLParser.TEXT) {
 				String fragment = parser.getTokenText();
-				if (fragment.equals("&nbsp;"))
+				if (fragment.equals("&nbsp;")) {
 					continue;
+				}
 				text.append(fragment);
 				continue;
 			}
-			if (token != HTMLParser.ELEMENT)
+			if (token != HTMLParser.ELEMENT) {
 				continue;
+			}
 			if (isPara(token, "ManpageTitle")) //$NON-NLS-1$
 			{
 				pushToken(token);
@@ -162,30 +171,34 @@ public class LegacySpecParser extends HtmlDocReader {
 				pushToken(token);
 				break;
 			}
-			if (tag.equals("thead"))
+			if (tag.equals("thead")) {
 				inHead = true;
-			else if (tag.equals("/thead"))
+			} else if (tag.equals("/thead")) {
 				inHead = false;
+			}
 			if (tag.equals("p")) {
 				// Convert Word-style bullets to HTML lists
 
 				String value = parser.getAttrib("class");
 				if (value != null && value.equals("Bullet")) {
-					if (!inList)
+					if (!inList) {
 						text.append("\n<ul>\n");
+					}
 					inList = true;
 					text.append("<li>");
 					token = getToken();
 					if (isElement(token, "span")) {
 						token = getToken();
-						if (token != HTMLParser.TEXT)
+						if (token != HTMLParser.TEXT) {
 							pushToken(token);
+						}
 					} else {
 						pushToken(token);
 					}
 					value = getTextTo("/p", true);
-					while (value.startsWith("&nbsp;"))
+					while (value.startsWith("&nbsp;")) {
 						value = value.substring(6);
+					}
 					text.append(value.trim());
 					text.append("</li>\n");
 				}
@@ -193,8 +206,9 @@ public class LegacySpecParser extends HtmlDocReader {
 				// Strip out MS Word formatting
 
 				else if (!inCell) {
-					if (inList)
+					if (inList) {
 						text.append("</ul>\n");
+					}
 					inList = false;
 					text.append("<p>");
 				}
@@ -207,9 +221,9 @@ public class LegacySpecParser extends HtmlDocReader {
 					inCode = true;
 				} else {
 					value = parser.getAttrib("style");
-					if (value == null)
+					if (value == null) {
 						text.append(parser.getFullElement());
-					else if (value.startsWith("font-weight: normal") || value.startsWith("font-style: normal;")) {
+					} else if (value.startsWith("font-weight: normal") || value.startsWith("font-style: normal;")) {
 						inIgnore = true;
 					} else {
 						if (inList) {
@@ -225,18 +239,21 @@ public class LegacySpecParser extends HtmlDocReader {
 				if (inCode) {
 					text.append("</code>");
 					inCode = false;
-				} else if (inIgnore)
+				} else if (inIgnore) {
 					inIgnore = false;
-				else
+				} else {
 					text.append(parser.getFullElement());
+				}
 			} else if (tag.equals("/p")) {
 				// Strip out MS Word formatting
 
-				if (!inCell)
+				if (!inCell) {
 					text.append("</p>");
+				}
 			} else if (tag.equals("b") || tag.equals("/b")) {
-				if (!inHead)
+				if (!inHead) {
 					text.append(parser.getFullElement());
+				}
 			} else if (tag.equals("a") || tag.equals("/a")) {
 				// Strip out MS Word anchors
 			} else if (tag.equals("table")) {
@@ -253,11 +270,13 @@ public class LegacySpecParser extends HtmlDocReader {
 				inCell = true;
 				text.append("<td");
 				String value = parser.getAttrib("rowspan");
-				if (!isBlank(value))
+				if (!isBlank(value)) {
 					text.append(" rowspan=\"" + value + "\"");
+				}
 				value = parser.getAttrib("colspan");
-				if (!isBlank(value))
+				if (!isBlank(value)) {
 					text.append(" colspan=\"" + value + "\"");
+				}
 				text.append(">");
 			} else {
 				text.append(parser.getFullElement());
@@ -269,8 +288,9 @@ public class LegacySpecParser extends HtmlDocReader {
 				}
 			}
 		}
-		if (inList)
+		if (inList) {
 			text.append("</ul>\n");
+		}
 		parser.ignoreWhitespace(true);
 		return text.toString().trim();
 	}
@@ -284,9 +304,9 @@ public class LegacySpecParser extends HtmlDocReader {
 				return;
 			}
 			String heading = getTextTo("/p", true); //$NON-NLS-1$
-			if (heading.equalsIgnoreCase("Summary")) //$NON-NLS-1$
+			if (heading.equalsIgnoreCase("Summary")) { //$NON-NLS-1$
 				parseSummaryBlock();
-			else if (heading.equalsIgnoreCase("Inherited Properties")) //$NON-NLS-1$
+			} else if (heading.equalsIgnoreCase("Inherited Properties")) //$NON-NLS-1$
 			{
 				parseInheritedPropertyBlock();
 			} else if (heading.equalsIgnoreCase("Properties")) //$NON-NLS-1$
@@ -319,10 +339,12 @@ public class LegacySpecParser extends HtmlDocReader {
 		int token;
 		for (;;) {
 			token = getToken();
-			if (token == HTMLParser.EOF)
+			if (token == HTMLParser.EOF) {
 				break;
-			if (token != HTMLParser.ELEMENT)
+			}
+			if (token != HTMLParser.ELEMENT) {
 				continue;
+			}
 			if (isPara(token, "ManpageTitle")) //$NON-NLS-1$
 			{
 				pushToken(token);
@@ -337,10 +359,9 @@ public class LegacySpecParser extends HtmlDocReader {
 	}
 
 	private String getSince(String text) {
-		if (text.indexOf("Not in") != -1)
+		if ((text.indexOf("Not in") != -1) || (text.indexOf("After the") != -1)) {
 			return "reserved";
-		if (text.indexOf("After the") != -1)
-			return "reserved";
+		}
 		return "1.0";
 	}
 
@@ -368,8 +389,9 @@ public class LegacySpecParser extends HtmlDocReader {
 				// Ignore
 			} else if (startsWith(line, DISPLAY_NAME)) {
 				String tail = getObjName(getTail(line, DISPLAY_NAME));
-				if (!tail.equals(element.displayName))
+				if (!tail.equals(element.displayName)) {
 					tail += " " + element.getTypeName();
+				}
 				if (!tail.equals(element.displayName)) {
 					error(element, "Display name: " + tail + " Does not match heading " + element.displayName);
 				}
@@ -383,8 +405,9 @@ public class LegacySpecParser extends HtmlDocReader {
 
 	private String getObjName(String name) {
 		int posn = name.indexOf("(");
-		if (posn != -1)
+		if (posn != -1) {
 			name = name.substring(0, posn - 1);
+		}
 		return name.trim();
 	}
 
@@ -422,8 +445,9 @@ public class LegacySpecParser extends HtmlDocReader {
 	private void parseInheritedPropertyBlock() {
 		for (;;) {
 			String fields[] = getMemberBlock();
-			if (fields == null)
+			if (fields == null) {
 				return;
+			}
 
 			SpecInheritedProperty prop = new SpecInheritedProperty();
 			prop.name = fields[0];
@@ -435,8 +459,9 @@ public class LegacySpecParser extends HtmlDocReader {
 	private void parsePropertyBlock() {
 		for (;;) {
 			String fields[] = getMemberBlock();
-			if (fields == null)
+			if (fields == null) {
 				return;
+			}
 
 			SpecProperty prop = new SpecProperty();
 			prop.name = fields[0];
@@ -454,16 +479,18 @@ public class LegacySpecParser extends HtmlDocReader {
 
 			// Ignore generic property names like <i>styleProps</i>
 
-			if (!prop.name.startsWith("<i>"))
+			if (!prop.name.startsWith("<i>")) {
 				element.addProperty(prop);
+			}
 		}
 	}
 
 	private void parseMethodBlock() {
 		for (;;) {
 			String fields[] = getMemberBlock();
-			if (fields == null)
+			if (fields == null) {
 				return;
+			}
 
 			SpecMethod method = new SpecMethod();
 			method.name = fields[0];
@@ -475,8 +502,9 @@ public class LegacySpecParser extends HtmlDocReader {
 	private void parseSlotBlock() {
 		for (;;) {
 			String fields[] = getMemberBlock();
-			if (fields == null)
+			if (fields == null) {
 				return;
+			}
 
 			SpecSlot slot = new SpecSlot();
 			slot.name = fields[0]; // $NON-NLS-1$
@@ -496,10 +524,9 @@ public class LegacySpecParser extends HtmlDocReader {
 	private void parseProps() {
 		for (;;) {
 			int token = getToken();
-			if (token != HTMLParser.ELEMENT)
+			if ((token != HTMLParser.ELEMENT) || !parser.getTokenText().equalsIgnoreCase("h3")) { //$NON-NLS-1$
 				break;
-			if (!parser.getTokenText().equalsIgnoreCase("h3")) //$NON-NLS-1$
-				break;
+			}
 			String heading = getHeaderText(getTextTo("/h3", true)); //$NON-NLS-1$
 			heading = heading.trim();
 			if (heading.endsWith("Property")) //$NON-NLS-1$
@@ -540,9 +567,9 @@ public class LegacySpecParser extends HtmlDocReader {
 				return;
 			}
 			String heading = getTextTo("/p", true); //$NON-NLS-1$
-			if (heading.equalsIgnoreCase("Synopsis")) //$NON-NLS-1$
+			if (heading.equalsIgnoreCase("Synopsis")) { //$NON-NLS-1$
 				skipBlock();
-			else if (heading.equalsIgnoreCase("Summary")) //$NON-NLS-1$
+			} else if (heading.equalsIgnoreCase("Summary")) //$NON-NLS-1$
 			{
 				parsePropertySummaryBlock(prop);
 			} else if (heading.equalsIgnoreCase("ROM Summary")) //$NON-NLS-1$
@@ -620,8 +647,9 @@ public class LegacySpecParser extends HtmlDocReader {
 				/*
 				 * if ( tail.equals( "False" ) || tail.equals( "True" ) ) prop.defaultValue =
 				 * tail.toLowerCase( ); else
-				 */ if (!tail.startsWith("None") && !tail.equalsIgnoreCase("See Description."))
+				 */ if (!tail.startsWith("None") && !tail.equalsIgnoreCase("See Description.")) {
 					prop.defaultValue = tail.toLowerCase();
+				}
 			} else if (startsWith(line, EXPRESSION_TYPE)) {
 				prop.exprType = getObjName(getTail(line, EXPRESSION_TYPE));
 			} else if (startsWith(line, INHERITED)) {
@@ -653,34 +681,40 @@ public class LegacySpecParser extends HtmlDocReader {
 	private void parseChoices(SpecProperty prop) {
 		skipTo("table");
 		int token = getToken();
-		if (isElement(token, "thead"))
+		if (isElement(token, "thead")) {
 			skipTo("/thead");
-		else
+		} else {
 			skipTo("/tr");
+		}
 		String descrip = null;
 		for (;;) {
 			token = getToken();
-			if (token != HTMLParser.ELEMENT)
+			if (token != HTMLParser.ELEMENT) {
 				continue;
+			}
 			String tag = parser.getTokenText().toLowerCase();
-			if (tag.equals("/table"))
+			if (tag.equals("/table")) {
 				break;
+			}
 			if (!tag.equals("tr")) {
 				error(element, prop, "Unexpected tag in table: " + tag);
 				break;
 			}
 			String value = getCell(prop, null, true);
-			if (value == null)
+			if (value == null) {
 				break;
+			}
 			SpecChoice choice = new SpecChoice();
 			choice.displayName = value;
 			value = getCell(prop, null, true);
-			if (value == null)
+			if (value == null) {
 				break;
+			}
 			choice.name = value;
 			descrip = getCell(prop, descrip, false);
-			if (descrip == null)
+			if (descrip == null) {
 				break;
+			}
 			choice.description = descrip;
 			prop.addChoice(choice);
 			token = getToken();
@@ -708,7 +742,7 @@ public class LegacySpecParser extends HtmlDocReader {
 			error(element, prop, "Unexpected tag in table: " + tag);
 			return null;
 		}
-		StringBuffer text = new StringBuffer();
+		StringBuilder text = new StringBuilder();
 		for (;;) {
 			token = getToken();
 			if (token == HTMLParser.ELEMENT && parser.getTokenText().equals("p")) {
@@ -716,8 +750,9 @@ public class LegacySpecParser extends HtmlDocReader {
 			} else if (token == HTMLParser.ELEMENT && parser.getTokenText().equals("/td")) {
 				break;
 			} else if (token == HTMLParser.ELEMENT) {
-				if (!textOnly)
+				if (!textOnly) {
 					text.append(parser.getFullElement());
+				}
 			} else if (token == HTMLParser.TEXT) {
 				text.append(parser.getTokenText());
 			} else {
@@ -748,9 +783,9 @@ public class LegacySpecParser extends HtmlDocReader {
 				return;
 			}
 			String heading = getTextTo("/p", true); //$NON-NLS-1$
-			if (heading.equalsIgnoreCase("Synopsis")) //$NON-NLS-1$
+			if (heading.equalsIgnoreCase("Synopsis")) { //$NON-NLS-1$
 				skipBlock();
-			else if (heading.equalsIgnoreCase("Summary")) //$NON-NLS-1$
+			} else if (heading.equalsIgnoreCase("Summary")) //$NON-NLS-1$
 			{
 				parseMethodSummaryBlock(method);
 			} else if (heading.equalsIgnoreCase("Description")) //$NON-NLS-1$

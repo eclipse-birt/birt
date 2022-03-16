@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.presentation;
 
@@ -62,11 +74,12 @@ public class XMLContentReader {
 		 * Overrides the super method. This method first parses attributes of the
 		 * current state, and then query whether to use a new state or the current one
 		 * according to the attributes value.
-		 * 
+		 *
 		 * @see org.xml.sax.ContentHandler#startElement(java.lang.String,
 		 *      java.lang.String, java.lang.String, org.xml.sax.Attributes)
 		 */
 
+		@Override
 		public void startElement(String namespaceURI, String localName, String qName, Attributes atts)
 				throws SAXException {
 			currentElement = qName;
@@ -84,14 +97,16 @@ public class XMLContentReader {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.XMLParserHandler#createStartState()
 		 */
 
+		@Override
 		public AbstractParseState createStartState() {
 			return new ReportContentState(reportContent);
 		}
 
+		@Override
 		public void semanticError(XMLParserException ex) {
 		}
 
@@ -109,36 +124,45 @@ public class XMLContentReader {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
 			 * String)
 			 */
 
+			@Override
 			public AbstractParseState startElement(String tagName) {
-				if (tagName.equalsIgnoreCase("text"))
+				if (tagName.equalsIgnoreCase("text")) {
 					return new TextContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("label"))
+				if (tagName.equalsIgnoreCase("label")) {
 					return new LabelContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("data"))
+				if (tagName.equalsIgnoreCase("data")) {
 					return new DataContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("image"))
+				if (tagName.equalsIgnoreCase("image")) {
 					return new ImageContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("foreign"))
+				if (tagName.equalsIgnoreCase("foreign")) {
 					return new ForeignContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("container"))
+				if (tagName.equalsIgnoreCase("container")) {
 					return new ContainerContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("table"))
+				if (tagName.equalsIgnoreCase("table")) {
 					return new TableContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("page"))
+				if (tagName.equalsIgnoreCase("page")) {
 					return new PageContentState();
+				}
 
 				return super.startElement(tagName);
 			}
@@ -159,6 +183,7 @@ public class XMLContentReader {
 				return this.content;
 			}
 
+			@Override
 			public void parseAttrs(Attributes attrs) throws XMLParserException {
 				String style = attrs.getValue("style");
 				if (style != null) {
@@ -168,6 +193,7 @@ public class XMLContentReader {
 				}
 			}
 
+			@Override
 			public void endElement(AbstractParseState state) {
 				ContentParseState contentState = (ContentParseState) state;
 				IContent child = contentState.content;
@@ -182,16 +208,20 @@ public class XMLContentReader {
 				setContent(reportContent.createPageContent());
 			}
 
+			@Override
 			public AbstractParseState startElement(String tagName) {
 				IPageContent pageContent = (IPageContent) content;
-				if (tagName.equalsIgnoreCase("page-header"))
+				if (tagName.equalsIgnoreCase("page-header")) {
 					return new PageHeaderState(pageContent);
+				}
 
-				if (tagName.equalsIgnoreCase("page-footer"))
+				if (tagName.equalsIgnoreCase("page-footer")) {
 					return new PageFooterState(pageContent);
+				}
 
-				if (tagName.equalsIgnoreCase("page-body"))
+				if (tagName.equalsIgnoreCase("page-body")) {
 					return new PageBodyState(pageContent);
+				}
 
 				return super.startElement(tagName);
 			}
@@ -206,31 +236,40 @@ public class XMLContentReader {
 				this.pageContent = pageContent;
 			}
 
+			@Override
 			public AbstractParseState startElement(String tagName) {
-				if (tagName.equalsIgnoreCase("text"))
+				if (tagName.equalsIgnoreCase("text")) {
 					return new TextContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("label"))
+				if (tagName.equalsIgnoreCase("label")) {
 					return new LabelContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("data"))
+				if (tagName.equalsIgnoreCase("data")) {
 					return new DataContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("image"))
+				if (tagName.equalsIgnoreCase("image")) {
 					return new ImageContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("foreign"))
+				if (tagName.equalsIgnoreCase("foreign")) {
 					return new ForeignContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("container"))
+				if (tagName.equalsIgnoreCase("container")) {
 					return new ContainerContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("table"))
+				if (tagName.equalsIgnoreCase("table")) {
 					return new TableContentState();
+				}
 
 				return super.startElement(tagName);
 			}
 
+			@Override
 			public void endElement(AbstractParseState state) {
 				ContentParseState contentState = (ContentParseState) state;
 				pageContent.getHeader().add(contentState.content);
@@ -246,31 +285,40 @@ public class XMLContentReader {
 				this.pageContent = pageContent;
 			}
 
+			@Override
 			public AbstractParseState startElement(String tagName) {
-				if (tagName.equalsIgnoreCase("text"))
+				if (tagName.equalsIgnoreCase("text")) {
 					return new TextContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("label"))
+				if (tagName.equalsIgnoreCase("label")) {
 					return new LabelContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("data"))
+				if (tagName.equalsIgnoreCase("data")) {
 					return new DataContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("image"))
+				if (tagName.equalsIgnoreCase("image")) {
 					return new ImageContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("foreign"))
+				if (tagName.equalsIgnoreCase("foreign")) {
 					return new ForeignContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("container"))
+				if (tagName.equalsIgnoreCase("container")) {
 					return new ContainerContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("table"))
+				if (tagName.equalsIgnoreCase("table")) {
 					return new TableContentState();
+				}
 
 				return super.startElement(tagName);
 			}
 
+			@Override
 			public void endElement(AbstractParseState state) {
 				ContentParseState contentState = (ContentParseState) state;
 				pageContent.getFooter().add(contentState.content);
@@ -286,31 +334,40 @@ public class XMLContentReader {
 				this.pageContent = pageContent;
 			}
 
+			@Override
 			public AbstractParseState startElement(String tagName) {
-				if (tagName.equalsIgnoreCase("text"))
+				if (tagName.equalsIgnoreCase("text")) {
 					return new TextContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("label"))
+				if (tagName.equalsIgnoreCase("label")) {
 					return new LabelContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("data"))
+				if (tagName.equalsIgnoreCase("data")) {
 					return new DataContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("image"))
+				if (tagName.equalsIgnoreCase("image")) {
 					return new ImageContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("foreign"))
+				if (tagName.equalsIgnoreCase("foreign")) {
 					return new ForeignContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("container"))
+				if (tagName.equalsIgnoreCase("container")) {
 					return new ContainerContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("table"))
+				if (tagName.equalsIgnoreCase("table")) {
 					return new TableContentState();
+				}
 
 				return super.startElement(tagName);
 			}
 
+			@Override
 			public void endElement(AbstractParseState state) {
 				ContentParseState contentState = (ContentParseState) state;
 				pageContent.getChildren().add(contentState.content);
@@ -363,33 +420,41 @@ public class XMLContentReader {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
 			 * String)
 			 */
 
+			@Override
 			public AbstractParseState startElement(String tagName) {
-				if (tagName.equalsIgnoreCase("text"))
+				if (tagName.equalsIgnoreCase("text")) {
 					return new TextContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("label"))
+				if (tagName.equalsIgnoreCase("label")) {
 					return new LabelContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("data"))
+				if (tagName.equalsIgnoreCase("data")) {
 					return new DataContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("image"))
+				if (tagName.equalsIgnoreCase("image")) {
 					return new ImageContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("foreign"))
+				if (tagName.equalsIgnoreCase("foreign")) {
 					return new ForeignContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("container"))
+				if (tagName.equalsIgnoreCase("container")) {
 					return new ContainerContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("table"))
+				if (tagName.equalsIgnoreCase("table")) {
 					return new TableContentState();
+				}
 				return super.startElement(tagName);
 			}
 		}
@@ -400,16 +465,21 @@ public class XMLContentReader {
 				setContent(reportContent.createTableContent());
 			}
 
+			@Override
 			public AbstractParseState startElement(String tagName) {
-				if (tagName.equalsIgnoreCase("table-header"))
+				if (tagName.equalsIgnoreCase("table-header")) {
 					return new TableBandContentState(ITableBandContent.BAND_HEADER);
-				if (tagName.equalsIgnoreCase("table-body"))
+				}
+				if (tagName.equalsIgnoreCase("table-body")) {
 					return new TableBandContentState(ITableBandContent.BAND_DETAIL);
-				if (tagName.equalsIgnoreCase("table-footer"))
+				}
+				if (tagName.equalsIgnoreCase("table-footer")) {
 					return new TableBandContentState(ITableBandContent.BAND_FOOTER);
+				}
 				return super.startElement(tagName);
 			}
 
+			@Override
 			public void parseAttrs(Attributes attrs) throws XMLParserException {
 				ITableContent tableContent = (ITableContent) content;
 				int columnCount = getIntAttribute(attrs, "column", 1);
@@ -436,15 +506,17 @@ public class XMLContentReader {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
 			 * String)
 			 */
 
+			@Override
 			public AbstractParseState startElement(String tagName) {
-				if (tagName.equalsIgnoreCase("table-row"))
+				if (tagName.equalsIgnoreCase("table-row")) {
 					return new TableRowContentState();
+				}
 				return super.startElement(tagName);
 			}
 
@@ -458,18 +530,21 @@ public class XMLContentReader {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
 			 * String)
 			 */
 
+			@Override
 			public AbstractParseState startElement(String tagName) {
-				if (tagName.equalsIgnoreCase("cell"))
+				if (tagName.equalsIgnoreCase("cell")) {
 					return new TableCellContentState();
+				}
 				return super.startElement(tagName);
 			}
 
+			@Override
 			public void parseAttrs(Attributes attrs) throws XMLParserException {
 				IRowContent rowContent = (IRowContent) content;
 				rowContent.setRowID(getIntAttribute(attrs, "row", -1));
@@ -483,36 +558,45 @@ public class XMLContentReader {
 				setContent(reportContent.createCellContent());
 			} /*
 				 * (non-Javadoc)
-				 * 
+				 *
 				 * @see
 				 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
 				 * String)
 				 */
 
+			@Override
 			public AbstractParseState startElement(String tagName) {
-				if (tagName.equalsIgnoreCase("text"))
+				if (tagName.equalsIgnoreCase("text")) {
 					return new TextContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("label"))
+				if (tagName.equalsIgnoreCase("label")) {
 					return new LabelContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("data"))
+				if (tagName.equalsIgnoreCase("data")) {
 					return new DataContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("image"))
+				if (tagName.equalsIgnoreCase("image")) {
 					return new ImageContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("foreign"))
+				if (tagName.equalsIgnoreCase("foreign")) {
 					return new ForeignContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("container"))
+				if (tagName.equalsIgnoreCase("container")) {
 					return new ContainerContentState();
+				}
 
-				if (tagName.equalsIgnoreCase("table"))
+				if (tagName.equalsIgnoreCase("table")) {
 					return new TableContentState();
+				}
 				return super.startElement(tagName);
 			}
 
+			@Override
 			public void parseAttrs(Attributes attrs) throws XMLParserException {
 				ICellContent cellContent = (ICellContent) content;
 
@@ -538,7 +622,7 @@ public class XMLContentReader {
 
 		protected boolean getBooleanAttribute(Attributes attrs, String name) {
 			String value = attrs.getValue(name);
-			return Boolean.valueOf(value).booleanValue();
+			return Boolean.parseBoolean(value);
 		}
 	}
 }

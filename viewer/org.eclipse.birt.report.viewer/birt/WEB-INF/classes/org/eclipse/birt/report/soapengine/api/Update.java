@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * Update.java
  *
@@ -26,7 +38,7 @@ public class Update implements java.io.Serializable {
 
 	/**
 	 * Gets the updateContent value for this Update.
-	 * 
+	 *
 	 * @return updateContent
 	 */
 	public org.eclipse.birt.report.soapengine.api.UpdateContent getUpdateContent() {
@@ -35,7 +47,7 @@ public class Update implements java.io.Serializable {
 
 	/**
 	 * Sets the updateContent value for this Update.
-	 * 
+	 *
 	 * @param updateContent
 	 */
 	public void setUpdateContent(org.eclipse.birt.report.soapengine.api.UpdateContent updateContent) {
@@ -44,7 +56,7 @@ public class Update implements java.io.Serializable {
 
 	/**
 	 * Gets the updateDialog value for this Update.
-	 * 
+	 *
 	 * @return updateDialog
 	 */
 	public org.eclipse.birt.report.soapengine.api.UpdateDialog getUpdateDialog() {
@@ -53,7 +65,7 @@ public class Update implements java.io.Serializable {
 
 	/**
 	 * Sets the updateDialog value for this Update.
-	 * 
+	 *
 	 * @param updateDialog
 	 */
 	public void setUpdateDialog(org.eclipse.birt.report.soapengine.api.UpdateDialog updateDialog) {
@@ -62,7 +74,7 @@ public class Update implements java.io.Serializable {
 
 	/**
 	 * Gets the updateData value for this Update.
-	 * 
+	 *
 	 * @return updateData
 	 */
 	public org.eclipse.birt.report.soapengine.api.UpdateData getUpdateData() {
@@ -71,7 +83,7 @@ public class Update implements java.io.Serializable {
 
 	/**
 	 * Sets the updateData value for this Update.
-	 * 
+	 *
 	 * @param updateData
 	 */
 	public void setUpdateData(org.eclipse.birt.report.soapengine.api.UpdateData updateData) {
@@ -80,14 +92,18 @@ public class Update implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof Update))
+		if (!(obj instanceof Update)) {
 			return false;
+		}
 		Update other = (Update) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -106,6 +122,7 @@ public class Update implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

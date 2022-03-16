@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,15 +32,15 @@ public class JSSyntaxContext {
 	/**
 	 * BIRT engine objects defined in DesignEngine.
 	 */
-	private static Map<String, JSObjectMetaData> engineObjectMap = new HashMap<String, JSObjectMetaData>();
+	private static Map<String, JSObjectMetaData> engineObjectMap = new HashMap<>();
 
 	// Java class object cache
-	private static Map<String, JSObjectMetaData> javaObjectMap = new HashMap<String, JSObjectMetaData>();
+	private static Map<String, JSObjectMetaData> javaObjectMap = new HashMap<>();
 
 	/**
 	 * Context variables map.
 	 */
-	private Map<String, JSObjectMetaData> objectMetaMap = new HashMap<String, JSObjectMetaData>();
+	private Map<String, JSObjectMetaData> objectMetaMap = new HashMap<>();
 
 	static {
 		List engineClassesList = DEUtil.getClasses();
@@ -54,7 +57,7 @@ public class JSSyntaxContext {
 	}
 
 	public static JSObjectMetaData[] getAllEnginJSObjects() {
-		return engineObjectMap.values().toArray(new JSObjectMetaData[engineObjectMap.values().size()]);
+		return engineObjectMap.values().toArray(new JSObjectMetaData[engineObjectMap.size()]);
 	}
 
 	public static JSObjectMetaData getJavaClassMeta(Class<?> clazz) {
@@ -112,10 +115,11 @@ public class JSSyntaxContext {
 	}
 
 	public void setVariable(String name, IClassInfo classInfo) {
-		if (classInfo == null)
+		if (classInfo == null) {
 			objectMetaMap.put(name, null);
-		else
+		} else {
 			objectMetaMap.put(name, new ExtensionClassJSObject(classInfo));
+		}
 	}
 
 	public void setVariable(String name, JSObjectMetaData meta) {

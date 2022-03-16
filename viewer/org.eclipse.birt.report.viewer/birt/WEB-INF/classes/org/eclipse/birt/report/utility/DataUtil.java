@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -38,39 +40,41 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Provides data convert and format services
- * 
+ *
  */
 public class DataUtil {
 
 	/**
 	 * Convert Object to String
-	 * 
+	 *
 	 * @param object
 	 * @return String
 	 */
 	public static String getString(Object object) {
-		if (object == null)
+		if (object == null) {
 			return null;
+		}
 
 		return object.toString();
 	}
 
 	/**
 	 * Returns trim string, not null
-	 * 
+	 *
 	 * @param str
 	 * @return
 	 */
 	public static String trimString(String str) {
-		if (str == null)
+		if (str == null) {
 			return ""; //$NON-NLS-1$
+		}
 
 		return str.trim();
 	}
 
 	/**
 	 * Trim the first/end separator
-	 * 
+	 *
 	 * @param path
 	 * @return
 	 */
@@ -80,7 +84,7 @@ public class DataUtil {
 
 	/**
 	 * Trim the end separator
-	 * 
+	 *
 	 * @param path
 	 * @return
 	 */
@@ -95,14 +99,14 @@ public class DataUtil {
 
 	/**
 	 * Trim the end separator
-	 * 
+	 *
 	 * @param path
 	 * @return
 	 */
 	public static String trimSepFirst(String path) {
 		path = trimString(path);
 		if (path.startsWith(File.separator)) {
-			path = path.substring(1, path.length());
+			path = path.substring(1);
 		}
 
 		return path;
@@ -110,7 +114,7 @@ public class DataUtil {
 
 	/**
 	 * Returns the default date/time format
-	 * 
+	 *
 	 * @param dataType
 	 * @return
 	 */
@@ -128,9 +132,9 @@ public class DataUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * Convert parameter to Object
-	 * 
+	 *
 	 * @param paramName
 	 * @param dataType
 	 * @param format
@@ -162,9 +166,9 @@ public class DataUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * Convert parameter to Object with pattern
-	 * 
+	 *
 	 * @param paramName
 	 * @param dataType
 	 * @param format
@@ -191,9 +195,9 @@ public class DataUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * Convert parameter to Object
-	 * 
+	 *
 	 * @param dataType
 	 * @param format
 	 * @param value
@@ -223,9 +227,9 @@ public class DataUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * Convert parameter to Object with pattern
-	 * 
+	 *
 	 * @param dataType
 	 * @param format
 	 * @param value
@@ -247,8 +251,9 @@ public class DataUtil {
 			obj = validateWithLocale(dataType, format, value, locale, timeZone);
 		} else {
 			// Default format
-			if (format == null)
+			if (format == null) {
 				format = getDefaultDateFormat(dataType);
+			}
 
 			// Convert string to object using default locale
 			obj = ParameterValidationUtil.validate(dataType, format, value, BirtUtility.toICUTimeZone(timeZone));
@@ -259,7 +264,7 @@ public class DataUtil {
 
 	/**
 	 * Convert parameter to Object with locale setting
-	 * 
+	 *
 	 * @param dataType
 	 * @param format
 	 * @param value
@@ -325,7 +330,7 @@ public class DataUtil {
 	/**
 	 * Gets the display string for the value with the given data type, format,
 	 * locale. The value must be the valid data type. That is:
-	 * 
+	 *
 	 * <ul>
 	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value must be
 	 * <code>java.util.Date<code>.</li>
@@ -338,7 +343,7 @@ public class DataUtil {
 	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
 	 * be <code>java.lang.String</code>.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param dataType the data type of the input value
 	 * @param format   the format pattern to validate
 	 * @param value    the input value to validate
@@ -355,7 +360,7 @@ public class DataUtil {
 	/**
 	 * Gets the display string for the value with default locale and default format,
 	 * The value must be the valid data type. That is:
-	 * 
+	 *
 	 * <ul>
 	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value must be
 	 * <code>java.util.Date<code>.</li>
@@ -368,7 +373,7 @@ public class DataUtil {
 	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
 	 * be <code>java.lang.String</code>.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the input value to validate
 	 * @return the formatted string
 	 */
@@ -380,7 +385,7 @@ public class DataUtil {
 	/**
 	 * Gets the display string for the value with default locale and default format,
 	 * The value must be the valid data type. That is:
-	 * 
+	 *
 	 * <ul>
 	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value must be
 	 * <code>java.util.Date<code>.</li>
@@ -393,15 +398,16 @@ public class DataUtil {
 	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
 	 * be <code>java.lang.String</code>.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the input value to validate
 	 * @param time  zone the time zone to use for the output
 	 * @return the formatted string
 	 */
 
 	public static String getDisplayValue(Object value, TimeZone timeZone) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		if (value instanceof Float || value instanceof Double) {
 			return value.toString();
@@ -414,14 +420,15 @@ public class DataUtil {
 
 	/**
 	 * Convert object to be exported as CSV
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 * @throws BirtException
 	 */
 	public static String getCSVDisplayValue(Object value) throws BirtException {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		if (value instanceof Integer || value instanceof Long || value instanceof Float || value instanceof Double
 				|| value instanceof BigDecimal || value instanceof com.ibm.icu.math.BigDecimal) {
@@ -445,19 +452,21 @@ public class DataUtil {
 	 * <li>IScalarParameterDefn.TYPE_TIME</li>
 	 * <ul>
 	 * </p>
-	 * 
+	 *
 	 * @param source
 	 * @param toType
 	 * @return
 	 * @throws BirtException
 	 */
 	public static Object convert(Object source, int toType) throws BirtException {
-		if (source == null)
+		if (source == null) {
 			return null;
+		}
 
 		// if any type, return directly.
-		if (toType == IScalarParameterDefn.TYPE_ANY)
+		if (toType == IScalarParameterDefn.TYPE_ANY) {
 			return source;
+		}
 
 		switch (toType) {
 		case IScalarParameterDefn.TYPE_INTEGER:
@@ -483,7 +492,7 @@ public class DataUtil {
 
 	/**
 	 * Convert to UTF-8 bytes
-	 * 
+	 *
 	 * @param bytes
 	 * @return
 	 */
@@ -499,7 +508,7 @@ public class DataUtil {
 
 	/**
 	 * Returns oda type name
-	 * 
+	 *
 	 * @param odaTypeCode
 	 * @return
 	 */
@@ -534,22 +543,24 @@ public class DataUtil {
 
 	/**
 	 * Check the passed String whether be contained in list
-	 * 
+	 *
 	 * @param values
 	 * @param value
 	 * @param ifDelete
 	 * @return
 	 */
 	public static boolean contain(List values, String value, boolean ifDelete) {
-		if (values == null)
+		if (values == null) {
 			return false;
+		}
 
 		for (Iterator it = values.iterator(); it.hasNext();) {
 			Object obj = it.next();
 			if (obj == null) {
 				if (value == null) {
-					if (ifDelete)
+					if (ifDelete) {
 						values.remove(obj);
+					}
 					return true;
 				}
 
@@ -557,8 +568,9 @@ public class DataUtil {
 			}
 
 			if (obj instanceof String && ((String) obj).equals(value)) {
-				if (ifDelete)
+				if (ifDelete) {
 					values.remove(obj);
+				}
 				return true;
 			}
 		}
@@ -568,7 +580,7 @@ public class DataUtil {
 
 	/**
 	 * Compare two strings that could be null and return true if they are equal.
-	 * 
+	 *
 	 * @param s1 first string
 	 * @param s2 second string
 	 * @return true if the strings are equal, or both are null

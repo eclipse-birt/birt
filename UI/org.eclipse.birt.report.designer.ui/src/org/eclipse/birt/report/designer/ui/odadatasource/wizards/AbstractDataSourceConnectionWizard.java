@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -28,6 +31,7 @@ import org.eclipse.swt.widgets.Composite;
  *             {@link org.eclipse.datatools.connectivity.oda.design.ui
  *             org.eclipse.datatools.connectivity.oda.design.ui } .
  */
+@Deprecated
 public abstract class AbstractDataSourceConnectionWizard extends Wizard {
 
 	private static final String CREATE_DATA_SOURCE_TRANS_NAME = Messages
@@ -42,7 +46,7 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard {
 
 	/**
 	 * Creates a wizard to create or edit element
-	 * 
+	 *
 	 * @param title the wizard title
 	 */
 	public AbstractDataSourceConnectionWizard(String title) {
@@ -52,7 +56,7 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard {
 
 	/**
 	 * Creates a wizard to create or edit element
-	 * 
+	 *
 	 */
 	public AbstractDataSourceConnectionWizard() {
 		super();
@@ -63,7 +67,7 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard {
 	/*
 	 * Add Logic of storing teh actual data Source connection Each subclassed wizard
 	 * will have to implenent this
-	 * 
+	 *
 	 */
 	public abstract DataSourceHandle createDataSource(ModuleHandle handle);
 
@@ -83,7 +87,7 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard {
 	}
 
 	/*
-	 *  
+	 *
 	 */
 	public abstract boolean doFinish();
 
@@ -91,9 +95,10 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
+	@Override
 	public final boolean performFinish() {
 		boolean returnValue = doFinish();
 		try {
@@ -118,9 +123,10 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
+	@Override
 	public final boolean performCancel() {
 		boolean returnValue = doCancel();
 		if (returnValue) {
@@ -131,7 +137,7 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard {
 
 	/**
 	 * Sets finish Label
-	 * 
+	 *
 	 * @param newLabel the label to be set
 	 */
 //	protected void setFinishLabel( String newLabel )
@@ -141,16 +147,17 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#isHelpAvailable()
 	 */
+	@Override
 	public boolean isHelpAvailable() {
 		return true;
 	}
 
 	/**
 	 * Gets the activity stack of the report
-	 * 
+	 *
 	 * @return returns the stack
 	 */
 	public CommandStack getActivityStack() {
@@ -159,10 +166,11 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#getNextPage(org.eclipse.jface.wizard.
 	 * IWizardPage)
 	 */
+	@Override
 	public IWizardPage getNextPage(IWizardPage page) {
 		// Get the pages and check whether this is the last page in this wizard
 		/*
@@ -178,11 +186,12 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.wizard.IWizard#createPageControls(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	public void createPageControls(Composite pageContainer) {
 		// create an empty data source object if one has not been created yet
 		getDataSource();

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,8 +45,9 @@ public class ChartImageServiceProvider implements IImageServiceProvider {
 		}
 	}
 
+	@Override
 	public List<String> getEmbeddedImageName() {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 
 		if (extendedHandle == null) {
 			return list;
@@ -57,6 +61,7 @@ public class ChartImageServiceProvider implements IImageServiceProvider {
 		return list;
 	}
 
+	@Override
 	public String saveImage(String fullPath, String fileName) throws ChartException {
 		BirtImageLoader imageLoader = new BirtImageLoader();
 		try {
@@ -67,6 +72,7 @@ public class ChartImageServiceProvider implements IImageServiceProvider {
 		}
 	}
 
+	@Override
 	public org.eclipse.swt.graphics.Image getEmbeddedImage(String fileName) {
 		if (extendedHandle == null) {
 			return null;
@@ -75,6 +81,7 @@ public class ChartImageServiceProvider implements IImageServiceProvider {
 		}
 	}
 
+	@Override
 	public org.eclipse.swt.graphics.Image loadImage(String fileName) throws ChartException {
 		try {
 			return ImageManager.getInstance().loadImage(fileName);
@@ -83,6 +90,7 @@ public class ChartImageServiceProvider implements IImageServiceProvider {
 		}
 	}
 
+	@Override
 	public String getImageAbsoluteURL(Image image) {
 		if (extendedHandle == null) {
 			return null;

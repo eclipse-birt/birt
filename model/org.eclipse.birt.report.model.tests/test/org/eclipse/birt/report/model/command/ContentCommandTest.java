@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -80,19 +83,19 @@ import com.ibm.icu.util.ULocale;
 /**
  * Unit test for class ContentCommand.
  * <p>
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testMovePosition()}</td>
  * <td>Add three content to the container: A ,B ,C.Move A to C'position.</td>
  * <td>in container: B,C,A</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Move C to A's position.</td>
@@ -217,7 +220,7 @@ import com.ibm.icu.util.ULocale;
  * <td>Test the notification.</td>
  * <td>The event can be created and send out.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testMove()}</td>
  * <td>Test
@@ -226,9 +229,9 @@ import com.ibm.icu.util.ULocale;
  * <td>Move an element from one container to another at the specified position.
  * </td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 
 public class ContentCommandTest extends BaseTestCase {
@@ -246,6 +249,7 @@ public class ContentCommandTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -262,14 +266,14 @@ public class ContentCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests add functions. Test Case:
-	 * 
+	 *
 	 * <ul>
 	 * <li>the target container is not a container;
 	 * <li>Trying to add more than one content into a slot when slot can only hold
 	 * one
 	 * <li>the content type is not match with the container
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -331,8 +335,8 @@ public class ContentCommandTest extends BaseTestCase {
 	/**
 	 * @throws NameException
 	 * @throws ContentException
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public void testAddElementIntoCompoundSlot() throws ContentException, NameException {
 
@@ -352,7 +356,7 @@ public class ContentCommandTest extends BaseTestCase {
 
 	/**
 	 * Test removing one content from container.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 	public void testRemove() throws Exception {
@@ -440,7 +444,7 @@ public class ContentCommandTest extends BaseTestCase {
 	 * <li>After undo and redo both of the reference status and the element status
 	 * can be recovered.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -509,8 +513,8 @@ public class ContentCommandTest extends BaseTestCase {
 	 * <li>Drop a content which has 'extends', 'name' property and a style.Undo and
 	 * redo the operation.
 	 * </ul>
-	 * 
-	 * 
+	 *
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -632,9 +636,9 @@ public class ContentCommandTest extends BaseTestCase {
 
 	/**
 	 * Test method move.
-	 * 
+	 *
 	 * Test Case:
-	 * 
+	 *
 	 * <ul>
 	 * <li>Add three content to the container: A ,B ,C
 	 * <li>Move A to C'position. The expected result in container: B,C,A
@@ -644,8 +648,8 @@ public class ContentCommandTest extends BaseTestCase {
 	 * result in container: A,C,B
 	 * <li>Test undo and redo
 	 * </ul>
-	 * 
-	 * 
+	 *
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -778,7 +782,7 @@ public class ContentCommandTest extends BaseTestCase {
 	/**
 	 * Test the method
 	 * {@link SlotHandle#move(DesignElementHandle, DesignElementHandle, int)}.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testMove() throws Exception {
@@ -869,13 +873,13 @@ public class ContentCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests the move exception case. Test Case:
-	 * 
+	 *
 	 * <ul>
 	 * <li>The content is the wrong type of the 'toContainer'.
 	 * <li>The toContainer's slot is full.
 	 * </ul>
-	 * 
-	 * 
+	 *
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -907,7 +911,7 @@ public class ContentCommandTest extends BaseTestCase {
 	 * Unit test for method 'movePosition'.
 	 * <p>
 	 * Test case:
-	 * 
+	 *
 	 * <ul>
 	 * <li>The new position is the same as the original one.
 	 * <li>test the moved content is not existed in this container.expected
@@ -915,7 +919,7 @@ public class ContentCommandTest extends BaseTestCase {
 	 * <li>The undo & redo operation are not tested here. That were done in the
 	 * testMovePosition().
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -944,9 +948,9 @@ public class ContentCommandTest extends BaseTestCase {
 
 	/**
 	 * Unit test for circular content.
-	 * 
+	 *
 	 * Test case:
-	 * 
+	 *
 	 * <ul>
 	 * <li>first, add content into container add container to content. An circular
 	 * content exception here is expected.
@@ -954,7 +958,7 @@ public class ContentCommandTest extends BaseTestCase {
 	 * content to test if the circular content relationship can be detected.
 	 * <li>An circular exception is expected here.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -996,9 +1000,9 @@ public class ContentCommandTest extends BaseTestCase {
 	/**
 	 * Unit test to test after delete an element, whether references on the deleted
 	 * contented were adjusted correctly.
-	 * 
+	 *
 	 * Test case:
-	 * 
+	 *
 	 * <ul>
 	 * <li>Add A into container.
 	 * <li>Set A extends from B, Set C extends from A.
@@ -1007,11 +1011,11 @@ public class ContentCommandTest extends BaseTestCase {
 	 * <li>Remove A from the container.
 	 * <li>Check the extends reference and style reference on A.
 	 * </ul>
-	 * 
+	 *
 	 * <p>
 	 * The expected result: C extends from B. Parent reference and style reference
 	 * on A are broken.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1068,14 +1072,14 @@ public class ContentCommandTest extends BaseTestCase {
 	/**
 	 * Test after delete an element, whether references on the deleted contented
 	 * were adjusted correctly.
-	 * 
+	 *
 	 * Test case:
-	 * 
+	 *
 	 * <ul>
 	 * <li>Drop and detach referenceable element
 	 * <li>Drop referenceable element
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1138,14 +1142,14 @@ public class ContentCommandTest extends BaseTestCase {
 	/**
 	 * Test after delete a style, whether references on the deleted contented were
 	 * adjusted correctly.
-	 * 
+	 *
 	 * Test case:
-	 * 
+	 *
 	 * <ul>
 	 * <li>Drop and unresolve one style
 	 * <li>Drop one style
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1209,7 +1213,7 @@ public class ContentCommandTest extends BaseTestCase {
 	 * This test case is used to test that after remove a container from a
 	 * container, whether the references on the removed container were adjusted
 	 * correctly.
-	 * 
+	 *
 	 * Test case:
 	 * <ul>
 	 * <li>Set style to label. Add label to otherCont. Add otherCont to cont. Add
@@ -1217,7 +1221,7 @@ public class ContentCommandTest extends BaseTestCase {
 	 * is no content in container. There is no content in cont. There is no content
 	 * in otherCont. There is no style on label. Style's clint list is empty.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -1247,7 +1251,7 @@ public class ContentCommandTest extends BaseTestCase {
 
 	/**
 	 * test sendNotifications().
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -1301,7 +1305,7 @@ public class ContentCommandTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -1347,13 +1351,13 @@ public class ContentCommandTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 * 
+	 *
 	 * 1. If add an compound element to the design tree, names of nest elements
 	 * should also be added into the name space. This method creates new elements by
 	 * using class in elements package.
-	 * 
+	 *
 	 * @throws Exception if any error occurs
-	 * 
+	 *
 	 */
 
 	public void testAddCompoundElement() throws Exception {
@@ -1373,13 +1377,13 @@ public class ContentCommandTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 * 
+	 *
 	 * 1. If add an compound element to the design tree, names of nest elements
 	 * should also be added into the name space. This method creates new elements by
 	 * using factory.
-	 * 
+	 *
 	 * @throws Exception if any error occurs
-	 * 
+	 *
 	 */
 
 	public void testAddCompoundElementFromHandle() throws Exception {
@@ -1394,10 +1398,10 @@ public class ContentCommandTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 * 
+	 *
 	 * 1. with the given CascadingParameterGroup, test copy/paste twice and check
 	 * changes of name spaces.
-	 * 
+	 *
 	 * @param cacascadingGroup
 	 * @throws Exception
 	 */
@@ -1440,7 +1444,7 @@ public class ContentCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests receive propery event.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1464,7 +1468,7 @@ public class ContentCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests when the label is deleted, the template definition will be cleared too.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1500,7 +1504,7 @@ public class ContentCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests the content command for extended-item with element property.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testElementProperty() throws Exception {
@@ -1537,7 +1541,7 @@ public class ContentCommandTest extends BaseTestCase {
 
 	/**
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	public void testRemoveReferencableElement() throws Exception {
 		openDesign("ContentCommandTest_1.xml"); //$NON-NLS-1$
@@ -1562,7 +1566,7 @@ public class ContentCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests remove template parameter definition element and undo the operation.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testRemoveTemplateParameterDefinition() throws Exception {
@@ -1579,7 +1583,7 @@ public class ContentCommandTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testCopyAndPaste() throws Exception {
@@ -1625,11 +1629,12 @@ public class ContentCommandTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			if (ev instanceof PropertyEvent) {
 				event = (PropertyEvent) ev;
@@ -1656,20 +1661,21 @@ public class ContentCommandTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			if (ev.getEventType() == NotificationEvent.CONTENT_EVENT) {
 				event = ev;
 				int newAcion = ((ContentEvent) ev).getAction();
 				content = ((ContentEvent) ev).getContent();
 
-				if (action == REMOVED && newAcion == ContentEvent.ADD)
+				if (action == REMOVED && newAcion == ContentEvent.ADD) {
 					action = MOVED;
-				else {
+				} else {
 					switch (newAcion) {
 					case ContentEvent.ADD:
 						action = ADDED;

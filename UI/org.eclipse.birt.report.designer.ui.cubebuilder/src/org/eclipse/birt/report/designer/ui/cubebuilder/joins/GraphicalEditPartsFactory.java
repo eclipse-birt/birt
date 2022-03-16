@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,9 +18,9 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.Attribute
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.ColumnEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.CubeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.DatasetNodeEditPart;
+import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.HierarchyColumnEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.HierarchyNodeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.JoinConditionEditPart;
-import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.HierarchyColumnEditPart;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
@@ -29,12 +32,13 @@ import org.eclipse.gef.EditPartFactory;
 
 /**
  * A factory for creating new Edit Parts for the Joins Page
- * 
+ *
  * @see org.eclipse.gef.EditPartFactory
- * 
+ *
  */
 public class GraphicalEditPartsFactory implements EditPartFactory {
 
+	@Override
 	public EditPart createEditPart(EditPart context, Object model) {
 		if (model instanceof TabularHierarchyHandle) {
 			return new HierarchyNodeEditPart(context, (TabularHierarchyHandle) model);
@@ -45,8 +49,9 @@ public class GraphicalEditPartsFactory implements EditPartFactory {
 				return new ColumnEditPart(context, (ResultSetColumnHandle) model);
 			} else if (context instanceof HierarchyNodeEditPart) {
 				return new HierarchyColumnEditPart(context, (ResultSetColumnHandle) model);
-			} else
+			} else {
 				return null;
+			}
 		}
 
 		if (model instanceof TabularCubeHandle) {

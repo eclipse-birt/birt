@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ public class GroupPropertyHandleProvider {
 
 	/**
 	 * Return a single instance.
-	 * 
+	 *
 	 * @return instance of this
 	 */
 	public static GroupPropertyHandleProvider getInstance() {
@@ -177,7 +180,7 @@ public class GroupPropertyHandleProvider {
 	/**
 	 * Gets the set of choices for the property; return null if the property doesn't
 	 * have choice list.
-	 * 
+	 *
 	 * @param o the property model to inspect
 	 * @return the array holds choice values
 	 */
@@ -200,7 +203,7 @@ public class GroupPropertyHandleProvider {
 
 	/**
 	 * Determines if the property has choice type value.
-	 * 
+	 *
 	 * @param o the property model to inspect
 	 * @return if a property has choice type value
 	 */
@@ -222,7 +225,7 @@ public class GroupPropertyHandleProvider {
 
 	/**
 	 * Determines whether this is a style property.
-	 * 
+	 *
 	 * @param o the property model to inspect
 	 * @return true if a style property
 	 */
@@ -235,7 +238,7 @@ public class GroupPropertyHandleProvider {
 
 	/**
 	 * Determines whether this is a color type property.
-	 * 
+	 *
 	 * @param o the property model to inspect
 	 * @return true if a color type property
 	 */
@@ -248,7 +251,7 @@ public class GroupPropertyHandleProvider {
 
 	/**
 	 * Determines whether this is a dimension property.
-	 * 
+	 *
 	 * @param o the property model to inspect
 	 * @return true if a dimension property
 	 */
@@ -264,15 +267,16 @@ public class GroupPropertyHandleProvider {
 
 	/**
 	 * Determines whether this is a dimension property.
-	 * 
+	 *
 	 * @param o the property model to inspect
 	 * @return true if a dimension property
 	 */
 	public boolean isDimensionProperty(Object o) {
 		if (o instanceof GroupPropertyHandle) {
 
-			if (isFontSizeProperty(o))
+			if (isFontSizeProperty(o)) {
 				return false;
+			}
 			return ((GroupPropertyHandle) o).getPropertyDefn().getTypeCode() == IPropertyType.DIMENSION_TYPE;
 		}
 		return false;
@@ -280,7 +284,7 @@ public class GroupPropertyHandleProvider {
 
 	/**
 	 * Determines whether this is a boolean type property.
-	 * 
+	 *
 	 * @param o the property model to inspect
 	 * @return true if a boolean type property
 	 */
@@ -293,7 +297,7 @@ public class GroupPropertyHandleProvider {
 
 	/**
 	 * Determines whether this is a date-time type property.
-	 * 
+	 *
 	 * @param o the property model to inspect
 	 * @return true if a date-time type property
 	 */
@@ -306,7 +310,7 @@ public class GroupPropertyHandleProvider {
 
 	/**
 	 * Determines whether this is an expression type property.
-	 * 
+	 *
 	 * @param o the property model to inspect
 	 * @return true if an expression property
 	 */
@@ -328,7 +332,7 @@ public class GroupPropertyHandleProvider {
 
 	/**
 	 * Determines whether this is a custom style property.
-	 * 
+	 *
 	 * @param o the property model to inspect
 	 * @return true if a custom style property
 	 */
@@ -342,7 +346,7 @@ public class GroupPropertyHandleProvider {
 
 	/**
 	 * Determines whether this is a visible property.
-	 * 
+	 *
 	 * @param o the property model to inspect
 	 * @return true if a visible property
 	 */
@@ -356,7 +360,7 @@ public class GroupPropertyHandleProvider {
 
 	/**
 	 * Determines whether this is a visible property.
-	 * 
+	 *
 	 * @param o the property model to inspect
 	 * @return true if a visible property
 	 */
@@ -370,7 +374,7 @@ public class GroupPropertyHandleProvider {
 
 	/**
 	 * Get the value's position in the choice list it belongs to.
-	 * 
+	 *
 	 * @param o     the property model to inspect
 	 * @param value the specified value
 	 * @return the position
@@ -390,7 +394,7 @@ public class GroupPropertyHandleProvider {
 
 	/**
 	 * Determines whether this is a password property.
-	 * 
+	 *
 	 * @param o the property model to inspect
 	 * @return true if a password property
 	 */
@@ -404,7 +408,7 @@ public class GroupPropertyHandleProvider {
 
 	/**
 	 * Determines whether this is a background image property.
-	 * 
+	 *
 	 * @param o the property model to inspect
 	 * @return true if it is a background image property
 	 */

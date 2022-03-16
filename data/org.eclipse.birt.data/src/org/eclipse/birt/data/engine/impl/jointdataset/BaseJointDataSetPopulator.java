@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -69,7 +72,7 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param left
 	 * @param right
 	 * @param meta
@@ -103,7 +106,7 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator {
 
 	/**
 	 * Initialize this object.
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -115,7 +118,7 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator {
 
 	/**
 	 * Return whether primary iterator is left.
-	 * 
+	 *
 	 * @return
 	 */
 	private boolean isPrimaryLeft() {
@@ -124,17 +127,19 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IDataSetPopulator#next()
 	 */
+	@Override
 	public IResultObject next() throws DataException {
 		if (this.rowFetchLimit <= 0 || this.rowCount < this.rowFetchLimit) {
 			IResultObject result = doNext();
 			while (this.shouldContinueSeek) {
 				result = doNext();
 			}
-			if (result != null)
+			if (result != null) {
 				this.rowCount++;
+			}
 			return result;
 		}
 
@@ -142,7 +147,7 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -173,7 +178,7 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator {
 	/**
 	 * Return the IResultObject instance of a data set when curComparedResult is
 	 * equal to 0;
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -193,21 +198,19 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator {
 	/**
 	 * Return the IResultObject instance of a data set when curComparedResult is
 	 * less than 0;
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
 	private IResultObject lessNext() throws DataException {
-		if (curPrimaryMatchValues == null) {
-			return null;
-		}
-		if (joinType == IJointDataSetDesign.INNER_JOIN && curSecondaryMatchValues == null) {
+		if ((curPrimaryMatchValues == null) || (joinType == IJointDataSetDesign.INNER_JOIN && curSecondaryMatchValues == null)) {
 			return null;
 		}
 
 		IResultObject resultObject = null;
-		if (joinType != IJointDataSetDesign.INNER_JOIN)
+		if (joinType != IJointDataSetDesign.INNER_JOIN) {
 			resultObject = createResultObject(curPrimaryResultObject, null);
+		}
 
 		fetchPrimaryObject();
 		curComparedResult = getCompartorResult();
@@ -224,7 +227,7 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator {
 	/**
 	 * Return the IResultObject instance of a data set when curComparedResult is
 	 * greater than 0;
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -246,15 +249,12 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator {
 
 	/**
 	 * Compare primary object and secondary object and return result;
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
 	private int getCompartorResult() throws DataException {
-		if (curPrimaryMatchValues == null && curSecondaryMatchValues == null) {
-			return -1;
-		}
-		if (curPrimaryMatchValues != null && curSecondaryMatchValues == null) {
+		if ((curPrimaryMatchValues == null && curSecondaryMatchValues == null) || (curPrimaryMatchValues != null && curSecondaryMatchValues == null)) {
 			return -1;
 		}
 		if (curPrimaryMatchValues == null && curSecondaryMatchValues != null) {
@@ -265,7 +265,7 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator {
 
 	/**
 	 * Fetch a primary object.
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -278,23 +278,25 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator {
 			curPrimaryResultObject = primaryIterator.getCurrentResult();
 			curPrimaryMatchValues = jcm.getCompareValue(isPrimaryLeft());
 
-			if (curSecondaryResultObjects != null)
+			if (curSecondaryResultObjects != null) {
 				curSecondaryResultObjects.reset();
+			}
 			primaryIterator.next();
 		}
 	}
 
 	/**
 	 * Fetch sequence and equal secondary objects
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
 	private void fetchSecondaryObjects() throws DataException {
 		clearSecondaryObjects();
 
-		if (secondaryIterator.getCurrentResult() == null)
+		if (secondaryIterator.getCurrentResult() == null) {
 			return;
+		}
 
 		curSecondaryMatchValues = jcm.getCompareValue(!isPrimaryLeft());
 
@@ -308,19 +310,20 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator {
 
 	/**
 	 * @throws DataException
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	private void clearSecondaryObjects() throws DataException {
-		if (curSecondaryResultObjects != null)
+		if (curSecondaryResultObjects != null) {
 			curSecondaryResultObjects.close();
+		}
 		curSecondaryResultObjects = null;
 		curSecondaryMatchValues = null;
 	}
 
 	/**
 	 * Create an instance of IResultObject.
-	 * 
+	 *
 	 * @param primary
 	 * @param secondary
 	 * @return
@@ -332,15 +335,17 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator {
 			IResultObject ri = null;
 
 			if (meta.getColumnSource(i) == JointResultMetadata.COLUMN_TYPE_LEFT) {
-				if (isPrimaryLeft())
+				if (isPrimaryLeft()) {
 					ri = primary;
-				else
+				} else {
 					ri = secondary;
+				}
 			} else if (meta.getColumnSource(i) == JointResultMetadata.COLUMN_TYPE_RIGHT) {
-				if (isPrimaryLeft())
+				if (isPrimaryLeft()) {
 					ri = secondary;
-				else
+				} else {
 					ri = primary;
+				}
 			}
 
 			fields[i - 1] = ri == null ? null : ri.getFieldValue(meta.getSourceIndex(i));

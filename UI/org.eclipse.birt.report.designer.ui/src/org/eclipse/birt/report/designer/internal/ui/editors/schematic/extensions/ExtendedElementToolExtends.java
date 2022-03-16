@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ import org.eclipse.jface.window.Window;
 
 /**
  * Provides creation function for extended element
- * 
+ *
  */
 public class ExtendedElementToolExtends extends AbstractToolHandleExtends {
 
@@ -39,6 +42,7 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends {
 		this.extensionName = extensionName;
 	}
 
+	@Override
 	public boolean postHandleCreation() {
 		// TODO check extension setting here to decide if popup the builder
 		IReportItemBuilderUI builder = getbuilder();
@@ -68,6 +72,7 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends {
 		return super.postHandleCreation();
 	}
 
+	@Override
 	public boolean preHandleMouseUp() {
 		ExtendedItemHandle handle = DesignElementFactory.getInstance().newExtendedItem(null, extensionName);
 		if (handle == null) {
@@ -79,18 +84,19 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 	 * AbstractToolHandleExtends#preHandleMouseDown()
 	 */
 
+	@Override
 	public boolean preHandleMouseDown() {
 		return false;
 	}
 
 	/**
 	 * Gets the builder
-	 * 
+	 *
 	 * @return
 	 */
 	private IReportItemBuilderUI getbuilder() {

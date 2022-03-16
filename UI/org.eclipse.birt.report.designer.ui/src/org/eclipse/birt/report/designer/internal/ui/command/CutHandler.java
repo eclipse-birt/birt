@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 /**
- * 
+ *
  */
 
 public class CutHandler extends SelectionHandler {
@@ -32,11 +35,12 @@ public class CutHandler extends SelectionHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
 	 * ExecutionEvent)
 	 */
+	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
 		super.execute(event);
@@ -60,10 +64,11 @@ public class CutHandler extends SelectionHandler {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction#
 			 * getTransactionLabel()
 			 */
+			@Override
 			protected String getTransactionLabel() {
 				if (objects instanceof IStructuredSelection) {
 					return Messages.getString("CutAction.trans"); //$NON-NLS-1$

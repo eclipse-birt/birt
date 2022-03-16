@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,20 +31,20 @@ import org.eclipse.birt.report.model.core.Structure;
  * This is a managed object, meaning that all changes should be made though the
  * command layer so that they can be undone and redone. Each result set column
  * has the following properties:
- * 
+ *
  * <p>
  * <dl>
  * <dt><strong>Name </strong></dt>
  * <dd>a result set column has an optional name.</dd>
- * 
+ *
  * <dt><strong>Position </strong></dt>
  * <dd>a result set column has an optional position for it.</dd>
- * 
+ *
  * <dt><strong>Data Type </strong></dt>
  * <dd>a result set column has a choice data type: any, integer, string, data
  * time, decimal, float, structure or table.</dd>
  * </dl>
- * 
+ *
  */
 
 public class ResultSetColumn extends Structure {
@@ -102,30 +105,36 @@ public class ResultSetColumn extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return RESULT_SET_COLUMN_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (POSITION_MEMBER.equals(propName))
+		if (POSITION_MEMBER.equals(propName)) {
 			return position;
-		if (NAME_MEMBER.equals(propName))
+		}
+		if (NAME_MEMBER.equals(propName)) {
 			return columnName;
-		if (DATA_TYPE_MEMBER.equals(propName))
+		}
+		if (DATA_TYPE_MEMBER.equals(propName)) {
 			return dataType;
-		if (NATIVE_DATA_TYPE_MEMBER.equals(propName))
+		}
+		if (NATIVE_DATA_TYPE_MEMBER.equals(propName)) {
 			return nativeDataType;
+		}
 
 		assert false;
 		return null;
@@ -133,27 +142,29 @@ public class ResultSetColumn extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (POSITION_MEMBER.equals(propName))
+		if (POSITION_MEMBER.equals(propName)) {
 			position = (Integer) value;
-		else if (NAME_MEMBER.equals(propName))
+		} else if (NAME_MEMBER.equals(propName)) {
 			columnName = (String) value;
-		else if (DATA_TYPE_MEMBER.equals(propName))
+		} else if (DATA_TYPE_MEMBER.equals(propName)) {
 			dataType = (String) value;
-		else if (NATIVE_DATA_TYPE_MEMBER.equals(propName))
+		} else if (NATIVE_DATA_TYPE_MEMBER.equals(propName)) {
 			nativeDataType = (Integer) value;
-		else
+		} else {
 			assert false;
+		}
 	}
 
 	/**
 	 * Returns the column name.
-	 * 
+	 *
 	 * @return the column name.
 	 */
 
@@ -163,7 +174,7 @@ public class ResultSetColumn extends Structure {
 
 	/**
 	 * Sets the column name.
-	 * 
+	 *
 	 * @param columnName the column name to set
 	 */
 
@@ -185,7 +196,7 @@ public class ResultSetColumn extends Structure {
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 * 
+	 *
 	 * @return the data type of this column.
 	 */
 
@@ -207,7 +218,7 @@ public class ResultSetColumn extends Structure {
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 * 
+	 *
 	 * @param dataType the data type to set
 	 */
 
@@ -217,7 +228,7 @@ public class ResultSetColumn extends Structure {
 
 	/**
 	 * Returns the position of this parameter.
-	 * 
+	 *
 	 * @return the position of this parameter
 	 */
 
@@ -227,7 +238,7 @@ public class ResultSetColumn extends Structure {
 
 	/**
 	 * Sets the position of this column.
-	 * 
+	 *
 	 * @param position the position to set
 	 */
 
@@ -237,17 +248,18 @@ public class ResultSetColumn extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
+	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new ResultSetColumnHandle(valueHandle, index);
 	}
 
 	/**
 	 * Returns the native data type.
-	 * 
+	 *
 	 * @return the result set column native data type.
 	 */
 
@@ -257,7 +269,7 @@ public class ResultSetColumn extends Structure {
 
 	/**
 	 * Sets the result set column native data type.
-	 * 
+	 *
 	 * @param dataType the native data type to set.
 	 */
 
@@ -270,11 +282,12 @@ public class ResultSetColumn extends Structure {
 	 * <ul>
 	 * <li>The column name is required.
 	 * </ul>
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(Module,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public List validate(Module module, DesignElement element) {
 		List list = super.validate(module, element);
 

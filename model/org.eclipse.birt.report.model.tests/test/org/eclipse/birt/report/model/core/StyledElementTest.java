@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,43 +38,43 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * The Test Case of StyledElement.
- * 
+ *
  * We test the get-set style operation and check the container-client
  * relationship.At the same time, we test the getIntrinsicProperty() function.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testSetStyle}</td>
  * <td>add new style</td>
  * <td>can get style</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetIntrinsicProperty}</td>
  * <td>get intrinsic property from styledElement which has name</td>
  * <td>equal to value "styled element"</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>get intrinsic property from styledElement which has style</td>
  * <td>equal to value "style"</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>get intrinsic property from Label which has extends element</td>
  * <td>get name value from parent element , equal to value "hexingjie"</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 public class StyledElementTest extends BaseTestCase {
 
@@ -82,6 +85,7 @@ public class StyledElementTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -154,7 +158,7 @@ public class StyledElementTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testStyleProperty() throws Exception {
@@ -206,7 +210,7 @@ public class StyledElementTest extends BaseTestCase {
 	 * getFactoryProperty() should return the local value.</li>
 	 * <li>color property not defined on both of the parent & child. It defined on
 	 * the selector. Returns the selector defined value.</li>
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 * @throws IOException

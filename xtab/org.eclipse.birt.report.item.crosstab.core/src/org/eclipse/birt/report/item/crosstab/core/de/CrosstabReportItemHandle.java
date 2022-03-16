@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +59,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	int compStatus = 0;
 
 	/**
-	 * 
+	 *
 	 * @param handle
 	 */
 	CrosstabReportItemHandle(DesignElementHandle handle) {
@@ -65,7 +68,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the dimension value handle for the row where the given cell resides.
-	 * 
+	 *
 	 * @param cell the cell which the row contains
 	 * @return the dimension value handle for the row where the cell resides
 	 * @throws CrosstabException
@@ -84,7 +87,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the dimension value handle for the column width where the cell resides.
-	 * 
+	 *
 	 * @param cell the cell which the column contains
 	 * @return the dimension value handle for the column width where the cell
 	 *         resides
@@ -104,7 +107,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Sets the row height where the cell resides.
-	 * 
+	 *
 	 * @param cell
 	 * @param value
 	 * @throws CrosstabException
@@ -128,7 +131,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Sets the column width where the cell resides.
-	 * 
+	 *
 	 * @param cell
 	 * @param value
 	 * @throws CrosstabException
@@ -152,7 +155,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the measures property handle.
-	 * 
+	 *
 	 * @return measures property handle
 	 */
 
@@ -162,7 +165,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the rows property handle.
-	 * 
+	 *
 	 * @return rows property handle
 	 */
 
@@ -172,7 +175,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the columns property handle.
-	 * 
+	 *
 	 * @return columns property handle
 	 */
 
@@ -184,7 +187,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * Gets the property handle for row/column crosstab views.The axis type can be
 	 * either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 * 
+	 *
 	 * @param axisType row/column axis type
 	 * @return property handle for row/column crosstab view
 	 */
@@ -202,14 +205,15 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * Gets the row/column crosstab view for this crosstab. The axis type can be
 	 * either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 * 
+	 *
 	 * @param axisType
 	 * @return
 	 */
 	public CrosstabViewHandle getCrosstabView(int axisType) {
 		PropertyHandle propHandle = getCrosstabViewProperty(axisType);
-		if (propHandle == null || propHandle.getContentCount() <= 0)
+		if (propHandle == null || propHandle.getContentCount() <= 0) {
 			return null;
+		}
 		return (CrosstabViewHandle) CrosstabUtil.getReportItem(propHandle.getContent(0), CROSSTAB_VIEW_EXTENSION_NAME);
 	}
 
@@ -217,15 +221,16 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * Adds a row/column crosstab view into this crosstab.The axis type can be
 	 * either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 * 
+	 *
 	 * @param axisType
 	 * @return
-	 * 
+	 *
 	 */
 	public CrosstabViewHandle addCrosstabView(int axisType) throws SemanticException {
 		PropertyHandle propHandle = getCrosstabViewProperty(axisType);
-		if (propHandle == null || propHandle.getContentCount() > 0)
+		if (propHandle == null || propHandle.getContentCount() > 0) {
 			return null;
+		}
 
 		// create a crosstab view and add it
 		ExtendedItemHandle extendedItem = CrosstabExtendedItemFactory.createCrosstabView(moduleHandle);
@@ -236,7 +241,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Returns the caption text of this crosstab.
-	 * 
+	 *
 	 * @return the caption text
 	 */
 
@@ -246,7 +251,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Returns the resource key of the caption.
-	 * 
+	 *
 	 * @return the resource key of the caption
 	 */
 
@@ -263,7 +268,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Sets the caption of this crosstab
-	 * 
+	 *
 	 * @param value
 	 * @throws SemanticException
 	 */
@@ -273,7 +278,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Sets the caption key of this crosstab
-	 * 
+	 *
 	 * @param value
 	 * @throws SemanticException
 	 */
@@ -283,7 +288,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Sets the summary of this crosstab
-	 * 
+	 *
 	 * @param value
 	 * @throws SemanticException
 	 */
@@ -294,13 +299,13 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Returns the measure direction of this crosstab. The return value is defined
 	 * in <code>ICrosstabConstants</code> and can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>MEASURE_DIRECTION_HORIZONTAL</code>
 	 * <li><code>MEASURE_DIRECTION_VERTICAL</code>
-	 * 
+	 *
 	 * </ul>
-	 * 
+	 *
 	 * @return the measure direction of this crosstab
 	 */
 
@@ -311,11 +316,11 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Sets the measure direction of this crosstab. The input direction must be one
 	 * of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>MEASURE_DIRECTION_HORIZONTAL</code>
 	 * <li><code>MEASURE_DIRECTION_VERTICAL</code>
-	 * 
+	 *
 	 * @param direction measure direction to set, must be one of above choices
 	 * @throws SemanticException
 	 */
@@ -342,11 +347,11 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Sets the page layout of this crosstab. The given value is defined in
 	 * <code>ICrosstabConstants</code> and can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>PAGE_LAYOUT_DOWN_THEN_OVER</code>
 	 * <li><code>PAGE_LAYOUT_OVER_THEN_DOWN</code>
-	 * 
+	 *
 	 * </ul>
 	 */
 	public void setPageLayout(String value) throws SemanticException {
@@ -384,13 +389,13 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Returns the page layout of this crosstab. The return value is defined in
 	 * <code>ICrosstabConstants</code> and can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>PAGE_LAYOUT_DOWN_THEN_OVER</code>
 	 * <li><code>PAGE_LAYOUT_OVER_THEN_DOWN</code>
-	 * 
+	 *
 	 * </ul>
-	 * 
+	 *
 	 * @return the page layout of this crosstab
 	 */
 
@@ -401,7 +406,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Returns if repeat crosstab row header for each page. The row header is
 	 * normally on left of the detail area.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isRepeatRowHeader() {
@@ -411,7 +416,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Returns if repeat crosstab column header for each page. The column header is
 	 * normally on top of the detail area.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isRepeatColumnHeader() {
@@ -420,7 +425,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Returns if hide measure header for this crosstab.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isHideMeasureHeader() {
@@ -429,7 +434,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the empty cell value of this crosstab.
-	 * 
+	 *
 	 * @return the empty cell value
 	 */
 	public String getEmptyCellValue() {
@@ -445,7 +450,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * @return Returns the page break internval for row area.
-	 * 
+	 *
 	 * @since 2.6.1
 	 */
 	public int getRowPageBreakInterval() {
@@ -454,10 +459,10 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Sets the page break interval for row area.
-	 * 
+	 *
 	 * @param value
 	 * @throws SemanticException
-	 * 
+	 *
 	 * @since 2.6.1
 	 */
 	public void setRowPageBreakInterval(int value) throws SemanticException {
@@ -466,7 +471,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * @return Returns the page break internval for column area.
-	 * 
+	 *
 	 * @since 2.6.1
 	 */
 	public int getColumnPageBreakInterval() {
@@ -475,10 +480,10 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Sets the page break interval for column area.
-	 * 
+	 *
 	 * @param value
 	 * @throws SemanticException
-	 * 
+	 *
 	 * @since 2.6.1
 	 */
 	public void setColumnPageBreakInterval(int value) throws SemanticException {
@@ -489,7 +494,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * Returns the iterator for filter list defined on Crosstab. The element in the
 	 * iterator is the corresponding <code>DesignElementHandle</code> that deal with
 	 * a <code>FilterConditionElementHandle</code> in the list.
-	 * 
+	 *
 	 * @return the iterator for <code>FilterConditionElementHandle</code> element
 	 *         list
 	 */
@@ -516,7 +521,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the referred OLAP cube element.
-	 * 
+	 *
 	 * @return the referred OLAP cube element
 	 */
 
@@ -525,7 +530,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cube
 	 * @throws SemanticException
 	 */
@@ -535,7 +540,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the name of referred OLAP cube element.
-	 * 
+	 *
 	 * @return name of the referred OLAP cube element.
 	 */
 	public String getCubeName() {
@@ -550,19 +555,18 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Finds a dimension view that refers a cube dimension element with the given
 	 * name.
-	 * 
+	 *
 	 * @param name name of the cube dimension element to find
 	 * @return dimension view if found, otherwise null
 	 */
 	public DimensionViewHandle getDimension(String name) {
 		DimensionViewHandle dimensionView = findDimension(ROW_AXIS_TYPE, name);
-		;
-		if (dimensionView != null)
+
+		if (dimensionView != null) {
 			return dimensionView;
+		}
 		dimensionView = findDimension(COLUMN_AXIS_TYPE, name);
-		if (dimensionView != null)
-			return dimensionView;
-		return null;
+		return dimensionView;
 	}
 
 	/**
@@ -570,7 +574,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * the given name. The axis type can be either
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 * 
+	 *
 	 * @param axisType row/column axis type
 	 * @param name     name of the cube dimension element
 	 * @return
@@ -585,7 +589,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. And index is 0-based
 	 * integer.
-	 * 
+	 *
 	 * @param axisType row/column axis type
 	 * @param index    a 0-based integer of the dimension position
 	 * @return the dimension view handle if found, otherwise null
@@ -599,7 +603,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * Gets the row/column dimension count. The axis type can be either
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 * 
+	 *
 	 * @param axisType row/column axis type
 	 * @return count of row/column dimension
 	 */
@@ -610,7 +614,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the level by full level name.
-	 * 
+	 *
 	 * @param fullLevelName
 	 * @return
 	 */
@@ -625,7 +629,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Finds a measure view that refers a cube measure element with the given name.
-	 * 
+	 *
 	 * @param name name of the cube measure element to find
 	 * @return measure view if found, otherwise null
 	 */
@@ -635,8 +639,9 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 			if (measureView != null) {
 				String cubeMeasureName = measureView.getCubeMeasureName();
 				if ((cubeMeasureName != null && cubeMeasureName.equals(name))
-						|| (cubeMeasureName == null && name == null))
+						|| (cubeMeasureName == null && name == null)) {
 					return measureView;
+				}
 			}
 		}
 		return null;
@@ -645,7 +650,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Gets the measure view with the given index. Position index is 0-based
 	 * integer.
-	 * 
+	 *
 	 * @param index a 0-based integer of the measure position
 	 * @return the measure view handle if found, otherwise null
 	 */
@@ -656,7 +661,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the measure view count.
-	 * 
+	 *
 	 * @return count of measure view
 	 */
 	public int getMeasureCount() {
@@ -664,7 +669,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	}
 
 	public List<MeasureViewHandle> getAllMeasures() {
-		List<MeasureViewHandle> measureList = new ArrayList<MeasureViewHandle>();
+		List<MeasureViewHandle> measureList = new ArrayList<>();
 		for (int i = 0; i < getMeasureCount(); i++) {
 			measureList.add(getMeasure(i));
 		}
@@ -676,7 +681,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. And index is 0-based
 	 * integer.
-	 * 
+	 *
 	 * @param dimensionHandle the OLAP dimension handle to use
 	 * @param axisType        row/column axis type
 	 * @param index           insert position, a 0-based integer
@@ -690,7 +695,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Inserts a measure into the given position. Position index is 0-based integer.
-	 * 
+	 *
 	 * @param measureHandle the OLAP measure handle to use
 	 * @param index         insert position, a 0-based integer
 	 * @return
@@ -783,7 +788,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	}
 
 	public List<ComputedMeasureViewHandle> getComputedMeasures() {
-		List<ComputedMeasureViewHandle> ms = new ArrayList<ComputedMeasureViewHandle>();
+		List<ComputedMeasureViewHandle> ms = new ArrayList<>();
 
 		for (int i = 0; i < getMeasureCount(); i++) {
 			MeasureViewHandle measureView = getMeasure(i);
@@ -803,7 +808,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Removes a dimension view that refers a cube dimension name with the given
 	 * name from the design tree.
-	 * 
+	 *
 	 * @param name name of the dimension view to remove
 	 * @throws SemanticException
 	 */
@@ -816,7 +821,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * be either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. And index is 0-based
 	 * integer.
-	 * 
+	 *
 	 * @param axisType row/column axis type
 	 * @param index    the position index of the dimension to remove, 0-based
 	 *                 integer
@@ -828,7 +833,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Removes a measure view with the given name from the design tree.
-	 * 
+	 *
 	 * @param name name of the measure view to remove
 	 * @throws SemanticException
 	 */
@@ -845,7 +850,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Removes a measure view in the given position.
-	 * 
+	 *
 	 * @param index the position index of the measure view to remove, 0-based
 	 *              integer
 	 * @throws SemanticException
@@ -887,7 +892,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. And index is 0-based
 	 * integer.
-	 * 
+	 *
 	 * @param name           name of the dimension view to move
 	 * @param targetAxisType row/column axis type of the move target
 	 * @param targetIndex    the position index of the move target
@@ -903,7 +908,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. And index is 0-based
 	 * integer.
-	 * 
+	 *
 	 * @param srcAxisType    the source row/column axis type
 	 * @param srcIndex       the source position index
 	 * @param targetAxisType row/column axis type of the move target
@@ -922,9 +927,9 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * subtotal and grandtotal info in both area after the swapping, while
 	 * <code>pivotDimension</code> may remove the grandtotal or recreate some cells
 	 * during the processing.
-	 * 
+	 *
 	 * @throws SemanticException
-	 * 
+	 *
 	 * @since 2.5.1
 	 */
 	public void pivotCrosstab() throws SemanticException {
@@ -935,7 +940,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * Gets the row/column grand total cell of this crosstab. The axis type can be
 	 * either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 * 
+	 *
 	 * @param axisType row/column axis type
 	 * @return row/column grand total cell if set, otherwise null
 	 */
@@ -948,15 +953,15 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * Adds a row/column grand total to the crosstab if it is empty. The axis type
 	 * can be either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 * 
+	 *
 	 * @param axisType row/column axis type
 	 * @return the row/column grand total of this crosstab
-	 * 
+	 *
 	 */
 	public CrosstabCellHandle addGrandTotal(int axisType) throws SemanticException {
 		// this add grand total for all measures
-		List<MeasureViewHandle> measures = new ArrayList<MeasureViewHandle>();
-		List<String> functions = new ArrayList<String>();
+		List<MeasureViewHandle> measures = new ArrayList<>();
+		List<String> functions = new ArrayList<>();
 
 		for (int i = 0; i < getMeasureCount(); i++) {
 			MeasureViewHandle mv = getMeasure(i);
@@ -972,7 +977,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * nothing. The axis type can be either
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 * 
+	 *
 	 * @param axisType
 	 */
 	public void removeGrandTotal(int axisType) throws SemanticException {
@@ -984,7 +989,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * do nothing. The axis type can be either
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
-	 * 
+	 *
 	 * @param axisType
 	 */
 	public void removeGrandTotal(int axisType, int measureIndex) throws SemanticException {
@@ -993,7 +998,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the dimension value handle for the crosstab width.
-	 * 
+	 *
 	 * @return crosstab width dimension value handle
 	 */
 	public org.eclipse.birt.report.model.api.DimensionHandle getWidth() {
@@ -1002,7 +1007,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the dimension value handle for the crosstab height.
-	 * 
+	 *
 	 * @return crosstab height dimension value handle
 	 */
 	public org.eclipse.birt.report.model.api.DimensionHandle getHeight() {
@@ -1011,7 +1016,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Pivots a measure with the given name to the specified position.
-	 * 
+	 *
 	 * @param name
 	 * @param toIndex
 	 * @throws SemanticException
@@ -1029,7 +1034,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Pivots a measure in the given position to the specified position.
-	 * 
+	 *
 	 * @param fromIndex
 	 * @param toIndex
 	 * @throws SemanticException
@@ -1067,7 +1072,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Adds the grand-total in the specified axis type. The selected measure list
 	 * and function list must match.
-	 * 
+	 *
 	 * @param axisType     the axis type to add the grand-total
 	 * @param measureList  the list of measure views that will be applied the
 	 *                     aggregations by the grand-total
@@ -1085,7 +1090,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * Gets the measure view list that define aggregations for the row/column grand
 	 * total in the crosstab. Each item in the list is instance of
 	 * <code>MeasureViewHandle</code>.
-	 * 
+	 *
 	 * @param axisType
 	 * @return
 	 */
@@ -1095,7 +1100,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the aggregation function for the row/column grand total in the crosstab.
-	 * 
+	 *
 	 * @param crosstab
 	 * @param axisType
 	 * @param measureView
@@ -1107,7 +1112,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the aggregation function for the row/column grand total in the crosstab.
-	 * 
+	 *
 	 * @param crosstab
 	 * @param axisType
 	 * @param measureView
@@ -1122,10 +1127,11 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.extension.ReportItem#getSimpleElement()
 	 */
+	@Override
 	public IReportItem getSimpleElement() {
 		return new CrosstabImpl(this);
 	}
@@ -1151,10 +1157,11 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#getMethods(java
 	 * .lang.String)
 	 */
+	@Override
 	public IMethodInfo[] getMethods(String methodName) {
 		if (ON_PREPARE_METHOD.equals(methodName) || ON_CREATE_METHOD.equals(methodName)
 				|| ON_RENDER_METHOD.equals(methodName)) {
@@ -1190,10 +1197,11 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.extension.ReportItem#checkCompatibility ()
 	 */
+	@Override
 	public CompatibilityStatus checkCompatibility() {
 		compStatus = checkVersion(handle.getExtensionVersion());
 
@@ -1239,9 +1247,10 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IElement#validate()
 	 */
+	@Override
 	public List validate() {
 		List list = new ArrayList();
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,6 +45,7 @@ class RowEdgeColumnEvent extends ColumnEvent {
 		this.levelIndex = levelIndex;
 	}
 
+	@Override
 	public String toString() {
 		return "Type: ROW_EDGE, Dimension: " //$NON-NLS-1$
 				+ dimensionIndex + ", Level: " //$NON-NLS-1$
@@ -56,6 +60,7 @@ class ColumnEdgeColumnEvent extends ColumnEvent {
 		this.measureIndex = measureIndex;
 	}
 
+	@Override
 	public String toString() {
 		return "Type: COLUMN_EDGE, Measure: " + measureIndex //$NON-NLS-1$
 				+ ", Data Position: " //$NON-NLS-1$
@@ -74,6 +79,7 @@ class ColumnTotalColumnEvent extends ColumnEvent {
 		this.isLocationBefore = isLocationBefore;
 	}
 
+	@Override
 	public String toString() {
 		return "Type: COLUMN_TOTAL, Dimension: " //$NON-NLS-1$
 				+ dimensionIndex + ", Level: " //$NON-NLS-1$
@@ -93,6 +99,7 @@ class GrandTotalColumnEvent extends ColumnEvent {
 		this.measureIndex = measureIndex;
 	}
 
+	@Override
 	public String toString() {
 		return "Type: GRAND_TOTAL, Measure: " + measureIndex; //$NON-NLS-1$
 	}
@@ -105,6 +112,7 @@ class MeasureHeaderColumnEvent extends ColumnEvent {
 		type = MEASURE_HEADER_CHANGE;
 	}
 
+	@Override
 	public String toString() {
 		return "Type: MEASURE_HEADER"; //$NON-NLS-1$
 	}
@@ -117,6 +125,7 @@ class MeasureColumnEvent extends ColumnEvent {
 		this.measureIndex = measureIndex;
 	}
 
+	@Override
 	public String toString() {
 		return "Type: MEASURE, Measure: " + measureIndex; //$NON-NLS-1$
 	}

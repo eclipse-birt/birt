@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -63,14 +66,17 @@ public class OdaDataSetRuntime extends DataSetRuntime {
 		return (OdaDataSourceRuntime) getDataSource();
 	}
 
+	@Override
 	public String getQueryText() {
 		return queryText;
 	}
 
+	@Override
 	public void setQueryText(String queryText) {
 		this.queryText = queryText;
 	}
 
+	@Override
 	public String getExtensionID() {
 		return getSubdesign().getExtensionID();
 	}
@@ -90,6 +96,7 @@ public class OdaDataSetRuntime extends DataSetRuntime {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getAllExtensionProperties()
 	 */
+	@Override
 	public Map getAllExtensionProperties() {
 		return this.publicProperties;
 	}
@@ -97,6 +104,7 @@ public class OdaDataSetRuntime extends DataSetRuntime {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getExtensionProperty(java.lang.String)
 	 */
+	@Override
 	public String getExtensionProperty(String name) {
 		return (String) this.publicProperties.get(name);
 	}
@@ -105,6 +113,7 @@ public class OdaDataSetRuntime extends DataSetRuntime {
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#setExtensionProperty(java.lang.String,
 	 *      java.lang.String)
 	 */
+	@Override
 	public void setExtensionProperty(String name, String value) {
 		this.publicProperties.put(name, value);
 	}
@@ -119,14 +128,15 @@ public class OdaDataSetRuntime extends DataSetRuntime {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.DataSetRuntime#close()
 	 */
+	@Override
 	public void close() throws DataException {
 		super.close();
 	}
 
 	public QuerySpecification getCombinedQuerySpecification() {
-		if (dataSetDesign instanceof OdaDataSetAdapter)
+		if (dataSetDesign instanceof OdaDataSetAdapter) {
 			return ((OdaDataSetAdapter) dataSetDesign).getCombinedQuerySpecification();
-		else {
+		} else {
 			return null;
 		}
 	}

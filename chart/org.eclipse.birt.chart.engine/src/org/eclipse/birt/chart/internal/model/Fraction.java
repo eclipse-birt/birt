@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,8 +57,9 @@ public class Fraction {
 	}
 
 	public Fraction invert() {
-		if (denominator == 0)
+		if (denominator == 0) {
 			assert false;
+		}
 
 		long temp = numerator;
 		numerator = denominator;
@@ -81,22 +85,25 @@ public class Fraction {
 		return this;
 	}
 
+	@Override
 	public String toString() {
 		return toString("/"); //$NON-NLS-1$
 	}
 
 	public String toString(String separator) {
 		if (denominator != 1) {
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			// both negative: no sign
-			if ((numerator * denominator) < 0)
+			if ((numerator * denominator) < 0) {
 				buffer.append("-"); //$NON-NLS-1$
+			}
 			buffer.append(Math.abs(numerator));
 			buffer.append(separator);
 			buffer.append(Math.abs(denominator));
 			return buffer.toString();
-		} else
+		} else {
 			return String.valueOf(numerator);
+		}
 	}
 
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +44,7 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
 /**
- * 
+ *
  */
 
 public class ClassPathsPageHelper {
@@ -73,8 +76,9 @@ public class ClassPathsPageHelper {
 	}
 
 	public Properties collectCustomProperties(Properties properties) {
-		if (properties == null)
+		if (properties == null) {
 			return properties;
+		}
 
 		properties.put(Constants.POJO_DATA_SET_CLASS_PATH, runtimePage.getClassPathString());
 		properties.put(Constants.SYNCHRONIZE_CLASS_PATH, String.valueOf(synchronizeClassPath));
@@ -132,11 +136,13 @@ public class ClassPathsPageHelper {
 
 		synchronizeCheckbox.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				synchronizeClassPath = synchronizeCheckbox.getSelection();
 				handleSynchronizeCheckboxSelection();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -215,7 +221,7 @@ public class ClassPathsPageHelper {
 			String pojoClassPath = props.getProperty(Constants.POJO_CLASS_PATH);
 			String value = props.getProperty(Constants.SYNCHRONIZE_CLASS_PATH);
 			if (value != null) {
-				synchronizeClassPath = Boolean.valueOf(value);
+				synchronizeClassPath = Boolean.parseBoolean(value);
 			} else {
 				synchronizeClassPath = false;
 			}
@@ -238,12 +244,14 @@ public class ClassPathsPageHelper {
 	}
 
 	public void updatePageStatus() {
-		if (wizardPage != null)
+		if (wizardPage != null) {
 			wizardPage.setPageComplete(runtimePage.canFinish() && designtimePage.canFinish());
+		}
 	}
 
 	protected Runnable createTestConnectionRunnable(final IConnectionProfile profile) {
 		return new Runnable() {
+			@Override
 			public void run() {
 				IConnection conn = PingJob.createTestConnection(profile);
 
@@ -289,8 +297,9 @@ public class ClassPathsPageHelper {
 					exception = e1;
 				}
 
-				if (exception != null)
+				if (exception != null) {
 					return exception;
+				}
 
 				try {
 					URL[] urls = up.parse(designtimePage.getClassPathString());

@@ -1,9 +1,9 @@
 /*******************************************************************************
 * Copyright (c) 2004 Actuate Corporation.
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ public class Rectangle {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param x      left edge
 	 * @param y      top edge
 	 * @param height rectangle height
@@ -70,7 +70,7 @@ public class Rectangle {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param posn position of top left corner
 	 * @param size size of the rectangle
 	 */
@@ -84,7 +84,7 @@ public class Rectangle {
 
 	/**
 	 * Returns the position of the top left corner.
-	 * 
+	 *
 	 * @return position of the top left corner
 	 */
 
@@ -94,7 +94,7 @@ public class Rectangle {
 
 	/**
 	 * Returns the rectangle size.
-	 * 
+	 *
 	 * @return rectangle size
 	 */
 

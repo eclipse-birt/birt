@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +33,7 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState {
 
 	/**
 	 * Constructs a compatible state.
-	 * 
+	 *
 	 * @param theHandler the handler to parse the design file.
 	 * @param element    the data item
 	 */
@@ -41,15 +44,17 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
+	@Override
 	public void end() throws SAXException {
 		String value = text.toString();
 
-		if (value == null)
+		if (value == null) {
 			return;
+		}
 
 		List newExprs = null;
 

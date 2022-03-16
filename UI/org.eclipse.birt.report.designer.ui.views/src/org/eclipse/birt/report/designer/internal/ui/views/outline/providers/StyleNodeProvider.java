@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -30,16 +32,17 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Deals with style node
- * 
+ *
  */
 public class StyleNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object.
-	 * 
+	 *
 	 * @param object the object
 	 * @param menu   the menu
 	 */
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		Object parent = getParent(object);
 		if (parent != null) {
@@ -61,10 +64,11 @@ public class StyleNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeDisplayName(java.lang.Object)
 	 */
+	@Override
 	protected boolean performEdit(ReportElementHandle handle) {
 
 		StyleBuilder builder = new StyleBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(), handle,
@@ -74,10 +78,12 @@ public class StyleNodeProvider extends DefaultNodeProvider {
 		return builder.open() == Window.OK;
 	}
 
+	@Override
 	public String getNodeDisplayName(Object model) {
 		return DEUtil.getDisplayLabel(model, false);
 	}
 
+	@Override
 	public String getNodeTooltip(Object model) {
 		if (model instanceof StyleHandle) {
 			return ((StyleHandle) model).getName();

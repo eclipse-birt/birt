@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -32,7 +44,7 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 	/**
 	 * The default value of the '{@link #getIdentifier() <em>Identifier</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getIdentifier()
 	 * @generated
 	 * @ordered
@@ -42,7 +54,7 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 	/**
 	 * The cached value of the '{@link #getIdentifier() <em>Identifier</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getIdentifier()
 	 * @generated
 	 * @ordered
@@ -51,7 +63,7 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected CallBackValueImpl() {
@@ -60,7 +72,7 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -70,29 +82,32 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getIdentifier() {
 		return identifier;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setIdentifier(String newIdentifier) {
 		String oldIdentifier = identifier;
 		identifier = newIdentifier;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.CALL_BACK_VALUE__IDENTIFIER,
 					oldIdentifier, identifier));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -106,7 +121,7 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -121,7 +136,7 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -136,7 +151,7 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -150,15 +165,16 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (identifier: "); //$NON-NLS-1$
 		result.append(identifier);
 		result.append(')');
@@ -179,6 +195,7 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
+	@Override
 	public CallBackValue copyInstance() {
 		CallBackValueImpl dest = new CallBackValueImpl();
 		dest.set(this);

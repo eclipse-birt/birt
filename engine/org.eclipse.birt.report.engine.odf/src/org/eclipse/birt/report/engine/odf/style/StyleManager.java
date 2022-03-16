@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,7 @@ import java.util.Map;
 
 /**
  * Manager and container for document styles.
- * 
+ *
  * Style entries must be created using the StyleBuilder methods. Before the
  * style entry is added to the style manager, its properties must be modified
  * first. When adding style entries into the manager, they are cloned and a name
@@ -57,8 +60,8 @@ public class StyleManager {
 			lastIndex[i] = 0;
 		}
 
-		styleToName = new HashMap<StyleEntry, String>();
-		styleList = new ArrayList<StyleEntry>();
+		styleToName = new HashMap<>();
+		styleList = new ArrayList<>();
 	}
 
 	public Collection<StyleEntry> getStyles() {
@@ -67,7 +70,7 @@ public class StyleManager {
 
 	/**
 	 * Adds a style.
-	 * 
+	 *
 	 * @param style
 	 * @return
 	 */
@@ -78,7 +81,7 @@ public class StyleManager {
 	/**
 	 * Returns a style object for the given engine style and type. If no such style
 	 * existed before, one is created.
-	 * 
+	 *
 	 * @param style
 	 * @param type
 	 * @return assigned style name

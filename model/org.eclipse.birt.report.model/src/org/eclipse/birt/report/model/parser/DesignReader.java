@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +41,7 @@ public final class DesignReader extends ModuleReader {
 
 	/**
 	 * Default constructor.
-	 * 
+	 *
 	 */
 
 	private DesignReader() {
@@ -47,7 +50,7 @@ public final class DesignReader extends ModuleReader {
 
 	/**
 	 * Gets the only instance of the design reader.
-	 * 
+	 *
 	 * @return the only instance of the design reader
 	 */
 
@@ -58,9 +61,9 @@ public final class DesignReader extends ModuleReader {
 	/**
 	 * Parses an XML design file given an input stream. Creates and returns the
 	 * internal representation of the report design
-	 * 
+	 *
 	 * @param session     the session of the report
-	 * 
+	 *
 	 * @param fileName    the design file that the input stream is associated to.
 	 * @param inputStream the input stream that reads the design file
 	 * @param options     the options set for this module
@@ -81,9 +84,9 @@ public final class DesignReader extends ModuleReader {
 	/**
 	 * Parses an XML design file given an input stream. Creates and returns the
 	 * internal representation of the report design
-	 * 
+	 *
 	 * @param session     the session of the report
-	 * 
+	 *
 	 * @param systemId    the uri path for the design file
 	 * @param inputStream the input stream that reads the design file
 	 * @param options     the options set for this module
@@ -102,11 +105,11 @@ public final class DesignReader extends ModuleReader {
 	/**
 	 * Parses an XML design file given a file name. Creates and returns the internal
 	 * representation of the report design
-	 * 
+	 *
 	 * @param session  the session of the report
 	 * @param fileName the design file to parse
 	 * @param options  the options set for this module
-	 * 
+	 *
 	 * @return the internal representation of the design
 	 * @throws DesignFileException if the library file is not found or has syntax
 	 *                             error. The syntax errors include that input

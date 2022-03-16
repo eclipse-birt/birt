@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.pptx;
 
@@ -39,7 +51,7 @@ public class TableWriter {
 	private static final int DEFAULT_MARGIN = 12700; // 1pt
 	private int currentX;
 	private int currentY;
-	protected Stack<BoxStyle> rowStyleStack = new Stack<BoxStyle>();
+	protected Stack<BoxStyle> rowStyleStack = new Stack<>();
 	private final PPTXRender render;
 	private final PPTXCanvas canvas;
 	protected OOXmlWriter writer;
@@ -52,9 +64,9 @@ public class TableWriter {
 	private int colspan;
 	private boolean isRTL = false;
 	private boolean isTextWrap = true;
-	private final ArrayList<Integer> zeroColumnList = new ArrayList<Integer>();
+	private final ArrayList<Integer> zeroColumnList = new ArrayList<>();
 	private TextWriter emptytextboxwriter;
-	private final HashMap<Integer, Integer> mapignorecolumns = new HashMap<Integer, Integer>();
+	private final HashMap<Integer, Integer> mapignorecolumns = new HashMap<>();
 
 	public TableWriter(PPTXRender render) {
 		this.render = render;
@@ -123,7 +135,7 @@ public class TableWriter {
 
 	/**
 	 * precond: TableGroupArea do not have outside merging in
-	 * 
+	 *
 	 * @param table
 	 */
 	private void parseTableExtraSpanRows(ContainerArea table) {
@@ -367,7 +379,7 @@ public class TableWriter {
 
 	/**
 	 * start cell tag with all properties: styling
-	 * 
+	 *
 	 * @param cell
 	 */
 	private void startCell(CellArea cell) {
@@ -381,7 +393,7 @@ public class TableWriter {
 		if (rowspan > 1) {
 			int colid = cell.getColumnID();
 			if (rowSpanCounts == null) {
-				rowSpanCounts = new HashMap<Integer, MergeCellDimension>();
+				rowSpanCounts = new HashMap<>();
 			}
 			MergeCellDimension spancells = new MergeCellDimension(rowspan, colspan);
 			rowSpanCounts.put(colid, spancells);
@@ -543,7 +555,7 @@ public class TableWriter {
 		}
 
 		IContent ic = textarea.getContent();
-		if (ic != null && ic instanceof AutoTextContent) {
+		if (ic instanceof AutoTextContent) {
 			return true;
 		}
 
@@ -579,7 +591,7 @@ public class TableWriter {
 	/**
 	 * draw the cells properties only one fill is allow, background image goes over
 	 * background color
-	 * 
+	 *
 	 * @param cell
 	 */
 	protected void drawCellBox(CellArea cell) {
@@ -657,13 +669,14 @@ public class TableWriter {
 
 	/**
 	 * assume leftborder is always draw
-	 * 
+	 *
 	 * @param container
 	 */
 	protected void drawBorders(CellArea container) {
 		BoxStyle style = container.getBoxStyle();
-		if (style == null)
+		if (style == null) {
 			return;
+		}
 		BorderInfo currentborderinfo = null;
 		int additionalcol = 0;
 		int drawcurrentcolid = container.getColumnID();
@@ -715,7 +728,7 @@ public class TableWriter {
 
 	/**
 	 * Find the row below the existing table
-	 * 
+	 *
 	 * @param container
 	 * @param spanRow
 	 * @return
@@ -762,10 +775,6 @@ public class TableWriter {
 		public MergeCellDimension(int rows, int columns) {
 			this.rows = rows;
 			this.columns = columns;
-		}
-
-		public int getNumRows() {
-			return rows;
 		}
 
 		public int getNumColumns() {

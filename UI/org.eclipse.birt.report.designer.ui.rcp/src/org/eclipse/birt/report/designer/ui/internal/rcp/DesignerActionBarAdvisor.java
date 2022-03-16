@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2014 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -12,6 +15,7 @@
 package org.eclipse.birt.report.designer.ui.internal.rcp;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -40,9 +44,9 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.actions.NewWizardDropDownAction;
-import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
@@ -123,7 +127,7 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor {
 	/**
 	 * Constructs a new action builder which contributes actions to the given
 	 * window.
-	 * 
+	 *
 	 * @param configurer the action bar configurer for the window
 	 */
 	public DesignerActionBarAdvisor(IActionBarConfigurer configurer) {
@@ -141,6 +145,7 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor {
 	/**
 	 * Fills the coolbar with the workbench actions.
 	 */
+	@Override
 	protected void fillCoolBar(ICoolBarManager coolBar) {
 		{
 			// Set up the context Menu
@@ -206,6 +211,7 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor {
 	/**
 	 * Fills the menu bar with the workbench actions.
 	 */
+	@Override
 	protected void fillMenuBar(IMenuManager menuBar) {
 		menuBar.add(createFileMenu());
 		menuBar.add(createEditMenu());
@@ -314,8 +320,9 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor {
 		MenuManager menu = new MenuManager(DesignerWorkbenchMessages.Workbench_help, IWorkbenchActionConstants.M_HELP);
 
 		// See if a welcome or introduction page is specified
-		if (introAction != null)
+		if (introAction != null) {
 			menu.add(introAction);
+		}
 //		else if ( quickStartAction != null )
 //			menu.add( quickStartAction );
 		menu.add(helpContentsAction);
@@ -336,9 +343,11 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor {
 	 * Disposes any resources and unhooks any listeners that are no longer needed.
 	 * Called when the window is closed.
 	 */
+	@Override
 	public void dispose() {
-		if (isDisposed)
+		if (isDisposed) {
 			return;
+		}
 		isDisposed = true;
 
 		pinEditorContributionItem.dispose();
@@ -349,9 +358,7 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor {
 		newLibraryAction = null;
 		newReportTemplateAction = null;
 
-		for (int i = 0; i < newActions.length; i++) {
-			newActions[i] = null;
-		}
+		Arrays.fill(newActions, null);
 		closeAction = null;
 		closeAllAction = null;
 		saveAction = null;
@@ -384,11 +391,11 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor {
 	 * Returns true if the menu with the given ID should be considered as an OLE
 	 * container menu. Container menus are preserved in OLE menu merging.
 	 */
+	@Override
 	public boolean isApplicationMenu(String menuId) {
-		if (menuId.equals(IWorkbenchActionConstants.M_FILE))
+		if (menuId.equals(IWorkbenchActionConstants.M_FILE) || menuId.equals(IWorkbenchActionConstants.M_WINDOW)) {
 			return true;
-		if (menuId.equals(IWorkbenchActionConstants.M_WINDOW))
-			return true;
+		}
 		return false;
 	}
 
@@ -397,16 +404,16 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor {
 	 * workbench creates.
 	 */
 	public boolean isWorkbenchCoolItemId(String id) {
-		if (IWorkbenchActionConstants.TOOLBAR_FILE.equalsIgnoreCase(id))
+		if (IWorkbenchActionConstants.TOOLBAR_FILE.equalsIgnoreCase(id) || IWorkbenchActionConstants.TOOLBAR_NAVIGATE.equalsIgnoreCase(id)) {
 			return true;
-		if (IWorkbenchActionConstants.TOOLBAR_NAVIGATE.equalsIgnoreCase(id))
-			return true;
+		}
 		return false;
 	}
 
 	/**
 	 * Fills the status line with the workbench contribution items.
 	 */
+	@Override
 	protected void fillStatusLine(IStatusLineManager statusLine) {
 		// Do nothing
 	}
@@ -415,6 +422,7 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor {
 	 * Creates actions (and contribution items) for the menu bar, toolbar and status
 	 * line.
 	 */
+	@Override
 	public void makeActions(final IWorkbenchWindow window) {
 		openFileAction = new OpenFileAction(window);
 		register(openFileAction);
@@ -494,7 +502,7 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor {
 
 		// register the new actions
 		Object[] adapters = ElementAdapterManager.getAdapters(this, IExtensionFile.class);
-		List<IWorkbenchAction> tempList = new ArrayList<IWorkbenchAction>();
+		List<IWorkbenchAction> tempList = new ArrayList<>();
 
 		if (adapters != null) {
 			for (int i = 0; i < adapters.length; i++) {

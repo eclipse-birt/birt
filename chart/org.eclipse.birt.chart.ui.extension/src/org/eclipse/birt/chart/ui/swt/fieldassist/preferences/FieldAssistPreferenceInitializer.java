@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,17 +20,18 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
  * Class used to initialize default preference values.
- * 
+ *
  * @since 2.5
  */
 public class FieldAssistPreferenceInitializer extends AbstractPreferenceInitializer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.core.runtime.preferences.AbstractPreferenceInitializer#
 	 * initializeDefaultPreferences()
 	 */
+	@Override
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = ChartUIExtensionPlugin.getDefault().getPreferenceStore();
 		setDefaultPreferences(store);
@@ -35,7 +39,7 @@ public class FieldAssistPreferenceInitializer extends AbstractPreferenceInitiali
 
 	/**
 	 * Sets default preferences to store.
-	 * 
+	 *
 	 * @param store
 	 */
 	public static void setDefaultPreferences(IPreferenceStore store) {

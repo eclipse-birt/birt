@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004-2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.report.data.oda.sampledb.ui;
@@ -48,11 +51,12 @@ public class SampleDataSetEditor extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#
 	 * createPageCustomControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public void createPageCustomControl(Composite parent) {
 		initializeControl();
 		setControl(createPageControl(parent));
@@ -89,11 +93,12 @@ public class SampleDataSetEditor extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.
 	 * DataSetWizardPageCore#collectDataSetDesign(org.eclipse.datatools.connectivity
 	 * .oda.design.DataSetDesign)
 	 */
+	@Override
 	protected DataSetDesign collectDataSetDesign(DataSetDesign design) {
 		// default implementation does nothing;
 		// sub-class to override and update based on the given data set design
@@ -103,8 +108,9 @@ public class SampleDataSetEditor extends DataSetWizardPage {
 		// update it; we will instead drop the original data source and
 		// re-create one with
 		// the same name
-		if (props == null)
+		if (props == null) {
 			props = new Properties();
+		}
 
 		// set custom driver specific properties
 		props.setProperty(org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODADriverClass,
@@ -128,11 +134,12 @@ public class SampleDataSetEditor extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#
 	 * canLeave()
 	 */
+	@Override
 	protected boolean canLeave() {
 		return true;
 	}

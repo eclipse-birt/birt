@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +24,7 @@ import org.eclipse.birt.report.data.adapter.api.IColumnValueIterator;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
 
 /**
- * 
+ *
  */
 
 public class ColumnValueIterator implements IColumnValueIterator {
@@ -50,20 +53,24 @@ public class ColumnValueIterator implements IColumnValueIterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws BirtException
 	 */
+	@Override
 	public boolean next() throws BirtException {
-		if (this.visitedValues.size() > this.maxRows)
+		if (this.visitedValues.size() > this.maxRows) {
 			return false;
+		}
 		if (resultIterator == null) {
-			if (queryResults == null)
+			if (queryResults == null) {
 				return false;
+			}
 			resultIterator = queryResults.getResultIterator();
 		}
-		if (resultIterator == null || !resultIterator.next())
+		if (resultIterator == null || !resultIterator.next()) {
 			return false;
+		}
 		value = resultIterator.getValue(boundColumnName);
 		while (this.visitedValues.contains(value)) {
 			boolean hasNext = resultIterator.next();
@@ -78,32 +85,37 @@ public class ColumnValueIterator implements IColumnValueIterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws BirtException
 	 */
+	@Override
 	public Object getValue() throws BirtException {
 		return value;
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws BirtException
 	 */
+	@Override
 	public void close() throws BirtException {
-		if (resultIterator != null)
+		if (resultIterator != null) {
 			resultIterator.close();
-		if (queryResults != null)
+		}
+		if (queryResults != null) {
 			queryResults.close();
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void moveTo(int rowIndex) throws BirtException {
 		if (resultIterator == null) {
-			if (queryResults == null)
+			if (queryResults == null) {
 				return;
+			}
 			resultIterator = queryResults.getResultIterator();
 		}
 		if (resultIterator == null || resultIterator.isEmpty()) {

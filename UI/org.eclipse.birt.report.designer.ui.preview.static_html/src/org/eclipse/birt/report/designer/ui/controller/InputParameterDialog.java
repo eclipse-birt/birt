@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -63,10 +66,12 @@ public class InputParameterDialog extends Dialog {
 
 	private static IParameterSelectionChoice nullValueChoice = new IParameterSelectionChoice() {
 
+		@Override
 		public String getLabel() {
 			return "Null Value"; //$NON-NLS-1$
 		}
 
+		@Override
 		public Object getValue() {
 			return null;
 		}
@@ -75,10 +80,12 @@ public class InputParameterDialog extends Dialog {
 
 	private static IParameterSelectionChoice blankValueChoice = new IParameterSelectionChoice() {
 
+		@Override
 		public String getLabel() {
 			return ""; //$NON-NLS-1$
 		}
 
+		@Override
 		public Object getValue() {
 			return ""; //$NON-NLS-1$
 		}
@@ -88,10 +95,12 @@ public class InputParameterDialog extends Dialog {
 		super(parentShell);
 		this.parentShell = parentShell;
 		this.params = params;
-		if (paramValues != null)
+		if (paramValues != null) {
 			this.paramValues.putAll(paramValues);
+		}
 	}
 
+	@Override
 	protected void buttonPressed(int buttonId) {
 		// TODO Auto-generated method stub
 		if (buttonId == Window.OK) {
@@ -128,6 +137,7 @@ public class InputParameterDialog extends Dialog {
 		super.buttonPressed(buttonId);
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.marginWidth = gridLayout.marginHeight = 5;
@@ -145,8 +155,9 @@ public class InputParameterDialog extends Dialog {
 	}
 
 	private void createParameters() {
-		if (this.container != null && !this.container.isDisposed())
+		if (this.container != null && !this.container.isDisposed()) {
 			this.container.dispose();
+		}
 
 		this.container = new Composite(this.scroller, SWT.NONE);
 		this.scroller.setContent(this.container);
@@ -205,6 +216,7 @@ public class InputParameterDialog extends Dialog {
 			input.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			input.addModifyListener(new ModifyListener() {
 
+				@Override
 				public void modifyText(ModifyEvent e) {
 					Text input = (Text) e.getSource();
 					paramValues.put(textParam.getHandle().getName(), input.getText());
@@ -252,11 +264,13 @@ public class InputParameterDialog extends Dialog {
 				}
 				button.addSelectionListener(new SelectionListener() {
 
+					@Override
 					public void widgetDefaultSelected(SelectionEvent e) {
 						// TODO Auto-generated method stub
 
 					}
 
+					@Override
 					public void widgetSelected(SelectionEvent e) {
 						Button button = (Button) e.getSource();
 						paramValues.put(radioParam.getHandle().getName(), button.getData());
@@ -274,8 +288,9 @@ public class InputParameterDialog extends Dialog {
 			}
 			if (paramValues.containsKey(listParam.getHandle().getName())) {
 				value = paramValues.get(listParam.getHandle().getName());
-				if (value != null)
+				if (value != null) {
 					listParam.setSelectionValue(value.toString());
+				}
 			}
 
 			Combo combo = new Combo(container, SWT.BORDER);
@@ -312,24 +327,27 @@ public class InputParameterDialog extends Dialog {
 
 			combo.addSelectionListener(new SelectionListener() {
 
+				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					// TODO Auto-generated method stub
 
 				}
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					Combo combo = (Combo) e.getSource();
 					paramValues.put(listParam.getHandle().getName(),
 							combo.getData(combo.getItem(combo.getSelectionIndex())));
 					if (listParam.getParentGroup() instanceof CascadingGroup) {
 						CascadingGroup group = (CascadingGroup) listParam.getParentGroup();
-						if (group.getPostParameter(listParam) != null)
+						if (group.getPostParameter(listParam) != null) {
 							try {
 								createParameters();
 							} catch (RuntimeException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
+						}
 					}
 				}
 			});
@@ -338,6 +356,7 @@ public class InputParameterDialog extends Dialog {
 		return container;
 	}
 
+	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText("Input parameters"); //$NON-NLS-1$

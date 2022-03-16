@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,17 +57,20 @@ import org.eclipse.ui.PlatformUI;
 
 public class CrossTabCellNodeProvider extends DefaultNodeProvider {
 
+	@Override
 	public Object[] getChildren(Object model) {
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
 		try {
 			CrosstabCellHandle cell = (CrosstabCellHandle) element.getReportItem();
-			if (cell != null)
+			if (cell != null) {
 				return cell.getContents().toArray();
+			}
 		} catch (ExtendedElementException e) {
 		}
 		return new Object[0];
 	}
 
+	@Override
 	public Object getParent(Object model) {
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
 		try {
@@ -86,14 +92,17 @@ public class CrossTabCellNodeProvider extends DefaultNodeProvider {
 		return null;
 	}
 
+	@Override
 	public boolean hasChildren(Object model) {
 		return getChildren(model).length != 0;
 	}
 
+	@Override
 	public String getNodeDisplayName(Object model) {
 		return Messages.getString("CrossTabCellNodeProvider.Cell"); //$NON-NLS-1$
 	}
 
+	@Override
 	public Image getNodeIcon(Object element) {
 		if (element instanceof DesignElementHandle && ((DesignElementHandle) element).getSemanticErrors().size() > 0) {
 			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
@@ -101,6 +110,7 @@ public class CrossTabCellNodeProvider extends DefaultNodeProvider {
 		return CrosstabUIHelper.getImage(CrosstabUIHelper.CELL_IMAGE);
 	}
 
+	@Override
 	public boolean performRequest(Object model, Request request) throws Exception {
 		if (request.getType().equals(IRequestConstants.REQUEST_TYPE_INSERT)) {
 			Map extendsData = request.getExtendedData();
@@ -114,6 +124,7 @@ public class CrossTabCellNodeProvider extends DefaultNodeProvider {
 		return super.performRequest(model, request);
 	}
 
+	@Override
 	protected boolean performInsert(Object model, PropertyHandle propertyHandle, String type, String position,
 			Map extendData) throws Exception {
 		if (type == null) {
@@ -186,6 +197,7 @@ public class CrossTabCellNodeProvider extends DefaultNodeProvider {
 		return true;
 	}
 
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		menu.add(new InsertAction(object));
 		menu.add(new CopyCrosstabCellContentsAction(object));

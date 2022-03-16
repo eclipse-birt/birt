@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,18 +47,20 @@ public class MasterPageWriter extends AbstractOdfWriter implements IOdfMasterPag
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.odf.writer.IOdfMasterPageWriter#start()
 	 */
+	@Override
 	public void start() {
 		writer.openTag("office:master-styles");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.odf.writer.IOdfMasterPageWriter#end()
 	 */
+	@Override
 	public void end() {
 		writer.closeTag("office:master-styles");
 		try {
@@ -67,11 +72,12 @@ public class MasterPageWriter extends AbstractOdfWriter implements IOdfMasterPag
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.odf.writer.IOdfMasterPageWriter#
 	 * startMasterPage(org.eclipse.birt.report.engine.odf.style.StyleEntry,
 	 * java.lang.String, java.lang.String)
 	 */
+	@Override
 	public void startMasterPage(StyleEntry pageLayout, String masterPageName, String displayName) {
 		writer.openTag("style:master-page");
 		writer.attribute("style:name", masterPageName);
@@ -85,51 +91,56 @@ public class MasterPageWriter extends AbstractOdfWriter implements IOdfMasterPag
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.odf.writer.IOdfMasterPageWriter#endMasterPage(
 	 * )
 	 */
+	@Override
 	public void endMasterPage() {
 		writer.closeTag("style:master-page");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.odf.writer.IOdfMasterPageWriter#startHeader()
 	 */
+	@Override
 	public void startHeader() {
 		writer.openTag("style:header");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.odf.writer.IOdfMasterPageWriter#endHeader()
 	 */
+	@Override
 	public void endHeader() {
 		writer.closeTag("style:header");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.odf.writer.IOdfMasterPageWriter#startFooter()
 	 */
+	@Override
 	public void startFooter() {
 		writer.openTag("style:footer");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.odf.writer.IOdfMasterPageWriter#endFooter()
 	 */
+	@Override
 	public void endFooter() {
 		writer.closeTag("style:footer");
 	}

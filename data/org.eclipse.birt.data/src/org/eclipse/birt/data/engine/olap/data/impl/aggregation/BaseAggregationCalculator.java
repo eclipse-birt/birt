@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,7 +58,7 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws DataException
 	 * @throws IOException
 	 */
@@ -88,7 +91,7 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	protected void createAccumulators() throws DataException {
@@ -111,7 +114,7 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	protected void getParameterColIndex() throws DataException {
@@ -129,7 +132,7 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 	}
 
 	/**
-	 * 
+	 *
 	 * @param paraColumn
 	 * @return
 	 */
@@ -151,7 +154,7 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -165,7 +168,7 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 	}
 
 	/**
-	 * 
+	 *
 	 * @param keyLevels
 	 * @return
 	 * @throws DataException
@@ -176,8 +179,9 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 		for (int i = 0; i < keyLevels.length; i++) {
 			keyLevelIndexes[i] = -1;
 			for (int j = 0; j < allLevels.length; j++) {
-				if (keyLevels[i].equals(allLevels[j]))
+				if (keyLevels[i].equals(allLevels[j])) {
 					keyLevelIndexes[i] = j;
+				}
 			}
 			if (keyLevelIndexes[i] == -1) {
 				throw new DataException(DataResourceHandle.getInstance().getMessage(ResourceConstants.NONEXISTENT_LEVEL)
@@ -188,13 +192,14 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 	}
 
 	/**
-	 * 
+	 *
 	 * @param row
 	 * @throws DataException
 	 */
 	protected void onRow(IAggregationResultRow row) throws DataException {
-		if (accumulators == null)
+		if (accumulators == null) {
 			return;
+		}
 		for (int i = 0; i < accumulators.length; i++) {
 			if (getFilterResult(row, i)) {
 				accumulators[i].onRow(getAccumulatorParameter(aggregation.getAggregationFunctions()[i], row, i));
@@ -203,7 +208,7 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 	}
 
 	/**
-	 * 
+	 *
 	 * @param function
 	 * @param row
 	 * @param funcIndex
@@ -249,13 +254,14 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 		AggregationFunctionDefinition[] aggregationFunctions = aggregation.getAggregationFunctions();
 		IAggrFunction aggregationFunc = AggregationManager.getInstance()
 				.getAggregation(aggregationFunctions[index].getFunctionName());
-		if (aggregationFunc.getParameterDefn() == null)
+		if (aggregationFunc.getParameterDefn() == null) {
 			return 0;
+		}
 		return aggregationFunc.getParameterDefn().length;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param row
 	 * @param functionNo
 	 * @return
@@ -273,7 +279,7 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 	}
 
 	/**
-	 * 
+	 *
 	 * @param row
 	 * @return
 	 * @throws DataException
@@ -295,33 +301,37 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	protected String[][] getKeyNames() {
-		if (keyLevelIndex == null)
+		if (keyLevelIndex == null) {
 			return null;
+		}
 		String[][] result = new String[keyLevelIndex.length][];
 		for (int i = 0; i < keyLevelIndex.length; i++) {
 			String[][] keyNames = aggrResultSet.getKeyNames();
-			if (keyNames != null && keyNames.length > keyLevelIndex[i])
+			if (keyNames != null && keyNames.length > keyLevelIndex[i]) {
 				result[i] = keyNames[keyLevelIndex[i]];
+			}
 		}
 		return result;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	protected String[][] getAttributeNames() {
-		if (keyLevelIndex == null)
+		if (keyLevelIndex == null) {
 			return null;
+		}
 		String[][] result = new String[keyLevelIndex.length][];
 		for (int i = 0; i < keyLevelIndex.length; i++) {
 			String[][] attributeNames = aggrResultSet.getAttributeNames();
-			if (attributeNames != null && attributeNames.length > keyLevelIndex[i])
+			if (attributeNames != null && attributeNames.length > keyLevelIndex[i]) {
 				result[i] = attributeNames[keyLevelIndex[i]];
+			}
 		}
 		return result;
 	}

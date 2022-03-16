@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,13 +48,14 @@ public class BidiPropertiesConfigurationBlock extends OptionsConfigurationBlock 
 	}
 
 	private Key[] getKeys() {
-		Key[] keys = new Key[] { PREF_LTR_BIDI_DIRECTION };
+		Key[] keys = { PREF_LTR_BIDI_DIRECTION };
 		return keys;
 	}
 
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(Composite)
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		fPixelConverter = new PixelConverter(parent);
 		setShell(parent.getShell());
@@ -77,7 +81,7 @@ public class BidiPropertiesConfigurationBlock extends OptionsConfigurationBlock 
 	private static final String FALSE = "false"; //$NON-NLS-1$
 
 	private Composite createBuildPathTabContent(Composite parent) {
-		String[] bidiValues = new String[] { TRUE, FALSE };
+		String[] bidiValues = { TRUE, FALSE };
 
 		Composite pageContent = new Composite(parent, SWT.NONE);
 
@@ -103,10 +107,12 @@ public class BidiPropertiesConfigurationBlock extends OptionsConfigurationBlock 
 	 * or null, if all changed.
 	 */
 
+	@Override
 	public void performDefaults() {
 		super.performDefaults();
 	}
 
+	@Override
 	public void useProjectSpecificSettings(boolean enable) {
 		super.useProjectSpecificSettings(enable);
 	}

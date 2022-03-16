@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2018 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +23,7 @@ import java.net.URISyntaxException;
 import junit.framework.TestCase;
 
 /**
- * 
+ *
  */
 
 public class LocalFileTest extends TestCase {
@@ -71,9 +74,7 @@ public class LocalFileTest extends TestCase {
 		assertEquals(false, file.isAbsolute());
 		try {
 			assertEquals(true, new LocalFile(new File(file.toURL().toURI())).isAbsolute());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (URISyntaxException | IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -86,9 +87,7 @@ public class LocalFileTest extends TestCase {
 		IFile file = new LocalFile(new File(TEST_FOLDER + "/abc.txt"));
 		try {
 			assertEquals(true, new LocalFile(new File(file.toURL().toURI())).isAbsolute());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (URISyntaxException | IOException e) {
 			e.printStackTrace();
 		}
 	}

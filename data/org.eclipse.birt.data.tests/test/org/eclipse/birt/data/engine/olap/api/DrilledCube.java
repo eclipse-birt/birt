@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 ,2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -112,7 +115,7 @@ class DrilledCube {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimensions
 	 * @return
 	 */
@@ -152,6 +155,7 @@ class DateFactTable implements IDatasetIterator {
 
 	static int[] MEASURE_Col = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
 
+	@Override
 	public void close() throws BirtException {
 	}
 
@@ -170,6 +174,7 @@ class DateFactTable implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("COUNTRY")) {
 			return 0;
@@ -193,6 +198,7 @@ class DateFactTable implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("COUNTRY") || name.equals("STATE") || name.equals("CITY") || name.equals("PRODUCTLINE")
 				|| name.equals("PRODUCTNAME")) {
@@ -215,6 +221,7 @@ class DateFactTable implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return DIM0_COUNTRY_COL[ptr];
@@ -238,6 +245,7 @@ class DateFactTable implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= MEASURE_Col.length) {

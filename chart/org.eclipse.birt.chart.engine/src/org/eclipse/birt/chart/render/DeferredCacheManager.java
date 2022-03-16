@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +32,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
 /**
  * The class is used to manage runtime DeferredCache of series, it assures the
  * correct painting z-order of series for 2D case.
- * 
+ *
  * @since 2.2.1
  */
 public final class DeferredCacheManager {
@@ -62,11 +65,11 @@ public final class DeferredCacheManager {
 	private DeferredCache fSingleDC;
 
 	/** The list stores painting z-order of deferred order for series. */
-	private final List<DeferredCache> fDeferredCacheList = new ArrayList<DeferredCache>();
+	private final List<DeferredCache> fDeferredCacheList = new ArrayList<>();
 
 	/**
 	 * Constructor of the class.
-	 * 
+	 *
 	 * @param idr   specified device renderer.
 	 * @param chart specified chart instance.
 	 */
@@ -109,7 +112,7 @@ public final class DeferredCacheManager {
 
 	/**
 	 * Create <code>DeferredCache</code> instance for current series.
-	 * 
+	 *
 	 * @param br current renderer.
 	 * @return instance of <code>DeferredCache</code>
 	 */
@@ -123,7 +126,7 @@ public final class DeferredCacheManager {
 
 	/**
 	 * Create new <code>DeferredCache</code> instance.
-	 * 
+	 *
 	 * @return <code>DeferredCache</code> instance.
 	 */
 	DeferredCache createDeferredCache(int cacheIndex) {
@@ -135,7 +138,7 @@ public final class DeferredCacheManager {
 	/**
 	 * Create <code>DeferredCache</code> instance for single case, the related
 	 * <code>DeferredCache</code> will be only created once.
-	 * 
+	 *
 	 * @return instance of <code>DeferredCache</code>.
 	 */
 	DeferredCache createSingleDeferredCache() {
@@ -151,7 +154,7 @@ public final class DeferredCacheManager {
 
 	/**
 	 * Flush all <code>DeferredCache</code> in the manager.
-	 * 
+	 *
 	 * @throws ChartException
 	 */
 	public void flushAll() throws ChartException {
@@ -191,7 +194,7 @@ public final class DeferredCacheManager {
 
 	/**
 	 * Flush markers, connection lines and labels in all caches.
-	 * 
+	 *
 	 * @throws ChartException
 	 */
 	void flushMarkersNLinesNLabels() throws ChartException {
@@ -224,7 +227,7 @@ public final class DeferredCacheManager {
 
 	/**
 	 * Get markers and labels from all caches.
-	 * 
+	 *
 	 * @param allMarkers
 	 * @param allLabels
 	 */
@@ -261,7 +264,7 @@ public final class DeferredCacheManager {
 
 	/**
 	 * Returns first <code>DeferredCache</code> instance.
-	 * 
+	 *
 	 * @return first <code>DeferredCache</code> instance.
 	 */
 	public DeferredCache getFirstDeferredCache() {
@@ -270,7 +273,7 @@ public final class DeferredCacheManager {
 
 	/**
 	 * Returns last <code>DeferredCache</code> instance.
-	 * 
+	 *
 	 * @return last <code>DeferredCache</code> instance.
 	 */
 	public DeferredCache getLastDeferredCache() {
@@ -280,7 +283,7 @@ public final class DeferredCacheManager {
 	/**
 	 * Pre-process all the 3D rendering events. This must be called before
 	 * {@link #flushAll()}.
-	 * 
+	 *
 	 * @param deferredCache specified deferred cache instance.
 	 * @param engine
 	 * @param xOffset

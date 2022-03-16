@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -95,7 +98,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
 	public ReportElementEditPart(Object model) {
@@ -111,9 +114,10 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#setModel(java.lang.Object)
 	 */
+	@Override
 	public void setModel(Object model) {
 		super.setModel(model);
 		peer = creatDesignElementHandleAdapter();
@@ -130,6 +134,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	/**
 	 * perform edit directly when the request is the corresponding type.
 	 */
+	@Override
 	public void performRequest(Request request) {
 		if (request.getExtendedData().get(DesignerConstants.NEWOBJECT_FROM_LIBRARY) != null) {
 			return;
@@ -163,7 +168,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/**
 	 * Creates the guide handle, default get from parent.
-	 * 
+	 *
 	 * @return
 	 */
 	protected AbstractGuideHandle createGuideHandle() {
@@ -190,8 +195,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/**
 	 * Adds the guide handle to the handle layer.
-	 * 
+	 *
 	 */
+	@Override
 	public void addGuideFeedBack() {
 		if (guideHandle == null) {
 			guideHandle = interCreateGuideHandle();
@@ -259,12 +265,14 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	/**
 	 * Removes the guide handle after the specified number of milliseconds.
 	 */
+	@Override
 	public void delayRemoveGuideFeedBack() {
 		if (guideHandle != null) {
 			guideHandle.setCanDeleteGuide(true);
 		}
 		Display.getCurrent().timerExec(DELAY_TIME, new Runnable() {
 
+			@Override
 			public void run() {
 				if (guideHandle != null && guideHandle.isCanDeleteGuide()) {
 					removeGuideFeedBack();
@@ -282,12 +290,14 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPart#activate()
 	 */
+	@Override
 	public void activate() {
-		if (isActive())
+		if (isActive()) {
 			return;
+		}
 
 		super.activate();
 
@@ -295,19 +305,23 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 		getFigure().addMouseMotionListener(new MouseMotionListener.Stub() {
 
+			@Override
 			public void mouseEntered(MouseEvent me) {
 				addGuideFeedBack();
 
 			}
 
+			@Override
 			public void mouseExited(MouseEvent me) {
 				delayRemoveGuideFeedBack();
 			}
 
+			@Override
 			public void mouseHover(MouseEvent me) {
 				addGuideFeedBack();
 			}
 
+			@Override
 			public void mouseMoved(MouseEvent me) {
 				addGuideFeedBack();
 			}
@@ -320,11 +334,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 		// FIX BUG 298738
 		Display.getCurrent().asyncExec(new Runnable() {
+			@Override
 			public void run() {
-				if (!(getModel() instanceof DesignElementHandle)) {
-					return;
-				}
-				if (isDelete()) {
+				if (!(getModel() instanceof DesignElementHandle) || isDelete()) {
 					return;
 				}
 
@@ -398,12 +410,14 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPart#deactivate()
 	 */
+	@Override
 	public void deactivate() {
-		if (!isActive())
+		if (!isActive()) {
 			return;
+		}
 		removeGuideFeedBack();
 
 		super.deactivate();
@@ -413,16 +427,18 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
+	@Override
 	protected abstract void createEditPolicies();
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
 	 */
+	@Override
 	public DragTracker getDragTracker(Request req) {
 		DragEditPartsTracker track = new ReportElementDragTracker(this);
 		return track;
@@ -437,7 +453,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/**
 	 * Sets bounds
-	 * 
+	 *
 	 * @param r
 	 */
 	public void setBounds(Rectangle r) {
@@ -450,7 +466,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/**
 	 * Gets location
-	 * 
+	 *
 	 * @return
 	 */
 	public Point getLocation() {
@@ -459,7 +475,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/**
 	 * Sets location
-	 * 
+	 *
 	 * @param p
 	 */
 	public void setLocation(Point p) {
@@ -479,7 +495,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/**
 	 * Sets size
-	 * 
+	 *
 	 * @param d
 	 */
 	public void setSize(Dimension d) {
@@ -492,7 +508,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/**
 	 * Get the current font family.
-	 * 
+	 *
 	 * @return The current font family
 	 */
 	protected Font getFont(ReportItemHandle handle) {
@@ -512,6 +528,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	private boolean isDirty = true;
 
+	@Override
 	public final void refreshVisuals() {
 		super.refreshVisuals();
 		refreshFigure();
@@ -522,9 +539,10 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
 	 */
+	@Override
 	public void refreshChildren() {
 		super.refreshChildren();
 	}
@@ -561,7 +579,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/*
 	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
-	 * 
+	 *
 	 */
 	protected void refreshBackground(DesignElementHandle handle) {
 		refreshBackgroundColor(handle);
@@ -570,7 +588,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/*
 	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
-	 * 
+	 *
 	 */
 	protected void refreshBackgroundColor(DesignElementHandle handle) {
 		Object obj = handle.getProperty(StyleHandle.BACKGROUND_COLOR_PROP);
@@ -614,7 +632,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/*
 	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
-	 * 
+	 *
 	 */
 	protected void refreshBackgroundImage(DesignElementHandle handle) {
 		IReportElementFigure figure = (IReportElementFigure) getFigure();
@@ -713,19 +731,21 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/**
 	 * Marks edit part dirty
-	 * 
+	 *
 	 * @param bool
 	 * @param notifyParent
 	 */
+	@Override
 	public void markDirty(boolean bool) {
 		this.isDirty = bool;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.core.model.IModelAdaptHelper#isDirty()
 	 */
+	@Override
 	public boolean isDirty() {
 		return isDirty;
 	}
@@ -739,10 +759,11 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.core.model.IModelAdaptHelper#
 	 * getPreferredSize()
 	 */
+	@Override
 	public Dimension getPreferredSize() {
 		Dimension size = getFigure().getSize().getCopy();
 		return size;
@@ -750,10 +771,11 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.core.model.IModelAdaptHelper#getInsets()
 	 */
+	@Override
 	public Insets getInsets() {
 		return new Insets(getFigure().getInsets());
 	}
@@ -854,7 +876,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPart#isActive()
 	 */
 	public boolean isDelete() {
@@ -875,7 +897,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void contentChange(Map info) {
 		markDirty(true);
@@ -917,10 +939,11 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#removeChild(org.eclipse.gef.
 	 * EditPart)
 	 */
+	@Override
 	public void removeChild(EditPart child) {
 		super.removeChild(child);
 	}
@@ -947,7 +970,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void updateLayoutPreference() {
 		if (!(getModel() instanceof DesignElementHandle)) {

@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2008 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -44,7 +46,7 @@ public class ViewingCache implements Serializable {
 
 	/**
 	 * Instantiates a new cache manager.
-	 * 
+	 *
 	 * @param documentFolder base folder to use for cached documents
 	 * @param imageFolder    base folder to use for cached images
 	 */
@@ -65,7 +67,7 @@ public class ViewingCache implements Serializable {
 	/**
 	 * Create the file path of the the document. The document will be put under the
 	 * document folder based on different session id.
-	 * 
+	 *
 	 * @param filePath the document path cretaed from the report design file.
 	 * @param request  Http request, used to get the session Id.
 	 * @return
@@ -74,13 +76,15 @@ public class ViewingCache implements Serializable {
 
 		String documentName = null;
 
-		if ((filePath == null) || (filePath.length() == 0))
+		if ((filePath == null) || (filePath.length() == 0)) {
 			return ""; //$NON-NLS-1$
+		}
 
 		String fileSeparator = "\\"; //$NON-NLS-1$
 
-		if (filePath.lastIndexOf(fileSeparator) == -1)
+		if (filePath.lastIndexOf(fileSeparator) == -1) {
 			fileSeparator = "/"; //$NON-NLS-1$
+		}
 
 		// parse document file name
 		if (filePath.lastIndexOf(fileSeparator) != -1) {
@@ -95,7 +99,7 @@ public class ViewingCache implements Serializable {
 
 	/**
 	 * Returns the path to the folder containing the files for a given sub session.
-	 * 
+	 *
 	 * @param sessionId session ID
 	 * @return file path
 	 */
@@ -114,7 +118,7 @@ public class ViewingCache implements Serializable {
 
 	/**
 	 * Returns the temp image folder with session id
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
@@ -124,13 +128,14 @@ public class ViewingCache implements Serializable {
 
 	/**
 	 * Clear the temp files when session is expired
-	 * 
+	 *
 	 * @param sessionId    session ID
 	 * @param subSessionId sub session ID or null to clear the master session
 	 */
 	public void clearSession(String sessionId, String subSessionId) {
-		if (sessionId == null)
+		if (sessionId == null) {
 			return;
+		}
 
 		deleteDir(documentFolder + getSessionSubfolder(PREFIX_SUB_DOC_FOLDER, sessionId, subSessionId));
 		deleteDir(imageFolder + getSessionSubfolder(PREFIX_SUB_IMAGE_FOLDER, sessionId, subSessionId));
@@ -146,8 +151,9 @@ public class ViewingCache implements Serializable {
 		if (file != null && file.isDirectory()) {
 			String[] children = file.list();
 			for (int i = 0; i < children.length; i++) {
-				if (children[i].startsWith(PREFIX_SUB_DOC_FOLDER))
+				if (children[i].startsWith(PREFIX_SUB_DOC_FOLDER)) {
 					deleteDir(new File(file, children[i]));
+				}
 			}
 		}
 
@@ -156,8 +162,9 @@ public class ViewingCache implements Serializable {
 		if (file != null && file.isDirectory()) {
 			String[] children = file.list();
 			for (int i = 0; i < children.length; i++) {
-				if (children[i].startsWith(PREFIX_SUB_IMAGE_FOLDER))
+				if (children[i].startsWith(PREFIX_SUB_IMAGE_FOLDER)) {
 					deleteDir(new File(file, children[i]));
+				}
 			}
 		}
 	}
@@ -166,7 +173,7 @@ public class ViewingCache implements Serializable {
 	 * Deletes all files and sub directories under dirName. Returns true if all
 	 * deletions were successful. If a deletion fails, the method stops attempting
 	 * to delete and returns false.
-	 * 
+	 *
 	 * @param dir directory name
 	 */
 	private static boolean deleteDir(String dirName) {
@@ -177,7 +184,7 @@ public class ViewingCache implements Serializable {
 	 * Deletes all files and subdirectories under dir. Returns true if all deletions
 	 * were successful. If a deletion fails, the method stops attempting to delete
 	 * and returns false.
-	 * 
+	 *
 	 * @param dir directory
 	 */
 	private static boolean deleteDir(File dir) {
@@ -196,15 +203,16 @@ public class ViewingCache implements Serializable {
 
 	/**
 	 * Generate document name according to report name.
-	 * 
+	 *
 	 * @param reportName
 	 * @param id
 	 * @return document name.
 	 */
 
 	private static String generateDocumentFromReport(String reportName, String id) {
-		if (reportName == null)
+		if (reportName == null) {
 			return null;
+		}
 
 		String documentFile = reportName;
 		if (reportName.indexOf('.') >= 0) {
@@ -223,15 +231,16 @@ public class ViewingCache implements Serializable {
 
 	/**
 	 * Return the document file according to report name
-	 * 
+	 *
 	 * @param request
 	 * @param reportFile
 	 * @param id
 	 * @return
 	 */
 	public String getReportDocument(String reportFile, String sessionId, String subSessionId, String viewerId) {
-		if (reportFile == null)
+		if (reportFile == null) {
 			return null;
+		}
 
 		String documentFile = generateDocumentFromReport(reportFile, viewerId);
 		documentFile = createDocumentPath(sessionId, subSessionId, documentFile);

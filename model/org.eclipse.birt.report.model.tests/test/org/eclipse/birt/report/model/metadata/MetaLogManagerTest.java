@@ -1,9 +1,9 @@
 /*******************************************************************************
 * Copyright (c) 2004 Actuate Corporation.
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
+
+import junit.framework.TestCase;
 
 /**
  * Tests the meta log manager.
@@ -23,6 +23,7 @@ public class MetaLogManagerTest extends TestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
@@ -65,7 +66,7 @@ public class MetaLogManagerTest extends TestCase {
 
 	/**
 	 * Implementation of the IMetaLogger.
-	 * 
+	 *
 	 */
 
 	class Logger implements IMetaLogger {
@@ -75,28 +76,31 @@ public class MetaLogManagerTest extends TestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.metadata.IMetaLogger#log(java.lang.String)
 		 */
+		@Override
 		public void log(String message) {
 			logged = true;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.metadata.IMetaLogger#log(java.lang.String,
 		 * java.lang.Throwable)
 		 */
+		@Override
 		public void log(String message, Throwable t) {
 			logged = true;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.metadata.IMetaLogger#close()
 		 */
+		@Override
 		public void close() {
 			closed = true;
 		}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,11 +25,12 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.gef.EditPart;
 
 /**
- * 
+ *
  */
 
 public class CrosstabBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvider {
 
+	@Override
 	public Object getRealModel(Object element) {
 		if (element instanceof EditPart) {
 			EditPart editpart = (EditPart) element;
@@ -35,6 +39,7 @@ public class CrosstabBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvide
 		return element;
 	}
 
+	@Override
 	public Object getParent(Object element) {
 		Object parent = ProviderFactory.createProvider(element).getParent(element);
 		if (parent instanceof ExtendedItemHandle && ICrosstabConstants.CROSSTAB_EXTENSION_NAME
@@ -44,6 +49,7 @@ public class CrosstabBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvide
 		return super.getParent(element);
 	}
 
+	@Override
 	public Object[] getChildren(Object object) {
 		Object element = getRealModel(object);
 		Object parent = ProviderFactory.createProvider(element).getParent(element);

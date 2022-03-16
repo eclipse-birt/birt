@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -59,12 +71,12 @@ public interface GanttSeries extends Series {
 	 * Returns the value of the '<em><b>Start Marker</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * Specifies the marker to be used for displaying the start data point on the
 	 * line in the chart.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Start Marker</em>' containment reference.
 	 * @see #setStartMarker(Marker)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getGanttSeries_StartMarker()
@@ -79,7 +91,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#getStartMarker
 	 * <em>Start Marker</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Start Marker</em>' containment
 	 *              reference.
 	 * @see #getStartMarker()
@@ -94,7 +106,7 @@ public interface GanttSeries extends Series {
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Specifies
 	 * the position of the start marker relative to the connection line start point.
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Start Marker Position</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Position
 	 * @see #isSetStartMarkerPosition()
@@ -112,7 +124,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#getStartMarkerPosition
 	 * <em>Start Marker Position</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Start Marker Position</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Position
 	 * @see #isSetStartMarkerPosition()
@@ -127,7 +139,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#getStartMarkerPosition
 	 * <em>Start Marker Position</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetStartMarkerPosition()
 	 * @see #getStartMarkerPosition()
 	 * @see #setStartMarkerPosition(Position)
@@ -140,7 +152,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#getStartMarkerPosition
 	 * <em>Start Marker Position</em>}' attribute is set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Start Marker Position</em>' attribute
 	 *         is set.
 	 * @see #unsetStartMarkerPosition()
@@ -153,10 +165,10 @@ public interface GanttSeries extends Series {
 	/**
 	 * Returns the value of the '<em><b>End Marker</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the marker to be used for displaying the end data point on the line
 	 * in the chart. <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>End Marker</em>' containment reference.
 	 * @see #setEndMarker(Marker)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getGanttSeries_EndMarker()
@@ -171,7 +183,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#getEndMarker <em>End
 	 * Marker</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>End Marker</em>' containment
 	 *              reference.
 	 * @see #getEndMarker()
@@ -186,7 +198,7 @@ public interface GanttSeries extends Series {
 	 * --> <!-- end-user-doc --> <!-- begin-model-doc --> Specifies the position of
 	 * the end marker relative to the connection line end point. <!-- end-model-doc
 	 * -->
-	 * 
+	 *
 	 * @return the value of the '<em>End Marker Position</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Position
 	 * @see #isSetEndMarkerPosition()
@@ -204,7 +216,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#getEndMarkerPosition
 	 * <em>End Marker Position</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>End Marker Position</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Position
 	 * @see #isSetEndMarkerPosition()
@@ -219,7 +231,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#getEndMarkerPosition
 	 * <em>End Marker Position</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetEndMarkerPosition()
 	 * @see #getEndMarkerPosition()
 	 * @see #setEndMarkerPosition(Position)
@@ -232,7 +244,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#getEndMarkerPosition
 	 * <em>End Marker Position</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>End Marker Position</em>' attribute is
 	 *         set.
 	 * @see #unsetEndMarkerPosition()
@@ -246,10 +258,10 @@ public interface GanttSeries extends Series {
 	 * Returns the value of the '<em><b>Connection Line</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * Specifies the attributes for the line used to represent this series. <!--
 	 * end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Connection Line</em>' containment reference.
 	 * @see #setConnectionLine(LineAttributes)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getGanttSeries_ConnectionLine()
@@ -264,7 +276,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#getConnectionLine
 	 * <em>Connection Line</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Connection Line</em>' containment
 	 *              reference.
 	 * @see #getConnectionLine()
@@ -275,10 +287,10 @@ public interface GanttSeries extends Series {
 	/**
 	 * Returns the value of the '<em><b>Outline</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the attributes for the outline used to represent this series. <!--
 	 * end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Outline</em>' containment reference.
 	 * @see #setOutline(LineAttributes)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getGanttSeries_Outline()
@@ -293,7 +305,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#getOutline
 	 * <em>Outline</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Outline</em>' containment reference.
 	 * @see #getOutline()
 	 * @generated
@@ -304,9 +316,9 @@ public interface GanttSeries extends Series {
 	 * Returns the value of the '<em><b>Outline Fill</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * --> Defines the extra fill to be used with outline.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Outline Fill</em>' containment reference.
 	 * @see #setOutlineFill(Fill)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getGanttSeries_OutlineFill()
@@ -321,7 +333,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#getOutlineFill
 	 * <em>Outline Fill</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Outline Fill</em>' containment
 	 *              reference.
 	 * @see #getOutlineFill()
@@ -334,7 +346,7 @@ public interface GanttSeries extends Series {
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * --> Specifies if use decoration value as the datapoint label value <!--
 	 * end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Use Decoration Label Value</em>' attribute.
 	 * @see #isSetUseDecorationLabelValue()
 	 * @see #unsetUseDecorationLabelValue()
@@ -352,7 +364,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#isUseDecorationLabelValue
 	 * <em>Use Decoration Label Value</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Use Decoration Label Value</em>'
 	 *              attribute.
 	 * @see #isSetUseDecorationLabelValue()
@@ -367,7 +379,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#isUseDecorationLabelValue
 	 * <em>Use Decoration Label Value</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetUseDecorationLabelValue()
 	 * @see #isUseDecorationLabelValue()
 	 * @see #setUseDecorationLabelValue(boolean)
@@ -380,7 +392,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#isUseDecorationLabelValue
 	 * <em>Use Decoration Label Value</em>}' attribute is set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Use Decoration Label Value</em>'
 	 *         attribute is set.
 	 * @see #unsetUseDecorationLabelValue()
@@ -394,12 +406,12 @@ public interface GanttSeries extends Series {
 	 * Returns the value of the '<em><b>Decoration Label</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * Holds the properties for the decoration label, which could be used to
 	 * decorate the primary base Axis.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Decoration Label</em>' containment reference.
 	 * @see #setDecorationLabel(Label)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getGanttSeries_DecorationLabel()
@@ -414,7 +426,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#getDecorationLabel
 	 * <em>Decoration Label</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Decoration Label</em>' containment
 	 *              reference.
 	 * @see #getDecorationLabel()
@@ -427,11 +439,11 @@ public interface GanttSeries extends Series {
 	 * attribute. The default value is <code>"Above"</code>. The literals are from
 	 * the enumeration {@link org.eclipse.birt.chart.model.attribute.Position}. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Holds the position property for the decoration label.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Decoration Label Position</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Position
 	 * @see #isSetDecorationLabelPosition()
@@ -449,7 +461,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#getDecorationLabelPosition
 	 * <em>Decoration Label Position</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Decoration Label Position</em>'
 	 *              attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Position
@@ -465,7 +477,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#getDecorationLabelPosition
 	 * <em>Decoration Label Position</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetDecorationLabelPosition()
 	 * @see #getDecorationLabelPosition()
 	 * @see #setDecorationLabelPosition(Position)
@@ -478,7 +490,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#getDecorationLabelPosition
 	 * <em>Decoration Label Position</em>}' attribute is set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Decoration Label Position</em>'
 	 *         attribute is set.
 	 * @see #unsetDecorationLabelPosition()
@@ -493,7 +505,7 @@ public interface GanttSeries extends Series {
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Indicates
 	 * if use the series palette color to draw the line instead of the color in
 	 * ConnectionLine <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Palette Line Color</em>' attribute.
 	 * @see #isSetPaletteLineColor()
 	 * @see #unsetPaletteLineColor()
@@ -511,7 +523,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#isPaletteLineColor
 	 * <em>Palette Line Color</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Palette Line Color</em>' attribute.
 	 * @see #isSetPaletteLineColor()
 	 * @see #unsetPaletteLineColor()
@@ -525,7 +537,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#isPaletteLineColor
 	 * <em>Palette Line Color</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetPaletteLineColor()
 	 * @see #isPaletteLineColor()
 	 * @see #setPaletteLineColor(boolean)
@@ -538,7 +550,7 @@ public interface GanttSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries#isPaletteLineColor
 	 * <em>Palette Line Color</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Palette Line Color</em>' attribute is
 	 *         set.
 	 * @see #unsetPaletteLineColor()
@@ -551,6 +563,7 @@ public interface GanttSeries extends Series {
 	/**
 	 * @generated
 	 */
+	@Override
 	GanttSeries copyInstance();
 
 } // GanttSeries

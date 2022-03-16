@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,18 +27,19 @@ public class BasicCachedArray {
 	int initialCapacity;
 
 	/**
-	 * 
+	 *
 	 * @param initialCapacity
 	 */
 	public BasicCachedArray(String tempDir, int initialCapacity) {
-		if (initialCapacity < 0)
+		if (initialCapacity < 0) {
 			throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
+		}
 		this.cachedList = new BasicCachedList(tempDir, DataEngineSession.getCurrentClassLoader());
 		this.initialCapacity = initialCapacity;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 * @return
 	 */
@@ -48,7 +52,7 @@ public class BasicCachedArray {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 * @param element
 	 */
@@ -65,7 +69,7 @@ public class BasicCachedArray {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int length() {
@@ -73,7 +77,7 @@ public class BasicCachedArray {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param size
 	 */
 	private void resize(int totalSize) {
@@ -84,12 +88,13 @@ public class BasicCachedArray {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 */
 	private void RangeCheck(int index) {
-		if (index >= initialCapacity)
+		if (index >= initialCapacity) {
 			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + initialCapacity);
+		}
 	}
 
 }

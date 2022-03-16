@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ import org.eclipse.swt.widgets.TableItem;
 /**
  * The class implements drag/drop functions for column names table in set data
  * page.
- * 
+ *
  * @since 2.5
  */
 
@@ -37,7 +40,7 @@ public class ColumnNamesTableDragListener extends DragSourceAdapter {
 	private ExtendedItemHandle itemHandle;
 
 	/**
-	 * 
+	 *
 	 */
 	public ColumnNamesTableDragListener(Table table, ExtendedItemHandle itemhandle) {
 		super();
@@ -47,10 +50,11 @@ public class ColumnNamesTableDragListener extends DragSourceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.dnd.DragSourceListener#dragSetData(org.eclipse.swt.dnd
 	 * .DragSourceEvent)
 	 */
+	@Override
 	public void dragSetData(DragSourceEvent event) {
 		if (item != null) {
 			event.data = ((ColumnBindingInfo) item.getData()).getName();
@@ -59,10 +63,11 @@ public class ColumnNamesTableDragListener extends DragSourceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.dnd.DragSourceListener#dragStart(org.eclipse.swt.dnd.
 	 * DragSourceEvent)
 	 */
+	@Override
 	public void dragStart(DragSourceEvent event) {
 		if (ChartReportItemHelper.instance().getBindingCubeHandle(itemHandle) != null) {
 			event.doit = false;
@@ -82,10 +87,11 @@ public class ColumnNamesTableDragListener extends DragSourceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.dnd.DragSourceAdapter#dragFinished(org.eclipse.swt.dnd
 	 * .DragSourceEvent)
 	 */
+	@Override
 	public void dragFinished(DragSourceEvent event) {
 		super.dragFinished(event);
 

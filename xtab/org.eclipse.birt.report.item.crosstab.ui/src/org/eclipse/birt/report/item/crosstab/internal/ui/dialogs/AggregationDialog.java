@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,10 +52,10 @@ import org.eclipse.swt.widgets.TableItem;
 public class AggregationDialog extends BaseDialog {
 
 	private static final String DIALOG_NAME = Messages.getString("AggregationDialog.Title"); //$NON-NLS-1$
-	private List<SubTotalInfo> rowSubList = new ArrayList<SubTotalInfo>();
-	private List<GrandTotalInfo> rowGrandList = new ArrayList<GrandTotalInfo>();
-	private List<SubTotalInfo> colSubList = new ArrayList<SubTotalInfo>();
-	private List<GrandTotalInfo> colGrandList = new ArrayList<GrandTotalInfo>();
+	private List<SubTotalInfo> rowSubList = new ArrayList<>();
+	private List<GrandTotalInfo> rowGrandList = new ArrayList<>();
+	private List<SubTotalInfo> colSubList = new ArrayList<>();
+	private List<GrandTotalInfo> colGrandList = new ArrayList<>();
 
 	private TabFolder tabFolder;
 	private TabItem rowArea, columnArea;
@@ -67,7 +70,7 @@ public class AggregationDialog extends BaseDialog {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param shell
 	 */
 	public AggregationDialog(Shell shell, CrosstabReportItemHandle crosstab) {
@@ -81,11 +84,12 @@ public class AggregationDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.XTAB_AGGREGATION_DIALOG);
 
@@ -145,7 +149,7 @@ public class AggregationDialog extends BaseDialog {
 
 	/**
 	 * Set the input
-	 * 
+	 *
 	 * @param subList   subtotal info list
 	 * @param grandList grand total list info
 	 */
@@ -157,6 +161,7 @@ public class AggregationDialog extends BaseDialog {
 		this.colGrandList.addAll(colGrandList);
 	}
 
+	@Override
 	public Object getResult() {
 		return new Object[] { rowSubList, rowGrandList, colSubList, colGrandList };
 	}
@@ -190,6 +195,7 @@ public class AggregationDialog extends BaseDialog {
 				}
 				subTableViewer.getTable().addSelectionListener(new SelectionAdapter() {
 
+					@Override
 					public void widgetSelected(SelectionEvent e) {
 						TableItem item = (TableItem) e.item;
 						if (item != null && item.getData() != null && item.getData() instanceof SubTotalInfo) {
@@ -198,8 +204,9 @@ public class AggregationDialog extends BaseDialog {
 							if (info.isAssociation()) {
 								for (int i = 0; i < subTableViewer.getTable().getItemCount(); i++) {
 									TableItem temp = subTableViewer.getTable().getItem(i);
-									if (temp == item)
+									if (temp == item) {
 										continue;
+									}
 									if (temp.getData() != null && temp.getData() instanceof SubTotalInfo) {
 										if (((SubTotalInfo) temp.getData()).getLevel() == info.getLevel()) {
 											temp.setChecked(item.getChecked());
@@ -224,6 +231,7 @@ public class AggregationDialog extends BaseDialog {
 				}
 				grandTableViewer.getTable().addSelectionListener(new SelectionAdapter() {
 
+					@Override
 					public void widgetSelected(SelectionEvent e) {
 						TableItem item = (TableItem) e.item;
 						if (item != null && item.getData() != null && item.getData() instanceof GrandTotalInfo) {
@@ -232,8 +240,9 @@ public class AggregationDialog extends BaseDialog {
 							if (info.isAssociation()) {
 								for (int i = 0; i < grandTableViewer.getTable().getItemCount(); i++) {
 									TableItem temp = grandTableViewer.getTable().getItem(i);
-									if (temp == item)
+									if (temp == item) {
 										continue;
+									}
 									if (temp.getData() != null && temp.getData() instanceof GrandTotalInfo) {
 										temp.setChecked(item.getChecked());
 										((GrandTotalInfo) temp.getData()).setAggregationOn(item.getChecked());
@@ -431,6 +440,7 @@ public class AggregationDialog extends BaseDialog {
 			return temp.getLevel() == level && temp.getAggregateOnMeasureName().equals(measureQualifiedName);
 		}
 
+		@Override
 		public boolean equals(Object obj) {
 			if (!(obj instanceof SubTotalInfo)) {
 				return false;
@@ -446,6 +456,7 @@ public class AggregationDialog extends BaseDialog {
 		/**
 		 * @see java.lang.Object#hashCode()
 		 */
+		@Override
 		public int hashCode() {
 			int hash = 31;
 			hash = hash * 31 + level.hashCode();
@@ -470,7 +481,7 @@ public class AggregationDialog extends BaseDialog {
 		private String expectedView = ""; //$NON-NLS-1$
 
 		// Use MeasureName instead of MeasureHandle
-//		private MeasureHandle measure;	
+//		private MeasureHandle measure;
 		private CrosstabViewHandle viewHandle;
 
 		private String measureQualifiedName = "";

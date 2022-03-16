@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +59,7 @@ public abstract class PropertyType implements IPropertyType {
 	 * <p>
 	 * Instances of this class should be created only when creating the meta-data
 	 * dictionary.
-	 * 
+	 *
 	 * @param displayNameID the resource key for this property type's display name
 	 */
 
@@ -66,10 +69,11 @@ public abstract class PropertyType implements IPropertyType {
 
 	/**
 	 * Returns the localized display name.
-	 * 
+	 *
 	 * @return the localized display name
 	 */
 
+	@Override
 	public String getDisplayName() {
 		assert displayNameKey != null;
 		return ModelMessages.getMessage(displayNameKey);
@@ -78,18 +82,20 @@ public abstract class PropertyType implements IPropertyType {
 
 	/**
 	 * Returns the numeric code for this type.
-	 * 
+	 *
 	 * @return the internal type code
 	 */
 
+	@Override
 	public abstract int getTypeCode();
 
 	/**
 	 * Returns the name to use in the XML design and XML metadata files.
-	 * 
+	 *
 	 * @return the type name used in the XML design file
 	 */
 
+	@Override
 	public abstract String getName();
 
 	/**
@@ -102,7 +108,7 @@ public abstract class PropertyType implements IPropertyType {
 
 	/**
 	 * Sets the display name resource key.
-	 * 
+	 *
 	 * @param key message key to set
 	 */
 
@@ -112,13 +118,14 @@ public abstract class PropertyType implements IPropertyType {
 
 	/**
 	 * Sets the set of choices.
-	 * 
+	 *
 	 * @param theChoices the choices to set
 	 */
 
 	void setChoices(ChoiceSet theChoices) {
-		if (theChoices == null)
+		if (theChoices == null) {
 			return;
+		}
 
 		// Default implementation does nothing. Must be overridden
 		// by derived types that support choices.
@@ -128,20 +135,22 @@ public abstract class PropertyType implements IPropertyType {
 
 	/**
 	 * Gets the set of choices for this type.
-	 * 
+	 *
 	 * @return the set of choices, or null if no choices are available
 	 */
 
+	@Override
 	public IChoiceSet getChoices() {
 		return null;
 	}
 
 	/**
 	 * Gets the display name resource key.
-	 * 
+	 *
 	 * @return the display name message key
 	 */
 
+	@Override
 	public String getDisplayNameKey() {
 		return displayNameKey;
 	}
@@ -156,7 +165,7 @@ public abstract class PropertyType implements IPropertyType {
 	 * string representation of a number into the standard internal type; converts
 	 * string dimension values into the internal dimension object, etc. The return
 	 * value is what should be stored in the property list when setting a property.
-	 * 
+	 *
 	 * @param module the design used to resolve expressions, names, unit
 	 *               conversions, custom colors, etc.
 	 * @param defn   optional property definition that provides additional
@@ -175,7 +184,7 @@ public abstract class PropertyType implements IPropertyType {
 	 * user's locale. This method convert the locale-depedent user input into a
 	 * standard internal type. The return value is what the specific type should be
 	 * stored internally.
-	 * 
+	 *
 	 * @param module the design used to resolve expressions, names, unit
 	 *               conversions, custom colors, etc.
 	 * @param defn   optional property definition that provides additional
@@ -196,7 +205,7 @@ public abstract class PropertyType implements IPropertyType {
 	 * The default implementation does the same validation as for user input.
 	 * Derived type classes override this when XML-specific behavior is required,
 	 * especially for dates and numbers.
-	 * 
+	 *
 	 * @param module the design used to resolve expressions, names, unit
 	 *               conversions, custom colors, etc.
 	 * @param defn   optional property definition that provides additional
@@ -214,7 +223,7 @@ public abstract class PropertyType implements IPropertyType {
 	/**
 	 * Converts a property of this type to a double value. If the value does not
 	 * convert to a double, return 0.
-	 * 
+	 *
 	 * @param module the report design
 	 * @param value  the value of a parameter of this type
 	 * @return the value as a double, or 0 if the value does not convert to a
@@ -228,7 +237,7 @@ public abstract class PropertyType implements IPropertyType {
 	/**
 	 * Converts a property of this type to a integer value. If the value does not
 	 * convert to a integer, return 0.
-	 * 
+	 *
 	 * @param module the report design
 	 * @param value  The value of a parameter of this type.
 	 * @return the value as an integer, or 0 if the value does not convert to an
@@ -247,7 +256,7 @@ public abstract class PropertyType implements IPropertyType {
 	 * <p>
 	 * Use this form when providing an additional property-specific choice set to
 	 * use in the conversion.
-	 * 
+	 *
 	 * @param module the report design
 	 * @param defn   optional property definition that provides additional
 	 *               information such as a choice list
@@ -264,7 +273,7 @@ public abstract class PropertyType implements IPropertyType {
 	 * <p>
 	 * Use this form when providing an additional property-specific choice set to
 	 * use in the conversion.
-	 * 
+	 *
 	 * @param module the report design
 	 * @param defn   optional property definition that provides additional
 	 *               information such as a choice list
@@ -276,7 +285,7 @@ public abstract class PropertyType implements IPropertyType {
 
 	/**
 	 * Returns the localized string value of a property.
-	 * 
+	 *
 	 * @param module the report design
 	 * @param defn   optional property definition that provides additional
 	 *               information such as a choice list
@@ -290,7 +299,7 @@ public abstract class PropertyType implements IPropertyType {
 
 	/**
 	 * Converts the property value to a number (<code>BigDecimal</code>).
-	 * 
+	 *
 	 * @param module the report design
 	 * @param value  the property value. Must be valid.
 	 * @return the value of the property as a <code>BigDecimal</code>
@@ -302,7 +311,7 @@ public abstract class PropertyType implements IPropertyType {
 
 	/**
 	 * Converts the property value to a Boolean.
-	 * 
+	 *
 	 * @param module the report design
 	 * @param value  the property value. Must be valid.
 	 * @return the value of the property as a Boolean
@@ -314,26 +323,30 @@ public abstract class PropertyType implements IPropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 
+	@Override
 	public String toString() {
-		if (!StringUtil.isBlank(getName()))
+		if (!StringUtil.isBlank(getName())) {
 			return getName();
+		}
 		return super.toString();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof IPropertyType) {
-			if (getTypeCode() == ((IPropertyType) obj).getTypeCode())
+			if (getTypeCode() == ((IPropertyType) obj).getTypeCode()) {
 				return true;
+			}
 		}
 
 		return false;

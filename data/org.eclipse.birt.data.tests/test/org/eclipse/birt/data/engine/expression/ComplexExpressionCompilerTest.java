@@ -1,15 +1,24 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.expression;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -18,14 +27,12 @@ import java.util.List;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 public class ComplexExpressionCompilerTest {
 	private ScriptableObject m_scope;
@@ -48,6 +55,7 @@ public class ComplexExpressionCompilerTest {
 		m_registry = new AggregateRegistry() {
 			private int m_index = 1;
 
+			@Override
 			public int register(AggregateExpression aggregationExpr) {
 				return m_index++;
 			}
@@ -141,10 +149,11 @@ public class ComplexExpressionCompilerTest {
 			CompiledExpression ex = (CompiledExpression) iter.next();
 			assertTrue(ex instanceof ColumnReferenceExpression);
 
-			if (count++ == 1)
+			if (count++ == 1) {
 				assertEquals(1, ((ColumnReferenceExpression) ex).getColumnindex());
-			else
+			} else {
 				assertEquals("col2", ((ColumnReferenceExpression) ex).getColumnName());
+			}
 		}
 	}
 
@@ -617,6 +626,7 @@ public class ComplexExpressionCompilerTest {
 			return col2;
 		}
 
+		@Override
 		public Object get(int index, Scriptable start) {
 			switch (index) {
 			case 0:
@@ -630,6 +640,7 @@ public class ComplexExpressionCompilerTest {
 			return null;
 		}
 
+		@Override
 		public String getClassName() {
 			return "Row";
 		}
@@ -638,10 +649,12 @@ public class ComplexExpressionCompilerTest {
 	public static class AggrValue extends ScriptableObject {
 		private static final long serialVersionUID = 244365478768L;
 
+		@Override
 		public String getClassName() {
 			return "AggrValue";
 		}
 
+		@Override
 		public Object get(int index, Scriptable start) {
 			return new Integer(21 * index);
 		}

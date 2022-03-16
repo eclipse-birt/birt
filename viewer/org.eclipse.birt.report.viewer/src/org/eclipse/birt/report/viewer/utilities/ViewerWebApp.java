@@ -1,6 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *******************************************************************************/
 package org.eclipse.birt.report.viewer.utilities;
 
@@ -47,7 +53,7 @@ public class ViewerWebApp {
 
 		webapp.setAttribute(InstanceManager.class.getName(), new SimpleInstanceManager());
 
-		Dictionary<String, Object> props = new Hashtable<String, Object>();
+		Dictionary<String, Object> props = new Hashtable<>();
 		props.put(OSGiWebappConstants.RFC66_WEB_CONTEXTPATH, contextPath); // Web-ContextPath: /viewer
 		props.put(OSGiWebappConstants.JETTY_WAR_RESOURCE_PATH, getWebAppPath(bundle, webAppPath)); // Jetty-WarResourcePath:
 		props.put(OSGiServerConstants.MANAGED_JETTY_SERVER_NAME, ViewerWebServer.VIEWER_WEB_SERVER_ID);
@@ -62,8 +68,8 @@ public class ViewerWebApp {
 		if (encoding != null) {
 			// Jetty need those property to change the request encoding
 			// the setting may changed with different jetty version
-			System.setProperty("org.eclipse.jetty.util.UrlEncoding.charset", encoding);	//$NON-NLS-1$
-			System.setProperty("org.eclipse.jetty.util.URI.charset", encoding);	//$NON-NLS-1$
+			System.setProperty("org.eclipse.jetty.util.UrlEncoding.charset", encoding); //$NON-NLS-1$
+			System.setProperty("org.eclipse.jetty.util.URI.charset", encoding); //$NON-NLS-1$
 		}
 		bundle.getBundleContext().registerService(WebAppContext.class, webapp, props);
 	}

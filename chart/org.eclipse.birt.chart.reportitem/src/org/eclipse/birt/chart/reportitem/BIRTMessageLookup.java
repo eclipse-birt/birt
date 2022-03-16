@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,20 +37,22 @@ public class BIRTMessageLookup implements IMessageLookup {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.factory.IMessageLookup#getMessageValue(java.lang.
 	 * String, java.util.Locale)
 	 */
+	@Override
 	public String getMessageValue(String sKey, Locale lcl) {
 		return context.getMessage(sKey, lcl);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.factory.IMessageLookup#getMessageValue(java.lang.
 	 * String, com.ibm.icu.util.ULocale)
 	 */
+	@Override
 	public String getMessageValue(String sKey, ULocale lcl) {
 		if (lcl == null) {
 			return context.getMessage(sKey);

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -25,6 +37,7 @@ public class OutputSection extends Section {
 
 	protected OutputPropertyDescriptor output;
 
+	@Override
 	public void createSection() {
 		getOutputControl(parent);
 		getGridPlaceholder(parent);
@@ -42,6 +55,7 @@ public class OutputSection extends Section {
 			output.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 			output.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					output = null;
 				}
@@ -67,6 +81,7 @@ public class OutputSection extends Section {
 		} else {
 			control.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
+				@Override
 				public void getName(AccessibleEvent e) {
 					if (control instanceof Text && control.getParent() instanceof ExpressionComposite) {
 						e.result = UIUtil.stripMnemonic(Messages.getString("VisibilityPage.Label.Expression")) //$NON-NLS-1$
@@ -77,12 +92,14 @@ public class OutputSection extends Section {
 		}
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) output.getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
+		}
 		if (height > -1) {
 			gd.heightHint = height;
 			gd.grabExcessVerticalSpace = false;
@@ -99,9 +116,11 @@ public class OutputSection extends Section {
 		this.height = height;
 	}
 
+	@Override
 	public void load() {
-		if (output != null && !output.getControl().isDisposed())
+		if (output != null && !output.getControl().isDisposed()) {
 			output.load();
+		}
 	}
 
 	IDescriptorProvider provider;
@@ -112,27 +131,34 @@ public class OutputSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (output != null)
+		if (output != null) {
 			output.setDescriptorProvider(provider);
+		}
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		output.setInput(input);
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (output != null)
+		if (output != null) {
 			WidgetUtil.setExcludeGridData(output.getControl(), isHidden);
+		}
 
 	}
 
+	@Override
 	public void setVisible(boolean isVisable) {
-		if (output != null)
+		if (output != null) {
 			output.getControl().setVisible(isVisable);
+		}
 
 	}
 
+	@Override
 	public void reset() {
 		if (output != null && !output.getControl().isDisposed()) {
 			output.reset();

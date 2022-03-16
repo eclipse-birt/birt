@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -62,16 +65,17 @@ import com.ibm.icu.util.ULocale;
  * to check whether is there any duplicate name existed. Then add the cloned
  * element into the design tree again. Use the golden file to check the cloned
  * result.
- * 
+ *
  */
 
 public class DesignElementCloneTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -80,7 +84,7 @@ public class DesignElementCloneTest extends BaseTestCase {
 	/**
 	 * Tests the clone method of
 	 * <code>{@link org.eclipse.birt.report.model.core.DesignElement}</code>.
-	 * 
+	 *
 	 * @throws Exception If the test fails.
 	 */
 
@@ -96,7 +100,7 @@ public class DesignElementCloneTest extends BaseTestCase {
 	/**
 	 * Tests cloning the grid element and renaming it. Add the new grid into the
 	 * design tree.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -124,7 +128,7 @@ public class DesignElementCloneTest extends BaseTestCase {
 
 	/**
 	 * Tests the style reference in new element.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -165,7 +169,7 @@ public class DesignElementCloneTest extends BaseTestCase {
 	 * <li>Extends is not cloned
 	 * <li>Derived is not cloned
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -199,7 +203,7 @@ public class DesignElementCloneTest extends BaseTestCase {
 	 * <li>Listener is not cloned.
 	 * <li>The container is not cloned
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -252,7 +256,7 @@ public class DesignElementCloneTest extends BaseTestCase {
 	 * <li>Style is not cloned
 	 * <li>Cached element definition is not cloned
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -295,7 +299,7 @@ public class DesignElementCloneTest extends BaseTestCase {
 
 	/**
 	 * Tests cloning table and grid. The new element has new rows and cells.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -343,9 +347,9 @@ public class DesignElementCloneTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 * 
+	 *
 	 * Test element id for the clone case.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws ContentException
 	 * @throws NameException
@@ -371,7 +375,7 @@ public class DesignElementCloneTest extends BaseTestCase {
 	/**
 	 * Tests the clone method of the module elements, such as report design and
 	 * library.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -428,7 +432,7 @@ public class DesignElementCloneTest extends BaseTestCase {
 	/**
 	 * Tests the style property get be retrieved properly from factorty property
 	 * handle after the design is copied.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 	public void testElementResolveAfterClone() throws DesignFileException {
@@ -448,7 +452,7 @@ public class DesignElementCloneTest extends BaseTestCase {
 
 	/**
 	 * Tests the id-map of the cloned module.
-	 * 
+	 *
 	 * @param module       the original module
 	 * @param clonedModule the cloned module
 	 * @param id           the element id to test
@@ -467,7 +471,7 @@ public class DesignElementCloneTest extends BaseTestCase {
 
 	/**
 	 * Tests the namespace of the cloned module.
-	 * 
+	 *
 	 * @param module       the original module
 	 * @param clonedModule the cloned module
 	 * @param id           the namespace id
@@ -499,15 +503,15 @@ public class DesignElementCloneTest extends BaseTestCase {
 			this.name = name;
 		}
 
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
-			return;
 
 		}
 	}
 
 	/**
 	 * test if the display name is exist or not after cloning
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDisplayNameAfterClone() throws Exception {
@@ -527,7 +531,7 @@ public class DesignElementCloneTest extends BaseTestCase {
 
 	/**
 	 * Tests if the the extension properties are cloned correctly.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -30,13 +32,13 @@ import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
-import org.eclipse.birt.report.utility.ParameterAccessor;
 import org.eclipse.birt.report.utility.DataUtil;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Fragment help rendering scalar parameter.
  * <p>
- * 
+ *
  * @see BaseFragment
  */
 public class ScalarParameterFragment extends BirtBaseFragment {
@@ -48,7 +50,7 @@ public class ScalarParameterFragment extends BirtBaseFragment {
 
 	/**
 	 * Protected constructor.
-	 * 
+	 *
 	 * @param parameter parameter definition reference.
 	 */
 	protected ScalarParameterFragment(ParameterDefinition parameter) {
@@ -57,13 +59,14 @@ public class ScalarParameterFragment extends BirtBaseFragment {
 
 	/**
 	 * Get report parameters from engine.
-	 * 
+	 *
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @return target jsp pages
 	 * @exception ServletException
 	 * @exception IOException
 	 */
+	@Override
 	protected void doService(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
@@ -89,6 +92,7 @@ public class ScalarParameterFragment extends BirtBaseFragment {
 	/**
 	 * Override implementation of doPostService.
 	 */
+	@Override
 	protected String doPostService(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String className = getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1);
@@ -97,7 +101,7 @@ public class ScalarParameterFragment extends BirtBaseFragment {
 
 	/**
 	 * Prepare parameter bean
-	 * 
+	 *
 	 * @param designHandle
 	 * @param service
 	 * @param request
@@ -127,10 +131,11 @@ public class ScalarParameterFragment extends BirtBaseFragment {
 		// parameter value.
 		if (attrBean.getParametersAsString() != null) {
 			Object paramObj = attrBean.getParametersAsString().get(parameterBean.getName());
-			if (paramObj instanceof List)
+			if (paramObj instanceof List) {
 				parameterBean.setValueList((List) paramObj);
-			else
+			} else {
 				parameterBean.setValue((String) paramObj);
+			}
 		}
 
 		// Set parameter display text
@@ -146,7 +151,7 @@ public class ScalarParameterFragment extends BirtBaseFragment {
 		if (defaultValue != null) {
 			if (defaultValue instanceof Object[]) {
 				Object[] paramDefaultValues = (Object[]) defaultValue;
-				List<String> convertedDefaultValues = new ArrayList<String>(paramDefaultValues.length);
+				List<String> convertedDefaultValues = new ArrayList<>(paramDefaultValues.length);
 				for (int i = 0; i < paramDefaultValues.length; i++) {
 					Object value = paramDefaultValues[i];
 					convertedDefaultValues.add(DataUtil.getDisplayValue(value, attrBean.getTimeZone()));
@@ -173,8 +178,9 @@ public class ScalarParameterFragment extends BirtBaseFragment {
 						paramList.add(value);
 					}
 					parameterBean.setValueList(paramList);
-					if (values.length > 0)
+					if (values.length > 0) {
 						displayTextObj = values[0];
+					}
 				} else {
 					displayTextObj = param;
 					String value = DataUtil.getDisplayValue(param, attrBean.getTimeZone());
@@ -194,7 +200,7 @@ public class ScalarParameterFragment extends BirtBaseFragment {
 
 	/**
 	 * For implementation to extend parameter bean properties
-	 * 
+	 *
 	 * @param request
 	 * @param service
 	 * @param parameterBean

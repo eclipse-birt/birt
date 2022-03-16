@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -44,6 +47,7 @@ public class DataSetDataSourceSelectionPage extends AbstractDescriptionPropertyP
 		super();
 	}
 
+	@Override
 	public Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -66,6 +70,7 @@ public class DataSetDataSourceSelectionPage extends AbstractDescriptionPropertyP
 		return composite;
 	}
 
+	@Override
 	public void pageActivated() {
 		getContainer().setMessage(Messages.getString("dataset.editor.dataSource"), IMessageProvider.NONE); //$NON-NLS-1$
 		lastSelectedDataSourceIndex = combo.getSelectionIndex();
@@ -106,8 +111,9 @@ public class DataSetDataSourceSelectionPage extends AbstractDescriptionPropertyP
 								.equals(((OdaDataSourceHandle) currentDataSource).getExtensionID())) {
 							similarDataSources.add(dataSource.getName());
 						}
-					} else
+					} else {
 						similarDataSources.add(dataSource.getName());
+					}
 
 				}
 			}
@@ -117,11 +123,12 @@ public class DataSetDataSourceSelectionPage extends AbstractDescriptionPropertyP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage
 	 * #canLeave()
 	 */
+	@Override
 	public boolean canLeave() {
 		try {
 			if (combo != null && !combo.isDisposed()) {
@@ -130,8 +137,9 @@ public class DataSetDataSourceSelectionPage extends AbstractDescriptionPropertyP
 					datasetHandle.setDataSource(combo.getItem(combo.getSelectionIndex()));
 					((DataSetEditor) (getContainer())).updateDataSetDesign(this);
 					if (datasetHandle instanceof OdaDataSetHandle
-							&& datasetHandle.getProperty(DataSetHandle.RESULT_SET_PROP) != null)
+							&& datasetHandle.getProperty(DataSetHandle.RESULT_SET_PROP) != null) {
 						datasetHandle.clearProperty(DataSetHandle.RESULT_SET_PROP);
+					}
 				}
 			}
 		} catch (SemanticException e) {
@@ -143,11 +151,12 @@ public class DataSetDataSourceSelectionPage extends AbstractDescriptionPropertyP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage
 	 * #performOk()
 	 */
+	@Override
 	public boolean performOk() {
 		try {
 			if (combo != null && !combo.isDisposed() && combo.getSelectionIndex() > -1) {
@@ -157,8 +166,9 @@ public class DataSetDataSourceSelectionPage extends AbstractDescriptionPropertyP
 					((DataSetEditor) (getContainer())).updateDataSetDesign(this);
 
 					if (datasetHandle instanceof OdaDataSetHandle
-							&& datasetHandle.getProperty(DataSetHandle.RESULT_SET_PROP) != null)
+							&& datasetHandle.getProperty(DataSetHandle.RESULT_SET_PROP) != null) {
 						datasetHandle.clearProperty(DataSetHandle.RESULT_SET_PROP);
+					}
 				}
 			}
 		} catch (SemanticException e) {
@@ -172,9 +182,10 @@ public class DataSetDataSourceSelectionPage extends AbstractDescriptionPropertyP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#performCancel()
 	 */
+	@Override
 	public boolean performCancel() {
 		((DataSetHandle) (getContainer().getModel())).removeListener(this);
 		return true;
@@ -182,14 +193,16 @@ public class DataSetDataSourceSelectionPage extends AbstractDescriptionPropertyP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * getToolTip()
 	 */
+	@Override
 	public String getToolTip() {
 		return Messages.getString("dataset.editor.dataSource.Tooltip"); //$NON-NLS-1$
 	}
 
+	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 	}
 }

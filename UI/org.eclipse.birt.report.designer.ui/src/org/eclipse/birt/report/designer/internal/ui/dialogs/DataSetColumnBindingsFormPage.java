@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,11 +52,12 @@ public class DataSetColumnBindingsFormPage extends FormPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage#
 	 * createControl()
 	 */
+	@Override
 	protected void createControl() {
 		// createGenerateAllBindingsButton( );
 		// Comments this calling because of bug 143398.
@@ -65,6 +69,7 @@ public class DataSetColumnBindingsFormPage extends FormPage {
 			btnAddAggregateOn.setText(Messages.getString("FormPage.Button.Add.AggregateOn")); //$NON-NLS-1$
 			btnAddAggregateOn.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					handleAddAggregateOnSelectEvent();
 				}
@@ -73,6 +78,7 @@ public class DataSetColumnBindingsFormPage extends FormPage {
 			btnAddMeasureOn.setText(Messages.getString("FormPage.Button.Add.MeasureOn")); //$NON-NLS-1$
 			btnAddMeasureOn.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					handleAddMeasureOnSelectEvent();
 				}
@@ -82,6 +88,7 @@ public class DataSetColumnBindingsFormPage extends FormPage {
 		btnRefresh.setText(Messages.getString("FormPage.Button.Binding.Refresh")); //$NON-NLS-1$
 		btnRefresh.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleRefreshSelectEvent();
 			}
@@ -143,18 +150,19 @@ public class DataSetColumnBindingsFormPage extends FormPage {
 	 * Messages.getString( "DataSetColumnBindingsFormPage.Button.Generate" ) );
 	 * //$NON-NLS-1$ generateAllBindingsButton.addSelectionListener( new
 	 * SelectionAdapter( ) {
-	 * 
+	 *
 	 * public void widgetSelected( SelectionEvent e ) {
 	 * provider.generateAllBindingColumns( ); } } ); }
 	 */
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage#
 	 * fullLayout()
 	 */
+	@Override
 	protected void fullLayout() {
 		super.fullLayout();
 		// put btnDel flow over btnEdit
@@ -226,11 +234,12 @@ public class DataSetColumnBindingsFormPage extends FormPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage#
 	 * setInput(java.util.List)
 	 */
+	@Override
 	public void setInput(List elements) {
 		super.setInput(elements);
 
@@ -245,13 +254,16 @@ public class DataSetColumnBindingsFormPage extends FormPage {
 
 	private void checkButtonsEnabled() {
 		if (((DataSetColumnBindingsFormHandleProvider) provider).canAggregation()) {
-			if (!btnAddAggregateOn.isDisposed())
+			if (!btnAddAggregateOn.isDisposed()) {
 				btnAddAggregateOn.setEnabled(provider.isEditable());
-			if (!btnAddMeasureOn.isDisposed())
+			}
+			if (!btnAddMeasureOn.isDisposed()) {
 				btnAddMeasureOn.setEnabled(provider.isEditable());
+			}
 		}
-		if (!btnRefresh.isDisposed())
+		if (!btnRefresh.isDisposed()) {
 			btnRefresh.setEnabled(provider.isEditable());
+		}
 	}
 
 	private void setBindingObject(ReportElementHandle bindingObject) {
@@ -260,12 +272,13 @@ public class DataSetColumnBindingsFormPage extends FormPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage#
 	 * elementChanged(org.eclipse.birt.report.model.api.DesignElementHandle,
 	 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
+	@Override
 	public void elementChanged(DesignElementHandle elementHandle, NotificationEvent event) {
 		checkButtonsEnabled();
 	}

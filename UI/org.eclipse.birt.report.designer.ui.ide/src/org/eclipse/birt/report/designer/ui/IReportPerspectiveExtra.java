@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,21 +33,21 @@ public interface IReportPerspectiveExtra {
 
 	/**
 	 * Defines the extra new wizard shortcuts needed be added into the perspective
-	 * 
+	 *
 	 * @return the wizard ids
 	 */
 	String[] getExtraNewWizardShortcut();
 
 	/**
 	 * Defines the extra show view shortcuts needed be added into the perspective
-	 * 
+	 *
 	 * @return the view ids
 	 */
 	String[] getExtraShowViewShortcut();
 
 	/**
 	 * Defines the extra views needed be added into the perspective
-	 * 
+	 *
 	 * @param layoutPos one of
 	 *                  LAYOUT_TOP_LEFT,LAYOUT_BOTTOM_LEFT,LAYOUT_BOTTOM_RIGHT
 	 * @return the view ids
@@ -53,7 +56,7 @@ public interface IReportPerspectiveExtra {
 
 	/**
 	 * Defines the extra view placeholders needed be added into the perspective
-	 * 
+	 *
 	 * @param layoutPos one of
 	 *                  LAYOUT_TOP_LEFT,LAYOUT_BOTTOM_LEFT,LAYOUT_BOTTOM_RIGHT
 	 * @return the view ids

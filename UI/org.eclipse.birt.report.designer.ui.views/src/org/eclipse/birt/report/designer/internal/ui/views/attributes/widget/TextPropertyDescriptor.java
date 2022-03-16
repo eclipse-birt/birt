@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
@@ -26,22 +38,26 @@ public class TextPropertyDescriptor extends PropertyDescriptor {
 		setFormStyle(formStyle);
 	}
 
+	@Override
 	public void setInput(Object handle) {
 		this.input = handle;
 		getDescriptorProvider().setInput(input);
 	}
 
+	@Override
 	public Control createControl(Composite parent) {
 		if (isFormStyle()) {
 			text = FormWidgetFactory.getInstance().createText(parent, "", //$NON-NLS-1$
 					style);
-		} else
+		} else {
 			text = new Text(parent, style);
+		}
 		if (textLimit > 0) {
 			text.setTextLimit(textLimit);
 		}
 		SelectionAdapter defaultSelectListener = new SelectionAdapter() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				handleTextSelectEvent();
 			}
@@ -49,6 +65,7 @@ public class TextPropertyDescriptor extends PropertyDescriptor {
 
 		FocusAdapter defaultFocusListener = new FocusAdapter() {
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				handleTextFocusLostEvent();
 			}
@@ -58,6 +75,7 @@ public class TextPropertyDescriptor extends PropertyDescriptor {
 		return text;
 	}
 
+	@Override
 	public Control getControl() {
 		return text;
 	}
@@ -82,6 +100,7 @@ public class TextPropertyDescriptor extends PropertyDescriptor {
 		processAction();
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		descriptorProvider.save(value);
 	}
@@ -102,6 +121,7 @@ public class TextPropertyDescriptor extends PropertyDescriptor {
 
 	}
 
+	@Override
 	public void load() {
 		deValue = (String) getDescriptorProvider().load();
 		boolean stateFlag = ((deValue == null) == text.getEnabled());
@@ -112,8 +132,9 @@ public class TextPropertyDescriptor extends PropertyDescriptor {
 			text.setEditable(false);
 		}
 
-		if (deValue == null)
+		if (deValue == null) {
 			deValue = ""; //$NON-NLS-1$
+		}
 		if (!text.getText().equals(deValue)) {
 			refresh(deValue);
 		}

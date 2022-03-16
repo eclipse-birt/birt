@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008, 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -82,8 +85,9 @@ public class SQLQueryUtility {
 			IConnectionProfile connProfile, final DataSetDesign origDataSetDesign,
 			final SortSpecification origQuerySortSpec) {
 		String dataSetName = origDataSetDesign.getName();
-		if (dataSetName != null)
+		if (dataSetName != null) {
 			dataSetDesign.setName(dataSetName);
+		}
 		// initialize
 		dataSetDesign.setQueryText(EMPTY_STRING);
 
@@ -108,22 +112,24 @@ public class SQLQueryUtility {
 			// queryText should have been updated in data set design; if not, get it from
 			// queryStmt
 			String queryText = dataSetDesign.getQueryText();
-			if (queryText == null || queryText.length() == 0)
+			if (queryText == null || queryText.length() == 0) {
 				updateQueryText(dataSetDesign, queryStmt);
+			}
 
 			// not able to get current metadata, reset previous derived metadata
 			dataSetDesign.setResultSets(null);
 			dataSetDesign.setParameters(null);
 		} finally {
 			// if connection was not already open prior to this method, cleanup and close it
-			if (!wasProfileConnected)
+			if (!wasProfileConnected) {
 				closeConnection(customConn);
+			}
 		}
 	}
 
 	/**
 	 * Set system help context
-	 * 
+	 *
 	 * @param control
 	 * @param contextId
 	 */
@@ -135,7 +141,7 @@ public class SQLQueryUtility {
 	 * Updates specified design with raw SQL query text ready for prepare by a JDBC
 	 * driver; any extra stuff in QueryStatement are stripped, such as comments are
 	 * preserved in designer state
-	 * 
+	 *
 	 * @param dataSetDesign
 	 * @param queryStmt
 	 */
@@ -174,13 +180,14 @@ public class SQLQueryUtility {
 
 	/**
 	 * Returns the SQL query text ready for prepare by a JDBC driver.
-	 * 
+	 *
 	 * @param queryStmt
 	 * @return
 	 */
 	static String getPreparableSQL(final QueryStatement queryStmt) {
-		if (queryStmt == null)
+		if (queryStmt == null) {
 			return null;
+		}
 		QueryStatement queryStmtCopy = copyQueryStatement(queryStmt);
 		convertNamedVariablesToMarkers(queryStmtCopy);
 
@@ -200,7 +207,7 @@ public class SQLQueryUtility {
 
 	/**
 	 * Convert any named parameter variables to a '?' parameter marker
-	 * 
+	 *
 	 * @param queryStmt a query statement; its contents may get modified by this
 	 *                  method
 	 */
@@ -209,8 +216,9 @@ public class SQLQueryUtility {
 		// get all the parameters defined in query
 		List<ValueExpressionVariable> paramVars = StatementHelper.getAllVariablesInQueryStatement(queryStmt, false,
 				null);
-		if (paramVars.isEmpty())
+		if (paramVars.isEmpty()) {
 			return; // done
+		}
 
 		Iterator<ValueExpressionVariable> paramVarsIter = paramVars.iterator();
 		while (paramVarsIter.hasNext()) {
@@ -218,8 +226,9 @@ public class SQLQueryUtility {
 
 			// setting the variable's name field to null turns it into a parameter
 			// marker-type variable
-			if (var.getName() != null)
+			if (var.getName() != null) {
 				var.setName(null);
+			}
 		}
 	}
 
@@ -238,7 +247,7 @@ public class SQLQueryUtility {
 	/**
 	 * Updates the specified data set design's result set definition based on the
 	 * specified runtime metadata.
-	 * 
+	 *
 	 * @param md            runtime result set metadata instance
 	 * @param dataSetDesign data set design instance to update
 	 * @throws OdaException
@@ -267,10 +276,11 @@ public class SQLQueryUtility {
 	private static void updateResultSetCriteria(ResultSetDefinition resultSetDefn, final QueryStatement queryStmt,
 			final ResultSetDefinition origResultSetDefn, final SortSpecification origQuerySortSpec)
 			throws OdaException {
-		if (!(queryStmt instanceof QuerySelectStatement))
+		if (!(queryStmt instanceof QuerySelectStatement)) {
 			throw new OdaException(new IllegalStateException( // internal error; not likely to occur; do not localize
 					Messages.bind("Invalid QuerySelectStatement argument in {0}#updateResultSetCriteria", //$NON-NLS-1$
 							CLASS_NAME)));
+		}
 
 		ResultSetCriteria criteria = DesignFactory.eINSTANCE.createResultSetCriteria();
 
@@ -309,27 +319,32 @@ public class SQLQueryUtility {
 	}
 
 	private static FilterExpression getResultCriteriaFilterExpr(ResultSetDefinition resultSetDefn) {
-		if (resultSetDefn == null)
+		if (resultSetDefn == null) {
 			return null;
+		}
 		ResultSetCriteria resultSetCriteria = resultSetDefn.getCriteria();
-		if (resultSetCriteria == null)
+		if (resultSetCriteria == null) {
 			return null;
+		}
 		return resultSetCriteria.getFilterSpecification();
 	}
 
 	private static SortSpecification getResultCriteriaSortSpec(ResultSetDefinition resultSetDefn) {
-		if (resultSetDefn == null)
+		if (resultSetDefn == null) {
 			return null;
+		}
 		ResultSetCriteria resultSetCriteria = resultSetDefn.getCriteria();
-		if (resultSetCriteria == null)
+		if (resultSetCriteria == null) {
 			return null;
+		}
 		return resultSetCriteria.getRowOrdering();
 	}
 
 	static SortSpecification convertOrderByClauseToSortSpec(final QueryStatement queryStmt, SortSpecification sortSpec,
 			ResultSetDefinition resultSetMetaData) throws OdaException {
-		if (sortSpec == null)
+		if (sortSpec == null) {
 			sortSpec = DesignFactory.eINSTANCE.createSortSpecification();
+		}
 
 		assert (queryStmt instanceof QuerySelectStatement);
 		@SuppressWarnings("unchecked")
@@ -346,8 +361,9 @@ public class SQLQueryUtility {
 
 	private static SortKey convertToSortKeyDesignHint(OrderBySpecification orderBySpec,
 			final ResultSetDefinition resultSetDefn, final QuerySelectStatement selectStmt) throws OdaException {
-		if (orderBySpec == null)
+		if (orderBySpec == null) {
 			return null;
+		}
 
 		SortKey sortKeyHint = DesignFactory.eINSTANCE.createSortKey();
 		sortKeyHint.setOptional(false); // order by sort spec embedded in SQL query text is required
@@ -368,41 +384,48 @@ public class SQLQueryUtility {
 				String columnExpr = getColumnReferenceName(valueExpr, selectStmt);
 				sortKeyHint.setColumnName(columnExpr);
 			}
-		} else
+		} else {
 			throw new OdaException(new IllegalStateException( // internal error; not likely to occur; do not localize
 					Messages.bind("Invalid OrderBySpecification in parsed SQL query model: {0}", //$NON-NLS-1$
 							orderBySpec)));
+		}
 
 		int orderingType = orderBySpec.getOrderingSpecOption().getValue();
-		if (orderingType == OrderingSpecType.ASC)
+		if (orderingType == OrderingSpecType.ASC) {
 			sortKeyHint.setSortDirection(SortDirectionType.ASCENDING);
-		else if (orderingType == OrderingSpecType.DESC)
+		} else if (orderingType == OrderingSpecType.DESC) {
 			sortKeyHint.setSortDirection(SortDirectionType.DESCENDING);
+		}
 
 		int nullOrderingType = orderBySpec.getNullOrderingOption().getValue();
-		if (nullOrderingType == NullOrderingType.NULLS_FIRST)
+		if (nullOrderingType == NullOrderingType.NULLS_FIRST) {
 			sortKeyHint
 					.setNullValueOrdering(org.eclipse.datatools.connectivity.oda.design.NullOrderingType.NULLS_FIRST);
-		else if (nullOrderingType == NullOrderingType.NULLS_LAST)
+		} else if (nullOrderingType == NullOrderingType.NULLS_LAST) {
 			sortKeyHint.setNullValueOrdering(org.eclipse.datatools.connectivity.oda.design.NullOrderingType.NULLS_LAST);
+		}
 
 		return sortKeyHint;
 	}
 
 	private static String getColumnReferenceName(ResultColumn resultColumn) {
-		if (resultColumn == null)
+		if (resultColumn == null) {
 			return null;
+		}
 
 		// use the result column alias, if exists, to match the name returned by
 		// IResultSetMetaData
-		if (resultColumn.getName() != null) // has column alias
+		if (resultColumn.getName() != null) { // has column alias
 			return resultColumn.getName();
+		}
 
 		QueryValueExpression valueExpr = resultColumn.getValueExpr();
-		if (valueExpr == null)
+		if (valueExpr == null) {
 			return null;
-		if (!(valueExpr instanceof ValueExpressionColumn))
+		}
+		if (!(valueExpr instanceof ValueExpressionColumn)) {
 			return valueExpr.getSQL();
+		}
 
 		// use the non-qualified column name to match the name returned by
 		// IResultSetMetaData
@@ -411,10 +434,12 @@ public class SQLQueryUtility {
 
 	private static String getColumnReferenceName(QueryValueExpression valueExpr,
 			final QuerySelectStatement selectStmt) {
-		if (valueExpr == null)
+		if (valueExpr == null) {
 			return null;
-		if (!(valueExpr instanceof ValueExpressionColumn))
+		}
+		if (!(valueExpr instanceof ValueExpressionColumn)) {
 			return valueExpr.getSQL();
+		}
 
 		String columnName = valueExpr.getName(); // non-qualified column name
 
@@ -427,9 +452,10 @@ public class SQLQueryUtility {
 		// but that also means the columns do not have alias, so ok to use the raw name
 		// in the column expression
 		ResultColumn resultColumn = TableHelper.getResultColumnForAliasOrColumnName(qBody, columnName);
-		if (resultColumn != null && resultColumn.getName() != null)
+		if (resultColumn != null && resultColumn.getName() != null) {
 			return resultColumn.getName(); // use the result column alias to match the name returned by
 											// IResultSetMetaData
+		}
 
 		return columnName;
 	}
@@ -438,8 +464,9 @@ public class SQLQueryUtility {
 	private static String resolveResultColumnOrdinal(int ordinal, final ResultSetDefinition resultSetDefn)
 			throws OdaException {
 		if (ordinal <= 0 || // expects 1-based ordinal value
-				ordinal > resultSetDefn.getResultSetColumns().getResultColumnDefinitions().size())
+				ordinal > resultSetDefn.getResultSetColumns().getResultColumnDefinitions().size()) {
 			return EMPTY_STRING;
+		}
 
 		ColumnDefinition columnDefn = resultSetDefn.getResultSetColumns().getResultColumnDefinitions().get(ordinal - 1); // 0-based
 																															// index
@@ -453,8 +480,9 @@ public class SQLQueryUtility {
 
 	@SuppressWarnings("unchecked")
 	private static void updateParameterDesign(DataSetDesign dataSetDesign, final QueryStatement queryStmt) {
-		if (dataSetDesign == null || queryStmt == null)
+		if (dataSetDesign == null || queryStmt == null) {
 			return;
+		}
 
 		// get all parameters, both in named variable or position markers, if exist;
 		// the list returned are sorted by their lexical order;
@@ -475,7 +503,7 @@ public class SQLQueryUtility {
 		// corresponding ODA parameter design
 		Iterator<ValueExpressionVariable> paramVarsIter = paramVars.iterator();
 		int index = 0;
-		StringBuffer paramMdPropBuf = new StringBuffer();
+		StringBuilder paramMdPropBuf = new StringBuilder();
 
 		while (paramVarsIter.hasNext()) {
 			ValueExpressionVariable var = paramVarsIter.next();
@@ -499,8 +527,9 @@ public class SQLQueryUtility {
 
 			// append parameter metadata info for private property value
 			if (paramAttrs.getName() != null && paramAttrs.getName().trim().length() > 0) {
-				if (paramMdPropBuf.length() > 0)
+				if (paramMdPropBuf.length() > 0) {
 					paramMdPropBuf.append(CONST_PARAMS_DELIMITER);
+				}
 				paramMdPropBuf.append(paramAttrs.getPosition() + CONST_PARAM_NAME_DELIMITER + paramAttrs.getName());
 			}
 		}
@@ -529,8 +558,9 @@ public class SQLQueryUtility {
 			// get precision if applicable
 			if (varDataType instanceof NumericalDataType) {
 				int precision = ((NumericalDataType) varDataType).getPrecision();
-				if (precision > 0)
+				if (precision > 0) {
 					elementAttrs.setPrecision(precision);
+				}
 			} else if (varDataType instanceof CharacterStringDataType) {
 				elementAttrs.setPrecision(((CharacterStringDataType) varDataType).getLength());
 			}
@@ -541,10 +571,12 @@ public class SQLQueryUtility {
 			}
 		}
 
-		if (var.getLabel() != null)
+		if (var.getLabel() != null) {
 			elementAttrs.setUiDisplayName(var.getLabel());
-		if (var.getDescription() != null)
+		}
+		if (var.getDescription() != null) {
 			elementAttrs.setUiDescription(var.getDescription());
+		}
 	}
 
 	private static int toJDBCTypeCode(DataType varDataType) {
@@ -558,29 +590,32 @@ public class SQLQueryUtility {
 	private static void adjustParameterDefinition(ParameterDefinition paramDefn) {
 		assert (paramDefn != null);
 		DataElementAttributes paramAttributes = paramDefn.getAttributes();
-		if (paramAttributes == null)
+		if (paramAttributes == null) {
 			return; // no attributes to adjust
+		}
 
-		if (paramAttributes.getNativeDataTypeCode() == Types.NULL)
+		if (paramAttributes.getNativeDataTypeCode() == Types.NULL) {
 			paramAttributes.setNativeDataTypeCode(Types.CHAR); // default data type
+		}
 
 		// a SQL Select Query parameter cannot be null
-		if (paramAttributes.allowsNull())
+		if (paramAttributes.allowsNull()) {
 			paramAttributes.setNullability(ElementNullability.NOT_NULLABLE_LITERAL);
+		}
 	}
 
 //    private static ParameterDefinition findMatchingParameter( DataSetParameters existingParamsDesign, ParameterDefinition paramDefn )
 //    {
 //        if( existingParamsDesign == null )
 //            return null;
-//        
+//
 //        DataElementAttributes paramAttributes = paramDefn.getAttributes();
 //        Iterator iter = existingParamsDesign.getParameterDefinitions().iterator();
 //        while( iter.hasNext() )
 //        {
 //            ParameterDefinition origParamDefn = (ParameterDefinition) iter.next( );
 //            DataElementAttributes origParamAttributes = origParamDefn.getAttributes();
-//            
+//
 //            // match by name and native data type
 //            if( origParamAttributes.getName() == null || paramAttributes.getName() == null )
 //                continue;
@@ -588,7 +623,7 @@ public class SQLQueryUtility {
 //                continue;
 //            if( origParamAttributes.getNativeDataTypeCode() != paramAttributes.getNativeDataTypeCode() )
 //                continue;
-//           
+//
 //            return origParamDefn;
 //        }
 //        return null;    // no matching parameter definition
@@ -599,8 +634,9 @@ public class SQLQueryUtility {
 	 */
 	private static void closeConnection(IConnection conn) {
 		try {
-			if (conn != null && conn.isOpen())
+			if (conn != null && conn.isOpen()) {
 				conn.close();
+			}
 		} catch (OdaException e) {
 			// ignore
 			e.printStackTrace();

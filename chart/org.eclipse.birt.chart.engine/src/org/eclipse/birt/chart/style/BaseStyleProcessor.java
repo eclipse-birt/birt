@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,18 +26,22 @@ import org.eclipse.birt.chart.model.attribute.StyledComponent;
 public class BaseStyleProcessor implements IStyleProcessor {
 	private ColorDefinition backgroundColor = null;
 
+	@Override
 	public IStyle getStyle(Chart model, StyledComponent name) {
 		return null;
 	}
 
+	@Override
 	public void processStyle(Chart model) {
 
 	}
 
+	@Override
 	public void setDefaultBackgroundColor(ColorDefinition cd) {
 		this.backgroundColor = cd;
 	}
 
+	@Override
 	public ColorDefinition getDefaultBackgroundColor() {
 		try {
 			return backgroundColor;
@@ -46,20 +53,22 @@ public class BaseStyleProcessor implements IStyleProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.style.IStyleProcessor#updateChart(org.eclipse.birt.
 	 * chart.model.Chart, java.lang.Object)
 	 */
+	@Override
 	public boolean updateChart(Chart model, Object obj) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.style.IStyleProcessor#needInheritingStyles()
 	 */
+	@Override
 	public boolean needInheritingStyles() {
 		return true;
 	}

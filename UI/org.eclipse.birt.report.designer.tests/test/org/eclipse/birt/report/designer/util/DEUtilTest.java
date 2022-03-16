@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,12 +28,12 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Class of test for DEUtil
- * 
+ *
  */
 
 public class DEUtilTest extends BaseTestCase {
 
-	private static final String[][] TEST_DATE_STRING = new String[][] {
+	private static final String[][] TEST_DATE_STRING = {
 			new String[] { "yyyy/MM/dd hh:mm:ss.SSS a", "1996-02-28T23:25:27.573", "1996/02/28 11:25:27.573 PM",
 					"1996-02-28T23:25:27.573", },
 			new String[] { "MM/dd/yyyy hh:mm:ss a", "1996-02-28T23:25:27.000", "02/28/1996 11:25:27 PM",

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -68,6 +71,7 @@ public class PreviewDataPreferencePage extends PreferencePage implements IWorkbe
 
 	private transient Button noLimitBtn;
 
+	@Override
 	protected Control createContents(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.PREFERENCE_BIRT_PREVIEW_DATA_ID);
 
@@ -80,7 +84,7 @@ public class PreviewDataPreferencePage extends PreferencePage implements IWorkbe
 		createDispalyRowLimitGroup(cmpTop);
 
 //		txtMaxRowLevelMember = new IntegerFieldEditor( PREVIEW_MAX_ROW_LEVEL_MEMBER,
-//				Messages.getString( "designer.preview.preference.resultset.maxrowlevelmember.description" ), cmpTop ); //$NON-NLS-1$ 
+//				Messages.getString( "designer.preview.preference.resultset.maxrowlevelmember.description" ), cmpTop ); //$NON-NLS-1$
 //		txtMaxRowLevelMember.setPage( this );
 //		txtMaxRowLevelMember.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
 //		txtMaxRowLevelMember.setEmptyStringAllowed( false );
@@ -92,9 +96,9 @@ public class PreviewDataPreferencePage extends PreferencePage implements IWorkbe
 //					setValid( txtMaxRowLevelMember.isValid( ) );
 //			}
 //		} );
-//		
+//
 //		txtMaxColumnLevelMember = new IntegerFieldEditor( PREVIEW_MAX_COLUMN_LEVEL_MEMBER,
-//				Messages.getString( "designer.preview.preference.resultset.maxcolumnlevelmember.description" ), cmpTop ); //$NON-NLS-1$ 
+//				Messages.getString( "designer.preview.preference.resultset.maxcolumnlevelmember.description" ), cmpTop ); //$NON-NLS-1$
 //		txtMaxColumnLevelMember.setPage( this );
 //		txtMaxColumnLevelMember.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
 //		txtMaxColumnLevelMember.setEmptyStringAllowed( false );
@@ -114,9 +118,11 @@ public class PreviewDataPreferencePage extends PreferencePage implements IWorkbe
 		txtMaxInMemoryCubeSize.setEmptyStringAllowed(false);
 		txtMaxInMemoryCubeSize.setPropertyChangeListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getProperty().equals(FieldEditor.IS_VALID))
+				if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 					setValid(txtMaxInMemoryCubeSize.isValid());
+				}
 			}
 		});
 
@@ -147,6 +153,7 @@ public class PreviewDataPreferencePage extends PreferencePage implements IWorkbe
 		noLimitBtn.setLayoutData(noLimitBtnData);
 		noLimitBtn.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				txtMaxDataSetRow.setEnabled(!noLimitBtn.getSelection(), noLimitBtn.getParent());
 
@@ -168,9 +175,11 @@ public class PreviewDataPreferencePage extends PreferencePage implements IWorkbe
 		txtMaxDataSetRow.setEmptyStringAllowed(false);
 		txtMaxDataSetRow.setPropertyChangeListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getProperty().equals(FieldEditor.IS_VALID))
+				if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 					setValid(txtMaxDataSetRow.isValid());
+				}
 			}
 		});
 	}
@@ -217,10 +226,12 @@ public class PreviewDataPreferencePage extends PreferencePage implements IWorkbe
 
 	}
 
+	@Override
 	public void init(IWorkbench workbench) {
 
 	}
 
+	@Override
 	protected void performDefaults() {
 		txtMaxDataSetRow.setStringValue(String.valueOf(MAX_DATASET_ROW_DEFAULT));
 //		txtMaxRowLevelMember.setStringValue( String.valueOf( MAX_CUBE_ROW_LEVEL_MEMBER_DEFAULT ) );
@@ -230,6 +241,7 @@ public class PreviewDataPreferencePage extends PreferencePage implements IWorkbe
 		super.performDefaults();
 	}
 
+	@Override
 	public boolean performOk() {
 		int maxRowValue = noLimitBtn.getSelection() ? DATASET_DISPLAY_ALL_ROW : txtMaxDataSetRow.getIntValue();
 		ViewerPlugin.getDefault().getPluginPreferences().setValue(PREVIEW_MAXROW, maxRowValue);
@@ -258,16 +270,18 @@ public class PreviewDataPreferencePage extends PreferencePage implements IWorkbe
 			super(s1, s2, parent);
 		}
 
+		@Override
 		public boolean checkState() {
 			if (noLimitBtn.getSelection()) {
 				setValid(true);
-				if (!super.checkState())
+				if (!super.checkState()) {
 					clearErrorMessage();
+				}
 				return true;
 			} else {
 				setValid(isValid());
 			}
 			return super.checkState();
 		}
-	};
+	}
 }

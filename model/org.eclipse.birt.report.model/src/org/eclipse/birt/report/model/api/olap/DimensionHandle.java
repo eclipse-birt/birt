@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +29,7 @@ import org.eclipse.birt.report.model.elements.olap.Dimension;
 
 /**
  * Represents a dimension element in the cube element.
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.olap.Dimension
  */
 
@@ -36,7 +39,7 @@ public abstract class DimensionHandle extends ReportElementHandle implements IDi
 	 * Constructs a handle for the given design and design element. The application
 	 * generally does not create handles directly. Instead, it uses one of the
 	 * navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -47,7 +50,7 @@ public abstract class DimensionHandle extends ReportElementHandle implements IDi
 
 	/**
 	 * Indicates whether this dimension is a special type of Time.
-	 * 
+	 *
 	 * @return true if this dimension is of Time type, otherwise false
 	 */
 
@@ -57,7 +60,7 @@ public abstract class DimensionHandle extends ReportElementHandle implements IDi
 
 	/**
 	 * Sets the status to indicate whether this dimension is a special type of Time.
-	 * 
+	 *
 	 * @param isTimeType status whether this dimension is of Time type
 	 * @throws SemanticException the property is locked
 	 */
@@ -68,7 +71,7 @@ public abstract class DimensionHandle extends ReportElementHandle implements IDi
 
 	/**
 	 * Gets the default hierarchy for the dimension.
-	 * 
+	 *
 	 * @return the default hierarchy for this dimension
 	 */
 	public HierarchyHandle getDefaultHierarchy() {
@@ -78,7 +81,7 @@ public abstract class DimensionHandle extends ReportElementHandle implements IDi
 
 	/**
 	 * Sets the default hierarchy for this dimension.
-	 * 
+	 *
 	 * @param defaultHierarchy the default hierarchy to set
 	 * @throws SemanticException
 	 */
@@ -88,7 +91,7 @@ public abstract class DimensionHandle extends ReportElementHandle implements IDi
 
 	/**
 	 * Gets the expression handle for the <code>ACLExpression</code> property.
-	 * 
+	 *
 	 * @return
 	 */
 	public ExpressionHandle getACLExpression() {
@@ -96,12 +99,12 @@ public abstract class DimensionHandle extends ReportElementHandle implements IDi
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public List<CubeHandle> getCubeClients() {
 		Iterator iter = clientsIterator();
-		List<CubeHandle> cubes = new ArrayList<CubeHandle>();
+		List<CubeHandle> cubes = new ArrayList<>();
 
 		while (iter.hasNext()) {
 			DesignElementHandle client = (DesignElementHandle) iter.next();
@@ -110,8 +113,9 @@ public abstract class DimensionHandle extends ReportElementHandle implements IDi
 				DesignElementHandle container = dimension.getContainer();
 
 				// if already added, do nothing
-				if (cubes.contains(container))
+				if (cubes.contains(container)) {
 					continue;
+				}
 
 				if (container instanceof CubeHandle) {
 					CubeHandle cube = (CubeHandle) container;

@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -20,6 +22,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.axis.transport.http.AxisServlet;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.IBirtConstants;
@@ -69,7 +72,7 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet {
 
 	/**
 	 * Check version.
-	 * 
+	 *
 	 * @return
 	 */
 	public static boolean isOpenSource() {
@@ -78,11 +81,12 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet {
 
 	/**
 	 * Servlet init.
-	 * 
+	 *
 	 * @param config
 	 * @exception ServletException
 	 * @return
 	 */
+	@Override
 	public void init(ServletConfig config) throws ServletException {
 		// Workaround for using axis bundle
 		Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
@@ -97,11 +101,13 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet {
 	 * @see javax.servlet.http.HttpServlet#service(javax.servlet.ServletRequest,
 	 *      javax.servlet.ServletResponse)
 	 */
+	@Override
 	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
 		// TODO: since eclipse Jetty doesn't support filter, set it here for
 		// workaround
-		if (req.getCharacterEncoding() == null)
+		if (req.getCharacterEncoding() == null) {
 			req.setCharacterEncoding(IBirtConstants.DEFAULT_ENCODE);
+		}
 
 		// workaround for Jetty
 		req.setAttribute("ServletPath", ((HttpServletRequest) req).getServletPath()); //$NON-NLS-1$
@@ -111,13 +117,14 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet {
 
 	/**
 	 * Handle HTTP GET method.
-	 * 
+	 *
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 * @return
 	 */
+	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (!__authenticate(request, response)) {
 			return;
@@ -146,20 +153,21 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet {
 
 	/**
 	 * Handle HTTP POST method.
-	 * 
+	 *
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 * @return
 	 */
+	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (!__authenticate(request, response)) {
 			return;
 		}
 
 		// create SOAP URL with post parameters
-		StringBuffer builder = new StringBuffer();
+		StringBuilder builder = new StringBuilder();
 		Iterator it = request.getParameterMap().keySet().iterator();
 		while (it.hasNext()) {
 			String paramName = (String) it.next();
@@ -171,8 +179,9 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet {
 			}
 		}
 		String soapURL = request.getRequestURL().toString();
-		if (ParameterAccessor.getBaseURL() != null)
+		if (ParameterAccessor.getBaseURL() != null) {
 			soapURL = ParameterAccessor.getBaseURL() + request.getContextPath() + request.getServletPath();
+		}
 
 		builder.deleteCharAt(0);
 		soapURL += "?" + builder.toString(); //$NON-NLS-1$

@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -64,7 +67,7 @@ public class DialChartViewer extends Composite implements PaintListener, Selecti
 
 	/**
 	 * execute application
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -99,8 +102,9 @@ public class DialChartViewer extends Composite implements PaintListener, Selecti
 
 		shell.open();
 		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
+			if (!display.readAndDispatch()) {
 				display.sleep();
+			}
 		}
 		display.dispose();
 	}
@@ -123,11 +127,12 @@ public class DialChartViewer extends Composite implements PaintListener, Selecti
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.
 	 * PaintEvent)
 	 */
+	@Override
 	public final void paintControl(PaintEvent e) {
 		Rectangle d = this.getClientArea();
 		Image imgChart = new Image(this.getDisplay(), d);
@@ -158,10 +163,11 @@ public class DialChartViewer extends Composite implements PaintListener, Selecti
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.widget.equals(btn)) {
 			int iSelection = cbType.getSelectionIndex();
@@ -186,11 +192,12 @@ public class DialChartViewer extends Composite implements PaintListener, Selecti
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 

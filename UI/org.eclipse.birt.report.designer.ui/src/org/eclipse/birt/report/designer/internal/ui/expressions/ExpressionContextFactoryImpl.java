@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,12 +35,12 @@ public class ExpressionContextFactoryImpl implements IExpressionContextFactory {
 
 	private List<ExpressionFilter> filters;
 
-	private Map<String, Object> extras = new HashMap<String, Object>();
+	private Map<String, Object> extras = new HashMap<>();
 
 	private IExpressionProvider provider;
 
 	public ExpressionContextFactoryImpl(Object contextObj, IExpressionProvider javaScriptExpressionProvider) {
-		contexts = new HashMap<String, IExpressionContext>();
+		contexts = new HashMap<>();
 
 		contexts.put(ExpressionType.JAVASCRIPT, new JSExpressionContext(javaScriptExpressionProvider, contextObj));
 
@@ -65,6 +68,7 @@ public class ExpressionContextFactoryImpl implements IExpressionContextFactory {
 		}
 	}
 
+	@Override
 	public IExpressionContext getContext(String expressionType, Object contextObj) {
 		IExpressionContextFactory factory = (IExpressionContextFactory) ElementAdapterManager.getAdapter(this,
 				IExpressionContextFactory.class);

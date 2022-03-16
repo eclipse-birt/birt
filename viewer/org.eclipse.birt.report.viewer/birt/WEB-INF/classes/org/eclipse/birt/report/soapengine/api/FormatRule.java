@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * FormatRule.java
  *
@@ -23,7 +35,7 @@ public class FormatRule implements java.io.Serializable {
 
 	/**
 	 * Gets the condition value for this FormatRule.
-	 * 
+	 *
 	 * @return condition
 	 */
 	public org.eclipse.birt.report.soapengine.api.FormatRuleCondition getCondition() {
@@ -32,7 +44,7 @@ public class FormatRule implements java.io.Serializable {
 
 	/**
 	 * Sets the condition value for this FormatRule.
-	 * 
+	 *
 	 * @param condition
 	 */
 	public void setCondition(org.eclipse.birt.report.soapengine.api.FormatRuleCondition condition) {
@@ -41,7 +53,7 @@ public class FormatRule implements java.io.Serializable {
 
 	/**
 	 * Gets the effect value for this FormatRule.
-	 * 
+	 *
 	 * @return effect
 	 */
 	public org.eclipse.birt.report.soapengine.api.FormatRuleEffect getEffect() {
@@ -50,7 +62,7 @@ public class FormatRule implements java.io.Serializable {
 
 	/**
 	 * Sets the effect value for this FormatRule.
-	 * 
+	 *
 	 * @param effect
 	 */
 	public void setEffect(org.eclipse.birt.report.soapengine.api.FormatRuleEffect effect) {
@@ -59,14 +71,18 @@ public class FormatRule implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof FormatRule))
+		if (!(obj instanceof FormatRule)) {
 			return false;
+		}
 		FormatRule other = (FormatRule) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -83,6 +99,7 @@ public class FormatRule implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

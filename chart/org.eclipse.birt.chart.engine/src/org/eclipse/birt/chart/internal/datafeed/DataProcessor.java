@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005,2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -66,17 +69,17 @@ public class DataProcessor {
 	private final IActionEvaluator iae;
 
 	/**
-	 * 
+	 *
 	 * To collect aggregation expressions and queries of each series.
-	 * 
+	 *
 	 */
 	private static class AggregationExpressionHelper {
 
-		private List<String> aggregationExpsList = new ArrayList<String>(3);
-		private List<String> querysList = new ArrayList<String>(3);
+		private List<String> aggregationExpsList = new ArrayList<>(3);
+		private List<String> querysList = new ArrayList<>(3);
 
 		// Group query for base aggregation
-		private List<String> baseQueryList = new ArrayList<String>(3);
+		private List<String> baseQueryList = new ArrayList<>(3);
 
 		public void addAggregation(String aggExp, List<String> querys) {
 			for (int i = 0; i < querys.size(); i++) {
@@ -103,12 +106,8 @@ public class DataProcessor {
 			baseQueryList.clear();
 		}
 
-		public boolean isEmpty() {
-			return aggregationExpsList.isEmpty() || querysList.isEmpty();
-		}
-
 		/**
-		 * 
+		 *
 		 * @param elSD      orthogonal series definitions list
 		 * @param lhmLookup
 		 */
@@ -143,7 +142,7 @@ public class DataProcessor {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param rtc
 	 */
 	public DataProcessor(RunTimeContext rtc, IActionEvaluator iae) {
@@ -157,7 +156,7 @@ public class DataProcessor {
 	 */
 	public static String[] getSeriesTriggerExpressions(Series se, IActionEvaluator iae, SeriesDefinition baseSD,
 			SeriesDefinition orthoSD) {
-		List<String> rt = new ArrayList<String>();
+		List<String> rt = new ArrayList<>();
 
 		if (se != null && iae != null) {
 			for (Trigger tg : se.getTriggers()) {
@@ -185,7 +184,7 @@ public class DataProcessor {
 
 	/**
 	 * Returns the design time's trigger expressions.
-	 * 
+	 *
 	 * @param se
 	 * @param iae
 	 * @return expressions
@@ -205,7 +204,7 @@ public class DataProcessor {
 	}
 
 	private GroupKey[] findGroupKeys(ChartWithoutAxes cwoa, GroupingLookupHelper lhmLookup) {
-		final List<GroupKey> alKeys = new ArrayList<GroupKey>(4);
+		final List<GroupKey> alKeys = new ArrayList<>(4);
 		EList<SeriesDefinition> elSD = cwoa.getSeriesDefinitions();
 
 		// Find all orthogonal group keys in model
@@ -238,7 +237,7 @@ public class DataProcessor {
 	}
 
 	private GroupKey[] findGroupKeys(ChartWithAxes cwa, GroupingLookupHelper lhmLookup) {
-		final List<GroupKey> alKeys = new ArrayList<GroupKey>(4);
+		final List<GroupKey> alKeys = new ArrayList<>(4);
 
 		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes()[0];
 
@@ -276,9 +275,9 @@ public class DataProcessor {
 
 	/**
 	 * Uses IDataRowExpressionEvaluator to create a ResultSetWrapper
-	 * 
+	 *
 	 * @return A wrapper of the chart resultset
-	 * 
+	 *
 	 * @throws ChartException
 	 */
 	protected ResultSetWrapper mapToChartResultSet(IDataRowExpressionEvaluator idre, Chart cm) throws ChartException {
@@ -289,7 +288,7 @@ public class DataProcessor {
 
 		// 2. WALK THROUGH RESULTS
 		List<Object[]> liResultSet = null;
-		List<String> co = null;
+		List<String> co;
 
 		// If current is sharing query, use original expressions. Else the value
 		// series expression will be transformed to a unique name which include
@@ -310,7 +309,7 @@ public class DataProcessor {
 
 		if (idre instanceof IGroupedDataRowExpressionEvaluator
 				&& ((IGroupedDataRowExpressionEvaluator) idre).getGroupBreaks(0) != null) {
-			int[] groupBreaks = new int[] {};
+			int[] groupBreaks = {};
 			if (orthogonalGroupKeys != null && orthogonalGroupKeys.length > 0) {
 				int groupLevel = 0;
 				boolean[] groupStatus = ((IGroupedDataRowExpressionEvaluator) idre).getGroupStatus();
@@ -405,7 +404,7 @@ public class DataProcessor {
 
 	/**
 	 * Fills the model chart runtime series with the data
-	 * 
+	 *
 	 * @throws ChartException
 	 */
 	public void generateRuntimeSeries(IDataRowExpressionEvaluator idre, Chart cm) throws ChartException {
@@ -515,7 +514,7 @@ public class DataProcessor {
 			Series seOrthogonalRuntimeSeries;
 			SeriesDefinition sdOrthogonal;
 
-			List<Object[]> orthogonalDataList = new ArrayList<Object[]>();
+			List<Object[]> orthogonalDataList = new ArrayList<>();
 
 			elSD = sdBase.getSeriesDefinitions();
 			for (int j = 0; j < elSD.size(); j++) {
@@ -584,8 +583,9 @@ public class DataProcessor {
 
 					qy = sdOrthogonal.getQuery();
 					sExpression = (qy == null) ? IConstants.UNDEFINED_STRING : qy.getDefinition();
-					if (sExpression == null)
+					if (sExpression == null) {
 						sExpression = IConstants.UNDEFINED_STRING;
+					}
 					// TODO format the group key.
 					seOrthogonalRuntimeSeries.setSeriesIdentifier(rsw.getGroupKey(k, sExpression, aggExp));
 					sdOrthogonal.getSeries().add(seOrthogonalRuntimeSeries);
@@ -716,7 +716,7 @@ public class DataProcessor {
 			Series seOrthogonalRuntimeSeries;
 			SeriesDefinition sdOrthogonal;
 
-			List<Object[]> orthogonalDataList = new ArrayList<Object[]>();
+			List<Object[]> orthogonalDataList = new ArrayList<>();
 
 			for (int i = 0; i < axaOrthogonal.length; i++) // FOR EACH AXIS
 			{
@@ -791,8 +791,9 @@ public class DataProcessor {
 
 						qy = sdOrthogonal.getQuery();
 						sExpression = (qy == null) ? IConstants.UNDEFINED_STRING : qy.getDefinition();
-						if (sExpression == null)
+						if (sExpression == null) {
 							sExpression = IConstants.UNDEFINED_STRING;
+						}
 						// TODO format the group key.
 						Object seriesIdentifier = rsw.getGroupKey(k, sExpression, aggExp);
 						if (seriesIdentifier instanceof String) {
@@ -988,37 +989,35 @@ public class DataProcessor {
 				}
 				ds.setValues(stringBuffer);
 			}
-		} else {
-			// for other anonymous types
-			if (oContent instanceof Collection) {
-				co = (Collection) oContent;
+		} else // for other anonymous types
+		if (oContent instanceof Collection) {
+			co = (Collection) oContent;
 
-				Object[] objBuffer = new Object[indexArray.length];
-				int i = 0;
-				for (Iterator itr = co.iterator(); itr.hasNext();) {
-					Object o = itr.next();
-					int idx = indexArray[i++];
-					if (idx != -1) {
-						objBuffer[idx] = o;
-					}
+			Object[] objBuffer = new Object[indexArray.length];
+			int i = 0;
+			for (Iterator itr = co.iterator(); itr.hasNext();) {
+				Object o = itr.next();
+				int idx = indexArray[i++];
+				if (idx != -1) {
+					objBuffer[idx] = o;
 				}
-
-				co.clear();
-				for (i = 0; i < objBuffer.length; i++) {
-					co.add(objBuffer[i]);
-				}
-			} else if (oContent instanceof Object[]) {
-				oa = (Object[]) oContent;
-
-				Object[] objectBuffer = new Object[indexArray.length];
-				for (int i = 0; i < oa.length; i++) {
-					int idx = indexArray[i];
-					if (idx != -1) {
-						objectBuffer[idx] = oa[i];
-					}
-				}
-				ds.setValues(objectBuffer);
 			}
+
+			co.clear();
+			for (i = 0; i < objBuffer.length; i++) {
+				co.add(objBuffer[i]);
+			}
+		} else if (oContent instanceof Object[]) {
+			oa = (Object[]) oContent;
+
+			Object[] objectBuffer = new Object[indexArray.length];
+			for (int i = 0; i < oa.length; i++) {
+				int idx = indexArray[i];
+				if (idx != -1) {
+					objectBuffer[idx] = oa[i];
+				}
+			}
+			ds.setValues(objectBuffer);
 		}
 
 		return ds;
@@ -1026,7 +1025,7 @@ public class DataProcessor {
 
 	/**
 	 * Populates the runtime dataset.
-	 * 
+	 *
 	 * @param seRuntime
 	 * @param rsds
 	 * @return the returned object array contains [DataSet, IDataSetProcessor,
@@ -1039,7 +1038,7 @@ public class DataProcessor {
 
 	/**
 	 * Populates the runtime dataset.
-	 * 
+	 *
 	 * @param seRuntime
 	 * @param rsds
 	 * @return the returned object array contains [DataSet, IDataSetProcessor,
@@ -1055,7 +1054,7 @@ public class DataProcessor {
 			throw new ChartException(ChartEnginePlugin.ID, ChartException.DATA_BINDING, pex);
 		}
 
-		DataSet ds = null;
+		DataSet ds;
 
 		ds = idsp.populate(rsds, null);
 
@@ -1119,7 +1118,7 @@ public class DataProcessor {
 
 		ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DATA_SET_FILLED, seRuntime, idsp, rtc.getScriptContext());
 
-		DataSet ds = null;
+		DataSet ds;
 		ds = idsp.populate(rsds, null);
 
 		seRuntime.setDataSet(ds);
@@ -1140,7 +1139,7 @@ public class DataProcessor {
 	/**
 	 * Evaluate data for all expressions, include base series, optional Y series
 	 * grouping and value series.
-	 * 
+	 *
 	 * @param idre
 	 * @param columns
 	 * @param areValueSeries
@@ -1149,7 +1148,7 @@ public class DataProcessor {
 	 */
 	public List<Object[]> evaluateRowSet(IDataRowExpressionEvaluator idre, final Object[] columns)
 			throws ChartException {
-		List<Object[]> liResultSet = new ArrayList<Object[]>();
+		List<Object[]> liResultSet = new ArrayList<>();
 		final int iColumnCount = columns.length;
 		Object[] oaTuple;
 		final int MAX_ROW_COUNT = ChartUtil.getSupportedMaxRowCount(rtc);
@@ -1217,7 +1216,7 @@ public class DataProcessor {
 	/**
 	 * Format base series data. Now it is only used to format datetime data, format
 	 * date for different grouping unit.
-	 * 
+	 *
 	 * @param cm
 	 * @param lhmLookup
 	 * @param rowSet

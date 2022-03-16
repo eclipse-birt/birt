@@ -1,5 +1,17 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
- * 
+ *
  */
 package org.eclipse.birt.report.model.api.simpleapi;
 
@@ -13,7 +25,7 @@ public interface IMultiRowItem extends IReportItem {
 
 	/**
 	 * Adds filter condition.expr of IFilterCondition is required.
-	 * 
+	 *
 	 * @param condition
 	 * @throws SemanticException
 	 */
@@ -22,9 +34,9 @@ public interface IMultiRowItem extends IReportItem {
 
 	/**
 	 * Adds sort condition.key of ISortCondition is required.
-	 * 
+	 *
 	 * @param condition
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -32,7 +44,7 @@ public interface IMultiRowItem extends IReportItem {
 
 	/**
 	 * Returns all filter conditions
-	 * 
+	 *
 	 * @return all filter conditions
 	 */
 
@@ -40,7 +52,7 @@ public interface IMultiRowItem extends IReportItem {
 
 	/**
 	 * Returns all sort conditions.
-	 * 
+	 *
 	 * @return all sort conditions.
 	 */
 
@@ -48,7 +60,7 @@ public interface IMultiRowItem extends IReportItem {
 
 	/**
 	 * Removes filter condition.
-	 * 
+	 *
 	 * @param condition
 	 * @throws SemanticException
 	 */
@@ -57,7 +69,7 @@ public interface IMultiRowItem extends IReportItem {
 
 	/**
 	 * Removes filter condition.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -65,7 +77,7 @@ public interface IMultiRowItem extends IReportItem {
 
 	/**
 	 * Removes sort condition.
-	 * 
+	 *
 	 * @param condition
 	 * @throws SemanticException
 	 */
@@ -74,7 +86,7 @@ public interface IMultiRowItem extends IReportItem {
 
 	/**
 	 * Removes all sort conditions
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 

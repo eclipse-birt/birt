@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,7 +19,7 @@ import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.report.engine.EngineCase;
 
 /**
- * 
+ *
  */
 public class RunTaskTest extends EngineCase {
 
@@ -34,6 +37,7 @@ public class RunTaskTest extends EngineCase {
 	static final String REPORT_DESIGN1 = "./utest/design.rptdesign";
 	static final String REPORT_DOCUMENT1 = "./utest/reportdocument.folder/";
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeFile(TEST_FOLDER);
@@ -42,6 +46,7 @@ public class RunTaskTest extends EngineCase {
 		copyResource(BLANK_REPORT_DOCUMENT_RESOURCE, BLANK_REPORT_DOCUMENT);
 	}
 
+	@Override
 	public void tearDown() throws Exception {
 		removeFile(TEST_FOLDER);
 		super.tearDown();

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +50,7 @@ import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper;
 
 /**
- * 
+ *
  */
 
 public class AggregationFilterHelper {
@@ -59,7 +62,7 @@ public class AggregationFilterHelper {
 	private IBindingValueFetcher fetcher;
 
 	/**
-	 * 
+	 *
 	 * @param cube
 	 * @param jsFilterHelpers
 	 */
@@ -74,7 +77,7 @@ public class AggregationFilterHelper {
 	 * transform the specified filter helpers to level filters for another
 	 * aggregation calculation. Note: if the returned list is null, which means the
 	 * final aggregation result will be empty, and no more calculations are needed.
-	 * 
+	 *
 	 * @param aggregations
 	 * @param resultSet
 	 * @return
@@ -85,7 +88,7 @@ public class AggregationFilterHelper {
 		List levelFilterList = new ArrayList();
 		try {
 			applyAggrFilters(aggregations, resultSet, levelFilterList);
-			if (isEmptyXtab == true) {
+			if (isEmptyXtab) {
 				return null;
 			}
 			applyTopBottomFilters(aggregations, resultSet, levelFilterList);
@@ -100,7 +103,7 @@ public class AggregationFilterHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param jsFilterHelpers
 	 */
 	private void populateFilters(List jsFilterHelpers) {
@@ -119,13 +122,14 @@ public class AggregationFilterHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cube
 	 */
 	private void populateDimensionLevels(Cube cube) {
 		dimensionMap = new HashMap();
-		if (cube == null)
+		if (cube == null) {
 			return;
+		}
 		IDimension[] dimensions = cube.getDimesions();
 		for (int i = 0; i < dimensions.length; i++) {
 			dimensionMap.put(dimensions[i].getName(), dimensions[i].getHierarchy().getLevels());
@@ -133,7 +137,7 @@ public class AggregationFilterHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aggregations
 	 * @param resultSet
 	 * @param levelFilterList
@@ -159,7 +163,7 @@ public class AggregationFilterHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aggregation
 	 * @param resultSet
 	 * @param filter
@@ -198,8 +202,9 @@ public class AggregationFilterHelper {
 				int levelIndex = resultSet.getLevelIndex(targetLevel);
 				// select aggregation row
 				Object[] levelKeyValue = resultSet.getLevelKeyValue(levelIndex);
-				if (levelKeyValue != null && levelKeyValue[0] != null)
+				if (levelKeyValue != null && levelKeyValue[0] != null) {
 					selKeyValueList.add(levelKeyValue);
+				}
 				preMembers = members;
 			}
 		}
@@ -248,8 +253,9 @@ public class AggregationFilterHelper {
 				int levelIndex = resultSet.getLevelIndex(targetLevel);
 				// select aggregation row
 				Object[] levelKeyValue = resultSet.getLevelKeyValue(levelIndex);
-				if (levelKeyValue != null && levelKeyValue[0] != null)
+				if (levelKeyValue != null && levelKeyValue[0] != null) {
 					selKeyValueList.add(levelKeyValue);
+				}
 				preMembers = members;
 			}
 		}
@@ -270,14 +276,16 @@ public class AggregationFilterHelper {
 
 		for (int k = 0; k < this.topbottomFilters.size(); k++) {
 			TopBottomFilterDefinition filterDefinition = (TopBottomFilterDefinition) topbottomFilters.get(k);
-			if (isMatchResultSet(rs.getAggregationDefinition(), rs, filterDefinition))
+			if (isMatchResultSet(rs.getAggregationDefinition(), rs, filterDefinition)) {
 				return true;
+			}
 		}
 
 		for (int k = 0; k < this.aggrFilters.size(); k++) {
 			AggrFilterDefinition filterDefinition = ((AggrFilterDefinition) aggrFilters.get(k));
-			if (isMatchResultSet(rs.getAggregationDefinition(), rs, filterDefinition))
+			if (isMatchResultSet(rs.getAggregationDefinition(), rs, filterDefinition)) {
 				return true;
+			}
 		}
 
 		return result;
@@ -287,7 +295,7 @@ public class AggregationFilterHelper {
 			TopBottomFilterDefinition filter) throws DataException {
 		IJSTopBottomFilterHelper filterHelper = (IJSTopBottomFilterHelper) filter.getFilterHelper();
 		int n = -1;
-		if (filterHelper.isPercent() == false) {
+		if (!filterHelper.isPercent()) {
 			n = (int) filterHelper.getN();
 		}
 
@@ -323,10 +331,11 @@ public class AggregationFilterHelper {
 		if (filterHelper.isPercent()) {// top/bottom percentage filter
 			int size = aggrValueArray.size(); // target level member size
 			int n = FilterUtil.getTargetN(size, filterHelper.getN());
-			if (filterHelper.isTop())
+			if (filterHelper.isTop()) {
 				start = size - n;
-			else
+			} else {
 				end = n;
+			}
 		}
 		List resultList = new ArrayList();
 		for (int i = start; i < end; i++) {
@@ -441,14 +450,14 @@ public class AggregationFilterHelper {
 					IAggregationResultSet newAggrResultSet = new AggregationResultSet(rs[i].getAggregationDefinition(),
 							rs[i].getAllLevels(), validRows, rs[i].getKeyNames(), rs[i].getAttributeNames());
 					result[i] = newAggrResultSet;
-					affectedAggrResultSetIndex.add(Integer.valueOf(i));
+					affectedAggrResultSetIndex.add(i);
 				} else if (filtered && levelFilterList.size() == 0) {
 					IAggregationResultSet newAggrResultSet = new AggregationResultSet(rs[i].getAggregationDefinition(),
 							rs[i].getAllLevels(),
 							new BufferedStructureArray(AggregationResultRow.getCreator(), rs[i].length()),
 							rs[i].getKeyNames(), rs[i].getAttributeNames());
 					result[i] = newAggrResultSet;
-					affectedAggrResultSetIndex.add(Integer.valueOf(i));
+					affectedAggrResultSetIndex.add(i);
 				} else {
 					result[i] = rs[i];
 				}
@@ -462,8 +471,8 @@ public class AggregationFilterHelper {
 	 * get the members of the specified dimension from the aggregation result set.
 	 * Note: only the members of the levels which reside in the result set will be
 	 * fetched, otherwise the corresponding member value is null.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param dimensionName
 	 * @param resultSet
 	 * @return
@@ -504,8 +513,9 @@ public class AggregationFilterHelper {
 
 	private void applyNoUpdateTopBottomFilters(AggregationDefinition aggregation, IAggregationResultSet resultSet,
 			List levelFilterList) throws DataException, IOException {
-		if (aggregation.getAggregationFunctions() == null)
+		if (aggregation.getAggregationFunctions() == null) {
 			return;
+		}
 		Map levelFilterMap = new HashMap();
 		for (Iterator j = topbottomFilters.iterator(); j.hasNext();) {
 			TopBottomFilterDefinition filter = (TopBottomFilterDefinition) j.next();
@@ -531,8 +541,9 @@ public class AggregationFilterHelper {
 			Object[] valueObjs = (Object[]) levelFilterMap.get(target);
 			IDiskArray selectedKeyArray = (IDiskArray) valueObjs[0];
 			IJSFilterHelper filterHelper = (IJSFilterHelper) valueObjs[1];
-			if (selectedKeyArray.size() == 0)
+			if (selectedKeyArray.size() == 0) {
 				continue;
+			}
 
 			int index = resultSet.getLevelIndex(target);
 			Map keyMap = new HashMap();
@@ -560,7 +571,7 @@ public class AggregationFilterHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aggregations
 	 * @param resultSet
 	 * @param levelFilterList
@@ -571,8 +582,9 @@ public class AggregationFilterHelper {
 	private void applyTopBottomFilters(AggregationDefinition[] aggregations, IAggregationResultSet[] resultSet,
 			List levelFilterList) throws DataException, IOException {
 		for (int i = 0; i < aggregations.length; i++) {
-			if (aggregations[i].getAggregationFunctions() == null)
+			if (aggregations[i].getAggregationFunctions() == null) {
 				continue;
+			}
 			Map levelFilterMap = new HashMap();
 			for (Iterator j = topbottomFilters.iterator(); j.hasNext();) {
 				TopBottomFilterDefinition filter = (TopBottomFilterDefinition) j.next();
@@ -598,8 +610,9 @@ public class AggregationFilterHelper {
 				Object[] valueObjs = (Object[]) levelFilterMap.get(target);
 				IDiskArray selectedKeyArray = (IDiskArray) valueObjs[0];
 				IJSFilterHelper filterHelper = (IJSFilterHelper) valueObjs[1];
-				if (selectedKeyArray.size() == 0)
+				if (selectedKeyArray.size() == 0) {
 					continue;
+				}
 				ILevel[] levels = getLevelsOfDimension(target.getDimensionName());
 				int index = FilterUtil.getTargetLevelIndex(levels, target.getLevelName());
 				Map keyMap = new HashMap();
@@ -628,7 +641,7 @@ public class AggregationFilterHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimensionName
 	 * @return
 	 */
@@ -637,7 +650,7 @@ public class AggregationFilterHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aggregation
 	 * @param resultSet
 	 * @param filter
@@ -648,7 +661,7 @@ public class AggregationFilterHelper {
 			TopBottomFilterDefinition filter) throws DataException {
 		IJSTopBottomFilterHelper filterHelper = (IJSTopBottomFilterHelper) filter.getFilterHelper();
 		int n = -1;
-		if (filterHelper.isPercent() == false) {
+		if (!filterHelper.isPercent()) {
 			n = (int) filterHelper.getN();
 		}
 
@@ -678,7 +691,7 @@ public class AggregationFilterHelper {
 			TopBottomFilterDefinition filter) throws DataException {
 		IJSTopBottomFilterHelper filterHelper = (IJSTopBottomFilterHelper) filter.getFilterHelper();
 		int n = -1;
-		if (filterHelper.isPercent() == false) {
+		if (!filterHelper.isPercent()) {
 			n = (int) filterHelper.getN();
 		}
 
@@ -718,10 +731,11 @@ public class AggregationFilterHelper {
 		if (filterHelper.isPercent()) {// top/bottom percentage filter
 			int size = aggrValueArray.size(); // target level member size
 			int n = FilterUtil.getTargetN(size, filterHelper.getN());
-			if (filterHelper.isTop())
+			if (filterHelper.isTop()) {
 				start = size - n;
-			else
+			} else {
 				end = n;
+			}
 		}
 		IDiskArray levelKeyArray = new BufferedPrimitiveDiskArray(
 				Math.min((end - start + 1), Constants.LIST_BUFFER_SIZE));
@@ -733,14 +747,14 @@ public class AggregationFilterHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param members
 	 * @param index
 	 * @return
 	 */
 	private String getParentKey(Member[] members, int index) {
 		assert index >= 0 && index < members.length;
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		for (int i = 0; i < index; i++) {
 			if (members[i] == null) {
 				buf.append('?');
@@ -777,7 +791,7 @@ public class AggregationFilterHelper {
 }
 
 /**
- * 
+ *
  */
 class MultiKey implements Comparable {
 
@@ -791,13 +805,14 @@ class MultiKey implements Comparable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(T)
 	 */
+	@Override
 	public int compareTo(Object obj) {
-		if (obj == null)
+		if (obj == null) {
 			return -1;
-		else if (obj instanceof MultiKey) {
+		} else if (obj instanceof MultiKey) {
 			MultiKey key = (MultiKey) obj;
 			return CompareUtil.compare(values, key.values);
 		}
@@ -820,8 +835,8 @@ class MultiKey implements Comparable {
 }
 
 /**
- * 
- * 
+ *
+ *
  */
 class AggrFilterDefinition {
 
@@ -885,7 +900,7 @@ class AggrFilterDefinition {
 }
 
 /**
- * 
+ *
  */
 class TopBottomFilterDefinition extends AggrFilterDefinition {
 
@@ -893,7 +908,7 @@ class TopBottomFilterDefinition extends AggrFilterDefinition {
 	int filterType;
 
 	/**
-	 * 
+	 *
 	 * @param filterHelper
 	 */
 	TopBottomFilterDefinition(IJSFilterHelper filterHelper) {

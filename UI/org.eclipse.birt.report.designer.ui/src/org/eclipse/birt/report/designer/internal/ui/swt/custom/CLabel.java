@@ -1,19 +1,42 @@
 /*******************************************************************************
- * Copyright (c) 2010 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2010 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.swt.custom;
 
-import org.eclipse.swt.*;
-import org.eclipse.swt.widgets.*;
-import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.events.*;
-import org.eclipse.swt.accessibility.*;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTException;
+import org.eclipse.swt.accessibility.ACC;
+import org.eclipse.swt.accessibility.Accessible;
+import org.eclipse.swt.accessibility.AccessibleAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlEvent;
+import org.eclipse.swt.accessibility.AccessibleEvent;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.graphics.TextLayout;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
 /**
  * A Label which supports aligned text and/or an image and different border
@@ -21,7 +44,7 @@ import org.eclipse.swt.accessibility.*;
  * <p>
  * If there is not enough space a CLabel uses the following strategy to fit the
  * information into the available space:
- * 
+ *
  * <pre>
  * 		ignores the indent in left align mode
  * 		ignores the image and the gap
@@ -35,12 +58,12 @@ import org.eclipse.swt.accessibility.*;
  * <dt><b>Events:</b>
  * <dd></dd>
  * </dl>
- * 
+ *
  * </p>
  * <p>
  * IMPORTANT: This class is <em>not</em> intended to be subclassed.
  * </p>
- * 
+ *
  * @see <a href="http://www.eclipse.org/swt/examples.php">SWT Example:
  *      CustomControlExample</a>
  * @see <a href="http://www.eclipse.org/swt/">Sample code and further
@@ -94,11 +117,11 @@ public class CLabel extends Canvas {
 	 * constants. The class description lists the style constants that are
 	 * applicable to the class. Style bits are also inherited from superclasses.
 	 * </p>
-	 * 
+	 *
 	 * @param parent a widget which will be the parent of the new instance (cannot
 	 *               be null)
 	 * @param style  the style of widget to construct
-	 * 
+	 *
 	 * @exception IllegalArgumentException
 	 *                                     <ul>
 	 *                                     <li>ERROR_NULL_ARGUMENT - if the parent
@@ -110,7 +133,7 @@ public class CLabel extends Canvas {
 	 *                                     called from the thread that created the
 	 *                                     parent</li>
 	 *                                     </ul>
-	 * 
+	 *
 	 * @see SWT#LEFT
 	 * @see SWT#RIGHT
 	 * @see SWT#CENTER
@@ -121,17 +144,22 @@ public class CLabel extends Canvas {
 	 */
 	public CLabel(Composite parent, int style) {
 		super(parent, checkStyle(style));
-		if ((style & (SWT.CENTER | SWT.RIGHT)) == 0)
+		if ((style & (SWT.CENTER | SWT.RIGHT)) == 0) {
 			style |= SWT.LEFT;
-		if ((style & SWT.CENTER) != 0)
+		}
+		if ((style & SWT.CENTER) != 0) {
 			align = SWT.CENTER;
-		if ((style & SWT.RIGHT) != 0)
+		}
+		if ((style & SWT.RIGHT) != 0) {
 			align = SWT.RIGHT;
-		if ((style & SWT.LEFT) != 0)
+		}
+		if ((style & SWT.LEFT) != 0) {
 			align = SWT.LEFT;
+		}
 
 		addPaintListener(new PaintListener() {
 
+			@Override
 			public void paintControl(PaintEvent event) {
 				onPaint(event);
 			}
@@ -139,6 +167,7 @@ public class CLabel extends Canvas {
 
 		addTraverseListener(new TraverseListener() {
 
+			@Override
 			public void keyTraversed(TraverseEvent event) {
 				if (event.detail == SWT.TRAVERSE_MNEMONIC) {
 					onMnemonic(event);
@@ -148,6 +177,7 @@ public class CLabel extends Canvas {
 
 		addListener(SWT.Dispose, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				onDispose(event);
 			}
@@ -161,8 +191,9 @@ public class CLabel extends Canvas {
 	 * Check the style bits to ensure that no invalid styles are applied.
 	 */
 	private static int checkStyle(int style) {
-		if ((style & SWT.BORDER) != 0)
+		if ((style & SWT.BORDER) != 0) {
 			style |= SWT.SHADOW_IN;
+		}
 		int mask = SWT.SHADOW_IN | SWT.SHADOW_OUT | SWT.SHADOW_NONE | SWT.LEFT_TO_RIGHT | SWT.RIGHT_TO_LEFT;
 		style = style & mask;
 		return style |= SWT.NO_FOCUS | SWT.DOUBLE_BUFFERED;
@@ -176,6 +207,7 @@ public class CLabel extends Canvas {
 	// }
 	// }
 
+	@Override
 	public Point computeSize(int wHint, int hHint, boolean changed) {
 		checkWidget();
 		Point e = getTotalSize(image, text);
@@ -211,17 +243,21 @@ public class CLabel extends Canvas {
 	 * string, return '\0'.
 	 */
 	char _findMnemonic(String string) {
-		if (string == null)
+		if (string == null) {
 			return '\0';
+		}
 		int index = 0;
 		int length = string.length();
 		do {
-			while (index < length && string.charAt(index) != '&')
+			while (index < length && string.charAt(index) != '&') {
 				index++;
-			if (++index >= length)
+			}
+			if (++index >= length) {
 				return '\0';
-			if (string.charAt(index) != '&')
+			}
+			if (string.charAt(index) != '&') {
 				return Character.toLowerCase(string.charAt(index));
+			}
 			index++;
 		} while (index < length);
 		return '\0';
@@ -230,7 +266,7 @@ public class CLabel extends Canvas {
 	/**
 	 * Returns the horizontal alignment. The alignment style (LEFT, CENTER or RIGHT)
 	 * is returned.
-	 * 
+	 *
 	 * @return SWT.LEFT, SWT.RIGHT or SWT.CENTER
 	 */
 	public int getAlignment() {
@@ -240,9 +276,9 @@ public class CLabel extends Canvas {
 
 	/**
 	 * Return the CLabel's bottom margin.
-	 * 
+	 *
 	 * @return the bottom margin of the label
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public int getBottomMargin() {
@@ -252,7 +288,7 @@ public class CLabel extends Canvas {
 
 	/**
 	 * Return the CLabel's image or <code>null</code>.
-	 * 
+	 *
 	 * @return the image of the label or null
 	 */
 	public Image getImage() {
@@ -262,9 +298,9 @@ public class CLabel extends Canvas {
 
 	/**
 	 * Return the CLabel's left margin.
-	 * 
+	 *
 	 * @return the left margin of the label
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public int getLeftMargin() {
@@ -274,9 +310,9 @@ public class CLabel extends Canvas {
 
 	/**
 	 * Return the CLabel's right margin.
-	 * 
+	 *
 	 * @return the right margin of the label
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public int getRightMargin() {
@@ -301,8 +337,9 @@ public class CLabel extends Canvas {
 			Point e = gc.textExtent(text, DRAW_FLAGS);
 			size.x += e.x;
 			size.y = Math.max(size.y, e.y);
-			if (image != null)
+			if (image != null) {
 				size.x += GAP;
+			}
 		} else {
 			size.y = Math.max(size.y, gc.getFontMetrics().getHeight());
 		}
@@ -311,6 +348,7 @@ public class CLabel extends Canvas {
 		return size;
 	}
 
+	@Override
 	public int getStyle() {
 		int style = super.getStyle();
 		switch (align) {
@@ -329,7 +367,7 @@ public class CLabel extends Canvas {
 
 	/**
 	 * Return the Label's text.
-	 * 
+	 *
 	 * @return the text of the label or null
 	 */
 	public String getText() {
@@ -337,6 +375,7 @@ public class CLabel extends Canvas {
 		return text;
 	}
 
+	@Override
 	public String getToolTipText() {
 		checkWidget();
 		return appToolTipText;
@@ -344,9 +383,9 @@ public class CLabel extends Canvas {
 
 	/**
 	 * Return the CLabel's top margin.
-	 * 
+	 *
 	 * @return the top margin of the label
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public int getTopMargin() {
@@ -358,14 +397,17 @@ public class CLabel extends Canvas {
 		Accessible accessible = getAccessible();
 		accessible.addAccessibleListener(new AccessibleAdapter() {
 
+			@Override
 			public void getName(AccessibleEvent e) {
 				e.result = getText();
 			}
 
+			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
 
+			@Override
 			public void getKeyboardShortcut(AccessibleEvent e) {
 				char mnemonic = _findMnemonic(CLabel.this.text);
 				if (mnemonic != '\0') {
@@ -376,10 +418,12 @@ public class CLabel extends Canvas {
 
 		accessible.addAccessibleControlListener(new AccessibleControlAdapter() {
 
+			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				e.childID = ACC.CHILDID_SELF;
 			}
 
+			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle rect = getDisplay().map(getParent(), null, getBounds());
 				e.x = rect.x;
@@ -388,14 +432,17 @@ public class CLabel extends Canvas {
 				e.height = rect.height;
 			}
 
+			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
+			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_LABEL;
 			}
 
+			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_READONLY;
 			}
@@ -422,17 +469,17 @@ public class CLabel extends Canvas {
 
 	void onMnemonic(TraverseEvent event) {
 		char mnemonic = _findMnemonic(text);
-		if (mnemonic == '\0')
+		if ((mnemonic == '\0') || (Character.toLowerCase(event.character) != mnemonic)) {
 			return;
-		if (Character.toLowerCase(event.character) != mnemonic)
-			return;
+		}
 		Composite control = this.getParent();
 		while (control != null) {
 			Control[] children = control.getChildren();
 			int index = 0;
 			while (index < children.length) {
-				if (children[index] == this)
+				if (children[index] == this) {
 					break;
+				}
 				index++;
 			}
 			index++;
@@ -448,8 +495,9 @@ public class CLabel extends Canvas {
 
 	void onPaint(PaintEvent event) {
 		Rectangle rect = getClientArea();
-		if (rect.width == 0 || rect.height == 0)
+		if (rect.width == 0 || rect.height == 0) {
 			return;
+		}
 
 		boolean shortenText = false;
 		String t = text;
@@ -516,20 +564,23 @@ public class CLabel extends Canvas {
 				// draw a gradient behind the text
 				final Color oldBackground = gc.getBackground();
 				if (gradientColors.length == 1) {
-					if (gradientColors[0] != null)
+					if (gradientColors[0] != null) {
 						gc.setBackground(gradientColors[0]);
+					}
 					gc.fillRectangle(0, 0, rect.width, rect.height);
 				} else {
 					final Color oldForeground = gc.getForeground();
 					Color lastColor = gradientColors[0];
-					if (lastColor == null)
+					if (lastColor == null) {
 						lastColor = oldBackground;
+					}
 					int pos = 0;
 					for (int i = 0; i < gradientPercents.length; ++i) {
 						gc.setForeground(lastColor);
 						lastColor = gradientColors[i + 1];
-						if (lastColor == null)
+						if (lastColor == null) {
 							lastColor = oldBackground;
+						}
 						gc.setBackground(lastColor);
 						if (gradientVertical) {
 							final int gradientHeight = (gradientPercents[i] * rect.height / 100) - pos;
@@ -552,11 +603,9 @@ public class CLabel extends Canvas {
 					gc.setForeground(oldForeground);
 				}
 				gc.setBackground(oldBackground);
-			} else {
-				if (background != null || (getStyle() & SWT.DOUBLE_BUFFERED) == 0) {
-					gc.setBackground(getBackground());
-					gc.fillRectangle(rect);
-				}
+			} else if (background != null || (getStyle() & SWT.DOUBLE_BUFFERED) == 0) {
+				gc.setBackground(getBackground());
+				gc.fillRectangle(rect);
 			}
 		} catch (SWTException e) {
 			if ((getStyle() & SWT.DOUBLE_BUFFERED) == 0) {
@@ -590,17 +639,19 @@ public class CLabel extends Canvas {
 
 		int imageY = 0, midPoint = 0, lineY = 0;
 		if (imageHeight > textHeight) {
-			if (topMargin == DEFAULT_MARGIN && bottomMargin == DEFAULT_MARGIN)
+			if (topMargin == DEFAULT_MARGIN && bottomMargin == DEFAULT_MARGIN) {
 				imageY = rect.y + (rect.height - imageHeight) / 2;
-			else
+			} else {
 				imageY = topMargin;
+			}
 			midPoint = imageY + imageHeight / 2;
 			lineY = midPoint - textHeight / 2;
 		} else {
-			if (topMargin == DEFAULT_MARGIN && bottomMargin == DEFAULT_MARGIN)
+			if (topMargin == DEFAULT_MARGIN && bottomMargin == DEFAULT_MARGIN) {
 				lineY = rect.y + (rect.height - textHeight) / 2;
-			else
+			} else {
 				lineY = topMargin;
+			}
 			midPoint = lineY + textHeight / 2;
 			imageY = midPoint - imageHeight / 2;
 		}
@@ -661,9 +712,9 @@ public class CLabel extends Canvas {
 	/**
 	 * Set the horizontal alignment of the CLabel. Use the values LEFT, CENTER and
 	 * RIGHT to align image and text within the available space.
-	 * 
+	 *
 	 * @param align the alignment style of LEFT, RIGHT or CENTER
-	 * 
+	 *
 	 * @exception SWTException
 	 *                         <ul>
 	 *                         <li>ERROR_WIDGET_DISPOSED - if the receiver has been
@@ -685,16 +736,17 @@ public class CLabel extends Canvas {
 		}
 	}
 
+	@Override
 	public void setBackground(Color color) {
 		super.setBackground(color);
 		// Are these settings the same as before?
 		if (backgroundImage == null && gradientColors == null && gradientPercents == null) {
 			if (color == null) {
-				if (background == null)
+				if (background == null) {
 					return;
-			} else {
-				if (color.equals(background))
-					return;
+				}
+			} else if (color.equals(background)) {
+				return;
 			}
 		}
 		background = color;
@@ -711,14 +763,14 @@ public class CLabel extends Canvas {
 	 * to white and stays white for the right half of the label, use the following
 	 * call to setBackground:
 	 * </p>
-	 * 
+	 *
 	 * <pre>
 	 * clabel.setBackground(
 	 * 		new Color[] { display.getSystemColor(SWT.COLOR_DARK_BLUE), display.getSystemColor(SWT.COLOR_BLUE),
 	 * 				display.getSystemColor(SWT.COLOR_WHITE), display.getSystemColor(SWT.COLOR_WHITE) },
 	 * 		new int[] { 25, 50, 100 });
 	 * </pre>
-	 * 
+	 *
 	 * @param colors   an array of Color that specifies the colors to appear in the
 	 *                 gradient in order of appearance from left to right; The value
 	 *                 <code>null</code> clears the background gradient; the value
@@ -728,7 +780,7 @@ public class CLabel extends Canvas {
 	 *                 of the width of the widget at which the color should change;
 	 *                 the size of the percents array must be one less than the size
 	 *                 of the colors array.
-	 * 
+	 *
 	 * @exception SWTException
 	 *                         <ul>
 	 *                         <li>ERROR_WIDGET_DISPOSED - if the receiver has been
@@ -749,13 +801,13 @@ public class CLabel extends Canvas {
 	 * For example, to draw a gradient that varies from dark blue to white in the
 	 * vertical, direction use the following call to setBackground:
 	 * </p>
-	 * 
+	 *
 	 * <pre>
 	 * clabel.setBackground(
 	 * 		new Color[] { display.getSystemColor(SWT.COLOR_DARK_BLUE), display.getSystemColor(SWT.COLOR_WHITE) },
 	 * 		new int[] { 100 }, true);
 	 * </pre>
-	 * 
+	 *
 	 * @param colors   an array of Color that specifies the colors to appear in the
 	 *                 gradient in order of appearance from left/top to
 	 *                 right/bottom; The value <code>null</code> clears the
@@ -767,7 +819,7 @@ public class CLabel extends Canvas {
 	 *                 the size of the colors array.
 	 * @param vertical indicate the direction of the gradient. True is vertical and
 	 *                 false is horizontal.
-	 * 
+	 *
 	 * @exception SWTException
 	 *                         <ul>
 	 *                         <li>ERROR_WIDGET_DISPOSED - if the receiver has been
@@ -777,7 +829,7 @@ public class CLabel extends Canvas {
 	 *                         <li>ERROR_INVALID_ARGUMENT - if the values of colors
 	 *                         and percents are not consistent</li>
 	 *                         </ul>
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public void setBackground(Color[] colors, int[] percents, boolean vertical) {
@@ -810,18 +862,21 @@ public class CLabel extends Canvas {
 					same = (gradientColors[i] == colors[i])
 							|| ((gradientColors[i] == null) && (colors[i] == background))
 							|| ((gradientColors[i] == background) && (colors[i] == null));
-					if (!same)
+					if (!same) {
 						break;
+					}
 				}
 				if (same) {
 					for (int i = 0; i < gradientPercents.length; i++) {
 						same = gradientPercents[i] == percents[i];
-						if (!same)
+						if (!same) {
 							break;
+						}
 					}
 				}
-				if (same && this.gradientVertical == vertical)
+				if (same && this.gradientVertical == vertical) {
 					return;
+				}
 			}
 		} else {
 			backgroundImage = null;
@@ -833,11 +888,13 @@ public class CLabel extends Canvas {
 			gradientVertical = false;
 		} else {
 			gradientColors = new Color[colors.length];
-			for (int i = 0; i < colors.length; ++i)
+			for (int i = 0; i < colors.length; ++i) {
 				gradientColors[i] = (colors[i] != null) ? colors[i] : background;
+			}
 			gradientPercents = new int[percents.length];
-			for (int i = 0; i < percents.length; ++i)
+			for (int i = 0; i < percents.length; ++i) {
 				gradientPercents[i] = percents[i];
+			}
 			gradientVertical = vertical;
 		}
 		// Refresh with the new settings
@@ -846,9 +903,9 @@ public class CLabel extends Canvas {
 
 	/**
 	 * Set the image to be drawn in the background of the label.
-	 * 
+	 *
 	 * @param image the image to be drawn in the background
-	 * 
+	 *
 	 * @exception SWTException
 	 *                         <ul>
 	 *                         <li>ERROR_WIDGET_DISPOSED - if the receiver has been
@@ -859,8 +916,9 @@ public class CLabel extends Canvas {
 	 */
 	public void setBackground(Image image) {
 		checkWidget();
-		if (image == backgroundImage)
+		if (image == backgroundImage) {
 			return;
+		}
 		if (image != null) {
 			gradientColors = null;
 			gradientPercents = null;
@@ -872,10 +930,10 @@ public class CLabel extends Canvas {
 
 	/**
 	 * Set the label's bottom margin, in pixels.
-	 * 
+	 *
 	 * @param bottomMargin the bottom margin of the label, which must be equal to or
 	 *                     greater than zero
-	 * 
+	 *
 	 * @exception SWTException
 	 *                         <ul>
 	 *                         <li>ERROR_WIDGET_DISPOSED - if the receiver has been
@@ -883,17 +941,19 @@ public class CLabel extends Canvas {
 	 *                         <li>ERROR_THREAD_INVALID_ACCESS - if not called from
 	 *                         the thread that created the receiver</li>
 	 *                         </ul>
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public void setBottomMargin(int bottomMargin) {
 		checkWidget();
-		if (this.bottomMargin == bottomMargin || bottomMargin < 0)
+		if (this.bottomMargin == bottomMargin || bottomMargin < 0) {
 			return;
+		}
 		this.bottomMargin = bottomMargin;
 		redraw();
 	}
 
+	@Override
 	public void setFont(Font font) {
 		super.setFont(font);
 		redraw();
@@ -901,9 +961,9 @@ public class CLabel extends Canvas {
 
 	/**
 	 * Set the label's Image. The value <code>null</code> clears it.
-	 * 
+	 *
 	 * @param image the image to be displayed in the label or null
-	 * 
+	 *
 	 * @exception SWTException
 	 *                         <ul>
 	 *                         <li>ERROR_WIDGET_DISPOSED - if the receiver has been
@@ -922,10 +982,10 @@ public class CLabel extends Canvas {
 
 	/**
 	 * Set the label's horizontal left margin, in pixels.
-	 * 
+	 *
 	 * @param leftMargin the left margin of the label, which must be equal to or
 	 *                   greater than zero
-	 * 
+	 *
 	 * @exception SWTException
 	 *                         <ul>
 	 *                         <li>ERROR_WIDGET_DISPOSED - if the receiver has been
@@ -933,20 +993,21 @@ public class CLabel extends Canvas {
 	 *                         <li>ERROR_THREAD_INVALID_ACCESS - if not called from
 	 *                         the thread that created the receiver</li>
 	 *                         </ul>
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public void setLeftMargin(int leftMargin) {
 		checkWidget();
-		if (this.leftMargin == leftMargin || leftMargin < 0)
+		if (this.leftMargin == leftMargin || leftMargin < 0) {
 			return;
+		}
 		this.leftMargin = leftMargin;
 		redraw();
 	}
 
 	/**
 	 * Set the label's margins, in pixels.
-	 * 
+	 *
 	 * @param leftMargin   the left margin.
 	 * @param topMargin    the top margin.
 	 * @param rightMargin  the right margin.
@@ -958,7 +1019,7 @@ public class CLabel extends Canvas {
 	 *                         <li>ERROR_THREAD_INVALID_ACCESS - if not called from
 	 *                         the thread that created the receiver</li>
 	 *                         </ul>
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public void setMargins(int leftMargin, int topMargin, int rightMargin, int bottomMargin) {
@@ -972,10 +1033,10 @@ public class CLabel extends Canvas {
 
 	/**
 	 * Set the label's right margin, in pixels.
-	 * 
+	 *
 	 * @param rightMargin the right margin of the label, which must be equal to or
 	 *                    greater than zero
-	 * 
+	 *
 	 * @exception SWTException
 	 *                         <ul>
 	 *                         <li>ERROR_WIDGET_DISPOSED - if the receiver has been
@@ -983,13 +1044,14 @@ public class CLabel extends Canvas {
 	 *                         <li>ERROR_THREAD_INVALID_ACCESS - if not called from
 	 *                         the thread that created the receiver</li>
 	 *                         </ul>
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public void setRightMargin(int rightMargin) {
 		checkWidget();
-		if (this.rightMargin == rightMargin || rightMargin < 0)
+		if (this.rightMargin == rightMargin || rightMargin < 0) {
 			return;
+		}
 		this.rightMargin = rightMargin;
 		redraw();
 	}
@@ -1004,9 +1066,9 @@ public class CLabel extends Canvas {
 	 * manner. The mnemonic indicator character '&amp;' can be escaped by doubling
 	 * it in the string, causing a single '&amp;' to be displayed.
 	 * </p>
-	 * 
+	 *
 	 * @param text the text to be displayed in the label or null
-	 * 
+	 *
 	 * @exception SWTException
 	 *                         <ul>
 	 *                         <li>ERROR_WIDGET_DISPOSED - if the receiver has been
@@ -1017,14 +1079,16 @@ public class CLabel extends Canvas {
 	 */
 	public void setText(String text) {
 		checkWidget();
-		if (text == null)
+		if (text == null) {
 			text = ""; //$NON-NLS-1$
+		}
 		if (!text.equals(this.text)) {
 			this.text = text;
 			redraw();
 		}
 	}
 
+	@Override
 	public void setToolTipText(String string) {
 		super.setToolTipText(string);
 		appToolTipText = super.getToolTipText();
@@ -1032,10 +1096,10 @@ public class CLabel extends Canvas {
 
 	/**
 	 * Set the label's top margin, in pixels.
-	 * 
+	 *
 	 * @param topMargin the top margin of the label, which must be equal to or
 	 *                  greater than zero
-	 * 
+	 *
 	 * @exception SWTException
 	 *                         <ul>
 	 *                         <li>ERROR_WIDGET_DISPOSED - if the receiver has been
@@ -1043,13 +1107,14 @@ public class CLabel extends Canvas {
 	 *                         <li>ERROR_THREAD_INVALID_ACCESS - if not called from
 	 *                         the thread that created the receiver</li>
 	 *                         </ul>
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public void setTopMargin(int topMargin) {
 		checkWidget();
-		if (this.topMargin == topMargin || topMargin < 0)
+		if (this.topMargin == topMargin || topMargin < 0) {
 			return;
+		}
 		this.topMargin = topMargin;
 		redraw();
 	}
@@ -1059,24 +1124,27 @@ public class CLabel extends Canvas {
 	 * given width. The default implementation replaces characters in the center of
 	 * the original string with an ellipsis ("..."). Override if you need a
 	 * different strategy.
-	 * 
+	 *
 	 * @param gc    the gc to use for text measurement
 	 * @param t     the text to shorten
 	 * @param width the width to shorten the text to, in pixels
 	 * @return the shortened text
 	 */
 	protected String shortenText(GC gc, String t, int width) {
-		if (t == null)
+		if (t == null) {
 			return null;
+		}
 		int w = gc.textExtent(ELLIPSIS, DRAW_FLAGS).x;
-		if (width <= w)
+		if (width <= w) {
 			return t;
+		}
 		int l = t.length();
 		int max = l / 2;
 		int min = 0;
 		int mid = (max + min) / 2 - 1;
-		if (mid <= 0)
+		if (mid <= 0) {
 			return t;
+		}
 		TextLayout layout = new TextLayout(getDisplay());
 		layout.setText(t);
 		mid = validateOffset(layout, mid);
@@ -1102,8 +1170,9 @@ public class CLabel extends Canvas {
 
 	int validateOffset(TextLayout layout, int offset) {
 		int nextOffset = layout.getNextOffset(offset, SWT.MOVEMENT_CLUSTER);
-		if (nextOffset != offset)
+		if (nextOffset != offset) {
 			return layout.getPreviousOffset(nextOffset, SWT.MOVEMENT_CLUSTER);
+		}
 		return offset;
 	}
 

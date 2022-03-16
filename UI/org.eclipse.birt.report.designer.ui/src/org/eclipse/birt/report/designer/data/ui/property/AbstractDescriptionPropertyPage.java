@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +24,7 @@ import org.eclipse.swt.widgets.Label;
 
 /**
  * TODO: Please document
- * 
+ *
  * @author Roshan Ail
  * @version $Revision: 1.1 $ $Date: 2006/04/20 10:57:45 $
  */
@@ -29,7 +32,7 @@ public abstract class AbstractDescriptionPropertyPage extends AbstractPropertyPa
 	private transient Label pageDescription = null;
 
 	/**
-	 * 
+	 *
 	 */
 	public AbstractDescriptionPropertyPage() {
 		super();
@@ -37,10 +40,11 @@ public abstract class AbstractDescriptionPropertyPage extends AbstractPropertyPa
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * createPageControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Control createPageControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -66,7 +70,7 @@ public abstract class AbstractDescriptionPropertyPage extends AbstractPropertyPa
 	 * title. The default implementation returns null in which case it doesn't
 	 * display anything. Subclasses must reimplement this method and return a string
 	 * if they wish to display a short one line description.
-	 * 
+	 *
 	 * @return The one line description.
 	 */
 	public String getPageDescription() {

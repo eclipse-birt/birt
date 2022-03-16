@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +46,7 @@ public final class DifferenceEntry extends NumberDataPointEntry {
 
 	private Number bdPosValue;
 
-	private Number bdNegValue;;
+	private Number bdNegValue;
 
 	/**
 	 * The constructor.
@@ -55,7 +58,7 @@ public final class DifferenceEntry extends NumberDataPointEntry {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param oaTwoComponents
 	 */
 	public DifferenceEntry(Object[] oaTwoComponents) {
@@ -118,9 +121,10 @@ public final class DifferenceEntry extends NumberDataPointEntry {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		return getFormattedString(null, ULocale.getDefault());
 	}
@@ -128,11 +132,11 @@ public final class DifferenceEntry extends NumberDataPointEntry {
 	/**
 	 * @return Returns the positive value.
 	 */
-	public final double getPositiveValue() {
+	public double getPositiveValue() {
 		return dPosValue;
 	}
 
-	public final Number getPositiveValueNumber() {
+	public Number getPositiveValueNumber() {
 		if (isBigNumber) {
 			return bnPosValue;
 		} else if (isBigDecimal) {
@@ -144,11 +148,11 @@ public final class DifferenceEntry extends NumberDataPointEntry {
 	/**
 	 * @param value The positive value to set.
 	 */
-	public final void setPositiveValue(double value) {
+	public void setPositiveValue(double value) {
 		this.dPosValue = value;
 	}
 
-	public final void setPositiveValue(Number value) {
+	public void setPositiveValue(Number value) {
 		if (isBigNumber && value instanceof BigNumber) {
 			bnPosValue = (BigNumber) value;
 		}
@@ -158,11 +162,11 @@ public final class DifferenceEntry extends NumberDataPointEntry {
 	/**
 	 * @return Returns the negative value.
 	 */
-	public final double getNegativeValue() {
+	public double getNegativeValue() {
 		return dNegValue;
 	}
 
-	public final Number getNegativeValueNumber() {
+	public Number getNegativeValueNumber() {
 		if (isBigNumber) {
 			return bnNegValue;
 		} else if (isBigDecimal) {
@@ -174,17 +178,18 @@ public final class DifferenceEntry extends NumberDataPointEntry {
 	/**
 	 * @param end The negative value to set.
 	 */
-	public final void setNegativeValue(double value) {
+	public void setNegativeValue(double value) {
 		this.dNegValue = value;
 	}
 
-	public final void setNegativeValue(Number value) {
+	public void setNegativeValue(Number value) {
 		if (isBigNumber && value instanceof BigNumber) {
 			bnNegValue = (BigNumber) value;
 		}
 		setNegativeValue(value.doubleValue());
 	}
 
+	@Override
 	public String getFormattedString(String type, FormatSpecifier formatter, ULocale locale) {
 		String str = "";//$NON-NLS-1$
 		try {
@@ -203,12 +208,14 @@ public final class DifferenceEntry extends NumberDataPointEntry {
 		return str;
 	}
 
+	@Override
 	public String getFormattedString(FormatSpecifier formatter, ULocale locale) {
 		String strPos = getFormattedString(DifferenceDataPointDefinition.TYPE_POSITIVE_VALUE, formatter, locale);
 		String strNeg = getFormattedString(DifferenceDataPointDefinition.TYPE_NEGATIVE_VALUE, formatter, locale);
 		return "P " + strPos + "; N " + strNeg; //$NON-NLS-1$//$NON-NLS-2$
 	}
 
+	@Override
 	public boolean isValid() {
 		if (isBigNumber) {
 			return true;
@@ -219,7 +226,7 @@ public final class DifferenceEntry extends NumberDataPointEntry {
 
 	/**
 	 * Checks if values are big number.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isBigNumber() {
@@ -228,7 +235,7 @@ public final class DifferenceEntry extends NumberDataPointEntry {
 
 	/**
 	 * Returns divisor of big number.
-	 * 
+	 *
 	 * @return
 	 */
 	public BigDecimal getDivisor() {
@@ -237,7 +244,7 @@ public final class DifferenceEntry extends NumberDataPointEntry {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.NumberDataPointEntry#setNumberData(java.lang.
 	 * Number[])
@@ -257,7 +264,7 @@ public final class DifferenceEntry extends NumberDataPointEntry {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.datafeed.NumberDataPointEntry#getNumberData()
 	 */
 	@Override
@@ -270,6 +277,6 @@ public final class DifferenceEntry extends NumberDataPointEntry {
 			}
 			return new java.math.BigDecimal[] { (java.math.BigDecimal) bdPosValue, (java.math.BigDecimal) bdNegValue };
 		}
-		return new Double[] { Double.valueOf(dPosValue), Double.valueOf(dNegValue) };
+		return new Double[] { dPosValue, dNegValue };
 	}
 }

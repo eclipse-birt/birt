@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +21,7 @@ import com.ibm.icu.util.ULocale;
 import junit.framework.TestCase;
 
 /**
- * 
+ *
  */
 
 public class DateUtilThreadTest extends TestCase {
@@ -39,8 +42,9 @@ public class DateUtilThreadTest extends TestCase {
 			for (int i = 0; i < threadArray.length; i++) {
 				if (!(tt[i].status != 0)) {
 					allThreadFinished = false;
-					if (tt[i].status == -1)
+					if (tt[i].status == -1) {
 						fail("Should not arrive here");
+					}
 				}
 			}
 			if (allThreadFinished) {
@@ -60,6 +64,7 @@ class TestThread implements Runnable {
 
 	static String[] dateStrings = { "Jan 11, 1952", "1981", "1981-02-20 11:12:55.123" };
 
+	@Override
 	public void run() {
 		for (int k = 0; k < 10000; k++) {
 			// System.out.println( Thread.currentThread( ).getName( )
@@ -72,7 +77,8 @@ class TestThread implements Runnable {
 				}
 			}
 		}
-		if (status == 0)
+		if (status == 0) {
 			status = 1;
+		}
 	}
 }

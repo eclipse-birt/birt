@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -20,7 +23,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Provides the insert and paste operation to the column band in the grid/table.
- * 
+ *
  */
 
 class ColumnBandInsertPasteAction extends ColumnBandCopyAction {
@@ -36,7 +39,7 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction {
 	/**
 	 * Checks whether the paste operation can be done with the given copied column
 	 * band data, the column index and the operation flag.
-	 * 
+	 *
 	 * @param columnIndex the column index
 	 * @param data        the copied column band data
 	 * @return <code>true</code> indicates the paste operation can be done.
@@ -47,8 +50,9 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction {
 		// if table has parent, its layout can't be changed. so can't do insert
 		// operation.
 
-		if (adapter.hasParent())
+		if (adapter.hasParent()) {
 			return false;
+		}
 
 		int columnCount = adapter.getColumnCount();
 		int targetColumnIndex = columnIndex + 1;
@@ -62,8 +66,9 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction {
 			originalCells = getCellsContextInfo(adapter.getCellsUnderColumn(1));
 		} else {
 			originalCells = getCellsContextInfo(adapter.getCellsUnderColumn(targetColumnIndex));
-			if (!isValidInsertAndPasteArea(originalCells))
+			if (!isValidInsertAndPasteArea(originalCells)) {
 				return false;
+			}
 		}
 
 		List cells = data.getCells();
@@ -78,7 +83,7 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction {
 
 	/**
 	 * Inserts a copied column to the given column index.
-	 * 
+	 *
 	 * @param columnIndex the column index
 	 * @param data        the copied column band data
 	 * @return a list containing post-parsing errors. Each element in the list is
@@ -89,10 +94,11 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction {
 	protected List insertAndPasteColumnBand(int columnIndex, ColumnBandData data) throws SemanticException {
 		boolean canDone = canInsertAndPaste(columnIndex, data);
 
-		if (!canDone)
+		if (!canDone) {
 			throw new SemanticError(adapter.getElementHandle().getElement(),
 					new String[] { adapter.getElementHandle().getName() },
 					SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_FORBIDDEN);
+		}
 
 		TableColumn column = data.getColumn();
 		List cells = data.getCells();
@@ -100,13 +106,13 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction {
 
 		ActivityStack as = adapter.getModule().getActivityStack();
 		try {
-			if (adapter instanceof TableColumnBandAdapter)
-
+			if (adapter instanceof TableColumnBandAdapter) {
 				as.startSilentTrans(
 						CommandLabelFactory.getCommandLabel(MessageConstants.INSERT_AND_PASTE_COLUMN_BAND_MESSAGE));
-			else
+			} else {
 				as.startTrans(
 						CommandLabelFactory.getCommandLabel(MessageConstants.INSERT_AND_PASTE_COLUMN_BAND_MESSAGE));
+			}
 
 			pasteColumn(column, columnIndex, true);
 			pasteCells(cells, originalCells, columnIndex, true);
@@ -121,11 +127,11 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction {
 
 	/**
 	 * Checks whether copied cells can be inserted and pasted.
-	 * 
+	 *
 	 * @param cells cloned cells
 	 * @return <code>true</code> if the row count matches the count of "rowSpans" in
 	 *         <code>cells</code>, otherwise <code>false</code>.
-	 * 
+	 *
 	 */
 
 	private boolean isValidInsertAndPasteArea(List cells) {
@@ -138,8 +144,9 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction {
 		}
 
 		assert rowCount <= numOfRows;
-		if (rowCount < numOfRows)
+		if (rowCount < numOfRows) {
 			return false;
+		}
 
 		return true;
 	}

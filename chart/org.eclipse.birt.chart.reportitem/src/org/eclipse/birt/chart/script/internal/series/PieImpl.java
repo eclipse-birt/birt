@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,7 @@ import org.eclipse.birt.chart.script.api.series.IPie;
 import org.eclipse.birt.chart.script.internal.component.ValueSeriesImpl;
 
 /**
- * 
+ *
  */
 
 public class PieImpl extends ValueSeriesImpl implements IPie {
@@ -37,26 +40,32 @@ public class PieImpl extends ValueSeriesImpl implements IPie {
 		return (PieSeries) series;
 	}
 
+	@Override
 	public double getMinSlice() {
 		return getChart().getMinSlice();
 	}
 
+	@Override
 	public String getMinSliceLabel() {
 		return getChart().getMinSliceLabel();
 	}
 
+	@Override
 	public void setMinSlice(double value) {
 		getChart().setMinSlice(value);
 	}
 
+	@Override
 	public void setMinSliceLabel(String label) {
 		getChart().setMinSliceLabel(label);
 	}
 
+	@Override
 	public String getExplosionExpr() {
 		return getPie().getExplosionExpression();
 	}
 
+	@Override
 	public void setExplosionExpr(String expr) {
 		getPie().setExplosionExpression(expr);
 	}

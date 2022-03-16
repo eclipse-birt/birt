@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -70,12 +73,15 @@ public class OdpPage extends AbstractPage {
 		context.addStyle(textFrameStyle);
 	}
 
+	@Override
 	public void restoreState() {
 	}
 
+	@Override
 	public void saveState() {
 	}
 
+	@Override
 	public void dispose() {
 		if (!isDisposed) {
 			writer.endPage();
@@ -83,9 +89,11 @@ public class OdpPage extends AbstractPage {
 		}
 	}
 
+	@Override
 	protected void clip(float startX, float startY, float width, float height) {
 	}
 
+	@Override
 	protected void drawBackgroundColor(Color color, float x, float y, float width, float height) {
 		if (color == null) {
 			return;
@@ -120,6 +128,7 @@ public class OdpPage extends AbstractPage {
 				repeat);
 	}
 
+	@Override
 	protected void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY,
 			float height, float width, String helpText, Map params) throws Exception {
 
@@ -132,6 +141,7 @@ public class OdpPage extends AbstractPage {
 
 	}
 
+	@Override
 	protected void drawImage(String imageId, String extension, float imageX, float imageY, float height, float width,
 			String helpText, Map params) throws Exception {
 		if (imageId == null) {
@@ -142,6 +152,7 @@ public class OdpPage extends AbstractPage {
 		writer.drawImage(imageId, null, entry.getUri(), extension, imageX, imageY, height, width, helpText, link);
 	}
 
+	@Override
 	protected void drawLine(float startX, float startY, float endX, float endY, float width, Color color,
 			int lineStyle) {
 		if (null == color || 0f == width || lineStyle == AreaConstants.BORDER_STYLE_NONE) {
@@ -164,6 +175,7 @@ public class OdpPage extends AbstractPage {
 		writer.drawLine(startX, startY, endX, endY, entry);
 	}
 
+	@Override
 	public void drawText(String text, int textX, int textY, int textWidth, int textHeight, TextStyle textStyle) {
 		float x = convertToPoint(textX);
 		float y = convertToPoint(textY);
@@ -174,6 +186,7 @@ public class OdpPage extends AbstractPage {
 		drawText(text, x, y, baseline, width, height, textStyle);
 	}
 
+	@Override
 	protected void drawText(String text, float textX, float textY, float baseline, float width, float height,
 			TextStyle textStyle) {
 		// width of text is enlarged by 1 point because the text will be
@@ -185,9 +198,8 @@ public class OdpPage extends AbstractPage {
 		StyleEntry style = StyleBuilder.createEmptyStyleEntry(StyleConstant.TYPE_TEXT);
 		style.setProperty(StyleConstant.DIRECTION_PROP, textStyle.getDirection());
 		style.setProperty(StyleConstant.COLOR_PROP, OdpUtil.getColorString(textStyle.getColor()));
-		style.setProperty(StyleConstant.LETTER_SPACING,
-				new FloatValue(CSSPrimitiveValue.CSS_PT,
-						textStyle.getLetterSpacing() / PDFConstants.LAYOUT_TO_PDF_RATIO));
+		style.setProperty(StyleConstant.LETTER_SPACING, new FloatValue(CSSPrimitiveValue.CSS_PT,
+				textStyle.getLetterSpacing() / PDFConstants.LAYOUT_TO_PDF_RATIO));
 
 		if (fontInfo != null) {
 			BaseFont baseFont = fontInfo.getBaseFont();
@@ -230,6 +242,7 @@ public class OdpPage extends AbstractPage {
 		this.link = link;
 	}
 
+	@Override
 	protected void drawBackgroundImage(float x, float y, float width, float height, float imageWidth, float imageHeight,
 			int repeat, String imageUrl, byte[] imageData, float absPosX, float absPosY) throws IOException {
 		drawBackgroundImage(x, y, width, height, imageWidth, imageHeight, repeat, imageUrl, absPosX, absPosY);

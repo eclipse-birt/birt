@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +53,7 @@ public class OdpWriter extends AbstractOdfWriter {
 
 	/**
 	 * Creates a ODP Document.
-	 * 
+	 *
 	 */
 	public void start() {
 		writer.openTag("office:body");
@@ -59,7 +62,7 @@ public class OdpWriter extends AbstractOdfWriter {
 
 	/**
 	 * Closes the document.
-	 * 
+	 *
 	 */
 	public void end() {
 		writer.closeTag("office:presentation");
@@ -77,7 +80,7 @@ public class OdpWriter extends AbstractOdfWriter {
 
 	/**
 	 * Creates a new page.
-	 * 
+	 *
 	 * @param page the PageArea specified from layout
 	 */
 	public void newPage(float pageWidth, float pageHeight, Color backgroundColor, String mpName) {
@@ -100,7 +103,7 @@ public class OdpWriter extends AbstractOdfWriter {
 
 	/**
 	 * Draws a chunk of text.
-	 * 
+	 *
 	 * @param text              the textArea to be drawn.
 	 * @param textX             the X position of the textArea relative to current
 	 *                          page.
@@ -166,7 +169,7 @@ public class OdpWriter extends AbstractOdfWriter {
 	/**
 	 * Draws a line from the start position to the end position with the given line
 	 * width, color, and style
-	 * 
+	 *
 	 * @param startX    the start X coordinate of the line
 	 * @param startY    the start Y coordinate of the line
 	 * @param endX      the end X coordinate of the line
@@ -184,7 +187,7 @@ public class OdpWriter extends AbstractOdfWriter {
 	 * to the end position with the given line width, color, and style. If the
 	 * line-style is NOT set before invoking this method, "solid" will be used as
 	 * the default line-style.
-	 * 
+	 *
 	 * @param startX the start X coordinate of the line
 	 * @param startY the start Y coordinate of the line
 	 * @param endX   the end X coordinate of the line
@@ -226,7 +229,7 @@ public class OdpWriter extends AbstractOdfWriter {
 
 	/**
 	 * Draws the background color.
-	 * 
+	 *
 	 * @param color  the color to be drawn
 	 * @param x      the start X coordinate
 	 * @param y      the start Y coordinate
@@ -254,7 +257,7 @@ public class OdpWriter extends AbstractOdfWriter {
 
 	/**
 	 * Draws the background image at the contentByteUnder with the given offset
-	 * 
+	 *
 	 * @param imageURI  the URI referring the image
 	 * @param x         the start X coordinate where the image is positioned
 	 * @param y         the start Y coordinate where the image is positioned

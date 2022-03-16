@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,11 +19,12 @@ import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
  * Indicates that the contents of a name space changed.
- * 
+ *
  * @deprecated Since BIRT 2.1, there will no such event send by BIRT
- * 
+ *
  */
 
+@Deprecated
 public class NameSpaceEvent extends NotificationEvent {
 
 	/**
@@ -57,7 +61,7 @@ public class NameSpaceEvent extends NotificationEvent {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param root      the root element
 	 * @param id        the id of the name space that changed
 	 * @param theAction the action causing this event
@@ -71,7 +75,7 @@ public class NameSpaceEvent extends NotificationEvent {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param root      the root element
 	 * @param id        the id of the name space that changed
 	 * @param element   the element to modify
@@ -87,12 +91,13 @@ public class NameSpaceEvent extends NotificationEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
 	 * )
 	 */
 
+	@Override
 	public int getEventType() {
 		return NAME_SPACE_EVENT;
 	}
@@ -103,7 +108,7 @@ public class NameSpaceEvent extends NotificationEvent {
 	 * <li><code>ADD</code>
 	 * <li><code>REMOVE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the action causing this event.
 	 */
 
@@ -113,7 +118,7 @@ public class NameSpaceEvent extends NotificationEvent {
 
 	/**
 	 * Returns the id of the name space that changed.
-	 * 
+	 *
 	 * @return the id of the name space that changed.
 	 */
 
@@ -124,7 +129,7 @@ public class NameSpaceEvent extends NotificationEvent {
 	/**
 	 * Returns the element whose name is changed for <code>ELEMENT_RENAMED</code>.
 	 * Otherwise, return null.
-	 * 
+	 *
 	 * @return Returns the element.
 	 */
 
@@ -134,16 +139,20 @@ public class NameSpaceEvent extends NotificationEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.
 	 * eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
+	@Override
 	public boolean isSame(NotificationEvent event) {
-		if (!super.isSame(event))
+		if (!super.isSame(event)) {
 			return false;
+		}
 		NameSpaceEvent nsEvent = (NameSpaceEvent) event;
-		if (action != nsEvent.getAction() || nameSpaceID != nsEvent.getNameSpaceID() || element != nsEvent.getElement())
+		if (action != nsEvent.getAction() || nameSpaceID != nsEvent.getNameSpaceID()
+				|| element != nsEvent.getElement()) {
 			return false;
+		}
 		return true;
 	}
 

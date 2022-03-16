@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -28,7 +40,7 @@ public class SortingFormSection extends Section {
 		this.isTabbed = isTabbed;
 	}
 
-	private boolean showLabel = false;;
+	private boolean showLabel = false;
 
 	public void showDisplayLabel(boolean show) {
 		this.showLabel = show;
@@ -36,11 +48,13 @@ public class SortingFormSection extends Section {
 
 	protected SortingFormPropertyDescriptor form;
 
+	@Override
 	public void createSection() {
-		if (isTabbed)
+		if (isTabbed) {
 			getTitleControl(parent);
-		else if (showLabel)
+		} else if (showLabel) {
 			getLabelControl(parent);
+		}
 		getFormControl(parent);
 		getGridPlaceholder(parent);
 
@@ -64,6 +78,7 @@ public class SortingFormSection extends Section {
 			}
 			title.addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					title = null;
 				}
@@ -84,17 +99,21 @@ public class SortingFormSection extends Section {
 		if (form == null) {
 			if (customForm != null) {
 				form = customForm;
-			} else
+			} else {
 				form = DescriptorToolkit.createSortingFormPropertyDescriptor(true);
-			if (style != -1)
+			}
+			if (style != -1) {
 				form.setStyle(style);
-			if (getProvider() != null)
+			}
+			if (getProvider() != null) {
 				form.setDescriptorProvider(getProvider());
+			}
 			form.setButtonWithDialog(withDialog);
 			form.createControl(parent);
 			form.getControl().setLayoutData(new GridData());
 			form.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					form = null;
 				}
@@ -111,12 +130,14 @@ public class SortingFormSection extends Section {
 		displayLabelStyle = style;
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) form.getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
+		}
 		if (displayLabel != null && (displayLabelStyle & SWT.HORIZONTAL) != 0) {
 			gd.horizontalSpan = gd.horizontalSpan - 1;
 		}
@@ -125,17 +146,20 @@ public class SortingFormSection extends Section {
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillForm;
+		}
 
 		if (height > -1) {
-			if (height > form.getControl().computeSize(SWT.DEFAULT, SWT.DEFAULT).y)
+			if (height > form.getControl().computeSize(SWT.DEFAULT, SWT.DEFAULT).y) {
 				gd.heightHint = height;
-			else
+			} else {
 				gd.heightHint = form.getControl().computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+			}
 			gd.grabExcessVerticalSpace = false;
-		} else
+		} else {
 			gd.grabExcessVerticalSpace = fillForm;
+		}
 
 		gd.grabExcessVerticalSpace = true;
 		gd.verticalAlignment = GridData.FILL;
@@ -161,6 +185,7 @@ public class SortingFormSection extends Section {
 
 	}
 
+	@Override
 	public void load() {
 		if (form != null && !form.getControl().isDisposed()) {
 			form.load();
@@ -177,8 +202,9 @@ public class SortingFormSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (form != null)
+		if (form != null) {
 			form.setDescriptorProvider(provider);
+		}
 	}
 
 	private int height = -1;
@@ -192,6 +218,7 @@ public class SortingFormSection extends Section {
 		this.width = width;
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		form.setInput(input);
@@ -207,26 +234,36 @@ public class SortingFormSection extends Section {
 		this.fillForm = fillForm;
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (title != null)
+		}
+		if (title != null) {
 			WidgetUtil.setExcludeGridData(title, isHidden);
-		if (form != null)
+		}
+		if (form != null) {
 			form.setHidden(isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (title != null)
+		}
+		if (title != null) {
 			title.setVisible(isVisible);
-		if (form != null)
+		}
+		if (form != null) {
 			form.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 
 	private int style = -1;
@@ -237,8 +274,9 @@ public class SortingFormSection extends Section {
 
 	public void setStyle(int style) {
 		this.style = style;
-		if (form != null)
+		if (form != null) {
 			form.setStyle(style);
+		}
 	}
 
 	boolean withDialog = false;

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +23,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.Se
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SelectRowAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart;
-
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
@@ -102,9 +104,12 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 	 */
 	boolean acceptLeaveConnection(KeyEvent event) {
 		int key = event.keyCode;
-		if (getFocusEditPart() instanceof ConnectionEditPart)
-			if ((key == SWT.ARROW_UP) || (key == SWT.ARROW_RIGHT) || (key == SWT.ARROW_DOWN) || (key == SWT.ARROW_LEFT))
+		if (getFocusEditPart() instanceof ConnectionEditPart) {
+			if ((key == SWT.ARROW_UP) || (key == SWT.ARROW_RIGHT) || (key == SWT.ARROW_DOWN)
+					|| (key == SWT.ARROW_LEFT)) {
 				return true;
+			}
+		}
 		return false;
 	}
 
@@ -137,24 +142,24 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 	 * viewer but has not been garbage collected yet.
 	 */
 	private GraphicalEditPart getCachedNode() {
-		if (cachedNode == null)
+		if ((cachedNode == null) || cachedNode.isEnqueued()) {
 			return null;
-		if (cachedNode.isEnqueued())
-			return null;
+		}
 		return (GraphicalEditPart) cachedNode.get();
 	}
 
 	private void setCachedNode(GraphicalEditPart node) {
-		if (node == null)
+		if (node == null) {
 			cachedNode = null;
-		else
+		} else {
 			cachedNode = new WeakReference(node);
+		}
 	}
 
 	/**
 	 * Given a connection on a node, this method finds the next (or the previous)
 	 * connection of that node.
-	 * 
+	 *
 	 * @param node    The EditPart whose connections are being traversed
 	 * @param current The connection relative to which the next connection has to be
 	 *                found
@@ -164,14 +169,17 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 	ConnectionEditPart findConnection(GraphicalEditPart node, ConnectionEditPart current, boolean forward) {
 		List connections = new ArrayList(node.getSourceConnections());
 		connections.addAll(node.getTargetConnections());
-		if (connections.isEmpty())
+		if (connections.isEmpty()) {
 			return null;
-		if (forward)
+		}
+		if (forward) {
 			counter++;
-		else
+		} else {
 			counter--;
-		while (counter < 0)
+		}
+		while (counter < 0) {
 			counter += connections.size();
+		}
 		counter %= connections.size();
 		return (ConnectionEditPart) connections.get(counter % connections.size());
 	}
@@ -183,13 +191,15 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 	 * <p>
 	 * This implementation returns a list that contains the EditPart that has focus.
 	 * </p>
-	 * 
+	 *
 	 * @return a list of navigation editparts
 	 */
+	@Override
 	protected List getNavigationSiblings() {
 		EditPart focusPart = getFocusEditPart();
-		if (focusPart.getParent() != null)
+		if (focusPart.getParent() != null) {
 			return focusPart.getParent().getChildren();
+		}
 		List list = new ArrayList();
 		list.add(focusPart);
 		return list;
@@ -198,7 +208,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 	/**
 	 * Figures' navigation points are used to determine their direction compared to
 	 * one another, and the distance between them.
-	 * 
+	 *
 	 * @return the center of the given figure
 	 */
 	Point getNavigationPoint(IFigure figure) {
@@ -208,6 +218,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 	/**
 	 * @see org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler#keyPressed(org.eclipse.swt.events.KeyEvent)
 	 */
+	@Override
 	public boolean keyPressed(KeyEvent event) {
 		if (event.character == ' ') {
 			processSelect(event);
@@ -234,37 +245,45 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 
 		switch (event.keyCode) {
 		case SWT.ARROW_LEFT:
-			if (navigateNextSibling(event, PositionConstants.WEST))
+			if (navigateNextSibling(event, PositionConstants.WEST)) {
 				return true;
+			}
 			break;
 		case SWT.ARROW_RIGHT:
-			if (navigateNextSibling(event, PositionConstants.EAST))
+			if (navigateNextSibling(event, PositionConstants.EAST)) {
 				return true;
+			}
 			break;
 		case SWT.ARROW_UP:
-			if (navigateNextSibling(event, PositionConstants.NORTH))
+			if (navigateNextSibling(event, PositionConstants.NORTH)) {
 				return true;
+			}
 			break;
 		case SWT.ARROW_DOWN:
-			if (navigateNextSibling(event, PositionConstants.SOUTH))
+			if (navigateNextSibling(event, PositionConstants.SOUTH)) {
 				return true;
+			}
 			break;
 
 		case SWT.HOME:
-			if (navigateJumpSibling(event, PositionConstants.WEST))
+			if (navigateJumpSibling(event, PositionConstants.WEST)) {
 				return true;
+			}
 			break;
 		case SWT.END:
-			if (navigateJumpSibling(event, PositionConstants.EAST))
+			if (navigateJumpSibling(event, PositionConstants.EAST)) {
 				return true;
+			}
 			break;
 		case SWT.PAGE_DOWN:
-			if (navigateJumpSibling(event, PositionConstants.SOUTH))
+			if (navigateJumpSibling(event, PositionConstants.SOUTH)) {
 				return true;
+			}
 			break;
 		case SWT.PAGE_UP:
-			if (navigateJumpSibling(event, PositionConstants.NORTH))
+			if (navigateJumpSibling(event, PositionConstants.NORTH)) {
 				return true;
+			}
 		}
 		return super.keyPressed(event);
 	}
@@ -307,8 +326,9 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 
 		for (int i = 0; i < childList.size(); i++) {
 			GraphicalEditPart ged = (GraphicalEditPart) childList.get(i);
-			if (!ged.isSelectable())
+			if (!ged.isSelectable()) {
 				continue;
+			}
 			Rectangle childBounds = ged.getFigure().getBounds();
 
 			current = (childBounds.x - tl.x) + (childBounds.y - tl.y);
@@ -317,8 +337,9 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 				closestPart = ged;
 			}
 		}
-		if (closestPart != null)
+		if (closestPart != null) {
 			navigateTo(closestPart, event);
+		}
 	}
 
 	/**
@@ -326,8 +347,9 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 	 */
 	void navigateOut(KeyEvent event) {
 		if (getFocusEditPart() == null || getFocusEditPart() == getViewer().getContents()
-				|| getFocusEditPart().getParent() == getViewer().getContents())
+				|| getFocusEditPart().getParent() == getViewer().getContents()) {
 			return;
+		}
 		navigateTo(getFocusEditPart().getParent(), event);
 	}
 
@@ -338,15 +360,17 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 	void navigateOutOfConnection(KeyEvent event) {
 		GraphicalEditPart cached = getCachedNode();
 		ConnectionEditPart conn = (ConnectionEditPart) getFocusEditPart();
-		if (cached != null && (cached == conn.getSource() || cached == conn.getTarget()))
+		if (cached != null && (cached == conn.getSource() || cached == conn.getTarget())) {
 			navigateTo(cached, event);
-		else
+		} else {
 			navigateTo(conn.getSource(), event);
+		}
 	}
 
 	void scrollViewer(KeyEvent event) {
-		if (!(getViewer().getControl() instanceof FigureCanvas))
+		if (!(getViewer().getControl() instanceof FigureCanvas)) {
 			return;
+		}
 		FigureCanvas figCanvas = (FigureCanvas) getViewer().getControl();
 		Point loc = figCanvas.getViewport().getViewLocation();
 		Rectangle area = figCanvas.getViewport().getClientArea(Rectangle.SINGLETON).scale(.1);
@@ -367,7 +391,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 
 	/**
 	 * Traverses to the next sibling in the given direction.
-	 * 
+	 *
 	 * @param event     the KeyEvent for the keys that were pressed to trigger this
 	 *                  traversal
 	 * @param direction PositionConstants.* indicating the direction in which to
@@ -379,15 +403,15 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 
 	/**
 	 * A modified version of
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler#navigateNextSibling
-	 * 
+	 *
 	 *      for TableCellEditPart
-	 * 
+	 *
 	 *      ---------------------------------------------------------------------
 	 *      Traverses to the closest EditPart in the given list that is also in the
 	 *      given direction.
-	 * 
+	 *
 	 * @param event     the KeyEvent for the keys that were pressed to trigger this
 	 *                  traversal
 	 * @param direction PositionConstants.* indicating the direction in which to
@@ -453,13 +477,13 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 	 * Given an absolute point (pStart) and a list of EditParts, this method finds
 	 * the closest EditPart (except for the one to be excluded) in the given
 	 * direction.
-	 * 
+	 *
 	 * @param siblings  List of sibling EditParts
 	 * @param pStart    The starting point (must be in absolute coordinates) from
 	 *                  which the next sibling is to be found.
 	 * @param direction PositionConstants
 	 * @param exclude   The EditPart to be excluded from the search
-	 * 
+	 *
 	 */
 	GraphicalEditPart findSibling(List siblings, Point pStart, int direction, EditPart exclude) {
 		GraphicalEditPart epCurrent;
@@ -471,13 +495,15 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 		Iterator iter = siblings.iterator();
 		while (iter.hasNext()) {
 			epCurrent = (GraphicalEditPart) iter.next();
-			if (epCurrent == exclude || !epCurrent.isSelectable())
+			if (epCurrent == exclude || !epCurrent.isSelectable()) {
 				continue;
+			}
 			figure = epCurrent.getFigure();
 			pCurrent = getNavigationPoint(figure);
 			figure.translateToAbsolute(pCurrent);
-			if (pStart.getPosition(pCurrent) != direction)
+			if (pStart.getPosition(pCurrent) != direction) {
 				continue;
+			}
 
 			int d = pCurrent.getDistanceOrthogonal(pStart);
 			if (d < distance) {
@@ -490,7 +516,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 
 	/**
 	 * Finds the next Table Cell according to the direction.
-	 * 
+	 *
 	 * @param siblings
 	 * @param pStart
 	 * @param direction
@@ -545,7 +571,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 
 	/**
 	 * Finds the appropriate Table Cell siblings when SHIFT is pressed.
-	 * 
+	 *
 	 * @param siblings
 	 * @param pStart
 	 * @param direction
@@ -582,7 +608,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 	/**
 	 * Translates the coordinate of the rectangle by current direction, last
 	 * movement direction and element's status.
-	 * 
+	 *
 	 * @param table
 	 * @param rect
 	 * @param direction
@@ -710,7 +736,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 
 	/**
 	 * Changes the current selection rectangle according to the Direction.
-	 * 
+	 *
 	 * @param rect
 	 * @param direction
 	 * @param table
@@ -823,13 +849,14 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 	 * @see org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler#navigateTo(org.eclipse.gef.EditPart,
 	 *      org.eclipse.swt.events.KeyEvent)
 	 */
+	@Override
 	protected void navigateTo(EditPart part, KeyEvent event) {
 		super.navigateTo(part, event);
 	}
 
 	/**
 	 * A multi-elements version of previous navigateTo method.
-	 * 
+	 *
 	 * @param parts
 	 * @param event
 	 */

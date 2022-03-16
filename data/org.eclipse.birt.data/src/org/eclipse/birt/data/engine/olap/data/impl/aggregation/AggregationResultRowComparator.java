@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +21,7 @@ import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 
 /**
- * 
+ *
  */
 
 public class AggregationResultRowComparator implements Comparator<IAggregationResultRow> {
@@ -32,9 +35,10 @@ public class AggregationResultRowComparator implements Comparator<IAggregationRe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
+	@Override
 	public int compare(IAggregationResultRow o1, IAggregationResultRow o2) {
 		Member[] member1 = ((IAggregationResultRow) o1).getLevelMembers();
 		Member[] member2 = ((IAggregationResultRow) o2).getLevelMembers();
@@ -45,8 +49,9 @@ public class AggregationResultRowComparator implements Comparator<IAggregationRe
 				continue;
 			}
 			int result = (member1[keyLevelIndexs[i]]).compareTo(member2[keyLevelIndexs[i]]);
-			if (sortTypes != null && sortTypes[i] == IDimensionSortDefn.SORT_DESC)
+			if (sortTypes != null && sortTypes[i] == IDimensionSortDefn.SORT_DESC) {
 				result = result * -1;
+			}
 			if (result < 0) {
 				return result;
 			} else if (result > 0) {

@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -35,13 +38,13 @@ import org.eclipse.gef.EditPartFactory;
 
 /**
  * Factory to populate the edit part for given model type
- * 
+ *
  */
 public class GraphicalPartFactory implements EditPartFactory {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle the handle
 	 */
 	public GraphicalPartFactory() {
@@ -50,10 +53,11 @@ public class GraphicalPartFactory implements EditPartFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart,
 	 * java.lang.Object)
 	 */
+	@Override
 	public EditPart createEditPart(EditPart context, Object model) {
 		EditPart editPart = new DummyEditpart(model);
 
@@ -122,11 +126,13 @@ public class GraphicalPartFactory implements EditPartFactory {
 		}
 
 		EditPart eep = EditpartExtensionManager.createEditPart(context, model);
-		if (eep != null)
+		if (eep != null) {
 			return eep;
+		}
 
 		IExtension extension = new IExtension.Stub() {
 
+			@Override
 			public String getExtendsionIdentify() {
 				return GuiExtensionManager.DESIGNER_FACTORY;
 			}

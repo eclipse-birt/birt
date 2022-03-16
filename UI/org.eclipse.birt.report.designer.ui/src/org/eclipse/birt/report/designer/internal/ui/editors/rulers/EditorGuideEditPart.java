@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +32,6 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
-
 import org.eclipse.gef.rulers.RulerChangeListener;
 import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
@@ -38,7 +40,7 @@ import org.eclipse.swt.graphics.Cursor;
 
 /**
  * Guide Editpart.
- * 
+ *
  */
 public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 
@@ -50,18 +52,21 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 	private Cursor cursor = null;
 	private ZoomListener zoomListener = new ZoomListener() {
 
+		@Override
 		public void zoomChanged(double zoom) {
 			handleZoomChanged();
 		}
 	};
 	private RulerChangeListener listener = new RulerChangeListener.Stub() {
 
+		@Override
 		public void notifyGuideMoved(Object guide) {
 			if (getModel() == guide) {
 				handleGuideMoved();
 			}
 		}
 
+		@Override
 		public void notifyPartAttachmentChanged(Object part, Object guide) {
 			if (getModel() == guide) {
 				handlePartAttachmentChanged(part);
@@ -78,20 +83,22 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.internal.ui.rulers.GuideEditPart#getDragTracker(org.eclipse.
 	 * gef.Request)
 	 */
+	@Override
 	public DragTracker getDragTracker(Request request) {
 		return new EditorGuideDragTracker(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		guideLineFig = createGuideLineFigure();
 
@@ -104,9 +111,10 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new GuideSelectionPolicy());
 		installEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE, new EditorDragGuidePolicy());
@@ -114,19 +122,21 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
 	 */
+	@Override
 	public void activate() {
 		super.activate();
 		getRulerProvider().addRulerChangeListener(listener);
-		if (getZoomManager() != null)
+		if (getZoomManager() != null) {
 			getZoomManager().addZoomListener(zoomListener);
+		}
 	}
 
 	/**
 	 * Creates the guideline figure.
-	 * 
+	 *
 	 * @return
 	 */
 	protected GuideLineFigure createGuideLineFigure() {
@@ -135,54 +145,67 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
 	 */
+	@Override
 	public void deactivate() {
-		if (getZoomManager() != null)
+		if (getZoomManager() != null) {
 			getZoomManager().removeZoomListener(zoomListener);
+		}
 		getRulerProvider().removeRulerChangeListener(listener);
-		if (getGuideLineFigure().getParent() != null)
+		if (getGuideLineFigure().getParent() != null) {
 			getGuideLineFigure().getParent().remove(getGuideLineFigure());
+		}
 		super.deactivate();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getAccessibleEditPart()
 	 */
+	@Override
 	protected AccessibleEditPart getAccessibleEditPart() {
-		if (accPart == null)
+		if (accPart == null) {
 			accPart = new AccessibleGraphicalEditPart() {
 
+				@Override
 				public void getDescription(AccessibleEvent e) {
-					if (getRulerProvider() != null)
+					if (getRulerProvider() != null) {
 						getRulerProvider().getAccGuideDescription(e, getModel());
+					}
 				}
 
+				@Override
 				public void getName(AccessibleEvent e) {
-					if (getRulerProvider() != null)
+					if (getRulerProvider() != null) {
 						getRulerProvider().getAccGuideName(e, getModel());
+					}
 				}
 
+				@Override
 				public void getValue(AccessibleControlEvent e) {
-					if (getRulerProvider() != null)
+					if (getRulerProvider() != null) {
 						getRulerProvider().getAccGuideValue(e, getModel());
+					}
 				}
 			};
+		}
 		return accPart;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
+	@Override
 	public Object getAdapter(Class key) {
 		if (key == AccessibleHandleProvider.class) {
 			return new AccessibleHandleProvider() {
 
+				@Override
 				public List getAccessibleHandleLocations() {
 					List result = new ArrayList();
 					Point pt = getFigure().getBounds().getCenter();
@@ -197,7 +220,7 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 
 	/**
 	 * Gets the current cursor.
-	 * 
+	 *
 	 * @return
 	 */
 	public Cursor getCurrentCursor() {
@@ -209,7 +232,7 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 
 	/**
 	 * Gets the guide layer
-	 * 
+	 *
 	 * @return
 	 */
 	public IFigure getGuideLayer() {
@@ -218,7 +241,7 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 
 	/**
 	 * Gets the ruler editpart.
-	 * 
+	 *
 	 * @return
 	 */
 	public EditorRulerEditPart getRulerEditPart() {
@@ -227,7 +250,7 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 
 	/**
 	 * Gets the ruler provider
-	 * 
+	 *
 	 * @return
 	 */
 	public RulerProvider getRulerProvider() {
@@ -236,7 +259,7 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 
 	/**
 	 * Gets the position
-	 * 
+	 *
 	 * @return
 	 */
 	public int getZoomedPosition() {
@@ -249,7 +272,7 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 
 	/**
 	 * Gets the zoom manager.
-	 * 
+	 *
 	 * @return
 	 */
 	public ZoomManager getZoomManager() {
@@ -257,7 +280,7 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 	}
 
 	/**
-	 *  
+	 *
 	 */
 	protected void handleGuideMoved() {
 		refreshVisuals();
@@ -270,7 +293,7 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 	}
 
 	/**
-	 *  
+	 *
 	 */
 	protected void handleZoomChanged() {
 		refreshVisuals();
@@ -285,18 +308,20 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
 	 */
+	@Override
 	protected void refreshVisuals() {
 		updateLocationOfFigures(getZoomedPosition());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPart#removeNotify()
 	 */
+	@Override
 	public void removeNotify() {
 		GraphicalEditPart nextSelection = null;
 		if (getParent().isActive()) {
@@ -309,21 +334,24 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 				int minDistance = -1;
 				for (int i = 0; i < siblings.size(); i++) {
 					EditorGuideEditPart guide = (EditorGuideEditPart) siblings.get(i);
-					if (guide == this)
+					if (guide == this) {
 						continue;
+					}
 					int posDiff = Math.abs(thisPos - getRulerProvider().getGuidePosition(guide.getModel()));
 					if (minDistance == -1 || posDiff < minDistance) {
 						minDistance = posDiff;
 						nextSelection = guide;
 					}
 				}
-				if (nextSelection == null)
+				if (nextSelection == null) {
 					nextSelection = (GraphicalEditPart) getParent();
+				}
 			}
 		}
 		super.removeNotify();
-		if (nextSelection != null)
+		if (nextSelection != null) {
 			getViewer().select(nextSelection);
+		}
 	}
 
 	/**
@@ -352,18 +380,22 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 
 	public static class GuideSelectionPolicy extends SelectionEditPolicy {
 
+		@Override
 		protected void hideFocus() {
 			// ((GuideFigure)getHostFigure()).setDrawFocus(false);
 		}
 
+		@Override
 		protected void hideSelection() {
 			// ((GuideFigure)getHostFigure()).setDrawFocus(false);
 		}
 
+		@Override
 		protected void showFocus() {
 			// ((GuideFigure)getHostFigure()).setDrawFocus(true);
 		}
 
+		@Override
 		protected void showSelection() {
 			// ((GuideFigure)getHostFigure()).setDrawFocus(true);
 		}
@@ -375,6 +407,7 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 			setPreferredSize(1, 1);
 		}
 
+		@Override
 		protected void paintFigure(Graphics g) {
 			g.setLineStyle(Graphics.LINE_DOT);
 			g.setXORMode(true);

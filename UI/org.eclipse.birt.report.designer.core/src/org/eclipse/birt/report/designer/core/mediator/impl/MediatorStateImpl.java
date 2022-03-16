@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2012 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,18 +41,22 @@ public class MediatorStateImpl implements IMediatorState, Cloneable {
 		return state;
 	}
 
+	@Override
 	public String getType() {
 		return type;
 	}
 
+	@Override
 	public Object getData() {
 		return data;
 	}
 
+	@Override
 	public Object getSource() {
 		return source;
 	}
 
+	@Override
 	public Map<?, ?> getExtras() {
 		return extras;
 	}

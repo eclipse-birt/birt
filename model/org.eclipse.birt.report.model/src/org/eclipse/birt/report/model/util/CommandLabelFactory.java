@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,14 +26,15 @@ public class CommandLabelFactory implements MessageConstants {
 	/**
 	 * Gets a command label for the given key and arguments. This method will check
 	 * the argument length for the specified message key.
-	 * 
+	 *
 	 * @param messageKey
 	 * @param args
 	 * @return command label
 	 */
 	public static String getCommandLabel(String messageKey, String[] args) {
-		if (StringUtil.isEmpty(messageKey))
+		if (StringUtil.isEmpty(messageKey)) {
 			return null;
+		}
 
 		// message without any arguments
 		if (messageKey.equalsIgnoreCase(NAME_PREFIX_NEW_MESSAGE)
@@ -66,8 +70,9 @@ public class CommandLabelFactory implements MessageConstants {
 				|| messageKey.equalsIgnoreCase(INSERT_ROW_MESSAGE)
 				|| messageKey.equalsIgnoreCase(INSERT_AND_PASTE_ROW_MESSAGE)
 				|| messageKey.equalsIgnoreCase(PASTE_ROW_MESSAGE) || messageKey.equalsIgnoreCase(SHIFT_ROW_MESSAGE)
-				|| messageKey.equalsIgnoreCase(CLEAR_PROPERTIES_MESSAGE))
+				|| messageKey.equalsIgnoreCase(CLEAR_PROPERTIES_MESSAGE)) {
 			return ModelMessages.getMessage(messageKey);
+		}
 
 		if (messageKey.equalsIgnoreCase(CHANGE_PROPERTY_MESSAGE)
 				|| messageKey.equalsIgnoreCase(CHANGE_PROPERTY_ENCRYPTION_MESSAGE)) {
@@ -83,7 +88,7 @@ public class CommandLabelFactory implements MessageConstants {
 
 	/**
 	 * Gets the command label for the given message key.
-	 * 
+	 *
 	 * @param messageKey
 	 * @return command label
 	 */

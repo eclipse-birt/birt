@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * The element can be referred by other elements. For examples: table uses
  * style, data set uses data source, etc. The class implements this interface
  * must extend from <code>DesignElement</code>.
- * 
+ *
  */
 
 public interface IReferencableElement {
@@ -27,7 +30,7 @@ public interface IReferencableElement {
 	/**
 	 * Adds a client. Should be called only from
 	 * {@link DesignElement#setProperty(ElementPropertyDefn, Object )}.
-	 * 
+	 *
 	 * @param client   The client to add.
 	 * @param propName the property name.
 	 */
@@ -37,10 +40,10 @@ public interface IReferencableElement {
 	/**
 	 * Adds a client. Should be called only from
 	 * {@link DesignElement#setProperty(ElementPropertyDefn, Object )}.
-	 * 
+	 *
 	 * @param struct   The client to add.
 	 * @param propName the member name
-	 * 
+	 *
 	 */
 
 	void addClient(Structure struct, String propName);
@@ -48,7 +51,7 @@ public interface IReferencableElement {
 	/**
 	 * Drops a client. Should be called only from
 	 * {@link DesignElement#setProperty(ElementPropertyDefn, Object )}.
-	 * 
+	 *
 	 * @param client The client to drop.
 	 */
 
@@ -56,7 +59,7 @@ public interface IReferencableElement {
 
 	/**
 	 * Drops a client.
-	 * 
+	 *
 	 * @param client   The client to drop.
 	 * @param propName the property name
 	 */
@@ -65,7 +68,7 @@ public interface IReferencableElement {
 
 	/**
 	 * Drops a client.
-	 * 
+	 *
 	 * @param struct   the structure
 	 * @param propName the member name
 	 */
@@ -74,7 +77,7 @@ public interface IReferencableElement {
 
 	/**
 	 * Returns the list of clients for this element.
-	 * 
+	 *
 	 * @return The list of clients.
 	 */
 
@@ -82,7 +85,7 @@ public interface IReferencableElement {
 
 	/**
 	 * Checks whether the element is referred by other elements.
-	 * 
+	 *
 	 * @return <code>true</code> if the element is referred. Otherwise
 	 *         <code>false</code>.
 	 */
@@ -92,7 +95,7 @@ public interface IReferencableElement {
 	/**
 	 * Updates the element reference which refers to the given referenceable
 	 * element.
-	 * 
+	 *
 	 */
 
 	void updateClientReferences();

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +25,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 /**
  * Represents exceptions encountered during parsing the xml file, it will
  * include a reference to the element which causes the error.
- * 
+ *
  */
 
 public class SemanticException extends ModelException {
@@ -48,9 +51,9 @@ public class SemanticException extends ModelException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param errCode the error code
-	 * 
+	 *
 	 */
 
 	protected SemanticException(String errCode) {
@@ -59,7 +62,7 @@ public class SemanticException extends ModelException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param element the element which has errors
 	 * @param errCode the error code
 	 */
@@ -71,7 +74,7 @@ public class SemanticException extends ModelException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param element the element which has errors
 	 * @param errCode the error code
 	 * @param cause   the nested exception
@@ -84,7 +87,7 @@ public class SemanticException extends ModelException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param element the element which has errors
 	 * @param values  value array used for error message
 	 * @param errCode the error code
@@ -97,7 +100,7 @@ public class SemanticException extends ModelException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param element the element which has errors
 	 * @param values  value array used for error message
 	 * @param errCode the error code
@@ -111,7 +114,7 @@ public class SemanticException extends ModelException {
 
 	/**
 	 * Constructs a new model exception with no cause object.
-	 * 
+	 *
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
 	 * @param errorCode used to retrieve a piece of externalized message displayed
@@ -125,7 +128,7 @@ public class SemanticException extends ModelException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
 	 * @param errorCode used to retrieve a piece of externalized message displayed
@@ -140,7 +143,7 @@ public class SemanticException extends ModelException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
 	 * @param errorCode used to retrieve a piece of externalized message displayed
@@ -156,7 +159,7 @@ public class SemanticException extends ModelException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
 	 * @param errorCode used to retrieve a piece of externalized message displayed
@@ -172,7 +175,7 @@ public class SemanticException extends ModelException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
 	 * @param errorCode used to retrieve a piece of externalized message displayed
@@ -187,7 +190,7 @@ public class SemanticException extends ModelException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
 	 * @param errorCode used to retrieve a piece of externalized message displayed
@@ -202,7 +205,7 @@ public class SemanticException extends ModelException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
 	 * @param errorCode used to retrieve a piece of externalized message displayed
@@ -217,7 +220,7 @@ public class SemanticException extends ModelException {
 
 	/**
 	 * Returns the element having semantic error.
-	 * 
+	 *
 	 * @return the element having semantic error
 	 */
 
@@ -227,37 +230,41 @@ public class SemanticException extends ModelException {
 
 	/**
 	 * Returns the element name if it exists.
-	 * 
+	 *
 	 * @param element the design element
 	 * @return the element name if it exists. Otherwise, return empty string.
 	 */
 
 	protected static String getElementName(DesignElement element) {
 		// if it is not library/report, returns the identifier.
-		if (!(element instanceof Module))
+		if (!(element instanceof Module)) {
 			return element.getIdentifier();
+		}
 
 		return element.getDefn().getDisplayName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getMessage()
 	 */
 
+	@Override
 	public String getMessage() {
 		return getLocalizedMessage();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.exception.BirtException#getLocalizedMessage()
 	 */
+	@Override
 	public String getLocalizedMessage() {
-		if (oaMessageArguments != null)
+		if (oaMessageArguments != null) {
 			return ModelMessages.getMessage(sResourceKey, oaMessageArguments);
+		}
 		return ModelMessages.getMessage(sResourceKey);
 
 	}

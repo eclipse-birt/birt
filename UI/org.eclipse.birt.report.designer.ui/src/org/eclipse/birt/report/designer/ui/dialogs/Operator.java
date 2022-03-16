@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,10 +37,10 @@ public class Operator {
 	/**
 	 * Construct a new operator used in the expression builder with the given symbol
 	 * and tooltip.
-	 * 
+	 *
 	 * @param symbol  the symbol of the operator.
 	 * @param tooltip the tooltip for the operator
-	 * 
+	 *
 	 */
 	public Operator(String symbol, String tooltip) {
 		this(symbol, null, tooltip);
@@ -46,12 +49,12 @@ public class Operator {
 	/**
 	 * Construct a new operator used in the expression builder with the given symbol
 	 * ,insert string and tooltip.
-	 * 
+	 *
 	 * @param symbol       the symbol of the operator
 	 * @param insertString the string to insert into the source viewer for the
 	 *                     operator
 	 * @param tooltip      the tooltip for the operator
-	 * 
+	 *
 	 */
 
 	public Operator(String symbol, String insertString, String tooltip) {

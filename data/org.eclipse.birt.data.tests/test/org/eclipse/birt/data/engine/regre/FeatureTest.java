@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,12 +37,11 @@ import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.junit.Before;
+import org.junit.Test;
 import org.mozilla.javascript.Scriptable;
 
 import testutil.ConfigText;
-
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Test DtE featurs.
@@ -75,6 +77,7 @@ public class FeatureTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestDataCustomer.TableName"),
 				ConfigText.getString("Api.TestDataCustomer.TableSQL"),
@@ -83,10 +86,10 @@ public class FeatureTest extends APITestCase {
 
 	/**
 	 * This test will test all currently supported features of DtE.
-	 * 
+	 *
 	 * Including: Group Sort Filter Computed Columns Aggregate Nested query
 	 * Parameter Binding Conditional Expression
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -121,15 +124,15 @@ public class FeatureTest extends APITestCase {
 
 	/**
 	 * Features: Group Sort
-	 * 
+	 *
 	 * @return
 	 */
 	private QueryDefinition createCustomerQueryDefn() {
-		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition(), new GroupDefinition() };
+		GroupDefinition[] groupDefn = { new GroupDefinition(), new GroupDefinition() };
 		groupDefn[0].setKeyExpression("row.CUSTOMERID");
 		groupDefn[1].setKeyExpression("row.NAME");
 
-		SortDefinition[] sortDefn = new SortDefinition[] { new SortDefinition() };
+		SortDefinition[] sortDefn = { new SortDefinition() };
 		sortDefn[0].setColumn("CUSTOMERID");
 		sortDefn[0].setSortDirection(ISortDefinition.SORT_DESC);
 
@@ -143,7 +146,7 @@ public class FeatureTest extends APITestCase {
 
 	/**
 	 * Features: Filter ConditionalExpression
-	 * 
+	 *
 	 * @return
 	 */
 	private QueryDefinition createCallQueryDefn() {
@@ -155,7 +158,7 @@ public class FeatureTest extends APITestCase {
 				new ScriptExpression("Total.sum(dataSetRow.Charge2)", 0) };
 
 		exprNameCall = new String[] { "CUSTOMERID", "CALLTIME", "TONUMBER", "DURATION", "Charge2", "TOTALSUMCHARGE" };
-		FilterDefinition[] filters = new FilterDefinition[] { new FilterDefinition(
+		FilterDefinition[] filters = { new FilterDefinition(
 				new ConditionalExpression("dataSetRow.DURATION", ConditionalExpression.OP_GT, "0")) };
 		return createQueryDefnUsingGivenArgs(datasetCall, exprNameCall, expressionsCall, null, null, filters);
 	}
@@ -169,18 +172,26 @@ public class FeatureTest extends APITestCase {
 
 		QueryDefinition queryDefn = newReportQuery(dataset);
 
-		if (groupDefn != null)
-			for (int i = 0; i < groupDefn.length; i++)
+		if (groupDefn != null) {
+			for (int i = 0; i < groupDefn.length; i++) {
 				queryDefn.addGroup(groupDefn[i]);
-		if (sortDefn != null)
-			for (int i = 0; i < sortDefn.length; i++)
+			}
+		}
+		if (sortDefn != null) {
+			for (int i = 0; i < sortDefn.length; i++) {
 				queryDefn.addSort(sortDefn[i]);
-		if (expressions != null)
-			for (int i = 0; i < expressions.length; i++)
+			}
+		}
+		if (expressions != null) {
+			for (int i = 0; i < expressions.length; i++) {
 				queryDefn.addResultSetExpression(exprNames[i], expressions[i]);
-		if (filters != null)
-			for (int i = 0; i < filters.length; i++)
+			}
+		}
+		if (filters != null) {
+			for (int i = 0; i < filters.length; i++) {
 				queryDefn.addFilter(filters[i]);
+			}
+		}
 		return queryDefn;
 	}
 
@@ -189,8 +200,7 @@ public class FeatureTest extends APITestCase {
 	 */
 	private void addComputedColumnsToDataSetCall() {
 		// test computed columns
-		ComputedColumn[] computedColumns = new ComputedColumn[] {
-				new ComputedColumn("Charge2", "row.DURATION*0.05", DataType.DOUBLE_TYPE) };
+		ComputedColumn[] computedColumns = { new ComputedColumn("Charge2", "row.DURATION*0.05", DataType.DOUBLE_TYPE) };
 		for (int i = 0; i < computedColumns.length; i++) {
 			((BaseDataSetDesign) this.datasetCall).addComputedColumn(computedColumns[i]);
 		}

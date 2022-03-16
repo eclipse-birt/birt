@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +23,7 @@ import org.eclipse.birt.report.model.api.extension.IColor;
 import org.eclipse.birt.report.model.api.extension.IFont;
 
 /**
- * 
+ *
  */
 
 public class TextImpl implements IText {
@@ -31,14 +34,17 @@ public class TextImpl implements IText {
 		this.text = text;
 	}
 
+	@Override
 	public String getValue() {
 		return text.getValue();
 	}
 
+	@Override
 	public void setValue(String value) {
 		text.setValue(value);
 	}
 
+	@Override
 	public IColor getColor() {
 		ColorDefinition cd = text.getColor();
 		if (cd == null) {
@@ -48,6 +54,7 @@ public class TextImpl implements IText {
 		return ChartComponentUtil.convertColor(cd);
 	}
 
+	@Override
 	public IFont getFont() {
 		FontDefinition fd = text.getFont();
 		if (fd == null) {
@@ -57,10 +64,12 @@ public class TextImpl implements IText {
 		return ChartComponentUtil.convertFont(fd);
 	}
 
+	@Override
 	public void setColor(IColor color) {
 		text.setColor(ChartComponentUtil.convertIColor(color));
 	}
 
+	@Override
 	public void setFont(IFont font) {
 		text.setFont(ChartComponentUtil.convertIFont(font));
 	}

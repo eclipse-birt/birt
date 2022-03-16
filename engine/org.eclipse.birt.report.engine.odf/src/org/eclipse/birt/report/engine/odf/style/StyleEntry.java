@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,6 +62,7 @@ public class StyleEntry implements StyleConstant, Serializable, Cloneable {
 	 * @deprecated use getProperty() instead
 	 * @return
 	 */
+	@Deprecated
 	public IStyle getStyle() {
 		return originalStyle;
 	}
@@ -72,6 +76,7 @@ public class StyleEntry implements StyleConstant, Serializable, Cloneable {
 		return props[id];
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;
@@ -85,7 +90,7 @@ public class StyleEntry implements StyleConstant, Serializable, Cloneable {
 
 		/*
 		 * if ( tar.type != this.type ) { return false; }
-		 * 
+		 *
 		 * for ( int i = 0; i < StyleConstant.COUNT; i++ ) { if ( props[i] != null ) {
 		 * if ( !props[i].equals( tar.getProperty( i ) ) ) { return false; } } else { if
 		 * ( props[i] != tar.getProperty( i ) ) { return false; } } } return true;
@@ -93,6 +98,7 @@ public class StyleEntry implements StyleConstant, Serializable, Cloneable {
 		return tar.hashCode() == this.hashCode();
 	}
 
+	@Override
 	public int hashCode() {
 		if (hashCode == null) {
 			int code = 0;
@@ -106,19 +112,22 @@ public class StyleEntry implements StyleConstant, Serializable, Cloneable {
 
 			code += Arrays.deepHashCode(props);
 
-			hashCode = Integer.valueOf(code);
+			hashCode = code;
 		}
 		return hashCode.intValue();
 	}
 
 	public static boolean isNull(Object value) {
-		if (value == null)
+		if (value == null) {
 			return true;
-		if (value instanceof String)
+		}
+		if (value instanceof String) {
 			return StyleConstant.NULL.equalsIgnoreCase((String) value);
+		}
 		return false;
 	}
 
+	@Override
 	public Object clone() {
 		StyleEntry o = null;
 		try {
@@ -147,7 +156,7 @@ public class StyleEntry implements StyleConstant, Serializable, Cloneable {
 		if (o instanceof Double) {
 			return (Double) o;
 		} else if (o instanceof Integer) {
-			return Double.valueOf((Integer) o);
+			return (double) (Integer) o;
 		}
 		return null;
 	}
@@ -178,7 +187,7 @@ public class StyleEntry implements StyleConstant, Serializable, Cloneable {
 
 	/**
 	 * Returns the style type
-	 * 
+	 *
 	 * @return
 	 */
 	public int getType() {
@@ -187,7 +196,7 @@ public class StyleEntry implements StyleConstant, Serializable, Cloneable {
 
 	/**
 	 * Returns whether this style entry has been added to the style manager.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isAdded() {

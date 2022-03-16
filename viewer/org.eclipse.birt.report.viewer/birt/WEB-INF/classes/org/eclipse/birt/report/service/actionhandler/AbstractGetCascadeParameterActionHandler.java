@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -49,6 +51,7 @@ public abstract class AbstractGetCascadeParameterActionHandler extends AbstractB
 		super(context, operation, response);
 	}
 
+	@Override
 	protected void __execute() throws Exception {
 		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean();
 		assert attrBean != null;
@@ -92,7 +95,7 @@ public abstract class AbstractGetCascadeParameterActionHandler extends AbstractB
 
 	/**
 	 * Get vector from the list.
-	 * 
+	 *
 	 * @param list
 	 * @return
 	 */
@@ -103,11 +106,13 @@ public abstract class AbstractGetCascadeParameterActionHandler extends AbstractB
 			String label = item.getLabel();
 			String value = item.getValue();
 
-			if (value == null)
+			if (value == null) {
 				continue;
+			}
 
-			if (label == null)
+			if (label == null) {
 				label = value;
+			}
 
 			selectionList[i] = new SelectItemChoice(value, label);
 		}
@@ -118,8 +123,9 @@ public abstract class AbstractGetCascadeParameterActionHandler extends AbstractB
 
 	private Map getParameterSelectionLists(IViewerReportDesignHandle design, Map params, InputOptions options)
 			throws ReportServiceException {
-		if (params == null || params.size() == 0)
+		if (params == null || params.size() == 0) {
 			return new HashMap();
+		}
 
 		List[] listArray = null;
 		Map ret = new HashMap();

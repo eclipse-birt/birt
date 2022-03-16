@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -28,7 +31,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ *
  */
 
 public class ExportElementToSourceCPStoreAction extends AbstractViewAction {
@@ -41,9 +44,10 @@ public class ExportElementToSourceCPStoreAction extends AbstractViewAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see isEnabled()
 	 */
+	@Override
 	public boolean isEnabled() {
 		// will implement it later.
 		Object selection = getSelection();
@@ -63,17 +67,19 @@ public class ExportElementToSourceCPStoreAction extends AbstractViewAction {
 		if ("org.eclipse.birt.report.data.oda.jdbc".equals(handle.getExtensionID())) {
 			Object driverClass = handle.getProperty("odaDriverClass");
 			if (driverClass != null
-					&& "org.eclipse.birt.report.data.oda.sampledb.Driver".equals(driverClass.toString()))
+					&& "org.eclipse.birt.report.data.oda.sampledb.Driver".equals(driverClass.toString())) {
 				return true;
+			}
 		}
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
+	@Override
 	public void run() {
 		Object selection = getSelection();
 		if (selection instanceof StructuredSelection) {

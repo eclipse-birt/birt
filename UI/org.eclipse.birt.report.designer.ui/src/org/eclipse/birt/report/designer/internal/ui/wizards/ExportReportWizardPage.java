@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004-2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +40,7 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Administrator
- * 
+ *
  */
 public class ExportReportWizardPage extends WizardPage implements Listener {
 
@@ -82,11 +85,12 @@ public class ExportReportWizardPage extends WizardPage implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	public void createControl(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.EXPORT_TO_LIBRARY_WIZARD_ID);
 		Composite container = new Composite(parent, SWT.NONE);
@@ -109,6 +113,7 @@ public class ExportReportWizardPage extends WizardPage implements Listener {
 		browserButton.setText(BUTTON_BROWSER);
 		browserButton.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				DirectoryDialog dialog = new DirectoryDialog(UIUtil.getDefaultShell());
 				dialog.setMessage(Messages.getString("ExportToLibraryAction.wizard.page.dirdialog.message")); //$NON-NLS-1$
@@ -119,11 +124,13 @@ public class ExportReportWizardPage extends WizardPage implements Listener {
 				}
 
 				String selectedDirectory = dialog.open();
-				if (selectedDirectory != null)
+				if (selectedDirectory != null) {
 					folderText.setText(selectedDirectory);
+				}
 
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -135,7 +142,7 @@ public class ExportReportWizardPage extends WizardPage implements Listener {
 
 	/**
 	 * Create text filed
-	 * 
+	 *
 	 * @param container
 	 * @param column
 	 */
@@ -151,11 +158,13 @@ public class ExportReportWizardPage extends WizardPage implements Listener {
 
 	private static boolean isTextEmpty(Text text) {
 		String s = text.getText();
-		if ((s != null) && (s.trim().length() > 0))
+		if ((s != null) && (s.trim().length() > 0)) {
 			return false;
+		}
 		return true;
 	}
 
+	@Override
 	public void handleEvent(Event event) {
 
 		// Initialize a variable with the no error status
@@ -188,18 +197,21 @@ public class ExportReportWizardPage extends WizardPage implements Listener {
 		getWizard().getContainer().updateButtons();
 	}
 
+	@Override
 	public boolean isPageComplete() {
 		return (nameText.getText().trim().length() > 0) && (folderText.getText().trim().length() > 0)
 				&& (nameStatus.getSeverity() == IStatus.OK) && (folderStatus.getSeverity() == IStatus.OK);
 	}
 
 	private IStatus findMostSevere() {
-		if (nameStatus.matches(IStatus.ERROR))
+		if (nameStatus.matches(IStatus.ERROR)) {
 			return nameStatus;
-		if (folderStatus.matches(IStatus.ERROR))
+		}
+		if (folderStatus.matches(IStatus.ERROR)) {
 			return folderStatus;
-		else
+		} else {
 			return nameStatus;
+		}
 	}
 
 	/**
@@ -207,8 +219,9 @@ public class ExportReportWizardPage extends WizardPage implements Listener {
 	 */
 	private void applyToStatusLine(IStatus status) {
 		String message = status.getMessage();
-		if (message.length() == 0)
+		if (message.length() == 0) {
 			message = PAGE_DESC;
+		}
 		switch (status.getSeverity()) {
 		case IStatus.OK:
 			setErrorMessage(null);

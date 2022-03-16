@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +35,7 @@ public class ReportItemImpl extends ReportItem implements IReportItem, Cloneable
 
 	/**
 	 * Constructs an element.
-	 * 
+	 *
 	 * @param extDefn
 	 * @param elementHandle
 	 */
@@ -45,20 +48,23 @@ public class ReportItemImpl extends ReportItem implements IReportItem, Cloneable
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#getProperty(java.lang.
 	 * String)
 	 */
+	@Override
 	public Object getProperty(String propName) {
 		IPropertyDefn defn = extItemHandle.getPropertyDefn(propName);
-		if (defn == null)
+		if (defn == null) {
 			return null;
+		}
 		assert ((ElementPropertyDefn) defn).isStyleProperty();
 
 		FactoryPropertyHandle factoryHandle = extItemHandle.getFactoryPropertyHandle(propName);
 		Object value = factoryHandle == null ? null : factoryHandle.getValue();
-		if (value != null)
+		if (value != null) {
 			return value;
+		}
 
 		DesignElementHandle container = extItemHandle.getContainer();
 		return container == null ? null : container.getProperty(propName);
@@ -67,12 +73,14 @@ public class ReportItemImpl extends ReportItem implements IReportItem, Cloneable
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#canExport()
 	 */
+	@Override
 	public boolean canExport() {
-		if ("TestingTable1".equals(extItemHandle.getStringProperty(ExtendedItemHandle.EXTENSION_NAME_PROP))) //$NON-NLS-1$
+		if ("TestingTable1".equals(extItemHandle.getStringProperty(ExtendedItemHandle.EXTENSION_NAME_PROP))) { //$NON-NLS-1$
 			return false;
+		}
 		return true;
 	}
 }

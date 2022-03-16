@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * JoinCondition.java
  *
@@ -24,7 +36,7 @@ public class JoinCondition implements java.io.Serializable {
 
 	/**
 	 * Gets the leftExpr value for this JoinCondition.
-	 * 
+	 *
 	 * @return leftExpr
 	 */
 	public java.lang.String getLeftExpr() {
@@ -33,7 +45,7 @@ public class JoinCondition implements java.io.Serializable {
 
 	/**
 	 * Sets the leftExpr value for this JoinCondition.
-	 * 
+	 *
 	 * @param leftExpr
 	 */
 	public void setLeftExpr(java.lang.String leftExpr) {
@@ -42,7 +54,7 @@ public class JoinCondition implements java.io.Serializable {
 
 	/**
 	 * Gets the operator value for this JoinCondition.
-	 * 
+	 *
 	 * @return operator
 	 */
 	public java.lang.String getOperator() {
@@ -51,7 +63,7 @@ public class JoinCondition implements java.io.Serializable {
 
 	/**
 	 * Sets the operator value for this JoinCondition.
-	 * 
+	 *
 	 * @param operator
 	 */
 	public void setOperator(java.lang.String operator) {
@@ -60,7 +72,7 @@ public class JoinCondition implements java.io.Serializable {
 
 	/**
 	 * Gets the rightExpr value for this JoinCondition.
-	 * 
+	 *
 	 * @return rightExpr
 	 */
 	public java.lang.String getRightExpr() {
@@ -69,7 +81,7 @@ public class JoinCondition implements java.io.Serializable {
 
 	/**
 	 * Sets the rightExpr value for this JoinCondition.
-	 * 
+	 *
 	 * @param rightExpr
 	 */
 	public void setRightExpr(java.lang.String rightExpr) {
@@ -78,14 +90,18 @@ public class JoinCondition implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof JoinCondition))
+		if (!(obj instanceof JoinCondition)) {
 			return false;
+		}
 		JoinCondition other = (JoinCondition) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -104,6 +120,7 @@ public class JoinCondition implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

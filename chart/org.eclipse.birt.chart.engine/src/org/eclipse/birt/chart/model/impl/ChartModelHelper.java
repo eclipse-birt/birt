@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,6 +44,7 @@ public class ChartModelHelper implements IChartModelHelper {
 		return instance;
 	}
 
+	@Override
 	public void updateExtendedProperties(EList<ExtendedProperty> properties) {
 		ExtendedProperty extendedProperty = AttributeFactory.eINSTANCE.createExtendedProperty();
 		extendedProperty.setName(IDeviceRenderer.AREA_ALT_ENABLED);
@@ -48,12 +52,14 @@ public class ChartModelHelper implements IChartModelHelper {
 		properties.add(extendedProperty);
 	}
 
+	@Override
 	public List<String> getBuiltInExtendedProperties() {
-		List<String> list = new ArrayList<String>(3);
+		List<String> list = new ArrayList<>(3);
 		list.add(IDeviceRenderer.AREA_ALT_ENABLED);
 		return list;
 	}
 
+	@Override
 	public ExpressionCodec createExpressionCodec() {
 		return new ExpressionCodec();
 	}

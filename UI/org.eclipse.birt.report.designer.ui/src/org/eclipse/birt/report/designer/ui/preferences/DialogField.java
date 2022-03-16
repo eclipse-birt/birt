@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ import org.eclipse.swt.widgets.Label;
  * the model, independed from the creation time of the widgets. - support for
  * automated layouting. - enable / disable, set focus a concept of the base
  * class.
- * 
+ *
  * DialogField have a label.
  */
 public class DialogField {
@@ -88,6 +91,7 @@ public class DialogField {
 		if (display != null) {
 			display.asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					setFocus();
 				}
@@ -130,7 +134,7 @@ public class DialogField {
 
 	/**
 	 * Creates or returns the created label widget.
-	 * 
+	 *
 	 * @param parent The parent composite or <code>null</code> if the widget has
 	 *               already been created.
 	 */
@@ -154,7 +158,7 @@ public class DialogField {
 
 	/**
 	 * Creates a spacer control.
-	 * 
+	 *
 	 * @param parent The parent composite
 	 */
 	public static Control createEmptySpace(Composite parent) {
@@ -164,7 +168,7 @@ public class DialogField {
 	/**
 	 * Creates a spacer control with the given span. The composite is assumed to
 	 * have <code>MGridLayout</code> as layout.
-	 * 
+	 *
 	 * @param parent The parent composite
 	 */
 	public static Control createEmptySpace(Composite parent, int span) {

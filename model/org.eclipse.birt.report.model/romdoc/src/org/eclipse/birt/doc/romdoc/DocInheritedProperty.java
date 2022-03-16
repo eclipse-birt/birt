@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,14 +25,17 @@ public class DocInheritedProperty extends DocObject {
 		name = propName;
 	}
 
+	@Override
 	public void setDescription(String string) {
 		description = string;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public String getDescription() {
 		return description;
 	}
@@ -40,11 +46,13 @@ public class DocInheritedProperty extends DocObject {
 
 	public boolean isReserved(DocElement element) {
 		IPropertyDefn prop = element.getDefn().findProperty(name);
-		if (prop == null)
+		if (prop == null) {
 			return true;
+		}
 		String since = ((PropertyDefn) prop).getSince();
-		if (since == null)
+		if (since == null) {
 			return false;
+		}
 		return since.equals("reserved");
 	}
 

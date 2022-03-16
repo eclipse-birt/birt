@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,12 +27,12 @@ import java.security.PrivilegedExceptionAction;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ *
  */
 
 public class ObjectSecurity {
 	/**
-	 * 
+	 *
 	 * @param is
 	 * @return
 	 * @throws IOException
@@ -39,6 +42,7 @@ public class ObjectSecurity {
 		try {
 			return AccessController.doPrivileged(new PrivilegedExceptionAction<ObjectInputStream>() {
 
+				@Override
 				public ObjectInputStream run() throws IOException {
 					return new ObjectInputStream(is);
 				}
@@ -57,9 +61,11 @@ public class ObjectSecurity {
 		try {
 			return AccessController.doPrivileged(new PrivilegedExceptionAction<ObjectInputStream>() {
 
+				@Override
 				public ObjectInputStream run() throws IOException {
 					return new ObjectInputStream(is) {
 
+						@Override
 						protected Class resolveClass(ObjectStreamClass desc)
 								throws IOException, ClassNotFoundException {
 							return Class.forName(desc.getName(), false, classLoader);
@@ -77,7 +83,7 @@ public class ObjectSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param os
 	 * @return
 	 * @throws IOException
@@ -87,6 +93,7 @@ public class ObjectSecurity {
 		try {
 			return AccessController.doPrivileged(new PrivilegedExceptionAction<ObjectOutputStream>() {
 
+				@Override
 				public ObjectOutputStream run() throws IOException {
 					return new ObjectOutputStream(os);
 				}
@@ -101,7 +108,7 @@ public class ObjectSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param is
 	 * @return
 	 * @throws IOException
@@ -111,10 +118,12 @@ public class ObjectSecurity {
 	public static Object readObject(final ObjectInputStream is)
 			throws IOException, DataException, ClassNotFoundException {
 		try {
-			if (is == null)
+			if (is == null) {
 				return null;
+			}
 			return AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
 
+				@Override
 				public Object run() throws IOException, ClassNotFoundException {
 					return is.readObject();
 				}

@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.script;
@@ -48,6 +51,7 @@ public class DataSetJSEventHandler implements IBaseDataSetEventHandler {
 		return runner;
 	}
 
+	@Override
 	public void handleBeforeOpen(IDataSetInstanceHandle dataSet) throws BirtException {
 		String script = getBaseDesign().getBeforeOpenScript();
 		if (script != null && script.length() > 0) {
@@ -55,6 +59,7 @@ public class DataSetJSEventHandler implements IBaseDataSetEventHandler {
 		}
 	}
 
+	@Override
 	public void handleBeforeClose(IDataSetInstanceHandle dataSet) throws BirtException {
 		String script = getBaseDesign().getBeforeCloseScript();
 		if (script != null && script.length() > 0) {
@@ -62,6 +67,7 @@ public class DataSetJSEventHandler implements IBaseDataSetEventHandler {
 		}
 	}
 
+	@Override
 	public void handleAfterOpen(IDataSetInstanceHandle dataSet) throws BirtException {
 		String script = getBaseDesign().getAfterOpenScript();
 		if (script != null && script.length() > 0) {
@@ -69,6 +75,7 @@ public class DataSetJSEventHandler implements IBaseDataSetEventHandler {
 		}
 	}
 
+	@Override
 	public void handleAfterClose(IDataSetInstanceHandle dataSet) throws BirtException {
 		String script = getBaseDesign().getAfterCloseScript();
 		if (script != null && script.length() > 0) {
@@ -76,6 +83,7 @@ public class DataSetJSEventHandler implements IBaseDataSetEventHandler {
 		}
 	}
 
+	@Override
 	public void handleOnFetch(IDataSetInstanceHandle dataSet, IDataRow row) throws BirtException {
 		String script = getBaseDesign().getOnFetchScript();
 		if (script != null && script.length() > 0) {

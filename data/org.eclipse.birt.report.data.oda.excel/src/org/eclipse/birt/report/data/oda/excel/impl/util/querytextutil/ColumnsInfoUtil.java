@@ -1,9 +1,9 @@
 /*******************************************************************************
   * Copyright (c) 2012 Megha Nidhi Dahal.
   * All rights reserved. This program and the accompanying materials
-  * are made available under the terms of the Eclipse Public License v1.0
+  * are made available under the terms of the Eclipse Public License v2.0
   * which accompanies this distribution, and is available at
-  * http://www.eclipse.org/legal/epl-v10.html
+  * http://www.eclipse.org/legal/epl-2.0.html
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
@@ -80,7 +80,7 @@ public class ColumnsInfoUtil {
 	 * @return
 	 */
 	private static List<String[]> getColumnsInfoList(String columnsInfo) {
-		List<String[]> columnsInfoList = new ArrayList<String[]>();
+		List<String[]> columnsInfoList = new ArrayList<>();
 		char[] columnsInfoChars = columnsInfo.toCharArray();
 		boolean isEscaped = false;
 		String[] columnInfo = { EMPTY_STRING, EMPTY_STRING, EMPTY_STRING };
@@ -98,8 +98,9 @@ public class ColumnsInfoUtil {
 				if (isEscaped) {
 					columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
 					isEscaped = !isEscaped;
-				} else
+				} else {
 					isEscaped = !isEscaped;
+				}
 			} else if (columnsInfoChars[i] == ',') {
 				if (isEscaped) {
 					columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
@@ -111,18 +112,15 @@ public class ColumnsInfoUtil {
 				if (isEscaped) {
 					columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
 					isEscaped = !isEscaped;
+				} else if (i == (columnsInfoChars.length - 1)) {
+					columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
+
+					columnsInfoList.add(columnInfo);
 				} else {
-
-					if (i == (columnsInfoChars.length - 1)) {
-						columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
-
-						columnsInfoList.add(columnInfo);
-					} else {
-						columnsInfoList.add(columnInfo);
-						index = 0;
-						columnInfo = new String[3];
-						columnInfo[0] = columnInfo[1] = columnInfo[2] = EMPTY_STRING;
-					}
+					columnsInfoList.add(columnInfo);
+					index = 0;
+					columnInfo = new String[3];
+					columnInfo[0] = columnInfo[1] = columnInfo[2] = EMPTY_STRING;
 				}
 			} else {
 				columnInfo[index] = columnInfo[index] + columnsInfoChars[i];

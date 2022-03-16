@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.api.iv;
 
@@ -30,12 +42,14 @@ public class IVTest extends EngineCase {
 
 	IReportEngine engine;
 
+	@Override
 	public void setUp() {
 		removeFile(TEST_FOLDER);
 		EngineConfig config = new EngineConfig();
 		engine = new ReportEngine(config);
 	}
 
+	@Override
 	public void tearDown() {
 		engine.destroy();
 		removeFile(TEST_FOLDER);
@@ -90,18 +104,18 @@ public class IVTest extends EngineCase {
 	 * ArchiveFile archive = new ArchiveFile( REPORT_DOCUMENT, "rw+" );
 	 * archive.removeEntry( "/design" ); archive.close( ); // new
 	 * File(REPORT_DOCUMENT_FOLDER + "design").delete( );
-	 * 
+	 *
 	 * try { new RenderTask( engine, REPORT_DOCUMENT ).run( ); } catch (
 	 * EngineException ex ) { ex.printStackTrace( ); } }
-	 * 
+	 *
 	 * public void testRunWithCorruptDocument( ) throws Exception { copyResource(
 	 * REPORT_DESIGN_RESOURCE, REPORT_DESIGN ); createIVReportDocument( );
-	 * 
+	 *
 	 * // corrupt the content file ArchiveFile archive = new ArchiveFile(
 	 * REPORT_DOCUMENT, "rw+" ); ArchiveEntry entry = archive.getEntry(
 	 * "/content/content.dat" ); entry.setLength( entry.getLength( ) / 2 );
 	 * archive.close( );
-	 * 
+	 *
 	 * new RenderTask( engine, REPORT_DOCUMENT ).run( ); }
 	 */
 	static final String REPORT_DESIGN_NO_FILTER_RESOURCE = "org/eclipse/birt/report/engine/api/iv/IV_DesignNoFilter.rptdesign";
@@ -172,40 +186,9 @@ public class IVTest extends EngineCase {
 			this.engine = engine;
 		}
 
+		@Override
 		public void doRun() throws Exception {
 			new IVTask(engine, REPORT_DOCUMENT + threadNumber).run();
-		}
-	}
-
-	static private class RenderTask {
-
-		IReportEngine engine;
-		String fileName;
-
-		RenderTask(IReportEngine engine, String fileName) {
-			this.engine = engine;
-			this.fileName = fileName;
-		}
-
-		public void run() throws Exception {
-			// render the generated report document
-			IReportDocument doc = engine.openReportDocument(fileName);
-			long pageCount = doc.getPageCount();
-			for (int i = 1; i <= pageCount; i++) {
-				IRenderTask renderTask = engine.createRenderTask(doc);
-
-				HTMLRenderOption option = new HTMLRenderOption();
-				option.setOutputFormat("html");
-				option.setOutputStream(new ByteArrayOutputStream());
-				renderTask.setRenderOption(option);
-				renderTask.setPageNumber(i);
-
-				renderTask.render();
-				List errors = renderTask.getErrors();
-				assertEquals(0, errors.size());
-				renderTask.close();
-			}
-			doc.close();
 		}
 	}
 

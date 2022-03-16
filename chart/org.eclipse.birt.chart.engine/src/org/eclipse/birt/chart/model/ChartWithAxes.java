@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -51,7 +54,7 @@ import org.eclipse.emf.common.util.EList;
  * Axis[] axOrths = getOrthogonalAxes( axBase, bIncludePrimary ); <br/>
  * To retrieve the z-axis use: Axis axAnci = getAncillaryBaseAxis( axBase );
  * </p>
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -89,11 +92,11 @@ public interface ChartWithAxes extends Chart {
 	 * Gets the list of base axes for the chart. 'Base' axes are the Category axes
 	 * for the chart if the chart has any. Each of these axes can contain zero or
 	 * more 'Orthogonal' axes. <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Holds all the base axes for the chart.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Axes</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithAxes_Axes()
 	 * @model type="org.eclipse.birt.chart.model.component.Axis" containment="true"
@@ -105,11 +108,11 @@ public interface ChartWithAxes extends Chart {
 	/**
 	 * Returns the value of the '<em><b>Wall Fill</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the fill to be used for the chart wall (for charts with depth).
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Wall Fill</em>' containment reference.
 	 * @see #setWallFill(Fill)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithAxes_WallFill()
@@ -123,7 +126,7 @@ public interface ChartWithAxes extends Chart {
 	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#getWallFill <em>Wall
 	 * Fill</em>}' containment reference. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Wall Fill</em>' containment reference.
 	 * @see #getWallFill()
 	 * @generated
@@ -133,11 +136,11 @@ public interface ChartWithAxes extends Chart {
 	/**
 	 * Returns the value of the '<em><b>Floor Fill</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the fill to be used for the chart floor (for charts with depth).
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Floor Fill</em>' containment reference.
 	 * @see #setFloorFill(Fill)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithAxes_FloorFill()
@@ -151,7 +154,7 @@ public interface ChartWithAxes extends Chart {
 	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#getFloorFill <em>Floor
 	 * Fill</em>}' containment reference. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Floor Fill</em>' containment
 	 *              reference.
 	 * @see #getFloorFill()
@@ -166,11 +169,11 @@ public interface ChartWithAxes extends Chart {
 	 * begin-user-doc --> Gets the orientation of the chart as a whole. This drives
 	 * the way the chart will be rendered and affects the orientations of other
 	 * elements throughout the chart. <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies whether the chart is a vertical or horizontal chart.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Orientation</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Orientation
 	 * @see #isSetOrientation()
@@ -189,7 +192,7 @@ public interface ChartWithAxes extends Chart {
 	 * orientation of the chart as a whole. This drives the way the chart will be
 	 * rendered and affects the orientations of other elements throughout the chart.
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Orientation</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Orientation
 	 * @see #isSetOrientation()
@@ -204,7 +207,7 @@ public interface ChartWithAxes extends Chart {
 	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation
 	 * <em>Orientation</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetOrientation()
 	 * @see #getOrientation()
 	 * @see #setOrientation(Orientation)
@@ -217,7 +220,7 @@ public interface ChartWithAxes extends Chart {
 	 * {@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation
 	 * <em>Orientation</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Orientation</em>' attribute is set.
 	 * @see #unsetOrientation()
 	 * @see #getOrientation()
@@ -229,13 +232,13 @@ public interface ChartWithAxes extends Chart {
 	/**
 	 * Returns the value of the '<em><b>Unit Spacing</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the spacing between the last series element of one unit and the
 	 * first series element of the next unit in the chart. This should be given as a
 	 * percentage of the unit.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Unit Spacing</em>' attribute.
 	 * @see #isSetUnitSpacing()
 	 * @see #unsetUnitSpacing()
@@ -252,7 +255,7 @@ public interface ChartWithAxes extends Chart {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit
 	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Unit Spacing</em>' attribute.
 	 * @see #isSetUnitSpacing()
 	 * @see #unsetUnitSpacing()
@@ -265,7 +268,7 @@ public interface ChartWithAxes extends Chart {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit
 	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetUnitSpacing()
 	 * @see #getUnitSpacing()
 	 * @see #setUnitSpacing(double)
@@ -278,7 +281,7 @@ public interface ChartWithAxes extends Chart {
 	 * {@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit
 	 * Spacing</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Unit Spacing</em>' attribute is set.
 	 * @see #unsetUnitSpacing()
 	 * @see #getUnitSpacing()
@@ -301,7 +304,7 @@ public interface ChartWithAxes extends Chart {
 	 * a3D.set( -20, 45, 0 );<br/>
 	 * </p>
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Rotation</em>' containment reference.
 	 * @see #setRotation(Rotation3D)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithAxes_Rotation()
@@ -315,7 +318,7 @@ public interface ChartWithAxes extends Chart {
 	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#getRotation
 	 * <em>Rotation</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Rotation</em>' containment reference.
 	 * @see #getRotation()
 	 * @generated
@@ -327,9 +330,9 @@ public interface ChartWithAxes extends Chart {
 	 * default value is <code>"false"</code>. <!-- begin-user-doc --> <!--
 	 * end-user-doc --> <!-- begin-model-doc --> The boolean attribute
 	 * "ReverseCategory" specifies if the categories are in reverse order.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Reverse Category</em>' attribute.
 	 * @see #isSetReverseCategory()
 	 * @see #unsetReverseCategory()
@@ -347,7 +350,7 @@ public interface ChartWithAxes extends Chart {
 	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory
 	 * <em>Reverse Category</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Reverse Category</em>' attribute.
 	 * @see #isSetReverseCategory()
 	 * @see #unsetReverseCategory()
@@ -361,7 +364,7 @@ public interface ChartWithAxes extends Chart {
 	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory
 	 * <em>Reverse Category</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetReverseCategory()
 	 * @see #isReverseCategory()
 	 * @see #setReverseCategory(boolean)
@@ -374,7 +377,7 @@ public interface ChartWithAxes extends Chart {
 	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory
 	 * <em>Reverse Category</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Reverse Category</em>' attribute is
 	 *         set.
 	 * @see #unsetReverseCategory()
@@ -389,7 +392,7 @@ public interface ChartWithAxes extends Chart {
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The boolean
 	 * attribute "StudyLayout" specifies whether multiple Y axes are laid out as a
 	 * Study Chart. <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Study Layout</em>' attribute.
 	 * @see #isSetStudyLayout()
 	 * @see #unsetStudyLayout()
@@ -405,7 +408,7 @@ public interface ChartWithAxes extends Chart {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#isStudyLayout <em>Study
 	 * Layout</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Study Layout</em>' attribute.
 	 * @see #isSetStudyLayout()
 	 * @see #unsetStudyLayout()
@@ -418,7 +421,7 @@ public interface ChartWithAxes extends Chart {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#isStudyLayout <em>Study
 	 * Layout</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetStudyLayout()
 	 * @see #isStudyLayout()
 	 * @see #setStudyLayout(boolean)
@@ -430,7 +433,7 @@ public interface ChartWithAxes extends Chart {
 	 * Returns whether the value of the
 	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#isStudyLayout <em>Study
 	 * Layout</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Study Layout</em>' attribute is set.
 	 * @see #unsetStudyLayout()
 	 * @see #isStudyLayout()
@@ -441,18 +444,18 @@ public interface ChartWithAxes extends Chart {
 
 	/**
 	 * This method returns all base axes associated with the chart model
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @return
 	 */
 	Axis[] getBaseAxes();
 
 	/**
 	 * This method returns all primary base axes associated with the chart model
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @return
 	 */
 	Axis[] getPrimaryBaseAxes();
@@ -461,9 +464,9 @@ public interface ChartWithAxes extends Chart {
 	 * This method returns all (primary and overlay) orthogonal axes for a given
 	 * base axis If the primary orthogonal is requested for, it would be returned as
 	 * the first element in the array
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @param axBase
 	 * @return
 	 */
@@ -471,9 +474,9 @@ public interface ChartWithAxes extends Chart {
 
 	/**
 	 * This method returns the primary orthogonal axis for a given base axis
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @param axBase
 	 * @return
 	 */
@@ -481,9 +484,9 @@ public interface ChartWithAxes extends Chart {
 
 	/**
 	 * This method returns the ancillary base axis for a given base axis
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @param axBase
 	 * @return
 	 */
@@ -491,7 +494,7 @@ public interface ChartWithAxes extends Chart {
 
 	/**
 	 * This convenience method initializes all member variables
-	 * 
+	 *
 	 * NOTE: Manually written
 	 */
 	// void initialize();
@@ -499,7 +502,7 @@ public interface ChartWithAxes extends Chart {
 	 * This method needs to be called after the chart has been populated with
 	 * runtime datasets and runtime series have been associated with each of the
 	 * axes.
-	 * 
+	 *
 	 * @param iBaseOrOrthogonal
 	 * @return All series associated with the specified axis types
 	 */
@@ -509,9 +512,9 @@ public interface ChartWithAxes extends Chart {
 	 * A convenience method used to determine if the plot is transposed or not. For
 	 * an orthogonal set of axes, this is determined by evaluating the 'Orientation'
 	 * property. If (orientation == HORIZONTAL), the chart is transposed.
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @return A boolean indicating if the chart is transposed or not
 	 */
 	boolean isTransposed();
@@ -521,7 +524,7 @@ public interface ChartWithAxes extends Chart {
 	 * orthogonal set of axes, this is determined by internally setting the
 	 * 'Orientation' property. If (orientation == HORIZONTAL), the chart is
 	 * transposed.
-	 * 
+	 *
 	 * NOTE: Manually written
 	 */
 	void setTransposed(boolean bTransposed);
@@ -529,6 +532,7 @@ public interface ChartWithAxes extends Chart {
 	/**
 	 * @generated
 	 */
+	@Override
 	ChartWithAxes copyInstance();
 
 } // ChartWithAxes

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +21,7 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.JavaCore;
 
 /**
- * 
+ *
  */
 public class IDECPListElement {
 
@@ -68,7 +71,7 @@ public class IDECPListElement {
 
 	private IClasspathEntry newClasspathEntry() {
 
-		IClasspathAttribute[] extraAttributes = new IClasspathAttribute[0];
+		IClasspathAttribute[] extraAttributes = {};
 		switch (fEntryKind) {
 		case IClasspathEntry.CPE_SOURCE:
 			return JavaCore.newSourceEntry(fPath, null, null, null, extraAttributes);
@@ -91,7 +94,7 @@ public class IDECPListElement {
 
 	/**
 	 * Gets the class path entry path.
-	 * 
+	 *
 	 * @return returns the path
 	 * @see IClasspathEntry#getPath()
 	 */
@@ -101,7 +104,7 @@ public class IDECPListElement {
 
 	/**
 	 * Gets the class path entry kind.
-	 * 
+	 *
 	 * @return the entry kind
 	 * @see IClasspathEntry#getEntryKind()
 	 */
@@ -112,7 +115,7 @@ public class IDECPListElement {
 	/**
 	 * Entries without resource are either non existing or a variable entry External
 	 * jars do not have a resource
-	 * 
+	 *
 	 * @return returns the resource
 	 */
 	public IResource getResource() {
@@ -130,7 +133,7 @@ public class IDECPListElement {
 
 	/**
 	 * Notifies that an attribute has changed
-	 * 
+	 *
 	 * @param key the changed key
 	 */
 	protected void attributeChanged(String key) {
@@ -150,6 +153,7 @@ public class IDECPListElement {
 	/*
 	 * @see Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object other) {
 		if (other != null && other.getClass().equals(getClass())) {
 			IDECPListElement elem = (IDECPListElement) other;
@@ -161,22 +165,24 @@ public class IDECPListElement {
 	/*
 	 * @see Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		return fPath.hashCode() + fEntryKind;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		return getClasspathEntry().toString();
 	}
 
 	/**
 	 * Returns if a entry is missing.
-	 * 
+	 *
 	 * @return Returns a boolean
 	 */
 	public boolean isMissing() {
@@ -185,7 +191,7 @@ public class IDECPListElement {
 
 	/**
 	 * Sets the 'missing' state of the entry.
-	 * 
+	 *
 	 * @param isMissing the new state
 	 */
 	public void setIsMissing(boolean isMissing) {
@@ -194,7 +200,7 @@ public class IDECPListElement {
 
 	/**
 	 * Returns if a entry is exported (only applies to libraries)
-	 * 
+	 *
 	 * @return Returns a boolean
 	 */
 	public boolean isExported() {
@@ -203,7 +209,7 @@ public class IDECPListElement {
 
 	/**
 	 * Sets the export state of the entry.
-	 * 
+	 *
 	 * @param isExported the new state
 	 */
 	public void setExported(boolean isExported) {

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,15 +25,15 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
 
 /**
- * 
+ *
  * Schema utility
- * 
+ *
  */
 public class SchemaUtil {
 
 	/**
 	 * Check string is null or length of string is zero.
-	 * 
+	 *
 	 * @param astr
 	 * @return boolean <code>true</code>if string is blank, else return
 	 *         <code>false</code>
@@ -46,15 +49,16 @@ public class SchemaUtil {
 
 	/**
 	 * Transform html to value. For example : change 'fontFamily' to 'font-family'
-	 * 
+	 *
 	 * @param input
 	 * @return value after converting
 	 */
 
 	private static String transform(String input) {
-		if (input == null)
+		if (input == null) {
 			return null;
-		StringBuffer buffer = new StringBuffer();
+		}
+		StringBuilder buffer = new StringBuilder();
 		input = input.trim();
 		int len = input.length();
 		for (int i = 0; i < len; ++i) {
@@ -72,7 +76,7 @@ public class SchemaUtil {
 
 	/**
 	 * Pre write schema.
-	 * 
+	 *
 	 * @param styleDefn
 	 * @param writer
 	 */
@@ -83,7 +87,7 @@ public class SchemaUtil {
 
 	/**
 	 * Post write schem.
-	 * 
+	 *
 	 * @param styleDefn
 	 * @param writer
 	 */
@@ -114,7 +118,7 @@ public class SchemaUtil {
 
 	/**
 	 * Write xml schema.
-	 * 
+	 *
 	 * @param dictionary
 	 * @param writer
 	 * @param filter
@@ -128,16 +132,18 @@ public class SchemaUtil {
 		assert cssMap != null;
 
 		ElementDefn styleDefn = (ElementDefn) dictionary.getElement("Style"); //$NON-NLS-1$
-		if (styleDefn == null)
+		if (styleDefn == null) {
 			return;
+		}
 
 		writer.startHtml();
 		preWrite(cssMap, styleDefn, writer);
 		Iterator iterator = styleDefn.propertiesIterator();
 		while (iterator.hasNext()) {
 			SystemPropertyDefn propDefn = (SystemPropertyDefn) iterator.next();
-			if (!propDefn.isStyleProperty())
+			if (!propDefn.isStyleProperty()) {
 				continue;
+			}
 
 			String propName = propDefn.getName();
 
@@ -145,12 +151,14 @@ public class SchemaUtil {
 
 			propName = SchemaUtil.transform(propName);
 			Object defaultValue = propDefn.getDefault();
-			if (defaultValue != null)
+			if (defaultValue != null) {
 				defaultValue = defaultValue.toString();
+			}
 
 			// type is not structure , boolean , name
-			if (!filter.filter(propDefn))
+			if (!filter.filter(propDefn)) {
 				continue;
+			}
 
 			IChoiceSet propChoice = propDefn.getChoices();
 
@@ -166,7 +174,7 @@ public class SchemaUtil {
 			}
 
 			IChoice[] choices = propChoice.getChoices();
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i < choices.length; ++i) {
 				IChoice choice = choices[i];
 				String choiceName = choice.getName();

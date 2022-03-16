@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -83,14 +86,14 @@ public class ElementStructureUtil {
 	 * relationship is kept while property values are not copied.
 	 * <p>
 	 * The two element should be the same type.
-	 * 
+	 *
 	 * @param childModule the module where the child element resides
-	 * 
+	 *
 	 * @param child       the child element
 	 * @param parent      the extends parent element
 	 * @return <code>true</code> if the refresh action is successful.
 	 *         <code>false</code> otherwise.
-	 * 
+	 *
 	 */
 
 	/**
@@ -101,11 +104,9 @@ public class ElementStructureUtil {
 	 */
 
 	public static boolean updateStructureFromParent(Module childModule, DesignElement child, DesignElement parent) {
-		if (child == null || parent == null)
+		if (child == null || parent == null || (child.getExtendsElement() != parent)) {
 			return false;
-
-		if (child.getExtendsElement() != parent)
-			return false;
+		}
 
 		Map<Long, List<Object>> overriddenValues = collectPropertyValues(childModule, child);
 		boolean retValue = duplicateStructure(parent, child, childModule);
@@ -116,9 +117,9 @@ public class ElementStructureUtil {
 	/**
 	 * Scatters overridden values to virtual elements in the given design element.
 	 * The caller should add names into name spaces.
-	 * 
+	 *
 	 * @param module
-	 * 
+	 *
 	 * @param element          the design element
 	 * @param overriddenValues a map containing overridden values of virtual
 	 *                         element. The key is the base id of virtual element.
@@ -128,21 +129,24 @@ public class ElementStructureUtil {
 
 	public static void distributeValues(Module module, DesignElement element,
 			Map<Long, List<Object>> overriddenValues) {
-		if (element == null)
+		if (element == null) {
 			return;
+		}
 
 		ContentIterator contentIterator = new ContentIterator(module, element);
 
 		while (contentIterator.hasNext()) {
 			DesignElement content = contentIterator.next();
-			Long baseId = Long.valueOf(content.getBaseId());
+			Long baseId = content.getBaseId();
 
-			if (overriddenValues == null || overriddenValues.isEmpty())
+			if (overriddenValues == null || overriddenValues.isEmpty()) {
 				continue;
+			}
 
 			List<Object> values = overriddenValues.get(baseId);
-			if (values == null || values.isEmpty())
+			if (values == null || values.isEmpty()) {
 				continue;
+			}
 
 			for (int i = 0; i < values.size(); i++) {
 				Property prop = (Property) values.get(i);
@@ -150,13 +154,14 @@ public class ElementStructureUtil {
 
 				// the intrinsic style property must use setStyle().
 
-				if (IStyledElementModel.STYLE_PROP.equals(prop.getName()))
+				if (IStyledElementModel.STYLE_PROP.equals(prop.getName())) {
 					((StyledElement) content).setStyleName((String) prop.getValue());
-				else if (value instanceof ReferenceValue) {
+				} else if (value instanceof ReferenceValue) {
 					Object newValue = ((ReferenceValue) value).copy();
 					content.setProperty(prop.getName(), newValue);
-				} else
+				} else {
 					content.setProperty(prop.getName(), prop.getValue());
+				}
 			}
 		}
 
@@ -164,9 +169,9 @@ public class ElementStructureUtil {
 
 	/**
 	 * Gathers local values of virtual elements in the given design element.
-	 * 
+	 *
 	 * @param module
-	 * 
+	 *
 	 * @param element the design element
 	 * @return a map containing overridden values of virtual element. The key is the
 	 *         base id of virtual element. The value is a list containing property
@@ -174,21 +179,22 @@ public class ElementStructureUtil {
 	 */
 
 	public static Map<Long, List<Object>> collectPropertyValues(Module module, DesignElement element) {
-		if (element == null)
+		if (element == null) {
 			return Collections.emptyMap();
+		}
 
-		Map<Long, List<Object>> map = new HashMap<Long, List<Object>>();
+		Map<Long, List<Object>> map = new HashMap<>();
 		Module root = element.getRoot();
 
 		ContentIterator contentIterator = new ContentIterator(module, element);
 
 		while (contentIterator.hasNext()) {
 			DesignElement content = contentIterator.next();
-			Long baseId = Long.valueOf(content.getBaseId());
+			Long baseId = content.getBaseId();
 
 			List<Object> values = map.get(baseId);
 			if (values == null) {
-				values = new ArrayList<Object>();
+				values = new ArrayList<>();
 				map.put(baseId, values);
 			}
 
@@ -196,28 +202,32 @@ public class ElementStructureUtil {
 			if (content instanceof ExtendedItem) {
 				if (!((ExtendedItem) content).hasLocalPropertyValues()) {
 					((ExtendedItem) content).getExtensibilityProvider().clearOwnModel();
-					propDefns = new ArrayList<IElementPropertyDefn>();
+					propDefns = new ArrayList<>();
 				} else {
 					propDefns = ((ExtendedItem) content).getExtDefn().getProperties();
 				}
-			} else
+			} else {
 				propDefns = content.getPropertyDefns();
+			}
 
 			for (int i = 0; i < propDefns.size(); i++) {
 				PropertyDefn propDefn = (PropertyDefn) propDefns.get(i);
 				if (IDesignElementModel.NAME_PROP.equalsIgnoreCase(propDefn.getName())
 						|| IDesignElementModel.EXTENDS_PROP.equalsIgnoreCase(propDefn.getName())
-						|| propDefn.getTypeCode() == IPropertyType.ELEMENT_TYPE)
+						|| propDefn.getTypeCode() == IPropertyType.ELEMENT_TYPE) {
 					continue;
+				}
 
 				if (content instanceof ExtendedItem
-						&& IExtendedItemModel.EXTENSION_NAME_PROP.equalsIgnoreCase(propDefn.getName()))
+						&& IExtendedItemModel.EXTENSION_NAME_PROP.equalsIgnoreCase(propDefn.getName())) {
 					continue;
+				}
 
 				String propName = propDefn.getName();
 				Object propValue = content.getLocalProperty(root, propName);
-				if (propValue == null)
+				if (propValue == null) {
 					continue;
+				}
 
 				if (IStyledElementModel.STYLE_PROP.equals(propName)) {
 					ReferenceValue refValue = (ReferenceValue) propValue;
@@ -237,25 +247,28 @@ public class ElementStructureUtil {
 	 * is kept while property values are not copied.
 	 * <p>
 	 * The two element should be the same type.
-	 * 
+	 *
 	 * @param source       source element
 	 * @param target       target element
 	 * @param targetModule module where the target element resides
 	 * @return <code>true</code> if the refresh action is successful.
 	 *         <code>false</code> othersize.
-	 * 
+	 *
 	 */
 
 	public static boolean duplicateStructure(DesignElement source, DesignElement target, Module targetModule) {
-		if (source == null || target == null)
+		if (source == null || target == null) {
 			throw new IllegalArgumentException("Element can not be null."); //$NON-NLS-1$
+		}
 
 		ElementDefn defn = (ElementDefn) source.getDefn();
-		if (defn != target.getDefn())
+		if (defn != target.getDefn()) {
 			throw new IllegalArgumentException("Two element are not the same type."); //$NON-NLS-1$
+		}
 
-		if (!defn.isContainer())
+		if (!defn.isContainer()) {
 			return true;
+		}
 
 		// Copies top level slots from cloned element to the target element.
 		for (int i = 0; i < defn.getSlotCount(); i++) {
@@ -314,13 +327,13 @@ public class ElementStructureUtil {
 	 * is kept while property values are not copied.
 	 * <p>
 	 * The two element should be the same type.
-	 * 
+	 *
 	 * @param source       source element
 	 * @param target       target element
 	 * @param targetModule module where the target element resides
 	 * @return <code>true</code> if the refresh action is successful.
 	 *         <code>false</code> othersize.
-	 * 
+	 *
 	 */
 
 	public static boolean duplicateDimensionStructure(DesignElement source, DesignElement target, Module targetModule) {
@@ -345,7 +358,7 @@ public class ElementStructureUtil {
 	 * Duplicates the structure from one element to another element. Local
 	 * properties will all be cleared.Please note that the containment relationship
 	 * is kept while property values are not copied.
-	 * 
+	 *
 	 * @param sourceInfor
 	 * @param targetInfor
 	 */
@@ -369,8 +382,9 @@ public class ElementStructureUtil {
 
 			} else if (sourceContent instanceof OdaDataSource) {
 
-			} else
+			} else {
 				targetContent = ElementFactoryUtil.newElement(sourceContent.getElementName(), sourceContent.getName());
+			}
 
 			if (targetContent != null) {
 				// set up the element id and base id
@@ -393,18 +407,20 @@ public class ElementStructureUtil {
 	/**
 	 * Clears directly and indirectly included element for the given element. Uses
 	 * this method precausiously.
-	 * 
+	 *
 	 * @param element the design element
 	 */
 
 	public static void clearStructure(DesignElement element) {
-		if (element == null)
+		if (element == null) {
 			return;
+		}
 
 		ElementDefn defn = (ElementDefn) element.getDefn();
 
-		if (!defn.isContainer())
+		if (!defn.isContainer()) {
 			return;
+		}
 
 		for (int i = 0; i < defn.getSlotCount(); i++) {
 			new ContainerContext(element, i).clearContents();
@@ -419,7 +435,7 @@ public class ElementStructureUtil {
 
 	/**
 	 * Add the virtual elements name into the module namespace.
-	 * 
+	 *
 	 * @param element the element contains virtual elements inside.
 	 * @param module  the module
 	 */
@@ -430,8 +446,9 @@ public class ElementStructureUtil {
 		while (contentIter.hasNext()) {
 			DesignElement virtualElement = contentIter.next();
 
-			if (virtualElement.getName() == null)
+			if (virtualElement.getName() == null) {
 				continue;
+			}
 
 			NameExecutor executor = new NameExecutor(module, virtualElement);
 			executor.makeUniqueName();
@@ -449,21 +466,23 @@ public class ElementStructureUtil {
 	 * elements are not copied.
 	 * <p>
 	 * The caller should add names into name spaces.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the parent element
-	 * 
+	 *
 	 * @return <code>true</code> if the refresh action is successful.
 	 *         <code>false</code> othersize.
-	 * 
+	 *
 	 */
 
 	public static boolean refreshStructureFromParent(Module module, DesignElement element) {
-		if (element == null)
+		if (element == null) {
 			throw new IllegalArgumentException("Parent element can not be null."); //$NON-NLS-1$
+		}
 		DesignElement parent = element.getExtendsElement();
-		if (parent == null)
+		if (parent == null) {
 			return false;
+		}
 
 		// Copies top level slots from cloned element to the target element.
 
@@ -482,9 +501,9 @@ public class ElementStructureUtil {
 	 * Notice: the element and its parent should have the same structure when
 	 * calling this method. That is the child structure has already been refreshed
 	 * from parent.
-	 * 
+	 *
 	 * @param module
-	 * 
+	 *
 	 * @param element the element to setup the id reference
 	 * @return a map to store the base id and the corresponding child element.
 	 */
@@ -495,8 +514,9 @@ public class ElementStructureUtil {
 		// Parent and the child must have the same structures.
 
 		DesignElement parent = element.getExtendsElement();
-		if (parent == null)
+		if (parent == null) {
 			return Collections.emptyMap();
+		}
 
 		return getIdMap(module, element, parent);
 	}
@@ -508,16 +528,16 @@ public class ElementStructureUtil {
 	 * Notice: the element and its parent should have the same structure when
 	 * calling this method. That is the child structure has already been refreshed
 	 * from parent.
-	 * 
+	 *
 	 * @param module
-	 * 
+	 *
 	 * @param element the element to setup the id reference
 	 * @param parent  the parent element
 	 * @return a map to store the base id and the corresponding child element.
 	 */
 
 	public static Map<Long, DesignElement> getIdMap(Module module, DesignElement element, DesignElement parent) {
-		Map<Long, DesignElement> idMap = new HashMap<Long, DesignElement>();
+		Map<Long, DesignElement> idMap = new HashMap<>();
 
 		Iterator<DesignElement> parentIter = new ContentIterator(module, parent);
 		Iterator<DesignElement> childIter = new ContentIterator(module, element);
@@ -527,7 +547,7 @@ public class ElementStructureUtil {
 
 			assert virtualParent.getID() > 0;
 
-			idMap.put(Long.valueOf(virtualParent.getID()), virtualChild);
+			idMap.put(virtualParent.getID(), virtualChild);
 		}
 
 		return idMap;
@@ -542,17 +562,18 @@ public class ElementStructureUtil {
 	 * <li>Inherited from style or element's selector style
 	 * <li>Inherited from parent
 	 * </ul>
-	 * 
+	 *
 	 * @param module
-	 * 
+	 *
 	 * @param element the element to be localized.
 	 */
 
 	public static void localizeElement(Module module, DesignElement element) {
 		assert element != null;
 		DesignElement parent = element.getExtendsElement();
-		if (parent == null)
+		if (parent == null) {
 			return;
+		}
 
 		duplicateProperties(parent, element);
 
@@ -569,7 +590,7 @@ public class ElementStructureUtil {
 
 	/**
 	 * Duplicates some properties in a design element when to export it.
-	 * 
+	 *
 	 * @param from the from element to get the property values
 	 * @param to   the to element to duplicate the property values
 	 */
@@ -594,8 +615,9 @@ public class ElementStructureUtil {
 
 			if (IStyledElementModel.STYLE_PROP.equals(propName) || IDesignElementModel.EXTENDS_PROP.equals(propName)
 					|| IDesignElementModel.USER_PROPERTIES_PROP.equals(propName)
-					|| IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals(propName))
+					|| IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals(propName)) {
 				continue;
+			}
 
 			Object localValue = to.getLocalProperty(from.getRoot(), propDefn);
 			Object parentValue = from.getStrategy().getPropertyFromElement(from.getRoot(), from, propDefn);

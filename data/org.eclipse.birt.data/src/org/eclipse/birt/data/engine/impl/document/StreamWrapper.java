@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
- * 
+ *
  */
 public class StreamWrapper {
 	private OutputStream streamForResultClass;
@@ -39,9 +42,9 @@ public class StreamWrapper {
 	private DataOutputStream streamForDataSetLens;
 	private StreamManager manager;
 	private boolean enableIndexStream;
-	private Map<IResultClass, Map<String, IIndexSerializer>> cachedIndex = new HashMap<IResultClass, Map<String, IIndexSerializer>>();
-	private Map<IResultClass, Map<String, StringTable>> cachedStringTable = new HashMap<IResultClass, Map<String, StringTable>>();
-	private List<IAuxiliaryIndexCreator> auxiliaryIndexCreators = new ArrayList<IAuxiliaryIndexCreator>();
+	private Map<IResultClass, Map<String, IIndexSerializer>> cachedIndex = new HashMap<>();
+	private Map<IResultClass, Map<String, StringTable>> cachedStringTable = new HashMap<>();
+	private List<IAuxiliaryIndexCreator> auxiliaryIndexCreators = new ArrayList<>();
 
 	/**
 	 * @param streamForResultClass
@@ -89,14 +92,17 @@ public class StreamWrapper {
 	}
 
 	public Map<String, StringTable> getOutputStringTable(IResultClass resultClass) throws DataException {
-		if (!this.enableIndexStream)
-			return new HashMap<String, StringTable>();
-		if (cachedStringTable.containsKey(resultClass))
+		if (!this.enableIndexStream) {
+			return new HashMap<>();
+		}
+		if (cachedStringTable.containsKey(resultClass)) {
 			return cachedStringTable.get(resultClass);
-		Map<String, StringTable> result = new HashMap<String, StringTable>();
+		}
+		Map<String, StringTable> result = new HashMap<>();
 		for (int i = 1; i <= resultClass.getFieldCount(); i++) {
-			if (!resultClass.isCompressedColumn(i))
+			if (!resultClass.isCompressedColumn(i)) {
 				continue;
+			}
 			Class dataType = resultClass.getFieldValueClass(i);
 			if (dataType == String.class) {
 				String fieldName = resultClass.getFieldName(i);
@@ -111,29 +117,34 @@ public class StreamWrapper {
 
 	public Map<String, IIndexSerializer> getStreamForIndex(IResultClass resultClass, Map appContext)
 			throws DataException {
-		if (!this.enableIndexStream)
-			return new HashMap<String, IIndexSerializer>();
+		if (!this.enableIndexStream) {
+			return new HashMap<>();
+		}
 
-		if (this.cachedIndex.containsKey(resultClass))
+		if (this.cachedIndex.containsKey(resultClass)) {
 			return this.cachedIndex.get(resultClass);
-		Map<String, IIndexSerializer> result = new HashMap<String, IIndexSerializer>();
+		}
+		Map<String, IIndexSerializer> result = new HashMap<>();
 
 		int indexColumnCount = 0;
 		for (int i = 1; i <= resultClass.getFieldCount(); i++) {
-			if (resultClass.isIndexColumn(i))
+			if (resultClass.isIndexColumn(i)) {
 				indexColumnCount++;
+			}
 		}
 		for (int i = 1; i <= resultClass.getFieldCount(); i++) {
-			if (!resultClass.isIndexColumn(i))
+			if (!resultClass.isIndexColumn(i)) {
 				continue;
+			}
 			Class dataType = resultClass.getFieldValueClass(i);
 			String fieldName = resultClass.getFieldName(i);
 			long memoryBufferSize = CacheUtil.computeMemoryBufferSize(appContext);
 
 			IIndexSerializer index = DataSetIndexFactory.createIndex(memoryBufferSize / indexColumnCount,
 					"Index/" + fieldName + "/btreeIndex", manager, dataType);
-			if (index != null)
+			if (index != null) {
 				result.put(fieldName, index);
+			}
 
 //			if ( dataType == String.class )
 //			{

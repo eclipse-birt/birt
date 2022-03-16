@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -25,29 +28,39 @@ public class ReportElementResizablePolicy extends ResizableEditPolicy {
 	/**
 	 * @see org.eclipse.gef.editpolicies.SelectionHandlesEditPolicy#createSelectionHandles()
 	 */
+	@Override
 	protected List createSelectionHandles() {
 		List list = new ArrayList();
 
 		if (this.getResizeDirections() != -1) {
 			ReportResizableHandleKit.addMoveHandle((GraphicalEditPart) getHost(), list);
-			if ((this.getResizeDirections() & PositionConstants.EAST) != 0)
+			if ((this.getResizeDirections() & PositionConstants.EAST) != 0) {
 				ReportResizableHandleKit.addHandle((GraphicalEditPart) getHost(), list, PositionConstants.EAST);
-			if ((this.getResizeDirections() & PositionConstants.SOUTH_EAST) == PositionConstants.SOUTH_EAST)
+			}
+			if ((this.getResizeDirections() & PositionConstants.SOUTH_EAST) == PositionConstants.SOUTH_EAST) {
 				ReportResizableHandleKit.addHandle((GraphicalEditPart) getHost(), list, PositionConstants.SOUTH_EAST);
-			if ((this.getResizeDirections() & PositionConstants.SOUTH) != 0)
+			}
+			if ((this.getResizeDirections() & PositionConstants.SOUTH) != 0) {
 				ReportResizableHandleKit.addHandle((GraphicalEditPart) getHost(), list, PositionConstants.SOUTH);
-			if ((this.getResizeDirections() & PositionConstants.SOUTH_WEST) == PositionConstants.SOUTH_WEST)
+			}
+			if ((this.getResizeDirections() & PositionConstants.SOUTH_WEST) == PositionConstants.SOUTH_WEST) {
 				ReportResizableHandleKit.addHandle((GraphicalEditPart) getHost(), list, PositionConstants.SOUTH_WEST);
-			if ((this.getResizeDirections() & PositionConstants.WEST) != 0)
+			}
+			if ((this.getResizeDirections() & PositionConstants.WEST) != 0) {
 				ReportResizableHandleKit.addHandle((GraphicalEditPart) getHost(), list, PositionConstants.WEST);
-			if ((this.getResizeDirections() & PositionConstants.NORTH_WEST) == PositionConstants.NORTH_WEST)
+			}
+			if ((this.getResizeDirections() & PositionConstants.NORTH_WEST) == PositionConstants.NORTH_WEST) {
 				ReportResizableHandleKit.addHandle((GraphicalEditPart) getHost(), list, PositionConstants.NORTH_WEST);
-			if ((this.getResizeDirections() & PositionConstants.NORTH) != 0)
+			}
+			if ((this.getResizeDirections() & PositionConstants.NORTH) != 0) {
 				ReportResizableHandleKit.addHandle((GraphicalEditPart) getHost(), list, PositionConstants.NORTH);
-			if ((this.getResizeDirections() & PositionConstants.NORTH_EAST) == PositionConstants.NORTH_EAST)
+			}
+			if ((this.getResizeDirections() & PositionConstants.NORTH_EAST) == PositionConstants.NORTH_EAST) {
 				ReportResizableHandleKit.addHandle((GraphicalEditPart) getHost(), list, PositionConstants.NORTH_EAST);
-		} else
+			}
+		} else {
 			ReportResizableHandleKit.addHandles((GraphicalEditPart) getHost(), list);
+		}
 
 		return list;
 	}

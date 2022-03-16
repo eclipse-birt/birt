@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,6 +41,7 @@ public class EditorRulerProvider extends RulerProvider {
 
 	protected PropertyChangeListener rulerListener = new PropertyChangeListener() {
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			if (evt.getPropertyName().equals(EditorRuler.PROPERTY_CHILDREN)) {
 				EditorGuide guide = (EditorGuide) evt.getNewValue();
@@ -59,6 +63,7 @@ public class EditorRulerProvider extends RulerProvider {
 
 	protected PropertyChangeListener guideListener = new PropertyChangeListener() {
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			if (evt.getPropertyName().equals(EditorGuide.PROPERTY_CHILDREN)) {
 				for (int i = 0; i < listeners.size(); i++) {
@@ -82,7 +87,7 @@ public class EditorRulerProvider extends RulerProvider {
 
 	/**
 	 * The constructor
-	 * 
+	 *
 	 * @param handle
 	 */
 	public EditorRulerProvider(ModuleHandle handle, boolean isHorizontal) {
@@ -98,26 +103,28 @@ public class EditorRulerProvider extends RulerProvider {
 
 	/**
 	 * Return null command to forbid create guide beHavior (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.rulers.RulerProvider#getCreateGuideCommand(int)
 	 */
+	@Override
 	public Command getCreateGuideCommand(int position) {
 		return null;
 	}
 
 	/**
 	 * Return null command to forbid delete guide beHavior (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.rulers.RulerProvider#getCreateGuideCommand(int)
 	 */
 
+	@Override
 	public Command getDeleteGuideCommand(Object guide) {
 		return null;
 	}
 
 	/**
 	 * Sets the actual layout size.
-	 * 
+	 *
 	 * @param rct
 	 */
 	public void setLayoutSize(Rectangle rct) {
@@ -135,7 +142,7 @@ public class EditorRulerProvider extends RulerProvider {
 
 	/**
 	 * Returns the current layout size.
-	 * 
+	 *
 	 * @return
 	 */
 	private Rectangle getLayoutSize() {
@@ -148,9 +155,10 @@ public class EditorRulerProvider extends RulerProvider {
 
 	/**
 	 * Return null command to forbid move guide beHavior (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.rulers.RulerProvider#getCreateGuideCommand(int)
 	 */
+	@Override
 	public Command getMoveGuideCommand(Object obj, int pDelta) {
 		EditorGuide guide = (EditorGuide) obj;
 		// String propertyName = guide.getPropertyName( );
@@ -182,7 +190,7 @@ public class EditorRulerProvider extends RulerProvider {
 
 	/**
 	 * Returns the ruler model.
-	 * 
+	 *
 	 * @return
 	 */
 	public Object getModel() {
@@ -191,54 +199,60 @@ public class EditorRulerProvider extends RulerProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.rulers.RulerProvider#getUnit()
 	 */
+	@Override
 	public int getUnit() {
 		return ruler.getUnit();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.rulers.RulerProvider#setUnit(int)
 	 */
+	@Override
 	public void setUnit(int newUnit) {
 		ruler.setUnit(newUnit);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.rulers.RulerProvider#getRuler()
 	 */
+	@Override
 	public Object getRuler() {
 		return ruler;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.rulers.RulerProvider#getGuidePosition(java.lang.Object)
 	 */
+	@Override
 	public int getGuidePosition(Object guide) {
 		return ((EditorGuide) guide).getPosition();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.rulers.RulerProvider#getGuides()
 	 */
+	@Override
 	public List getGuides() {
 		return ruler.getGuides();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.rulers.RulerProvider#getGuidePositions()
 	 */
+	@Override
 	public int[] getGuidePositions() {
 		List guides = getGuides();
 		int[] result = new int[guides.size()];

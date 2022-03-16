@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -22,9 +25,9 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionSet;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -42,14 +45,14 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 /**
  * The class is used to create query from referred report item handle, it
  * include share query and multi-view cases.
- * 
+ *
  * @since 2.3
  */
 public class ChartSharingQueryHelper extends ChartBaseQueryHelper {
 
 	/**
 	 * Constructor of the class.
-	 * 
+	 *
 	 * @param handle       the referred report item handle contains actual
 	 *                     bindings/groupings/filters.
 	 * @param chart
@@ -61,7 +64,7 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper {
 
 	/**
 	 * Constructor of the class.
-	 * 
+	 *
 	 * @param handle                      the referred report item handle contains
 	 *                                    actual bindings/groupings/filters.
 	 * @param chart
@@ -79,12 +82,13 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper {
 
 	/**
 	 * Create query definition by related report item handle.
-	 * 
+	 *
 	 * @param parent
 	 * @return query definition
 	 * @throws BirtException
 	 * @deprecated to invoke {@link #createBaseQuery(IDataQueryDefinition)} instead.
 	 */
+	@Deprecated
 	public IDataQueryDefinition createQuery(IDataQueryDefinition parent) throws BirtException {
 		return createBaseQuery(parent);
 	}
@@ -165,11 +169,11 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper {
 
 	/**
 	 * Returns groups in shared binding.
-	 * 
+	 *
 	 * @return
 	 */
 	private List<GroupHandle> getGroups() {
-		List<GroupHandle> groupList = new ArrayList<GroupHandle>();
+		List<GroupHandle> groupList = new ArrayList<>();
 		ListingHandle table = null;
 		if (fReportItemHandle instanceof ListingHandle) {
 			table = (ListingHandle) fReportItemHandle;
@@ -194,11 +198,12 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.reportitem.ChartBaseQueryHelper#addSortAndFilter
 	 * (org.eclipse.birt.report.model.api.ReportItemHandle,
 	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition)
 	 */
+	@Override
 	protected void addSortAndFilter(ReportItemHandle handle, BaseQueryDefinition query) {
 		super.addSortAndFilter(handle, query);
 		if (handle instanceof ListingHandle) {

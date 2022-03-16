@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,12 +31,12 @@ public class ReferenceValueUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests elements that is extended in multi-level.
-	 * 
+	 *
 	 * <ul>
 	 * <li>A table is extended triple times. DataSet of it can be resolved.
 	 * <li>A table is extended triple times. DataSet of it cannot be resolved.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -77,13 +80,13 @@ public class ReferenceValueUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests elements that is extended in multi-level.
-	 * 
+	 *
 	 * <ul>
 	 * <li>A image is extended triple times. Embedded iamge of it can be resolved.
 	 * <li>A image is extended triple times. Embedded iamge of it cannot be
 	 * resolved.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -65,6 +68,7 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner {
 		this.delegate = delegate;
 	}
 
+	@Override
 	public void run(VMRunnerConfiguration config, ILaunch launch, IProgressMonitor monitor) throws CoreException {
 		int debugType = delegate.getDebugType();
 
@@ -286,10 +290,7 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner {
 				} finally {
 					connector.stopListening(map);
 				}
-			} catch (IOException e) {
-				abort("Couldn't connect to VM", //$NON-NLS-1$
-						e, IJavaLaunchConfigurationConstants.ERR_CONNECTION_FAILED);
-			} catch (IllegalConnectorArgumentsException e) {
+			} catch (IOException | IllegalConnectorArgumentsException e) {
 				abort("Couldn't connect to VM", //$NON-NLS-1$
 						e, IJavaLaunchConfigurationConstants.ERR_CONNECTION_FAILED);
 			}
@@ -299,7 +300,7 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner {
 		} else {
 			subMonitor.subTask("Creating debug process..."); //$NON-NLS-1$
 
-			Process p = null;
+			Process p;
 			File workingDir = getWorkingDir(config);
 			p = exec(cmdLine, workingDir, envp);
 			if (p == null) {
@@ -338,7 +339,7 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner {
 
 	/**
 	 * Returns the version of the current VM in use
-	 * 
+	 *
 	 * @return the VM version
 	 */
 	private double getJavaVersion() {
@@ -369,8 +370,9 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner {
 		List connectors = Bootstrap.virtualMachineManager().listeningConnectors();
 		for (int i = 0; i < connectors.size(); i++) {
 			ListeningConnector c = (ListeningConnector) connectors.get(i);
-			if ("com.sun.jdi.SocketListen".equals(c.name())) //$NON-NLS-1$
+			if ("com.sun.jdi.SocketListen".equals(c.name())) { //$NON-NLS-1$
 				return c;
+			}
 		}
 		return null;
 	}
@@ -389,7 +391,7 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner {
 
 	/**
 	 * Checks and forwards an error from the specified process
-	 * 
+	 *
 	 * @param process
 	 * @throws CoreException
 	 */
@@ -409,7 +411,7 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner {
 	/**
 	 * Creates a new debug target for the given virtual machine and system process
 	 * that is connected on the specified port for the given launch.
-	 * 
+	 *
 	 * @param config  run configuration used to launch the VM
 	 * @param launch  launch to add the target to
 	 * @param port    port the VM is connected to
@@ -438,7 +440,7 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner {
 		/**
 		 * Constructs a runnable to connect to a VM via the given connector with the
 		 * given connection arguments.
-		 * 
+		 *
 		 * @param connector
 		 * @param map
 		 */
@@ -447,19 +449,18 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner {
 			fConnectionMap = map;
 		}
 
+		@Override
 		public void run() {
 			try {
 				fVirtualMachine = fConnector.accept(fConnectionMap);
-			} catch (IOException e) {
-				fException = e;
-			} catch (IllegalConnectorArgumentsException e) {
+			} catch (IOException | IllegalConnectorArgumentsException e) {
 				fException = e;
 			}
 		}
 
 		/**
 		 * Returns the VM that was attached to, or <code>null</code> if none.
-		 * 
+		 *
 		 * @return the VM that was attached to, or <code>null</code> if none
 		 */
 		public VirtualMachine getVirtualMachine() {
@@ -468,7 +469,7 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner {
 
 		/**
 		 * Returns any exception that occurred while attaching, or <code>null</code>.
-		 * 
+		 *
 		 * @return IOException or IllegalConnectorArgumentsException
 		 */
 		public Exception getException() {
@@ -479,7 +480,7 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner {
 	/**
 	 * Prepends the correct java version variable state to the environment path for
 	 * Mac VMs
-	 * 
+	 *
 	 * @param env     the current array of environment variables to run with
 	 * @param jdkpath the path of the current jdk
 	 * @since 3.3

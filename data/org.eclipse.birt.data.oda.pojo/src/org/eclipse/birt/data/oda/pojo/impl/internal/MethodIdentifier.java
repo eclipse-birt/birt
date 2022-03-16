@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,7 @@ import org.eclipse.birt.data.oda.pojo.util.MethodParameterType;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
- * 
+ *
  */
 
 public class MethodIdentifier {
@@ -51,7 +54,7 @@ public class MethodIdentifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -65,22 +68,24 @@ public class MethodIdentifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		MethodIdentifier other = (MethodIdentifier) obj;
-		if (!name.equals(other.name))
+		if (!name.equals(other.name)) {
 			return false;
-		if (!Arrays.equals(params, other.params))
+		}
+		if (!Arrays.equals(params, other.params)) {
 			return false;
+		}
 		return true;
 	}
 

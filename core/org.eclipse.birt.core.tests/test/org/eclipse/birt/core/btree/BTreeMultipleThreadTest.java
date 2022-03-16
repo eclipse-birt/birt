@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,10 +30,10 @@ public class BTreeMultipleThreadTest extends TestCase {
 	public void testCursor() throws Exception {
 		new File("./utest/btree.dat").delete();
 		FileBTreeFile file = new FileBTreeFile("./utest/btree.dat");
-		try {
-			BTreeOption<String, String> option = new BTreeOption<String, String>();
+		try (file) {
+			BTreeOption<String, String> option = new BTreeOption<>();
 			option.setFile(file, true);
-			BTree<String, String> btree = new BTree<String, String>(option);
+			BTree<String, String> btree = new BTree<>(option);
 			try {
 				createBTree(btree);
 				for (int i = 0; i < 4; i++) {
@@ -50,8 +53,6 @@ public class BTreeMultipleThreadTest extends TestCase {
 				TestThread.printErrors();
 				fail("HAS ERROR!");
 			}
-		} finally {
-			file.close();
 		}
 	}
 
@@ -67,7 +68,7 @@ public class BTreeMultipleThreadTest extends TestCase {
 	static class TestThread implements Runnable {
 
 		static int threadCount;
-		static ArrayList<Throwable> errors = new ArrayList<Throwable>();
+		static ArrayList<Throwable> errors = new ArrayList<>();
 
 		static synchronized void increaseThreadCount() {
 			threadCount++;
@@ -102,6 +103,7 @@ public class BTreeMultipleThreadTest extends TestCase {
 			increaseThreadCount();
 		}
 
+		@Override
 		public void run() {
 			try {
 				// first is the before last

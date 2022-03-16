@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,127 +32,128 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Test DimensionHandle.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testGetDisplayValue()}</td>
  * <td>value is from an choice</td>
  * <td>display value is from message file of the locale</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>value is a dimension value, locale is English, China</td>
  * <td>display value is locale-specific</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>value is a dimension value of a highlight member, locales are English,
  * China</td>
  * <td>display value is locale-specific and matches with the design file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetStringValue()}</td>
  * <td>value is from an choice</td>
  * <td>return should be the choice name</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>value is a real dimension</td>
  * <td>return should be the dimension in string</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>value is a member of a highlight.</td>
  * <td>returned value matches with the value in the design file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSetValue()}</td>
  * <td>property type is dimension with choices</td>
  * <td>set the value to an choice</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>property type is dimension with choices</td>
  * <td>set the value to "12pt"</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>application unit is "cm", set the value to 12( double )</td>
  * <td>the dimension should be set using the application unit</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Sets a dimension value to a highlight member</td>
  * <td>The value is set and the value matches with the output file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testIsKeyword()}</td>
  * <td>value is "larger" from an choice.</td>
  * <td>is a keyword</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>value is a real dimension value -- "12pt".</td>
  * <td>not a keyword</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetMeasure()}</td>
  * <td>dimension is from an choice</td>
  * <td>return should be 0.0</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>a real dimension</td>
  * <td>return is the numeric part of it.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>value is a dimension value of a highlight member</td>
  * <td>The measure matches with the set value.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetUnits()}</td>
  * <td>dimension is from an choice</td>
  * <td>return should be <code>DimensionValue.DEFAULT_UNIT </code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>a real dimension</td>
  * <td>return should be the corresponding unit of it.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>value is a dimension value of a highlight member</td>
  * <td>The unit matches with the set value.</td>
  * </tr>
- * 
+ *
  */
 
 public class DimensionHandleTest extends BaseTestCase {
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign("DimensionHandleTest.xml"); //$NON-NLS-1$
@@ -215,7 +219,7 @@ public class DimensionHandleTest extends BaseTestCase {
 	 * 1. value is from an choice, return should be the choice name.
 	 * <p>
 	 * 2. value is a real dimension, return should be the dimension in string.
-	 * 
+	 *
 	 */
 
 	public void testGetStringValue() {
@@ -267,7 +271,7 @@ public class DimensionHandleTest extends BaseTestCase {
 	 * <p>
 	 * 3. application unit is "cm", set the value to 12( double ), the dimension
 	 * should be set using the application unit.
-	 * 
+	 *
 	 * @throws Exception if the value is invalid or the output file cannot be saved
 	 *                   on the storage.
 	 */
@@ -338,7 +342,7 @@ public class DimensionHandleTest extends BaseTestCase {
 	 * 1. value is "larger" from an choice.
 	 * <p>
 	 * 2. value is a real dimension value -- "12pt".
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -359,7 +363,7 @@ public class DimensionHandleTest extends BaseTestCase {
 	 * 1. dimension is from an choice, return should be 0.0
 	 * <p>
 	 * 2. a real dimension, return is the numeric part of it.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -394,7 +398,7 @@ public class DimensionHandleTest extends BaseTestCase {
 	 * </code>
 	 * <p>
 	 * 2. a real dimension, return should be the corresponding unit of it.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -526,7 +530,7 @@ public class DimensionHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the computation the relative dimension value with the relative value.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -617,7 +621,7 @@ public class DimensionHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests all the cases without a unit.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -636,7 +640,7 @@ public class DimensionHandleTest extends BaseTestCase {
 	/**
 	 * DesignSession.initDefaultTOCStyle() set the locale as English in default.
 	 * This was wrong. Adds this test case to use DesignSession.locale instead.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

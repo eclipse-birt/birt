@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.querydefn;
@@ -42,6 +45,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign {
 	/**
 	 * Gets the name of this data source
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -49,6 +53,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign {
 	/**
 	 * Gets the <code>beforeOpen<code> Script of the data source
 	 */
+	@Override
 	public String getBeforeOpenScript() {
 		return beforeOpenScript;
 	}
@@ -63,13 +68,14 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign {
 	/**
 	 * Gets the <code>afterOpen</code> script of the data source
 	 */
+	@Override
 	public String getAfterOpenScript() {
 		return afterOpenScript;
 	}
 
 	/**
 	 * Sets the <code>afterOpen</code> script of the data source.
-	 * 
+	 *
 	 * @param script afterOpen script
 	 */
 	public void setAfterOpenScript(String script) {
@@ -79,6 +85,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign {
 	/**
 	 * Gets the <code>beforeClose</code> script of the data source
 	 */
+	@Override
 	public String getBeforeCloseScript() {
 		return beforeCloseScript;
 	}
@@ -93,6 +100,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign {
 	/**
 	 * Gets the <code>afterClose</code> script of the data source
 	 */
+	@Override
 	public String getAfterCloseScript() {
 		return afterCloseScript;
 	}
@@ -107,6 +115,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSourceDesign#getEventHandler()
 	 */
+	@Override
 	public IBaseDataSourceEventHandler getEventHandler() {
 		return eventHandler;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ public class StyleUtil {
 	}
 
 	static {
-		styleName2Index = new HashMap<String, Integer>();
+		styleName2Index = new HashMap<>();
 		styleName2Index.put(Style.BACKGROUND_ATTACHMENT_PROP, StyleConstants.STYLE_BACKGROUND_ATTACHMENT);
 		styleName2Index.put(Style.BACKGROUND_COLOR_PROP, StyleConstants.STYLE_BACKGROUND_COLOR);
 		styleName2Index.put(Style.BACKGROUND_IMAGE_PROP, StyleConstants.STYLE_BACKGROUND_IMAGE);
@@ -118,7 +118,7 @@ public class StyleUtil {
 		styleName2Index.put(Style.HEIGHT_PROP, StyleConstants.STYLE_HEIGHT);
 		styleName2Index.put(Style.WIDTH_PROP, StyleConstants.STYLE_WIDTH);
 
-		colorProperties = new HashSet<String>();
+		colorProperties = new HashSet<>();
 		colorProperties.add(Style.BACKGROUND_COLOR_PROP);
 		colorProperties.add(Style.BORDER_BOTTOM_COLOR_PROP);
 		colorProperties.add(Style.BORDER_LEFT_COLOR_PROP);
@@ -126,7 +126,7 @@ public class StyleUtil {
 		colorProperties.add(Style.BORDER_TOP_COLOR_PROP);
 		colorProperties.add(Style.COLOR_PROP);
 
-		ruleStyleName2Index = new HashMap<String, Integer>();
+		ruleStyleName2Index = new HashMap<>();
 		ruleStyleName2Index.put(HighlightRule.BORDER_TOP_STYLE_MEMBER, StyleConstants.STYLE_BORDER_TOP_STYLE);
 		ruleStyleName2Index.put(HighlightRule.BORDER_TOP_WIDTH_MEMBER, StyleConstants.STYLE_BORDER_TOP_WIDTH);
 		ruleStyleName2Index.put(HighlightRule.BORDER_TOP_COLOR_MEMBER, StyleConstants.STYLE_BORDER_TOP_COLOR);
@@ -171,7 +171,7 @@ public class StyleUtil {
 		ruleStyleName2Index.put(HighlightRule.BACKGROUND_REPEAT_MEMBER, StyleConstants.STYLE_BACKGROUND_REPEAT);
 		ruleStyleName2Index.put(HighlightRule.LINE_HEIGHT_MEMBER, StyleConstants.STYLE_LINE_HEIGHT);
 
-		customName2Index = new HashMap<String, Integer>();
+		customName2Index = new HashMap<>();
 		customName2Index.put(BIRTConstants.BIRT_STYLE_DATA_FORMAT, StyleConstants.STYLE_DATA_FORMAT);
 	}
 }

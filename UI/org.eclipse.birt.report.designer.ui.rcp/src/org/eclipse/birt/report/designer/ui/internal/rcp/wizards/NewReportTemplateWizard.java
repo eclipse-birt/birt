@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2014 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -51,7 +54,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * RCP New Report Template Wizard.
- * 
+ *
  */
 
 public class NewReportTemplateWizard extends Wizard implements INewWizard, IExecutableExtension {
@@ -89,21 +92,24 @@ public class NewReportTemplateWizard extends Wizard implements INewWizard, IExec
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#getDefaultPageImage()
 	 */
+	@Override
 	public Image getDefaultPageImage() {
 		return ReportPlugin.getImage("/icons/wizban/create_report_wizard.gif"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#addPages()
 	 */
+	@Override
 	public void addPages() {
 		newReportFileWizardPage = new WizardNewReportCreationPage(WIZARDPAGE) {
 
+			@Override
 			public boolean validatePage() {
 				return validatePage(fileExtension);
 			}
@@ -129,7 +135,7 @@ public class NewReportTemplateWizard extends Wizard implements INewWizard, IExec
 
 	/**
 	 * Get the default location for the provided name.
-	 * 
+	 *
 	 * @return the location
 	 */
 	private String getDefaultLocation() {
@@ -161,9 +167,10 @@ public class NewReportTemplateWizard extends Wizard implements INewWizard, IExec
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
+	@Override
 	public boolean performFinish() {
 		final IPath locPath = newReportFileWizardPage.getFileLocationFullPath();
 		String fn = newReportFileWizardPage.getFileName();
@@ -175,12 +182,10 @@ public class NewReportTemplateWizard extends Wizard implements INewWizard, IExec
 			} else {
 				fileName = fn;
 			}
+		} else if (!fn.toLowerCase(Locale.getDefault()).endsWith(fileExtension)) {
+			fileName = fn + fileExtension;
 		} else {
-			if (!fn.toLowerCase(Locale.getDefault()).endsWith(fileExtension)) {
-				fileName = fn + fileExtension;
-			} else {
-				fileName = fn;
-			}
+			fileName = fn;
 		}
 
 		if (Platform.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST) == null) {
@@ -201,6 +206,7 @@ public class NewReportTemplateWizard extends Wizard implements INewWizard, IExec
 
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 
+			@Override
 			public void run(IProgressMonitor monitor) {
 				try {
 					doFinish(locPath, fileName, templateFileName, monitor);
@@ -224,7 +230,7 @@ public class NewReportTemplateWizard extends Wizard implements INewWizard, IExec
 	/**
 	 * The worker method. It will find the container, create the file if missing or
 	 * just replace its contents, and open the editor on the newly created file.
-	 * 
+	 *
 	 * @param locationPath
 	 * @param fileName
 	 * @param stream
@@ -276,6 +282,7 @@ public class NewReportTemplateWizard extends Wizard implements INewWizard, IExec
 		monitor.setTaskName(OPENING_FILE_FOR_EDITING);
 		getShell().getDisplay().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				IWorkbench workbench = PlatformUI.getWorkbench();
 				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
@@ -298,24 +305,27 @@ public class NewReportTemplateWizard extends Wizard implements INewWizard, IExec
 
 	} /*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.wizard.IWizard#canFinish()
 		 */
 
+	@Override
 	public boolean canFinish() {
 		return newReportFileWizardPage.isPageComplete() && settingPage.canFinish();
 	}
 
+	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 	}
 
+	@Override
 	public void setInitializationData(IConfigurationElement config, String propertyName, Object data)
 			throws CoreException {
 	}
 
 	/**
 	 * Set report basic settings.
-	 * 
+	 *
 	 * @param model
 	 * @throws IOException
 	 */

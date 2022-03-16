@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +46,7 @@ import org.eclipse.birt.report.model.validators.ISemanticTriggerDefnSetProvider;
  * <p>
  * As with all meta-data objects, the set methods must be called only while
  * building the meta-data, before building the meta-data.
- * 
+ *
  */
 
 public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
@@ -80,13 +83,13 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 	 * hold.
 	 */
 
-	protected ArrayList<IElementDefn> contentElements = new ArrayList<IElementDefn>();
+	protected ArrayList<IElementDefn> contentElements = new ArrayList<>();
 
 	/**
 	 * List of one or more element type names that the slot can hold.
 	 */
 
-	protected ArrayList<String> contentTypes = new ArrayList<String>();
+	protected ArrayList<String> contentTypes = new ArrayList<>();
 
 	/**
 	 * Predefined style for elements in this slot. Null means that the slot does not
@@ -126,17 +129,18 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 	/**
 	 * Returns the slot cardinality.
-	 * 
+	 *
 	 * @return true if the cardinality is multiple, false if it is single
 	 */
 
+	@Override
 	public boolean isMultipleCardinality() {
 		return multipleCardinality;
 	}
 
 	/**
 	 * Sets whether to allow multiple cardinality.
-	 * 
+	 *
 	 * @param flag The cardinality: multiple (true) or single (false).
 	 */
 
@@ -146,10 +150,11 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 	/**
 	 * Returns the localized display name.
-	 * 
+	 *
 	 * @return the display name
 	 */
 
+	@Override
 	public String getDisplayName() {
 		assert displayNameID != null;
 		return ModelMessages.getMessage(this.displayNameID);
@@ -157,17 +162,18 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 	/**
 	 * Returns the message ID for the display name.
-	 * 
+	 *
 	 * @return the message ID for the display name
 	 */
 
+	@Override
 	public String getDisplayNameID() {
 		return displayNameID;
 	}
 
 	/**
 	 * Sets the message ID for the display name.
-	 * 
+	 *
 	 * @param msgID the message ID to set
 	 */
 
@@ -177,17 +183,18 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 	/**
 	 * Returns the internal slot identifier.
-	 * 
+	 *
 	 * @return the slot identifier
 	 */
 
+	@Override
 	public int getSlotID() {
 		return slotID;
 	}
 
 	/**
 	 * Set the internal slot identifier.
-	 * 
+	 *
 	 * @param id the slot ID to set
 	 */
 
@@ -197,28 +204,28 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 	/**
 	 * Returns the set of element types that can appear in the slot.
-	 * 
+	 *
 	 * @return the list of content elements.
 	 */
 
+	@Override
 	public List<IElementDefn> getContentElements() {
-		return new ArrayList<IElementDefn>(contentElements);
+		return new ArrayList<>(contentElements);
 	}
 
 	/**
 	 * Returns the set of element types that can appear in the slot. Extended
 	 * elements are replaced by actual extensions.
-	 * 
+	 *
 	 * @return the list of content elements.
 	 */
 
+	@Override
 	public List<IElementDefn> getContentExtendedElements() {
 		MetaDataDictionary dd = MetaDataDictionary.getInstance();
 		IElementDefn extendItem = dd.getElement(ReportDesignConstants.EXTENDED_ITEM);
 
-		ArrayList<IElementDefn> contentsWithExtensions = new ArrayList<IElementDefn>();
-		contentsWithExtensions.addAll(contentElements);
-
+		ArrayList<IElementDefn> contentsWithExtensions = new ArrayList<>(contentElements);
 		if (contentElements.contains(extendItem)) {
 			contentsWithExtensions.remove(extendItem);
 
@@ -226,8 +233,9 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 				ExtensionElementDefn extension = (ExtensionElementDefn) dd.getExtensions().get(i);
 				if (extension.isKindOf(dd.getElement(ReportDesignConstants.REPORT_ITEM))
 						&& PeerExtensionLoader.EXTENSION_POINT.equals(extension.extensionPoint)
-						&& !contentsWithExtensions.contains(extension))
+						&& !contentsWithExtensions.contains(extension)) {
 					contentsWithExtensions.add(extension);
+				}
 			}
 		}
 		return contentsWithExtensions;
@@ -236,19 +244,21 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 	/**
 	 * Builds the semantic information for the slot.
-	 * 
+	 *
 	 * @throws MetaDataException if any violation occurs during build of the slot.
 	 */
 
 	protected void build() throws MetaDataException {
-		if (contentTypes.isEmpty())
+		if (contentTypes.isEmpty()) {
 			throw new MetaDataException(new String[] { this.name },
 					MetaDataException.DESIGN_EXCEPTION_MISSING_SLOT_TYPE);
+		}
 
 		// The display name should not be provided, but the display name
 		// ID must be provided.
-		if (displayNameID == null)
+		if (displayNameID == null) {
 			throw new MetaDataException(new String[] { name }, MetaDataException.DESIGN_EXCEPTION_MISSING_SLOT_NAME);
+		}
 
 		// Translate the type names into element types.
 
@@ -258,9 +268,10 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 		while (iter.hasNext()) {
 			String name = iter.next();
 			ElementDefn type = (ElementDefn) dd.getElement(name);
-			if (type == null)
+			if (type == null) {
 				throw new MetaDataException(new String[] { name, this.name },
 						MetaDataException.DESIGN_EXCEPTION_INVALID_SLOT_TYPE);
+			}
 			contentElements.add(type);
 		}
 
@@ -269,14 +280,16 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 	/**
 	 * Determines if this slot can contain an element of the given type.
-	 * 
+	 *
 	 * @param type the type to test
 	 * @return true if the slot can contain the type, false otherwise
 	 */
 
+	@Override
 	public final boolean canContain(IElementDefn type) {
-		if (type == null)
+		if (type == null) {
 			return false;
+		}
 
 		Iterator<IElementDefn> iter = contentElements.iterator();
 		while (iter.hasNext()) {
@@ -284,20 +297,23 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 			// if element is not "extended-item"
 			if (!ReportDesignConstants.EXTENDED_ITEM.equals(element.getName())) {
-				if (type.isKindOf(element))
+				if (type.isKindOf(element)) {
 					return true;
+				}
 			} else {
 				// type is reportItemModel extension and is kind of ReportItem.
 				if (type instanceof ExtensionElementDefn) {
 					ExtensionElementDefn extensionDefn = (ExtensionElementDefn) type;
 					if (PeerExtensionLoader.EXTENSION_POINT.equals(extensionDefn.getExtensionPoint()) && extensionDefn
-							.isKindOf(MetaDataDictionary.getInstance().getElement(ReportDesignConstants.REPORT_ITEM)))
+							.isKindOf(MetaDataDictionary.getInstance().getElement(ReportDesignConstants.REPORT_ITEM))) {
 						return true;
+					}
 				}
 
 				// type is "ExtendedItem" itself
-				if (ReportDesignConstants.EXTENDED_ITEM.equals(type.getName()))
+				if (ReportDesignConstants.EXTENDED_ITEM.equals(type.getName())) {
 					return true;
+				}
 
 			}
 		}
@@ -306,28 +322,30 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 	/**
 	 * Determines if an element can reside within this slot.
-	 * 
+	 *
 	 * @param content the design element to check
 	 * @return true if the element can reside in the slot, false otherwise
 	 */
 
+	@Override
 	public final boolean canContain(DesignElement content) {
 		return canContain(content.getDefn());
 	}
 
 	/**
 	 * Returns the internal name.
-	 * 
+	 *
 	 * @return the name
 	 */
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * Sets the internal name.
-	 * 
+	 *
 	 * @param name the name to set
 	 */
 
@@ -337,18 +355,19 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 	/**
 	 * Adds a content type.
-	 * 
+	 *
 	 * @param type the element type to add
 	 */
 
 	void addType(String type) {
-		if (!contentTypes.contains(type))
+		if (!contentTypes.contains(type)) {
 			contentTypes.add(type);
+		}
 	}
 
 	/**
 	 * Returns the default style name.
-	 * 
+	 *
 	 * @return the default style name, or null if this slot does not define a
 	 *         default style
 	 */
@@ -362,7 +381,7 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 	/**
 	 * Sets the predefined style name.
-	 * 
+	 *
 	 * @param value the predefined style name to set
 	 */
 
@@ -372,32 +391,35 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 	/**
 	 * Returns the predefined style name.
-	 * 
+	 *
 	 * @return the predefined style name, or null if this slot does not define a
 	 *         predefined style
 	 */
 
+	@Override
 	public String getSelector() {
 		return selector;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.metadata.ISemanticTriggerProvider#
 	 * getTriggerDefnSet()
 	 */
 
+	@Override
 	public SemanticTriggerDefnSet getTriggerDefnSet() {
-		if (triggers == null)
+		if (triggers == null) {
 			triggers = new SemanticTriggerDefnSet();
+		}
 
 		return triggers;
 	}
 
 	/**
 	 * Set the version in which the slot was introduced.
-	 * 
+	 *
 	 * @param value the version in which the slot was introduced
 	 */
 
@@ -407,27 +429,29 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.metadata.ISlotDefn#getSince()
 	 */
 
+	@Override
 	public String getSince() {
 		return since;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.metadata.ISlotDefn#getXmlName()
 	 */
 
+	@Override
 	public String getXmlName() {
 		return xmlName;
 	}
 
 	/**
 	 * Set the name of the XML element used to hold the slot.
-	 * 
+	 *
 	 * @param value the XML element name to set
 	 */
 
@@ -437,20 +461,22 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 
+	@Override
 	public String toString() {
-		if (!StringUtil.isBlank(getName()))
+		if (!StringUtil.isBlank(getName())) {
 			return getName();
+		}
 		return super.toString();
 	}
 
 	/**
 	 * Returns the status whether to add the name of the contents in this slot to
 	 * the namespace.
-	 * 
+	 *
 	 * @return true if add the name of the contents to namespace, otherwise false
 	 */
 
@@ -461,7 +487,7 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 	/**
 	 * Sets the status whether to add the name of the contents in this slot to the
 	 * namespace.
-	 * 
+	 *
 	 * @param isManagedByNameSpace true if add the name of the contents to the
 	 *                             namespace, otherwise false
 	 */
@@ -472,26 +498,30 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.IContainerDefn#getAllowedElements
 	 * ()
 	 */
+	@Override
 	public List<IElementDefn> getAllowedElements() {
 		return getAllowedElements(true);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.IContainerDefn#getAllowedElements
 	 * (boolean)
 	 */
+	@Override
 	public List<IElementDefn> getAllowedElements(boolean extractExtensions) {
-		if (extractExtensions)
+		if (extractExtensions) {
 			return getContentExtendedElements();
+		}
 		return getContentElements();
 	}
 
+	@Override
 	public NameConfig getNameConfig() {
 		return nameConfig;
 	}

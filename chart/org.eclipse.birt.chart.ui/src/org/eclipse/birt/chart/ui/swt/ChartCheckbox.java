@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +37,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * AbstractChartCheckbox
- * 
+ *
  */
 
 public class ChartCheckbox extends Canvas implements Listener, SelectionListener {
@@ -45,16 +48,18 @@ public class ChartCheckbox extends Canvas implements Listener, SelectionListener
 	public static final int STATE_UNSELECTED = 2;
 
 	protected Button button;
-	protected List<SelectionListener> selectListenerList = new ArrayList<SelectionListener>(2);
+	protected List<SelectionListener> selectListenerList = new ArrayList<>(2);
 
 	protected boolean bDefaultSelection = false;
 
 	protected FocusListener btnFocusLinster = new FocusListener() {
 
+		@Override
 		public void focusLost(FocusEvent e) {
 			ChartCheckbox.this.redraw();
 		}
 
+		@Override
 		public void focusGained(FocusEvent e) {
 			ChartCheckbox.this.redraw();
 		}
@@ -62,6 +67,7 @@ public class ChartCheckbox extends Canvas implements Listener, SelectionListener
 
 	protected PaintListener checkBoxPaintListener = new PaintListener() {
 
+		@Override
 		public void paintControl(PaintEvent e) {
 			// Do some drawing
 			if (button.isFocusControl()) {
@@ -73,7 +79,7 @@ public class ChartCheckbox extends Canvas implements Listener, SelectionListener
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param container
 	 * @param styles
 	 */
@@ -83,7 +89,7 @@ public class ChartCheckbox extends Canvas implements Listener, SelectionListener
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param container
 	 * @param styles
 	 * @param defaultSelection
@@ -131,7 +137,7 @@ public class ChartCheckbox extends Canvas implements Listener, SelectionListener
 
 	/**
 	 * Set if default state is selection for this button.
-	 * 
+	 *
 	 * @param defSelection
 	 */
 	public void setDefaultSelection(boolean defSelection) {
@@ -140,7 +146,7 @@ public class ChartCheckbox extends Canvas implements Listener, SelectionListener
 
 	/**
 	 * Set button text.
-	 * 
+	 *
 	 * @param text
 	 */
 	public void setText(String text) {
@@ -156,7 +162,7 @@ public class ChartCheckbox extends Canvas implements Listener, SelectionListener
 	/**
 	 * Returns checkbox state, 0 means grayed state, 1 means checked state, 2 means
 	 * unchecked state.
-	 * 
+	 *
 	 * @return selection state.
 	 */
 	public int getSelectionState() {
@@ -171,7 +177,7 @@ public class ChartCheckbox extends Canvas implements Listener, SelectionListener
 
 	/**
 	 * Sets checkbox state.
-	 * 
+	 *
 	 * @param state the state value, 0 means grayed state, 1 means checked state, 2
 	 *              means unchecked state.
 	 */
@@ -191,7 +197,7 @@ public class ChartCheckbox extends Canvas implements Listener, SelectionListener
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener(int,
 	 * org.eclipse.swt.widgets.Listener)
 	 */
@@ -208,7 +214,7 @@ public class ChartCheckbox extends Canvas implements Listener, SelectionListener
 
 	/**
 	 * Adds selection listener for button.
-	 * 
+	 *
 	 * @param listener
 	 */
 	public void addSelectionListener(SelectionListener listener) {
@@ -218,7 +224,7 @@ public class ChartCheckbox extends Canvas implements Listener, SelectionListener
 
 	/**
 	 * Returns actual button object.
-	 * 
+	 *
 	 * @return actual button widget.
 	 */
 	public Button getButton() {
@@ -227,10 +233,11 @@ public class ChartCheckbox extends Canvas implements Listener, SelectionListener
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		if (event.widget == button) {
 			event.widget = this;
@@ -243,21 +250,23 @@ public class ChartCheckbox extends Canvas implements Listener, SelectionListener
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent event) {
 		// Do nothing.
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent event) {
 		if (event.widget == button) {
 			Event e = new Event();
@@ -284,7 +293,7 @@ public class ChartCheckbox extends Canvas implements Listener, SelectionListener
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
 	@Override

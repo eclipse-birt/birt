@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation. All rights reserved. This
- * program and the accompanying materials are made available under the terms of
- * the Eclipse Public License v1.0 which accompanies this distribution, and is
- * available at http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004, 2007 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -26,7 +29,6 @@ public class TestSetup {
 	private final static String PROCEDURE_SET_INPUT =
 //	    " EXTERNAL NAME 'org.eclipse.birt.data.engine.odaconsumer.util.TestSetup.setInputParamData'";
 			" EXTERNAL NAME 'org.eclipse.birt.data.engine.api.StoredProcedureTest.selectData' ";
-	private final static String PROCEDURE_SET_INOUT = " EXTERNAL NAME 'org.eclipse.birt.data.engine.odaconsumer.util.TestSetup.selectInOutParamData'";
 
 	public static void createTestTable() throws Exception {
 		Class.forName(driverclass); // load the specified driver
@@ -87,7 +89,7 @@ public class TestSetup {
 	}
 
 	public static void selectInOutParamData(int inputValue, String[] outputValues) {
-		outputValues[0] = (new Integer(inputValue)).toString();
+		outputValues[0] = Integer.toString(inputValue);
 	}
 
 }

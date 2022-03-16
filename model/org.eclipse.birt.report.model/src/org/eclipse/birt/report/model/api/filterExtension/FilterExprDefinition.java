@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,7 +64,7 @@ public class FilterExprDefinition implements IFilterExprDefinition {
 	 * Constructor for FilterExprDefinition by BIRT predefined filter expression
 	 * operator id. The instance returned is not mapped to any external ODA
 	 * extension filter.
-	 * 
+	 *
 	 * @param birtFilterExpr BIRT predefined filter expression operator Id.
 	 */
 	public FilterExprDefinition(String birtFilterExpr) throws IllegalArgumentException {
@@ -71,96 +74,107 @@ public class FilterExprDefinition implements IFilterExprDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
 	 * IFilterExprDefinition#expressionSupportedType()
 	 */
+	@Override
 	public int expressionSupportedType() {
 		return BIRT_SUPPORT_ONLY;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
 	 * IFilterExprDefinition#getBirtFilterExprId()
 	 */
+	@Override
 	public String getBirtFilterExprId() {
 		return birtFilterExprId;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
 	 * IFilterExprDefinition#getBirtFilterExprDisplayName()
 	 */
+	@Override
 	public String getBirtFilterExprDisplayName() {
 		return birtFilterDisplayName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
 	 * IFilterExprDefinition#getExtFilterDisplayName()
 	 */
+	@Override
 	public String getExtFilterDisplayName() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
 	 * IFilterExprDefinition#getExtFilterExprId()
 	 */
+	@Override
 	public String getExtFilterExprId() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
 	 * IFilterExprDefinition#getMaxArguments()
 	 */
+	@Override
 	public Integer getMaxArguments() {
-		if (maxArgs == UNDEFINED)
+		if (maxArgs == UNDEFINED) {
 			return null;
+		}
 
-		return Integer.valueOf(maxArgs);
+		return maxArgs;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
 	 * IFilterExprDefinition#getMinArguments()
 	 */
+	@Override
 	public Integer getMinArguments() {
-		if (minArgs == UNDEFINED)
+		if (minArgs == UNDEFINED) {
 			return null;
+		}
 
-		return Integer.valueOf(minArgs);
+		return minArgs;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
 	 * IFilterExprDefinition#getProviderExtensionId()
 	 */
+	@Override
 	public String getProviderExtensionId() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
 	 * IFilterExprDefinition#supportsUnboundedMaxArguments()
 	 */
+	@Override
 	public boolean supportsUnboundedMaxArguments() {
 		return supportUnboundedMaxArgs;
 	}
@@ -275,20 +289,23 @@ public class FilterExprDefinition implements IFilterExprDefinition {
 			birtFilterExprId = DesignChoiceConstants.FILTER_OPERATOR_IN;
 			minArgs = 1;
 			supportUnboundedMaxArgs = true;
-		} else
+		} else {
 			throw new IllegalArgumentException("The Birt filter expression Id is not valid.");
+		}
 
-		if (birtFilterExprId != null)
+		if (birtFilterExprId != null) {
 			birtFilterDisplayName = getOperatorDisplayName(birtFilterExprId);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
 	 * IFilterExprDefinition#isNegatedExtExprId()
 	 */
 
+	@Override
 	public boolean isNegatedExtExprId() {
 		// the default value is false.
 		return false;
@@ -296,7 +313,7 @@ public class FilterExprDefinition implements IFilterExprDefinition {
 
 	/**
 	 * Finds the display name for the given operator.
-	 * 
+	 *
 	 * @param operator the operator name
 	 * @return the display name
 	 */
@@ -308,19 +325,21 @@ public class FilterExprDefinition implements IFilterExprDefinition {
 		assert allowedChoices != null;
 
 		IChoice choice = allowedChoices.findChoice(operator);
-		if (choice != null)
+		if (choice != null) {
 			return choice.getDisplayName();
+		}
 
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
 	 * IFilterExprDefinition #getBirtFilterExprDisplayName(com.ibm.icu.util.ULocale)
 	 */
 
+	@Override
 	public String getBirtFilterExprDisplayName(ULocale locale) {
 		IChoiceSet allowedChoices = MetaDataDictionary.getInstance()
 				.getChoiceSet(DesignChoiceConstants.CHOICE_FILTER_OPERATOR);
@@ -328,19 +347,21 @@ public class FilterExprDefinition implements IFilterExprDefinition {
 		assert allowedChoices != null;
 
 		IChoice choice = allowedChoices.findChoice(birtFilterExprId);
-		if (choice != null)
+		if (choice != null) {
 			return choice.getDisplayName(locale);
+		}
 
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
 	 * IFilterExprDefinition#supportsAPIDataType(int)
 	 */
 
+	@Override
 	public boolean supportsAPIDataType(int apiDataType) {
 		return true;
 	}

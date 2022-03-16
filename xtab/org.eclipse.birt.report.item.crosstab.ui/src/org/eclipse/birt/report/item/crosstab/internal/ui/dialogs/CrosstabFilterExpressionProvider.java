@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,9 +44,11 @@ public class CrosstabFilterExpressionProvider extends CrosstabExpressionProvider
 		super(handle, null);
 	}
 
+	@Override
 	protected void addFilterToProvider() {
 		addFilter(new ExpressionFilter() {
 
+			@Override
 			public boolean select(Object parentElement, Object element) {
 
 				if (ExpressionFilter.CATEGORY.equals(parentElement) && ExpressionProvider.MEASURE.equals(element)) {
@@ -52,11 +57,12 @@ public class CrosstabFilterExpressionProvider extends CrosstabExpressionProvider
 
 				if ((parentElement instanceof String && ((String) parentElement).equals(CURRENT_CUBE))) {
 					PropertyHandle handle = null;
-					if (element instanceof PropertyHandle)
+					if (element instanceof PropertyHandle) {
 						handle = (PropertyHandle) element;
-					else if (element instanceof IAdaptable
-							&& ((IAdaptable) element).getAdapter(PropertyHandle.class) instanceof PropertyHandle)
+					} else if (element instanceof IAdaptable
+							&& ((IAdaptable) element).getAdapter(PropertyHandle.class) instanceof PropertyHandle) {
 						handle = (PropertyHandle) ((IAdaptable) element).getAdapter(PropertyHandle.class);
+					}
 
 					if (handle != null && handle.getPropertyDefn().getName().equals(ICubeModel.MEASURE_GROUPS_PROP)) {
 						return false;
@@ -69,12 +75,14 @@ public class CrosstabFilterExpressionProvider extends CrosstabExpressionProvider
 						try {
 							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle();
 							boolean result;
-							if (xtabHandle.getDimension(((DimensionHandle) element).getName()) != null)
+							if (xtabHandle.getDimension(((DimensionHandle) element).getName()) != null) {
 								result = true;
-							else
+							} else {
 								result = false;
-							if (isDetail)
+							}
+							if (isDetail) {
 								result = !result;
+							}
 							return result;
 						} catch (ExtendedElementException e) {
 							return false;
@@ -86,14 +94,16 @@ public class CrosstabFilterExpressionProvider extends CrosstabExpressionProvider
 		});
 	}
 
+	@Override
 	protected List getChildrenList(Object parent) {
 		if (isDetail) {
 			if (parent instanceof DimensionHandle) {
 				List children = new ArrayList();
 				DimensionHandle handle = (DimensionHandle) parent;
-				if (handle.getDefaultHierarchy().getLevelCount() > 0)
+				if (handle.getDefaultHierarchy().getLevelCount() > 0) {
 					children.addAll(
 							handle.getDefaultHierarchy().getPropertyHandle(IHierarchyModel.LEVELS_PROP).getContents());
+				}
 				return children;
 			} else if (parent instanceof LevelHandle) {
 				List children = new ArrayList();

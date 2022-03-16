@@ -1,9 +1,9 @@
 /*******************************************************************************
 * Copyright (c) 2004 Actuate Corporation.
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
@@ -26,6 +26,7 @@ public class ContentIteratorTest extends BaseTestCase {
 
 	DesignElement grid = null;
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign(INPUT);
@@ -33,7 +34,7 @@ public class ContentIteratorTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws IOException
 	 */
@@ -41,7 +42,7 @@ public class ContentIteratorTest extends BaseTestCase {
 	public void testIterator() throws DesignFileException, IOException {
 		Iterator contentIter = new ContentIterator(design, grid);
 
-		DesignElement next = null;
+		DesignElement next;
 
 		next = (DesignElement) contentIter.next();
 		assertEquals("Column", next.getDefn().getName()); //$NON-NLS-1$
@@ -111,7 +112,7 @@ public class ContentIteratorTest extends BaseTestCase {
 	/**
 	 * Ensure that the elements are returned with the same sequences in two rounds
 	 * of iteration.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws IOException
 	 */

@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -60,7 +63,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 	/**
 	 * The default value of the '{@link #getRiser() <em>Riser</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getRiser()
 	 * @generated
 	 * @ordered
@@ -70,7 +73,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 	/**
 	 * The cached value of the '{@link #getRiser() <em>Riser</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getRiser()
 	 * @generated
 	 * @ordered
@@ -80,7 +83,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 	/**
 	 * This is true if the Riser attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -89,7 +92,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 	/**
 	 * The cached value of the '{@link #getRiserOutline() <em>Riser Outline</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getRiserOutline()
 	 * @generated
 	 * @ordered
@@ -98,7 +101,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected BarSeriesImpl() {
@@ -107,7 +110,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -117,64 +120,71 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public RiserType getRiser() {
 		return riser;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setRiser(RiserType newRiser) {
 		RiserType oldRiser = riser;
 		riser = newRiser == null ? RISER_EDEFAULT : newRiser;
 		boolean oldRiserESet = riserESet;
 		riserESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.BAR_SERIES__RISER, oldRiser, riser,
 					!oldRiserESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetRiser() {
 		RiserType oldRiser = riser;
 		boolean oldRiserESet = riserESet;
 		riser = RISER_EDEFAULT;
 		riserESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.BAR_SERIES__RISER, oldRiser,
 					RISER_EDEFAULT, oldRiserESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetRiser() {
 		return riserESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public ColorDefinition getRiserOutline() {
 		return riserOutline;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetRiserOutline(ColorDefinition newRiserOutline, NotificationChain msgs) {
@@ -183,39 +193,45 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.BAR_SERIES__RISER_OUTLINE, oldRiserOutline, newRiserOutline);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setRiserOutline(ColorDefinition newRiserOutline) {
 		if (newRiserOutline != riserOutline) {
 			NotificationChain msgs = null;
-			if (riserOutline != null)
+			if (riserOutline != null) {
 				msgs = ((InternalEObject) riserOutline).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.BAR_SERIES__RISER_OUTLINE, null, msgs);
-			if (newRiserOutline != null)
+			}
+			if (newRiserOutline != null) {
 				msgs = ((InternalEObject) newRiserOutline).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.BAR_SERIES__RISER_OUTLINE, null, msgs);
+			}
 			msgs = basicSetRiserOutline(newRiserOutline, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.BAR_SERIES__RISER_OUTLINE,
 					newRiserOutline, newRiserOutline));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -229,7 +245,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -245,7 +261,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -263,7 +279,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -281,7 +297,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -297,41 +313,45 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (riser: "); //$NON-NLS-1$
-		if (riserESet)
+		if (riserESet) {
 			result.append(riser);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/**
-	 * 
+	 *
 	 */
+	@Override
 	public final boolean canParticipateInCombination() {
 		return true;
 	}
 
 	/**
-	 * 
+	 *
 	 */
+	@Override
 	public boolean canShareAxisUnit() {
 		return true;
 	}
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 * 
+	 *
 	 * @return series instance
 	 */
 	public static final Series create() {
@@ -342,9 +362,10 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.type.BarSeries#initialize()
 	 */
+	@Override
 	protected final void initialize() {
 		super.initialize();
 		setRiserOutline(null);
@@ -354,7 +375,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 * 
+	 *
 	 * @return series instance
 	 */
 	public static final Series createDefault() {
@@ -365,9 +386,10 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.type.BarSeries#initialize()
 	 */
+	@Override
 	protected final void initDefault() {
 		super.initDefault();
 		riserOutline = null;
@@ -377,13 +399,15 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.Series#canBeStacked()
 	 */
+	@Override
 	public final boolean canBeStacked() {
 		return true;
 	}
 
+	@Override
 	public void translateFrom(Series series, int iSeriesDefinitionIndex, Chart chart) {
 
 		// Copy generic series properties
@@ -451,7 +475,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	private String getConvertedOrthogonalSampleDataRepresentation(String sOldRepresentation) {
 		StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ","); //$NON-NLS-1$
-		StringBuffer sbNewRepresentation = new StringBuffer(""); //$NON-NLS-1$
+		StringBuilder sbNewRepresentation = new StringBuilder(""); //$NON-NLS-1$
 		while (strtok.hasMoreTokens()) {
 			String sElement = strtok.nextToken().trim();
 			if (sElement.startsWith("H")) //$NON-NLS-1$ // Orthogonal sample data is for a
@@ -471,9 +495,10 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		switch (this.getRiser().getValue()) {
 		case RiserType.TRIANGLE:
@@ -489,9 +514,10 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.Series#isSingleCache()
 	 */
+	@Override
 	public boolean isSingleCache() {
 		return isStacked();
 	}
@@ -499,6 +525,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 	/**
 	 * @generated
 	 */
+	@Override
 	public BarSeries copyInstance() {
 		BarSeriesImpl dest = new BarSeriesImpl();
 		dest.set(this);

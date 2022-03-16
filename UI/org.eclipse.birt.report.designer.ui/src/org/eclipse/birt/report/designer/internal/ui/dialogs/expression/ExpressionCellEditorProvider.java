@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,11 +37,11 @@ public class ExpressionCellEditorProvider implements IExpressionCellEditorProvid
 
 	private ExpressionCellEditor input;
 
-	private Map<String, IExpressionSupport> supports = new HashMap<String, IExpressionSupport>();
+	private Map<String, IExpressionSupport> supports = new HashMap<>();
 	private String[] supportedTypes;
 
 	public ExpressionCellEditorProvider(boolean allowConstant) {
-		List<String> types = new ArrayList<String>();
+		List<String> types = new ArrayList<>();
 
 		if (allowConstant) {
 			types.add(ExpressionType.CONSTANT);
@@ -56,10 +59,12 @@ public class ExpressionCellEditorProvider implements IExpressionCellEditorProvid
 		supportedTypes = types.toArray(new String[types.size()]);
 	}
 
+	@Override
 	public void setInput(ExpressionCellEditor input) {
 		this.input = input;
 	}
 
+	@Override
 	public String[] getExpressionTypes() {
 		return supportedTypes;
 	}
@@ -77,6 +82,7 @@ public class ExpressionCellEditorProvider implements IExpressionCellEditorProvid
 		return null;
 	}
 
+	@Override
 	public String getText(String exprType) {
 		if (ExpressionType.CONSTANT.equals(exprType)) {
 			return CONSTANT;
@@ -91,10 +97,12 @@ public class ExpressionCellEditorProvider implements IExpressionCellEditorProvid
 		return ""; //$NON-NLS-1$
 	}
 
+	@Override
 	public String getTooltipText(String exprType) {
 		return getText(exprType);
 	}
 
+	@Override
 	public void handleSelectionEvent(String exprType) {
 		IExpressionSupport spt = supports.get(exprType);
 		String sOldExpr = input.getExpression();
@@ -112,6 +120,7 @@ public class ExpressionCellEditorProvider implements IExpressionCellEditorProvid
 		input.notifyExpressionChangeEvent(sOldExpr, input.getExpression());
 	}
 
+	@Override
 	public IExpressionSupport getExpressionSupport(String exprType) {
 		return supports.get(exprType);
 	}

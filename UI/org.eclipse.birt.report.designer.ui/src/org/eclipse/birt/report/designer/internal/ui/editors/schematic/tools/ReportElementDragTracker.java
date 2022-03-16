@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +35,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * 
+ *
  */
 public class ReportElementDragTracker extends DragEditPartsTracker {
 
@@ -47,6 +50,7 @@ public class ReportElementDragTracker extends DragEditPartsTracker {
 
 	}
 
+	@Override
 	protected boolean handleButtonDown(int button) {
 		if (getCurrentViewer() instanceof DeferredGraphicalViewer) {
 			((DeferredGraphicalViewer) getCurrentViewer()).initStepDat();
@@ -127,15 +131,18 @@ public class ReportElementDragTracker extends DragEditPartsTracker {
 
 		void hookControl(Control control) {
 			control.addFocusListener(focus = new FocusAdapter() {
+				@Override
 				public void focusLost(FocusEvent e) {
 					abort();
 				}
 			});
 			control.addKeyListener(key = new KeyListener() {
+				@Override
 				public void keyPressed(KeyEvent e) {
 					abort();
 				}
 
+				@Override
 				public void keyReleased(KeyEvent e) {
 					abort();
 				}
@@ -144,9 +151,10 @@ public class ReportElementDragTracker extends DragEditPartsTracker {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Runnable#run()
 		 */
+		@Override
 		public void run() {
 			if (!getSourceEditPart().isActive()) {
 				return;
@@ -162,9 +170,10 @@ public class ReportElementDragTracker extends DragEditPartsTracker {
 				if (viewer.getSelectedEditParts().size() == 1) {
 					if (parent.getAdapter(IDelaySelectionDragTracker.class) != null) {
 						proxy = (IDelaySelectionDragTracker) parent.getAdapter(IDelaySelectionDragTracker.class);
-						if (viewer instanceof DeferredGraphicalViewer)
+						if (viewer instanceof DeferredGraphicalViewer) {
 							((DeferredGraphicalViewer) viewer)
 									.setSelection(new StructuredSelection(proxy.getSourceEditPart()), true);
+						}
 
 						if (getSourceEditPart() != getEditPartUnderMouse()) {
 							IFigure figure = ((GraphicalEditPart) getSourceEditPart()).getFigure();

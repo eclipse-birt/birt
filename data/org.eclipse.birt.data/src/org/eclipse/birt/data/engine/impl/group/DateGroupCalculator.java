@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +38,7 @@ abstract class DateGroupCalculator extends GroupCalculator {
 	private int range;
 
 	/**
-	 * 
+	 *
 	 * @param intervalStart
 	 * @param intervalRange
 	 * @throws BirtException
@@ -45,8 +48,9 @@ abstract class DateGroupCalculator extends GroupCalculator {
 		super(intervalStart, intervalRange);
 		range = (int) Math.round(intervalRange);
 		range = (range == 0 ? 1 : range);
-		if (intervalStart != null)
+		if (intervalStart != null) {
 			this.intervalStart = DataTypeUtil.toDate(intervalStart);
+		}
 		this.locale = locale == null ? ULocale.getDefault() : locale;
 		this.timeZone = timeZone == null ? TimeZone.getDefault() : timeZone;
 		Calendar c = Calendar.getInstance(this.locale);
@@ -59,7 +63,7 @@ abstract class DateGroupCalculator extends GroupCalculator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	protected int getDateIntervalRange() {

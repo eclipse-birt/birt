@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,6 +18,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.data.oda.mongodb.impl.MDbQuery;
+import org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver;
+import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData;
+import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.DocumentsMetaData;
+import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.FieldMetaData;
+import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryModel;
+import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryProperties;
+import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryProperties.CommandOperationType;
 import org.eclipse.birt.data.oda.mongodb.ui.i18n.Messages;
 import org.eclipse.birt.data.oda.mongodb.ui.util.FieldEntryWrapper;
 import org.eclipse.birt.data.oda.mongodb.ui.util.IHelpConstants;
@@ -74,15 +85,6 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
-import org.eclipse.birt.data.oda.mongodb.impl.MDbQuery;
-import org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver;
-import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData;
-import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.DocumentsMetaData;
-import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.FieldMetaData;
-import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryModel;
-import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryProperties;
-import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryProperties.CommandOperationType;
-
 public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
@@ -126,7 +128,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param pageName
 	 * @param title
 	 * @param titleImage
@@ -136,6 +138,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		setMessage(DEFAULT_MESSAGE);
 	}
 
+	@Override
 	public void createPageCustomControl(Composite parent) {
 		sComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		sComposite.setLayout(new GridLayout());
@@ -167,6 +170,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 			initializeControl();
 			Display.getDefault().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					String errorMsg = UIHelper
 							.getUserErrorMessage("MongoDBDataSetWizardPage.MessageDialog.ErrorMessage.InitPage", e); //$NON-NLS-1$
@@ -201,6 +205,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		queryExprBtn.setText(Messages.getString("MongoDBDataSetWizardPage.Button.QueryExpression")); //$NON-NLS-1$
 		queryExprBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				MDBQueryExpressionBuilder queryExprDialog = new MDBQueryExpressionBuilder(
 						Display.getDefault().getActiveShell());
@@ -216,6 +221,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 				}
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -226,6 +232,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		sortExprBtn.setText(Messages.getString("MongoDBDataSetWizardPage.Button.SortExpression")); //$NON-NLS-1$
 		sortExprBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				MDBSortExpressionBuilder sortExprDialog = new MDBSortExpressionBuilder(
 						Display.getDefault().getActiveShell());
@@ -241,6 +248,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 				}
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -251,6 +259,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		advancedSettingsBtn.setText(Messages.getString("MongoDBDataSetWizardPage.Button.AdvancedSettings")); //$NON-NLS-1$
 		advancedSettingsBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 
 				MongoDBAdvancedSettingsDialog settingsDialog = new MongoDBAdvancedSettingsDialog(
@@ -271,6 +280,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -280,8 +290,9 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 	}
 
 	private void synchronizeSearchLimit() throws OdaException {
-		if (!queryProps.hasRuntimeMetaDataSearchLimit())
+		if (!queryProps.hasRuntimeMetaDataSearchLimit()) {
 			return;
+		}
 
 		int runtimeLimit = queryProps.getRuntimeMetaDataSearchLimit().intValue();
 		if (runtimeLimit < this.searchLimit) {
@@ -346,10 +357,12 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 		availableFieldsViewer.getTree().addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateButtons();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -390,10 +403,12 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		selectedFieldsTable.setLabelProvider(tableProvider);
 		selectedFieldsTable.getTable().addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateButtons();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -402,10 +417,12 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 		selectedFieldsTable.getTable().addKeyListener(new KeyListener() {
 
+			@Override
 			public void keyPressed(KeyEvent e) {
 
 			}
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.DEL) {
 					doRemoveSelectedFields();
@@ -422,6 +439,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		menu = new Menu(selectedFieldsTable.getTable());
 		menu.addMenuListener(new MenuAdapter() {
 
+			@Override
 			public void menuShown(MenuEvent e) {
 				selectedFieldsTable.cancelEditing();
 			}
@@ -430,6 +448,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		menuRemove.setText(Messages.getString("MongoDBDataSetWizardPage.menuItem.remove")); //$NON-NLS-1$
 		menuRemove.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doRemoveSelectedFields();
 			}
@@ -439,6 +458,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		menuRemoveAll.setText(Messages.getString("MongoDBDataSetWizardPage.menuItem.removeAll")); //$NON-NLS-1$
 		menuRemoveAll.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doRemoveAllFieldsFromTablePanel();
 			}
@@ -464,6 +484,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		addBtn.setLayoutData(gd);
 		addBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doAddSelectedFields(availableFieldsViewer.getTree().getSelection());
 
@@ -479,6 +500,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 				modelChanged = true;
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -490,6 +512,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		addAllBtn.setLayoutData(gd);
 		addAllBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (availableFieldsViewer.getTree().getSelectionCount() <= 0) {
 					return;
@@ -515,6 +538,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 				modelChanged = true;
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -526,10 +550,12 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		removeBtn.setLayoutData(gd);
 		removeBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doRemoveSelectedFields();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -541,11 +567,13 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		removeAllBtn.setLayoutData(gd);
 		removeAllBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doRemoveAllFieldsFromTablePanel();
 
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -561,6 +589,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		upBtn.setLayoutData(upBtnGd);
 		upBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (selectedFieldsTable.getTable().getSelectionCount() == 1) {
 					int index = selectedFieldsTable.getTable().getSelectionIndex();
@@ -577,6 +606,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 				}
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -588,6 +618,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		downBtn.setLayoutData(gd);
 		downBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (selectedFieldsTable.getTable().getSelectionCount() == 1) {
 					int index = selectedFieldsTable.getTable().getSelectionIndex();
@@ -604,6 +635,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 				}
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -754,6 +786,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		docNumText.setLayoutData(txtGd);
 		docNumText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				if (isNumber(docNumText.getText().trim())) {
 					searchLimit = Integer.parseInt(docNumText.getText().trim());
@@ -768,6 +801,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		findFieldsBtn.setText(Messages.getString("MongoDBDataSetWizardPage.Button.FindFields")); //$NON-NLS-1$
 		findFieldsBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					updateAvailableFieldsList();
@@ -785,6 +819,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 				validateData();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -806,10 +841,12 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 		sysCollOption.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				includeSysColl = sysCollOption.getSelection();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -822,6 +859,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 		collectionSelectionListener = new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (selectedFields.size() == 0) {
 					if (!collectionCombo.getText().equals(oldCollectionName)) {
@@ -858,6 +896,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 				resetExprBtnStatus();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -866,6 +905,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 		collectionModifyListener = new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				oldCollectionName = collectionName;
 				collectionName = collectionCombo.getText().trim();
@@ -885,9 +925,11 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		refreshBtn.setText(Messages.getString("MongoDBDataSetWizardPage.Button.Refresh")); //$NON-NLS-1$
 		refreshBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				BusyIndicator.showWhile(Display.getDefault(), new Runnable() {
 
+					@Override
 					public void run() {
 						collectionList = metaData.getCollectionsList(!includeSysColl);
 					}
@@ -899,6 +941,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 				validateData();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -967,6 +1010,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		opTypeCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		opTypeSelectionListener = new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (opType != null && opType.displayName().trim().equals(opTypeCombo.getText().trim())) {
 					return;
@@ -989,6 +1033,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 				validateData();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -1001,6 +1046,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		cmdExprBtn.setToolTipText(Messages.getString("MongoDBDataSetWizardPage.Button.tooltip.CommandExpression")); //$NON-NLS-1$
 		cmdExprBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				MDBCommandExpressionBuilder cmdExprDialog = new MDBCommandExpressionBuilder(
 						Display.getDefault().getActiveShell(), opType);
@@ -1028,6 +1074,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -1054,16 +1101,18 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 		// Restores the last saved data set design
 		dataSetDesign = getInitializationDesign();
-		if (dataSetDesign == null)
+		if (dataSetDesign == null) {
 			return; // nothing to initialize
+		}
 
 		queryText = dataSetDesign.getQueryText();
-		if (queryText == null)
+		if (queryText == null) {
 			return; // nothing to initialize
+		}
 
-		collectionList = new ArrayList<String>();
-		selectedFields = new ArrayList<FieldMetaData>();
-		allAvailableFields = new ArrayList<FieldMetaData>();
+		collectionList = new ArrayList<>();
+		selectedFields = new ArrayList<>();
+		allAvailableFields = new ArrayList<>();
 
 		queryProps = QueryProperties.deserialize(queryText);
 
@@ -1096,8 +1145,9 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 	}
 
 	private void initializeSelectedFields() {
-		if (queryProps == null)
+		if (queryProps == null) {
 			return;
+		}
 
 		List<String> selectedFieldNames = queryProps.getSelectedFieldNames();
 		for (int i = 0; i < selectedFieldNames.size(); i++) {
@@ -1168,8 +1218,9 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 	}
 
 	private void refreshAvailableFieldsViewer() {
-		if (metaData == null)
+		if (metaData == null) {
 			return;
+		}
 
 		if (CommandOperationType.RUN_DB_COMMAND.name().equals(opType.name())
 				|| !UIHelper.isEmptyString(collectionName)) {
@@ -1202,6 +1253,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 		BusyIndicator.showWhile(Display.getDefault(), new Runnable() {
 
+			@Override
 			public void run() {
 				try {
 					if (treeEntry == null) {
@@ -1224,8 +1276,9 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 	}
 
 	private void addChildrenFieldsByDocument(DocumentsMetaData dmd) {
-		if (dmd == null)
+		if (dmd == null) {
 			return;
+		}
 
 		for (String name : dmd.getFieldNames()) {
 			FieldMetaData field = dmd.getFieldMetaData(name);
@@ -1365,12 +1418,13 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage
 	 * #collectDataSetDesign(org.eclipse.datatools.connectivity.oda.design.
 	 * DataSetDesign)
 	 */
+	@Override
 	protected DataSetDesign collectDataSetDesign(DataSetDesign design) {
 		// page control was never created or no change has taken place
 		if (getControl() == null || !modelChanged) {
@@ -1410,8 +1464,9 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 					ERROR);
 		}
 
-		if (isValid)
+		if (isValid) {
 			setMessage(DEFAULT_MESSAGE);
+		}
 
 		setPageComplete(isValid);
 
@@ -1497,7 +1552,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 	/**
 	 * Updates the specified data set design's result set definition based on the
 	 * specified runtime metadata.
-	 * 
+	 *
 	 * @param md            runtime result set metadata instance
 	 * @param dataSetDesign data set design instance to update
 	 * @throws OdaException
@@ -1520,8 +1575,9 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 	 */
 	private void closeConnection(IConnection conn) {
 		try {
-			if (conn != null && conn.isOpen())
+			if (conn != null && conn.isOpen()) {
 				conn.close();
+			}
 		} catch (OdaException e) {
 			// ignore
 			e.printStackTrace();
@@ -1530,11 +1586,12 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage
 	 * #collectResponseState()
 	 */
+	@Override
 	protected void collectResponseState() {
 		super.collectResponseState();
 		/*
@@ -1546,11 +1603,12 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage
 	 * #canLeave()
 	 */
+	@Override
 	protected boolean canLeave() {
 		int exprType = 1;
 		try {
@@ -1599,7 +1657,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 	/**
 	 * Test the text to see if it can be parsed to an integer.
-	 * 
+	 *
 	 * @param text
 	 * @return
 	 */
@@ -1612,8 +1670,9 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 	}
 
 	private boolean existsField(FieldMetaData field) {
-		if (field == null)
+		if (field == null) {
 			return false;
+		}
 
 		for (int i = 0; i < allAvailableFields.size(); i++) {
 			if (field.equals(allAvailableFields.get(i))
@@ -1627,9 +1686,8 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 	private boolean checkAllSelectedFields() {
 		for (int i = 0; i < selectedFields.size(); i++) {
 			if (!existsField(selectedFields.get(i))) {
-				setMessage(
-						Messages.getFormattedString("MongoDBDataSetWizardPage.message.error.SelectedFieldNotFound", //$NON-NLS-1$
-								new Object[] { selectedFields.get(i).getFullDisplayName() }), ERROR);
+				setMessage(Messages.getFormattedString("MongoDBDataSetWizardPage.message.error.SelectedFieldNotFound", //$NON-NLS-1$
+						new Object[] { selectedFields.get(i).getFullDisplayName() }), ERROR);
 				return false;
 			}
 		}
@@ -1716,6 +1774,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 			flag = true;
 			Display.getDefault().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					String errorMsg = UIHelper
 							.getUserErrorMessage("MongoDBDataSetWizardPage.ExceptionDialog.message.FindFields", e); //$NON-NLS-1$
@@ -1734,8 +1793,9 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 	private void doRemoveSelectedFields() {
 		int[] indices = selectedFieldsTable.getTable().getSelectionIndices();
-		if (indices.length == 0)
+		if (indices.length == 0) {
 			return;
+		}
 
 		int lastIndex = indices[indices.length - 1];
 		int focusIndex = lastIndex - indices.length + 1;
@@ -1763,26 +1823,32 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 	private class TableProvider implements IStructuredContentProvider, ITableLabelProvider {
 
+		@Override
 		public void dispose() {
 
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 
 		}
 
+		@Override
 		public void addListener(ILabelProviderListener listener) {
 
 		}
 
+		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
+		@Override
 		public void removeListener(ILabelProviderListener listener) {
 
 		}
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			if (columnIndex == 0) {
 				try {
@@ -1798,6 +1864,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 			return null;
 		}
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof Object[]) {
 				return (Object[]) inputElement;
@@ -1808,6 +1875,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 			return null;
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (columnIndex == 1) {
 				if (element instanceof FieldMetaData) {
@@ -1823,26 +1891,32 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 
 	private class FieldsTreeProvider implements ITreeContentProvider, ILabelProvider {
 
+		@Override
 		public void dispose() {
 
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 
 		}
 
+		@Override
 		public void addListener(ILabelProviderListener listener) {
 
 		}
 
+		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
+		@Override
 		public void removeListener(ILabelProviderListener listener) {
 
 		}
 
+		@Override
 		public boolean hasChildren(Object element) {
 			if (element instanceof FieldEntryWrapper) {
 				return true;
@@ -1854,12 +1928,14 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 			return false;
 		}
 
+		@Override
 		public Image getImage(Object element) {
 			try {
 				if (element instanceof FieldEntryWrapper) {
 					if (CommandOperationType.RUN_DB_COMMAND.name().equals(opType.name())
-							|| UIHelper.isEmptyString(collectionName))
+							|| UIHelper.isEmptyString(collectionName)) {
 						return UIHelper.getDatabaseDisplayImage();
+					}
 
 					return UIHelper.getCollectionDisplayImage();
 				} else if (element instanceof FieldMetaData) {
@@ -1882,11 +1958,13 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 			return null;
 		}
 
+		@Override
 		public String getText(Object element) {
 			if (element instanceof FieldEntryWrapper) {
 				if (CommandOperationType.RUN_DB_COMMAND.name().equals(opType.name())
-						|| UIHelper.isEmptyString(collectionName))
+						|| UIHelper.isEmptyString(collectionName)) {
 					return metaData.getDatabaseName();
+				}
 
 				return ((FieldEntryWrapper) element).getCollectionName();
 			} else if (element instanceof FieldMetaData) {
@@ -1896,6 +1974,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 			return element == null ? EMPTY_STRING : element.toString();
 		}
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof FieldEntryWrapper[]) {
 				return (FieldEntryWrapper[]) inputElement;
@@ -1903,6 +1982,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 			return new Object[0];
 		}
 
+		@Override
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement instanceof FieldEntryWrapper) {
 				DocumentsMetaData dmd;
@@ -1923,13 +2003,14 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage {
 		}
 
 		private Object[] getFields(Object parentElement) {
-			List<FieldMetaData> entries = new ArrayList<FieldMetaData>();
+			List<FieldMetaData> entries = new ArrayList<>();
 			for (String name : ((DocumentsMetaData) parentElement).getFieldNames()) {
 				entries.add(((DocumentsMetaData) parentElement).getFieldMetaData(name));
 			}
 			return entries.toArray();
 		}
 
+		@Override
 		public Object getParent(Object element) {
 			return null;
 		}

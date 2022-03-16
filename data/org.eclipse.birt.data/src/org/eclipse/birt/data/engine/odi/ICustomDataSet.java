@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -33,34 +36,34 @@ public interface ICustomDataSet {
 	 * data set. <br>
 	 * All fetched result objects must be uniformed, i.e. defined with the same
 	 * metadata.
-	 * 
+	 *
 	 * @return The IResultClass instance that represents the metadata of the result
 	 *         objects.
 	 */
-	public IResultClass getResultClass();
+	IResultClass getResultClass();
 
 	/**
 	 * Opens the custom data set. <br>
 	 * Its operation is specific to individual implementation.
-	 * 
+	 *
 	 * @throws DataException if open fails.
 	 */
-	public void open() throws DataException;
+	void open() throws DataException;
 
 	/**
 	 * Fetches the next result object in this custom data set. Null is returned if
 	 * no more result object in the data set.
-	 * 
+	 *
 	 * @return the next result object in this custom data set.
 	 * @throws DataException if fetch data fails.
 	 */
-	public IResultObject fetch() throws DataException;
+	IResultObject fetch() throws DataException;
 
 	/**
 	 * Closes the custom data set. <br>
 	 * Its operation is specific to individual implementation.
-	 * 
+	 *
 	 * @throws DataException if close fails.
 	 */
-	public void close() throws DataException;
+	void close() throws DataException;
 }

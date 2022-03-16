@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -117,8 +120,9 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 
 	private String[] getDataTypeNames() {
 		IChoice[] choices = dataTypes;
-		if (choices == null)
+		if (choices == null) {
 			return new String[0];
+		}
 
 		String[] names = new String[choices.length];
 		for (int i = 0; i < choices.length; i++) {
@@ -135,8 +139,9 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 
 	private String[] getDataTypeDisplayNames() {
 		IChoice[] choices = dataTypes;
-		if (choices == null)
+		if (choices == null) {
 			return new String[0];
+		}
 
 		String[] displayNames = new String[choices.length];
 		for (int i = 0; i < choices.length; i++) {
@@ -191,6 +196,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 		return contents;
 	}
 
+	@Override
 	protected Control createContents(Composite parent) {
 		Control control = super.createContents(parent);
 		setTitle(Messages.getString("MeasureDialog.Title.Description")); //$NON-NLS-1$
@@ -264,6 +270,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 				|| DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals(dataType));
 	}
 
+	@Override
 	public Object getResult() {
 		return result;
 	}
@@ -273,13 +280,6 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 			return measureHelper.hasFilter(measure);
 		}
 		return false;
-	}
-
-	private Expression getFilter(MeasureHandle measure) {
-		if (this.measureHelper != null) {
-			return measureHelper.getFilter(measure);
-		}
-		return null;
 	}
 
 	private void setFilter(MeasureHandle measure, Expression expr) throws SemanticException {
@@ -394,6 +394,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 		super.okPressed();
 	}
 
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
 		checkOkButtonStatus();
@@ -424,6 +425,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 		nameText.setLayoutData(gd);
 		nameText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				checkOkButtonStatus();
 			}
@@ -438,6 +440,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 		displayNameText.setLayoutData(gd);
 		displayNameText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				checkOkButtonStatus();
 			}
@@ -450,6 +453,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 
 		derivedMeasureBtn.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateDerivedMeasureStatus();
 				if (!derivedMeasureBtn.getSelection()) {
@@ -473,15 +477,17 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 		typeCombo.setVisibleItemCount(30);
 		typeCombo.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (!derivedMeasureBtn.getSelection()) {
 					handleTypeSelectEvent();
 				}
 				checkOkButtonStatus();
 				if (formatHelper != null) {
-					if (typeCombo.getSelectionIndex() > -1)
+					if (typeCombo.getSelectionIndex() > -1) {
 						formatHelper.setProperty(BuilderConstants.FORMAT_VALUE_TYPE,
 								getDataTypeNames()[typeCombo.getSelectionIndex()]);
+					}
 					formatHelper.update(true);
 				}
 			}
@@ -495,6 +501,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 		expressionText.setLayoutData(gd);
 		expressionText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				checkOkButtonStatus();
 			}
@@ -577,6 +584,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 						hyperLinkHelper.createContent(parent);
 						hyperLinkHelper.addListener(SWT.Modify, new Listener() {
 
+							@Override
 							public void handleEvent(Event event) {
 								hyperLinkHelper.update(false);
 							}
@@ -658,6 +666,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 						securityHelper.createContent(parent);
 						securityHelper.addListener(SWT.Modify, new Listener() {
 
+							@Override
 							public void handleEvent(Event event) {
 								securityHelper.update(false);
 							}
@@ -679,6 +688,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 
 		txtFilter.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent arg0) {
 				checkOkButtonStatus();
 			}
@@ -688,8 +698,9 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 
 	protected void handleTypeSelectEvent() {
 		IAggrFunction function = functionUI.getSelectedFunction();
-		if (function == null)
+		if (function == null) {
 			return;
+		}
 		int returnType = function.getDataType();
 		String typeName = DataAdapterUtil.adapterToModelDataType(returnType);
 		String recommendType = getDataTypeDisplayName(typeName);
@@ -697,8 +708,9 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 		if (!typeCombo.getText().equals(recommendType) && typeCombo.indexOf(recommendType) != -1) {
 			if (!MessageDialog.openQuestion(getShell(), Messages.getString("MeasureDialog.MessageDialog.Title"), //$NON-NLS-1$
 					Messages.getFormattedString("MeasureDialog.MessageDialog.Message", //$NON-NLS-1$
-							new Object[] { recommendType })))
+							new Object[] { recommendType }))) {
 				typeCombo.setText(recommendType);
+			}
 		}
 	}
 
@@ -724,6 +736,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 	protected Runnable createFunctionUICallback() {
 		return new Runnable() {
 
+			@Override
 			public void run() {
 				handleFunctionSelectEvent();
 				checkOkButtonStatus();
@@ -747,8 +760,9 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 
 	private void handleFunctionSelectEvent() {
 		IAggrFunction func = functionUI.getSelectedFunction();
-		if (func == null)
+		if (func == null) {
 			return;
+		}
 
 		int returnType = func.getDataType();
 		String typeName = DataAdapterUtil.adapterToModelDataType(returnType);
@@ -787,7 +801,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 							if (!isValidExpression(value)) {
 								return Messages.getFormattedString("MessageDialog.Message.BlankArgument", //$NON-NLS-1$
 										new String[] { paramDef.getDisplayName().replaceAll("\\(&[a-zA-Z0-9]\\)", "")
-												.replaceAll("&", "") });
+												.replace("&", "") });
 							}
 						}
 					}
@@ -817,8 +831,8 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 	}
 
 	protected void checkOkButtonStatus() {
-		String errorMessage = null;
-		if ((errorMessage = checkName()) == null) {
+		String errorMessage = checkName();
+		if (errorMessage == null) {
 			if ((errorMessage = checkType()) == null) {
 				if ((errorMessage = checkExpression()) == null) {
 					if (getButton(IDialogConstants.OK_ID) != null) {
@@ -862,7 +876,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 
 		private Combo cmbFunction;
 		private Composite paramsComposite;
-		private Map<String, Control> paramsMap = new HashMap<String, Control>();
+		private Map<String, Control> paramsMap = new HashMap<>();
 
 		private DesignElementHandle bindingHolder;
 		private ExpressionProvider exprProvider;
@@ -870,7 +884,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 		private ComputedColumn[] bindings;
 		private Runnable callback;
 
-		private Map<String, Expression> paramsValueMap = new HashMap<String, Expression>();
+		private Map<String, Expression> paramsValueMap = new HashMap<>();
 
 		public FunctionUI(Composite parent, DesignElementHandle bindingHolder, FunctionProvider funcProvider,
 				ExpressionProvider exprProvider, ComputedColumn[] bindings, Runnable callback) {
@@ -884,9 +898,9 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 
 		/**
 		 * the initial defined function name.
-		 * 
+		 *
 		 * The name is saved in report design.
-		 * 
+		 *
 		 * @param functions
 		 */
 		public void setAggregation(String funcName, Map<String, Expression> args, Expression expr) {
@@ -905,7 +919,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 
 		/**
 		 * selected aggregate function.
-		 * 
+		 *
 		 * @return
 		 */
 		public IAggrFunction getSelectedFunction() {
@@ -920,11 +934,11 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 
 		/**
 		 * Arguments of the function.
-		 * 
+		 *
 		 * @return
 		 */
 		public Map<String, Expression> getArguments() {
-			HashMap<String, Expression> results = new HashMap<String, Expression>();
+			HashMap<String, Expression> results = new HashMap<>();
 			for (String argName : paramsMap.keySet()) {
 				Control control = paramsMap.get(argName);
 				Expression expr = ExpressionButtonUtil.getExpression(control);
@@ -956,6 +970,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 
 			cmbFunction.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					String funcText = cmbFunction.getText();
 					IAggrFunction func = funcProvider.getFunctionByDisplayText(funcText);
@@ -976,8 +991,9 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 			layout.marginWidth = layout.marginHeight = 0;
 			layout.numColumns = 3;
 			Layout parentLayout = parent.getLayout();
-			if (parentLayout instanceof GridLayout)
+			if (parentLayout instanceof GridLayout) {
 				layout.horizontalSpacing = ((GridLayout) parentLayout).horizontalSpacing;
+			}
 			paramsComposite.setLayout(layout);
 		}
 
@@ -1046,8 +1062,9 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 						lblParam.setText(param.getDisplayName() + Messages.getString("MeasureDialog.Text.Colon")); //$NON-NLS-1$
 						GridData gd = new GridData();
 						gd.widthHint = lblParam.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
-						if (gd.widthHint < width)
+						if (gd.widthHint < width) {
 							gd.widthHint = width;
+						}
 						lblParam.setLayoutData(gd);
 
 						if (param.isDataField()) {
@@ -1072,6 +1089,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 
 			cmbDataField.addModifyListener(new ModifyListener() {
 
+				@Override
 				public void modifyText(ModifyEvent e) {
 					paramsValueMap.put(param.getName(), new Expression(cmbDataField.getText(),
 							(String) cmbDataField.getData(ExpressionButtonUtil.EXPR_TYPE)));
@@ -1081,6 +1099,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 
 			cmbDataField.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					Expression expr = createBindingExpression(cmbDataField);
 					if (expr != null) {
@@ -1108,6 +1127,7 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 
 			txtParam.addModifyListener(new ModifyListener() {
 
+				@Override
 				public void modifyText(ModifyEvent e) {
 					paramsValueMap.put(param.getName(), new Expression(txtParam.getText(),
 							(String) txtParam.getData(ExpressionButtonUtil.EXPR_TYPE)));
@@ -1159,14 +1179,16 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 					cmbDataField.setData(ExpressionButtonUtil.EXPR_TYPE, type);
 				}
 				ExpressionButton button = (ExpressionButton) control.getData(ExpressionButtonUtil.EXPR_BUTTON);
-				if (button != null)
+				if (button != null) {
 					button.refresh();
+				}
 			}
 		}
 
 		private void createExpressionButton(final Composite parent, final Control control, final IParameterDefn param) {
 			Listener listener = new Listener() {
 
+				@Override
 				public void handleEvent(Event event) {
 					callback.run();
 				}
@@ -1205,8 +1227,8 @@ public class MeasureDialog extends BaseTitleAreaDialog {
 
 		public FunctionProvider(IAggrFunction[] funcs) {
 			this.funcs = funcs == null ? new IAggrFunction[0] : funcs;
-			this.displayName2Funcs = new HashMap<String, IAggrFunction>(funcs.length);
-			this.name2Funcs = new HashMap<String, IAggrFunction>(funcs.length);
+			this.displayName2Funcs = new HashMap<>(funcs.length);
+			this.name2Funcs = new HashMap<>(funcs.length);
 			for (IAggrFunction func : funcs) {
 				displayName2Funcs.put(func.getDisplayName(), func);
 				name2Funcs.put(func.getName(), func);

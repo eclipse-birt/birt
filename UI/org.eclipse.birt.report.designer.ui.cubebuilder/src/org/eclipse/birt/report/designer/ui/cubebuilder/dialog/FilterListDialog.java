@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -76,6 +79,7 @@ public class FilterListDialog extends BaseDialog implements Listener {
 		this.input = input;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.CUBE_FILTER_LIST_DIALOG);
 
@@ -118,9 +122,11 @@ public class FilterListDialog extends BaseDialog implements Listener {
 		}
 		table.addKeyListener(new KeyAdapter() {
 
+			@Override
 			public void keyPressed(KeyEvent e) {
-				if (!provider.isEditable())
+				if (!provider.isEditable()) {
 					return;
+				}
 				if (e.keyCode == SWT.DEL) {
 					int itemCount = table.getItemCount();
 					int pos = table.getSelectionIndex();
@@ -141,6 +147,7 @@ public class FilterListDialog extends BaseDialog implements Listener {
 
 		table.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				selectIndex = table.getSelectionIndex();
 				updateBtnStatus();
@@ -148,6 +155,7 @@ public class FilterListDialog extends BaseDialog implements Listener {
 		});
 		table.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				if (!provider.isEditable()) {
 					return;
@@ -166,6 +174,7 @@ public class FilterListDialog extends BaseDialog implements Listener {
 		btnAdd.setText(Messages.getString("FilterListDialog.Button.AddWithDialog")); //$NON-NLS-1$
 		btnAdd.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
 				stack.startTrans(Messages.getString("FilterListDialog.Menu.ModifyProperty")); //$NON-NLS-1$
@@ -193,6 +202,7 @@ public class FilterListDialog extends BaseDialog implements Listener {
 		btnEdit.setText(Messages.getString("FilterListDialog.Button.EditWithDialog")); //$NON-NLS-1$
 		btnEdit.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				edit();
 			}
@@ -202,6 +212,7 @@ public class FilterListDialog extends BaseDialog implements Listener {
 		btnDel.setText(Messages.getString("FilterListDialog.Button.Delete")); //$NON-NLS-1$
 		btnDel.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (tableViewer.isCellEditorActive()) {
 					tableViewer.cancelEditing();
@@ -291,8 +302,9 @@ public class FilterListDialog extends BaseDialog implements Listener {
 	}
 
 	protected void refresh() {
-		if (tableViewer.getTable().isDisposed())
+		if (tableViewer.getTable().isDisposed()) {
 			return;
+		}
 		tableViewer.refresh();
 		table.select(selectIndex);
 		table.setFocus();
@@ -302,8 +314,9 @@ public class FilterListDialog extends BaseDialog implements Listener {
 	}
 
 	private void updateBtnStatus() {
-		if (!provider.isEditable())
+		if (!provider.isEditable()) {
 			return;
+		}
 
 		int selectIndex = table.getSelectionIndex();
 		int min = 0;
@@ -311,12 +324,14 @@ public class FilterListDialog extends BaseDialog implements Listener {
 
 		if ((min <= selectIndex) && (selectIndex <= max)) {
 			btnDel.setEnabled(true);
-			if (btnEdit != null)
+			if (btnEdit != null) {
 				btnEdit.setEnabled(true);
+			}
 		} else {
 			btnDel.setEnabled(false);
-			if (btnEdit != null)
+			if (btnEdit != null) {
 				btnEdit.setEnabled(false);
+			}
 		}
 	}
 
@@ -338,10 +353,12 @@ public class FilterListDialog extends BaseDialog implements Listener {
 
 	private class TableLabelProvider extends LabelProvider implements ITableLabelProvider {
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return provider.getImage(element, columnIndex);
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			return provider.getColumnText(element, columnIndex);
 		}
@@ -349,6 +366,7 @@ public class FilterListDialog extends BaseDialog implements Listener {
 
 	private class TableContentProvider implements IStructuredContentProvider {
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			Object[] elements = provider.getElements(inputElement);
 			Object model = DEUtil.getInputFirstElement(input);
@@ -359,13 +377,16 @@ public class FilterListDialog extends BaseDialog implements Listener {
 			return elements;
 		}
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 	}
 
+	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent event) {
 		if (provider.needRefreshed(event)) {
 			refresh();

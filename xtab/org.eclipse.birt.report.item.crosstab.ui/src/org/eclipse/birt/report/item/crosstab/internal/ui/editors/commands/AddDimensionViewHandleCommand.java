@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,7 +60,7 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handleAdpter
 	 * @param type
 	 * @param dimensionHandle
@@ -75,7 +78,7 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand {
 
 	/**
 	 * Sets the handle adapter
-	 * 
+	 *
 	 * @param handleAdpter
 	 */
 	public void setHandleAdpter(CrosstabCellAdapter handleAdpter) {
@@ -84,7 +87,7 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand {
 
 	/**
 	 * Gets the tyoe
-	 * 
+	 *
 	 * @return
 	 */
 	public int getType() {
@@ -93,7 +96,7 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand {
 
 	/**
 	 * Sets the type
-	 * 
+	 *
 	 * @param type ICrosstabConstants.COLUMN_AXIS_TYPE or
 	 *             ICrosstabConstants.ROW_AXIS_TYPE
 	 */
@@ -103,18 +106,20 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
+	@Override
 	public boolean canExecute() {
 		return getType() != VirtualCrosstabCellAdapter.IMMACULATE_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public void execute() {
 		transStart(NAME);
 		CrosstabReportItemHandle crosstabHandle = handleAdpter.getCrosstabCellHandle().getCrosstab();

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +36,7 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILevelViewConstants, ICrosstabConstants {
 
 	/**
-	 * 
+	 *
 	 * @param handle
 	 */
 	LevelViewHandle(DesignElementHandle handle) {
@@ -42,7 +45,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Gets the referred OLAP level handle.
-	 * 
+	 *
 	 * @return the referred OLAP level handle.
 	 */
 	public LevelHandle getCubeLevel() {
@@ -58,7 +61,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Gets name of the referred OLAP level handle.
-	 * 
+	 *
 	 * @return qualified name of the referred OLAP level handle
 	 */
 	public String getCubeLevelName() {
@@ -69,7 +72,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 	 * Returns the iterator for filter list defined on this level view. The element
 	 * in the iterator is the corresponding <code>DesignElementHandle</code> that
 	 * deal with a <code>FilterConditionElementHandle</code> in the list.
-	 * 
+	 *
 	 * @return the iterator for <code>FilterConditionElementHandle</code> element
 	 *         list
 	 */
@@ -84,7 +87,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Return the sort type.
-	 * 
+	 *
 	 * @return the sort type.
 	 */
 
@@ -95,13 +98,13 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 	/**
 	 * Returns the sort direction of this level view. The return value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>SORT_DIRECTION_ASC</code>
 	 * <li><code>SORT_DIRECTION_DESC</code>
-	 * 
+	 *
 	 * </ul>
-	 * 
+	 *
 	 * @return the sort direction of this level view
 	 */
 
@@ -111,7 +114,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Gets the display key for this level view.
-	 * 
+	 *
 	 * @return the display key for this level view
 	 */
 	public String getDisplayField() {
@@ -121,7 +124,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 	/**
 	 * Returns the iterator for Sort list defined on this level. The element in the
 	 * iterator is the corresponding <code>SortElementHandle</code>.
-	 * 
+	 *
 	 * @return the iterator for <code>SortElementHandle</code> element list
 	 */
 
@@ -135,7 +138,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Gets page break before property value of this level view.
-	 * 
+	 *
 	 * @return page break before property value of this level view
 	 */
 
@@ -145,7 +148,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Gets page break after property value of this level.
-	 * 
+	 *
 	 * @return page break after property value of this level
 	 */
 
@@ -155,7 +158,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Gets page break inside property value of this level.
-	 * 
+	 *
 	 * @return page break inside property value of this level
 	 */
 
@@ -165,7 +168,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Gets page break interval property value of this level.
-	 * 
+	 *
 	 * @return page break interval property value of this level
 	 */
 	public int getPageBreakInterval() {
@@ -174,7 +177,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Sets page break before property value of this level
-	 * 
+	 *
 	 * @param value the page break before option to set
 	 * @throws SemanticException
 	 */
@@ -184,10 +187,10 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Sets page break after property value of this level.
-	 * 
+	 *
 	 * @param value the page break after option to set
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 	public void setPageBreakAfter(String value) throws SemanticException {
 		handle.setStringProperty(PAGE_BREAK_AFTER_PROP, value);
@@ -195,10 +198,10 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Sets page break inside property value of this level.
-	 * 
+	 *
 	 * @param value the page break inside option to set
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 	public void setPageBreakInside(String value) throws SemanticException {
 		handle.setStringProperty(PAGE_BREAK_INSIDE_PROP, value);
@@ -206,7 +209,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Sets page break interval property value of this level.
-	 * 
+	 *
 	 * @param value the page break interval to set
 	 * @throws SemanticException
 	 */
@@ -217,12 +220,12 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 	/**
 	 * Returns the aggregation header location of this level view. The return value
 	 * is defined in <code>ICrosstabConstants</code> and can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>AGGREGATION_HEADER_LOCATION_BEFORE</code>
 	 * <li><code>AGGREGATION_HEADER_LOCATION_AFTER</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the aggregation header location of this level view
 	 */
 
@@ -237,7 +240,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 	 * <li><code>AGGREGATION_HEADER_LOCATION_BEFORE</code>
 	 * <li><code>AGGREGATION_HEADER_LOCATION_AFTER</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the aggregation header location to set
 	 * @throws SemanticException
 	 */
@@ -247,7 +250,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Gets the member property handle of this level view.
-	 * 
+	 *
 	 * @return the member property handle
 	 */
 	public PropertyHandle getMemberProperty() {
@@ -256,7 +259,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Gets the aggregation header property handle of this level view.
-	 * 
+	 *
 	 * @return the aggregation header property handle
 	 */
 	public PropertyHandle getAggregationHeaderProperty() {
@@ -265,7 +268,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Gets the detail cell of this level view.
-	 * 
+	 *
 	 * @return the detail cell of this level view if set, otherwise null
 	 */
 	public CrosstabCellHandle getCell() {
@@ -277,7 +280,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 
 	/**
 	 * Gets the aggregation header cell of this level view.
-	 * 
+	 *
 	 * @return aggregation header cell if set, otherwise null
 	 */
 	public CrosstabCellHandle getAggregationHeader() {
@@ -292,9 +295,10 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 	 * the aggreation header cell in this level. It does not adjust any measure
 	 * aggreations automatically. User himself needs to add measure aggregations
 	 * manually.
-	 * 
+	 *
 	 * @deprecated For internal test only, user addSubTotal() instead
 	 */
+	@Deprecated
 	public void addAggregationHeader() throws SemanticException {
 		if (getAggregationHeaderProperty().getContentCount() != 0) {
 			logger.log(Level.INFO, "the aggregation header is set"); //$NON-NLS-1$
@@ -315,9 +319,10 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 	 * Removes the aggregation header cell if it is not empty, otherwise do nothing.
 	 * This method will not adjust the measure aggregations automatically. Use needs
 	 * to remove all the related aggregations manually.
-	 * 
+	 *
 	 * @deprecated For internal test only, user removeSubTotal() instead
 	 */
+	@Deprecated
 	public void removeAggregationHeader() throws SemanticException {
 		if (getAggregationHeaderProperty().getContentCount() > 0) {
 			getAggregationHeaderProperty().drop(0);
@@ -328,7 +333,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 	 * Adds a sub-total for this level. This method will add a aggregation header
 	 * cell in this level and adjust the measure aggregations to ensure the
 	 * validation of the whole crosstab.
-	 * 
+	 *
 	 * @param measureList
 	 * @param functionList
 	 * @return
@@ -361,7 +366,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 	 * Gets the position index where this level lies in the dimension view
 	 * container. The returned value is a 0-based integer if this level is in the
 	 * design tree. Otherwise return -1.
-	 * 
+	 *
 	 * @return position index if found, otherwise -1
 	 */
 	public int getIndex() {
@@ -372,7 +377,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 	 * Justifies whether this level view is inner most in the crosstab. True if and
 	 * only if it is the last one in its container dimension view and its container
 	 * dimension view is the last one in crosstab view.
-	 * 
+	 *
 	 * @return true if
 	 */
 	public boolean isInnerMost() {
@@ -384,8 +389,9 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 		if (dimensionView != null) {
 			CrosstabViewHandle container = (CrosstabViewHandle) dimensionView.getContainer();
 			if (container != null && dimensionView.getIndex() == container.getDimensionCount() - 1
-					&& getIndex() == dimensionView.getLevelCount() - 1)
+					&& getIndex() == dimensionView.getLevelCount() - 1) {
 				return true;
+			}
 		}
 
 		return false;
@@ -397,7 +403,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. Otherwise return
 	 * <code>ICrosstabConstants.NO_AXIS_TYPE</code>.
-	 * 
+	 *
 	 * @return the axis type if this level resides in design tree, otherwise -1;
 	 */
 	public int getAxisType() {
@@ -410,7 +416,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 	/**
 	 * Gets the aggregation function of this level view applying on the specified
 	 * measure view.
-	 * 
+	 *
 	 * @param measureView
 	 * @return
 	 */
@@ -421,7 +427,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 	/**
 	 * Gets the measure view list that define aggregations for the given level view.
 	 * Each item in the list is instance of <code>MeasureViewHandle</code> .
-	 * 
+	 *
 	 * @param levelView
 	 * @return
 	 */
@@ -432,7 +438,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements ILeve
 	/**
 	 * Gets the aggregation function for the level view sub-total. If the level view
 	 * is null or not define any sub-total, return null.
-	 * 
+	 *
 	 * @param measureView
 	 * @param function
 	 * @return

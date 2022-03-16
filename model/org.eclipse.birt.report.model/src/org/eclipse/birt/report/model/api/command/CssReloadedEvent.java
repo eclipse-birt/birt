@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,9 +33,9 @@ public class CssReloadedEvent extends NotificationEvent {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param host the host module in which the css lies in
-	 * 
+	 *
 	 * @param css  the element that is to reload css.
 	 */
 
@@ -43,11 +46,12 @@ public class CssReloadedEvent extends NotificationEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
 	 */
 
+	@Override
 	public int getEventType() {
 		return CSS_RELOADED_EVENT;
 	}
@@ -55,7 +59,7 @@ public class CssReloadedEvent extends NotificationEvent {
 	/**
 	 * Returns the css causing this event. If the css is <code>null</code>, it means
 	 * that the css is not found during the reload-action.
-	 * 
+	 *
 	 * @return the css causing this event, or null if the css is not found
 	 */
 

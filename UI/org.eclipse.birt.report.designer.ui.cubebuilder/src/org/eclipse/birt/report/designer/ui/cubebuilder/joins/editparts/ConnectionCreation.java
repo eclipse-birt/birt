@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2005 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -27,14 +30,16 @@ public class ConnectionCreation extends ConnectionDragCreationTool {
 	private boolean IsCursorDrag = false;
 
 	// Set the cursor as default style when a column is choosed
+	@Override
 	protected org.eclipse.swt.graphics.Cursor getDisabledCursor() {
-		if (IsCursorDrag == false) {
+		if (!IsCursorDrag) {
 			return super.getDefaultCursor();
 		} else {
 			return super.getDisabledCursor();
 		}
 	}
 
+	@Override
 	protected boolean handleButtonDown(int button) {
 		if (this.isInState(STATE_INITIAL) && button == 1) {
 			// Select the ColumnEditPart
@@ -50,18 +55,21 @@ public class ConnectionCreation extends ConnectionDragCreationTool {
 		return super.handleButtonDown(button);
 	}
 
+	@Override
 	protected boolean handleButtonUp(int button) {
 		int toolState = this.getState();
-		if (toolState != 4 && toolState == 2)
+		if (toolState != 4 && toolState == 2) {
 			performConditionalSelection();
+		}
 		this.updateTargetUnderMouse();
 		return super.handleButtonUp(button);
 	}
 
+	@Override
 	protected boolean handleDragStarted() {
 		// if cursor in drag state, set the default cursor style to
 		// CURSOR_TREE_ADD
-		if (IsCursorDrag == false) {
+		if (!IsCursorDrag) {
 			setDefaultCursor(org.eclipse.gef.SharedCursors.CURSOR_TREE_ADD);
 			IsCursorDrag = true;
 		}
@@ -71,8 +79,9 @@ public class ConnectionCreation extends ConnectionDragCreationTool {
 	}
 
 	protected void performConditionalSelection() {
-		if (getSourceEditPart().getSelected() == 0)
+		if (getSourceEditPart().getSelected() == 0) {
 			performSelection();
+		}
 	}
 
 	protected EditPart getSourceEditPart() {

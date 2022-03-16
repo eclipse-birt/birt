@@ -1,10 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2001, 2004 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
@@ -14,14 +16,15 @@ package org.eclipse.birt.build;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Iterator;
+
 import org.dom4j.Document;
-import org.dom4j.io.SAXReader;
 import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 
 /**
- * 
+ *
  * @author Farrah
- * 
+ *
  *         Generate error/failure summary according into
  *         unitTestReport.properties Properties format
  *         pluginId.failure/error=<count> eg:
@@ -75,8 +78,9 @@ public class ParseCompileSummary {
 
 		for (i = 0; i < reportCount; i++) {
 			File ResultFileFolder = xmlReports[i];
-			if (ResultFileFolder.isFile())
+			if (ResultFileFolder.isFile()) {
 				continue;
+			}
 			File[] files = ResultFileFolder.listFiles(new SuffixFileFilter(".xml"));
 			/* read junit test reports */
 			PluginName = ResultFileFolder.getName();

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ public class ConfigVariableHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of configuration variable.
-	 * 
+	 *
 	 * @param valueHandle the value handle for configuration variable list of one
 	 *                    property
 	 * @param index       the position of this configuration variable in the list
@@ -36,7 +39,7 @@ public class ConfigVariableHandle extends StructureHandle {
 
 	/**
 	 * Returns the variable name.
-	 * 
+	 *
 	 * @return the variable name
 	 */
 
@@ -46,7 +49,7 @@ public class ConfigVariableHandle extends StructureHandle {
 
 	/**
 	 * Sets the variable name.
-	 * 
+	 *
 	 * @param name the name to set
 	 */
 
@@ -56,7 +59,7 @@ public class ConfigVariableHandle extends StructureHandle {
 
 	/**
 	 * Returns the variable value.
-	 * 
+	 *
 	 * @return the variable value
 	 */
 
@@ -66,7 +69,7 @@ public class ConfigVariableHandle extends StructureHandle {
 
 	/**
 	 * Sets the variable value.
-	 * 
+	 *
 	 * @param value the value to set
 	 */
 

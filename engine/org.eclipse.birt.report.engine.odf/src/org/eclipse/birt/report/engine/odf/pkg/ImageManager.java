@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +40,7 @@ public class ImageManager {
 
 	public ImageManager(Package pkg) {
 		this.pkg = pkg;
-		images = new HashMap<String, ImageEntry>();
+		images = new HashMap<>();
 		lastId = 0;
 	}
 
@@ -91,15 +94,9 @@ public class ImageManager {
 		if (data == null || data.length == 0) {
 			return false;
 		}
-		OutputStream out = null;
-		try {
-			out = entry.getOutputStream();
+		try (OutputStream out = entry.getOutputStream()) {
 			out.write(data);
 			pkg.addEntry(entry);
-		} finally {
-			if (out != null) {
-				out.close();
-			}
 		}
 		return false;
 	}
@@ -133,7 +130,7 @@ public class ImageManager {
 	}
 
 	static {
-		Map<String, String> mimeToExtension = new HashMap<String, String>();
+		Map<String, String> mimeToExtension = new HashMap<>();
 		mimeToExtension.put("image/gif", "gif"); //$NON-NLS-1$//$NON-NLS-2$
 		mimeToExtension.put("image/x-png", "png"); //$NON-NLS-1$//$NON-NLS-2$
 		mimeToExtension.put("image/png", "png"); //$NON-NLS-1$//$NON-NLS-2$
@@ -143,7 +140,7 @@ public class ImageManager {
 		mimeToExtension.put("image/x-ms-bmp", "bmp"); //$NON-NLS-1$//$NON-NLS-2$
 		mimeToExtension.put("image/svg+xml", "svg"); //$NON-NLS-1$//$NON-NLS-2$
 
-		Map<String, String> extensionToMime = new HashMap<String, String>();
+		Map<String, String> extensionToMime = new HashMap<>();
 		for (Map.Entry<String, String> ext : mimeToExtension.entrySet()) {
 			extensionToMime.put(ext.getValue(), ext.getKey());
 		}

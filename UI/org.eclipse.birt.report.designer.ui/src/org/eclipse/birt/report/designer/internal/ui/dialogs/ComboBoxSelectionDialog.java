@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * Base class for ComboSelectDialog
- * 
+ *
  */
 public class ComboBoxSelectionDialog extends Dialog {
 
@@ -41,7 +44,7 @@ public class ComboBoxSelectionDialog extends Dialog {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parentShell
 	 * @param shellTitle
 	 * @param labelText
@@ -59,7 +62,7 @@ public class ComboBoxSelectionDialog extends Dialog {
 
 	/**
 	 * Returns selected string value.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getSelectedString() {
@@ -71,6 +74,7 @@ public class ComboBoxSelectionDialog extends Dialog {
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		getShell().setText(fShellTitle);
 
@@ -99,6 +103,7 @@ public class ComboBoxSelectionDialog extends Dialog {
 		combo.setVisibleItemCount(30);
 		combo.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fSelection = combo.getItem(combo.getSelectionIndex());
 			}
@@ -112,8 +117,9 @@ public class ComboBoxSelectionDialog extends Dialog {
 		for (int i = 0; i < fAllowedStrings.length; i++) {
 			max = Math.max(max, fAllowedStrings[i].length());
 		}
-		if (max < 20)
+		if (max < 20) {
 			max = 20;
+		}
 		return max;
 	}
 

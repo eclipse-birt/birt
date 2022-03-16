@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +21,7 @@ public class AxisProcessor {
 	/**
 	 * Each element of naxis is the start point of each column, indexed by colId.
 	 */
-	private List<Integer> columnCoordinates = new ArrayList<Integer>();
+	private List<Integer> columnCoordinates = new ArrayList<>();
 
 	public AxisProcessor() {
 		addCoordinate(0);
@@ -49,7 +52,7 @@ public class AxisProcessor {
 
 	/**
 	 * Gets a subset of naxis.
-	 * 
+	 *
 	 * @param start
 	 * @param end
 	 * @return
@@ -71,7 +74,7 @@ public class AxisProcessor {
 	/**
 	 * It is not going to get the coordinate, but the colId relative to this
 	 * coordinate. Gets the colId of the given coordinate point
-	 * 
+	 *
 	 * @param value the coordinate point
 	 * @return the colId
 	 */

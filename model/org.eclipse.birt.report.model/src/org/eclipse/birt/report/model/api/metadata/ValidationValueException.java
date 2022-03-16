@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +37,7 @@ public class ValidationValueException extends PropertyValueException {
 	/**
 	 * Constructs an exception given an invalid value, error code and the property
 	 * type constants.
-	 * 
+	 *
 	 * @param value    The invalid value.
 	 * @param errCode  description of the problem
 	 * @param dataType the parameter data type
@@ -48,15 +51,17 @@ public class ValidationValueException extends PropertyValueException {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
+	@Override
 	public String getLocalizedMessage() {
 		String value = ""; //$NON-NLS-1$
 
-		if (invalidValue != null)
+		if (invalidValue != null) {
 			value = invalidValue.toString();
+		}
 
 		if (sResourceKey == DESIGN_EXCEPTION_INVALID_VALUE) {
 			return ModelMessages.getMessage(sResourceKey, new String[] { value, this.dataType });

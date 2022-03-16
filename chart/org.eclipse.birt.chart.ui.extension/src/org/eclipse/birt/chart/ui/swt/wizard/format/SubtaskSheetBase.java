@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -26,7 +29,7 @@ import org.eclipse.swt.widgets.Control;
 
 /**
  * UI constants for chart builder
- * 
+ *
  */
 public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardContext<C>> implements ISubtaskSheet {
 
@@ -48,12 +51,14 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 		super();
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		cmpContent = new Composite(parent, SWT.NONE);
 		FillLayout fillLayout = new FillLayout();
 		cmpContent.setLayout(fillLayout);
 	}
 
+	@Override
 	public Object onHide() {
 		if (cmpContent != null) {
 			cmpContent.dispose();
@@ -61,6 +66,7 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 		return getContext();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void onShow(Object context, Object container) {
 		this.context = (CX) context;
@@ -87,6 +93,7 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 		this.wizard = wizard;
 	}
 
+	@Override
 	public void setIndex(int index) {
 		subtaskIndex = index;
 	}
@@ -95,6 +102,7 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 		return subtaskIndex;
 	}
 
+	@Override
 	public void setParentTask(ITask parentTask) {
 		this.parentTask = parentTask;
 	}
@@ -109,18 +117,22 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 		}
 	}
 
+	@Override
 	public void setNodePath(String nodePath) {
 		this.sNodePath = nodePath;
 	}
 
+	@Override
 	public String getNodePath() {
 		return sNodePath;
 	}
 
+	@Override
 	public void dispose() {
 		// To be overridden
 	}
 
+	@Override
 	public Control getControl() {
 		return cmpContent;
 	}
@@ -128,6 +140,8 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
+	@Deprecated
+	@Override
 	public String getDescription() {
 		// TODO Auto-generated method stub
 		return null;
@@ -136,6 +150,8 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
+	@Deprecated
+	@Override
 	public String getErrorMessage() {
 		// TODO Auto-generated method stub
 		return null;
@@ -144,6 +160,8 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
+	@Deprecated
+	@Override
 	public Image getImage() {
 		// TODO Auto-generated method stub
 		return null;
@@ -152,11 +170,14 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
+	@Deprecated
+	@Override
 	public String getMessage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public String getTitle() {
 		return this.sTitle;
 	}
@@ -164,6 +185,8 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
+	@Deprecated
+	@Override
 	public void performHelp() {
 		// TODO Auto-generated method stub
 
@@ -172,6 +195,8 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
+	@Deprecated
+	@Override
 	public void setDescription(String description) {
 		// TODO Auto-generated method stub
 
@@ -180,24 +205,30 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
+	@Deprecated
+	@Override
 	public void setImageDescriptor(ImageDescriptor image) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setTitle(String title) {
 		this.sTitle = title;
 	}
 
+	@Override
 	public void setVisible(boolean visible) {
 		getControl().setVisible(visible);
 	}
 
+	@Override
 	public boolean attachPopup(String popupID) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public boolean detachPopup() {
 		return false;
 	}

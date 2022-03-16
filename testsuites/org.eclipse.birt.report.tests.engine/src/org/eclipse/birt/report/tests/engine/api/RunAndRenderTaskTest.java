@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine.api;
@@ -27,6 +30,7 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  */
 public class RunAndRenderTaskTest extends EngineCase {
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -34,6 +38,7 @@ public class RunAndRenderTaskTest extends EngineCase {
 		copyResource_INPUT("pages9.rptdesign", "pages9.rptdesign");
 	}
 
+	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
 		removeResource();
@@ -148,6 +153,7 @@ public class RunAndRenderTaskTest extends EngineCase {
 			runTask = task;
 		}
 
+		@Override
 		public void run() {
 			try {
 				Thread.currentThread().sleep(500);
@@ -172,6 +178,7 @@ public class RunAndRenderTaskTest extends EngineCase {
 			runTask = task;
 		}
 
+		@Override
 		public void run() {
 			try {
 				Thread.currentThread().sleep(500);

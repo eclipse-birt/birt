@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -31,20 +34,20 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * Paste action and insert copied column action is highlight. Insert Copied
  * Action: we call:
- * 
+ *
  * <pre>
  *        TableHandle.canInsertAndPasteColumn( ColumnBandData data, int
  *        columnIndex)
  * </pre>
- * 
+ *
  * to check whether the copied column can be inserted and pasted. Paste Action:
  * we call
- * 
+ *
  * <pre>
  *        TableHandle.canPasteColumn( ColumnBandData data, int
  *        columnIndex,boolean inForce )
  * </pre>
- * 
+ *
  * to check whether the copied column can be pasted. These two functions both
  * return true, so I think the two functions have errors,
  * <p>
@@ -58,6 +61,7 @@ public class Regression_151960 extends BaseTestCase {
 
 	private final static String REPORT = "regression_151960.xml"; //$NON-NLS-1$
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -65,6 +69,7 @@ public class Regression_151960 extends BaseTestCase {
 		copyInputToFile(INPUT_FOLDER + "/" + REPORT);
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}

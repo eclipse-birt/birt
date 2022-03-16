@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -33,23 +45,27 @@ public class TextSection extends Section {
 
 	private int width = -1;
 
+	@Override
 	public void createSection() {
 		getLabelControl(parent);
 		getTextControl(parent);
 		getGridPlaceholder(parent);
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) textField.getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - 1 - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 1 - placeholder;
+		}
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillText;
+		}
 
 		if (height > -1) {
 			gd.heightHint = height;
@@ -92,14 +108,17 @@ public class TextSection extends Section {
 	protected TextPropertyDescriptor getTextControl(Composite parent) {
 		if (textField == null) {
 			textField = DescriptorToolkit.createTextPropertyDescriptor(isFormStyle);
-			if (getProvider() != null)
+			if (getProvider() != null) {
 				textField.setDescriptorProvider(getProvider());
-			if (style != -1)
+			}
+			if (style != -1) {
 				textField.setStyle(style);
+			}
 			textField.createControl(parent);
 			textField.getControl().setLayoutData(new GridData());
 			textField.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					textField = null;
 				}
@@ -134,11 +153,14 @@ public class TextSection extends Section {
 		}
 	}
 
+	@Override
 	public void load() {
-		if (textField != null && !textField.getControl().isDisposed())
+		if (textField != null && !textField.getControl().isDisposed()) {
 			textField.load();
+		}
 	}
 
+	@Override
 	public void reset() {
 		if (textField != null && !textField.getControl().isDisposed()) {
 			textField.reset();
@@ -153,10 +175,12 @@ public class TextSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (textField != null)
+		if (textField != null) {
 			textField.setDescriptorProvider(provider);
+		}
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		textField.setInput(input);
@@ -188,22 +212,30 @@ public class TextSection extends Section {
 		this.height = height;
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (textField != null)
+		}
+		if (textField != null) {
 			textField.setHidden(isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (textField != null)
+		}
+		if (textField != null) {
 			textField.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 
 	public int getStyle() {

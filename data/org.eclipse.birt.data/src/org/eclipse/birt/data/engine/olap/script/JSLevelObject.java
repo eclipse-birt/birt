@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,12 +24,12 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 /**
- * 
+ *
  */
 
 public class JSLevelObject extends ScriptableObject {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private DimensionCursor cursor;
@@ -44,14 +47,17 @@ public class JSLevelObject extends ScriptableObject {
 				break;
 			}
 		}
-		if (this.displayName == null)
+		if (this.displayName == null) {
 			this.displayName = this.levelName;
+		}
 	}
 
+	@Override
 	public String getClassName() {
 		return "JSLevelObject";
 	}
 
+	@Override
 	public Object getDefaultValue(Class hint) {
 		return this.getKeyValue();
 	}
@@ -68,10 +74,12 @@ public class JSLevelObject extends ScriptableObject {
 	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
 	 * org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	public Object get(String name, Scriptable start) {
 		try {
-			if (this.displayName.equals(name))
+			if (this.displayName.equals(name)) {
 				return this.cursor.getObject(OlapExpressionUtil.getAttributeColumnName(levelName, this.displayName));
+			}
 			return this.cursor.getObject(OlapExpressionUtil.getAttributeColumnName(levelName, name));
 		} catch (OLAPException e) {
 			throw new RuntimeException(new DataException(e.getLocalizedMessage()));

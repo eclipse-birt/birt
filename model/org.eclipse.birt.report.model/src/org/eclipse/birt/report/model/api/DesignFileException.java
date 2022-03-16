@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +35,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * <dd>Design file is opened with semantic error.
  * <ul>
  * </ul>
- * 
+ *
  * @see ErrorDetail
  */
 
@@ -48,7 +51,7 @@ public class DesignFileException extends ModelException {
 	 * The list containing errors encountered when opening the design file.
 	 */
 
-	private List<Exception> exceptionList = new ArrayList<Exception>();
+	private List<Exception> exceptionList = new ArrayList<>();
 
 	/**
 	 * The file name with the error.
@@ -91,7 +94,7 @@ public class DesignFileException extends ModelException {
 	/**
 	 * Constructs a <code>DesignFileException</code> with the given design filename
 	 * and the specified cause. It is for the exception thrown by SAX.
-	 * 
+	 *
 	 * @param fileName design file name.
 	 * @param e        exception to wrap.
 	 */
@@ -106,7 +109,7 @@ public class DesignFileException extends ModelException {
 	/**
 	 * Constructs a <code>DesignFileException</code> with the given design filename
 	 * and a list of errors. Used when syntax error is found when parsing.
-	 * 
+	 *
 	 * @param fileName design file name.
 	 * @param errList  exception list, each of them is the syntax error.
 	 */
@@ -122,12 +125,12 @@ public class DesignFileException extends ModelException {
 	 * Constructs a <code>DesignFileException</code> with the given design filename,
 	 * a list of errors and the new exception to add. Used when syntax error is
 	 * found when parsing.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param fileName design file name.
 	 * @param errList  exception list, each of which is the syntax error.
 	 * @param ex       the exception to add
-	 * 
+	 *
 	 */
 
 	public DesignFileException(String fileName, List<? extends Exception> errList, Exception ex) {
@@ -141,12 +144,12 @@ public class DesignFileException extends ModelException {
 	/**
 	 * Returns the error list. Each item in the list is an instance of <code>
 	 * ErrorDetail</code>.
-	 * 
+	 *
 	 * @return the error list.
 	 */
 
 	public List<ErrorDetail> getErrorList() {
-		List<ErrorDetail> errorList = new ArrayList<ErrorDetail>();
+		List<ErrorDetail> errorList = new ArrayList<>();
 		Iterator<Exception> iter = exceptionList.iterator();
 		while (iter.hasNext()) {
 			Exception e = iter.next();
@@ -160,7 +163,7 @@ public class DesignFileException extends ModelException {
 	/**
 	 * Returns the exception list. Each item in the list is an instance of
 	 * <code>Exception</code>.
-	 * 
+	 *
 	 * @return the exception list.
 	 */
 
@@ -170,7 +173,7 @@ public class DesignFileException extends ModelException {
 
 	/**
 	 * Returns the design file name.
-	 * 
+	 *
 	 * @return the design file name.
 	 */
 
@@ -180,13 +183,15 @@ public class DesignFileException extends ModelException {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.exception.BirtException#getLocalizedMessage()
 	 */
 
+	@Override
 	public String getLocalizedMessage() {
-		if (sResourceKey == null)
+		if (sResourceKey == null) {
 			return ""; //$NON-NLS-1$
+		}
 
 		return ModelMessages.getMessage(sResourceKey);
 
@@ -194,10 +199,11 @@ public class DesignFileException extends ModelException {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getMessage()
 	 */
 
+	@Override
 	public String getMessage() {
 		return getLocalizedMessage();
 	}
@@ -207,11 +213,11 @@ public class DesignFileException extends ModelException {
 	 * SYNTAX_ERROR or INVALID_XML, this method checks all errors in the
 	 * <code>errorList</code> and assemble them into a string. The return string is
 	 * assembled in the ways:
-	 * 
+	 *
 	 * <table border="1">
 	 * <th width="20%">Error Type</th>
 	 * <th width="40%">Message</th>
-	 * 
+	 *
 	 * <tr>
 	 * <td>SYNTAX_ERROR and INVALID_XML</td>
 	 * <td><code>[errorType]</code>- [numOfErrors] errors found. <br>
@@ -220,25 +226,26 @@ public class DesignFileException extends ModelException {
 	 * ... <br>
 	 * </td>
 	 * </tr>
-	 * 
+	 *
 	 * <tr>
 	 * <td>SEMANTIC_ERROR</td>
 	 * <td>Impossible to occur.</td>
 	 * </tr>
-	 * 
+	 *
 	 * </table>
-	 * 
+	 *
 	 * Note output message are locale independent. ONLY for debugging, not
 	 * user-visible. Debugging messages are defined to be in English.
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 * @see ErrorDetail#toString()
 	 * @see #getLocalizedMessage()
-	 * 
+	 *
 	 */
 
+	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		sb.append(sResourceKey);
 		sb.append(" - "); //$NON-NLS-1$

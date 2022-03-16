@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -31,6 +31,7 @@ public abstract class PDFInlineStackingLM extends PDFStackingLM implements IInli
 
 	protected List children = new ArrayList();
 
+	@Override
 	public List getChildren() {
 		return children;
 	}
@@ -45,6 +46,7 @@ public abstract class PDFInlineStackingLM extends PDFStackingLM implements IInli
 		this.child = child;
 	}
 
+	@Override
 	protected void cancelChildren() throws BirtException {
 		for (int i = 0; i < this.children.size(); i++) {
 			ILayoutManager child = (ILayoutManager) children.get(i);
@@ -52,10 +54,12 @@ public abstract class PDFInlineStackingLM extends PDFStackingLM implements IInli
 		}
 	}
 
+	@Override
 	protected boolean hasNextChild() {
 		return true;
 	}
 
+	@Override
 	public void autoPageBreak() {
 		for (int i = 0; i < children.size(); i++) {
 			PDFAbstractLM childLM = (PDFAbstractLM) children.get(i);
@@ -65,6 +69,7 @@ public abstract class PDFInlineStackingLM extends PDFStackingLM implements IInli
 		submitRoot();
 	}
 
+	@Override
 	protected boolean clearCache() {
 		return true;
 	}
@@ -102,7 +107,7 @@ public abstract class PDFInlineStackingLM extends PDFStackingLM implements IInli
 
 	/**
 	 * Calculates the max baseline, and update the root height if necessary.
-	 * 
+	 *
 	 * @return the max baseline.
 	 */
 	private int getMaxBaseLine() {

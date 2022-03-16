@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  * Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -16,7 +18,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
@@ -101,14 +102,14 @@ public class BasePaletteFactory {
 
 	/**
 	 * Creates default tools category, which include selection and marquee tools
-	 * 
+	 *
 	 * @param root the root
 	 * @return PaletteContainer contains default tools
 	 */
 	protected static PaletteContainer createControlGroup(PaletteRoot root) {
 		PaletteGroup controlGroup = new PaletteGroup(PALETTE_GROUP_TEXT);
 
-		List<ToolEntry> entries = new ArrayList<ToolEntry>();
+		List<ToolEntry> entries = new ArrayList<>();
 
 		ToolEntry tool = new PanningSelectionToolEntry(POINTER_SELECT_LABEL, TOOL_TIP_POINTER_SELECT);
 		entries.add(tool);
@@ -128,10 +129,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * IToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseUp() {
 			CreateRequest request = getRequest();
 			if (IReportElementConstants.REPORT_ELEMENT_TABLE.equalsIgnoreCase((String) request.getNewObjectType())) {
@@ -216,10 +218,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseDown() {
 			return false;
 		}
@@ -232,10 +235,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * IToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseUp() {
 			CreateRequest request = getRequest();
 			if (IReportElementConstants.REPORT_ELEMENT_DATA.equalsIgnoreCase((String) request.getNewObjectType())) {
@@ -261,10 +265,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseDown() {
 			// TODO Auto-generated method stub
 			return false;
@@ -279,28 +284,12 @@ public class BasePaletteFactory {
 		// private List dataSetList = new ArrayList( );
 
 		/*
-		 * get target design element handle
-		 */
-		private DesignElementHandle getDesignElementHandle() {
-
-			Object model = getTargetEditPart().getModel();
-			DesignElementHandle desginElementHandle = null;
-			if (model instanceof DesignElementHandle) {
-				desginElementHandle = (DesignElementHandle) (model);
-			} else if (model instanceof ListBandProxy) {
-				desginElementHandle = ((ListBandProxy) (model)).getSlotHandle().getElementHandle();
-
-			}
-
-			return desginElementHandle;
-		}
-
-		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * IToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseUp() {
 			// CreateRequest request = getRequest( );
 			//
@@ -334,10 +323,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseDown() {
 			// TODO Auto-generated method stub
 			return false;
@@ -346,6 +336,7 @@ public class BasePaletteFactory {
 
 	public static class AutoTextToolExtends extends AbstractToolHandleExtends {
 
+		@Override
 		public boolean preHandleMouseUp() {
 			CreateRequest request = getRequest();
 
@@ -367,11 +358,12 @@ public class BasePaletteFactory {
 
 		} /*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 			 * AbstractToolHandleExtends#preHandleMouseDown()
 			 */
 
+		@Override
 		public boolean preHandleMouseDown() {
 			return false;
 		}
@@ -379,6 +371,7 @@ public class BasePaletteFactory {
 
 	public static class VariableToolExtends extends AbstractToolHandleExtends {
 
+		@Override
 		public boolean preHandleMouseUp() {
 			CreateRequest request = getRequest();
 			if (IReportElementConstants.AUTOTEXT_VARIABLE.equalsIgnoreCase((String) request.getNewObjectType())) {
@@ -404,10 +397,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseDown() {
 			return false;
 		}
@@ -420,13 +414,14 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
 
 		private static final String DEFAULT_AUTHOR = Messages.getString("TextExtendsTools.Message.DefaultAuthor"); //$NON-NLS-1$
 
+		@Override
 		public boolean preHandleMouseUp() {
 			String type = (String) getRequest().getNewObjectType();
 			String text = null;
@@ -505,11 +500,12 @@ public class BasePaletteFactory {
 			return super.preHandleMouseUp();
 		} /*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 			 * AbstractToolHandleExtends#preHandleMouseDown()
 			 */
 
+		@Override
 		public boolean preHandleMouseDown() {
 			return false;
 		}
@@ -520,6 +516,7 @@ public class BasePaletteFactory {
 	 */
 	public static class LabelToolExtends extends AbstractToolHandleExtends {
 
+		@Override
 		public boolean preHandleMouseUp() {
 			CreateRequest request = getRequest();
 			if (IReportElementConstants.REPORT_ELEMENT_LABEL.equalsIgnoreCase((String) request.getNewObjectType())) {
@@ -540,10 +537,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseDown() {
 			return false;
 		}
@@ -554,6 +552,7 @@ public class BasePaletteFactory {
 	 */
 	public static class TextDataToolExtends extends AbstractToolHandleExtends {
 
+		@Override
 		public boolean preHandleMouseUp() {
 			CreateRequest request = getRequest();
 			if (IReportElementConstants.REPORT_ELEMENT_TEXTDATA.equalsIgnoreCase((String) request.getNewObjectType())) {
@@ -581,10 +580,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseDown() {
 			return false;
 		}
@@ -597,10 +597,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * IToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseUp() {
 			CreateRequest request = getRequest();
 			if (IReportElementConstants.REPORT_ELEMENT_LIST.equalsIgnoreCase((String) request.getNewObjectType())) {
@@ -619,10 +620,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseDown() {
 			return false;
 		}
@@ -635,10 +637,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * IToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseUp() {
 			ModuleHandle reportDesignHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
 			// ElementFactory factory = reportDesignHandle.getElementFactory( );
@@ -728,10 +731,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseDown() {
 			return false;
 		}
@@ -744,10 +748,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * IToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseUp() {
 			if (getRequest().getNewObjectType() instanceof DataSetHandle) {
 
@@ -774,8 +779,9 @@ public class BasePaletteFactory {
 						}
 					}
 					Object newHandle = InsertInLayoutUtil.performInsert(elementHandle, getTargetEditPart());
-					if (newHandle == null)
+					if (newHandle == null) {
 						return false;
+					}
 					setModel(newHandle);
 
 					return super.preHandleMouseUp();
@@ -788,10 +794,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseDown() {
 			return false;
 		}
@@ -804,10 +811,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * IToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseUp() {
 			if (getRequest().getNewObjectType() instanceof DimensionHandle) {
 
@@ -828,8 +836,9 @@ public class BasePaletteFactory {
 				// Object newHandle = InsertInLayoutUtil.performInsert(
 				// elementHandle,
 				// getTargetEditPart( ) );
-				if (elementHandle == null)
+				if (elementHandle == null) {
 					return false;
+				}
 				setModel(elementHandle);
 
 				return super.preHandleMouseUp();
@@ -844,10 +853,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseDown() {
 			return false;
 		}
@@ -857,10 +867,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * IToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseUp() {
 			if (getRequest().getNewObjectType() instanceof MeasureHandle) {
 
@@ -881,8 +892,9 @@ public class BasePaletteFactory {
 				// Object newHandle = InsertInLayoutUtil.performInsert(
 				// elementHandle,
 				// getTargetEditPart( ) );
-				if (elementHandle == null)
+				if (elementHandle == null) {
 					return false;
+				}
 				setModel(elementHandle);
 
 				return super.preHandleMouseUp();
@@ -897,10 +909,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseDown() {
 			return false;
 		}
@@ -913,18 +926,20 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * IToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseUp() {
 			if (getRequest().getNewObjectType() instanceof DataSetItemModel
 					|| getRequest().getNewObjectType() instanceof ResultSetColumnHandle) {
 				try {
 					Object newHandle = InsertInLayoutUtil.performInsert(getRequest().getNewObject(),
 							getTargetEditPart());
-					if (newHandle == null)
+					if (newHandle == null) {
 						return false;
+					}
 
 					setModel(newHandle);
 					return super.preHandleMouseUp();
@@ -937,10 +952,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseDown() {
 			return false;
 		}
@@ -954,10 +970,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * IToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseUp() {
 			if (getRequest().getNewObjectType() instanceof ScalarParameterHandle) {
 				try {
@@ -968,8 +985,9 @@ public class BasePaletteFactory {
 					}
 
 					Object newHandle = InsertInLayoutUtil.performInsert(newObj, getTargetEditPart());
-					if (newHandle == null)
+					if (newHandle == null) {
 						return false;
+					}
 
 					setModel(newHandle);
 
@@ -983,10 +1001,11 @@ public class BasePaletteFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
 		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
+		@Override
 		public boolean preHandleMouseDown() {
 			return false;
 		}

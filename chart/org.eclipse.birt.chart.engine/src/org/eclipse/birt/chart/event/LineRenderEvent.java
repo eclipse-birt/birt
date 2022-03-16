@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -77,15 +80,17 @@ public class LineRenderEvent extends PrimitiveRenderEvent {
 	/**
 	 * @return Returns the line attributes.
 	 */
+	@Override
 	public final LineAttributes getLineAttributes() {
 		return lia;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#getBounds()
 	 */
+	@Override
 	public final Bounds getBounds() {
 		final double dMinX = Math.min(loStart.getX(), loEnd.getX());
 		final double dMaxX = Math.max(loStart.getX(), loEnd.getX());
@@ -96,9 +101,10 @@ public class LineRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
+	@Override
 	public PrimitiveRenderEvent copy() {
 		LineRenderEvent lre = new LineRenderEvent(source);
 		lre.setLineAttributes(goFactory.copyOf(lia));
@@ -117,31 +123,34 @@ public class LineRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart
 	 * .device.IDeviceRenderer)
 	 */
+	@Override
 	public void fill(IDeviceRenderer idr) throws ChartException {
 		draw(idr);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart
 	 * .device.IDeviceRenderer)
 	 */
+	@Override
 	public final void draw(IDeviceRenderer idr) throws ChartException {
 		idr.drawLine(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
 	 */
+	@Override
 	public void reset() {
 		this.loEnd = null;
 		this.loStart = null;

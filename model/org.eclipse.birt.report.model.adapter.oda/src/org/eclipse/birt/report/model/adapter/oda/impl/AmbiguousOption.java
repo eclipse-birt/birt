@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +24,7 @@ import org.eclipse.birt.report.model.adapter.oda.IAmbiguousResultSetNode;
 /**
  * Implements {@link IAmbiguousOption} to give out all the ambiguous information
  * when comparing data set design and data set handle.
- * 
+ *
  */
 
 class AmbiguousOption implements IAmbiguousOption {
@@ -37,13 +40,15 @@ class AmbiguousOption implements IAmbiguousOption {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IAmbiguousOption#
 	 * getAmbiguousParameters()
 	 */
+	@Override
 	public List<IAmbiguousParameterNode> getAmbiguousParameters() {
-		if (ambiguousParameters == null)
+		if (ambiguousParameters == null) {
 			return Collections.emptyList();
+		}
 		return ambiguousParameters;
 	}
 
@@ -53,13 +58,15 @@ class AmbiguousOption implements IAmbiguousOption {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IAmbiguousOption#
 	 * getAmbiguousResultSets()
 	 */
+	@Override
 	public List<IAmbiguousResultSetNode> getAmbiguousResultSets() {
-		if (ambiguousColumns == null)
+		if (ambiguousColumns == null) {
 			return Collections.emptyList();
+		}
 		return ambiguousColumns;
 	}
 

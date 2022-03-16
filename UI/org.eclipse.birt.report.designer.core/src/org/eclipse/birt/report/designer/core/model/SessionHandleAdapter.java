@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,41 +62,49 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 	/**
 	 * @deprecated not used anymore
 	 */
+	@Deprecated
 	public static final int UNKNOWFILE = -1;
 	/**
 	 * @deprecated not used anymore
 	 */
+	@Deprecated
 	public static final int DESIGNEFILE = 0;
 	/**
 	 * @deprecated not used anymore
 	 */
+	@Deprecated
 	public static final int LIBRARYFILE = 1;
 	/**
 	 * @deprecated not used anymore
 	 */
+	@Deprecated
 	public static final int TEMPLATEFILE = 2;
 
 	private int type = DESIGNEFILE;
 
 	private IWindowListener pageListener = new IWindowListener() {
 
+		@Override
 		public void windowActivated(IWorkbenchWindow window) {
 		}
 
+		@Override
 		public void windowClosed(IWorkbenchWindow window) {
 			moduleHandleMap.remove(window);
 		}
 
+		@Override
 		public void windowDeactivated(IWorkbenchWindow window) {
 
 		}
 
+		@Override
 		public void windowOpened(IWorkbenchWindow window) {
 		}
 	};
 
 	// fix bug when open in new window.
-	private Map<IWorkbenchWindow, ModuleHandle> moduleHandleMap = new HashMap<IWorkbenchWindow, ModuleHandle>();
+	private Map<IWorkbenchWindow, ModuleHandle> moduleHandleMap = new HashMap<>();
 
 	/**
 	 * constructor Mark it to private to avoid new opeartion.
@@ -104,11 +115,12 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 
 	/**
 	 * Get file type
-	 * 
+	 *
 	 * @return File type
-	 * 
+	 *
 	 * @deprecated not used any more
 	 */
+	@Deprecated
 	public int getFileType() {
 		return type;
 	}
@@ -120,7 +132,7 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 
 	/**
 	 * Gets singleton instance method
-	 * 
+	 *
 	 * @return return SessionHandleAdapter instance
 	 */
 
@@ -132,15 +144,16 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 	}
 
 	public SessionHandle getSessionHandle(boolean useThreadLocal) {
-		if (useThreadLocal)
+		if (useThreadLocal) {
 			return getThreadLocalSessionHandle();
-		else
+		} else {
 			return getSessionHandle();
+		}
 	}
 
 	/**
 	 * Get session handle
-	 * 
+	 *
 	 * @return Session handle
 	 */
 
@@ -177,7 +190,7 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 
 	/**
 	 * Open a design/library file.
-	 * 
+	 *
 	 * @param fileName The file name
 	 * @param input    The input stream
 	 * @throws DesignFileException
@@ -207,7 +220,7 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 
 	/**
 	 * Open a design/library file.
-	 * 
+	 *
 	 * @param fileName The file name
 	 * @param input    The input stream
 	 * @throws DesignFileException
@@ -240,9 +253,7 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 			masterPage = handle.getElementFactory().newSimpleMasterPage(null);
 			try {
 				handle.getMasterPages().add(masterPage);
-			} catch (ContentException e) {
-				// ignore
-			} catch (NameException e) {
+			} catch (ContentException | NameException e) {
 				// ignore
 			}
 		}
@@ -250,11 +261,12 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 
 	/**
 	 * Create an empty report design instance
-	 * 
+	 *
 	 * @return An empty report design instance
-	 * 
+	 *
 	 * @deprecated should handled by individual module counterpart.
 	 */
+	@Deprecated
 	public ModuleHandle creatReportDesign() {
 		return getSessionHandle().createDesign();
 	}
@@ -262,18 +274,20 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 	/**
 	 * @deprecated Always try find reprot handle in current context first. If have
 	 *             to use, use {@link #getModule()} instead.
-	 * 
+	 *
 	 * @return wrapped report design handle.
 	 */
+	@Deprecated
 	public ModuleHandle getReportDesignHandle() {
 		return getModule();
 	}
 
 	/**
 	 * @return Returns the active moudle in current session
-	 * 
+	 *
 	 * @deprecated It's better to find module from relevant context instead here.
 	 */
+	@Deprecated
 	public ModuleHandle getModule() {
 		if (model == null) {
 			IWorkbenchWindow activeWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -284,17 +298,18 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 
 	/**
 	 * Sets report design in current session.
-	 * 
+	 *
 	 * @param handle the model
 	 * @deprecated use {@link #setModule(ModuleHandle)} instead.
 	 */
+	@Deprecated
 	public void setReportDesignHandle(ModuleHandle handle) {
 		setModule(handle);
 	}
 
 	/**
 	 * Sets the active module in current session.
-	 * 
+	 *
 	 * @param handle
 	 */
 	public void setModule(ModuleHandle handle) {
@@ -313,9 +328,10 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 
 	/**
 	 * @return Returns command stack of current session.
-	 * 
+	 *
 	 * @deprecated use {@link #getCommandStack(ModuleHandle)}
 	 */
+	@Deprecated
 	public CommandStack getCommandStack() {
 		if (getReportDesignHandle() != null) {
 			return getReportDesignHandle().getCommandStack();
@@ -333,28 +349,31 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 
 	/**
 	 * Returns the first MasterPageHandle in current module
-	 * 
+	 *
 	 * @deprecated use {@link #getFirstMasterPageHandle(ModuleHandle)}
-	 * 
+	 *
 	 */
+	@Deprecated
 	public MasterPageHandle getMasterPageHandle() {
 		return getFirstMasterPageHandle(getReportDesignHandle());
 	}
 
 	/**
 	 * Returns the first master page handle in given module
-	 * 
+	 *
 	 * @deprecated use {@link #getFirstMasterPageHandle(ModuleHandle)}
 	 */
+	@Deprecated
 	public MasterPageHandle getMasterPageHandle(ModuleHandle handle) {
 		return getFirstMasterPageHandle(handle);
 	}
 
 	/**
 	 * @return Returns the first master page handle in given module
-	 * 
+	 *
 	 * @deprecated should be handled by individual module counterpart.
 	 */
+	@Deprecated
 	public MasterPageHandle getFirstMasterPageHandle(ModuleHandle handle) {
 		if (handle == null) {
 			return null;
@@ -374,7 +393,7 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 
 	/**
 	 * Returns the mediator associated with given report handle
-	 * 
+	 *
 	 * @param handle the model
 	 * @return corresponding mediator
 	 */
@@ -390,9 +409,10 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 
 	/**
 	 * @deprecated use {{@link #getMediator(ModuleHandle)}
-	 * 
+	 *
 	 * @return the current mediator
 	 */
+	@Deprecated
 	public IMediator getMediator() {
 		return getMediator(getReportDesignHandle());
 	}
@@ -400,16 +420,17 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 	/**
 	 * @param oldObj old model
 	 * @param newObj new model
-	 * 
+	 *
 	 * @deprecated use {@link #resetModule(ModuleHandle, ModuleHandle)} instead
 	 */
+	@Deprecated
 	public void resetReportDesign(ModuleHandle oldObj, ModuleHandle newObj) {
 		resetModule(oldObj, newObj);
 	}
 
 	/**
 	 * Resets the module in the mediator registry.
-	 * 
+	 *
 	 * @param oldObj
 	 * @param newObj
 	 */
@@ -419,7 +440,7 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 
 	/**
 	 * Clear the specified module handle
-	 * 
+	 *
 	 * @param handle The module handle
 	 */
 	public void clear(ModuleHandle handle) {
@@ -431,12 +452,13 @@ public class SessionHandleAdapter implements IMediatorStateConverter {
 		}
 	}
 
+	@Override
 	public IMediatorRequest convertStateToRequest(IMediatorState state) {
 		ReportRequest request = new ReportRequest(state.getSource(), state.getType());
 		if (state.getData() instanceof List) {
 			request.setSelectionObject((List) state.getData());
 		} else if (state.getData() != null) {
-			List<Object> lst = new ArrayList<Object>();
+			List<Object> lst = new ArrayList<>();
 			lst.add(state.getData());
 			request.setSelectionObject(lst);
 		}

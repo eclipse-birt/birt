@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ import org.xml.sax.Attributes;
 
 /**
  * This class parses the oda data source element.
- * 
+ *
  */
 
 public class OdaDataSourceState extends DataSourceState {
@@ -57,7 +60,7 @@ public class OdaDataSourceState extends DataSourceState {
 	/**
 	 * Constructs the oda data source state with the design parser handler, the
 	 * container element and the container slot of the oda data source.
-	 * 
+	 *
 	 * @param handler the design file parser handler
 	 */
 
@@ -68,11 +71,12 @@ public class OdaDataSourceState extends DataSourceState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		parseODADataSourceExtensionID(attrs, false);
 
@@ -81,10 +85,11 @@ public class OdaDataSourceState extends DataSourceState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
+	@Override
 	public AbstractParseState startElement(String tagName) {
 		int tagValue = tagName.toLowerCase().hashCode();
 		if (ParserSchemaConstants.PROPERTY_TAG == tagValue) {
@@ -96,8 +101,9 @@ public class OdaDataSourceState extends DataSourceState {
 		// if the extension id is OK, use normal procedure to parse the design
 		// file. Otherwise, use dummy state to parse.
 
-		if (isValidExtensionId)
+		if (isValidExtensionId) {
 			return super.startElement(tagName);
+		}
 
 		return ParseStateFactory.getInstance().createParseState(tagName, handler, element,
 				((OdaDummyProvider) provider).getContentTree());
@@ -105,7 +111,7 @@ public class OdaDataSourceState extends DataSourceState {
 
 	/**
 	 * Parse the attribute of "extensionId" for extendable element.
-	 * 
+	 *
 	 * @param attrs                 the SAX attributes object
 	 * @param extensionNameRequired whether extension name is required
 	 */
@@ -114,8 +120,9 @@ public class OdaDataSourceState extends DataSourceState {
 		String extensionID = getAttrib(attrs, DesignSchemaConstants.EXTENSION_ID_ATTRIB);
 
 		if (StringUtil.isBlank(extensionID)) {
-			if (!extensionNameRequired)
+			if (!extensionNameRequired) {
 				return;
+			}
 
 			SemanticError e = new SemanticError(element, SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION);
 			RecoverableError.dealMissingInvalidExtension(handler, e);
@@ -123,8 +130,9 @@ public class OdaDataSourceState extends DataSourceState {
 			return;
 		}
 		if (handler.versionNumber < VersionUtil.VERSION_3_0_0) {
-			if (OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase(extensionID))
+			if (OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase(extensionID)) {
 				extensionID = NEW_FLAT_FILE_ID;
+			}
 		}
 
 		setProperty(IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID);
@@ -133,8 +141,9 @@ public class OdaDataSourceState extends DataSourceState {
 
 		provider = ((OdaDataSource) element).getProvider();
 
-		if (provider == null)
+		if (provider == null) {
 			return;
+		}
 
 		if (provider instanceof OdaDummyProvider) {
 			SemanticError e = new SemanticError(element, new String[] { extensionID },

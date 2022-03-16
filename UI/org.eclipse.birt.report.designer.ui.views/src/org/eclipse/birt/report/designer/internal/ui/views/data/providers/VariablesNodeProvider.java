@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -13,6 +16,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.data.providers;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
@@ -37,7 +41,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ *
  */
 
 public class VariablesNodeProvider extends DefaultNodeProvider {
@@ -60,8 +64,9 @@ public class VariablesNodeProvider extends DefaultNodeProvider {
 					.createProcessor(ReportDesignConstants.VARIABLE_ELEMENT).createElement(null);
 			VariableDialog dialog = new VariableDialog(Messages.getString("VariablesNodeProvider.Dialog.Title"), //$NON-NLS-1$
 					designHandle, variable);
-			if (dialog.open() == Dialog.OK)
+			if (dialog.open() == Dialog.OK) {
 				designHandle.getPropertyHandle(IReportDesignModel.PAGE_VARIABLES_PROP).add(variable);
+			}
 			isDone = true;
 			createElement = variable;
 			return true;
@@ -87,35 +92,40 @@ public class VariablesNodeProvider extends DefaultNodeProvider {
 
 	}
 
+	@Override
 	public Object[] getChildren(Object model) {
-		if (model instanceof PropertyHandle)
+		if (model instanceof PropertyHandle) {
 			return ((PropertyHandle) model).getListValue().toArray();
+		}
 		return super.getChildren(model);
 	}
 
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry for the given object and adds them to the menu
-	 * 
+	 *
 	 * @param menu   the menu
 	 * @param object the object
 	 */
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		menu.add(new AddVariableAction(object));
 
 		super.createContextMenu(sourceViewer, object, menu);
 	}
 
+	@Override
 	public String getNodeDisplayName(Object object) {
 		return Messages.getString("VariablesNodeProvider.NodeName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
 	 * #createElement(java.lang.String)
 	 */
+	@Override
 	protected DesignElementHandle createElement(String type) throws Exception {
 		DesignElementHandle handle = super.createElement(type);
 		BaseTitleAreaDialog dialog = null;
@@ -131,9 +141,7 @@ public class VariablesNodeProvider extends DefaultNodeProvider {
 			// required default value
 			((ParameterDialog) dialog).setInput(handle);
 		}
-		if (dialog == null)
-			return null;
-		if (dialog.open() == Dialog.CANCEL) {
+		if ((dialog == null) || (dialog.open() == Dialog.CANCEL)) {
 			return null;
 		}
 
@@ -142,11 +150,12 @@ public class VariablesNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName
 	 * (java.lang.Object)
 	 */
+	@Override
 	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_NODE_VARIABLES;
 	}

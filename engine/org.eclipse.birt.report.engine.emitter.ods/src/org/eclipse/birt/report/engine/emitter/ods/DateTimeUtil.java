@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +20,7 @@ import com.ibm.icu.util.ULocale;
 
 public class DateTimeUtil {
 
-	static Map<ULocale, String> locale2Code = new HashMap<ULocale, String>();
+	static Map<ULocale, String> locale2Code = new HashMap<>();
 
 	static {
 		locale2Code.put(new ULocale("sq", ""), "[$-41C]");

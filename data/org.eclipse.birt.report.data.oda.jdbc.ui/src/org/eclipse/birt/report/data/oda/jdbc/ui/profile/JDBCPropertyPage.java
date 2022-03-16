@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2005, 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -22,7 +25,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * jdbc property page, used in editor dialog
- * 
+ *
  * @author Administrator
  *
  */
@@ -43,27 +46,31 @@ public class JDBCPropertyPage extends DataSourceEditorPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.profile.wizards.
 	 * DataSourceEditorPage#collectCustomProperties(java.util.Properties)
 	 */
+	@Override
 	public Properties collectCustomProperties(Properties profileProps) {
-		if (m_pageHelper == null)
+		if (m_pageHelper == null) {
 			return profileProps;
+		}
 
 		return m_pageHelper.collectCustomProperties(profileProps);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.profile.wizards.
 	 * DataSourceEditorPage#createAndInitCustomControl(org.eclipse.swt.widgets.
 	 * Composite, java.util.Properties)
 	 */
+	@Override
 	protected void createAndInitCustomControl(Composite parent, Properties profileProps) {
-		if (m_pageHelper == null)
+		if (m_pageHelper == null) {
 			m_pageHelper = new JDBCSelectionPageHelper(this);
+		}
 
 		Composite content = m_pageHelper.createCustomControl(parent);
 		// bidi_hcg: add "Bidi Settings..." button to "Edit Data Source dialog"
@@ -75,10 +82,11 @@ public class JDBCPropertyPage extends DataSourceEditorPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.
 	 * DataSourceEditorPageCore#refresh()
 	 */
+	@Override
 	public void refresh(Properties customConnectionProps) {
 		m_pageHelper.initCustomControl(customConnectionProps);
 

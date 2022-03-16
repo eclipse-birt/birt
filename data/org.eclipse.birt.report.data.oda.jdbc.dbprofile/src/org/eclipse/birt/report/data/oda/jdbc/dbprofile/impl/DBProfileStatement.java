@@ -1,14 +1,17 @@
 /**
  *************************************************************************
  * Copyright (c) 2008, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl;
@@ -42,31 +45,36 @@ public class DBProfileStatement extends Statement {
 	 * org.eclipse.birt.report.data.oda.jdbc.Statement#setProperty(java.lang.String,
 	 * java.lang.String)
 	 */
+	@Override
 	public void setProperty(String name, String value) throws OdaException {
-		if (name == null)
+		if (name == null) {
 			throw new NullPointerException(
 					Messages.bind(Messages.dBProfileStatement_nullPropertyNameArg, "setProperty( String, String )")); //$NON-NLS-1$
+		}
 
 		if (name.equals(PROP_PRIVATE_PARAMETERMETADATA)) {
 			if (value != null && value.length() > 0) {
-				m_paramNameMap = new HashMap<Integer, String>();
+				m_paramNameMap = new HashMap<>();
 
 				String conditionParams = value;
 
 				String params[] = conditionParams.split(CONST_PARAMS_DELIMITER);
 				for (int i = 0; i < params.length; i++) {
 					String[] posAndName = params[i].split(CONST_PARAM_NAME_DELIMITER);
-					if (posAndName.length == 2)
+					if (posAndName.length == 2) {
 						m_paramNameMap.put(Integer.valueOf(posAndName[0]), posAndName[1]);
+					}
 				}
 			}
-		} else
+		} else {
 			super.setProperty(name, value);
+		}
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#getParameterMetaData()
 	 */
+	@Override
 	public IParameterMetaData getParameterMetaData() throws OdaException {
 		IParameterMetaData metaData = super.getParameterMetaData();
 		return new ParameterMetaData(metaData, getParameterNameMap());

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +37,7 @@ public class FillUtil {
 
 	/**
 	 * Returns a darker color.
-	 * 
+	 *
 	 * @param fill
 	 * @return darker color
 	 */
@@ -62,7 +65,7 @@ public class FillUtil {
 
 	/**
 	 * Returns a darker fill.
-	 * 
+	 *
 	 * @param fill
 	 * @return darker color or image
 	 */
@@ -91,7 +94,7 @@ public class FillUtil {
 
 	/**
 	 * Returns a brighter color.
-	 * 
+	 *
 	 * @param fill
 	 * @return brighter color
 	 */
@@ -128,7 +131,7 @@ public class FillUtil {
 
 	/**
 	 * Returns a brighter fill.
-	 * 
+	 *
 	 * @param fill
 	 * @return brighter color or image
 	 */
@@ -167,7 +170,7 @@ public class FillUtil {
 	/**
 	 * Converts Fill to Gradient if possible, and changes gradient angle according
 	 * to chart direction. If Fill is Image type, just does nothing and returns.
-	 * 
+	 *
 	 * @param fill
 	 * @param bTransposed
 	 * @return Gradient Fill after conversion or original Image Fill
@@ -217,7 +220,7 @@ public class FillUtil {
 
 	/**
 	 * Creates Gradient fill by default.
-	 * 
+	 *
 	 * @param color color to create Gradient
 	 * @return default gradient
 	 */
@@ -260,7 +263,7 @@ public class FillUtil {
 
 	/**
 	 * The purpose of the Method is to make faster copy of Fill for rendering.
-	 * 
+	 *
 	 * @param src
 	 * @return fill copy
 	 */
@@ -270,7 +273,7 @@ public class FillUtil {
 
 	/**
 	 * Provides a distinct color as far as possible.
-	 * 
+	 *
 	 * @param paletteColor
 	 * @param paletteSize
 	 * @param index
@@ -310,7 +313,7 @@ public class FillUtil {
 	 * color of respective one in the first round. In the forth round, use the
 	 * brighter color of respective one in the second round. In the fifth round, use
 	 * the darker color of respective one in the third round. ...
-	 * 
+	 *
 	 * @param elPalette
 	 * @param index
 	 * @since 2.5
@@ -352,7 +355,7 @@ public class FillUtil {
 	 * Converts Fill if possible. If Fill is MultipleFill type, convert to
 	 * positive/negative Color according to the value. If not MultipleFill type,
 	 * return original fill for positive value, or negative fill for negative value.
-	 * 
+	 *
 	 * @param fill      Fill to convert
 	 * @param dValue    numeric value
 	 * @param fNegative Fill for negative value. Useless for positive value or
@@ -363,19 +366,17 @@ public class FillUtil {
 			if (fill instanceof MultipleFill) {
 				fill = goFactory.copyOf(((MultipleFill) fill).getFills().get(0));
 			}
-		} else {
-			if (fill instanceof MultipleFill) {
-				fill = goFactory.copyOf(((MultipleFill) fill).getFills().get(1));
-			} else if (fNegative != null) {
-				fill = fNegative;
-			}
+		} else if (fill instanceof MultipleFill) {
+			fill = goFactory.copyOf(((MultipleFill) fill).getFills().get(1));
+		} else if (fNegative != null) {
+			fill = fNegative;
 		}
 		return fill;
 	}
 
 	/**
 	 * Returns a color from various Fill.
-	 * 
+	 *
 	 * @param fill
 	 * @return color
 	 * @since 2.5.1
@@ -386,7 +387,7 @@ public class FillUtil {
 
 	/**
 	 * Returns a color from various Fill.
-	 * 
+	 *
 	 * @param fill
 	 * @param bSelBrighter , true if brighter color will be selected.
 	 * @return color

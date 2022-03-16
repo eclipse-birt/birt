@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -32,7 +35,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * Contains HeadStyleChooser
- * 
+ *
  */
 public class HeadStyleAttributeComposite extends Composite implements SelectionListener, Listener {
 
@@ -71,7 +74,7 @@ public class HeadStyleAttributeComposite extends Composite implements SelectionL
 
 	private void init() {
 		this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
-		vListeners = new Vector<Listener>();
+		vListeners = new Vector<>();
 	}
 
 	private void placeComponents() {
@@ -121,19 +124,21 @@ public class HeadStyleAttributeComposite extends Composite implements SelectionL
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
@@ -163,10 +168,11 @@ public class HeadStyleAttributeComposite extends Composite implements SelectionL
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		if (cmbHeadStyle != null && cmbHeadStyle.equals(event.widget)) {
 			fireValueChangedEvent(HeadStyleAttributeComposite.STYLE_CHANGED_EVENT,

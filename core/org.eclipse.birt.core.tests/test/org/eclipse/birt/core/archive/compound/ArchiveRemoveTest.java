@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.core.archive.compound;
 
@@ -15,11 +27,13 @@ public class ArchiveRemoveTest extends TestCase {
 	static final String ARCHIVE_FOLDER = "./utest/";
 	static final String ARCHIVE_FILE = ARCHIVE_FOLDER + "archive.rptdocument";
 
+	@Override
 	@Before
 	public void setUp() {
 		new File(ARCHIVE_FOLDER).mkdirs();
 	}
 
+	@Override
 	@After
 	public void tearDown() {
 		new File(ARCHIVE_FILE).delete();

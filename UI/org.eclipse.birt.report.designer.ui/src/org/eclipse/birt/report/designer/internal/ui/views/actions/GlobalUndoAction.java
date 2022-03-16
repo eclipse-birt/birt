@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,28 +30,31 @@ public class GlobalUndoAction extends GlobalStackAction {
 		super(GlobalActionFactory.UNDO, stack);
 	}
 
+	@Override
 	public void run() {
 		stack.undo();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalStackAction#
 	 * calculateEnabled()
 	 */
+	@Override
 	protected boolean calculateEnabled() {
 		return stack.canUndo();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalStackAction#
 	 * getDisplayLabel()
 	 */
+	@Override
 	protected String getDisplayLabel() {
 		String displayLabel = UNDO_LABEL;
 		if (!StringUtil.isBlank(stack.getUndoLabel())) {

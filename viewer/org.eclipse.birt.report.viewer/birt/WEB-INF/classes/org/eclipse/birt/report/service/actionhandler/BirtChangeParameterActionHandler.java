@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -14,6 +16,7 @@ package org.eclipse.birt.report.service.actionhandler;
 import java.io.ByteArrayOutputStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
@@ -35,7 +38,7 @@ public class BirtChangeParameterActionHandler extends AbstractChangeParameterAct
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param context
 	 * @param operation
 	 */
@@ -43,11 +46,13 @@ public class BirtChangeParameterActionHandler extends AbstractChangeParameterAct
 		super(context, operation, response);
 	}
 
+	@Override
 	protected void runReport() throws Exception {
 		BirtRunReportActionHandler handler = new BirtRunReportActionHandler(context, operation, response);
 		handler.__execute();
 	}
 
+	@Override
 	protected void doRenderPage(InputOptions options, String docName, long pageNumber, boolean useBookmark,
 			String bookmark) throws ReportServiceException, RemoteException {
 		// get attribute bean
@@ -98,6 +103,7 @@ public class BirtChangeParameterActionHandler extends AbstractChangeParameterAct
 		response.setUpdate(new Update[] { updateDocument, updateNavbar });
 	}
 
+	@Override
 	protected IViewerReportService getReportService() {
 		return BirtReportServiceFactory.getReportService();
 	}

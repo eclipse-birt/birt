@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,6 +62,7 @@ public class ExpressionUtility {
 
 				private static final long serialVersionUID = 54331232145454L;
 
+				@Override
 				protected boolean removeEldestEntry(Map.Entry eldest) {
 					return size() > EXPR_CACHE_SIZE;
 				}
@@ -66,16 +70,18 @@ public class ExpressionUtility {
 
 	/**
 	 * whether the expression is column reference
-	 * 
+	 *
 	 * @param expression
 	 * @return
 	 */
 	public static boolean isColumnExpression(String expression) {
 		boolean isColumn = false;
-		if (expression == null || expression.trim().length() == 0)
+		if (expression == null || expression.trim().length() == 0) {
 			return isColumn;
-		if (compiledExprCache.containsKey(expression))
+		}
+		if (compiledExprCache.containsKey(expression)) {
 			return ((Boolean) compiledExprCache.get(expression)).booleanValue();
+		}
 		Context context = Context.enter();
 		ScriptNode tree;
 		try {
@@ -101,10 +107,11 @@ public class ExpressionUtility {
 			Node exprNode = tree.getFirstChild();
 			Node child = exprNode.getFirstChild();
 			assert (child != null);
-			if (child.getType() == Token.GETELEM || child.getType() == Token.GETPROP)
+			if (child.getType() == Token.GETELEM || child.getType() == Token.GETPROP) {
 				isColumn = getDirectColRefExpr(child);
-			else
+			} else {
 				isColumn = false;
+			}
 		} else {
 			isColumn = false;
 		}
@@ -115,20 +122,21 @@ public class ExpressionUtility {
 
 	/**
 	 * replace the row[], row.xx with dataSetRow[],dataSetRow.xx
-	 * 
+	 *
 	 * @param refNode
 	 * @return
 	 */
 	public static String getReplacedColRefExpr(String columnStr) {
 		if (isColumnExpression(columnStr)) {
 			return columnStr.replaceFirst("\\Qrow\\E", "dataSetRow"); //$NON-NLS-1$ //$NON-NLS-2$
-		} else
+		} else {
 			return columnStr;
+		}
 	}
 
 	/**
 	 * if the Node is row Node, return true
-	 * 
+	 *
 	 * @param refNode
 	 * @return
 	 */
@@ -137,13 +145,15 @@ public class ExpressionUtility {
 
 		Node rowName = refNode.getFirstChild();
 		assert (rowName != null);
-		if (rowName.getType() != Token.NAME)
+		if (rowName.getType() != Token.NAME) {
 			return false;
+		}
 
 		String str = rowName.getString();
 		assert (str != null);
-		if (!str.equals(STRING_ROW))
+		if (!str.equals(STRING_ROW)) {
 			return false;
+		}
 
 		Node rowColumn = rowName.getNext();
 		assert (rowColumn != null);
@@ -151,8 +161,9 @@ public class ExpressionUtility {
 		if (refNode.getType() == Token.GETPROP && rowColumn.getType() == Token.STRING) {
 			return true;
 		} else if (refNode.getType() == Token.GETELEM) {
-			if (rowColumn.getType() == Token.NUMBER || rowColumn.getType() == Token.STRING)
+			if (rowColumn.getType() == Token.NUMBER || rowColumn.getType() == Token.STRING) {
 				return true;
+			}
 		}
 
 		return false;
@@ -160,7 +171,7 @@ public class ExpressionUtility {
 
 	/**
 	 * Gets the proper expression for the given model
-	 * 
+	 *
 	 * @param model the given model
 	 * @return Returns the proper expression for the given model, or null if no
 	 *         proper one exists
@@ -205,7 +216,7 @@ public class ExpressionUtility {
 
 	/**
 	 * Create a row expression base on a binding column name.
-	 * 
+	 *
 	 * @param columnName the column name
 	 * @return the expression, or null if the column name is blank.
 	 */
@@ -225,7 +236,7 @@ public class ExpressionUtility {
 
 	/**
 	 * Create a row expression base on a result set column name.
-	 * 
+	 *
 	 * @param columnName the column name
 	 * @return the expression, or null if the column name is blank.
 	 */
@@ -241,8 +252,9 @@ public class ExpressionUtility {
 
 		if (exts != null) {
 			for (IExpressionSupport ex : exts) {
-				if (ex != null && ex.getName() != null && ex.getName().equals(scriptType))
+				if (ex != null && ex.getName() != null && ex.getName().equals(scriptType)) {
 					return ex.getConverter();
+				}
 			}
 		}
 

@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +39,7 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject {
 	private int cacheCapability;
 
 	/**
-	 * 
+	 *
 	 * @param tempFolder
 	 * @param appContext
 	 * @param parameterHints
@@ -56,7 +59,7 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private int getCount() {
@@ -67,7 +70,7 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public File getDataFile() {
@@ -75,13 +78,14 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public File getMetaFile() {
 		return new File(cacheDir + File.separator + "meta.data");
 	}
 
+	@Override
 	public boolean isCachedDataReusable(int requiredCapability) {
 		assert requiredCapability > 0;
 		// Only check if meta data file exists, because empty data file should
@@ -90,14 +94,17 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject {
 		return FileSecurity.fileExist(getMetaFile()) && cacheCapability >= requiredCapability;
 	}
 
+	@Override
 	public boolean needUpdateCache(int requiredCapability) {
 		return !isCachedDataReusable(requiredCapability);
 	}
 
+	@Override
 	public void release() {
 		DataSetCacheUtil.deleteFile(cacheDir);
 	}
 
+	@Override
 	public IResultClass getResultClass() throws DataException {
 		IResultClass rsClass;
 		FileInputStream fis1 = null;
@@ -111,8 +118,6 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject {
 			fis1.close();
 
 			return rsClass;
-		} catch (FileNotFoundException e) {
-			throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
 		} catch (IOException e) {
 			throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
 		}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,13 +34,13 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * This test use the 3 Iterators to traverse over an Style element. Dump all
  * it's property names and member names inside a structure into a file.
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #test_EN()}</td>
  * <td>ULocale is English, traverse over an Style element and dump its localized
@@ -46,7 +49,7 @@ import com.ibm.icu.util.ULocale;
  * metadata definition. Property Display Names is defined in
  * "Messages_EN.properties". Member properties of a structure should also be
  * sorted by their display name. The structure of the ouput file is like this:
- * 
+ *
  * <pre>
  *    Axx
  *    Group1.A
@@ -57,10 +60,10 @@ import com.ibm.icu.util.ULocale;
  *         C_Member
  *    Jxx.Bxx
  * </pre>
- * 
+ *
  * </td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #test_zh_CN()}</td>
  * <td>The same as above. Except that ULocale is China and output file is
@@ -69,13 +72,13 @@ import com.ibm.icu.util.ULocale;
  * "Messages_zh_CN.properties".</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class PropertySortingTest extends BaseTestCase {
 
 	/**
 	 * Test PropertyIterator on ENGLISH locale.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void test_EN() throws Exception {
@@ -85,7 +88,7 @@ public class PropertySortingTest extends BaseTestCase {
 
 	/**
 	 * Test PropertyIterator on CHINA locale.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void test_zh_CN() throws Exception {
@@ -96,12 +99,12 @@ public class PropertySortingTest extends BaseTestCase {
 	/**
 	 * Visit over an element, get its properties and dump the display names into a
 	 * file.
-	 * 
+	 *
 	 * @param fileName
 	 * @throws Exception
 	 */
 	private void dump(String fileName) throws Exception {
-		PrintWriter pw = null;
+		PrintWriter pw;
 
 		String outputFolder = getTempFolder() + OUTPUT_FOLDER;
 		File f = new File(outputFolder);

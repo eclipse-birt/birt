@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +35,7 @@ public class TableColumnHandle extends TableHFHandle {
 
 	/**
 	 * constructor, owner must be TableEditPart
-	 * 
+	 *
 	 * @param owner
 	 */
 	public TableColumnHandle(TableEditPart owner) {
@@ -45,10 +48,11 @@ public class TableColumnHandle extends TableHFHandle {
 	 * -------------------------------------------------------------- | | | | |
 	 * -------------------------------------------------------------- (ColumnHandle)
 	 * (ColumnDragHandle)
-	 * 
+	 *
 	 * @see org.eclipse.gef.examples.logicdesigner.edit.handle.TableHFHandle#
 	 * initChildrenHandle()
 	 */
+	@Override
 	protected void initChildrenHandle() {
 		TableEditPart part = getTableEditPart();
 		int count = part.getColumnCount();
@@ -92,15 +96,17 @@ public class TableColumnHandle extends TableHFHandle {
 
 		/*
 		 * Sets the handle the bounds
-		 * 
+		 *
 		 * @see org.eclipse.draw2d.Locator#relocate(org.eclipse.draw2d.IFigure)
 		 */
+		@Override
 		public void relocate(IFigure target) {
 			Rectangle bounds;
-			if (getReference() instanceof HandleBounds)
+			if (getReference() instanceof HandleBounds) {
 				bounds = ((HandleBounds) getReference()).getHandleBounds();
-			else
+			} else {
 				bounds = getReference().getBounds();
+			}
 
 			// bounds = new PrecisionRectangle(bounds.getResized(-1, -1));
 			Insets referenceInsets = getReference().getInsets();

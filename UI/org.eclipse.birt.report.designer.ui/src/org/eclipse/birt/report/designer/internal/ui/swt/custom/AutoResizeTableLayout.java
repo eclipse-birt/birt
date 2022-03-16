@@ -1,6 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved.
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *******************************************************************************/
 package org.eclipse.birt.report.designer.internal.ui.swt.custom;
 
@@ -19,7 +25,7 @@ import org.eclipse.swt.widgets.TableColumn;
 /**
  * COMMENT - Add description of this class or interface here. Description should
  * go beyond the class/interface name. Use the following template:
- * 
+ *
  * <Short description of class (noun phrase) followed by a dot> <More elaborate
  * description of what kind of object this class or interface represents.> <Give
  * information on (special) characteristics if possible.>
@@ -27,21 +33,22 @@ import org.eclipse.swt.widgets.TableColumn;
 public class AutoResizeTableLayout extends TableLayout implements ControlListener {
 
 	private final Table table;
-	private List<ColumnLayoutData> columns = new ArrayList<ColumnLayoutData>();
+	private List<ColumnLayoutData> columns = new ArrayList<>();
 	private boolean autosizing = false;
 	private int oldWidth;
 
 	/**
 	 * COMMENT - Add concise description of this constructor. Description should go
 	 * beyond the constructor's name.
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public AutoResizeTableLayout(final Table table) {
 		this.table = table;
 		table.addControlListener(this);
 	}
 
+	@Override
 	public void addColumnData(ColumnLayoutData data) {
 		columns.add(data);
 		super.addColumnData(data);
@@ -49,21 +56,23 @@ public class AutoResizeTableLayout extends TableLayout implements ControlListene
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt.events.
 	 * ControlEvent)
 	 */
+	@Override
 	public void controlMoved(ControlEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.ControlListener#controlResized(org.eclipse.swt.events.
 	 * ControlEvent)
 	 */
+	@Override
 	public void controlResized(ControlEvent e) {
 		// only react on changing width min. few pixels
 		// (see workaround for SWT bug getting unnecessary scroll bar)
@@ -85,15 +94,16 @@ public class AutoResizeTableLayout extends TableLayout implements ControlListene
 	 * <Short description (short verb phrase possible) followed by a dot> <More
 	 * elaborate description of "what" this method does. Omit the "how" unless
 	 * necessary.>
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	private void autoSizeColumns() {
 		int width = table.getClientArea().width;
 		width -= 10; // workaround for SWT bug getting unnecessary scroll bar
 
-		if (width <= 1)
+		if (width <= 1) {
 			return;
+		}
 
 		TableColumn[] tableColumns = table.getColumns();
 		int size = Math.min(columns.size(), tableColumns.length);
@@ -130,8 +140,9 @@ public class AutoResizeTableLayout extends TableLayout implements ControlListene
 					ColumnWeightData cw = (ColumnWeightData) col;
 					int weight = cw.weight;
 					int pixels = totalWeight == 0 ? 0 : weight * rest / totalWeight;
-					if (pixels < cw.minimumWidth)
+					if (pixels < cw.minimumWidth) {
 						pixels = cw.minimumWidth;
+					}
 					totalDistributed += pixels;
 					widths[i] = pixels;
 				}
@@ -139,8 +150,9 @@ public class AutoResizeTableLayout extends TableLayout implements ControlListene
 			// Distribute any remaining pixels to columns with weight
 			int diff = rest - totalDistributed;
 			for (int i = 0; diff > 0; ++i) {
-				if (i == size)
+				if (i == size) {
 					i = 0;
+				}
 				ColumnLayoutData col = (ColumnLayoutData) columns.get(i);
 				if (col instanceof ColumnWeightData) {
 					++widths[i];
@@ -149,8 +161,9 @@ public class AutoResizeTableLayout extends TableLayout implements ControlListene
 			}
 		}
 		for (int i = 0; i < size; i++) {
-			if (tableColumns[i].getWidth() != widths[i])
+			if (tableColumns[i].getWidth() != widths[i]) {
 				tableColumns[i].setWidth(widths[i]);
+			}
 		}
 	}
 

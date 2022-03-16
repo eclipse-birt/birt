@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -39,7 +41,7 @@ public class ParameterGroupGeneralPage extends TabPage {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param name
 	 */
 	public ParameterGroupGeneralPage(String name) {
@@ -48,11 +50,12 @@ public class ParameterGroupGeneralPage extends TabPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.TabPage#createWidgets(
 	 * org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	protected void createWidgets(Composite composite) {
 		Label name = new Label(composite, SWT.NONE);
 		name.setText(LABEL_NAME);
@@ -65,6 +68,7 @@ public class ParameterGroupGeneralPage extends TabPage {
 		nameEditor.setLayoutData(gd);
 		nameEditor.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				applyDialog();
 			}
@@ -82,11 +86,12 @@ public class ParameterGroupGeneralPage extends TabPage {
 
 	/**
 	 * Creates the top level control of the page under the given parent
-	 * 
+	 *
 	 * @param parent the parent composite
-	 * 
+	 *
 	 * @return Returns the control
 	 */
+	@Override
 	public Composite createControl(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.PARAMETER_GROUP_DIALOG_ID);
 		return super.createControl(parent);
@@ -94,11 +99,12 @@ public class ParameterGroupGeneralPage extends TabPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.TabPage#setInput(java.
 	 * lang.Object)
 	 */
+	@Override
 	public void setInput(Object input) {
 		ParameterGroupHandle group = (ParameterGroupHandle) input;
 		nameEditor.setText(group.getName());
@@ -110,11 +116,12 @@ public class ParameterGroupGeneralPage extends TabPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.TabPage#saveTo(java.lang
 	 * .Object)
 	 */
+	@Override
 	public void saveTo(Object result) throws SemanticException {
 		ParameterGroupHandle group = (ParameterGroupHandle) result;
 		group.setName(nameEditor.getText().trim());
@@ -124,10 +131,11 @@ public class ParameterGroupGeneralPage extends TabPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.TabPage#isPageComplete()
 	 */
+	@Override
 	public boolean isPageComplete() {
 		return !StringUtil.isBlank(nameEditor.getText());
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,8 +26,8 @@ import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
  * expression. The text can be plain text, HTML, RTF or an expression. The
  * format of the text can be fixed at design time, or can be dynamically
  * selected at run time to match the format of the incoming text.
- * 
- * 
+ *
+ *
  * @see org.eclipse.birt.report.model.elements.TextDataItem
  */
 
@@ -34,7 +37,7 @@ public class TextDataHandle extends ReportItemHandle implements ITextDataItemMod
 	 * Constructs the handle with the report design and the element it holds. The
 	 * application generally does not create handles directly. Instead, it uses one
 	 * of the navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -46,7 +49,7 @@ public class TextDataHandle extends ReportItemHandle implements ITextDataItemMod
 	/**
 	 * Returns the expression that gives the text that the multi-line data item
 	 * displays.
-	 * 
+	 *
 	 * @return the value expression
 	 */
 
@@ -57,7 +60,7 @@ public class TextDataHandle extends ReportItemHandle implements ITextDataItemMod
 	/**
 	 * Sets the expression that gives the text that this multi-line data item
 	 * displays.
-	 * 
+	 *
 	 * @param expr the new expression for the value expression
 	 * @throws SemanticException if the expression contains errors, or the property
 	 *                           is locked.
@@ -72,12 +75,13 @@ public class TextDataHandle extends ReportItemHandle implements ITextDataItemMod
 	 * item holds. The content type can be one of Auto (default); Plain: Plain text;
 	 * HTML: HTML format; RTF: Rich Text Format; Expression: an expression that
 	 * returns one of the above strings.
-	 * 
+	 *
 	 * @return the expression for the text type
-	 * 
+	 *
 	 * @deprecated by the method {@link #getContentType()}
 	 */
 
+	@Deprecated
 	public String getContentTypeExpr() {
 		return getStringProperty(ITextDataItemModel.CONTENT_TYPE_PROP);
 	}
@@ -87,14 +91,15 @@ public class TextDataHandle extends ReportItemHandle implements ITextDataItemMod
 	 * holds. The content type can be one of Auto (default); Plain: Plain text;
 	 * HTML: HTML format; RTF: Rich Text Format; Expression: an expression that
 	 * returns one of the above strings.
-	 * 
+	 *
 	 * @param expr the new expression for the text type
 	 * @throws SemanticException if the expression contains errors, or the property
 	 *                           is locked.
-	 * 
+	 *
 	 * @deprecated by the method {@link #setContentType(String)}
 	 */
 
+	@Deprecated
 	public void setContentTypeExpr(String expr) throws SemanticException {
 		setProperty(ITextDataItemModel.CONTENT_TYPE_PROP, expr);
 	}
@@ -102,7 +107,7 @@ public class TextDataHandle extends ReportItemHandle implements ITextDataItemMod
 	/**
 	 * Returns the expression that that defines the type of text the multi-line data
 	 * item holds. The content type can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_AUTO</code> (default)
 	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_PLAIN</code>: Plain
@@ -112,7 +117,7 @@ public class TextDataHandle extends ReportItemHandle implements ITextDataItemMod
 	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF</code>: Rich Text
 	 * format;
 	 * </ul>
-	 * 
+	 *
 	 * @return the text type
 	 */
 
@@ -123,7 +128,7 @@ public class TextDataHandle extends ReportItemHandle implements ITextDataItemMod
 	/**
 	 * Sets the expression that defines the text type this multi-line data item
 	 * holds. The content type can be one of
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_AUTO</code> (default)
 	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_PLAIN</code>: Plain
@@ -133,7 +138,7 @@ public class TextDataHandle extends ReportItemHandle implements ITextDataItemMod
 	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF</code>: Rich Text
 	 * format;
 	 * </ul>
-	 * 
+	 *
 	 * @param contentType the new text type
 	 * @throws SemanticException if the property is locked or the
 	 *                           <code>contentType</code> is not one of the above.
@@ -147,7 +152,7 @@ public class TextDataHandle extends ReportItemHandle implements ITextDataItemMod
 	 * Determines whether there is expression need to be evaluated in the text
 	 * content of this text data handle. By default, the return value is
 	 * <code>FALSE</code>.
-	 * 
+	 *
 	 * @return true if there is expression in the text content, otherwise false
 	 */
 	public boolean hasExpression() {
@@ -157,7 +162,7 @@ public class TextDataHandle extends ReportItemHandle implements ITextDataItemMod
 	/**
 	 * Sets the status whether there is expression need to be evaluated in the text
 	 * content of this text data handle.
-	 * 
+	 *
 	 * @param hasExpression true if there is expression in the text content,
 	 *                      otherwise false
 	 * @throws SemanticException
@@ -168,10 +173,10 @@ public class TextDataHandle extends ReportItemHandle implements ITextDataItemMod
 
 	/**
 	 * set if jTidy need to be used to validate the HTML content.
-	 * 
+	 *
 	 * If jTidy is set to false, the HTML content is used directly without any
 	 * validation. The user needs ensure the content is well formed.
-	 * 
+	 *
 	 * @param useJTidy true, use jTidy to validate the content.
 	 * @throws SemanticException
 	 */
@@ -181,7 +186,7 @@ public class TextDataHandle extends ReportItemHandle implements ITextDataItemMod
 
 	/**
 	 * return if jTIdy is used to validate the HTML content.
-	 * 
+	 *
 	 * @return true, jTidy is used to validate the content.
 	 */
 	public boolean isJTidy() {

@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -35,92 +37,94 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Utilities for Birt tags
- * 
+ *
  */
 public class BirtTagUtil {
 
 	/**
 	 * Convert String to correct boolean value.
-	 * 
+	 *
 	 * @param bool
 	 * @return
 	 */
 	public static String convertBooleanValue(String bool) {
-		boolean b = Boolean.valueOf(bool).booleanValue();
+		boolean b = Boolean.parseBoolean(bool);
 		return String.valueOf(b);
 	}
 
 	/**
 	 * Convert String to boolean.
-	 * 
+	 *
 	 * @param bool
 	 * @return
 	 */
 	public static boolean convertToBoolean(String bool) {
-		if (bool == null)
+		if (bool == null) {
 			return false;
+		}
 
-		return Boolean.valueOf(bool).booleanValue();
+		return Boolean.parseBoolean(bool);
 	}
 
 	/**
 	 * Returns the output format.Default value is html.
-	 * 
+	 *
 	 * @param format
 	 * @return
 	 */
 	public static String getFormat(String format) {
-		if (format == null || format.length() <= 0)
+		if (format == null || format.length() <= 0 || format.equalsIgnoreCase(ParameterAccessor.PARAM_FORMAT_HTM)) {
 			return ParameterAccessor.PARAM_FORMAT_HTML;
-
-		if (format.equalsIgnoreCase(ParameterAccessor.PARAM_FORMAT_HTM))
-			return ParameterAccessor.PARAM_FORMAT_HTML;
+		}
 
 		return format;
 	}
 
 	/**
 	 * Get report locale.
-	 * 
+	 *
 	 * @param request HttpServletRequest
 	 * @param locale  String
 	 * @return locale
 	 */
 
 	public static Locale getLocale(HttpServletRequest request, String sLocale) {
-		Locale locale = null;
+		Locale locale;
 
 		// Get Locale from String value
 		locale = ParameterAccessor.getLocaleFromString(sLocale);
 
 		// Get Locale from client browser
-		if (locale == null)
+		if (locale == null) {
 			locale = request.getLocale();
+		}
 
 		// Get Locale from Web Context
-		if (locale == null)
+		if (locale == null) {
 			locale = ParameterAccessor.getWebAppLocale();
+		}
 
 		return locale;
 	}
 
 	/**
 	 * Get report time zone.
-	 * 
+	 *
 	 * @param request  HttpServletRequest
 	 * @param timeZone time zone String
 	 * @return locale
 	 */
 
 	public static TimeZone getTimeZone(HttpServletRequest request, String sTimeZone) {
-		TimeZone timeZone = null;
+		TimeZone timeZone;
 
 		// Get Locale from String value
 		timeZone = ParameterAccessor.getTimeZoneFromString(sTimeZone);
 
 		// Get Locale from Web Context
-		if (timeZone == null)
+		if (timeZone == null) {
 			timeZone = ParameterAccessor.getWebAppTimeZone();
+		}
 
 		return timeZone;
 	}
@@ -129,7 +133,7 @@ public class BirtTagUtil {
 	 * If a report file name is a relative path, it is relative to document folder.
 	 * So if a report file path is relative path, it's absolute path is synthesized
 	 * by appending file path to the document folder path.
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 */
@@ -143,7 +147,7 @@ public class BirtTagUtil {
 
 	/**
 	 * Returns report design handle
-	 * 
+	 *
 	 * @param request
 	 * @param viewer
 	 * @return
@@ -151,8 +155,9 @@ public class BirtTagUtil {
 	 */
 	public static IViewerReportDesignHandle getDesignHandle(HttpServletRequest request, ViewerField viewer)
 			throws Exception {
-		if (viewer == null)
+		if (viewer == null) {
 			return null;
+		}
 
 		IViewerReportDesignHandle design = null;
 		IReportRunnable reportRunnable = null;
@@ -182,12 +187,13 @@ public class BirtTagUtil {
 		if (reportRunnable == null) {
 			// if only set __document parameter, throw exception directly
 			if (documentFile != null && designFile == null) {
-				if (isValidDocument)
+				if (isValidDocument) {
 					throw new ViewerException(ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_ERROR,
 							new String[] { documentFile });
-				else
+				} else {
 					throw new ViewerException(ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR,
 							new String[] { documentFile });
+				}
 			}
 
 			// check if the report file path is valid
@@ -213,18 +219,20 @@ public class BirtTagUtil {
 
 	/**
 	 * Create Module Options
-	 * 
+	 *
 	 * @param viewer
 	 * @return
 	 */
 	public static Map getModuleOptions(ViewerField viewer) {
-		if (viewer == null)
+		if (viewer == null) {
 			return null;
+		}
 
 		Map options = new HashMap();
 		String resourceFolder = viewer.getResourceFolder();
-		if (resourceFolder == null || resourceFolder.trim().length() <= 0)
+		if (resourceFolder == null || resourceFolder.trim().length() <= 0) {
 			resourceFolder = ParameterAccessor.birtResourceFolder;
+		}
 
 		options.put(IModuleOption.RESOURCE_FOLDER_KEY, resourceFolder);
 		options.put(IModuleOption.PARSER_SEMANTIC_CHECK_KEY, Boolean.FALSE);

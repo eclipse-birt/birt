@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +32,7 @@ import org.eclipse.swt.widgets.Slider;
 public class ChartSlider extends Composite implements SelectionListener {
 	protected Slider slider;
 
-	protected Vector<SelectionListener> vListeners = new Vector<SelectionListener>();
+	protected Vector<SelectionListener> vListeners = new Vector<>();
 
 	public ChartSlider(Composite parent, int style) {
 		super(parent, SWT.NONE);
@@ -69,6 +72,7 @@ public class ChartSlider extends Composite implements SelectionListener {
 		slider.addSelectionListener(this);
 	}
 
+	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		slider.setEnabled(enabled);
@@ -79,11 +83,13 @@ public class ChartSlider extends Composite implements SelectionListener {
 		slider.setToolTipText(tooltip);
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent event) {
 		if (event.widget == slider) {
 			Event e = new Event();

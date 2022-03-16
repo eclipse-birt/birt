@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,7 +48,7 @@ public class BorderUtil {
 	/**
 	 * Width constant for default border line.
 	 */
-	private static final int[] DEFAULT_LINE_WIDTH = new int[] { 1, 1, 1, 1 };
+	private static final int[] DEFAULT_LINE_WIDTH = { 1, 1, 1, 1 };
 
 	/**
 	 * Calculate gap to avoid cross-line when drawing thick/double line.
@@ -68,7 +71,7 @@ public class BorderUtil {
 
 	/**
 	 * Draws a double style line.
-	 * 
+	 *
 	 * @param figure
 	 * @param g
 	 * @param side
@@ -110,7 +113,7 @@ public class BorderUtil {
 
 	/**
 	 * Draws a default grayed line.
-	 * 
+	 *
 	 * @param figure
 	 * @param g
 	 * @param side
@@ -122,7 +125,7 @@ public class BorderUtil {
 
 	/**
 	 * Convenient version, set actualWidth=-1, startPos=0.
-	 * 
+	 *
 	 * @param figure
 	 * @param g
 	 * @param side
@@ -136,7 +139,7 @@ public class BorderUtil {
 
 	/**
 	 * Draws a single style line.
-	 * 
+	 *
 	 * @param figure
 	 * @param g
 	 * @param side
@@ -238,7 +241,7 @@ public class BorderUtil {
 
 	/**
 	 * Draws a 3D style line with the specified side, style & width.
-	 * 
+	 *
 	 * @param g     The graphics object used for drawing
 	 * @param side  the side to draw.
 	 * @param style the style to draw.
@@ -309,7 +312,7 @@ public class BorderUtil {
 
 	/**
 	 * Draws a border line with the specified side, style & width.
-	 * 
+	 *
 	 * @param g     The graphics object used for drawing
 	 * @param side  the side to draw.
 	 * @param style the style to draw.

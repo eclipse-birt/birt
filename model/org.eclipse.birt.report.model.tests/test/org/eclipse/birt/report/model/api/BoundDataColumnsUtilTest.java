@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,16 +23,16 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Tests functions about the column binding.
- * 
+ *
  */
 
 public class BoundDataColumnsUtilTest extends BaseTestCase {
 
 	/**
 	 * Test the specified element factory method for bound data column.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testUniqueColumnNameWithList() throws Exception {
@@ -71,15 +74,15 @@ public class BoundDataColumnsUtilTest extends BaseTestCase {
 	/**
 	 * Test column binding following new rule.That is: if the column binding is
 	 * added to the data, only check column bindings on data
-	 * 
+	 *
 	 * <ul>
 	 * <li>Table/List only need to check its own unique name.</li>
 	 * </ul>
-	 * 
+	 *
 	 * <ul>
 	 * <li>data item has column binding, use its own binding.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws SemanticException
 	 * @throws DesignFileException
 	 */
@@ -129,9 +132,9 @@ public class BoundDataColumnsUtilTest extends BaseTestCase {
 
 	/**
 	 * Test the specified element factory method for bound data column.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testUniqueColumnNameWithTable() throws Exception {
@@ -168,12 +171,12 @@ public class BoundDataColumnsUtilTest extends BaseTestCase {
 
 	/**
 	 * Test cases are:
-	 * 
+	 *
 	 * <ul>
 	 * <li>
 	 * <li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

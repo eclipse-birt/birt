@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -47,7 +50,7 @@ public class OdaDataSourceRuntime extends DataSourceRuntime {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public IOdaDataSourceDesign getSubdesign() {
 		return (IOdaDataSourceDesign) getDesign();
@@ -57,6 +60,7 @@ public class OdaDataSourceRuntime extends DataSourceRuntime {
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#
 	 * getExtensionID()
 	 */
+	@Override
 	public String getExtensionID() {
 		return extensionID;
 	}
@@ -80,6 +84,7 @@ public class OdaDataSourceRuntime extends DataSourceRuntime {
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#
 	 * getAllExtensionProperties()
 	 */
+	@Override
 	public Map getAllExtensionProperties() {
 		return this.publicProperties;
 	}
@@ -88,6 +93,7 @@ public class OdaDataSourceRuntime extends DataSourceRuntime {
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#
 	 * getExtensionProperty(java.lang.String)
 	 */
+	@Override
 	public String getExtensionProperty(String name) {
 		return (String) publicProperties.get(name);
 	}
@@ -96,6 +102,7 @@ public class OdaDataSourceRuntime extends DataSourceRuntime {
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#
 	 * setExtensionProperty(java.lang.String, java.lang.String)
 	 */
+	@Override
 	public void setExtensionProperty(String name, String value) {
 		publicProperties.put(name, value);
 	}

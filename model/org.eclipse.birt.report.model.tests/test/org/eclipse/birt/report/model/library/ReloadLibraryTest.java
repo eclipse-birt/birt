@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -76,7 +79,7 @@ public class ReloadLibraryTest extends BaseTestCase {
 	 * more. And names of report elements in these rows are removed from the
 	 * namespace.
 	 * <p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -184,12 +187,12 @@ public class ReloadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>remove the table lib1.libTable1 from the library and add a grid
 	 * lib1.libTable1. Design.table1 can not be resolved to gri lib1.libTable1.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -225,7 +228,7 @@ public class ReloadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Reloads the library with exceptions.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -251,8 +254,9 @@ public class ReloadLibraryTest extends BaseTestCase {
 		openLibrary(libFilePath, false);
 
 		File f = new File(libFilePath);
-		if (f.exists())
+		if (f.exists()) {
 			f.delete();
+		}
 
 		designHandle.reloadLibrary(libraryHandle);
 		assertNull(designHandle.findElement("table1").getExtends()); //$NON-NLS-1$
@@ -287,7 +291,7 @@ public class ReloadLibraryTest extends BaseTestCase {
 	 * if change the color and text of the label, after the loading, it should show
 	 * the effect.
 	 * <p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -340,7 +344,7 @@ public class ReloadLibraryTest extends BaseTestCase {
 	 * Changed resource path to null. And try to reload(). No exception. And the
 	 * library location becomes library in the report folder.
 	 * <p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -387,7 +391,7 @@ public class ReloadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests reload library for cube.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testReloadLibrary3() throws Exception {
@@ -403,12 +407,13 @@ public class ReloadLibraryTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
 
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			events.add(ev);
 		}
@@ -416,7 +421,7 @@ public class ReloadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Copies a bunch of design/library files to the temporary folder.
-	 * 
+	 *
 	 * @param fileNames the design/library file names. The first item is the main
 	 *                  design file.
 	 * @return the file path of the design file
@@ -435,17 +440,17 @@ public class ReloadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests needSave method.
-	 * 
+	 *
 	 * Only change happens directly on report design, isDirty mark of report design
 	 * is true. So when library changed, isDirty mark of report design should be
 	 * false.
-	 * 
+	 *
 	 * <ul>
 	 * <li>reload error library and throw out exception</li>
 	 * <li>isDirty not changed</li>
-	 * 
+	 *
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -502,12 +507,12 @@ public class ReloadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>modify the extended item in library, then reload the design, the design
 	 * should be updated.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -544,7 +549,7 @@ public class ReloadLibraryTest extends BaseTestCase {
 	 * <li>no modify in library, then reload the design, the default hierarchy of
 	 * dimension is still resolved.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testReloadWithOverideElementReference() throws Exception {
@@ -564,7 +569,7 @@ public class ReloadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests reload library with table contains extended item.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testReloadTableContainExtendedItem() throws Exception {

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,6 +33,7 @@ public class EngineLoggerTest extends TestCase {
 	static final String FINEST_LOG = "FINEST_LOG_RECORD";
 	static final String WARNING_LOG = "WARNING_LOG_RECORD";
 
+	@Override
 	public void setUp() {
 		removeFile(new File("./utest"));
 		new File("./utest/").mkdirs();
@@ -55,6 +59,7 @@ public class EngineLoggerTest extends TestCase {
 		}
 	}
 
+	@Override
 	public void tearDown() throws Exception {
 		removeFile(new File("./utest/"));
 		super.tearDown();
@@ -192,6 +197,7 @@ public class EngineLoggerTest extends TestCase {
 			count.incrementAndGet();
 		}
 
+		@Override
 		public void run() {
 			try {
 				FileHandler handler = new FileHandler(logFile);

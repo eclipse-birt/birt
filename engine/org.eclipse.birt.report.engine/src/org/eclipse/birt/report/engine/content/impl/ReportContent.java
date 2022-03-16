@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,7 +61,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Report content is the result of report generation.
- * 
+ *
  */
 public class ReportContent implements IReportContent {
 
@@ -76,7 +76,7 @@ public class ReportContent implements IReportContent {
 	/**
 	 * errors occured in the generation.
 	 */
-	private List<ElementExceptionInfo> errors = new ArrayList<ElementExceptionInfo>();
+	private List<ElementExceptionInfo> errors = new ArrayList<>();
 
 	/**
 	 * toc of this report
@@ -116,27 +116,31 @@ public class ReportContent implements IReportContent {
 		cssEngine = new BIRTCSSEngine();
 	}
 
+	@Override
 	public Report getDesign() {
 		return report;
 	}
 
+	@Override
 	public IStyle findStyle(String styleClass) {
 		return (report == null) ? null : report.findStyle(styleClass);
 	}
 
 	/**
 	 * get the css engine used in the report.
-	 * 
+	 *
 	 * @return css engine
 	 */
 	public CSSEngine getCSSEngine() {
 		return cssEngine;
 	}
 
+	@Override
 	public IContent getRoot() {
 		return this.root;
 	}
 
+	@Override
 	public IPageContent getPageContent(long pageNumber) {
 		return null;
 	}
@@ -144,6 +148,7 @@ public class ReportContent implements IReportContent {
 	/**
 	 * @return the pageNumber
 	 */
+	@Override
 	public long getTotalPage() {
 		return totalPage;
 	}
@@ -155,86 +160,107 @@ public class ReportContent implements IReportContent {
 		this.totalPage = totalPage;
 	}
 
+	@Override
 	public IContent getContent(InstanceID id) {
 		return null;
 	}
 
+	@Override
 	public IHyperlinkAction createActionContent() {
 		return new ActionContent();
 	}
 
+	@Override
 	public IStyle createStyle() {
 		return new StyleDeclaration(cssEngine);
 	}
 
+	@Override
 	public ICellContent createCellContent() {
 		return new CellContent(this);
 	}
 
+	@Override
 	public IContainerContent createContainerContent() {
 		return new ContainerContent(this);
 	}
 
+	@Override
 	public IPageContent createPageContent() {
 		return new PageContent(this);
 	}
 
+	@Override
 	public IRowContent createRowContent() {
 		return new RowContent(this);
 	}
 
+	@Override
 	public IListContent createListContent() {
 		return new ListContent(this);
 	}
 
+	@Override
 	public IListGroupContent createListGroupContent() {
 		return new ListGroupContent(this);
 	}
 
+	@Override
 	public IListBandContent createListBandContent() {
 		return new ListBandContent(this);
 	}
 
+	@Override
 	public ITableContent createTableContent() {
 		return new TableContent(this);
 	}
 
+	@Override
 	public ITableGroupContent createTableGroupContent() {
 		return new TableGroupContent(this);
 	}
 
+	@Override
 	public ITableBandContent createTableBandContent() {
 		return new TableBandContent(this);
 	}
 
+	@Override
 	public ITextContent createTextContent() {
 		return new TextContent(this);
 	}
 
+	@Override
 	public ITextContent createTextContent(IContent content) {
 		return new TextContent(content);
 	}
 
+	@Override
 	public IDataContent createDataContent() {
 		return new DataContent(this);
 	}
 
+	@Override
 	public IDataContent createDataContent(IContent content) {
 		return new DataContent(content);
 	}
 
+	@Override
 	public ILabelContent createLabelContent() {
 		return new LabelContent(this);
 	}
 
+	@Override
 	public ILabelContent createLabelContent(IContent content) {
 		return new LabelContent(content);
 	}
 
+	@Override
 	public IAutoTextContent createAutoTextContent() {
 		return new AutoTextContent(this);
 	}
 
+	@Override
 	public IForeignContent createForeignContent() {
 		return new ForeignContent(this);
 	}
@@ -243,10 +269,12 @@ public class ReportContent implements IReportContent {
 		return new ForeignContent(content);
 	}
 
+	@Override
 	public IImageContent createImageContent() {
 		return new ImageContent(this);
 	}
 
+	@Override
 	public IImageContent createImageContent(IContent content) {
 		return new ImageContent(content);
 	}
@@ -255,6 +283,7 @@ public class ReportContent implements IReportContent {
 		return new ObjectContent(this);
 	}
 
+	@Override
 	public List<ElementExceptionInfo> getErrors() {
 		return errors;
 	}
@@ -263,10 +292,11 @@ public class ReportContent implements IReportContent {
 		if (errors != null) {
 			this.errors = errors;
 		} else {
-			this.errors = new ArrayList<ElementExceptionInfo>();
+			this.errors = new ArrayList<>();
 		}
 	}
 
+	@Override
 	public ITOCTree getTOCTree(String format, ULocale locale) {
 		if (tocTree == null) {
 			return null;
@@ -278,18 +308,22 @@ public class ReportContent implements IReportContent {
 		this.tocTree = tocTree;
 	}
 
+	@Override
 	public TOCNode getTOC() {
 		return getTOCTree("viewer", ULocale.getDefault()).getRoot();
 	}
 
+	@Override
 	public String getACL() {
 		return acl;
 	}
 
+	@Override
 	public void setACL(String acl) {
 		this.acl = acl;
 	}
 
+	@Override
 	public IReportContext getReportContext() {
 		return reportContext;
 	}
@@ -306,6 +340,7 @@ public class ReportContent implements IReportContent {
 		this.executionContext = executionContext;
 	}
 
+	@Override
 	public Map<String, Object> getUserProperties() {
 		return userProperties;
 	}
@@ -314,10 +349,12 @@ public class ReportContent implements IReportContent {
 		this.userProperties = properties;
 	}
 
+	@Override
 	public Map<String, Object> getExtensions() {
 		return extProperties;
 	}
 
+	@Override
 	public void setExtensions(Map<String, Object> properties) {
 		this.extProperties = properties;
 	}
@@ -326,6 +363,7 @@ public class ReportContent implements IReportContent {
 	final static short FIELD_USER_PROPERTIES = 1;
 	final static short FIELD_EXTENSIONS = 2;
 
+	@Override
 	public void readContent(DataInputStream in, ClassLoader loader) throws IOException {
 		while (in.available() > 0) {
 			int filedId = IOUtil.readShort(in);
@@ -350,6 +388,7 @@ public class ReportContent implements IReportContent {
 		}
 	}
 
+	@Override
 	public void writeContent(DataOutputStream out) throws IOException {
 		if (acl != null) {
 			IOUtil.writeShort(out, FIELD_ACL);
@@ -365,10 +404,12 @@ public class ReportContent implements IReportContent {
 		}
 	}
 
+	@Override
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
+	@Override
 	public String getTitle() {
 		return title;
 	}

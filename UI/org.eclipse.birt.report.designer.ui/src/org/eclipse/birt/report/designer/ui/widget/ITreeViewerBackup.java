@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,14 +18,14 @@ import org.eclipse.jface.viewers.TreeViewer;
 
 public interface ITreeViewerBackup {
 
-	public abstract void restoreBackup(TreeViewer treeviewer);
+	void restoreBackup(TreeViewer treeviewer);
 
-	public abstract void dispose();
+	void dispose();
 
-	public abstract void updateCollapsedStatus(TreeViewer treeViewer, Object collapsedElement);
+	void updateCollapsedStatus(TreeViewer treeViewer, Object collapsedElement);
 
-	public abstract void updateExpandedStatus(TreeViewer treeViewer, Object expandedElement);
+	void updateExpandedStatus(TreeViewer treeViewer, Object expandedElement);
 
-	public abstract void updateStatus(TreeViewer treeViewer);
+	void updateStatus(TreeViewer treeViewer);
 
 }

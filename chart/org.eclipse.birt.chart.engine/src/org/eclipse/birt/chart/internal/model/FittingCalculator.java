@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ public class FittingCalculator {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param xa               x values.
 	 * @param ya               y valus.
 	 * @param windowProportion window proportion for LOWESS algorithm.
@@ -39,7 +42,7 @@ public class FittingCalculator {
 
 	/**
 	 * Returns the calculated fitted value.
-	 * 
+	 *
 	 * @return
 	 */
 	public double[] getFittedValue() {
@@ -49,7 +52,7 @@ public class FittingCalculator {
 	/**
 	 * Calculate the fitting points by given parameters. This uses a LOWESS
 	 * algorithm.
-	 * 
+	 *
 	 * @param xa               x values.
 	 * @param ya               y valus.
 	 * @param windowProportion window proportion for LOWESS algorithm.

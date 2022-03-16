@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,83 +49,83 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * <p>
  * <code>TableColumn</code>,<code>TableRow</code> and <code>Cell</code> are
  * tested in {@link GridItemParseTest}.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testParser()}</td>
  * <td>Test all properties and slots of <code>TableItem</code> after parsing
  * design file</td>
  * <td>All properties are right</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Test all properties of Sorting after parsing design file</td>
  * <td>Sorting is not implemented</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Test all properties of <code>TableGroup</code> after parsing design
  * file</td>
  * <td>All properties are right</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Test all properties of GroupFilter after parsing design file</td>
  * <td>GroupFilter is not implemented</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Test all properties of TOC after parsing design file</td>
  * <td>TOC is not implemented</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testWriter()}</td>
  * <td>Compare the written file with the golden file</td>
  * <td>Two files are same</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSemanticCheck()}</td>
  * <td>Test inconsistant column count error</td>
  * <td>Error found</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Test cell overlapping error</td>
  * <td>Error found</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSemanticCheck()}</td>
  * <td>Table is placed in header slot of table item</td>
  * <td>Context containment error found</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Table is placed in header slot of list item</td>
  * <td>Context containment error found</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Table has no data set in the List/Table container of any level.</td>
  * <td>Missing Data set error found</td>
  * </tr>
  * </table>
- * 
+ *
  * @see TableItem
  * @see GridItemParseTest
  */
@@ -139,15 +142,16 @@ public class TableItemParseTest extends ParserTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Test to read hide rules.
-	 * 
+	 *
 	 * @param handle the table row handle
-	 * 
+	 *
 	 * @throws Exception if open the design file with errors.
 	 */
 
@@ -174,9 +178,9 @@ public class TableItemParseTest extends ParserTestCase {
 
 	/**
 	 * Test parser and properties of table element.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testParser() throws Exception {
@@ -457,9 +461,9 @@ public class TableItemParseTest extends ParserTestCase {
 
 	/**
 	 * Test to write hide rules.
-	 * 
+	 *
 	 * @param handle the table row handle
-	 * 
+	 *
 	 * @throws Exception if open the design file with errors.
 	 */
 
@@ -487,9 +491,9 @@ public class TableItemParseTest extends ParserTestCase {
 
 	/**
 	 * This test writes the design file and compare it with golden file.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testWriter() throws Exception {
@@ -607,9 +611,9 @@ public class TableItemParseTest extends ParserTestCase {
 
 	/**
 	 * Test semantic check.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testSemanticCheck() throws Exception {
@@ -654,7 +658,7 @@ public class TableItemParseTest extends ParserTestCase {
 
 	/**
 	 * Tests to read and write a summary table and compare it with golden file.
-	 * 
+	 *
 	 * @throws NameException
 	 * @throws ContentException
 	 */

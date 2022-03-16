@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
  * defines the column expression from the dataset.Use the
  * {@link org.eclipse.birt.report.model.api.olap.LevelHandle}class to change the
  * properties.
- * 
+ *
  */
 
 public abstract class Level extends ReferenceableElement implements ILevelModel {
@@ -39,7 +42,7 @@ public abstract class Level extends ReferenceableElement implements ILevelModel 
 
 	/**
 	 * Constructs the level with an optional name.
-	 * 
+	 *
 	 * @param name the optional name for the level element
 	 */
 
@@ -49,31 +52,35 @@ public abstract class Level extends ReferenceableElement implements ILevelModel 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
 	 * report.model.elements.ElementVisitor)
 	 */
+	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitLevel(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
+	@Override
 	public String getElementName() {
 		return ReportDesignConstants.LEVEL_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getFullName()
 	 */
+	@Override
 	public String getFullName() {
-		if (StringUtil.isBlank(getName()))
+		if (StringUtil.isBlank(getName())) {
 			return getName();
+		}
 		INameHelper nameHelper = new NameExecutor(getRoot(), this).getNameHelper();
 		String parentName = nameHelper == null ? null : nameHelper.getElement().getFullName();
 		return StringUtil.isBlank(parentName) ? getName() : parentName + NameExecutor.NAME_SEPARATOR + getName();

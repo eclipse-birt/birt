@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ public class TimeUtil {
 
 	/**
 	 * Return string format of current time
-	 * 
+	 *
 	 * @return current time
 	 */
 	public String getTime() {
@@ -34,7 +37,7 @@ public class TimeUtil {
 
 	/**
 	 * Format time string
-	 * 
+	 *
 	 * @param calendar
 	 * @return current time, format is: xx(h):xx(m):xx(s):xxx(ms)
 	 */
@@ -78,7 +81,7 @@ public class TimeUtil {
 
 	/**
 	 * Format milliSecondSpan to string
-	 * 
+	 *
 	 * @param milliSecondSpan
 	 * @return formatted string
 	 */
@@ -96,8 +99,9 @@ public class TimeUtil {
 		int milliSecond = (int) (milliSecondSpan - hour * 1000 * 60 * 60 - minute * 1000 * 60 - second * 1000);
 
 		String str = hour + "(h):" + minute + "(m):" + second + "(s):" + milliSecond + "(ms)";
-		if (adjustValue < 0)
+		if (adjustValue < 0) {
 			str = "- " + str;
+		}
 
 		return str;
 	}
@@ -111,7 +115,7 @@ public class TimeUtil {
 
 		/**
 		 * Construction
-		 * 
+		 *
 		 * @param calendar
 		 */
 		private TimePoint(Calendar calendar) {

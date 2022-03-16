@@ -13,8 +13,8 @@ import junit.framework.TestCase;
  * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * http://www.eclipse.org/legal/epl-2.0.html
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -28,7 +28,7 @@ public class BaseTestCase extends TestCase {
 
 	/**
 	 * Locates the folder where the unit test java source file is saved.
-	 * 
+	 *
 	 * @return the path name where the test java source file locates.
 	 */
 
@@ -43,10 +43,12 @@ public class BaseTestCase extends TestCase {
 				URL url = source.getLocation();
 				pathBase = url.getPath();
 
-				if (pathBase.endsWith("bin/")) //$NON-NLS-1$
+				if (pathBase.endsWith("bin/")) { //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 4);
-				if (pathBase.endsWith("bin")) //$NON-NLS-1$
+				}
+				if (pathBase.endsWith("bin")) { //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 3);
+				}
 			}
 		}
 
@@ -61,7 +63,7 @@ public class BaseTestCase extends TestCase {
 
 	/**
 	 * Returns a list of class objects under the given package.
-	 * 
+	 *
 	 * @param packageName a given Java package
 	 * @return a list of class objects under the given package.
 	 */

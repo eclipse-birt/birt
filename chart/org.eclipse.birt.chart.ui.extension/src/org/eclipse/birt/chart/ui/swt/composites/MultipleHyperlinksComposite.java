@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +46,7 @@ import org.eclipse.swt.widgets.Text;
 /**
  * The class implements UI functions to set multiple hyperlinks for an trigger
  * condition.
- * 
+ *
  * @since 2.5
  */
 
@@ -62,7 +65,7 @@ public class MultipleHyperlinksComposite extends Composite implements Listener {
 	private TriggerSupportMatrix fTriggerMatrix;
 	private int fOptionalStyles;
 
-	private Map<String, URLValue> fURLValuesMap = new HashMap<String, URLValue>();
+	private Map<String, URLValue> fURLValuesMap = new HashMap<>();
 	private Button fBtnUp;
 	private Button fBtnDown;
 
@@ -183,6 +186,7 @@ public class MultipleHyperlinksComposite extends Composite implements Listener {
 	private void initListeners() {
 		fListHyperlinks.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				doEdit();
 			}
@@ -197,6 +201,7 @@ public class MultipleHyperlinksComposite extends Composite implements Listener {
 		fBtnProperties.addListener(SWT.Selection, this);
 		fTxtTooltip.addFocusListener(new FocusAdapter() {
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				fMultiURLValues.setTooltip(fTxtTooltip.getText());
 			}
@@ -246,7 +251,7 @@ public class MultipleHyperlinksComposite extends Composite implements Listener {
 		String oldText = value.getLabel().getCaption().getValue();
 		HyperlinkEditorDialog dialog = new HyperlinkEditorDialog(getShell(), value, fContext, fTriggerMatrix,
 				fOptionalStyles);
-		java.util.List<String> labels = new ArrayList<String>(Arrays.asList(fListHyperlinks.getItems()));
+		java.util.List<String> labels = new ArrayList<>(Arrays.asList(fListHyperlinks.getItems()));
 		labels.remove(value.getLabel().getCaption().getValue());
 		dialog.setExistingLabels(labels);
 
@@ -305,7 +310,7 @@ public class MultipleHyperlinksComposite extends Composite implements Listener {
 
 	/**
 	 * Returns current URL values.
-	 * 
+	 *
 	 * @return
 	 */
 	public MultiURLValues getURLValues() {
@@ -316,6 +321,7 @@ public class MultipleHyperlinksComposite extends Composite implements Listener {
 		fMultiURLValues = urlValues;
 	}
 
+	@Override
 	public void handleEvent(Event event) {
 		Object source = event.widget;
 		if (source == fBtnAdd) {

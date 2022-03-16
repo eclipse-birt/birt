@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * This command deletes an object from the ColumnHandle.
- * 
+ *
  */
 public class DeleteColumnCommand extends Command {
 
@@ -32,7 +35,7 @@ public class DeleteColumnCommand extends Command {
 
 	/**
 	 * Deletes the command
-	 * 
+	 *
 	 * @param model the model
 	 */
 
@@ -46,6 +49,7 @@ public class DeleteColumnCommand extends Command {
 	 * executable.
 	 */
 
+	@Override
 	public void execute() {
 		if (getTableParent() != null) {
 			if (DesignerConstants.TRACING_COMMANDS) {
@@ -71,7 +75,7 @@ public class DeleteColumnCommand extends Command {
 
 	/**
 	 * Get the parent table
-	 * 
+	 *
 	 * @return Return the parent table
 	 */
 	private Object getTableParent() {
@@ -87,9 +91,10 @@ public class DeleteColumnCommand extends Command {
 
 	/**
 	 * Check whether the command can be executed or not
-	 * 
+	 *
 	 * @return true or false
 	 */
+	@Override
 	public boolean canExecute() {
 		return super.canExecute() && handle.canDrop();
 	}

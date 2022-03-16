@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine;
 
@@ -85,106 +97,140 @@ public abstract class BaseEmitter extends EngineCase implements IContentEmitter 
 
 	}
 
+	@Override
 	public void end(IReportContent report) {
 	}
 
+	@Override
 	public void endCell(ICellContent cell) {
 	}
 
+	@Override
 	public void endContainer(IContainerContent container) {
 	}
 
+	@Override
 	public void endContent(IContent content) {
 	}
 
+	@Override
 	public void endGroup(IGroupContent group) {
 	}
 
+	@Override
 	public void endList(IListContent list) {
 	}
 
+	@Override
 	public void endListBand(IListBandContent listBand) {
 	}
 
+	@Override
 	public void endListGroup(IListGroupContent group) {
 	}
 
+	@Override
 	public void endPage(IPageContent page) {
 	}
 
+	@Override
 	public void endRow(IRowContent row) {
 	}
 
+	@Override
 	public void endTable(ITableContent table) {
 	}
 
+	@Override
 	public void endTableBand(ITableBandContent band) {
 	}
 
+	@Override
 	public void endTableGroup(ITableGroupContent group) {
 	}
 
+	@Override
 	public String getOutputFormat() {
 		return null;
 	}
 
+	@Override
 	public void initialize(IEmitterServices service) {
 	}
 
+	@Override
 	public void start(IReportContent report) {
 	}
 
+	@Override
 	public void startAutoText(IAutoTextContent autoText) {
 	}
 
+	@Override
 	public void startCell(ICellContent cell) {
 	}
 
+	@Override
 	public void startContainer(IContainerContent container) {
 	}
 
+	@Override
 	public void startContent(IContent content) {
 	}
 
+	@Override
 	public void startData(IDataContent data) {
 	}
 
+	@Override
 	public void startForeign(IForeignContent foreign) {
 	}
 
+	@Override
 	public void startGroup(IGroupContent group) {
 	}
 
+	@Override
 	public void startImage(IImageContent image) {
 	}
 
+	@Override
 	public void startLabel(ILabelContent label) {
 	}
 
+	@Override
 	public void startList(IListContent list) {
 	}
 
+	@Override
 	public void startListBand(IListBandContent listBand) {
 	}
 
+	@Override
 	public void startListGroup(IListGroupContent group) {
 	}
 
+	@Override
 	public void startPage(IPageContent page) {
 	}
 
+	@Override
 	public void startRow(IRowContent row) {
 	}
 
+	@Override
 	public void startTable(ITableContent table) {
 	}
 
+	@Override
 	public void startTableBand(ITableBandContent band) {
 	}
 
+	@Override
 	public void startTableGroup(ITableGroupContent group) {
 	}
 
+	@Override
 	public void startText(ITextContent text) {
 	}
 

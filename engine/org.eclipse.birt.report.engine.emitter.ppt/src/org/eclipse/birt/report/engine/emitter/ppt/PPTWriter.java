@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
@@ -58,10 +61,10 @@ public class PPTWriter {
 
 	protected float pageWidth, pageHeight;
 
-	private Map<String, ImageInfo> imageInfos = new HashMap<String, ImageInfo>();
+	private Map<String, ImageInfo> imageInfos = new HashMap<>();
 
 	// Holds the files' name for each page
-	private Map<Integer, List<String>> fileNamesLists = new TreeMap<Integer, List<String>>();
+	private Map<Integer, List<String>> fileNamesLists = new TreeMap<>();
 
 	private QuotedPrintableCodec quotedPrintableCodec;
 
@@ -75,10 +78,10 @@ public class PPTWriter {
 
 	/**
 	 * Creates a PPT Document.
-	 * 
+	 *
 	 * @param author
 	 * @param title
-	 * 
+	 *
 	 */
 	public void start(String title, String author, String description, String subject) {
 		if (!imageInfos.isEmpty()) {
@@ -130,7 +133,7 @@ public class PPTWriter {
 
 	/**
 	 * Closes the document.
-	 * 
+	 *
 	 */
 	public void end() {
 		int slidesizex = (int) (Math.ceil(pageWidth * 8));
@@ -215,7 +218,7 @@ public class PPTWriter {
 
 	/**
 	 * Creates a new page.
-	 * 
+	 *
 	 * @param page the PageArea specified from layout
 	 */
 	public void newPage(float pageWidth, float pageHeight, Color backgroundColor) {
@@ -252,7 +255,7 @@ public class PPTWriter {
 
 	/**
 	 * Draws a chunk of text on the PPT.
-	 * 
+	 *
 	 * @param text      the textArea to be drawn.
 	 * @param textX     the X position of the textArea relative to current page.
 	 * @param textY     the Y position of the textArea relative to current page.
@@ -430,7 +433,7 @@ public class PPTWriter {
 		Crop crop = checkCrop(x, y, width, height);
 		if (crop == null) {
 			println(" style=3D'position:absolute;left:" + x + "pt;top:" + y + "pt;width:" + width + "pt;height:" //$NON-NLS-3$ //$NON-NLS-4$
-					+ height + "pt'"); //$NON-NLS-1$ //$NON-NLS-4$ //$NON-NLS-5$
+					+ height + "pt'"); //$NON-NLS-1$
 		} else {
 			ClipArea clip = clipStack.peek();
 			double pX = Math.max(clip.x, x);
@@ -438,7 +441,7 @@ public class PPTWriter {
 			double pWidth = Math.min(x + width, clip.x + clip.width) - pX;
 			double pHeight = Math.min(y + height, clip.y + clip.height) - pY;
 			println(" style=3D'position:absolute;left:" + pX + "pt;top:" + pY + "pt;width:" + pWidth + "pt;height:" //$NON-NLS-3$ //$NON-NLS-4$
-					+ pHeight + "pt'"); //$NON-NLS-1$ //$NON-NLS-4$ //$NON-NLS-5$
+					+ pHeight + "pt'"); //$NON-NLS-1$
 		}
 		println(" filled=3D'f' stroked=3D'f'>"); //$NON-NLS-1$
 		print("<v:imagedata src=3D\"" + imageName + "\" o:title=3D\"" + imageTitle + "\"");
@@ -515,7 +518,7 @@ public class PPTWriter {
 		if (fileNamesLists.containsKey(currentPageNum)) {
 			fileNamesLists.get(currentPageNum).add(filename);
 		} else {
-			List<String> fileNames = new ArrayList<String>();
+			List<String> fileNames = new ArrayList<>();
 			fileNames.add(filename);
 			fileNamesLists.put(currentPageNum, fileNames);
 		}
@@ -524,7 +527,7 @@ public class PPTWriter {
 	/**
 	 * Draws a line from the start position to the end position with the given line
 	 * width, color, and style on the PPT.
-	 * 
+	 *
 	 * @param startX    the start X coordinate of the line
 	 * @param startY    the start Y coordinate of the line
 	 * @param endX      the end X coordinate of the line
@@ -558,7 +561,7 @@ public class PPTWriter {
 	 * to the end position with the given line width, color, and style on the PPT.
 	 * If the line-style is NOT set before invoking this method, "solid" will be
 	 * used as the default line-style.
-	 * 
+	 *
 	 * @param startX the start X coordinate of the line
 	 * @param startY the start Y coordinate of the line
 	 * @param endX   the end X coordinate of the line
@@ -602,7 +605,7 @@ public class PPTWriter {
 
 	/**
 	 * Draws the background color of the PPT.
-	 * 
+	 *
 	 * @param color  the color to be drawn
 	 * @param x      the start X coordinate
 	 * @param y      the start Y coordinate
@@ -623,7 +626,7 @@ public class PPTWriter {
 	/**
 	 * Draws the background image at the contentByteUnder of the PPT with the given
 	 * offset
-	 * 
+	 *
 	 * @param imageURI  the URI referring the image
 	 * @param x         the start X coordinate at the PPT where the image is
 	 *                  positioned
@@ -677,7 +680,7 @@ public class PPTWriter {
 	}
 
 	protected String getEscapedStr(String s) {
-		StringBuffer result = null;
+		StringBuilder result = null;
 		int spacePos = 1;
 		char[] s2char = s.toCharArray();
 
@@ -712,7 +715,7 @@ public class PPTWriter {
 			}
 			if (replacement != null) {
 				if (result == null) {
-					result = new StringBuffer(s);
+					result = new StringBuilder(s);
 				}
 				result.replace(i + delta, i + delta + 1, replacement);
 				delta += (replacement.length() - 1);
@@ -732,8 +735,9 @@ public class PPTWriter {
 	 * @author bidi_hcg
 	 */
 	private String buildI18nAttributes(String text, boolean rtl) {
-		if (text == null)
+		if (text == null) {
 			return ""; //$NON-NLS-1$
+		}
 
 		if (rtl) {
 			for (int i = text.length(); i-- > 0;) {
@@ -759,7 +763,7 @@ public class PPTWriter {
 		}
 	}
 
-	private Stack<ClipArea> clipStack = new Stack<ClipArea>();
+	private Stack<ClipArea> clipStack = new Stack<>();
 
 	private class ClipArea {
 

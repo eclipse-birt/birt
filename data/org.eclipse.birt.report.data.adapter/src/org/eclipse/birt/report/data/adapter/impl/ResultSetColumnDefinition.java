@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +39,7 @@ class ResultSetColumnDefinition extends ColumnDefinition {
 
 	/**
 	 * Gets the data type of the column.
-	 * 
+	 *
 	 * @return Data type as an integer.
 	 */
 	String getDataTypeName() {
@@ -51,7 +54,7 @@ class ResultSetColumnDefinition extends ColumnDefinition {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param displayName
 	 */
 	void setLableName(String displayName) {
@@ -59,7 +62,7 @@ class ResultSetColumnDefinition extends ColumnDefinition {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	String getLableName() {
@@ -67,7 +70,7 @@ class ResultSetColumnDefinition extends ColumnDefinition {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param computedCol
 	 */
 	void setComputedColumn(boolean computedCol) {
@@ -75,7 +78,7 @@ class ResultSetColumnDefinition extends ColumnDefinition {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	boolean isComputedColumn() {

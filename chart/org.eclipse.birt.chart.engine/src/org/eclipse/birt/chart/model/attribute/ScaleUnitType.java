@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,11 +24,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Scale Unit Type</b></em>', and utility methods for working with them.
  * <!-- end-user-doc --> <!-- begin-model-doc -->
- * 
+ *
  * This type defines predefined date unit types for scale.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getScaleUnitType()
  * @model
  * @generated
@@ -38,7 +41,7 @@ public enum ScaleUnitType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #SECONDS
 	 * @generated
 	 * @ordered
@@ -51,7 +54,7 @@ public enum ScaleUnitType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #MINUTES
 	 * @generated
 	 * @ordered
@@ -64,7 +67,7 @@ public enum ScaleUnitType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #HOURS
 	 * @generated
 	 * @ordered
@@ -77,7 +80,7 @@ public enum ScaleUnitType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #DAYS
 	 * @generated
 	 * @ordered
@@ -90,7 +93,7 @@ public enum ScaleUnitType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #WEEKS
 	 * @generated
 	 * @ordered
@@ -103,7 +106,7 @@ public enum ScaleUnitType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #MONTHS
 	 * @generated
 	 * @ordered
@@ -116,7 +119,7 @@ public enum ScaleUnitType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #YEARS
 	 * @generated
 	 * @ordered
@@ -125,7 +128,7 @@ public enum ScaleUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Quarters</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #QUARTERS
 	 * @generated
 	 * @ordered
@@ -135,7 +138,7 @@ public enum ScaleUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Seconds</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #SECONDS_LITERAL
 	 * @model name="Seconds"
 	 * @generated
@@ -146,7 +149,7 @@ public enum ScaleUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Minutes</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #MINUTES_LITERAL
 	 * @model name="Minutes"
 	 * @generated
@@ -157,7 +160,7 @@ public enum ScaleUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Hours</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #HOURS_LITERAL
 	 * @model name="Hours"
 	 * @generated
@@ -168,7 +171,7 @@ public enum ScaleUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Days</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #DAYS_LITERAL
 	 * @model name="Days"
 	 * @generated
@@ -179,7 +182,7 @@ public enum ScaleUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Weeks</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #WEEKS_LITERAL
 	 * @model name="Weeks"
 	 * @generated
@@ -190,7 +193,7 @@ public enum ScaleUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Months</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #MONTHS_LITERAL
 	 * @model name="Months"
 	 * @generated
@@ -201,7 +204,7 @@ public enum ScaleUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Years</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #YEARS_LITERAL
 	 * @model name="Years"
 	 * @generated
@@ -216,7 +219,7 @@ public enum ScaleUnitType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #QUARTERS_LITERAL
 	 * @model name="Quarters"
 	 * @generated
@@ -227,16 +230,16 @@ public enum ScaleUnitType implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Scale Unit Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final ScaleUnitType[] VALUES_ARRAY = new ScaleUnitType[] { SECONDS_LITERAL, MINUTES_LITERAL,
-			HOURS_LITERAL, DAYS_LITERAL, WEEKS_LITERAL, MONTHS_LITERAL, YEARS_LITERAL, QUARTERS_LITERAL, };
+	private static final ScaleUnitType[] VALUES_ARRAY = { SECONDS_LITERAL, MINUTES_LITERAL, HOURS_LITERAL, DAYS_LITERAL,
+			WEEKS_LITERAL, MONTHS_LITERAL, YEARS_LITERAL, QUARTERS_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Scale Unit Type</b></em>'
 	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static final List<ScaleUnitType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -244,7 +247,7 @@ public enum ScaleUnitType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Scale Unit Type</b></em>' literal with the specified
 	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static ScaleUnitType get(String literal) {
@@ -260,7 +263,7 @@ public enum ScaleUnitType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Scale Unit Type</b></em>' literal with the specified
 	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static ScaleUnitType getByName(String name) {
@@ -276,7 +279,7 @@ public enum ScaleUnitType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Scale Unit Type</b></em>' literal with the specified
 	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static ScaleUnitType get(int value) {
@@ -303,21 +306,21 @@ public enum ScaleUnitType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String literal;
@@ -325,10 +328,10 @@ public enum ScaleUnitType implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private ScaleUnitType(int value, String name, String literal) {
+	ScaleUnitType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -336,27 +339,30 @@ public enum ScaleUnitType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -364,7 +370,7 @@ public enum ScaleUnitType implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override

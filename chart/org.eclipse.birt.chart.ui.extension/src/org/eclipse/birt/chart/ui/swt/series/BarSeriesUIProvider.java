@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -37,33 +40,36 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class BarSeriesUIProvider extends DefaultSeriesUIProvider {
 
 	private static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.BarSeriesImpl"; //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 */
 	public BarSeriesUIProvider() {
 		super();
 	}
 
+	@Override
 	public Composite getSeriesAttributeSheet(Composite parent, Series series, ChartWizardContext context) {
 		return new BarSeriesAttributeComposite(parent, SWT.NONE, context, series);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass()
 	 */
+	@Override
 	public String getSeriesClass() {
 		return SERIES_CLASS;
 	}
 
+	@Override
 	public ISelectDataComponent getSeriesDataComponent(int seriesType, SeriesDefinition seriesDefn,
 			ChartWizardContext context, String sTitle) {
 		if (seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES) {
@@ -80,22 +86,24 @@ public class BarSeriesUIProvider extends DefaultSeriesUIProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#getCompatibleAxisType(
 	 * org.eclipse.birt.chart.model.component.Series )
 	 */
+	@Override
 	public AxisType[] getCompatibleAxisType(Series series) {
 		return new AxisType[] { AxisType.DATE_TIME_LITERAL, AxisType.LINEAR_LITERAL, AxisType.LOGARITHMIC_LITERAL };
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#
 	 * validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
 	 */
+	@Override
 	public void validateSeriesBindingType(Series series, IDataServiceProvider idsp) throws ChartException {
 		Iterator<Query> iterEntries = series.getDataDefinition().iterator();
 		while (iterEntries.hasNext()) {

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,9 +33,10 @@ import org.eclipse.birt.chart.model.data.MultipleActions;
 
 public class SimpleActionEvaluator extends ActionEvaluatorAdapter {
 
+	@Override
 	public String[] getActionExpressions(Action action, StructureSource source) {
 		if (action instanceof MultipleActions) {
-			List<String> expList = new ArrayList<String>();
+			List<String> expList = new ArrayList<>();
 			for (Action subAction : ((MultipleActions) action).getActions()) {
 				ActionType at = subAction.getType();
 				if (at == ActionType.URL_REDIRECT_LITERAL && subAction.getValue() instanceof URLValue) {
@@ -45,7 +49,7 @@ public class SimpleActionEvaluator extends ActionEvaluatorAdapter {
 				return (String[]) expList.toArray(new String[expList.size()]);
 			}
 		} else if (ActionType.URL_REDIRECT_LITERAL.equals(action.getType())) {
-			List<String> expList = new ArrayList<String>();
+			List<String> expList = new ArrayList<>();
 			if (action.getValue() instanceof URLValue) {
 				URLValue uv = (URLValue) action.getValue();
 

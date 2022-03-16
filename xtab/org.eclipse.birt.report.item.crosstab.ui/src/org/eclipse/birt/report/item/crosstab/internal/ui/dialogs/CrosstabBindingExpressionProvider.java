@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,14 +24,16 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 
 /**
- * 
+ *
  */
 
 public class CrosstabBindingExpressionProvider extends CrosstabExpressionProvider {
 
+	@Override
 	protected void addFilterToProvider() {
 		this.addFilter(new ExpressionFilter() {
 
+			@Override
 			public boolean select(Object parentElement, Object element) {
 				// bug 220714
 				// ychen 2008/03/13
@@ -71,8 +76,9 @@ public class CrosstabBindingExpressionProvider extends CrosstabExpressionProvide
 					if (handle.getPropertyDefn().getName().equals(ICubeModel.DIMENSIONS_PROP)) {
 						try {
 							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle();
-							if (xtabHandle.getDimension(((DimensionHandle) element).getName()) == null)
+							if (xtabHandle.getDimension(((DimensionHandle) element).getName()) == null) {
 								return false;
+							}
 							return true;
 						} catch (ExtendedElementException e) {
 							return false;

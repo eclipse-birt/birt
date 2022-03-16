@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,58 +33,58 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * This is a managed object, meaning that all changes should be made though the
  * command layer so that they can be undone and redone. Each column hint has the
  * following properties:
- * 
+ *
  * <p>
  * <dl>
  * <dt><strong>Column Name </strong></dt>
  * <dd>a column hint has a required name. It keys the column hint to a column
  * within the result set.</dd>
- * 
+ *
  * <dt><strong>Alias </strong></dt>
  * <dd>a column hint has an optional alias. It provides an 'alias' name used for
  * the column within the report.</dd>
- * 
+ *
  * <dt><strong>Searching </strong></dt>
  * <dd>a column hint has an optional searching. It indicates how the column will
  * be used when searching.</dd>
- * 
+ *
  * <dt><strong>Export </strong></dt>
  * <dd>a column hint has an optional export. It determines how the column will
  * be used when exporting data.</dd>
- * 
+ *
  * <dt><strong>Analysis </strong></dt>
  * <dd>a column hint has an optional analysis. It determines how the column is
  * used when exporting the data to an OLAP cube.</dd>
- * 
+ *
  * <dt><strong>Parent Level </strong></dt>
  * <dd>a column hint has an optional parent level. It is used when a column's
  * <code>ANALYSIS_MEMBER</code> property is set to
  * <code>ANALYSIS_TYPE_DIMENSION</code> or <code>ANALYSIS_TYPE_DETAIL</code>.
  * For <code>ANALYSIS_TYPE_DIMENSION</code>, this property establishes the
  * dimension hierarchy.</dd>
- * 
+ *
  * <dt><strong>Format </strong></dt>
  * <dd>a column hint has an optional format. It is used to format the column
  * data when displaying the value in the viewing UI, especially within the
  * search results.</dd>
- * 
+ *
  * <dt><strong>Display Name </strong></dt>
  * <dd>a column hint has an optional display name. It provides an optional
  * localizable display name for the column.</dd>
- * 
+ *
  * <dt><strong>Display Name ID </strong></dt>
  * <dd>a column hint has an optional display name ID. It provides the key to
  * localize the display name.</dd>
- * 
+ *
  * <dt><strong>Help Text </strong></dt>
  * <dd>a column hint has an optional help text. It provides an optional
  * localizable descriptive text that explains the column to the end user.</dd>
- * 
+ *
  * <dt><strong>Help Text ID </strong></dt>
  * <dd>a column hint has an optional help text ID. It provides the key to
  * localize the help text.</dd>
  * </dl>
- * 
+ *
  */
 
 public class ColumnHint extends PropertyStructure {
@@ -148,10 +151,11 @@ public class ColumnHint extends PropertyStructure {
 	/**
 	 * Name of the format member. This member is used to format the column data when
 	 * displaying the value in the viewing UI, especially within the search results.
-	 * 
+	 *
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public static final String FORMAT_MEMBER = "format"; //$NON-NLS-1$
 
 	/**
@@ -206,10 +210,11 @@ public class ColumnHint extends PropertyStructure {
 	/**
 	 * Name of the display length member. This member indicates how long texts to
 	 * display.
-	 * 
+	 *
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public static final String DISPLAY_LENGTH_MEMBER = "displayLength"; //$NON-NLS-1$
 
 	/**
@@ -222,37 +227,41 @@ public class ColumnHint extends PropertyStructure {
 	/**
 	 * Name of the word wrap member. This member indicates if the word need to be
 	 * wrapped.
-	 * 
+	 *
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public static final String WORD_WRAP_MEMBER = "wordWrap"; //$NON-NLS-1$
 
 	/**
 	 * Name of the text format member. This member provides the text format of the
 	 * column.
-	 * 
+	 *
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public static final String TEXT_FORMAT_MEMBER = "textFormat"; //$NON-NLS-1$
 
 	/**
 	 * Name of the description member. The member provides an optional localizable
 	 * description of the column.
-	 * 
+	 *
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public static final String DESCRIPTION_MEMBER = "description"; //$NON-NLS-1$
 
 	/**
 	 * Name of the description id member. The member provides the resource key for
 	 * the description.
-	 * 
+	 *
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public static final String DESCRIPTION_ID_MEMBER = "descriptionID"; //$NON-NLS-1$
 
 	/**
@@ -292,10 +301,11 @@ public class ColumnHint extends PropertyStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return COLUMN_HINT_STRUCT;
 	}
@@ -305,11 +315,12 @@ public class ColumnHint extends PropertyStructure {
 	 * <ul>
 	 * <li>The column name is required.
 	 * </ul>
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(Module,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public List<SemanticException> validate(Module module, DesignElement element) {
 		List<SemanticException> list = super.validate(module, element);
 
@@ -325,10 +336,11 @@ public class ColumnHint extends PropertyStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
+	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new ColumnHintHandle(valueHandle, index);
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,14 +27,14 @@ public interface IChartUIHelper {
 	/**
 	 * Returns if default title is supported and if it should be visible in title UI
 	 * section.
-	 * 
+	 *
 	 * @return true means visible in title UI section
 	 */
 	boolean isDefaultTitleSupported();
 
 	/**
 	 * Returns current value of default title.
-	 * 
+	 *
 	 * @param context wizard context
 	 * @return current value of default title.
 	 */
@@ -39,7 +42,7 @@ public interface IChartUIHelper {
 
 	/**
 	 * Updates the title in chart model with current default title value.
-	 * 
+	 *
 	 * @param cm           chart model
 	 * @param extendedItem extended item object
 	 */
@@ -47,7 +50,7 @@ public interface IChartUIHelper {
 
 	/**
 	 * Checks if current chart type can combine.
-	 * 
+	 *
 	 * @param type    chart type
 	 * @param context wizard context
 	 * @since 3.7
@@ -57,10 +60,10 @@ public interface IChartUIHelper {
 	/**
 	 * Return true if expression uses binding that contains data set row directly or
 	 * indirectly
-	 * 
+	 *
 	 * @param reportItem
 	 * @param expression
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	boolean useDataSetRow(Object reportItem, String expression) throws BirtException;

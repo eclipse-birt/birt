@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ public class ScriptDirectorySourceContainer extends DirectorySourceContainer {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param dir
 	 * @param subfolders
 	 */
@@ -34,10 +37,11 @@ public class ScriptDirectorySourceContainer extends DirectorySourceContainer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.sourcelookup.containers.DirectorySourceContainer#
 	 * findSourceElements(java.lang.String)
 	 */
+	@Override
 	public Object[] findSourceElements(String name) throws CoreException {
 		// int index = name.lastIndexOf( File.separator );
 		int index = name.indexOf(File.separator);
@@ -55,8 +59,9 @@ public class ScriptDirectorySourceContainer extends DirectorySourceContainer {
 			sources.add(new ScriptLocalFileStorage(file, id));
 		}
 
-		if (sources.isEmpty())
+		if (sources.isEmpty()) {
 			return EMPTY;
+		}
 		return sources.toArray();
 	}
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +35,7 @@ public class ExtendedElementException extends SemanticException {
 	/**
 	 * The reference to the editor.For example graphic editor, xml source editor,
 	 * script editor and so on.
-	 * 
+	 *
 	 */
 
 	public static final String SUB_EDITOR = "sub_editor"; //$NON-NLS-1$
@@ -59,11 +62,11 @@ public class ExtendedElementException extends SemanticException {
 	 * Hash map for the extended element exception properties
 	 */
 
-	protected HashMap<String, Object> properties = new HashMap<String, Object>();
+	protected HashMap<String, Object> properties = new HashMap<>();
 
 	/**
 	 * Constructs a new model exception with no cause object.
-	 * 
+	 *
 	 * @param element   The element with semantic error.
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
@@ -79,7 +82,7 @@ public class ExtendedElementException extends SemanticException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param element   The element with semantic error.
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
@@ -97,7 +100,7 @@ public class ExtendedElementException extends SemanticException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param element   The element with semantic error.
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
@@ -116,7 +119,7 @@ public class ExtendedElementException extends SemanticException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param element   The element with semantic error.
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
@@ -135,7 +138,7 @@ public class ExtendedElementException extends SemanticException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param element   The element with semantic error.
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
@@ -153,7 +156,7 @@ public class ExtendedElementException extends SemanticException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param element   The element with semantic error.
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
@@ -171,7 +174,7 @@ public class ExtendedElementException extends SemanticException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param element   The element with semantic error.
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
@@ -189,20 +192,21 @@ public class ExtendedElementException extends SemanticException {
 
 	/**
 	 * Sets extended element exception properties.
-	 * 
+	 *
 	 * @param propName property name of extended element exception.
 	 * @param value    value of extended element exception.
 	 */
 
 	public void setProperty(String propName, Object value) {
-		if (propName == null)
+		if (propName == null) {
 			return;
+		}
 		properties.put(propName, value);
 	}
 
 	/**
 	 * Returns extended element exception properties.
-	 * 
+	 *
 	 * @param propName property name of extended element exception.
 	 * @return value of extended element exception.
 	 */
@@ -213,18 +217,21 @@ public class ExtendedElementException extends SemanticException {
 
 	/**
 	 * Returns localized message.
-	 * 
+	 *
 	 * @return localized message.
 	 */
 
+	@Override
 	public String getLocalizedMessage() {
-		if (getProperty(LOCALIZED_MESSAGE) != null)
+		if (getProperty(LOCALIZED_MESSAGE) != null) {
 			return (String) getProperty(LOCALIZED_MESSAGE);
+		}
 
 		// IF the elemetn is not null
 
-		if (element == null)
+		if (element == null) {
 			return sResourceKey;
+		}
 
 		if (element instanceof ExtendedItem) {
 			// Get the message from the IMessage

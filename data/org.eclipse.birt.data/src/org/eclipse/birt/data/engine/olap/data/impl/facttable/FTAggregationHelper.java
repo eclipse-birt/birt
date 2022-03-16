@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ *
  */
 
 public class FTAggregationHelper {
@@ -38,7 +41,7 @@ public class FTAggregationHelper {
 	public FTAggregationHelper(IAggrFunction[] functions) throws DataException {
 		this.functions = functions;
 		this.currentRoundAggrValue = new Object[functions.length];
-		this.accumulators = new ArrayList<Accumulator>();
+		this.accumulators = new ArrayList<>();
 
 		this.populateAggregations();
 	}
@@ -54,7 +57,7 @@ public class FTAggregationHelper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.executor.aggregation.
 	 * IProgressiveAggregationHelper#onRow(int, int,
 	 * org.eclipse.birt.data.engine.odi.IResultObject, int)
@@ -77,8 +80,9 @@ public class FTAggregationHelper {
 
 	public Object[] getCurrentValues() {
 		Object[] result = new Object[this.currentRoundAggrValue.length];
-		for (int i = 0; i < result.length; i++)
+		for (int i = 0; i < result.length; i++) {
 			result[i] = this.currentRoundAggrValue[i];
+		}
 		return result;
 	}
 }

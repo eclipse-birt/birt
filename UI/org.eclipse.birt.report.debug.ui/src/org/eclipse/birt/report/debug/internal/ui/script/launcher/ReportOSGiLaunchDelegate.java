@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,6 +39,7 @@ public class ReportOSGiLaunchDelegate extends EclipseApplicationLaunchConfigurat
 		helper = new ReportLaunchHelper();
 	}
 
+	@Override
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor)
 			throws CoreException {
 		helper.init(configuration);
@@ -43,6 +47,7 @@ public class ReportOSGiLaunchDelegate extends EclipseApplicationLaunchConfigurat
 		super.launch(configuration, mode, launch, monitor);
 	}
 
+	@Override
 	public String[] getVMArguments(ILaunchConfiguration configuration) throws CoreException {
 		String[] args = super.getVMArguments(configuration);
 
@@ -65,6 +70,7 @@ public class ReportOSGiLaunchDelegate extends EclipseApplicationLaunchConfigurat
 		return (String[]) arguments.toArray(new String[arguments.size()]);
 	}
 
+	@Override
 	public String[] getProgramArguments(ILaunchConfiguration configuration) throws CoreException {
 		String[] args = super.getProgramArguments(configuration);
 
@@ -96,6 +102,7 @@ public class ReportOSGiLaunchDelegate extends EclipseApplicationLaunchConfigurat
 		return name;
 	}
 
+	@Override
 	public IVMRunner getVMRunner(ILaunchConfiguration configuration, String mode) throws CoreException {
 		if ((helper.debugType & DEBUG_TYPE_JAVA_CLASS) == DEBUG_TYPE_JAVA_CLASS) {
 			mode = ILaunchManager.DEBUG_MODE;
@@ -107,10 +114,12 @@ public class ReportOSGiLaunchDelegate extends EclipseApplicationLaunchConfigurat
 				(helper.debugType & DEBUG_TYPE_JAVA_SCRIPT) == DEBUG_TYPE_JAVA_SCRIPT, this);
 	}
 
+	@Override
 	protected IProject[] getBuildOrder(ILaunchConfiguration configuration, String mode) throws CoreException {
 		return super.getBuildOrder(configuration, mode);
 	}
 
+	@Override
 	public boolean finalLaunchCheck(final ILaunchConfiguration configuration, String mode, IProgressMonitor monitor)
 			throws CoreException {
 

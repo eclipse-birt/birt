@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -42,11 +45,11 @@ public class FillCellsStrategy {
 
 	/**
 	 * Constructs a <code>DropStrategy</code> with the given table.
-	 * 
+	 *
 	 * @param layoutTable     the layout table
 	 * @param fillsEmptyCells <code>true</code> if cell elements are filled in empty
 	 *                        areas. Otherwise <code>false</code>.
-	 * 
+	 *
 	 */
 
 	public FillCellsStrategy(LayoutTable layoutTable, boolean fillsEmptyCells) {
@@ -57,7 +60,7 @@ public class FillCellsStrategy {
 	/**
 	 * Applies different stragegies to the layout table and table element with the
 	 * given options.
-	 * 
+	 *
 	 */
 
 	public void applyStrategy() {
@@ -71,7 +74,7 @@ public class FillCellsStrategy {
 	 * <li>Fills <code>Cell</code>s to areas that are empty in the
 	 * <code>TableItem</code></li>
 	 * </ul>
-	 * 
+	 *
 	 */
 
 	private void fillsEmptyCellsForTable() {
@@ -109,7 +112,7 @@ public class FillCellsStrategy {
 	 * <li>Fills <code>Cell</code>s to areas that are empty in the
 	 * <code>TableItem</code></li>
 	 * </ul>
-	 * 
+	 *
 	 * @param slot        the slot in the table element
 	 * @param layoutSlot  the slot in the layout table
 	 * @param columnCount the column number of the table
@@ -131,7 +134,7 @@ public class FillCellsStrategy {
 	 * <li>Fills <code>Cell</code>s to areas that are empty in the
 	 * <code>TableItem</code></li>
 	 * </ul>
-	 * 
+	 *
 	 * @param row         the row in the table element
 	 * @param layoutRow   the layout row in the layout table
 	 * @param columnCount the column number of the table
@@ -139,10 +142,12 @@ public class FillCellsStrategy {
 
 	private void fillsEmptyCellsForRow(TableRow row, LayoutRow layoutRow, int columnCount) {
 		int colPos = 0;
-		for (Iterator iter = layoutRow.layoutCellsIterator(); iter.hasNext(); iter.next())
+		for (Iterator iter = layoutRow.layoutCellsIterator(); iter.hasNext(); iter.next()) {
 			colPos++;
-		if (colPos < columnCount)
+		}
+		if (colPos < columnCount) {
 			doFillLayoutCells(layoutRow, columnCount - colPos);
+		}
 
 		int[] positionsToAddCells = new int[columnCount];
 		int[] positionsToFillLayoutCells = new int[columnCount];
@@ -154,8 +159,9 @@ public class FillCellsStrategy {
 		colPos = 1;
 		for (int passedCells = 0, toAddCellsIndex = 0; iter.hasNext(); colPos++) {
 			LayoutCell layoutCell = (LayoutCell) iter.next();
-			if (layoutCell.isUsed() && layoutCell.isCellStartPosition())
+			if (layoutCell.isUsed() && layoutCell.isCellStartPosition()) {
 				passedCells++;
+			}
 			if (!layoutCell.isUsed() && colPos <= columnCount) {
 				// fills a empty cell at this place.
 				// records the position, do not add cells during the iteration
@@ -174,19 +180,20 @@ public class FillCellsStrategy {
 
 	/**
 	 * Fills empty areas in a row with multiple <code>LayoutCell</code>s.
-	 * 
+	 *
 	 * @param row      the table row to fill
 	 * @param numToAdd the number of <code>LayoutCell</code>s to add
 	 */
 
 	private void doFillLayoutCells(LayoutRow row, int numToAdd) {
-		for (int i = 0; i < numToAdd; i++)
+		for (int i = 0; i < numToAdd; i++) {
 			row.addCell(LayoutCell.EMPTY_CELL);
+		}
 	}
 
 	/**
 	 * Fills empty areas in a row with multiple <code>LayoutCell</code>s.
-	 * 
+	 *
 	 * @param row                        the table row to fill
 	 * @param positionsToAddCells        positions to add
 	 * @param layoutRow                  the layout row to fill
@@ -202,8 +209,9 @@ public class FillCellsStrategy {
 
 		for (int i = 0; i < positionsToAddCells.length; i++) {
 			int posn = positionsToAddCells[i];
-			if (posn < 0)
+			if (posn < 0) {
 				continue;
+			}
 
 			Cell cell = new Cell();
 			row.add(cell, ITableRowModel.CONTENT_SLOT, posn);

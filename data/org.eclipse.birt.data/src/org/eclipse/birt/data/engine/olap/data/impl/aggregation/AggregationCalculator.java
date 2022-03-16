@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,11 +25,11 @@ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.timefunction.IParallelPeriod;
+import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
 import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
 import org.eclipse.birt.data.engine.api.timefunction.ReferenceDate;
-import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
-import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
 import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
+import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.SizeOfUtil;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
@@ -68,7 +71,7 @@ public class AggregationCalculator {
 	private static Logger logger = Logger.getLogger(AggregationCalculator.class.getName());
 
 	/**
-	 * 
+	 *
 	 * @param aggregationDef
 	 * @param facttableRowIterator
 	 * @throws DataException
@@ -82,10 +85,11 @@ public class AggregationCalculator {
 		logger.entering(AggregationCalculator.class.getName(), "AggregationCalculator", params);
 		this.aggregation = aggregationDef;
 		AggregationFunctionDefinition[] aggregationFunction = aggregationDef.getAggregationFunctions();
-		if (aggregationDef.getLevels() == null)
+		if (aggregationDef.getLevels() == null) {
 			this.levelCount = 0;
-		else
+		} else {
 			this.levelCount = aggregationDef.getLevels().length;
+		}
 		if (aggregationFunction != null) {
 			this.accumulators = new Accumulator[aggregationFunction.length];
 			this.timeFunctionFilter = new Set[aggregationFunction.length];
@@ -135,9 +139,9 @@ public class AggregationCalculator {
 		}
 		int rowSize = 16 + (4 + (levelSize + measureSize) - 1) / 8 * 8;
 		int bufferSize = (int) (memoryCacheSize / rowSize);
-		if (bufferSize != 0)
+		if (bufferSize != 0) {
 			result = new BufferedStructureArray(AggregationResultRow.getCreator(), bufferSize);
-		else {
+		} else {
 			result = new BufferedStructureArray(AggregationResultRow.getCreator(), 1000);
 			((BufferedStructureArray) result).setUseMemoryOnly(true);
 		}
@@ -150,7 +154,7 @@ public class AggregationCalculator {
 
 	private static Set<TimeMember> getTimeFunctinResult(IDimension timeDimension, ITimeFunction function)
 			throws DataException {
-		Set<TimeMember> set = new HashSet<TimeMember>();
+		Set<TimeMember> set = new HashSet<>();
 
 		IPeriodsFunction periodsFunction = createTimeFunction(function);
 		TimeMember member = TimeMemberUtil.toMember(timeDimension, function.getReferenceDate().getDate());
@@ -163,7 +167,7 @@ public class AggregationCalculator {
 
 	private static IPeriodsFunction createTimeFunction(ITimeFunction function) throws DataException {
 		IPeriodsFunction periodsFunction = null;
-		String toDatelevelType = null;
+		String toDatelevelType;
 		String paralevelType = null;
 
 		toDatelevelType = toLevelType(function.getBaseTimePeriod().getType());
@@ -210,12 +214,13 @@ public class AggregationCalculator {
 		int[] dataType = new int[dimLevel.length];
 		for (int i = 0; i < dimLevel.length; i++) {
 			DimColumn dimColumn = null;
-			if (dimLevel[i].getAttrName() == null)
+			if (dimLevel[i].getAttrName() == null) {
 				dimColumn = new DimColumn(dimLevel[i].getDimensionName(), dimLevel[i].getLevelName(),
 						dimLevel[i].getLevelName());
-			else
+			} else {
 				dimColumn = new DimColumn(dimLevel[i].getDimensionName(), dimLevel[i].getLevelName(),
 						dimLevel[i].getAttrName());
+			}
 			ColumnInfo columnInfo = metaInfo.getColumnInfo(dimColumn);
 			dataType[i] = columnInfo.getDataType();
 		}
@@ -223,7 +228,7 @@ public class AggregationCalculator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param colArray
 	 * @param col
 	 * @return
@@ -241,7 +246,7 @@ public class AggregationCalculator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param row
 	 * @throws IOException
 	 * @throws DataException
@@ -249,37 +254,35 @@ public class AggregationCalculator {
 	void onRow(Row4Aggregation row) throws IOException, DataException {
 		if (currentResultObj == null) {
 			newAggregationResultRow(row);
-		} else {
-			if (currentResultObj.getLevelMembers() == null
-					|| compare(row.getLevelMembers(), currentResultObj.getLevelMembers()) == 0) {
-				if (accumulators != null) {
-					while (row.nextMeasures()) {
-						for (int i = 0; i < accumulators.length; i++) {
-							if (!getFilterResult(row, i)) {
-								continue;
-							}
-							accumulators[i].onRow(getAccumulatorParameter(row, i));
-						}
-					}
-					row.firstMeasure();
-				}
-			} else {
-				if (accumulators != null) {
-					currentResultObj.setAggregationValues(new Object[accumulators.length]);
+		} else if (currentResultObj.getLevelMembers() == null
+				|| compare(row.getLevelMembers(), currentResultObj.getLevelMembers()) == 0) {
+			if (accumulators != null) {
+				while (row.nextMeasures()) {
 					for (int i = 0; i < accumulators.length; i++) {
-						accumulators[i].finish();
-						currentResultObj.getAggregationValues()[i] = accumulators[i].getValue();
-						accumulators[i].start();
+						if (!getFilterResult(row, i)) {
+							continue;
+						}
+						accumulators[i].onRow(getAccumulatorParameter(row, i));
 					}
 				}
-				result.add(currentResultObj);
-				newAggregationResultRow(row);
+				row.firstMeasure();
 			}
+		} else {
+			if (accumulators != null) {
+				currentResultObj.setAggregationValues(new Object[accumulators.length]);
+				for (int i = 0; i < accumulators.length; i++) {
+					accumulators[i].finish();
+					currentResultObj.getAggregationValues()[i] = accumulators[i].getValue();
+					accumulators[i].start();
+				}
+			}
+			result.add(currentResultObj);
+			newAggregationResultRow(row);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param row
 	 * @param functionNo
 	 * @return
@@ -295,8 +298,9 @@ public class AggregationCalculator {
 		if (filterEvalHelper != null) {
 			result = filterEvalHelper.evaluateFilter(facttableRow);
 		}
-		if (!result)
+		if (!result) {
 			return result;
+		}
 		if (this.timeFunctionFilter[functionNo] != null) {
 			Member[] members = this.cubeDimensionReader.getLevelMembers(timeFilterDimensionIndex[functionNo],
 					timeFilterLevelCount[functionNo], row.getDimPos()[timeFilterDimensionIndex[functionNo]]);
@@ -305,17 +309,18 @@ public class AggregationCalculator {
 				timeMember[i] = ((Integer) (members[i].getKeyValues()[0])).intValue();
 			}
 			TimeMember tMember = new TimeMember(timeMember, null);
-			if (this.timeFunctionFilter[functionNo].contains(tMember))
+			if (this.timeFunctionFilter[functionNo].contains(tMember)) {
 				return true;
-			else
+			} else {
 				return false;
+			}
 		}
 		return result;
 
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 * @throws DataException
@@ -329,8 +334,9 @@ public class AggregationCalculator {
 				accumulators[i].start();
 			}
 		}
-		if (currentResultObj != null)
+		if (currentResultObj != null) {
 			result.add(currentResultObj);
+		}
 		/*
 		 * else result.add( new AggregationResultRow( ) );
 		 */
@@ -338,7 +344,7 @@ public class AggregationCalculator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param row
 	 * @throws DataException
 	 * @throws IOException
@@ -385,7 +391,7 @@ public class AggregationCalculator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param key1
 	 * @param key2
 	 * @return

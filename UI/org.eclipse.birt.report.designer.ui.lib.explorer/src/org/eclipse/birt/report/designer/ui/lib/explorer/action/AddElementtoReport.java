@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +45,7 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
 
 /**
- * 
+ *
  */
 
 public class AddElementtoReport extends Action {
@@ -76,6 +79,7 @@ public class AddElementtoReport extends Action {
 	/*
 	 * (non-Javadoc) Method declared on IAction.
 	 */
+	@Override
 	public boolean isEnabled() {
 		Object target = getTarget();
 		this.target = target;
@@ -104,6 +108,7 @@ public class AddElementtoReport extends Action {
 		return null;
 	}
 
+	@Override
 	public void run() {
 		SessionHandleAdapter.getInstance().getCommandStack().startTrans(ACTION_TEXT);
 		try {
@@ -120,8 +125,9 @@ public class AddElementtoReport extends Action {
 		if (transfer instanceof DataSetHandle || transfer instanceof DataSourceHandle
 				|| transfer instanceof ParameterHandle || transfer instanceof ParameterGroupHandle
 				|| transfer instanceof CascadingParameterGroupHandle || transfer instanceof CubeHandle
-				|| transfer instanceof MasterPageHandle)
+				|| transfer instanceof MasterPageHandle) {
 			return true;
+		}
 
 		if (target instanceof LibraryHandle && transfer instanceof EmbeddedImageHandle) {
 			EmbeddedImageHandle imageHandle = (EmbeddedImageHandle) transfer;
@@ -172,7 +178,7 @@ public class AddElementtoReport extends Action {
 		int position = getPosition(target);
 		boolean result = false;
 
-		if (transfer != null && transfer instanceof DesignElementHandle) {
+		if (transfer instanceof DesignElementHandle) {
 			DesignElementHandle sourceHandle;
 			if ((sourceHandle = (DesignElementHandle) transfer).getRoot() instanceof LibraryHandle) {
 				// transfer element from a library.
@@ -195,7 +201,7 @@ public class AddElementtoReport extends Action {
 			} else {
 				result = DNDUtil.copyHandles(transfer, target, position);
 			}
-		} else if (transfer != null && transfer instanceof EmbeddedImageHandle) {
+		} else if (transfer instanceof EmbeddedImageHandle) {
 			EmbeddedImageHandle sourceEmbeddedImageHandle;
 			if ((sourceEmbeddedImageHandle = (EmbeddedImageHandle) transfer).getElementHandle()
 					.getRoot() instanceof LibraryHandle) {

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -65,7 +68,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty data set cached meta-data structure.
-	 * 
+	 *
 	 * @return an empty data set cached meta-data structure.
 	 */
 
@@ -75,7 +78,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty computed column structure.
-	 * 
+	 *
 	 * @return an empty computed column structure
 	 */
 
@@ -85,7 +88,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty action structure.
-	 * 
+	 *
 	 * @return an empty action structure.
 	 */
 
@@ -95,7 +98,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty config variable structure.
-	 * 
+	 *
 	 * @return an empty config variable structure
 	 */
 
@@ -105,7 +108,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty custom color structure.
-	 * 
+	 *
 	 * @return an empty custom color structure
 	 */
 
@@ -115,7 +118,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty data-set parameter structure.
-	 * 
+	 *
 	 * @return an empty data-set parameter structure
 	 */
 
@@ -125,7 +128,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty oda-data-set parameter strcuture.
-	 * 
+	 *
 	 * @return an empty oda-data-set parameter
 	 */
 
@@ -135,7 +138,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty embedded image structure.
-	 * 
+	 *
 	 * @return an empty embedded image structure
 	 */
 
@@ -145,7 +148,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty filter condition structure.
-	 * 
+	 *
 	 * @return an empty filter condition structure
 	 */
 
@@ -155,7 +158,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty hide rule structure.
-	 * 
+	 *
 	 * @return an empty hide rule structure
 	 */
 
@@ -165,7 +168,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty include script structure.
-	 * 
+	 *
 	 * @return an empty include script structure
 	 */
 
@@ -175,7 +178,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty include library structure.
-	 * 
+	 *
 	 * @return an empty include library structure
 	 */
 
@@ -185,7 +188,7 @@ public class StructureFactory {
 
 	/**
 	 * Create an empty include css style sheet ststructure.
-	 * 
+	 *
 	 * @return an empty include css style sheet structure.
 	 */
 
@@ -195,7 +198,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty parameter binding structure.
-	 * 
+	 *
 	 * @return an empty parameter binding structure
 	 */
 
@@ -205,7 +208,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty property mask structure.
-	 * 
+	 *
 	 * @return an empty property mask structure
 	 */
 
@@ -215,7 +218,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty result set column structure.
-	 * 
+	 *
 	 * @return an empty result set column structure
 	 */
 
@@ -225,7 +228,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty oda result set column structure.
-	 * 
+	 *
 	 * @return an empty result set column structure
 	 */
 
@@ -235,7 +238,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty search key structure.
-	 * 
+	 *
 	 * @return an empty search key structure
 	 */
 
@@ -245,7 +248,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty selection choice structure.
-	 * 
+	 *
 	 * @return an empty selection choice structure
 	 */
 
@@ -255,7 +258,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty sort key structure.
-	 * 
+	 *
 	 * @return an empty sort key structure
 	 */
 
@@ -265,7 +268,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty column hint structure.
-	 * 
+	 *
 	 * @return an empty column hint structure
 	 */
 
@@ -275,7 +278,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty highlight rule structure.
-	 * 
+	 *
 	 * @return an empty highlight rule structure
 	 */
 
@@ -285,7 +288,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty map rule structure.
-	 * 
+	 *
 	 * @return an empty map rule structure
 	 */
 
@@ -295,7 +298,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty extended property structure.
-	 * 
+	 *
 	 * @return an empty extended property structure
 	 */
 
@@ -305,7 +308,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty join condition structure.
-	 * 
+	 *
 	 * @return an empty join condition structure
 	 */
 
@@ -315,7 +318,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty join condition structure.
-	 * 
+	 *
 	 * @return an empty join condition structure
 	 */
 
@@ -325,7 +328,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty oda designer state.
-	 * 
+	 *
 	 * @return an empty oda designer state.
 	 */
 
@@ -335,17 +338,19 @@ public class StructureFactory {
 
 	/**
 	 * Creates an embedded image from another library embedded image.
-	 * 
+	 *
 	 * @param baseImage
 	 * @return the created embedded image
-	 * 
+	 *
 	 * @deprecated by
 	 *             {@link #newEmbeddedImageFrom(EmbeddedImageHandle, String, ModuleHandle)}
 	 */
 
+	@Deprecated
 	public static EmbeddedImage createEmbeddedImage(EmbeddedImageHandle baseImage) {
-		if (baseImage == null)
+		if (baseImage == null) {
 			return null;
+		}
 		EmbeddedImage image = new EmbeddedImage();
 		Module module = baseImage.getModule();
 		String namespace = module instanceof Library ? ((Library) module).getNamespace() : null;
@@ -357,11 +362,11 @@ public class StructureFactory {
 	/**
 	 * Creates an embedded image from another library embedded image. The name of
 	 * the return embedded image fully depends on <code>name</code>.
-	 * 
+	 *
 	 * @param baseImage    the base image
 	 * @param name         the name of the return embedded image
 	 * @param targetModule the target module that is inserted to
-	 * 
+	 *
 	 * @return the created embedded image
 	 * @throws LibraryException if the library has the <code>baseImage</code> is not
 	 *                          included in the <code>targetModule</code>
@@ -369,13 +374,15 @@ public class StructureFactory {
 
 	public static EmbeddedImage newEmbeddedImageFrom(EmbeddedImageHandle baseImage, String name,
 			ModuleHandle targetModule) throws LibraryException {
-		if (baseImage == null || targetModule == null)
+		if (baseImage == null || targetModule == null) {
 			return null;
+		}
 		EmbeddedImage image = new EmbeddedImage();
 		Module baseModule = baseImage.getModule();
 
-		if (baseModule instanceof ReportDesign)
+		if (baseModule instanceof ReportDesign) {
 			return null;
+		}
 
 		// the library with the location path is never included
 
@@ -396,10 +403,10 @@ public class StructureFactory {
 	/**
 	 * Creates an embedded image from another library embedded image. This method
 	 * creates the embedded image name automatically.
-	 * 
+	 *
 	 * @param baseImage    the base image
 	 * @param targetModule the target module that is inserted to
-	 * 
+	 *
 	 * @return the created embedded image
 	 * @throws LibraryException if the library has the <code>baseImage</code> is not
 	 *                          included in the <code>targetModule</code>
@@ -407,8 +414,9 @@ public class StructureFactory {
 
 	public static EmbeddedImage newEmbeddedImageFrom(EmbeddedImageHandle baseImage, ModuleHandle targetModule)
 			throws LibraryException {
-		if (baseImage == null)
+		if (baseImage == null) {
 			return null;
+		}
 
 		EmbeddedImage newImage = newEmbeddedImageFrom(baseImage, baseImage.getName(), targetModule);
 		targetModule.rename(newImage);
@@ -421,7 +429,7 @@ public class StructureFactory {
 	 * <p>
 	 * For example, if the <code>newName</code> is "column" and this is duplicate,
 	 * then the name of return column is: "column_1".
-	 * 
+	 *
 	 * @param element the element on which computed column will be added
 	 * @param newName the default column name
 	 * @return a bound data column. If the <code>newName</code> is unique, the name
@@ -434,12 +442,14 @@ public class StructureFactory {
 	 */
 
 	public static ComputedColumn newComputedColumn(DesignElementHandle element, String newName) {
-		if (newName == null)
+		if (newName == null) {
 			throw new IllegalArgumentException("The new column name must not be empty"); //$NON-NLS-1$
+		}
 
 		if (!(element instanceof ReportItemHandle || element instanceof ScalarParameterHandle
-				|| element instanceof GroupHandle))
+				|| element instanceof GroupHandle)) {
 			return null;
+		}
 
 		String tmpName = BoundDataColumnUtil.makeUniqueName(element, newName, null);
 
@@ -462,15 +472,14 @@ public class StructureFactory {
 	 * @param newColumn the computed column to be checked and renamed
 	 */
 	public static void makeUniqueNameComputedColumn(DesignElementHandle element, ComputedColumn newColumn) {
-		if (element == null || newColumn == null)
+		if (element == null || newColumn == null) {
 			return;
+		}
 		String newName = newColumn.getName();
-		if (newName == null)
+		if ((newName == null) || !(element instanceof ReportItemHandle || element instanceof ScalarParameterHandle
+				|| element instanceof GroupHandle)) {
 			return;
-
-		if (!(element instanceof ReportItemHandle || element instanceof ScalarParameterHandle
-				|| element instanceof GroupHandle))
-			return;
+		}
 
 		// make a unique column name
 		String tmpName = BoundDataColumnUtil.makeUniqueName(element, newName, null);
@@ -479,7 +488,7 @@ public class StructureFactory {
 
 	/**
 	 * Create TOC structure.
-	 * 
+	 *
 	 * @return toc object
 	 */
 	public static TOC createTOC() {
@@ -489,7 +498,7 @@ public class StructureFactory {
 
 	/**
 	 * Create TOC structure with expression value.
-	 * 
+	 *
 	 * @param expression expression value
 	 * @return toc object
 	 */
@@ -501,7 +510,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty cube join condition structure.
-	 * 
+	 *
 	 * @return an empty cube join condition structure.
 	 */
 
@@ -511,7 +520,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an empty dimension join condition structure.
-	 * 
+	 *
 	 * @return an empty dimension join condition structure.
 	 */
 
@@ -521,7 +530,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates a Rule structure.
-	 * 
+	 *
 	 * @return a rule structure
 	 */
 	public static Rule createRule() {
@@ -530,7 +539,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an attribute for TabularLevel.
-	 * 
+	 *
 	 * @return a level attribute
 	 */
 
@@ -540,7 +549,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an attribute for OdaLevel.
-	 * 
+	 *
 	 * @return a level attribute
 	 */
 
@@ -550,7 +559,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates an aggregation argument for computed column.
-	 * 
+	 *
 	 * @return an aggregation argument
 	 */
 	public static AggregationArgument createAggregationArgument() {
@@ -559,7 +568,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates a new sort hint.
-	 * 
+	 *
 	 * @return a sort hint.
 	 */
 	public static SortHint createSortHint() {
@@ -568,7 +577,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates a new time interval.
-	 * 
+	 *
 	 * @return a time interval.
 	 */
 	public static TimeInterval createTimeInterval() {
@@ -577,7 +586,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates a new format value structure.
-	 * 
+	 *
 	 * @return the format value created.
 	 */
 	public static FormatValue newFormatValue() {
@@ -586,7 +595,7 @@ public class StructureFactory {
 
 	/**
 	 * Creates a new calculation argument structure.
-	 * 
+	 *
 	 * @return the calculation argument created
 	 */
 	public static CalculationArgument createCalculationArgument() {

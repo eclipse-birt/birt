@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -12,6 +15,7 @@
 package org.eclipse.birt.report.designer.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
@@ -47,7 +51,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
- * 
+ *
  */
 
 public class DNDUtilTest extends BaseTestCase {
@@ -78,9 +82,7 @@ public class DNDUtilTest extends BaseTestCase {
 	}
 
 	private void dropSource() {
-		for (int i = 0; i < dataItems.length; i++) {
-			dataItems[i] = null;
-		}
+		Arrays.fill(dataItems, null);
 
 		table = null;
 		// try
@@ -124,22 +126,24 @@ public class DNDUtilTest extends BaseTestCase {
 
 	private CellHandle getCell(int type, int row, int column) {
 		SlotHandle rows = null;
-		if (type == TableItem.HEADER_SLOT)
+		if (type == TableItem.HEADER_SLOT) {
 			rows = table.getHeader();
-		else if (type == TableItem.DETAIL_SLOT)
+		} else if (type == TableItem.DETAIL_SLOT) {
 			rows = table.getHeader();
-		else if (type == TableItem.FOOTER_SLOT)
+		} else if (type == TableItem.FOOTER_SLOT) {
 			rows = table.getHeader();
-		else
+		} else {
 			return null;
+		}
 		return (CellHandle) ((RowHandle) (rows.get(row))).getCells().get(column);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.testutil.BaseTestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		createSource();
@@ -148,9 +152,10 @@ public class DNDUtilTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.testutil.BaseTestCase#tearDown()
 	 */
+	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		dropSource();
@@ -285,9 +290,7 @@ public class DNDUtilTest extends BaseTestCase {
 		list.clear();
 		try {
 			listHandle.getDetail().add(getElementFactory().newDataItem("data"));
-		} catch (ContentException e) {
-			e.printStackTrace();
-		} catch (NameException e) {
+		} catch (ContentException | NameException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -411,9 +414,7 @@ public class DNDUtilTest extends BaseTestCase {
 			assertTrue("validate rename", parameters.get(1).getName().equals("p2"));
 			assertTrue("validate rename", parameters.get(2).getName().equals("c1"));
 			assertTrue("validate rename", parameters.get(3).getName().equals("c2"));
-		} catch (ContentException e) {
-			e.printStackTrace();
-		} catch (NameException e) {
+		} catch (ContentException | NameException e) {
 			e.printStackTrace();
 		}
 	}
@@ -488,7 +489,7 @@ public class DNDUtilTest extends BaseTestCase {
 			e.printStackTrace();
 		}
 
-		DeleteCommand command = null;
+		DeleteCommand command;
 
 		command = new DeleteCommand(getElementFactory().newSimpleMasterPage("master page"));
 		assertFalse("can't delete master page", command.canExecute());
@@ -536,9 +537,7 @@ public class DNDUtilTest extends BaseTestCase {
 
 		try {
 			listHandle.getHeader().add(getElementFactory().newLabel(""));
-		} catch (ContentException e1) {
-			e1.printStackTrace();
-		} catch (NameException e1) {
+		} catch (ContentException | NameException e1) {
 			e1.printStackTrace();
 		}
 		command = new DeleteCommand(listHandle.getHeader());
@@ -548,9 +547,7 @@ public class DNDUtilTest extends BaseTestCase {
 		try {
 			listHandle.addElement(lg, ListHandle.GROUP_SLOT);
 			lg.addElement(getElementFactory().newLabel("lg"), GroupHandle.HEADER_SLOT);
-		} catch (ContentException e1) {
-			e1.printStackTrace();
-		} catch (NameException e1) {
+		} catch (ContentException | NameException e1) {
 			e1.printStackTrace();
 		}
 		command = new DeleteCommand(lg.getHeader());
@@ -588,7 +585,7 @@ public class DNDUtilTest extends BaseTestCase {
 		// Test multiple order
 		label = getElementFactory().newLabel("label1");
 		text = getElementFactory().newTextItem("text3");
-		Object[] array = new Object[] { label, text };
+		Object[] array = { label, text };
 		Object cloneElements = DNDUtil.cloneSource(array);
 		DNDUtil.copyHandles(cloneElements, dataItems[0]);
 		DNDUtil.copyHandles(cloneElements, dataItems[0]);

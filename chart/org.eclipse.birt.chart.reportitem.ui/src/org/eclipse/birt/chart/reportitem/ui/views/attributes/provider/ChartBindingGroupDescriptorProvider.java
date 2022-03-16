@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -13,7 +16,6 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
@@ -44,10 +46,11 @@ public class ChartBindingGroupDescriptorProvider extends BindingGroupDescriptorP
 	private static final String DATA_SETS_DEFAULT = org.eclipse.birt.chart.reportitem.ui.i18n.Messages
 			.getString("ChartBindingGroupDescriptorProvider.DataSets.Default"); //$NON-NLS-1$
 
+	@Override
 	@SuppressWarnings("unchecked")
 	protected List<ReportItemHandle> getAvailableDataBindingReferenceList(ReportItemHandle element) {
 		List<ReportItemHandle> availableList = element.getNamedDataBindingReferenceList();
-		List<ReportItemHandle> referenceList = new ArrayList<ReportItemHandle>();
+		List<ReportItemHandle> referenceList = new ArrayList<>();
 		for (ReportItemHandle handle : availableList) {
 			if (handle instanceof ExtendedItemHandle) {
 				String extensionName = ((ExtendedItemHandle) handle).getExtensionName();
@@ -60,11 +63,12 @@ public class ChartBindingGroupDescriptorProvider extends BindingGroupDescriptorP
 		return referenceList;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public Object load() {
 		ReportItemHandle element = getReportItemHandle();
 		boolean isNotDataModel = false;
-		;
+
 		int type = element.getDataBindingType();
 		List<ReportItemHandle> referenceList = getAvailableDataBindingReferenceList(element);
 		String[] references = new String[referenceList.size() + 1];
@@ -107,10 +111,11 @@ public class ChartBindingGroupDescriptorProvider extends BindingGroupDescriptorP
 			break;
 		case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF:
 			ReportItemHandle reference = element.getDataBindingReference();
-			if (reference == null)
+			if (reference == null) {
 				value = NONE;
-			else
+			} else {
 				value = reference.getQualifiedName();
+			}
 			break;
 		default: {
 			value = NullDatasetChoice.getBindingValue();
@@ -136,6 +141,7 @@ public class ChartBindingGroupDescriptorProvider extends BindingGroupDescriptorP
 		return info;
 	}
 
+	@Override
 	public void save(Object saveValue) throws SemanticException {
 		if (saveValue instanceof BindingInfo) {
 			BindingInfo info = (BindingInfo) saveValue;
@@ -178,8 +184,9 @@ public class ChartBindingGroupDescriptorProvider extends BindingGroupDescriptorP
 				case 1:
 					if (getAvailableDatasets().contains(value)) {
 						resetDataSetReference(value, info, false);
-					} else
+					} else {
 						resetCubeReference(value, false);
+					}
 					break;
 				// Cancel.
 				case 2:
@@ -254,34 +261,19 @@ public class ChartBindingGroupDescriptorProvider extends BindingGroupDescriptorP
 		return Arrays.asList(ChoiceSetFactory.getDataSets());
 	}
 
-	/**
-	 * Gets all the Cubes available.
-	 * 
-	 * @return A String array contains all the Cubs.
-	 */
-	private String[] getCubes() {
-		ArrayList list = new ArrayList();
-
-		ModuleHandle handle = SessionHandleAdapter.getInstance().getReportDesignHandle();
-
-		for (Iterator iterator = handle.getVisibleCubes().iterator(); iterator.hasNext();) {
-			CubeHandle CubeHandle = (CubeHandle) iterator.next();
-			list.add(CubeHandle.getQualifiedName());
-		}
-
-		return (String[]) list.toArray(new String[0]);
-	}
-
+	@Override
 	public BindingInfo[] getAvailableDatasetItems() {
 		ModuleHandle handle = SessionHandleAdapter.getInstance().getReportDesignHandle();
 
 		List<DataSetHandle> dataSets = UIUtil.getVisibleDataSetHandles(handle);
 		List<CubeHandle> cubes = handle.getVisibleCubes();
 		int length = 1;
-		if (dataSets.size() > 0)
+		if (dataSets.size() > 0) {
 			length += (dataSets.size() + 1);
-		if (cubes.size() > 0)
+		}
+		if (cubes.size() > 0) {
 			length += (cubes.size() + 1);
+		}
 		BindingInfo[] newList = new BindingInfo[length];
 		newList[0] = NullDatasetChoice;
 		if (dataSets.size() > 0) {
@@ -300,7 +292,7 @@ public class ChartBindingGroupDescriptorProvider extends BindingGroupDescriptorP
 		if (cubes.size() > 0) {
 			newList[newList.length - cubes.size() - 1] = new BindingInfo(ReportItemHandle.DATABINDING_TYPE_DATA,
 					DATA_CUBES_DEFAULT, true);
-			;
+
 			for (int i = 0; i < cubes.size(); i++) {
 				CubeHandle cube = cubes.get(i);
 				newList[i + newList.length - cubes.size()] = new BindingInfo(ReportItemHandle.DATABINDING_TYPE_DATA,
@@ -380,6 +372,7 @@ public class ChartBindingGroupDescriptorProvider extends BindingGroupDescriptorP
 		}
 	}
 
+	@Override
 	public String getText(int key) {
 		switch (key) {
 		case 0:
@@ -392,6 +385,7 @@ public class ChartBindingGroupDescriptorProvider extends BindingGroupDescriptorP
 		return ""; //$NON-NLS-1$
 	}
 
+	@Override
 	public boolean enableBindingButton() {
 		return getAvailableDatasets().contains(((BindingInfo) load()).getBindingValue());
 	}

@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -98,7 +100,7 @@ public class ScalarParameterBean extends ParameterAttributeBean {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param parameter
 	 */
 	public ScalarParameterBean(ParameterDefinition parameter) {
@@ -107,10 +109,11 @@ public class ScalarParameterBean extends ParameterAttributeBean {
 
 	/**
 	 * Adapt to IScalarParameterDefn's allowNull( ).
-	 * 
+	 *
 	 * @deprecated
 	 * @return whether parameter value allows null.
 	 */
+	@Deprecated
 	public boolean allowNull() {
 		if (parameter == null) {
 			return false;
@@ -121,10 +124,11 @@ public class ScalarParameterBean extends ParameterAttributeBean {
 
 	/**
 	 * Adapt to IScalarParameterDefn's allowBlank( ).
-	 * 
+	 *
 	 * @deprecated
 	 * @return whether parameter value allows blank.
 	 */
+	@Deprecated
 	public boolean allowBlank() {
 		if (parameter == null) {
 			return true;
@@ -135,7 +139,7 @@ public class ScalarParameterBean extends ParameterAttributeBean {
 
 	/**
 	 * Adapt to IScalarParameterDefn's allowNewValues( ).
-	 * 
+	 *
 	 * @return whether parameter selection list allows new value.
 	 */
 	public boolean allowNewValues() {
@@ -148,7 +152,7 @@ public class ScalarParameterBean extends ParameterAttributeBean {
 
 	/**
 	 * Adapt to IScalarParameterDefn's isValueConcealed( ).
-	 * 
+	 *
 	 * @return whether parameter value is concealed.
 	 */
 	public boolean isValueConcealed() {
@@ -161,7 +165,7 @@ public class ScalarParameterBean extends ParameterAttributeBean {
 
 	/**
 	 * Adapt to IScalarParameterDefn's getName( ).
-	 * 
+	 *
 	 * @return parameter name.
 	 */
 	public String getName() {
@@ -174,7 +178,7 @@ public class ScalarParameterBean extends ParameterAttributeBean {
 
 	/**
 	 * Adapt to IScalarParameterDefn's getHelpText( ).
-	 * 
+	 *
 	 * @return parameter help text.
 	 */
 	public String getToolTip() {

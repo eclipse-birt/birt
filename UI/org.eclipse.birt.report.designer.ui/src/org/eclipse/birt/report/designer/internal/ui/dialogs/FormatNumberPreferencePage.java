@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +32,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Creates a preference page for number format.
- * 
+ *
  */
 
 public class FormatNumberPreferencePage extends BaseStylePreferencePage implements IFormatChangeListener {
@@ -40,7 +43,7 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage implemen
 
 	/**
 	 * Constructs a format number preference page.
-	 * 
+	 *
 	 * @param model The model
 	 */
 	public FormatNumberPreferencePage(Object model) {
@@ -65,21 +68,23 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage implemen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.preference.FieldEditorPreferencePage#adjustGridLayout()
 	 */
+	@Override
 	protected void adjustGridLayout() {
 		((GridLayout) getFieldEditorParent().getLayout()).numColumns = 1;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseStylePreferencePage
 	 * #createFieldEditors()
 	 */
+	@Override
 	protected void createFieldEditors() {
 		super.createFieldEditors();
 		final Composite parent = getFieldEditorParent();
@@ -98,16 +103,16 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage implemen
 		ULocale locale = ((StylePreferenceStore) getPreferenceStore()).getNumberFormatLocale();
 
 		formatPage.setInput(category, pattern, locale);
-		return;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseStylePreferencePage
 	 * #performOk()
 	 */
+	@Override
 	public boolean performOk() {
 		IPreferenceStore ps = getPreferenceStore();
 		if (ps instanceof StylePreferenceStore) {
@@ -122,7 +127,7 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage implemen
 
 	/**
 	 * Stores the result pattern string into Preference Store.
-	 * 
+	 *
 	 * @return
 	 */
 	protected boolean doStore() {
@@ -140,12 +145,14 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage implemen
 		}
 	}
 
+	@Override
 	protected String[] getPreferenceNames() {
 		return new String[] { IStyleModel.NUMBER_FORMAT_PROP };
 	}
 
 	private FormatChangeEvent event = null;
 
+	@Override
 	public void formatChange(FormatChangeEvent event) {
 		if (getBuilder() != null) {
 			this.event = event;
@@ -155,6 +162,7 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage implemen
 
 	private boolean firstCheck = false;
 
+	@Override
 	public boolean hasLocaleProperties() {
 		if (!firstCheck) {
 			firstCheck = true;
@@ -170,10 +178,8 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage implemen
 					}
 				}
 			}
-		} else {
-			if (event != null) {
-				hasLocaleProperty = true;
-			}
+		} else if (event != null) {
+			hasLocaleProperty = true;
 		}
 		return hasLocaleProperty;
 	}

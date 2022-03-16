@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,49 +28,49 @@ public interface IChart extends IMultiRowItem {
 
 	/**
 	 * Gets the description of Chart
-	 * 
+	 *
 	 * @return description
 	 */
 	IText getDescription();
 
 	/**
 	 * Gets the title of Chart
-	 * 
+	 *
 	 * @return title
 	 */
 	ILabel getTitle();
 
 	/**
 	 * Gets Legend in Chart model
-	 * 
+	 *
 	 * @return Legend component
 	 */
 	ILegend getLegend();
 
 	/**
 	 * Gets the Category that represents category(X) series in Chart model
-	 * 
+	 *
 	 * @return category series
 	 */
 	ICategory getCategory();
 
 	/**
 	 * Checks if color in value series is ordered by category
-	 * 
+	 *
 	 * @return true by category, false by series
 	 */
 	boolean isColorByCategory();
 
 	/**
 	 * Sets the color in value series is ordered by category
-	 * 
+	 *
 	 * @param byCategory true by category, false by series
 	 */
 	void setColorByCategory(boolean byCategory);
 
 	/**
 	 * Gets the output type of Chart
-	 * 
+	 *
 	 * @return output type
 	 */
 	String getOutputType();
@@ -75,7 +78,7 @@ public interface IChart extends IMultiRowItem {
 	/**
 	 * Sets the output type of Chart. Supported output types include SVG, PNG, JPG,
 	 * BMP and PDF. Default value is SVG.
-	 * 
+	 *
 	 * @param type output type
 	 */
 	void setOutputType(String type);
@@ -84,7 +87,7 @@ public interface IChart extends IMultiRowItem {
 	 * Gets the name of ChartDimension. Return values are an enumeration including
 	 * "TwoDimensional", "TwoDimensionalWithDepth" and "ThreeDimensional". Default
 	 * value is "TwoDimensional".
-	 * 
+	 *
 	 * @return dimension name
 	 * @see org.eclipse.birt.chart.model.attribute.ChartDimension
 	 */
@@ -95,7 +98,7 @@ public interface IChart extends IMultiRowItem {
 	 * including "TwoDimensional", "TwoDimensionalWithDepth" and "ThreeDimensional".
 	 * Default value is "TwoDimensional". If dimension name is invalid, will set the
 	 * default value.
-	 * 
+	 *
 	 * @param dimensionName dimension name
 	 * @see org.eclipse.birt.chart.model.attribute.ChartDimension
 	 */
@@ -103,7 +106,7 @@ public interface IChart extends IMultiRowItem {
 
 	/**
 	 * Gets factory to create simple API classes.
-	 * 
+	 *
 	 * @return factory class
 	 */
 	IComponentFactory getFactory();

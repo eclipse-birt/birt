@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,66 +33,66 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Unit test for class NameCommand.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testNameSpace()}</td>
  * <td>Set name for a style, change its name. Check the style name space</td>
  * <td>The new name was added into the style namespace</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Set a name for a materPage, change its name</td>
  * <td>The new name was added into the page namespace</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>set a name for a label, change its name.</td>
  * <td>The new name was added into the element namespace</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSetName}</td>
  * <td>the name that is setting for element is duplicate in the namespace.</td>
  * <td>duplicate name can not be added into the namespace and an exception threw
  * out.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>the element definition is not allowed to set name.</td>
  * <td>the name can not be set and an exception threw out.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>the setting name is null when the name property is required by the
  * element def.</td>
  * <td>An exception is throws with NAME_REQUIRED.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSetNameUndoRedo()}</td>
  * <td>Normal case with undo/redo.</td>
  * <td>The undo and redo operation does work.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testNotification}</td>
  * <td>Use listener to test if notification works or not.</td>
  * <td>value of property displayName change to listener</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 
 public class NameCommandTest extends BaseTestCase {
@@ -101,6 +104,7 @@ public class NameCommandTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 
 		super.setUp();
@@ -119,20 +123,20 @@ public class NameCommandTest extends BaseTestCase {
 	 * Unit test for method setName( String name).
 	 * <p>
 	 * Test case:
-	 * 
+	 *
 	 * <ul>
 	 * <li>set name for a style, change its name
 	 * <li>set a name for a materPage, change its name
 	 * <li>set a name for a label, change its name
 	 * </ul>
 	 * <p>
-	 * 
+	 *
 	 * Expected result:
 	 * <ul>
 	 * <li>the old name was removed from the name space, the new name was added into
 	 * the corresponding namespace
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -187,24 +191,24 @@ public class NameCommandTest extends BaseTestCase {
 	 * Test Case:
 	 * <ul>
 	 * <li>the name that is setting for element is duplicate in the namespace.
-	 * 
+	 *
 	 * <li>set name to GroupElement which name forbides to be set
-	 * 
-	 * 
+	 *
+	 *
 	 * <li>the setting name is null when the name property is required by the
 	 * element def.
 	 * </ul>
-	 * 
+	 *
 	 * <p>
 	 * Expected result:
 	 * <ul>
 	 * <li>duplicate name can not be added into the namespace and an exception threw
 	 * out.
 	 * <li>the name can not be set and an exception threw out.
-	 * 
+	 *
 	 * <li>An exception threw out with NAME_REQUIRED.
 	 * </ul>
-	 * 
+	 *
 	 */
 	public void testSetName() {
 		Style testStyle = new Style();
@@ -257,10 +261,10 @@ public class NameCommandTest extends BaseTestCase {
 	 * <ul>
 	 * <li>The undo and redo operation does work.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public void testSetNameUndoRedo() throws Exception {
 		// create new style which name is null
@@ -308,14 +312,14 @@ public class NameCommandTest extends BaseTestCase {
 
 	/**
 	 * Unit test for the listener.
-	 * 
+	 *
 	 * <p>
-	 * 
+	 *
 	 * Test Case:
 	 * <ul>
 	 * <li>Use listener to test if notification works or not.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -350,12 +354,13 @@ public class NameCommandTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.
 		 * model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			nameChanged = true;
 		}
@@ -375,12 +380,13 @@ public class NameCommandTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.
 		 * model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			if (ev.getEventType() == NotificationEvent.NAME_SPACE_EVENT) {
 				event = (NameSpaceEvent) ev;

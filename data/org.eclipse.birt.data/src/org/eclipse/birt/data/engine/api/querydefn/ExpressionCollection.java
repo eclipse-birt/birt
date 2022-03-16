@@ -1,14 +1,17 @@
 /**
  *************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.querydefn;
@@ -31,7 +34,7 @@ public class ExpressionCollection extends BaseExpression implements IExpressionC
 	private List combinedExpression;
 
 	/**
-	 * 
+	 *
 	 * @param text
 	 * @throws DataException
 	 */
@@ -42,22 +45,24 @@ public class ExpressionCollection extends BaseExpression implements IExpressionC
 		}
 		for (int i = 0; i < text.size(); i++) {
 			Object o = text.get(i);
-			if (o instanceof ScriptExpression)
+			if (o instanceof ScriptExpression) {
 				combinedExpression.add((ScriptExpression) text.get(i));
-			else
+			} else {
 				combinedExpression.add(new ScriptExpression(o == null ? null : o.toString()));
+			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expression
 	 */
 	public ExpressionCollection(IBaseExpression[] expression) {
 		combinedExpression = new ArrayList();
 		if (expression != null) {
-			for (int i = 0; i < expression.length; i++)
+			for (int i = 0; i < expression.length; i++) {
 				this.combinedExpression.add(expression[i]);
+			}
 		}
 
 	}
@@ -65,6 +70,7 @@ public class ExpressionCollection extends BaseExpression implements IExpressionC
 	/**
 	 * see org.eclipse.birt.data.engine.api.IExpressionCollection#getExpressions()
 	 */
+	@Override
 	public Collection getExpressions() {
 		return combinedExpression;
 	}

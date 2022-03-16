@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,8 +21,8 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.AddResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
@@ -31,46 +34,52 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
- * 
+ *
  */
 public class JarFileFormProvider extends AbstractFormHandleProvider {
 
 	/**
-	 * 
+	 *
 	 */
 	public JarFileFormProvider() {
 		// TODO Auto-generated constructor stub
 	}
 
-	private static final int[] COLUMN_WIDTHS = new int[] { 300 };
-	private static final String[] COLUMNS = new String[] { Messages.getString("JarFileFormProvider.Column.Name"), //$NON-NLS-1$
+	private static final int[] COLUMN_WIDTHS = { 300 };
+	private static final String[] COLUMNS = { Messages.getString("JarFileFormProvider.Column.Name"), //$NON-NLS-1$
 	};
 	private static final String TITLE = Messages.getString("ReportPageGenerator.List.Resources.JarFile"); //$NON-NLS-1$
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	private ModuleHandle inputElement;
 
+	@Override
 	public String[] getColumnNames() {
 		return COLUMNS;
 	}
 
+	@Override
 	public int[] getColumnWidths() {
 		return COLUMN_WIDTHS;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return TITLE;
 	}
 
+	@Override
 	public CellEditor[] getEditors(Table table) {
 		return null;
 	}
 
+	@Override
 	public boolean doMoveItem(int oldPos, int newPos) throws Exception {
 		inputElement.shiftScriptLibs(oldPos, newPos);
 		return true;
 	}
 
+	@Override
 	public boolean doDeleteItem(int pos) throws Exception {
 		if (getElements(inputElement).length <= 0) {
 			return false;
@@ -85,6 +94,7 @@ public class JarFileFormProvider extends AbstractFormHandleProvider {
 		return true;
 	}
 
+	@Override
 	public boolean doAddItem(int pos) throws Exception {
 
 		AddResourceFileFolderSelectionDialog dialog = new AddResourceFileFolderSelectionDialog(new String[] { "*.jar" }, //$NON-NLS-1$
@@ -107,10 +117,12 @@ public class JarFileFormProvider extends AbstractFormHandleProvider {
 		return true;
 	}
 
+	@Override
 	public boolean doEditItem(int pos) {
 		return false;
 	}
 
+	@Override
 	public boolean isDeleteEnable(Object selectedObject) {
 		if (selectedObject instanceof StructuredSelection && !((StructuredSelection) selectedObject).isEmpty()) {
 			ScriptLibHandle ScriptLibHandle = (ScriptLibHandle) ((StructuredSelection) selectedObject)
@@ -122,6 +134,7 @@ public class JarFileFormProvider extends AbstractFormHandleProvider {
 		return true;
 	}
 
+	@Override
 	public boolean isUpEnable(Object selectedObject) {
 		if (selectedObject instanceof StructuredSelection && !((StructuredSelection) selectedObject).isEmpty()) {
 			ScriptLibHandle ScriptLibHandle = (ScriptLibHandle) ((StructuredSelection) selectedObject)
@@ -149,6 +162,7 @@ public class JarFileFormProvider extends AbstractFormHandleProvider {
 		return true;
 	}
 
+	@Override
 	public boolean isDownEnable(Object selectedObject) {
 		if (selectedObject instanceof StructuredSelection && !((StructuredSelection) selectedObject).isEmpty()) {
 			ScriptLibHandle ScriptLibHandle = (ScriptLibHandle) ((StructuredSelection) selectedObject)
@@ -176,6 +190,7 @@ public class JarFileFormProvider extends AbstractFormHandleProvider {
 		return true;
 	}
 
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		if (element instanceof ScriptLibHandle) {
 			ScriptLibHandle srcriptLibHandle = (ScriptLibHandle) element;
@@ -186,10 +201,12 @@ public class JarFileFormProvider extends AbstractFormHandleProvider {
 		return EMPTY_STRING;
 	}
 
+	@Override
 	public Image getImage(Object element, int columnIndex) {
 		return null;
 	}
 
+	@Override
 	public Object[] getElements(Object inputElement) {
 		List list = new ArrayList();
 		if (inputElement instanceof List) {
@@ -215,18 +232,22 @@ public class JarFileFormProvider extends AbstractFormHandleProvider {
 		return names;
 	}
 
+	@Override
 	public boolean canModify(Object element, String property) {
 		return false;
 	}
 
+	@Override
 	public Object getValue(Object element, String property) {
 		return null;
 	}
 
+	@Override
 	public boolean modify(Object data, String property, Object value) throws Exception {
 		return false;
 	}
 
+	@Override
 	public boolean needRefreshed(NotificationEvent event) {
 		if (!(event instanceof PropertyEvent)) {
 			return false;

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +44,7 @@ public abstract class ExtensionLoader {
 	/**
 	 * Constructor with the id of extension pointer which the extension this
 	 * extension loader loads implements.
-	 * 
+	 *
 	 * @param extensionPointer the id of extension pointer
 	 */
 
@@ -50,7 +53,7 @@ public abstract class ExtensionLoader {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param extension
 	 * @throws ExtensionException
 	 * @throws MetaDataException
@@ -59,7 +62,7 @@ public abstract class ExtensionLoader {
 
 	/**
 	 * Loads the extensions in plug-ins, and add them into metadata dictionary.
-	 * 
+	 *
 	 */
 
 	public final void load() {
@@ -68,7 +71,7 @@ public abstract class ExtensionLoader {
 
 	/**
 	 * Logs the exceptions when extension pointers can't be found.
-	 * 
+	 *
 	 * @param e the extension exception.
 	 */
 
@@ -79,7 +82,7 @@ public abstract class ExtensionLoader {
 
 	/**
 	 * Logs the exceptions when extension pointers can't be found.
-	 * 
+	 *
 	 * @param e the extension exception.
 	 */
 
@@ -90,7 +93,7 @@ public abstract class ExtensionLoader {
 
 	/**
 	 * Logs the exceptions when extension pointers can't be found.
-	 * 
+	 *
 	 * @param message the log message
 	 */
 
@@ -102,7 +105,7 @@ public abstract class ExtensionLoader {
 	/**
 	 * Loads the extended elements in plug-ins, and add them into metadata
 	 * dictionary.
-	 * 
+	 *
 	 * @throws ExtensionException if error is found when loading extension.
 	 * @throws MetaDataException  if error encountered when adding the element to
 	 *                            metadata dictionary.
@@ -150,7 +153,7 @@ public abstract class ExtensionLoader {
 
 		/**
 		 * Loads the extension element definition and its properties.
-		 * 
+		 *
 		 * @param elementTag the element tag
 		 * @throws MetaDataException if error encountered when adding the element to
 		 *                           metadata dictionary.
@@ -160,7 +163,7 @@ public abstract class ExtensionLoader {
 
 		/**
 		 * Checks whether the required attribute is set.
-		 * 
+		 *
 		 * @param name  the required attribute name
 		 * @param value the attribute value
 		 * @return true if the attribute is valid, otherwise false
@@ -178,7 +181,7 @@ public abstract class ExtensionLoader {
 
 		/**
 		 * Returns the boolean value of the given attribute.
-		 * 
+		 *
 		 * @param attrs        the element attributes
 		 * @param attrName     the attribute name
 		 * @param defaultValue the default value
@@ -187,14 +190,17 @@ public abstract class ExtensionLoader {
 
 		protected boolean getBooleanAttrib(IConfigurationElement attrs, String attrName, boolean defaultValue) {
 			String value = attrs.getAttribute(attrName);
-			if (value == null)
+			if (value == null) {
 				return defaultValue;
+			}
 
-			if ("false".equalsIgnoreCase(value.trim())) //$NON-NLS-1$
+			if ("false".equalsIgnoreCase(value.trim())) { //$NON-NLS-1$
 				return false;
+			}
 
-			if ("true".equalsIgnoreCase(value.trim())) //$NON-NLS-1$
+			if ("true".equalsIgnoreCase(value.trim())) { //$NON-NLS-1$
 				return true;
+			}
 
 			return defaultValue;
 		}

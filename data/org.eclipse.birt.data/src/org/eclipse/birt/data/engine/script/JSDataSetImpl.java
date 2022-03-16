@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.script;
@@ -39,14 +42,15 @@ public class JSDataSetImpl {
 
 	/**
 	 * Implements DataSet.dataSource
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	public Scriptable getDataSource() throws DataException {
 		IJavascriptContext dataSource = dataSet.getDataSource();
 		Scriptable ret = null;
-		if (dataSource != null)
+		if (dataSource != null) {
 			ret = dataSource.getScriptScope();
+		}
 		return ret;
 	}
 
@@ -155,8 +159,9 @@ public class JSDataSetImpl {
 	public Scriptable getColumnDefns() throws BirtException {
 		if (dataSet.getJSRowObject() != null) {
 			return ((JSRowObject) dataSet.getJSRowObject()).getColumnMetadataScriptable();
-		} else
+		} else {
 			return null;
+		}
 	}
 
 	/**
@@ -192,25 +197,27 @@ public class JSDataSetImpl {
 	 */
 	public void addDataSetColumn(String name, String type) {
 		// This function is only available for script data set runtime
-		if (!(dataSet instanceof ScriptDataSetRuntime))
+		if (!(dataSet instanceof ScriptDataSetRuntime)) {
 			return;
+		}
 
 		// Only the following data types can be returned
 		Class clazz;
-		if ("INTEGER".equals(type))
+		if ("INTEGER".equals(type)) {
 			clazz = Integer.class;
-		else if ("DOUBLE".equals(type))
+		} else if ("DOUBLE".equals(type)) {
 			clazz = Double.class;
-		else if ("DECIMAL".equals(type))
+		} else if ("DECIMAL".equals(type)) {
 			clazz = BigDecimal.class;
-		else if ("DATE".equals(type))
+		} else if ("DATE".equals(type)) {
 			clazz = Date.class;
-		else if ("STRING".equals(type))
+		} else if ("STRING".equals(type)) {
 			clazz = String.class;
-		else if ("ANY".equals(type))
+		} else if ("ANY".equals(type)) {
 			clazz = DataType.AnyType.class;
-		else
+		} else {
 			throw Context.reportRuntimeError("Invalid data type " + type);
+		}
 
 		try {
 			((ScriptDataSetRuntime) dataSet).addColumn(name, clazz);

@@ -1,9 +1,9 @@
 /*******************************************************************************
 * Copyright (c) 2004 Actuate Corporation.
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
@@ -16,9 +16,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Properties;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.report.model.api.ModelException;
+
+import junit.framework.TestCase;
 
 /**
  * Test case for MetaDataException.
@@ -28,6 +28,7 @@ public class MetaDataExceptionTest extends TestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
@@ -35,7 +36,7 @@ public class MetaDataExceptionTest extends TestCase {
 	/**
 	 * Check to see each error code has there description in the
 	 * "MetaError.properties".
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
@@ -57,8 +58,9 @@ public class MetaDataExceptionTest extends TestCase {
 			if (PUBLIC_FINAL_STATIC == field.getModifiers()) {
 
 				errorCode = (String) fields[i].get(null);
-				if (errorCode.equalsIgnoreCase(ModelException.PLUGIN_ID))
+				if (errorCode.equalsIgnoreCase(ModelException.PLUGIN_ID)) {
 					continue;
+				}
 
 				if (!props.containsKey(errorCode)) {
 					System.out.println(

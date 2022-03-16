@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +33,7 @@ public abstract class ModelException extends BirtException {
 
 	/**
 	 * Constructs a new model exception with the error code.
-	 * 
+	 *
 	 * @param errCode used to retrieve a piece of externalized message displayed to
 	 *                end user
 	 */
@@ -42,7 +45,7 @@ public abstract class ModelException extends BirtException {
 	/**
 	 * Constructs a new model exception with the error code, string arguments used
 	 * to format error messages and the nested exception.
-	 * 
+	 *
 	 * @param errCode used to retrieve a piece of externalized message displayed to
 	 *                end user
 	 * @param args    string arguments used to format error messages
@@ -55,7 +58,7 @@ public abstract class ModelException extends BirtException {
 
 	/**
 	 * Constructs a new model exception with no cause object.
-	 * 
+	 *
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
 	 * @param errorCode used to retrieve a piece of externalized message displayed
@@ -69,7 +72,7 @@ public abstract class ModelException extends BirtException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
 	 * @param errorCode used to retrieve a piece of externalized message displayed
@@ -84,7 +87,7 @@ public abstract class ModelException extends BirtException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
 	 * @param errorCode used to retrieve a piece of externalized message displayed
@@ -100,7 +103,7 @@ public abstract class ModelException extends BirtException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
 	 * @param errorCode used to retrieve a piece of externalized message displayed
@@ -116,7 +119,7 @@ public abstract class ModelException extends BirtException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
 	 * @param errorCode used to retrieve a piece of externalized message displayed
@@ -131,7 +134,7 @@ public abstract class ModelException extends BirtException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
 	 * @param errorCode used to retrieve a piece of externalized message displayed
@@ -146,7 +149,7 @@ public abstract class ModelException extends BirtException {
 
 	/**
 	 * Constructs a new model exception.
-	 * 
+	 *
 	 * @param pluginId  Returns the unique identifier of the plug-in associated with
 	 *                  this exception
 	 * @param errorCode used to retrieve a piece of externalized message displayed

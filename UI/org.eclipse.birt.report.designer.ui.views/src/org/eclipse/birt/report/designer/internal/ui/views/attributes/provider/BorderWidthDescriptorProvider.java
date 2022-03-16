@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
@@ -23,10 +35,12 @@ public class BorderWidthDescriptorProvider extends StyleComboProvider {
 		super();
 	}
 
+	@Override
 	public String getDisplayName() {
 		return LABEL_WIDTH;
 	}
 
+	@Override
 	public Object load() {
 		String value = getLocalStringValue(StyleHandle.BORDER_LEFT_WIDTH_PROP);
 		value = convertNameToDisplayName(value);
@@ -62,48 +76,57 @@ public class BorderWidthDescriptorProvider extends StyleComboProvider {
 		return indexText;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		this.indexText = value == null ? "" : value; //$NON-NLS-1$
 		String saveValue = convertDisplayNameToName(value);
-		if (((Boolean) styleMap.get(StyleHandle.BORDER_TOP_STYLE_PROP)).booleanValue() == true) {
+		if (((Boolean) styleMap.get(StyleHandle.BORDER_TOP_STYLE_PROP)).booleanValue()) {
 			save(StyleHandle.BORDER_TOP_WIDTH_PROP, saveValue);
-		} else
+		} else {
 			save(StyleHandle.BORDER_TOP_WIDTH_PROP, null);
+		}
 
-		if (((Boolean) styleMap.get(StyleHandle.BORDER_BOTTOM_STYLE_PROP)).booleanValue() == true) {
+		if (((Boolean) styleMap.get(StyleHandle.BORDER_BOTTOM_STYLE_PROP)).booleanValue()) {
 			save(StyleHandle.BORDER_BOTTOM_WIDTH_PROP, saveValue);
-		} else
+		} else {
 			save(StyleHandle.BORDER_BOTTOM_WIDTH_PROP, null);
+		}
 
-		if (((Boolean) styleMap.get(StyleHandle.BORDER_LEFT_STYLE_PROP)).booleanValue() == true) {
+		if (((Boolean) styleMap.get(StyleHandle.BORDER_LEFT_STYLE_PROP)).booleanValue()) {
 			save(StyleHandle.BORDER_LEFT_WIDTH_PROP, saveValue);
-		} else
+		} else {
 			save(StyleHandle.BORDER_LEFT_WIDTH_PROP, null);
+		}
 
-		if (((Boolean) styleMap.get(StyleHandle.BORDER_RIGHT_STYLE_PROP)).booleanValue() == true) {
+		if (((Boolean) styleMap.get(StyleHandle.BORDER_RIGHT_STYLE_PROP)).booleanValue()) {
 			save(StyleHandle.BORDER_RIGHT_WIDTH_PROP, saveValue);
-		} else
+		} else {
 			save(StyleHandle.BORDER_RIGHT_WIDTH_PROP, null);
+		}
 	}
 
 	private String convertNameToDisplayName(String name) {
-		if (nameChoices == null)
+		if (nameChoices == null) {
 			getItems();
+		}
 		int index = Arrays.asList(nameChoices).indexOf(name);
-		if (index >= 0 && index < displayChoices.length)
+		if (index >= 0 && index < displayChoices.length) {
 			return displayChoices[index];
-		else
+		} else {
 			return ""; //$NON-NLS-1$
+		}
 	}
 
 	private String convertDisplayNameToName(Object displayName) {
-		if (displayName == null)
+		if (displayName == null) {
 			return null;
+		}
 		int index = Arrays.asList(getItems()).indexOf(displayName);
-		if (index >= 0 && index < nameChoices.length)
+		if (index >= 0 && index < nameChoices.length) {
 			return nameChoices[index];
-		else
+		} else {
 			return null;
+		}
 	}
 
 	private String[] getWidths(IChoiceSet choiceSet) {
@@ -130,25 +153,31 @@ public class BorderWidthDescriptorProvider extends StyleComboProvider {
 		return nameChoices;
 	}
 
+	@Override
 	public Object[] getItems() {
-		if (nameChoices == null)
+		if (nameChoices == null) {
 			return getWidths(ChoiceSetFactory.getElementChoiceSet(ReportDesignConstants.STYLE_ELEMENT,
 					StyleHandle.BORDER_TOP_WIDTH_PROP));
-		else
+		} else {
 			return nameChoices;
+		}
 	}
 
+	@Override
 	public Object[] getDisplayItems() {
-		if (displayChoices == null)
+		if (displayChoices == null) {
 			getWidths(ChoiceSetFactory.getElementChoiceSet(ReportDesignConstants.STYLE_ELEMENT,
 					StyleHandle.BORDER_TOP_WIDTH_PROP));
+		}
 		return displayChoices;
 	}
 
+	@Override
 	public void handleModifyEvent() {
 		try {
-			if (indexText != null)
+			if (indexText != null) {
 				save(indexText);
+			}
 		} catch (Exception e) {
 		}
 	}

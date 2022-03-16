@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -33,7 +36,7 @@ public class LayoutGroup {
 	/**
 	 * Constructs a <code>LayoutGroup</code> with the given table and the group
 	 * level.
-	 * 
+	 *
 	 * @param table      the layout table
 	 * @param groupLevel the level of the group
 	 */
@@ -47,7 +50,7 @@ public class LayoutGroup {
 
 	/**
 	 * Returns the corresponding handle of the table group.
-	 * 
+	 *
 	 * @return the corresponding handle of the table group
 	 */
 
@@ -58,7 +61,7 @@ public class LayoutGroup {
 
 	/**
 	 * Returns the layout slot of the HEADER_SLOT.
-	 * 
+	 *
 	 * @return the layout slot of the HEADER_SLOT
 	 */
 
@@ -69,7 +72,7 @@ public class LayoutGroup {
 
 	/**
 	 * Returns the layout slot of the HEADER_FOOTER.
-	 * 
+	 *
 	 * @return the layout slot of the HEADER_FOOTER
 	 */
 

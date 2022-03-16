@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2012 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -82,7 +85,7 @@ public class ChartReportItemHelper {
 
 	/**
 	 * Returns all bindings used by chart.
-	 * 
+	 *
 	 * @param cm
 	 * @param handle
 	 * @param validExtensionNames
@@ -94,7 +97,7 @@ public class ChartReportItemHelper {
 
 	/**
 	 * Returns all bindings used by chart.
-	 * 
+	 *
 	 * @param cm
 	 * @param handle
 	 * @return all bindings used by chart.
@@ -108,7 +111,7 @@ public class ChartReportItemHelper {
 	}
 
 	public List<String> getLevelBindingNamesOfCrosstab(CrosstabViewHandle viewHandle, ReportItemHandle chartHandle) {
-		ArrayList<String> names = new ArrayList<String>();
+		ArrayList<String> names = new ArrayList<>();
 		for (int i = 0; i < viewHandle.getDimensionCount(); i++) {
 			DimensionViewHandle dimensionHandle = viewHandle.getDimension(i);
 			dimensionHandle.availableBindings();

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +49,7 @@ public class DataEngineContext {
 	 * execution,interactive viewing session or for data extraction or for report
 	 * parameter evaluation
 	 */
-	public static enum DataEngineFlowMode {
+	public enum DataEngineFlowMode {
 		NORMAL, IV, DATA_EXTRACTION, PARAM_EVALUATION_FLOW
 	}
 
@@ -201,7 +204,7 @@ public class DataEngineContext {
 	 * mode is DIRECT_PRESENTATION, the archive will not be used. When mode is
 	 * PRESENTATION_AND_GENERATION, both the write stream and the read steram of
 	 * archive will be used.
-	 * 
+	 *
 	 * @deprecated
 	 * @param mode
 	 * @param scope
@@ -210,6 +213,7 @@ public class DataEngineContext {
 	 * @param the    ClassLoader used for this data engine.
 	 * @return an instance of DataEngineContext
 	 */
+	@Deprecated
 	public static DataEngineContext newInstance(int mode, Scriptable scope, IDocArchiveReader reader,
 			IDocArchiveWriter writer, ClassLoader classLoader) throws BirtException {
 		return new DataEngineContext(mode, scope, reader, writer, classLoader, null);
@@ -225,6 +229,7 @@ public class DataEngineContext {
 	 * @throws BirtException
 	 * @deprecated
 	 */
+	@Deprecated
 	public static DataEngineContext newInstance(int mode, Scriptable scope, IDocArchiveReader reader,
 			IDocArchiveWriter writer) throws BirtException {
 		ScriptContext context = new ScriptContext().newContext(scope);
@@ -254,17 +259,17 @@ public class DataEngineContext {
 				params);
 
 		if (!(mode == MODE_GENERATION || mode == MODE_PRESENTATION || mode == DIRECT_PRESENTATION
-				|| mode == MODE_UPDATE))
+				|| mode == MODE_UPDATE)) {
 			throw new DataException(ResourceConstants.RD_INVALID_MODE);
+		}
 
-		if (writer == null && mode == MODE_GENERATION)
+		if ((writer == null && mode == MODE_GENERATION) || (reader == null && mode == MODE_PRESENTATION)) {
 			throw new DataException(ResourceConstants.RD_INVALID_ARCHIVE);
+		}
 
-		if (reader == null && mode == MODE_PRESENTATION)
+		if (reader == null && mode == MODE_UPDATE) {
 			throw new DataException(ResourceConstants.RD_INVALID_ARCHIVE);
-
-		if (reader == null && mode == MODE_UPDATE)
-			throw new DataException(ResourceConstants.RD_INVALID_ARCHIVE);
+		}
 
 		this.classLoader = classLoader;
 		this.mode = mode;
@@ -286,7 +291,7 @@ public class DataEngineContext {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param mode
 	 */
 	public void setMode(int mode) {
@@ -322,16 +327,17 @@ public class DataEngineContext {
 	 * can be larger than 0, which indicates the count of how many rows will be
 	 * ccached, equal to 0, which indicates cache will not be used, less than 0,
 	 * which indicates the entire data set will be cached.
-	 * 
+	 *
 	 * Please notice, this cache function only available for DIRECT_PRESENTATION. In
 	 * other cases, exception will be thrown.
-	 * 
+	 *
 	 * @param option
 	 * @param cacheCount
 	 */
 	public void setCacheOption(int option, int cacheCount) throws BirtException {
-		if (this.mode != DIRECT_PRESENTATION)
+		if (this.mode != DIRECT_PRESENTATION) {
 			throw new DataException(ResourceConstants.CACHE_FUNCTION_WRONG_MODE);
+		}
 
 		this.cacheOption = option;
 		this.cacheCount = cacheCount;
@@ -342,7 +348,7 @@ public class DataEngineContext {
 	 * stream will be created for it. To make stream close simply, the stream needs
 	 * to be closed by caller, and then caller requires to add buffer stream layer
 	 * when needed.
-	 * 
+	 *
 	 * @param streamID
 	 * @param subStreamID
 	 * @param streamType
@@ -360,8 +366,9 @@ public class DataEngineContext {
 		try {
 			RAOutputStream outputStream = writer.openRandomAccessStream(relativePath);
 
-			if (outputStream == null)
+			if (outputStream == null) {
 				throw new DataException(ResourceConstants.RD_SAVE_STREAM_ERROR);
+			}
 
 			return outputStream;
 		} catch (IOException e) {
@@ -380,7 +387,7 @@ public class DataEngineContext {
 
 	/**
 	 * Determins whether one particular stream exists
-	 * 
+	 *
 	 * @param streamID
 	 * @param subStreamID
 	 * @param streamType
@@ -389,10 +396,11 @@ public class DataEngineContext {
 	public boolean hasOutStream(String streamID, String subStreamID, int streamType) {
 		String relativePath = getPath(streamID, subStreamID, streamType);
 
-		if (writer != null)
+		if (writer != null) {
 			return writer.exists(relativePath);
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
@@ -404,20 +412,22 @@ public class DataEngineContext {
 	public boolean hasInStream(String streamID, String subStreamID, int streamType) {
 		String relativePath = getPath(streamID, subStreamID, streamType);
 
-		if (reader != null && reader.exists(relativePath))
+		if (reader != null && reader.exists(relativePath)) {
 			return true;
-		else if (writer != null && writer.exists(relativePath))
+		} else if (writer != null && writer.exists(relativePath)) {
 			return true;
+		}
 		return false;
 	}
 
 	public boolean hasInStream(String streamID, String subStreamID, int streamType, String subname) {
 		String relativePath = getPath(streamID, subStreamID, streamType, subname);
 
-		if (reader != null && reader.exists(relativePath))
+		if (reader != null && reader.exists(relativePath)) {
 			return true;
-		else if (writer != null && writer.exists(relativePath))
+		} else if (writer != null && writer.exists(relativePath)) {
 			return true;
+		}
 		return false;
 	}
 
@@ -440,14 +450,15 @@ public class DataEngineContext {
 
 	/**
 	 * Directly drop stream
-	 * 
+	 *
 	 * @param streamPath
 	 */
 	public void dropStream(String streamPath) {
 		if (writer != null) {
 			try {
-				if (!writer.exists(streamPath))
+				if (!writer.exists(streamPath)) {
 					return;
+				}
 				// If a stream exists in ArchiveFile but not exists in ArchiveView
 				// the call to IDocArchiveWriter.dropStream() would not remove the stream
 				// from ArchiveFile. So we've to first create a stream of same path in
@@ -470,7 +481,7 @@ public class DataEngineContext {
 	 * stream will be created for it. To make stream close simply, the stream needs
 	 * to be closed by caller, and then caller requires to add buffer stream layer
 	 * when needed.
-	 * 
+	 *
 	 * @param streamID
 	 * @param subStreamID
 	 * @param streamType
@@ -522,7 +533,7 @@ public class DataEngineContext {
 
 	/**
 	 * set time zone
-	 * 
+	 *
 	 * @param zone
 	 */
 	public void setTimeZone(TimeZone zone) {
@@ -545,7 +556,7 @@ public class DataEngineContext {
 
 	/**
 	 * get Dte temporary dir.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getTmpdir() {
@@ -557,7 +568,7 @@ public class DataEngineContext {
 
 	/**
 	 * set Dte temporary dir.
-	 * 
+	 *
 	 * @param tmpdir
 	 */
 	public void setTmpdir(String tmpdir) {
@@ -575,7 +586,7 @@ public class DataEngineContext {
 
 	/**
 	 * Set the classloader.
-	 * 
+	 *
 	 * @param classLoader
 	 */
 	public void setClassLoader(ClassLoader classLoader) {
@@ -583,7 +594,7 @@ public class DataEngineContext {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public IDocArchiveReader getDocReader() {
@@ -591,7 +602,7 @@ public class DataEngineContext {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public IDocArchiveWriter getDocWriter() {
@@ -603,7 +614,7 @@ public class DataEngineContext {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param enabled
 	 */
 	public void enableDashboardMode(boolean enabled) {
@@ -611,7 +622,7 @@ public class DataEngineContext {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isDashBoardEnabled() {
@@ -619,7 +630,7 @@ public class DataEngineContext {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public ClassLoader getClassLoader() {
@@ -753,25 +764,28 @@ public class DataEngineContext {
 		}
 
 		String streamRoot = "/" + streamID + "/"; //$NON-NLS-1$ //$NON-NLS-2$
-		if (subStreamID != null)
+		if (subStreamID != null) {
 			streamRoot += subStreamID + "/"; //$NON-NLS-1$
+		}
 		return streamRoot + relativePath;
 	}
 
 	public static String getPath(String streamID, String subStreamID, int streamType, String subName) {
 		String path = getPath(streamID, subStreamID, streamType);
-		if (subName != null && subName.length() > 0)
+		if (subName != null && subName.length() > 0) {
 			path += "/" + subName; //$NON-NLS-1$
+		}
 		return path;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public ScriptContext getScriptContext() {
-		if (this.scriptContext == null)
+		if (this.scriptContext == null) {
 			this.scriptContext = new ScriptContext();
+		}
 		return this.scriptContext;
 	}
 

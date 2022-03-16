@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Records the move of a structure within a property list or member list.
- * 
+ *
  */
 
 public class MoveListItemRecord extends SimpleRecord {
@@ -54,7 +57,7 @@ public class MoveListItemRecord extends SimpleRecord {
 
 	/**
 	 * Constructs a record to remove an item within a list to a new position.
-	 * 
+	 *
 	 * @param obj     the element that contains the list
 	 * @param ref     reference to the list.
 	 * @param theList the list that contains the item
@@ -84,11 +87,12 @@ public class MoveListItemRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
 	 * (boolean)
 	 */
 
+	@Override
 	protected void perform(boolean undo) {
 		List list = itemRef.getList(element.getRoot());
 		int from = undo ? newPosn : oldPosn;
@@ -100,28 +104,32 @@ public class MoveListItemRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
 	 * #getTarget()
 	 */
 
+	@Override
 	public DesignElement getTarget() {
-		if (eventTarget != null)
+		if (eventTarget != null) {
 			return eventTarget.getElement();
+		}
 
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
 	 * ()
 	 */
 
+	@Override
 	public NotificationEvent getEvent() {
-		if (eventTarget != null)
+		if (eventTarget != null) {
 			return new PropertyEvent(eventTarget.getElement(), eventTarget.getPropName());
+		}
 
 		// Use the same notification for the done/redone and undone states.
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -77,6 +80,7 @@ class ColumnWalker3 implements ICrosstabConstants, IColumnWalker {
 		currentState = STATE_INIT;
 	}
 
+	@Override
 	public void reload() {
 		dimensionIndex = 0;
 		levelIndex = -1;
@@ -85,6 +89,7 @@ class ColumnWalker3 implements ICrosstabConstants, IColumnWalker {
 		currentState = STATE_INIT;
 	}
 
+	@Override
 	public boolean hasNext() throws OLAPException {
 		if (currentState == STATE_INIT) {
 			advance();
@@ -365,10 +370,10 @@ class ColumnWalker3 implements ICrosstabConstants, IColumnWalker {
 			}
 
 			currentState = STATE_END;
-			return;
 		}
 	}
 
+	@Override
 	public ColumnEvent next() throws OLAPException {
 		ColumnEvent evt = null;
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,9 +27,10 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * ExpressionValue
- * 
+ *
  * @deprecated not used anymore
  */
+@Deprecated
 public class ExpressionValue {
 	private Text valueText;
 	private Button btnPopup;
@@ -105,6 +109,7 @@ public class ExpressionValue {
 
 	private class ExpressionLayout extends Layout {
 
+		@Override
 		public void layout(Composite editor, boolean force) {
 			Rectangle bounds = editor.getClientArea();
 			Point size = btnPopup.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
@@ -112,9 +117,11 @@ public class ExpressionValue {
 			btnPopup.setBounds(bounds.width - size.x, 0, size.x, bounds.height);
 		}
 
+		@Override
 		public Point computeSize(Composite editor, int wHint, int hHint, boolean force) {
-			if (wHint != SWT.DEFAULT && hHint != SWT.DEFAULT)
+			if (wHint != SWT.DEFAULT && hHint != SWT.DEFAULT) {
 				return new Point(wHint, hHint);
+			}
 			Point contentsSize = valueText.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
 			Point buttonSize = btnPopup.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
 			// Just return the button width to ensure the button is not

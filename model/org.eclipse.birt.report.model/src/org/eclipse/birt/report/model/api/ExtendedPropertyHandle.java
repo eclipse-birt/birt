@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ public class ExtendedPropertyHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of Extended property.
-	 * 
+	 *
 	 * @param valueHandle the value handle for Extended property list of one
 	 *                    property
 	 * @param index       the position of this Extended property in the list
@@ -37,7 +40,7 @@ public class ExtendedPropertyHandle extends StructureHandle {
 
 	/**
 	 * Returns the property name.
-	 * 
+	 *
 	 * @return the property name
 	 */
 
@@ -48,7 +51,7 @@ public class ExtendedPropertyHandle extends StructureHandle {
 
 	/**
 	 * Sets the property name.
-	 * 
+	 *
 	 * @param name the property name to set
 	 */
 
@@ -58,10 +61,6 @@ public class ExtendedPropertyHandle extends StructureHandle {
 
 			member = getMember(ExtendedProperty.NAME_MEMBER);
 			member.setStringValue(name);
-		} catch (NameException e) {
-			// Should not fail
-
-			assert false;
 		} catch (SemanticException e) {
 			// Should not fail
 
@@ -71,7 +70,7 @@ public class ExtendedPropertyHandle extends StructureHandle {
 
 	/**
 	 * Returns the property value.
-	 * 
+	 *
 	 * @return the property value
 	 */
 
@@ -82,7 +81,7 @@ public class ExtendedPropertyHandle extends StructureHandle {
 
 	/**
 	 * Sets the property value.
-	 * 
+	 *
 	 * @param value the value to set
 	 */
 
@@ -92,10 +91,6 @@ public class ExtendedPropertyHandle extends StructureHandle {
 
 			member = getMember(ExtendedProperty.VALUE_MEMBER);
 			member.setStringValue(value);
-		} catch (NameException e) {
-			// Should not fail
-
-			assert false;
 		} catch (SemanticException e) {
 			// Should not fail
 

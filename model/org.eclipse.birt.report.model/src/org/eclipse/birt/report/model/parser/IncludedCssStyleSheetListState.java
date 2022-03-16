@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,13 +41,15 @@ public class IncludedCssStyleSheetListState extends ListPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
+	@Override
 	public AbstractParseState startElement(String tagName) {
-		if (tagName.equalsIgnoreCase(DesignSchemaConstants.STRUCTURE_TAG))
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.STRUCTURE_TAG)) {
 			return new IncludedCssStructureState(handler, element, propDefn);
+		}
 
 		return super.startElement(tagName);
 	}
@@ -58,10 +63,11 @@ public class IncludedCssStyleSheetListState extends ListPropertyState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
+		@Override
 		public void end() throws SAXException {
 			super.end();
 
@@ -76,8 +82,9 @@ public class IncludedCssStyleSheetListState extends ListPropertyState {
 				useExternalCss = true;
 			}
 
-			if (!(element instanceof ICssStyleSheetOperation))
+			if (!(element instanceof ICssStyleSheetOperation)) {
 				return;
+			}
 
 			URL url = null;
 			ICssStyleSheetOperation sheetOperation = (ICssStyleSheetOperation) element;

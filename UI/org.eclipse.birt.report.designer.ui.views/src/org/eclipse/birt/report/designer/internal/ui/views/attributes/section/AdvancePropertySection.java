@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -28,7 +40,7 @@ public class AdvancePropertySection extends Section {
 		this.isTabbed = isTabbed;
 	}
 
-	private boolean showLabel = false;;
+	private boolean showLabel = false;
 
 	public void showDisplayLabel(boolean show) {
 		this.showLabel = show;
@@ -36,11 +48,13 @@ public class AdvancePropertySection extends Section {
 
 	protected AdvancePropertyDescriptor descriptor;
 
+	@Override
 	public void createSection() {
-		if (isTabbed)
+		if (isTabbed) {
 			getTitleControl(parent);
-		else if (showLabel)
+		} else if (showLabel) {
 			getLabelControl(parent);
+		}
 		getControl(parent);
 		getGridPlaceholder(parent);
 
@@ -64,6 +78,7 @@ public class AdvancePropertySection extends Section {
 			}
 			title.addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					title = null;
 				}
@@ -81,12 +96,14 @@ public class AdvancePropertySection extends Section {
 	protected AdvancePropertyDescriptor getControl(Composite parent) {
 		if (descriptor == null) {
 			descriptor = DescriptorToolkit.createAdvancePropertyDescriptor(true);
-			if (getProvider() != null)
+			if (getProvider() != null) {
 				descriptor.setDescriptorProvider(getProvider());
+			}
 			descriptor.createControl(parent);
 			descriptor.getControl().setLayoutData(new GridData());
 			descriptor.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					descriptor = null;
 				}
@@ -103,12 +120,14 @@ public class AdvancePropertySection extends Section {
 		displayLabelStyle = style;
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) descriptor.getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
+		}
 		if (displayLabel != null && (displayLabelStyle & SWT.HORIZONTAL) != 0) {
 			gd.horizontalSpan = gd.horizontalSpan - 1;
 		}
@@ -117,14 +136,16 @@ public class AdvancePropertySection extends Section {
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillControl;
+		}
 
 		if (height > -1) {
 			gd.heightHint = height;
 			gd.grabExcessVerticalSpace = false;
-		} else
+		} else {
 			gd.grabExcessVerticalSpace = fillControl;
+		}
 
 		gd.grabExcessVerticalSpace = true;
 		gd.verticalAlignment = GridData.FILL;
@@ -152,9 +173,11 @@ public class AdvancePropertySection extends Section {
 
 	}
 
+	@Override
 	public void load() {
-		if (descriptor != null && !descriptor.getControl().isDisposed())
+		if (descriptor != null && !descriptor.getControl().isDisposed()) {
 			descriptor.load();
+		}
 
 	}
 
@@ -166,8 +189,9 @@ public class AdvancePropertySection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (descriptor != null)
+		if (descriptor != null) {
 			descriptor.setDescriptorProvider(provider);
+		}
 	}
 
 	private int height = -1;
@@ -181,6 +205,7 @@ public class AdvancePropertySection extends Section {
 		this.width = width;
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		descriptor.setInput(input);
@@ -196,26 +221,36 @@ public class AdvancePropertySection extends Section {
 		this.fillControl = fillControl;
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (title != null)
+		}
+		if (title != null) {
 			WidgetUtil.setExcludeGridData(title, isHidden);
-		if (descriptor != null)
+		}
+		if (descriptor != null) {
 			descriptor.setHidden(isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (title != null)
+		}
+		if (title != null) {
 			title.setVisible(isVisible);
-		if (descriptor != null)
+		}
+		if (descriptor != null) {
 			descriptor.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 
 	public int getHeight() {

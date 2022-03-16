@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,10 +29,10 @@ import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
 
 /**
  * Validates the property value is required.
- * 
+ *
  * <h3>Rule</h3> The rule is that the value should be provided for one required
  * property.
- * 
+ *
  * <h3>Applicability</h3> This validator is only applied to the required
  * properties of <code>DesignElement</code>.
  */
@@ -46,7 +49,7 @@ public class ValueRequiredValidator extends AbstractPropertyValidator {
 
 	/**
 	 * Returns the singleton validator instance.
-	 * 
+	 *
 	 * @return the validator instance
 	 */
 
@@ -56,7 +59,7 @@ public class ValueRequiredValidator extends AbstractPropertyValidator {
 
 	/**
 	 * Validates whether value is set for the given required property.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param element  the element holding this required property
 	 * @param propName the name of the property to validate
@@ -64,6 +67,7 @@ public class ValueRequiredValidator extends AbstractPropertyValidator {
 	 *         <code>SemanticException</code>.
 	 */
 
+	@Override
 	public List<SemanticException> validate(Module module, DesignElement element, String propName) {
 		DesignElement e = element;
 		while (e != null) {
@@ -74,7 +78,7 @@ public class ValueRequiredValidator extends AbstractPropertyValidator {
 
 			e = e.getContainer();
 		}
-		List<SemanticException> list = new ArrayList<SemanticException>();
+		List<SemanticException> list = new ArrayList<>();
 
 		Object value = element.getProperty(module, propName);
 		if (value == null || (value instanceof String && StringUtil.isBlank((String) value))

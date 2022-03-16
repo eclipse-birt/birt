@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +62,7 @@ abstract public class GroupElementHandle {
 	/**
 	 * Returns the list that contains the group of design elements. Contents of it
 	 * is <code>DesignElementHandle</code>
-	 * 
+	 *
 	 * @return the list that contains the group of design elements.
 	 */
 
@@ -67,7 +70,7 @@ abstract public class GroupElementHandle {
 
 	/**
 	 * Returns the module.
-	 * 
+	 *
 	 * @return the module
 	 */
 
@@ -75,7 +78,7 @@ abstract public class GroupElementHandle {
 
 	/**
 	 * Returns the handle of module.
-	 * 
+	 *
 	 * @return the handle of module
 	 */
 
@@ -89,7 +92,7 @@ abstract public class GroupElementHandle {
 	 * return value is <code>false</code>. For example, if the list contains an
 	 * <code>OdaDataSource</code> and a <code>OdaDataSource</code>, this method
 	 * returns <code>false</code>.
-	 * 
+	 *
 	 * @return <code>true</code> if the given elements are of the same type; return
 	 *         <code>false</code> if elements are of different element types, or the
 	 *         given list is empty, or the list contains any object that is not an
@@ -102,7 +105,7 @@ abstract public class GroupElementHandle {
 	 * Returns the common properties shared by the given group of elements(including
 	 * user properties). Contents of the list is element property definitions. If
 	 * elements do not share any common property, return an empty list.
-	 * 
+	 *
 	 * @return the common properties shared by the given group of elements. If
 	 *         elements do not share any common property, or the given list is
 	 *         empty, or the list contains any item that is not an instance of
@@ -116,7 +119,7 @@ abstract public class GroupElementHandle {
 	 * handles to the common properties, type of them is
 	 * <code>GroupPropertyHandle</code>. Note: remove is not support for the
 	 * iterator.
-	 * 
+	 *
 	 * @return an iterator over the common properties. Contents of the iterator are
 	 *         handles to the common properties, type of them is
 	 *         <code>GroupPropertyHandle</code>
@@ -131,7 +134,7 @@ abstract public class GroupElementHandle {
 	 * the iterator are handles to the common properties, type of them is
 	 * <code>GroupPropertyHandle</code>. Note: remove is not support for the
 	 * iterator.
-	 * 
+	 *
 	 * @return an iterator over the common properties. Contents of the iterator are
 	 *         handles to the common properties, type of them is
 	 *         <code>GroupPropertyHandle</code>
@@ -142,7 +145,7 @@ abstract public class GroupElementHandle {
 	/**
 	 * Checks whether a property is visible in the property sheet. The visible
 	 * property is visible in all <code>elements</code>.
-	 * 
+	 *
 	 * @param propName the property name
 	 * @return <code>true</code> if it is visible. Otherwise <code>false</code>.
 	 */
@@ -156,7 +159,7 @@ abstract public class GroupElementHandle {
 	 * property from its parent element, style, or from the default value for the
 	 * property. Note: this method clear the values of local properties ( not
 	 * include sub element)
-	 * 
+	 *
 	 * @throws SemanticException if the property is not defined on this element
 	 */
 	abstract public void clearLocalProperties() throws SemanticException;
@@ -168,7 +171,7 @@ abstract public class GroupElementHandle {
 	 * property from its parent element, style, or from the default value for the
 	 * property. Note: this method clear all the values of local properties (include
 	 * sub element)
-	 * 
+	 *
 	 * @throws SemanticException if the property is not defined on this element
 	 */
 	abstract public void clearLocalPropertiesIncludeSubElement() throws SemanticException;
@@ -177,7 +180,7 @@ abstract public class GroupElementHandle {
 	 * Returns <code>true</code> if each of the given collection of element extends
 	 * has a parent. Returns <code>false</code> otherwise. If the collection has no
 	 * elements, also return <code>false</code>
-	 * 
+	 *
 	 * @return <code>true</code> if each of the given collection of element extends
 	 *         has a parent. Returns <code>false</code> otherwise. If the collection
 	 *         has no elements, also return <code>false</code>
@@ -194,23 +197,22 @@ abstract public class GroupElementHandle {
 	 * <p>
 	 * 3. If any of the given elements has local properties.
 	 * <p>
-	 * 
+	 *
 	 * @return <code>true</code> if the conditions is met.
 	 */
 
 	public final boolean hasLocalPropertiesForExtendedElements() {
-		if (!isSameType())
+		if (!isSameType() || !allExtendedElements()) {
 			return false;
-
-		if (!allExtendedElements())
-			return false;
+		}
 
 		List elements = getElements();
 		for (Iterator iter = elements.iterator(); iter.hasNext();) {
 			DesignElementHandle elementHandle = (DesignElementHandle) iter.next();
 			boolean hasLocalProperties = elementHandle.hasLocalProperties();
-			if (hasLocalProperties)
+			if (hasLocalProperties) {
 				return true;
+			}
 
 			continue;
 		}
@@ -227,22 +229,21 @@ abstract public class GroupElementHandle {
 	 * <p>
 	 * 3. If any of the given elements or their subElement has local properties.
 	 * <p>
-	 * 
+	 *
 	 * @return <code>true</code> if the conditions is met.
 	 */
 	public final boolean hasLocalPropertiesIncludeSubElement() {
-		if (!isSameType())
+		if (!isSameType() || !allExtendedElements()) {
 			return false;
-
-		if (!allExtendedElements())
-			return false;
+		}
 
 		List elements = getElements();
 		for (Iterator iter = elements.iterator(); iter.hasNext();) {
 			DesignElementHandle elementHandle = (DesignElementHandle) iter.next();
 			boolean hasLocalProperties = hasLocalPropertiesIncludeSubElement(elementHandle);
-			if (hasLocalProperties)
+			if (hasLocalProperties) {
 				return true;
+			}
 
 			continue;
 		}
@@ -251,7 +252,7 @@ abstract public class GroupElementHandle {
 
 	/**
 	 * return true if the Element or subElement has local properties
-	 * 
+	 *
 	 * @param elementHandle
 	 * @return true if the Element or his subElement has local properties
 	 */
@@ -283,7 +284,7 @@ abstract public class GroupElementHandle {
 
 	/**
 	 * Checks if all elements have extends parents or virtual parents.
-	 * 
+	 *
 	 * @return <code>true</code> If all elements have extend parents or virtual
 	 *         parents. Otherwise <code>false</code>;
 	 */
@@ -293,7 +294,7 @@ abstract public class GroupElementHandle {
 	/**
 	 * Checks whether a property is read-only in the property sheet. The visible
 	 * property is read-only in all <code>elements</code>.
-	 * 
+	 *
 	 * @param propName the property name
 	 * @return <code>true</code> if it is read-only. Otherwise <code>false</code>.
 	 */
@@ -303,7 +304,7 @@ abstract public class GroupElementHandle {
 	/**
 	 * If property is shared by the group of elements, return the corresponding
 	 * <code>GroupPropertyHandle</code>, otherwise, return <code>null</code>.
-	 * 
+	 *
 	 * @param propName name of the property needs to be handled.
 	 * @return If the property is a common property among the elements, return the
 	 *         corresponding <code>GroupPropertyHandle</code>; Otherwise return
@@ -316,7 +317,7 @@ abstract public class GroupElementHandle {
 	 * If the given property is a common property, value will be returned as a
 	 * string if all values within the group of elements are equal. If the property
 	 * is not a common property, return <code>null</code>.
-	 * 
+	 *
 	 * @param propName name of the property.
 	 * @return the value as a string if the property is a common property and all
 	 *         the elements have the same value. Return null if the property is not
@@ -327,8 +328,9 @@ abstract public class GroupElementHandle {
 
 	public final String getStringProperty(String propName) {
 		GroupPropertyHandle propHandle = getPropertyHandle(propName);
-		if (propHandle == null)
+		if (propHandle == null) {
 			return null;
+		}
 
 		return propHandle.getStringValue();
 	}
@@ -337,7 +339,7 @@ abstract public class GroupElementHandle {
 	 * If the given property is a common property, value will be returned as a
 	 * display value if all values within the group of elements are equal. If the
 	 * property is not a common property, return <code>null</code>.
-	 * 
+	 *
 	 * @param propName name of the property.
 	 * @return the value as a display value if the property is a common property and
 	 *         all the elements have the same value. Return null if the property is
@@ -348,8 +350,9 @@ abstract public class GroupElementHandle {
 
 	public final String getDisplayProperty(String propName) {
 		GroupPropertyHandle propHandle = getPropertyHandle(propName);
-		if (propHandle == null)
+		if (propHandle == null) {
 			return null;
+		}
 
 		return propHandle.getDisplayValue();
 	}
@@ -359,7 +362,7 @@ abstract public class GroupElementHandle {
 	 * string if all values within the group of elements are equal and one of them
 	 * has a local value. If the property is not a common property or none of them
 	 * has a local value, return <code>null</code>.
-	 * 
+	 *
 	 * @param propName name of the property.
 	 * @return the value as a string if the property is a common property, all the
 	 *         elements have the same value and one of them has a local value.
@@ -370,8 +373,9 @@ abstract public class GroupElementHandle {
 
 	public final String getLocalStringProperty(String propName) {
 		GroupPropertyHandle propHandle = getPropertyHandle(propName);
-		if (propHandle == null)
+		if (propHandle == null) {
 			return null;
+		}
 
 		return propHandle.getLocalStringValue();
 	}
@@ -382,7 +386,7 @@ abstract public class GroupElementHandle {
 	 * <p>
 	 * If all element has a <code>null</code> value for this property, it is
 	 * considered that they share the same value.
-	 * 
+	 *
 	 * @param propName name of the property.
 	 * @return <code>true</code> if the group of element share the same value.
 	 *         Return <code>false</code> if the property is not a common property or
@@ -391,8 +395,9 @@ abstract public class GroupElementHandle {
 
 	public final boolean shareSameValue(String propName) {
 		GroupPropertyHandle propHandle = getPropertyHandle(propName);
-		if (propHandle == null)
+		if (propHandle == null) {
 			return false;
+		}
 
 		return propHandle.shareSameValue();
 	}
@@ -401,7 +406,7 @@ abstract public class GroupElementHandle {
 	 * Set the value of a property on the given collection of elements. If the
 	 * property provided is not a common property then this method simply return;
 	 * Otherwise, the value will be set on the group of elements.
-	 * 
+	 *
 	 * @param propName name of the property.
 	 * @param value    value needs to set.
 	 * @throws SemanticException if the value is invalid for the property, or the
@@ -411,8 +416,9 @@ abstract public class GroupElementHandle {
 
 	public final void setProperty(String propName, Object value) throws SemanticException {
 		GroupPropertyHandle propHandle = getPropertyHandle(propName);
-		if (propHandle == null)
+		if (propHandle == null) {
 			return;
+		}
 
 		propHandle.setValue(value);
 	}
@@ -426,7 +432,7 @@ abstract public class GroupElementHandle {
 	 * <p>
 	 * If the property provided is not a common property then this method simply
 	 * return, else, the value will be cleared on the group of elements.
-	 * 
+	 *
 	 * @param propName the name of the property to clear.
 	 * @throws SemanticException if the property is not defined on this element
 	 */
@@ -439,7 +445,7 @@ abstract public class GroupElementHandle {
 	 * Set the value of a property to a string . If the property provided is not a
 	 * common property then this method simply return; Else, the string value will
 	 * be set on the group of element.
-	 * 
+	 *
 	 * @param propName name of the property.
 	 * @param value    value needs to set.
 	 * @throws SemanticException if the value is invalid for the property, or the
@@ -453,7 +459,7 @@ abstract public class GroupElementHandle {
 	/**
 	 * Checks whether the <code>element</code> is a member of
 	 * <code>GroupElementHandle</code>.
-	 * 
+	 *
 	 * @param element the element to check
 	 * @return <code>true</code> if the element is in the list, otherwise
 	 *         <code>false</code>.
@@ -476,7 +482,7 @@ abstract public class GroupElementHandle {
 
 		/**
 		 * Constructs the group property iterator with the common property list.
-		 * 
+		 *
 		 * @param list
 		 */
 
@@ -484,22 +490,27 @@ abstract public class GroupElementHandle {
 			propIterator = list.iterator();
 		}
 
+		@Override
 		public void remove() {
 			// not support.
 		}
 
+		@Override
 		public boolean hasNext() {
-			if (propIterator == null)
+			if (propIterator == null) {
 				return false;
+			}
 
 			return propIterator.hasNext();
 		}
 
+		@Override
 		public Object next() {
-			if (!propIterator.hasNext())
+			if (!propIterator.hasNext()) {
 				return null;
+			}
 
 			return new GroupPropertyHandle(GroupElementHandle.this, (ElementPropertyDefn) propIterator.next());
 		}
-	};
+	}
 }

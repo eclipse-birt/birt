@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +24,7 @@ import org.eclipse.birt.report.model.core.Structure;
  * Iterates over the structures within a property or member defined as a list of
  * structures. Each object returned by <code>getNext( )</code> is of type
  * <code>StructureHandle</code>.
- * 
+ *
  */
 
 class StructureIterator implements Iterator {
@@ -47,7 +50,7 @@ class StructureIterator implements Iterator {
 	/**
 	 * Constructs an structure iterator for the property or member that has the list
 	 * of structures over which to iterate.
-	 * 
+	 *
 	 * @param handle handle to the property or member that has the list of
 	 *               structures over which to iterate
 	 */
@@ -63,13 +66,15 @@ class StructureIterator implements Iterator {
 	 */
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.Iterator#remove()
 	 */
 
+	@Override
 	public void remove() {
-		if (index < 0 || index >= list.size())
+		if (index < 0 || index >= list.size()) {
 			return;
+		}
 		try {
 			valueHandle.removeItem(index);
 			list.remove(index--);
@@ -80,6 +85,7 @@ class StructureIterator implements Iterator {
 
 	// Implementation of iterator.hasNext( )
 
+	@Override
 	public boolean hasNext() {
 		return list != null && index + 1 < list.size();
 	}
@@ -87,14 +93,16 @@ class StructureIterator implements Iterator {
 	/**
 	 * Returns a handle to the next structure in the list. The handle is of type
 	 * <code>StructureHandle</code>
-	 * 
+	 *
 	 * @return a handle to the next structure in the list
 	 * @see StructureHandle
 	 */
 	// Implementation of iterator.next( )
+	@Override
 	public Object next() {
-		if (!hasNext())
+		if (!hasNext()) {
 			return null;
+		}
 
 		Structure struct = list.get(++index);
 		return struct.getHandle(valueHandle, index);

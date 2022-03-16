@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2007 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -48,11 +50,12 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage {
 	private static final String ID = "org.eclipse.birt.report.designer.ui.editor.script.DecoratedScriptEditor"; //$NON-NLS-1$
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.editors.pages.ReportScriptFormPage#
 	 * createEditor()
 	 */
 
+	@Override
 	protected IEditorPart createJSEditor() {
 		return new DebugJSEditor(this);
 	}
@@ -65,7 +68,7 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage {
 
 		/**
 		 * Constructs the editor with a specified parent.
-		 * 
+		 *
 		 * @param parent the parent editor.
 		 */
 		public ReportDecoratedScriptEditor(IEditorPart parent) {
@@ -73,13 +76,15 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage {
 			setRulerContextMenuId("#ReportScriptRulerContext"); //$NON-NLS-1$
 		}
 
+		@Override
 		public IAction getAction(String actionID) {
 			IAction action = super.getAction(actionID);
 
 			if (action == null) {
 				action = findContributedAction(actionID);
-				if (action != null)
+				if (action != null) {
 					setAction(actionID, action);
+				}
 			}
 			return action;
 		}
@@ -91,14 +96,16 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage {
 			for (int i = 0; i < elements.length; i++) {
 				IConfigurationElement element = elements[i];
 				if (TAG_CONTRIBUTION_TYPE.equals(element.getName())) {
-					if (!ID.equals(element.getAttribute("targetID"))) //$NON-NLS-1$
+					if (!ID.equals(element.getAttribute("targetID"))) { //$NON-NLS-1$
 						continue;
+					}
 
 					IConfigurationElement[] children = element.getChildren("action"); //$NON-NLS-1$
 					for (int j = 0; j < children.length; j++) {
 						IConfigurationElement child = children[j];
-						if (actionID.equals(child.getAttribute("actionID"))) //$NON-NLS-1$
+						if (actionID.equals(child.getAttribute("actionID"))) { //$NON-NLS-1$
 							actions.add(child);
+						}
 					}
 				}
 			}
@@ -114,14 +121,16 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage {
 						 * org.eclipse.ui.texteditor.ConfigurationElementSorter#getConfigurationElement(
 						 * java.lang.Object)
 						 */
+						@Override
 						public IConfigurationElement getConfigurationElement(Object object) {
 							return (IConfigurationElement) object;
 						}
 					};
 					sorter.sort(actionArray);
 					element = actionArray[0];
-				} else
+				} else {
 					element = (IConfigurationElement) actions.get(0);
+				}
 
 				try {
 					return new ContributedAction(getSite(), element);
@@ -133,6 +142,7 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage {
 			return null;
 		}
 
+		@Override
 		public Object getAdapter(Class adapter) {
 			if (adapter == IReportScriptLocation.class) {
 				IEditorPart parent = getParent();
@@ -142,21 +152,14 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage {
 			return super.getAdapter(adapter);
 		}
 
-		public String getFileName() {
-			return fileName;
-		}
-
-		public void setFileName(String fileName) {
-			this.fileName = fileName;
-		}
-
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor#
 		 * updateScipt(java.lang.String)
 		 */
+		@Override
 		public void updateScipt(PropertyHandle handle) {
 			ScriptDocumentProvider provider = (ScriptDocumentProvider) getDocumentProvider();
 			provider.update(provider.getAnnotationModel(getEditorInput()));
@@ -164,6 +167,7 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage {
 
 		}
 
+		@Override
 		public void beforeChangeContents(PropertyHandle handle) {
 			ScriptDocumentProvider provider = (ScriptDocumentProvider) getDocumentProvider();
 			String id = ModuleUtil.getScriptUID(handle);
@@ -198,14 +202,16 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditor#
 		 * createScriptEditor()
 		 */
+		@Override
 		protected IScriptEditor createScriptEditor() {
 			return new ReportDecoratedScriptEditor(getParentEditor());
 		}
 
+		@Override
 		public Object getAdapter(Class adapter) {
 			if (adapter == IReportScriptLocation.class) {
 				final PropertyHandle handle = getPropertyHandle();
@@ -215,18 +221,22 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage {
 
 				return new IReportScriptLocation() {
 
+					@Override
 					public String getID() {
 						return ModuleUtil.getScriptUID(handle);
 					}
 
+					@Override
 					public int getLineNumber() {
 						return -1;
 					}
 
+					@Override
 					public String getReportFileName() {
 						return handle.getElementHandle().getModuleHandle().getFileName();
 					}
 
+					@Override
 					public String getDisplayName() {
 						return DEUtil.getFlatHirarchyPathName(handle.getElementHandle()) + "." //$NON-NLS-1$
 								+ handle.getDefn().getName();
@@ -239,10 +249,11 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditor#
 		 * setEditorText(java.lang.String)
 		 */
+		@Override
 		protected void setEditorText(String text) {
 			final PropertyHandle handle = getPropertyHandle();
 			if (getScriptEditor() instanceof IDebugScriptEditor) {
@@ -255,6 +266,7 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage {
 			}
 		}
 
+		@Override
 		public void doSave(IProgressMonitor monitor, boolean chnageText) {
 			super.doSave(monitor, chnageText);
 			if (getScriptEditor() instanceof IDebugScriptEditor) {
@@ -272,10 +284,11 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditor#
 		 * getScriptEditor()
 		 */
+		@Override
 		protected IScriptEditor getScriptEditor() {
 			return super.getScriptEditor();
 		}

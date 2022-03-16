@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,11 +36,11 @@ import org.eclipse.birt.data.engine.odi.IAggrInfo;
 
 /**
  * The class used to populate DataSet data.
- * 
+ *
  */
 class DataSetProcessUtil extends RowProcessUtil {
 	/**
-	 * 
+	 *
 	 * @param populator
 	 * @param iccState
 	 * @param computedColumnHelper
@@ -51,7 +54,7 @@ class DataSetProcessUtil extends RowProcessUtil {
 
 	/**
 	 * Populate the data set data of an IResultIterator instance.
-	 * 
+	 *
 	 * @param populator
 	 * @param iccState
 	 * @param computedColumnHelper
@@ -69,7 +72,7 @@ class DataSetProcessUtil extends RowProcessUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param stopSign
 	 * @throws DataException
 	 */
@@ -79,11 +82,13 @@ class DataSetProcessUtil extends RowProcessUtil {
 		boolean changeMaxRows = filterByRow == null ? false
 				: filterByRow.getFilterList(FilterByRow.QUERY_FILTER).size()
 						+ filterByRow.getFilterList(FilterByRow.GROUP_FILTER).size() > 0;
-		if (changeMaxRows)
+		if (changeMaxRows) {
 			this.populator.getQuery().setMaxRows(0);
+		}
 
-		if (this.computedColumnHelper != null)
+		if (this.computedColumnHelper != null) {
 			this.computedColumnHelper.setModel(TransformationConstants.NONE_MODEL);
+		}
 		doDataSetFilter(changeMaxRows);
 
 		List aggCCList = prepareComputedColumns(TransformationConstants.DATA_SET_MODEL);
@@ -91,8 +96,9 @@ class DataSetProcessUtil extends RowProcessUtil {
 		// All the calculated computed columns (none aggregation ones) need not been
 		// re-calculated
 		// during the calculation of aggregation computed columns.
-		if (this.computedColumnHelper != null)
+		if (this.computedColumnHelper != null) {
 			computedColumnHelper.setModel(TransformationConstants.NONE_MODEL);
+		}
 		populateAggrCCs(this.getAggrComputedColumns(aggCCList, true));
 		setStateForAggregationComputedColumns();
 		removeAvailableComputedColumns();
@@ -119,14 +125,15 @@ class DataSetProcessUtil extends RowProcessUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aggrComputedColumns
 	 * @param stopSign
 	 * @throws DataException
 	 */
 	private void populateAggrCCs(List aggrComputedColumns) throws DataException {
-		if (aggrComputedColumns.size() == 0)
+		if (aggrComputedColumns.size() == 0) {
 			return;
+		}
 		ExpressionCompiler compiler = new ExpressionCompiler();
 		compiler.setDataSetMode(true);
 
@@ -142,8 +149,9 @@ class DataSetProcessUtil extends RowProcessUtil {
 				exprs = new IBaseExpression[args.size() + 1];
 				offset = 1;
 				exprs[0] = cc.getExpression();
-			} else
+			} else {
 				exprs = new IBaseExpression[args.size()];
+			}
 
 			for (int j = offset; j < args.size() + offset; j++) {
 				exprs[j] = (IBaseExpression) args.get(j - offset);
@@ -152,15 +160,17 @@ class DataSetProcessUtil extends RowProcessUtil {
 			for (int j = 0; j < exprs.length; j++) {
 				if (exprs[j] instanceof IScriptExpression) {
 					IScriptExpression scriptExpr = (IScriptExpression) exprs[j];
-					if (scriptExpr.getText() == null)
+					if (scriptExpr.getText() == null) {
 						continue;
+					}
 				}
 				compiler.compile(exprs[j], this.populator.getSession().getEngineContext().getScriptContext());
 			}
 
-			if (cc.getAggregateFilter() != null)
+			if (cc.getAggregateFilter() != null) {
 				compiler.compile(cc.getAggregateFilter(),
 						this.populator.getSession().getEngineContext().getScriptContext());
+			}
 			IAggrFunction aggrFunction = AggregationManager.getInstance().getAggregation(cc.getAggregateFunction());
 			IAggrInfo aggrInfo = new AggrInfo(cc.getName(), 0, aggrFunction, exprs, cc.getAggregateFilter());
 			aggrInfos.add(aggrInfo);
@@ -169,8 +179,9 @@ class DataSetProcessUtil extends RowProcessUtil {
 
 		// All the computed column aggregations should only have one round.
 
-		if (!psController.needDoOperation(PassStatusController.DATA_SET_FILTERING))
+		if (!psController.needDoOperation(PassStatusController.DATA_SET_FILTERING)) {
 			PassUtil.pass(populator, new OdiResultSetWrapper(populator.getResultIterator()), false);
+		}
 
 		AggregationHelper helper = new AggregationHelper(new AggrDefnManager(aggrInfos), this.populator);
 
@@ -184,40 +195,43 @@ class DataSetProcessUtil extends RowProcessUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param changeMaxRows
 	 * @param stopSign
 	 * @throws DataException
 	 */
 	private void doDataSetFilter(boolean changeMaxRows) throws DataException {
-		if (!psController.needDoOperation(PassStatusController.DATA_SET_FILTERING))
+		if (!psController.needDoOperation(PassStatusController.DATA_SET_FILTERING)) {
 			return;
+		}
 
 		applyFilters(FilterByRow.DATASET_FILTER, changeMaxRows);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param changeMaxRows
 	 * @param stopSign
 	 * @throws DataException
 	 */
 	private void doDataSetAggrFilter(boolean changeMaxRows) throws DataException {
-		if (!psController.needDoOperation(PassStatusController.DATASET_AGGR_ROW_FILTERING))
+		if (!psController.needDoOperation(PassStatusController.DATASET_AGGR_ROW_FILTERING)) {
 			return;
+		}
 
 		applyFilters(FilterByRow.DATASET_AGGR_FILTER, changeMaxRows);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aggCCList
 	 * @param stopSign
 	 * @throws DataException
 	 */
 	private void populateComputedColumns(List aggCCList) throws DataException {
-		if (!psController.needDoOperation(PassStatusController.DATA_SET_COMPUTED_COLUMN_POPULATING))
+		if (!psController.needDoOperation(PassStatusController.DATA_SET_COMPUTED_COLUMN_POPULATING)) {
 			return;
+		}
 		// if no group pass has been made, made one.
 		if (!psController.needDoOperation(PassStatusController.DATA_SET_FILTERING)) {
 			PassUtil.pass(this.populator, new OdiResultSetWrapper(populator.getResultIterator()), false);

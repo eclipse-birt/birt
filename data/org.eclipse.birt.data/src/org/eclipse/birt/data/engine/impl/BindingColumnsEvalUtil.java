@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +38,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Evaluate a row of bound columns and meantime do something related with saving
  * the value of bound columns.
- * 
+ *
  * There is different behavior when query is running on dataset or report
  * document. In the latter case, original binding column name is reserved and
  * only the binding column can be added, not allowed for delete or change. So it
@@ -93,7 +96,7 @@ public class BindingColumnsEvalUtil {
 			groupBindingColumns[temp.getGroupLevel()] = temp;
 		}
 
-		allManualBindingExprs = new HashMap<String, BindingColumn>();
+		allManualBindingExprs = new HashMap<>();
 		for (int i = 0; i < size; i++) {
 			List groupBindingExprs = new ArrayList();
 			itr = groupBindingColumns[i].getColumnNames().iterator();
@@ -127,18 +130,19 @@ public class BindingColumnsEvalUtil {
 		Iterator itr = this.allAutoBindingExprs.iterator();
 		while (itr.hasNext()) {
 			BindingColumn bindingColumn = (BindingColumn) itr.next();
-			if (valueMap.containsKey(bindingColumn.columnName))
+			if (valueMap.containsKey(bindingColumn.columnName)) {
 				continue;
+			}
 			Object exprValue = evaluateValue(bindingColumn, AUTO_BINDING);
-			if (valueMap.get(bindingColumn.columnName) == null)
+			if (valueMap.get(bindingColumn.columnName) == null) {
 				valueMap.put(bindingColumn.columnName, exprValue);
+			}
 		}
 
 		for (BindingColumn bindingColumn : allManualBindingExprs.values()) {
-			if (valueMap.containsKey(bindingColumn.columnName))
+			if (valueMap.containsKey(bindingColumn.columnName) || (bindingColumn.isAggregation && !includeAggregation)) {
 				continue;
-			if (bindingColumn.isAggregation && !includeAggregation)
-				continue;
+			}
 			Object exprValue = evaluateValue(bindingColumn, MANUAL_BINDING);
 
 			valueMap.put(bindingColumn.columnName, exprValue);
@@ -166,16 +170,19 @@ public class BindingColumnsEvalUtil {
 		Object exprValue = null;
 		try {
 			if (exprType == MANUAL_BINDING) {
-				if (bindingColumn.isAggregation)
+				if (bindingColumn.isAggregation) {
 					exprValue = this.odiResult.getAggrValue(bindingColumn.columnName);
-				else
+				} else {
 					exprValue = ExprEvaluateUtil.evaluateExpression(bindingColumn.baseExpr, odiResult, scope, cx);
-			} else
+				}
+			} else {
 				exprValue = ExprEvaluateUtil.evaluateRawExpression(bindingColumn.baseExpr, scope, cx);
+			}
 
-			if (exprValue != null && !(exprValue instanceof Exception))
+			if (exprValue != null && !(exprValue instanceof Exception)) {
 				exprValue = DataTypeUtil.convert(JavascriptEvalUtil.convertJavascriptValue(exprValue),
 						bindingColumn.type);
+			}
 		} catch (BirtException e) {
 			throw DataException.wrap(e);
 		}
@@ -184,7 +191,7 @@ public class BindingColumnsEvalUtil {
 
 	/**
 	 * Evaluate the specified binding column in MANUAL_BINDING mode.
-	 * 
+	 *
 	 * @param baseExpr
 	 * @param exprType
 	 * @param valueMap
@@ -192,15 +199,16 @@ public class BindingColumnsEvalUtil {
 	 */
 	Object evaluateValue(String bindingName) throws DataException {
 		BindingColumn binding = this.getBindingFromManualBinding(bindingName);
-		if (binding == null)
+		if (binding == null) {
 			throw new DataException(ResourceConstants.INVALID_BOUND_COLUMN_NAME, bindingName);
+		}
 
 		return this.evaluateValue(binding, MANUAL_BINDING);
 	}
 
 	/**
 	 * Get BindingColumn object with specified name.
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 * @throws DataException there is no BindingColumn in manualBindingExprs

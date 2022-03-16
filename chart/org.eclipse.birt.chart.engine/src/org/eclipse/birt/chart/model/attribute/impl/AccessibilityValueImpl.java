@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -33,7 +45,7 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 	/**
 	 * The default value of the '{@link #getText() <em>Text</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getText()
 	 * @generated
 	 * @ordered
@@ -43,7 +55,7 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 	/**
 	 * The cached value of the '{@link #getText() <em>Text</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getText()
 	 * @generated
 	 * @ordered
@@ -53,7 +65,7 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 	/**
 	 * The default value of the '{@link #getAccessibility() <em>Accessibility</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getAccessibility()
 	 * @generated
 	 * @ordered
@@ -63,7 +75,7 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 	/**
 	 * The cached value of the '{@link #getAccessibility() <em>Accessibility</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getAccessibility()
 	 * @generated
 	 * @ordered
@@ -72,7 +84,7 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected AccessibilityValueImpl() {
@@ -81,7 +93,7 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -91,51 +103,57 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getText() {
 		return text;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setText(String newText) {
 		String oldText = text;
 		text = newText;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.ACCESSIBILITY_VALUE__TEXT, oldText,
 					text));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getAccessibility() {
 		return accessibility;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setAccessibility(String newAccessibility) {
 		String oldAccessibility = accessibility;
 		accessibility = newAccessibility;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.ACCESSIBILITY_VALUE__ACCESSIBILITY,
 					oldAccessibility, accessibility));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -151,7 +169,7 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -169,7 +187,7 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -187,7 +205,7 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -204,15 +222,16 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (text: "); //$NON-NLS-1$
 		result.append(text);
 		result.append(", accessibility: "); //$NON-NLS-1$
@@ -225,6 +244,7 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
+	@Override
 	public AccessibilityValue copyInstance() {
 		AccessibilityValueImpl dest = new AccessibilityValueImpl();
 		dest.set(this);

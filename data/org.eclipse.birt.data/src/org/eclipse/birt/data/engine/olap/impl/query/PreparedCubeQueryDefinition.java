@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,19 +58,19 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition {
 
 	private String cubeName;
 
-	private List<IBinding> realBindings = new ArrayList<IBinding>();
+	private List<IBinding> realBindings = new ArrayList<>();
 
-	private Set<IBinding> bindingsForNestAggregation = new HashSet<IBinding>();
+	private Set<IBinding> bindingsForNestAggregation = new HashSet<>();
 
-	private Map<String, IBinding> nameToBinding = new HashMap<String, IBinding>();
+	private Map<String, IBinding> nameToBinding = new HashMap<>();
 
-	private ICubeOperation[] realCubeOperations = new ICubeOperation[0];
+	private ICubeOperation[] realCubeOperations = {};
 
 	public PreparedCubeQueryDefinition(ICubeQueryDefinition cqd) throws DataException {
 		assert cqd != null;
 		this.cqd = cqd;
 		this.cubeName = cqd.getName();
-		List<IBinding> bindingsInCubeQuery = new ArrayList<IBinding>();
+		List<IBinding> bindingsInCubeQuery = new ArrayList<>();
 		for (Object o : cqd.getBindings()) {
 			bindingsInCubeQuery.add(((Binding) o).clone());
 		}
@@ -90,12 +93,13 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition {
 		}
 
 		List calculatedMeasures = cqd.getDerivedMeasures();
-		if (calculatedMeasures != null && calculatedMeasures.size() > 0)
+		if (calculatedMeasures != null && calculatedMeasures.size() > 0) {
 			createBindingsForCalculatedMeasures(bindingsInCubeQuery, cqd.getMeasures(), cqd.getDerivedMeasures(),
 					org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil.populateMeasureAggrOns(cqd));
+		}
 
 		List<ICubeOperation> convertedCubeOperations = getConvertedCubeOperations();
-		List<ICubeOperation> all = new ArrayList<ICubeOperation>(Arrays.asList(cqd.getCubeOperations()));
+		List<ICubeOperation> all = new ArrayList<>(Arrays.asList(cqd.getCubeOperations()));
 		all.addAll(convertedCubeOperations);
 		realCubeOperations = all.toArray(new ICubeOperation[0]);
 	}
@@ -111,13 +115,7 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition {
 	private IBinding getSameBindingInQuery(IBinding binding, List bindings) throws DataException {
 		for (int i = 0; i < bindings.size(); i++) {
 			IBinding b = (IBinding) bindings.get(i);
-			if (b.getDataType() != binding.getDataType()) {
-				continue;
-			}
-			if (binding.getAggrFunction() != null && (!(binding.getAggrFunction().equals(b.getAggrFunction())))) {
-				continue;
-			}
-			if (!ExprUtil.isEqualExpression(b.getExpression(), binding.getExpression())) {
+			if ((b.getDataType() != binding.getDataType()) || (binding.getAggrFunction() != null && (!(binding.getAggrFunction().equals(b.getAggrFunction())))) || !ExprUtil.isEqualExpression(b.getExpression(), binding.getExpression())) {
 				continue;
 			}
 			if (!ExprUtil.isEqualExpression(b.getFilter(), binding.getFilter())) {
@@ -179,8 +177,9 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition {
 						newBinding.setDataType(md.getDataType());
 						newBinding.setExpression(
 								new ScriptExpression(ExpressionUtil.createJSMeasureExpression(measureName)));
-						for (int a = 0; a < levelNames.size(); a++)
+						for (int a = 0; a < levelNames.size(); a++) {
 							newBinding.addAggregateOn(levelNames.get(a));
+						}
 						if (md.getAggrFunction() != null) {
 							newBinding.setAggrFunction(getRollUpAggregationFunctionName(md.getAggrFunction()));
 						} else {
@@ -230,10 +229,12 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition {
 	}
 
 	private boolean isObjectEqual(Object a, Object b) {
-		if (a == null && b == null)
+		if (a == null && b == null) {
 			return true;
-		if (a != null && b != null)
+		}
+		if (a != null && b != null) {
 			return a.equals(b);
+		}
 		return false;
 	}
 
@@ -284,8 +285,8 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition {
 	}
 
 	private List<ICubeOperation> getConvertedCubeOperations() throws DataException {
-		List<ICubeOperation> convertedCubeOperations = new ArrayList<ICubeOperation>();
-		Set<DirectedGraphEdge> edges = new HashSet<DirectedGraphEdge>();
+		List<ICubeOperation> convertedCubeOperations = new ArrayList<>();
+		Set<DirectedGraphEdge> edges = new HashSet<>();
 		for (IBinding binding : bindingsForNestAggregation) {
 			List<String> referencedBindings = ExpressionCompilerUtil.extractColumnExpression(binding.getExpression(),
 					ExpressionUtil.DATA_INDICATOR);
@@ -303,7 +304,7 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition {
 			throw new DataException(ResourceConstants.COLUMN_BINDING_CYCLE,
 					((IBinding) e.getNode().getValue()).getBindingName());
 		}
-		Set<IBinding> processed = new HashSet<IBinding>();
+		Set<IBinding> processed = new HashSet<>();
 		for (GraphNode node : nodes) {
 			IBinding b = (IBinding) node.getValue();
 			convertedCubeOperations.add(
@@ -312,7 +313,7 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition {
 		}
 
 		if (bindingsForNestAggregation.size() > processed.size()) {
-			List<IBinding> left = new ArrayList<IBinding>();
+			List<IBinding> left = new ArrayList<>();
 			for (IBinding b : bindingsForNestAggregation) {
 				if (!processed.contains(b)) {
 					left.add(b);
@@ -324,52 +325,63 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition {
 		return convertedCubeOperations;
 	}
 
+	@Override
 	public void addBinding(IBinding binding) {
 		throw new UnsupportedOperationException("adding binding is not allowed for prepared cube query definition"); //$NON-NLS-1$
 	}
 
+	@Override
 	public void addCubeOperation(ICubeOperation cubeOperation) {
 		throw new UnsupportedOperationException(
 				"adding cube operation is not allowed for prepared cube query definition"); //$NON-NLS-1$
 
 	}
 
+	@Override
 	public void addFilter(IFilterDefinition filter) {
 		cqd.addFilter(filter);
 
 	}
 
+	@Override
 	public void addSort(ISortDefinition sort) {
 		cqd.addSort(sort);
 
 	}
 
+	@Override
 	public boolean cacheQueryResults() {
 		return cqd.cacheQueryResults();
 	}
 
+	@Override
 	public IComputedMeasureDefinition createComputedMeasure(String measureName, int type, IBaseExpression expr)
 			throws DataException {
 		return cqd.createComputedMeasure(measureName, type, expr);
 	}
 
+	@Override
 	public IDerivedMeasureDefinition createDerivedMeasure(String measureName, int type, IBaseExpression expr)
 			throws DataException {
 		return cqd.createDerivedMeasure(measureName, type, expr);
 	}
 
+	@Override
 	public IEdgeDefinition createEdge(int type) {
 		return cqd.createEdge(type);
 	}
 
+	@Override
 	public IMeasureDefinition createMeasure(String measureName) {
 		return cqd.createMeasure(measureName);
 	}
 
+	@Override
 	public List getBindings() {
 		return Collections.unmodifiableList(realBindings);
 	}
 
+	@Override
 	public List getComputedMeasures() {
 		return cqd.getComputedMeasures();
 	}
@@ -378,84 +390,101 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition {
 		return this.bindingsForNestAggregation;
 	}
 
+	@Override
 	public ICubeOperation[] getCubeOperations() {
 		return realCubeOperations;
 	}
 
+	@Override
 	public IEdgeDefinition getEdge(int type) {
 		return cqd.getEdge(type);
 	}
 
+	@Override
 	public int getFilterOption() {
 		return cqd.getFilterOption();
 	}
 
+	@Override
 	public List getFilters() {
 		return cqd.getFilters();
 	}
 
+	@Override
 	public List getMeasures() {
 		return cqd.getMeasures();
 	}
 
+	@Override
 	public List getDerivedMeasures() {
 		return cqd.getDerivedMeasures();
 	}
 
+	@Override
 	public String getQueryResultsID() {
 		return cqd.getQueryResultsID();
 	}
 
+	@Override
 	public List getSorts() {
 		return cqd.getSorts();
 	}
 
+	@Override
 	public void setCacheQueryResults(boolean b) {
 		cqd.setCacheQueryResults(b);
 
 	}
 
+	@Override
 	public void setFilterOption(int breakHierarchyOption) {
 		cqd.setFilterOption(breakHierarchyOption);
 
 	}
 
+	@Override
 	public void setQueryResultsID(String id) {
 		cqd.setQueryResultsID(id);
 	}
 
+	@Override
 	public String getName() {
 		return this.cubeName;
 	}
 
+	@Override
 	public void setName(String name) {
 		this.cubeName = name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#
 	 * needAccessFactTable()
 	 */
+	@Override
 	public boolean needAccessFactTable() {
 		return cqd.needAccessFactTable();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#
 	 * setNeedAccessFactTable(boolean)
 	 */
+	@Override
 	public void setNeedAccessFactTable(boolean needAccessFactTable) {
 		cqd.setNeedAccessFactTable(needAccessFactTable);
 	}
 
+	@Override
 	public String getID() {
 		return this.cqd.getID();
 	}
 
+	@Override
 	public void setID(String ID) {
 		cqd.setID(ID);
 	}
@@ -463,6 +492,7 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition {
 	/**
 	 * Clone itself.
 	 */
+	@Override
 	public ICubeQueryDefinition clone() {
 		PreparedCubeQueryDefinition cloned = null;
 		try {

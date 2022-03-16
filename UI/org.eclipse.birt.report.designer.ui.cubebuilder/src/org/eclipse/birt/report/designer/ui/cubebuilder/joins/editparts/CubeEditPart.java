@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others. All rights reserved. This
- * program and the accompanying materials are made available under the terms of
- * the Eclipse Public License v1.0 which accompanies this distribution, and is
- * available at http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation and others.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - Initial implementation.
  ******************************************************************************/
 
@@ -28,7 +31,7 @@ import org.eclipse.gef.EditPolicy;
 
 /**
  * Edit Part corresponding to a Table object.
- * 
+ *
  */
 public class CubeEditPart extends NodeEditPartHelper {
 
@@ -45,9 +48,10 @@ public class CubeEditPart extends NodeEditPartHelper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		Figure f = new FreeformLayer();
 		f.setLayoutManager(new FreeformLayout());
@@ -56,7 +60,7 @@ public class CubeEditPart extends NodeEditPartHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The model object represented by this Edit Part , which is of type
 	 *         TableImpl
 	 */
@@ -66,9 +70,10 @@ public class CubeEditPart extends NodeEditPartHelper {
 
 	/***************************************************************************
 	 * Returns the Children for this Edit Part. It returns a List of ColumnEditParts
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
+	@Override
 	protected List getModelChildren() {
 
 		List childList = new ArrayList();
@@ -80,8 +85,9 @@ public class CubeEditPart extends NodeEditPartHelper {
 			for (int i = 0; i < dimensions.length; i++) {
 				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimensions[i].getDefaultHierarchy();
 				if (hierarchy != null && hierarchy.getDataSet() != null
-						&& hierarchy.getDataSet() != getCube().getDataSet())
+						&& hierarchy.getDataSet() != getCube().getDataSet()) {
 					childList.add(hierarchy);
+				}
 			}
 		}
 		return childList;
@@ -90,19 +96,21 @@ public class CubeEditPart extends NodeEditPartHelper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new JoinXYLayoutEditPolicy(getCube()));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.editors.graphical.editparts.
 	 * NodeEditPartHelper#getChopFigure()
 	 */
+	@Override
 	public IFigure getChopFigure() {
 		// TODO Auto-generated method stub
 		return null;

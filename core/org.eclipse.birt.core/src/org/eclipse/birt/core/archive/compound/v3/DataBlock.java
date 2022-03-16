@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -63,12 +66,14 @@ public class DataBlock extends Ext2Block {
 		return len;
 	}
 
+	@Override
 	public void refresh() throws IOException {
 		assert blockId != -1;
 		fs.readBlock(blockId, buffer, 0, BLOCK_SIZE);
 		dirtyStart = dirtyEnd = -1;
 	}
 
+	@Override
 	public void flush() throws IOException {
 		if (blockId == -1) {
 			throw new IllegalStateException("Must assign the block id before flush");
@@ -87,10 +92,12 @@ public class DataBlock extends Ext2Block {
 			super(null, -1);
 		}
 
+		@Override
 		public int write(int tgt, byte b[], int off, int len) throws IOException {
 			throw new IOException(CoreMessages.getString(ResourceConstants.CANNOT_CHANGE_READONLY_BUFFER));
 		}
 
+		@Override
 		public int read(int src, byte b[], int off, int len) throws IOException {
 			assert (b != null);
 			assert (off + len <= b.length);
@@ -100,9 +107,11 @@ public class DataBlock extends Ext2Block {
 			return len;
 		}
 
+		@Override
 		public void refresh() throws IOException {
 		}
 
+		@Override
 		public void flush() throws IOException {
 		}
 	}

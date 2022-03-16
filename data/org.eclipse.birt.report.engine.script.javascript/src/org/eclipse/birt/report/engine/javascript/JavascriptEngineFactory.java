@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +38,7 @@ public class JavascriptEngineFactory implements IScriptEngineFactory {
 	/**
 	 * root script scope. contains objects shared by the whole engine.
 	 */
-	private LinkedList<ScriptableObject> rootScopes = new LinkedList<ScriptableObject>();
+	private LinkedList<ScriptableObject> rootScopes = new LinkedList<>();
 
 	public static void initMyFactory() {
 		ContextFactory.initGlobal(new MyFactory());
@@ -46,6 +49,7 @@ public class JavascriptEngineFactory implements IScriptEngineFactory {
 
 	static class MyFactory extends ContextFactory {
 
+		@Override
 		protected boolean hasFeature(Context cx, int featureIndex) {
 			if (featureIndex == Context.FEATURE_DYNAMIC_SCOPE) {
 				return USE_DYNAMIC_SCOPE;
@@ -92,18 +96,20 @@ public class JavascriptEngineFactory implements IScriptEngineFactory {
 		}
 	}
 
+	@Override
 	public IScriptEngine createScriptEngine() throws BirtException {
 		ScriptableObject rootScope = getRootScope();
 		return new JavascriptEngine(this, rootScope);
 	}
 
+	@Override
 	public String getScriptLanguage() {
 		return SCRIPT_JAVASCRIPT;
 	}
 
 	public static void destroyMyFactory() {
 		ContextFactory factory = ContextFactory.getGlobal();
-		if (factory != null && factory instanceof MyFactory) {
+		if (factory instanceof MyFactory) {
 			try {
 				Class factoryClass = Class.forName("org.mozilla.javascript.ContextFactory");
 				Field field = factoryClass.getDeclaredField("hasCustomGlobal");

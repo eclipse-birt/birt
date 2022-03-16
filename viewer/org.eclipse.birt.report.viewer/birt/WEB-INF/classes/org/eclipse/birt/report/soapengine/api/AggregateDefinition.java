@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * AggregateDefinition.java
  *
@@ -30,7 +42,7 @@ public class AggregateDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the func value for this AggregateDefinition.
-	 * 
+	 *
 	 * @return func
 	 */
 	public java.lang.String getFunc() {
@@ -39,7 +51,7 @@ public class AggregateDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the func value for this AggregateDefinition.
-	 * 
+	 *
 	 * @param func
 	 */
 	public void setFunc(java.lang.String func) {
@@ -48,7 +60,7 @@ public class AggregateDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the subTotal value for this AggregateDefinition.
-	 * 
+	 *
 	 * @return subTotal
 	 */
 	public org.eclipse.birt.report.soapengine.api.AggregateSetting getSubTotal() {
@@ -57,7 +69,7 @@ public class AggregateDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the subTotal value for this AggregateDefinition.
-	 * 
+	 *
 	 * @param subTotal
 	 */
 	public void setSubTotal(org.eclipse.birt.report.soapengine.api.AggregateSetting subTotal) {
@@ -66,7 +78,7 @@ public class AggregateDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the grandTotal value for this AggregateDefinition.
-	 * 
+	 *
 	 * @return grandTotal
 	 */
 	public org.eclipse.birt.report.soapengine.api.AggregateSetting getGrandTotal() {
@@ -75,7 +87,7 @@ public class AggregateDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the grandTotal value for this AggregateDefinition.
-	 * 
+	 *
 	 * @param grandTotal
 	 */
 	public void setGrandTotal(org.eclipse.birt.report.soapengine.api.AggregateSetting grandTotal) {
@@ -84,7 +96,7 @@ public class AggregateDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the intParameter value for this AggregateDefinition.
-	 * 
+	 *
 	 * @return intParameter
 	 */
 	public java.lang.Integer getIntParameter() {
@@ -93,7 +105,7 @@ public class AggregateDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the intParameter value for this AggregateDefinition.
-	 * 
+	 *
 	 * @param intParameter
 	 */
 	public void setIntParameter(java.lang.Integer intParameter) {
@@ -102,7 +114,7 @@ public class AggregateDefinition implements java.io.Serializable {
 
 	/**
 	 * Gets the sortDir value for this AggregateDefinition.
-	 * 
+	 *
 	 * @return sortDir
 	 */
 	public java.lang.String getSortDir() {
@@ -111,7 +123,7 @@ public class AggregateDefinition implements java.io.Serializable {
 
 	/**
 	 * Sets the sortDir value for this AggregateDefinition.
-	 * 
+	 *
 	 * @param sortDir
 	 */
 	public void setSortDir(java.lang.String sortDir) {
@@ -120,14 +132,18 @@ public class AggregateDefinition implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof AggregateDefinition))
+		if (!(obj instanceof AggregateDefinition)) {
 			return false;
+		}
 		AggregateDefinition other = (AggregateDefinition) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -150,6 +166,7 @@ public class AggregateDefinition implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

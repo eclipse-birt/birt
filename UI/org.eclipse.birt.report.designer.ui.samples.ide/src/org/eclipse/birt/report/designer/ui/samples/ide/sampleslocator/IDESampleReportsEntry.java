@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +20,7 @@ import org.eclipse.birt.report.designer.ui.samplesview.sampleslocator.SampleRepo
 
 public class IDESampleReportsEntry implements ISampleReportEntry {
 
-	private static final String[] REPORTDESIGN_FILENAME_PATTERN = new String[] { "*.rptdesign" //$NON-NLS-1$
+	private static final String[] REPORTDESIGN_FILENAME_PATTERN = { "*.rptdesign" //$NON-NLS-1$
 	};
 	SampleReportsEntry samplesEntries, ideSamplesEntries;
 
@@ -30,6 +33,7 @@ public class IDESampleReportsEntry implements ISampleReportEntry {
 				null, false);
 	}
 
+	@Override
 	public ResourceEntry[] getEntries() {
 		int m, n, length;
 		length = samplesEntries.getChildren().length + ideSamplesEntries.getChildren().length;

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -47,7 +59,7 @@ public class StyleImpl extends EObjectImpl implements Style {
 	/**
 	 * The cached value of the '{@link #getFont() <em>Font</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getFont()
 	 * @generated
 	 * @ordered
@@ -57,7 +69,7 @@ public class StyleImpl extends EObjectImpl implements Style {
 	/**
 	 * The cached value of the '{@link #getColor() <em>Color</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getColor()
 	 * @generated
 	 * @ordered
@@ -68,7 +80,7 @@ public class StyleImpl extends EObjectImpl implements Style {
 	 * The cached value of the '{@link #getBackgroundColor() <em>Background
 	 * Color</em>}' containment reference. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #getBackgroundColor()
 	 * @generated
 	 * @ordered
@@ -79,7 +91,7 @@ public class StyleImpl extends EObjectImpl implements Style {
 	 * The cached value of the '{@link #getBackgroundImage() <em>Background
 	 * Image</em>}' containment reference. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #getBackgroundImage()
 	 * @generated
 	 * @ordered
@@ -89,7 +101,7 @@ public class StyleImpl extends EObjectImpl implements Style {
 	/**
 	 * The cached value of the '{@link #getPadding() <em>Padding</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getPadding()
 	 * @generated
 	 * @ordered
@@ -98,7 +110,7 @@ public class StyleImpl extends EObjectImpl implements Style {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected StyleImpl() {
@@ -107,7 +119,7 @@ public class StyleImpl extends EObjectImpl implements Style {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -117,16 +129,17 @@ public class StyleImpl extends EObjectImpl implements Style {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public FontDefinition getFont() {
 		return font;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetFont(FontDefinition newFont, NotificationChain msgs) {
@@ -135,47 +148,54 @@ public class StyleImpl extends EObjectImpl implements Style {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AttributePackage.STYLE__FONT,
 					oldFont, newFont);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setFont(FontDefinition newFont) {
 		if (newFont != font) {
 			NotificationChain msgs = null;
-			if (font != null)
+			if (font != null) {
 				msgs = ((InternalEObject) font).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.STYLE__FONT, null, msgs);
-			if (newFont != null)
+			}
+			if (newFont != null) {
 				msgs = ((InternalEObject) newFont).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.STYLE__FONT, null, msgs);
+			}
 			msgs = basicSetFont(newFont, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.STYLE__FONT, newFont, newFont));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public ColorDefinition getColor() {
 		return color;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetColor(ColorDefinition newColor, NotificationChain msgs) {
@@ -184,47 +204,54 @@ public class StyleImpl extends EObjectImpl implements Style {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.STYLE__COLOR, oldColor, newColor);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setColor(ColorDefinition newColor) {
 		if (newColor != color) {
 			NotificationChain msgs = null;
-			if (color != null)
+			if (color != null) {
 				msgs = ((InternalEObject) color).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.STYLE__COLOR, null, msgs);
-			if (newColor != null)
+			}
+			if (newColor != null) {
 				msgs = ((InternalEObject) newColor).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.STYLE__COLOR, null, msgs);
+			}
 			msgs = basicSetColor(newColor, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.STYLE__COLOR, newColor, newColor));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public ColorDefinition getBackgroundColor() {
 		return backgroundColor;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetBackgroundColor(ColorDefinition newBackgroundColor, NotificationChain msgs) {
@@ -233,48 +260,55 @@ public class StyleImpl extends EObjectImpl implements Style {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.STYLE__BACKGROUND_COLOR, oldBackgroundColor, newBackgroundColor);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setBackgroundColor(ColorDefinition newBackgroundColor) {
 		if (newBackgroundColor != backgroundColor) {
 			NotificationChain msgs = null;
-			if (backgroundColor != null)
+			if (backgroundColor != null) {
 				msgs = ((InternalEObject) backgroundColor).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.STYLE__BACKGROUND_COLOR, null, msgs);
-			if (newBackgroundColor != null)
+			}
+			if (newBackgroundColor != null) {
 				msgs = ((InternalEObject) newBackgroundColor).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.STYLE__BACKGROUND_COLOR, null, msgs);
+			}
 			msgs = basicSetBackgroundColor(newBackgroundColor, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.STYLE__BACKGROUND_COLOR,
 					newBackgroundColor, newBackgroundColor));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public Image getBackgroundImage() {
 		return backgroundImage;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetBackgroundImage(Image newBackgroundImage, NotificationChain msgs) {
@@ -283,48 +317,55 @@ public class StyleImpl extends EObjectImpl implements Style {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.STYLE__BACKGROUND_IMAGE, oldBackgroundImage, newBackgroundImage);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setBackgroundImage(Image newBackgroundImage) {
 		if (newBackgroundImage != backgroundImage) {
 			NotificationChain msgs = null;
-			if (backgroundImage != null)
+			if (backgroundImage != null) {
 				msgs = ((InternalEObject) backgroundImage).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.STYLE__BACKGROUND_IMAGE, null, msgs);
-			if (newBackgroundImage != null)
+			}
+			if (newBackgroundImage != null) {
 				msgs = ((InternalEObject) newBackgroundImage).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.STYLE__BACKGROUND_IMAGE, null, msgs);
+			}
 			msgs = basicSetBackgroundImage(newBackgroundImage, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.STYLE__BACKGROUND_IMAGE,
 					newBackgroundImage, newBackgroundImage));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public Insets getPadding() {
 		return padding;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetPadding(Insets newPadding, NotificationChain msgs) {
@@ -333,39 +374,45 @@ public class StyleImpl extends EObjectImpl implements Style {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.STYLE__PADDING, oldPadding, newPadding);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setPadding(Insets newPadding) {
 		if (newPadding != padding) {
 			NotificationChain msgs = null;
-			if (padding != null)
+			if (padding != null) {
 				msgs = ((InternalEObject) padding).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.STYLE__PADDING, null, msgs);
-			if (newPadding != null)
+			}
+			if (newPadding != null) {
 				msgs = ((InternalEObject) newPadding).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.STYLE__PADDING, null, msgs);
+			}
 			msgs = basicSetPadding(newPadding, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.STYLE__PADDING, newPadding,
 					newPadding));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -387,7 +434,7 @@ public class StyleImpl extends EObjectImpl implements Style {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -409,7 +456,7 @@ public class StyleImpl extends EObjectImpl implements Style {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -436,7 +483,7 @@ public class StyleImpl extends EObjectImpl implements Style {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -463,7 +510,7 @@ public class StyleImpl extends EObjectImpl implements Style {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -505,6 +552,7 @@ public class StyleImpl extends EObjectImpl implements Style {
 	/**
 	 * @generated
 	 */
+	@Override
 	public Style copyInstance() {
 		StyleImpl dest = new StyleImpl();
 		dest.set(this);

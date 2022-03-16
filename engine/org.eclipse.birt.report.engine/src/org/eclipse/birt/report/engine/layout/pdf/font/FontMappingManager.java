@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -91,7 +91,7 @@ public class FontMappingManager {
 	}
 
 	protected String[] getSearchSequence(Locale locale) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		String[] localeKeys = new String[3];
 		localeKeys[2] = sb.append(locale.getLanguage()).toString();
 		localeKeys[1] = sb.append('_').append(locale.getCountry()).toString();
@@ -131,7 +131,7 @@ public class FontMappingManager {
 
 	/**
 	 * Creates iText BaseFont with the given font family name.
-	 * 
+	 *
 	 * @param fontFamily the specified font family name.
 	 * @param style      font style
 	 * @return the created BaseFont.

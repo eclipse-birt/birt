@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,14 +45,14 @@ public class ParameterDefn {
 	 */
 	private int scale;
 	/**
-	 * 
+	 *
 	 * @param nullable
 	 */
 	private int nullable;
 
 	/**
 	 * set parameter name
-	 * 
+	 *
 	 * @param paramName
 	 */
 	public void setParamName(String paramName) {
@@ -58,7 +61,7 @@ public class ParameterDefn {
 
 	/**
 	 * get parameter name
-	 * 
+	 *
 	 * @return
 	 */
 	public String getParamName() {
@@ -67,7 +70,7 @@ public class ParameterDefn {
 
 	/**
 	 * set parameter type name
-	 * 
+	 *
 	 * @return
 	 */
 	public void setParamTypeName(String typeName) {
@@ -76,7 +79,7 @@ public class ParameterDefn {
 
 	/**
 	 * get parameter type name
-	 * 
+	 *
 	 * @return
 	 */
 	public String getParamTypeName() {
@@ -92,7 +95,7 @@ public class ParameterDefn {
 
 	/**
 	 * get parameter precision
-	 * 
+	 *
 	 */
 	public int getPrecision() {
 		return this.precision;
@@ -113,7 +116,7 @@ public class ParameterDefn {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param nullable
 	 */
 	public void setIsNullable(int nullable) {
@@ -121,7 +124,7 @@ public class ParameterDefn {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return nullable
 	 */
 	public int getIsNullable() {
@@ -130,7 +133,7 @@ public class ParameterDefn {
 
 	/**
 	 * set parameter data type
-	 * 
+	 *
 	 * @param type
 	 */
 	public void setParamType(int type) {
@@ -139,7 +142,7 @@ public class ParameterDefn {
 
 	/**
 	 * get parameter data type
-	 * 
+	 *
 	 * @return
 	 */
 	public int getParamType() {
@@ -148,7 +151,7 @@ public class ParameterDefn {
 
 	/**
 	 * set parameter type
-	 * 
+	 *
 	 * @param inoutType
 	 */
 	public void setParamInOutType(int inoutType) {
@@ -157,7 +160,7 @@ public class ParameterDefn {
 
 	/**
 	 * get parameter type
-	 * 
+	 *
 	 * @return
 	 */
 	public int getParamInOutType() {

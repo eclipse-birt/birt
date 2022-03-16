@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -52,7 +55,7 @@ import com.ibm.icu.text.SimpleDateFormat;
  * modified. It is intended to reduce the number changes made to the model to
  * make the UI more responsive and to reduce the number of times the Preview is
  * refreshed.
- * 
+ *
  * @author Actuate Corporation
  */
 public class TextEditorComposite extends AbstractChartTextEditor implements ModifyListener, FocusListener, KeyListener {
@@ -85,7 +88,7 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 
 	/**
 	 * Constructor. Default argument value of isFractionSupported is true.
-	 * 
+	 *
 	 * @param parent
 	 * @param iStyle
 	 */
@@ -94,7 +97,7 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parent
 	 * @param iStyle
 	 * @param isNumber If this argument is true, only number value is valid. The
@@ -106,7 +109,7 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parent
 	 * @param iStyle
 	 * @param valueType Value type for validation, valid type is
@@ -124,7 +127,7 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 
 	private void init() {
 		sText = ""; //$NON-NLS-1$
-		vListeners = new Vector<Listener>();
+		vListeners = new Vector<>();
 		this.setLayout(new FillLayout());
 	}
 
@@ -158,27 +161,33 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 		ChartUIUtil.addScreenReaderAccessbility(txtValue, description);
 	}
 
+	@Override
 	public void setEnabled(boolean bState) {
 		this.txtValue.setEnabled(bState);
 		this.bEnabled = bState;
 	}
 
+	@Override
 	public boolean isEnabled() {
 		return this.bEnabled;
 	}
 
+	@Override
 	public void setText(String sText) {
 		txtValue.setText(sText);
 	}
 
+	@Override
 	public String getText() {
 		return txtValue.getText();
 	}
 
+	@Override
 	public void setToolTipText(String string) {
 		txtValue.setToolTipText(string);
 	}
 
+	@Override
 	public void addListener(Listener listener) {
 		vListeners.add(listener);
 	}
@@ -186,9 +195,10 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 	/**
 	 * Sets the default value when current text is for numeric only. If the inputed
 	 * text is not numeric, will use this default value.
-	 * 
+	 *
 	 * @param value default value
 	 */
+	@Override
 	public void setDefaultValue(String value) {
 		this.defaultValue = value;
 	}
@@ -250,6 +260,7 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 		}
 	}
 
+	@Override
 	public void notifyListeners(int eventType, Event event) {
 		if (event == null) {
 			event = new Event();
@@ -266,10 +277,11 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.
 	 * ModifyEvent)
 	 */
+	@Override
 	public void modifyText(ModifyEvent e) {
 		this.bTextModified = true;
 		this.sText = txtValue.getText();
@@ -277,25 +289,28 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events.
 	 * FocusEvent)
 	 */
+	@Override
 	public void focusGained(FocusEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events.
 	 * FocusEvent)
 	 */
+	@Override
 	public void focusLost(FocusEvent e) {
 		if (bTextModified) {
 			fireEvent();
 		}
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR) {
 			if (bTextModified) {
@@ -309,6 +324,7 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 		}
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 
@@ -317,6 +333,7 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 	void initAccessible() {
 		getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
+			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
@@ -324,6 +341,7 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 
 		getAccessible().addAccessibleTextListener(new AccessibleTextAdapter() {
 
+			@Override
 			public void getCaretOffset(AccessibleTextEvent e) {
 				e.offset = txtValue.getCaretPosition();
 			}
@@ -331,6 +349,7 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
+			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point testPoint = toControl(new Point(e.x, e.y));
 				if (getBounds().contains(testPoint)) {
@@ -338,6 +357,7 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 				}
 			}
 
+			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(new Point(location.x, location.y));
@@ -347,18 +367,22 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 				e.height = location.height;
 			}
 
+			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
+			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_TEXT;
 			}
 
+			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
 
+			@Override
 			public void getValue(AccessibleControlEvent e) {
 				e.result = getText();
 			}
@@ -369,9 +393,10 @@ public class TextEditorComposite extends AbstractChartTextEditor implements Modi
 
 	/**
 	 * Returns text control.
-	 * 
+	 *
 	 * @return actual text widget.
 	 */
+	@Override
 	public Text getTextControl() {
 		return txtValue;
 	}

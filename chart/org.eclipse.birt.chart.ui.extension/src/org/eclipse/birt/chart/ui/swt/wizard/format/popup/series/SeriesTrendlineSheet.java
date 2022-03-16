@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,7 +58,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * 
+ *
  */
 
 public class SeriesTrendlineSheet extends AbstractPopupSheet implements Listener, SelectionListener {
@@ -87,9 +90,10 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements Listener
 	 * @param title
 	 * @param context
 	 * @param seriesDefn
-	 * 
+	 *
 	 * @deprecated since 3.7
 	 */
+	@Deprecated
 	public SeriesTrendlineSheet(String title, ChartWizardContext context, SeriesDefinition seriesDefn) {
 		super(title, context, false);
 		this.seriesDefn = seriesDefn;
@@ -108,6 +112,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements Listener
 		this.defSeries = ChartDefaultValueUtil.getDefaultSeries(this.series);
 	}
 
+	@Override
 	protected Composite getComponent(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_SERIES_CURVE_FITTING);
 
@@ -364,6 +369,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements Listener
 
 	}
 
+	@Override
 	public void handleEvent(Event event) {
 		boolean isUnset = (event.detail == ChartUIExtensionUtil.PROPERTY_UNSET);
 		if (event.widget.equals(txtValue)) {
@@ -422,6 +428,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements Listener
 		}
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.widget.equals(cmbAnchor)) {
 			String itemData = cmbAnchor.getSelectedItemData();
@@ -453,6 +460,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements Listener
 		// }
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 

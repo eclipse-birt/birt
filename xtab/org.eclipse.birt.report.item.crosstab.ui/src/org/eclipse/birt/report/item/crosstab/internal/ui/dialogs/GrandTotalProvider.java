@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -76,8 +79,8 @@ public class GrandTotalProvider extends TotalProvider
 	}
 
 	private void initializeItems(GrandTotalInfo grandTotalInfo) {
-		List<String> viewNameList = new ArrayList<String>();
-		List<String> itemList = new ArrayList<String>();
+		List<String> viewNameList = new ArrayList<>();
+		List<String> itemList = new ArrayList<>();
 
 		AggregationCellHandle cell = getAggregationCell(grandTotalInfo);
 		if (cell != null && cellProviderWrapper.getMatchProvider(cell) == null) {
@@ -129,7 +132,7 @@ public class GrandTotalProvider extends TotalProvider
 	}
 
 	// private CellEditor[] editors;
-	private String[] columnNames = new String[] { "", Messages.getString("GrandTotalProvider.Column.AggregateOn"), // Messages.getString("GrandTotalProvider.Column.Function")
+	private String[] columnNames = { "", Messages.getString("GrandTotalProvider.Column.AggregateOn"), // Messages.getString("GrandTotalProvider.Column.Function")
 			// //$NON-NLS-1$
 			// //$NON-NLS-2$
 			// //$NON-NLS-1$
@@ -139,11 +142,13 @@ public class GrandTotalProvider extends TotalProvider
 			Messages.getString("GrandTotalProvider.Column.Position") //$NON-NLS-1$
 	};
 
+	@Override
 	public Image getColumnImage(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		GrandTotalInfo info = (GrandTotalInfo) element;
 		switch (columnIndex) {
@@ -180,13 +185,16 @@ public class GrandTotalProvider extends TotalProvider
 		return ""; //$NON-NLS-1$
 	}
 
+	@Override
 	public Object[] getElements(Object inputElement) {
-		if (inputElement instanceof List)
+		if (inputElement instanceof List) {
 			return ((List) inputElement).toArray();
+		}
 		return new Object[] {};
 
 	}
 
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}
 
@@ -200,6 +208,7 @@ public class GrandTotalProvider extends TotalProvider
 		return new int[] { height + (int) ((((float) height) / 12) * 8), 210, 120, 120 };
 	}
 
+	@Override
 	public boolean canModify(Object element, String property) {
 		// TODO Auto-generated method stub
 		if (Arrays.asList(columnNames).indexOf(property) == 2 || Arrays.asList(columnNames).indexOf(property) == 3) {
@@ -214,6 +223,7 @@ public class GrandTotalProvider extends TotalProvider
 		}
 	}
 
+	@Override
 	public Object getValue(Object element, String property) {
 		// TODO Auto-generated method stub
 		if (element instanceof Item) {
@@ -248,6 +258,7 @@ public class GrandTotalProvider extends TotalProvider
 		return value;
 	}
 
+	@Override
 	public void modify(Object element, String property, Object value) {
 		// TODO Auto-generated method stub
 		if (element instanceof Item) {

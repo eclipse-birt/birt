@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -20,7 +23,7 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- begin-model-doc --> ExtendedProperty is a name-value pair which is
  * specialized for representing an extended property entry that is created to
  * hold data for minor extensions to a chart.
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -44,9 +47,9 @@ public interface ExtendedProperty extends IChartObject {
 	 * Returns the value of the '<em><b>Name</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
 	 * "Name" specifies the unique name for the property entry.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getExtendedProperty_Name()
@@ -60,7 +63,7 @@ public interface ExtendedProperty extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getName
 	 * <em>Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
 	 * @generated
@@ -71,9 +74,9 @@ public interface ExtendedProperty extends IChartObject {
 	 * Returns the value of the '<em><b>Value</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
 	 * "Value" specifies the value for the property entry.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #setValue(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getExtendedProperty_Value()
@@ -87,7 +90,7 @@ public interface ExtendedProperty extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getValue
 	 * <em>Value</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Value</em>' attribute.
 	 * @see #getValue()
 	 * @generated
@@ -97,6 +100,7 @@ public interface ExtendedProperty extends IChartObject {
 	/**
 	 * @generated
 	 */
+	@Override
 	ExtendedProperty copyInstance();
 
 } // ExtendedProperty

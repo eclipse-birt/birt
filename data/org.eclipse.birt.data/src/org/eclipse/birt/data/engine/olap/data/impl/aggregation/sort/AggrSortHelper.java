@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,13 +26,13 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 
 /**
- * 
+ *
  */
 
 public class AggrSortHelper {
 
 	/**
-	 * 
+	 *
 	 * @param sorts
 	 * @return
 	 * @throws DataException
@@ -70,7 +73,7 @@ public class AggrSortHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resultSet
 	 * @param level
 	 * @return
@@ -86,7 +89,7 @@ public class AggrSortHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resultSet
 	 * @param aggregationName
 	 * @param level
@@ -106,7 +109,7 @@ public class AggrSortHelper {
 	/**
 	 * A result set would come to be an edge result set only if its aggregation
 	 * function is null.
-	 * 
+	 *
 	 * @param resultSet
 	 * @return
 	 */
@@ -116,7 +119,7 @@ public class AggrSortHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resultSet
 	 * @param levelNames
 	 * @return
@@ -126,8 +129,9 @@ public class AggrSortHelper {
 			String aggregationName) throws DataException {
 		for (int i = 0; i < resultSet.length; i++) {
 			IAggregationResultSet rSet = resultSet[i];
-			if (levelNames.length != rSet.getLevelCount())
+			if (levelNames.length != rSet.getLevelCount()) {
 				continue;
+			}
 			boolean match = true;
 			for (int j = 0; j < rSet.getLevelCount(); j++) {
 				if (!levelNames[j].equals(rSet.getLevel(j))) {
@@ -136,8 +140,9 @@ public class AggrSortHelper {
 				}
 			}
 			if (match) {
-				if (!isEdgeResultSet(rSet) && existAggregation(rSet.getAggregationDefinition(), aggregationName))
+				if (!isEdgeResultSet(rSet) && existAggregation(rSet.getAggregationDefinition(), aggregationName)) {
 					return rSet;
+				}
 			}
 		}
 		throw new DataException(ResourceConstants.INVALID_SORT_DEFN);
@@ -149,8 +154,9 @@ public class AggrSortHelper {
 			return false;
 		}
 		for (int i = 0; i < funcs.length; i++) {
-			if (funcs[i].getName().equals(aggregationName))
+			if (funcs[i].getName().equals(aggregationName)) {
 				return true;
+			}
 		}
 		return false;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,43 +22,43 @@ package org.eclipse.birt.report.model.api.metadata;
 public interface ILocalizableInfo {
 	/**
 	 * Returns the resource key for display name.
-	 * 
+	 *
 	 * @return the resource key for display name
 	 */
 
-	public String getDisplayNameKey();
+	String getDisplayNameKey();
 
 	/**
 	 * Returns the definition name.
-	 * 
+	 *
 	 * @return the name of this definition
 	 */
 
-	public String getName();
+	String getName();
 
 	/**
 	 * Returns the resource key for tool tip.
-	 * 
+	 *
 	 * @return the resource key for tool tip
 	 */
 
-	public String getToolTipKey();
+	String getToolTipKey();
 
 	/**
 	 * Returns the display name if the resource key of display name is available.
 	 * Otherwise, return empty string.
-	 * 
+	 *
 	 * @return the display name
 	 */
 
-	public String getDisplayName();
+	String getDisplayName();
 
 	/**
 	 * Returns the tool tip if the resource key of tool tip is available. Otherwise,
 	 * return empty string.
-	 * 
+	 *
 	 * @return the tool tip
 	 */
 
-	public String getToolTip();
+	String getToolTip();
 }

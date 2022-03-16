@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,9 +26,9 @@ import org.eclipse.ui.IEditorPart;
 public class SimpleUITest extends BirtUITestCase {
 
 	/**
-	 * 
+	 *
 	 * Test showPerpersite method
-	 * 
+	 *
 	 * invoke showPerpersite then check the active perspective' ID and name to test
 	 * if it works correctly
 	 */
@@ -38,7 +41,7 @@ public class SimpleUITest extends BirtUITestCase {
 
 	/**
 	 * Test openEditor method
-	 * 
+	 *
 	 * invoke openEditor then check the active editor's ID and title to test if it
 	 * works correctly
 	 */

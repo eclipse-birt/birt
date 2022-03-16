@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -74,7 +77,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * Axis subtask
- * 
+ *
  */
 public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		implements Listener, SelectionListener, ModifyListener {
@@ -117,7 +120,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 	/**
 	 * Returns the axis angle type
-	 * 
+	 *
 	 * @return <code>AngleType.X</code>, <code>AngleType.Y</code> or
 	 *         <code>AngleType.Z</code>
 	 */
@@ -531,10 +534,11 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
 	 * Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		if (event.widget.equals(txtTitle)) {
 			getAxisForProcessing().getTitle().getCaption().setValue((String) event.data);
@@ -563,6 +567,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		return 16;
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		// Detach popup dialog if there's selected button.
 		if (detachPopup(e.widget)) {
@@ -751,6 +756,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 				getContext());
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 	}
@@ -796,6 +802,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		return iTmp;
 	}
 
+	@Override
 	public void modifyText(ModifyEvent e) {
 		if (e.widget == lneLabelSpan) {
 			getAxisForProcessing().setLabelSpan(lneLabelSpan.getValue());

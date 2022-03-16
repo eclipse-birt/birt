@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +33,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
 
 /**
  * Test event filter class
- * 
+ *
  */
 
 public class EventFilterTest extends BaseTestCase {
@@ -43,6 +46,7 @@ public class EventFilterTest extends BaseTestCase {
 	Cell cell1 = null;
 	Cell cell2 = null;
 
+	@Override
 	protected void setUp() throws Exception {
 		List conds = new ArrayList();
 		conds.add(FilterConditionFactory.createFilterCondition(FilterConditionFactory.ELEMENT_ADDED_FILTER_CONDITION));
@@ -168,7 +172,7 @@ public class EventFilterTest extends BaseTestCase {
 
 	/**
 	 * Returns a list containing tasks not be filtered.
-	 * 
+	 *
 	 * @param chain the task chain
 	 * @return a list containing tasks not be filtered
 	 */
@@ -178,8 +182,9 @@ public class EventFilterTest extends BaseTestCase {
 
 		for (int i = 0; i < chain.size(); i++) {
 			NotificationRecordTask task = (NotificationRecordTask) chain.get(i);
-			if (!task.isFiltered())
+			if (!task.isFiltered()) {
 				filteredEvents.add(task);
+			}
 		}
 
 		return filteredEvents;

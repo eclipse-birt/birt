@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * SortingDirection.java
  *
@@ -31,8 +43,9 @@ public class SortingDirection implements java.io.Serializable {
 
 	public static SortingDirection fromValue(java.lang.String value) throws java.lang.IllegalArgumentException {
 		SortingDirection enumeration = (SortingDirection) _table_.get(value);
-		if (enumeration == null)
+		if (enumeration == null) {
 			throw new java.lang.IllegalArgumentException();
+		}
 		return enumeration;
 	}
 
@@ -40,14 +53,17 @@ public class SortingDirection implements java.io.Serializable {
 		return fromValue(value);
 	}
 
+	@Override
 	public boolean equals(java.lang.Object obj) {
 		return (obj == this);
 	}
 
+	@Override
 	public int hashCode() {
 		return toString().hashCode();
 	}
 
+	@Override
 	public java.lang.String toString() {
 		return _value_;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +32,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
  * <p>
  * Grid layout is familiar to anyone who has used HTML tables, Word tables or
  * Excel: data is divided into a series of rows and columns.
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.GridItem
  */
 
@@ -39,7 +42,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 	 * Constructs a grid handle with the given design and the design element. The
 	 * application generally does not create handles directly. Instead, it uses one
 	 * of the navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -50,7 +53,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Returns a slot handle for the columns in the grid.
-	 * 
+	 *
 	 * @return a handle to the column slot
 	 * @see SlotHandle
 	 */
@@ -61,7 +64,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Returns a slot handle for the rows in the grid.
-	 * 
+	 *
 	 * @return a handle to the row slot
 	 * @see SlotHandle
 	 */
@@ -73,7 +76,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 	/**
 	 * Returns the number of columns in the Grid. The number is defined as the sum
 	 * of columns described in the "column" slot.
-	 * 
+	 *
 	 * @return the number of columns in the grid.
 	 */
 
@@ -83,7 +86,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Gets the cell at the position where the given row and column intersect.
-	 * 
+	 *
 	 * @param row    the row position indexing from 1
 	 * @param column the column position indexing from 1
 	 * @return the cell handle at the position if the cell exists, otherwise
@@ -93,15 +96,16 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 	public CellHandle getCell(int row, int column) {
 		Cell cell = CellHelper.findCell(getModule(), (GridItem) getElement(), row, column);
 
-		if (cell == null)
+		if (cell == null) {
 			return null;
+		}
 		return cell.handle(getModule());
 	}
 
 	/**
 	 * Gets the content slot handle of the cell at the position where the given row
 	 * and column intersect.
-	 * 
+	 *
 	 * @param row    the row position indexing from 1
 	 * @param column the column position indexing from 1
 	 * @return the content slot handle of the cell at the position if the cell
@@ -110,14 +114,15 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	public SlotHandle getCellContent(int row, int column) {
 		CellHandle cell = getCell(row, column);
-		if (cell == null)
+		if (cell == null) {
 			return null;
+		}
 		return cell.getContent();
 	}
 
 	/**
 	 * Copies a column and cells under it with the given column number.
-	 * 
+	 *
 	 * @param columnIndex the column position indexing from 1.
 	 * @return <code>true</code> if this column band can be copied. Otherwise
 	 *         <code>false</code>.
@@ -137,7 +142,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Copies a column and cells under it with the given column number.
-	 * 
+	 *
 	 * @param columnIndex the column number
 	 * @return a new <code>GridColumnBandAdapter</code> instance
 	 * @throws SemanticException if the cell layout of the column is invalid.
@@ -153,7 +158,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Pastes a column with its cells to the given column number.
-	 * 
+	 *
 	 * @param data         the data of a column band to paste
 	 * @param columnNumber the column index from 1 to the number of columns in the
 	 *                     grid
@@ -163,8 +168,9 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 	 */
 
 	public void pasteColumn(ColumnBandData data, int columnNumber, boolean inForce) throws SemanticException {
-		if (data == null)
+		if (data == null) {
 			throw new IllegalArgumentException("empty column to paste."); //$NON-NLS-1$
+		}
 
 		// GridColumnBandAdapter adapter = new GridColumnBandAdapter( data );
 		// adapter.pasteColumnBand( this, columnNumber, inForce );
@@ -176,7 +182,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 	/**
 	 * Checks whether the paste operation can be done with the given copied column
 	 * band data, the column index and the operation flag.
-	 * 
+	 *
 	 * @param data        the column band data to paste
 	 * @param columnIndex the column index from 1 to the number of columns in the
 	 *                    grid
@@ -188,8 +194,9 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 	 */
 
 	public boolean canPasteColumn(ColumnBandData data, int columnIndex, boolean inForce) {
-		if (data == null)
+		if (data == null) {
 			throw new IllegalArgumentException("empty column to check."); //$NON-NLS-1$
+		}
 
 		ColumnBandPasteAction pasteAction = new ColumnBandPasteAction(new GridColumnBandAdapter(this));
 
@@ -200,7 +207,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Inserts and pastes a column with its cells to the given column number.
-	 * 
+	 *
 	 * @param data         the data of a column band to paste
 	 * @param columnNumber the column index from 0 to the number of columns in the
 	 *                     grid
@@ -208,8 +215,9 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 	 */
 
 	public void insertAndPasteColumn(ColumnBandData data, int columnNumber) throws SemanticException {
-		if (data == null)
+		if (data == null) {
 			throw new IllegalArgumentException("empty column to paste."); //$NON-NLS-1$
+		}
 
 		// GridColumnBandAdapter adapter = new GridColumnBandAdapter( data );
 		// adapter.insertAndPasteColumnBand( this, columnIndex );
@@ -223,7 +231,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 	 * copied column band data, the column index and the operation flag. This is
 	 * different from <code>canPasteColumn</code> since this action creates an extra
 	 * column for the table.
-	 * 
+	 *
 	 * @param data        the column band data to paste
 	 * @param columnIndex the column index from 0 to the number of columns in the
 	 *                    grid
@@ -232,8 +240,9 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 	 */
 
 	public boolean canInsertAndPasteColumn(ColumnBandData data, int columnIndex) {
-		if (data == null)
+		if (data == null) {
 			throw new IllegalArgumentException("empty column to check."); //$NON-NLS-1$
+		}
 
 		ColumnBandInsertPasteAction insertAction = new ColumnBandInsertPasteAction(new GridColumnBandAdapter(this));
 
@@ -242,7 +251,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Moves the column from <code>sourceColumn</code> to <code>destIndex</code> .
-	 * 
+	 *
 	 * @param sourceColumn the source column ranging from 1 to the column number
 	 * @param destColumn   the target column ranging from 0 to the column number
 	 * @throws SemanticException if the chosen column band is forbidden to shift
@@ -256,7 +265,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Moves the column from <code>sourceColumn</code> to <code>destColumn</code>.
-	 * 
+	 *
 	 * @param sourceColumn the source column ranging from 1 to the column number
 	 * @param destColumn   the target column ranging from 0 to the column number
 	 * @return <code>true</code> if the chosen column band is legal to shift.
@@ -276,16 +285,17 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Checks whether the copy operation can be done with the given parameters.
-	 * 
+	 *
 	 * @param parameters parameters needed by insert operation.
 	 * @return <code>true</code> if this row band can be copied. Otherwise
 	 *         <code>false</code>.
-	 * 
+	 *
 	 */
 
 	public boolean canCopyRow(RowOperationParameters parameters) {
-		if (parameters == null)
+		if (parameters == null) {
 			return false;
+		}
 		RowBandCopyAction action = new RowBandCopyAction(new GridRowBandAdapter(this));
 
 		return action.canCopy(parameters);
@@ -293,7 +303,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Checks whether the paste operation can be done with the given parameters.
-	 * 
+	 *
 	 * @param copiedRow  the copied table row
 	 * @param parameters parameters needed by insert operation.
 	 * @return <code>true</code> indicates the paste operation can be done.
@@ -301,8 +311,9 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 	 */
 
 	public boolean canPasteRow(IDesignElement copiedRow, RowOperationParameters parameters) {
-		if (copiedRow == null || parameters == null || !(copiedRow instanceof TableRow))
+		if (copiedRow == null || parameters == null || !(copiedRow instanceof TableRow)) {
 			return false;
+		}
 		RowBandPasteAction pasteAction = new RowBandPasteAction(new GridRowBandAdapter(this));
 
 		return pasteAction.canPaste((TableRow) copiedRow, parameters);
@@ -310,14 +321,15 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Checks whether the insert operation can be done with the given parameters.
-	 * 
+	 *
 	 * @param parameters parameters needed by insert operation.
 	 * @return <code>true</code> indicates the insert operation can be done.
 	 *         Otherwise <code>false</code>.
 	 */
 	public boolean canInsertRow(RowOperationParameters parameters) {
-		if (parameters == null)
+		if (parameters == null) {
 			return false;
+		}
 		RowBandInsertAction pasteAction = new RowBandInsertAction(new GridRowBandAdapter(this));
 
 		return pasteAction.canInsert(parameters);
@@ -326,7 +338,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 	/**
 	 * Checks whether the insert and paste table row to the given destination row
 	 * with the given parameters.
-	 * 
+	 *
 	 * @param copiedRow  the copied table row
 	 * @param parameters parameters needed by insert operation.
 	 * @return <code>true</code> indicates the insert and paste operation can be
@@ -334,8 +346,9 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 	 */
 
 	public boolean canInsertAndPasteRow(IDesignElement copiedRow, RowOperationParameters parameters) {
-		if (copiedRow == null || parameters == null || !(copiedRow instanceof TableRow))
+		if (copiedRow == null || parameters == null || !(copiedRow instanceof TableRow)) {
 			return false;
+		}
 
 		RowBandInsertAndPasteAction action = new RowBandInsertAndPasteAction(new GridRowBandAdapter(this));
 
@@ -345,14 +358,15 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 	/**
 	 * Checks whether the shift operation can be done with the given the given
 	 * parameters.
-	 * 
+	 *
 	 * @param parameters parameters needed by insert operation.
 	 * @return <code>true</code> indicates the shift operation can be done.
 	 *         Otherwise <code>false</code>.
 	 */
 	public boolean canShiftRow(RowOperationParameters parameters) {
-		if (parameters == null)
+		if (parameters == null) {
 			return false;
+		}
 		RowBandShiftAction action = new RowBandShiftAction(new GridRowBandAdapter(this));
 
 		return action.canShift(parameters);
@@ -360,15 +374,16 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Copies table row with the given parameters.
-	 * 
+	 *
 	 * @param parameters parameters needed by insert operation.
 	 * @return a new <code>TableRow</code> instance
 	 * @throws SemanticException        throw if paste operation is forbidden
 	 * @throws IllegalArgumentException throw if the input parameters are not valid
 	 */
 	public IDesignElement copyRow(RowOperationParameters parameters) throws SemanticException {
-		if (parameters == null)
+		if (parameters == null) {
 			throw new IllegalArgumentException("empty row to copy.");//$NON-NLS-1$
+		}
 		RowBandCopyAction action = new RowBandCopyAction(new GridRowBandAdapter(this));
 
 		return action.doCopy(parameters);
@@ -377,7 +392,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Pastes table row to destination row with the given parameters.
-	 * 
+	 *
 	 * @param copiedRow  the copied table row
 	 * @param parameters parameters needed by insert operation.
 	 * @throws SemanticException        throw if paste operation is forbidden
@@ -385,8 +400,9 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 	 */
 
 	public void pasteRow(IDesignElement copiedRow, RowOperationParameters parameters) throws SemanticException {
-		if (copiedRow == null || parameters == null || !(copiedRow instanceof TableRow))
+		if (copiedRow == null || parameters == null || !(copiedRow instanceof TableRow)) {
 			throw new IllegalArgumentException("empty row to paste.");//$NON-NLS-1$
+		}
 
 		RowBandPasteAction pasteAction = new RowBandPasteAction(new GridRowBandAdapter(this));
 
@@ -395,15 +411,16 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Inserts table row to the given destination row with the given parameters.
-	 * 
+	 *
 	 * @param parameters parameters needed by insert operation.
 	 * @throws SemanticException        throw if paste operation is forbidden
 	 * @throws IllegalArgumentException throw if the input parameters are not valid
 	 */
 
 	public void insertRow(RowOperationParameters parameters) throws SemanticException {
-		if (parameters == null)
+		if (parameters == null) {
 			throw new IllegalArgumentException("empty row to insert.");//$NON-NLS-1$
+		}
 		RowBandInsertAction action = new RowBandInsertAction(new GridRowBandAdapter(this));
 
 		action.doInsert(parameters);
@@ -412,7 +429,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 	/**
 	 * Inserts and paste table row to the given destination row with the given
 	 * parameters.
-	 * 
+	 *
 	 * @param copiedRow  the copied table row
 	 * @param parameters parameters needed by insert operation.
 	 * @throws SemanticException        throw if paste operation is forbidden
@@ -421,8 +438,9 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	public void insertAndPasteRow(IDesignElement copiedRow, RowOperationParameters parameters)
 			throws SemanticException {
-		if (copiedRow == null || parameters == null || !(copiedRow instanceof TableRow))
+		if (copiedRow == null || parameters == null || !(copiedRow instanceof TableRow)) {
 			throw new IllegalArgumentException("empty row to insert and paste.");//$NON-NLS-1$
+		}
 
 		RowBandInsertAndPasteAction action = new RowBandInsertAndPasteAction(new GridRowBandAdapter(this));
 
@@ -431,15 +449,16 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Shifts table row to the given destination row with the given parameters.
-	 * 
+	 *
 	 * @param parameters parameters needed by insert operation.
 	 * @throws SemanticException        throw if paste operation is forbidden
 	 * @throws IllegalArgumentException throw if the input parameters are not valid
 	 */
 
 	public void shiftRow(RowOperationParameters parameters) throws SemanticException {
-		if (parameters == null)
+		if (parameters == null) {
 			throw new IllegalArgumentException("empty row to shift.");//$NON-NLS-1$
+		}
 		RowBandShiftAction action = new RowBandShiftAction(new GridRowBandAdapter(this));
 
 		action.doShift(parameters);
@@ -447,7 +466,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Returns the caption text of this grid.
-	 * 
+	 *
 	 * @return the caption text
 	 */
 
@@ -457,7 +476,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Sets the caption text of this grid.
-	 * 
+	 *
 	 * @param caption the caption text
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -468,7 +487,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Returns the resource key of the caption.
-	 * 
+	 *
 	 * @return the resource key of the caption
 	 */
 
@@ -478,7 +497,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Sets the resource key of the caption.
-	 * 
+	 *
 	 * @param captionKey the resource key of the caption
 	 * @throws SemanticException if the caption resource-key property is locked.
 	 */
@@ -489,7 +508,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Returns the value of the summary.
-	 * 
+	 *
 	 * @return the value of summary
 	 */
 	public String getSummary() {
@@ -498,7 +517,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel {
 
 	/**
 	 * Sets the value of summary.
-	 * 
+	 *
 	 * @param summary the value of summary
 	 * @throws SemanticException
 	 */

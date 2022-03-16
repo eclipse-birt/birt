@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004-2008 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -30,7 +32,7 @@ public class ParameterUtility {
 	/**
 	 * Processes the given selection list, and adds the element to the given
 	 * parameter bean's selection list.
-	 * 
+	 *
 	 * @param selectionList  original selection list to be processed
 	 * @param parameterBean  scalar parameter bean
 	 * @param locale         locale (for data conversion)
@@ -49,15 +51,16 @@ public class ParameterUtility {
 		if (parameterBean.getDefaultValues() != null) {
 			// make a copy, so the values can be removed one by one
 			// after processing
-			defaultValues = new ArrayList<String>(parameterBean.getDefaultValues());
+			defaultValues = new ArrayList<>(parameterBean.getDefaultValues());
 		}
 
 		parameterBean.setValueInList(false);
 		if (selectionList != null) {
 			boolean isDisplayTextInList = false;
 			for (ParameterSelectionChoice selectionItem : selectionList) {
-				if (selectionItem == null)
+				if (selectionItem == null) {
 					continue;
+				}
 
 				Object value = selectionItem.getValue();
 				try {
@@ -175,12 +178,12 @@ public class ParameterUtility {
 	/**
 	 * Convert a list of ParameterSelectionChoice to a list of SelectItemChoice (for
 	 * SOAP)
-	 * 
+	 *
 	 * @param paramChoices list of ParameterSelectionChoice
 	 * @return list of SelectItemChoice
 	 */
 	public static List<SelectItemChoice> toSelectItemChoice(List<ParameterSelectionChoice> paramChoices) {
-		List<SelectItemChoice> soapChoices = new ArrayList<SelectItemChoice>();
+		List<SelectItemChoice> soapChoices = new ArrayList<>();
 		soapChoices.add(SelectItemChoice.EMPTY_VALUE);
 		for (ParameterSelectionChoice element : paramChoices) {
 			SelectItemChoice itemChoice = new SelectItemChoice((String) element.getValue(), element.getLabel());

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,7 @@ import org.eclipse.birt.chart.util.CDateTime;
 
 /**
  * The class is used to adjust axes's location and scale.
- * 
+ *
  * @since 2.5
  */
 
@@ -35,7 +38,7 @@ public class AxesAdjuster implements IAxisAdjuster, IConstants {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param plotWithAxes
 	 * @param valueAxesHelper
 	 * @param boPlot
@@ -50,9 +53,10 @@ public class AxesAdjuster implements IAxisAdjuster, IConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.computation.withaxes.IAxesAdjuster#adjust()
 	 */
+	@Override
 	public void adjust() throws ChartException {
 		// Get the index of value axis which is 1th axis crossing with the
 		// primary base axis.
@@ -84,7 +88,7 @@ public class AxesAdjuster implements IAxisAdjuster, IConstants {
 	/**
 	 * Returns the location delta between the axis location and the start of related
 	 * orthogonal axis.
-	 * 
+	 *
 	 * @param sc
 	 * @param iv
 	 * @return
@@ -135,10 +139,8 @@ public class AxesAdjuster implements IAxisAdjuster, IConstants {
 				if (distance > axisDisc) {
 					distance = axisDisc;
 				}
-			} else {
-				if (distance < axisDisc) {
-					distance = axisDisc;
-				}
+			} else if (distance < axisDisc) {
+				distance = axisDisc;
 			}
 			return distance;
 

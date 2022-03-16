@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,15 +26,15 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test ReportItemHandle.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
- * 
+ *
+ *
  * </table>
  */
 
@@ -42,7 +45,7 @@ public class ReportItemDataRefTest extends BaseTestCase {
 
 	/**
 	 * Tests the function for adding bound data columns.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -112,7 +115,7 @@ public class ReportItemDataRefTest extends BaseTestCase {
 
 	/**
 	 * Tests getDataBindingType() and getAvailableDataBindingReferenceList.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -185,7 +188,7 @@ public class ReportItemDataRefTest extends BaseTestCase {
 	/**
 	 * Tests the property search algorithm for data groups that have data binding
 	 * reference.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -235,7 +238,7 @@ public class ReportItemDataRefTest extends BaseTestCase {
 
 	/**
 	 * Tests the command to add, remove and move the group element.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -266,7 +269,7 @@ public class ReportItemDataRefTest extends BaseTestCase {
 	/**
 	 * Tests canEdit(), canDrop() methods for the shared data group. canContain()
 	 * should be true always.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -289,12 +292,12 @@ public class ReportItemDataRefTest extends BaseTestCase {
 
 	/**
 	 * Cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>table refers to the table
 	 * <li>list refers to the table
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -376,7 +379,7 @@ public class ReportItemDataRefTest extends BaseTestCase {
 
 	/**
 	 * Tests get data binding of the container of the element.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testGetDataBindingOfContainer() throws Exception {
@@ -403,7 +406,7 @@ public class ReportItemDataRefTest extends BaseTestCase {
 	/**
 	 * Tests the properties and group structure when the referred table is removed
 	 * by calling dropAndClear.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDropAndClear() throws Exception {
@@ -419,7 +422,7 @@ public class ReportItemDataRefTest extends BaseTestCase {
 	/**
 	 * Tests the handle for the localization of column bindings. If the two items
 	 * have different element type, the binding with aggregation will not be added.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testLocalizeColumnBindingWithAggregation() throws Exception {

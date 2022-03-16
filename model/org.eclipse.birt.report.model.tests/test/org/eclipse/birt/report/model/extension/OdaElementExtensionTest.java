@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,13 +36,14 @@ public class OdaElementExtensionTest extends BaseTestCase {
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Tests the parsing function.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -64,7 +68,7 @@ public class OdaElementExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the writing function.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -88,14 +92,14 @@ public class OdaElementExtensionTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>to create an oda data set from an existed oda data set. extension id
 	 * should not be null.
 	 * <li>to create an oda data source from an existed oda data source. extension
 	 * id should not be null.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -119,12 +123,12 @@ public class OdaElementExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests to extends for the oda datasource
-	 * 
+	 *
 	 * <ul>
 	 * <li>dataSource1 has extendsion id, dataSource1 hasn't. Exception is thrown.
 	 * <li>if both have extension id, no exception.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

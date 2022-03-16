@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,14 +58,15 @@ public class OOXmlUtil {
 				}
 			}
 			int upLevel = parentPaths.length - sameCount;
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i < upLevel - 1; i++) {
 				buffer.append("../");
 			}
 			for (int i = sameCount; i < currentPaths.length; i++) {
 				buffer.append(currentPaths[i]);
-				if (i != currentPaths.length - 1)
+				if (i != currentPaths.length - 1) {
 					buffer.append('/');
+				}
 			}
 			return buffer.toString();
 		}
@@ -87,7 +91,7 @@ public class OOXmlUtil {
 				break;
 			}
 		}
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append('/');
 		for (int i = 0; i < parentPaths.length - upLevel; i++) {
 			String path = parentPaths[i];

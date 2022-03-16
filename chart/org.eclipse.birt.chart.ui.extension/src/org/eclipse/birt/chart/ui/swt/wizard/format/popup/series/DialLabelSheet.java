@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -63,9 +66,10 @@ public class DialLabelSheet extends AbstractPopupSheet implements Listener, Sele
 	 * @param title
 	 * @param context
 	 * @param seriesDefn
-	 * 
+	 *
 	 * @deprecated since 3.7
 	 */
+	@Deprecated
 	public DialLabelSheet(String title, ChartWizardContext context, SeriesDefinition seriesDefn) {
 		super(title, context, true);
 		this.seriesDefn = seriesDefn;
@@ -76,6 +80,7 @@ public class DialLabelSheet extends AbstractPopupSheet implements Listener, Sele
 		this.series = series;
 	}
 
+	@Override
 	protected Composite getComponent(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_DIAL_LABELS);
 
@@ -150,10 +155,11 @@ public class DialLabelSheet extends AbstractPopupSheet implements Listener, Sele
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		boolean isUnset = (event.detail == ChartUIExtensionUtil.PROPERTY_UNSET);
 		if (event.widget.equals(lacTitle)) {
@@ -198,6 +204,7 @@ public class DialLabelSheet extends AbstractPopupSheet implements Listener, Sele
 		return getSeriesForProcessing().getDial().getLabel();
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.getSource().equals(btnFormatSpecifier)) {
 			handleFormatBtnSelected();
@@ -213,6 +220,7 @@ public class DialLabelSheet extends AbstractPopupSheet implements Listener, Sele
 		fsp.updatePreview(fs);
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007, 2008, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -106,11 +109,9 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	public static final String BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT = "BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT"; //$NON-NLS-1$
 
-	private final static String DATA_BASE64 = "data:;base64,"; //$NON-NLS-1$
-
 	/**
 	 * Returns the element handle which can save binding columns the given element
-	 * 
+	 *
 	 * @param handle the handle of the element which needs binding columns
 	 * @return the holder for the element,or itself if no holder available
 	 */
@@ -135,7 +136,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 	/**
 	 * Returns the binding data set if the element or its container has data set
 	 * binding or the reference to the data set
-	 * 
+	 *
 	 * @param element element handle
 	 * @return the binding data set or null
 	 * @since 2.5.2
@@ -185,7 +186,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Gets all column bindings from handle and its container
-	 * 
+	 *
 	 * @param itemHandle handle
 	 * @return Iterator of all bindings
 	 */
@@ -195,7 +196,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Gets all column bindings from handle and its container.
-	 * 
+	 *
 	 * @param itemHandle
 	 * @param unique     <code>true</code> will ignore the binding of container if
 	 *                   it is duplicate between handle and its container.
@@ -215,8 +216,8 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 			return null;
 		}
 
-		Map<String, ComputedColumnHandle> bindingMap = new LinkedHashMap<String, ComputedColumnHandle>();
-		ArrayList<ComputedColumnHandle> list = new ArrayList<ComputedColumnHandle>();
+		Map<String, ComputedColumnHandle> bindingMap = new LinkedHashMap<>();
+		ArrayList<ComputedColumnHandle> list = new ArrayList<>();
 		Iterator<ComputedColumnHandle> i = handle.columnBindingsIterator();
 		while (i.hasNext()) {
 			ComputedColumnHandle cch = i.next();
@@ -241,7 +242,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Convert group unit type from Chart's to DtE's.
-	 * 
+	 *
 	 * @param dataType
 	 * @param groupUnitType
 	 * @param intervalRange
@@ -294,7 +295,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Converts the group unit from DtE's to Chart's.
-	 * 
+	 *
 	 * @param groupInterval
 	 * @return unit defined in {@link GroupingUnitType} or -1 if no interval
 	 * @since 2.6
@@ -328,7 +329,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Convert interval range from Chart's to DtE's.
-	 * 
+	 *
 	 * @param dataType
 	 * @param groupUnitType
 	 * @param intervalRange
@@ -352,7 +353,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Convert sort direction from Chart's to DtE's.
-	 * 
+	 *
 	 * @param sortOption
 	 * @since BIRT 2.3
 	 */
@@ -367,7 +368,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Convert aggregation name from Chart's to DtE's.
-	 * 
+	 *
 	 * @param agg
 	 * @since BIRT 2.3
 	 */
@@ -445,7 +446,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Check if Y grouping is defined.
-	 * 
+	 *
 	 * @param orthSeriesDefinition
 	 * @since BIRT 2.3
 	 */
@@ -463,7 +464,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Check if base series grouping is defined.
-	 * 
+	 *
 	 * @param baseSD
 	 * @since BIRT 2.3
 	 */
@@ -478,7 +479,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Check if current chart has defined grouping.
-	 * 
+	 *
 	 * @param cm
 	 * @since BIRT 2.3
 	 */
@@ -524,7 +525,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Check if running aggregates are set on chart.
-	 * 
+	 *
 	 * @param cm
 	 * @return set or not
 	 * @throws ChartException
@@ -551,7 +552,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Check if summary aggregates are set on chart.
-	 * 
+	 *
 	 * @param cm
 	 * @return set or not
 	 * @throws ChartException
@@ -576,7 +577,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Check if chart has aggregation.
-	 * 
+	 *
 	 * @param cm
 	 */
 	public static boolean hasAggregation(Chart cm) {
@@ -626,7 +627,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Finds chart report item from handle
-	 * 
+	 *
 	 * @param eih extended item handle with chart
 	 * @since 2.3
 	 */
@@ -657,7 +658,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Checks if the object is handle with Chart model
-	 * 
+	 *
 	 * @param content the object to check
 	 * @since 2.3
 	 */
@@ -668,7 +669,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Finds Chart model from handle
-	 * 
+	 *
 	 * @param handle the handle with chart
 	 * @since 2.3
 	 */
@@ -683,7 +684,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 	/**
 	 * Gets all column bindings. If the handle's contain has column bindings, will
 	 * combine the bindings with the handle's.
-	 * 
+	 *
 	 * @param itemHandle handle
 	 * @return the iterator of all column bindings
 	 * @since 2.3
@@ -693,7 +694,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 		ReportItemHandle container = getBindingHolder(itemHandle);
 		if (container != null && container != itemHandle) {
 			// Add all bindings to an iterator
-			List<ComputedColumnHandle> allBindings = new ArrayList<ComputedColumnHandle>();
+			List<ComputedColumnHandle> allBindings = new ArrayList<>();
 			for (Iterator<ComputedColumnHandle> ownBindings = itemHandle.columnBindingsIterator(); ownBindings
 					.hasNext();) {
 				allBindings.add(ownBindings.next());
@@ -709,10 +710,10 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Transforms dimension value to points.
-	 * 
+	 *
 	 * @param handle
 	 * @param dpi    to convert px unit
-	 * 
+	 *
 	 * @return the dimension value with measure of points
 	 * @since 2.3
 	 */
@@ -734,7 +735,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Convert model/engine aggregate expression to chart.
-	 * 
+	 *
 	 * @param agg
 	 * @since 2.3
 	 */
@@ -812,7 +813,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Check if chart is child of multi-views handle.
-	 * 
+	 *
 	 * @param handle
 	 * @since 2.3
 	 */
@@ -825,7 +826,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Returns report item reference of specified item handle.
-	 * 
+	 *
 	 * @param itemHandle
 	 * @since 2.3
 	 */
@@ -835,7 +836,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Returns item handle reference.
-	 * 
+	 *
 	 * @param currentItemHandle
 	 * @param itemHandle
 	 * @return
@@ -860,7 +861,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Check if specified report item handle is related to chart.
-	 * 
+	 *
 	 * @param handle
 	 * @since 2.3
 	 */
@@ -873,7 +874,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Checks if chart inherits groupings and aggregations from container
-	 * 
+	 *
 	 * @param handle chart handle
 	 * @return inherits groupings or not
 	 * @since 2.5
@@ -885,7 +886,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Check if chart inherits columns only from container.
-	 * 
+	 *
 	 * @param handle
 	 * @return true means inherit columns only
 	 * @since 2.5.3
@@ -897,7 +898,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Check if chart inherits cube from container.
-	 * 
+	 *
 	 * @param handle
 	 * @return true if chart inherits cube from container.
 	 */
@@ -919,10 +920,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 			container = container.getContainer();
 		}
 
-		if (cube == null) {
-			return false;
-		}
-		if (ChartReportItemHelper.instance().getBindingCubeHandle(handle) == null) {
+		if ((cube == null) || (ChartReportItemHelper.instance().getBindingCubeHandle(handle) == null)) {
 			return false;
 		}
 
@@ -932,7 +930,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 	/**
 	 * Checks if the item's container is inheritable. Usually only Table and List
 	 * can support inheritance.
-	 * 
+	 *
 	 * @param itemHandle item
 	 * @return true means inheritable
 	 * @since 2.5
@@ -974,7 +972,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Get the inherited handle
-	 * 
+	 *
 	 * @param itemHandle
 	 * @return ListHandle or TabHandle or GridHandle
 	 */
@@ -1005,7 +1003,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 	/**
 	 * Returns report item handle that is a chart handle and is referred by other
 	 * chart recursively.
-	 * 
+	 *
 	 * @param handle
 	 * @return referenced chart handle
 	 * @since 2.5
@@ -1029,7 +1027,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Checks if chart model has bound queries completely.
-	 * 
+	 *
 	 * @param cm chart model
 	 * @return true complete
 	 * @since 2.5
@@ -1051,7 +1049,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Creates the default bounds for chart model.
-	 * 
+	 *
 	 * @param eih chart handle
 	 * @param cm  chart model
 	 * @return default bounds
@@ -1078,7 +1076,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Computes bound size according to handle and dpi
-	 * 
+	 *
 	 * @param eih chart handle
 	 * @param dpi dpi
 	 * @return bound size
@@ -1173,7 +1171,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Checks if chart model in handle uses the bindings in the list.
-	 * 
+	 *
 	 * @param handle       item handle that contains chart model
 	 * @param bindingNames binding list
 	 * @return true if chart contains one or more bindings in list.
@@ -1184,7 +1182,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 			if (cm == null) {
 				return false;
 			}
-			Set<String> usedBindings = new HashSet<String>();
+			Set<String> usedBindings = new HashSet<>();
 			SeriesDefinition bsd = ChartUtil.getBaseSeriesDefinitions(cm).get(0);
 
 			// Add X series
@@ -1225,7 +1223,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Loads the expression from a ComputedColumnHandle into the ExpressionCodec.
-	 * 
+	 *
 	 * @param exprCodec
 	 * @param handle
 	 * @return True if succeeds.
@@ -1313,7 +1311,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Loads the expression from a ComputedColumnHandle into the ExpressionCodec.
-	 * 
+	 *
 	 * @param exprCodec
 	 * @param handle
 	 */
@@ -1327,7 +1325,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 	/**
 	 * Converts data type defined in {@link DesignChoiceConstants} to
 	 * {@link DataType}
-	 * 
+	 *
 	 * @param dataType data type in design engine
 	 * @return data type in chart model. Value may be null if data type is null or
 	 *         equal to {@link DesignChoiceConstants#COLUMN_DATA_TYPE_ANY}
@@ -1360,7 +1358,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 	/**
 	 * Converts data type defined in {@link DesignChoiceConstants} to axis type in
 	 * {@link AxisType}
-	 * 
+	 *
 	 * @param dataType data type in design engine
 	 * @return axis type in chart model
 	 */
@@ -1377,7 +1375,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Checks if current bindings of chart's refer to other item.
-	 * 
+	 *
 	 * @param itemHandle
 	 * @return if current bindings of chart's refer to other item
 	 * @since 2.6.1
@@ -1388,7 +1386,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Checks if chart is in multiple view.
-	 * 
+	 *
 	 * @param itemHandle
 	 * @return true if chart is in multiple view.
 	 * @since 4.2.2
@@ -1399,7 +1397,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Checks if current bindings of chart's refer to the data set or cube directly.
-	 * 
+	 *
 	 * @param itemHandle
 	 * @return if current bindings of chart's refer to the data set or cube directly
 	 * @since 2.6.1
@@ -1411,7 +1409,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 	/**
 	 * Creates an runnable class used in report engine. Similar to
 	 * {@link ReportEngineHelper#openReportDesign(org.eclipse.birt.report.model.api.ReportDesignHandle)}
-	 * 
+	 *
 	 * @param reportEngine report engine
 	 * @param moduleHandle module handle including report and library
 	 * @return runnable class
@@ -1426,7 +1424,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Returns the data type of specified expression.
-	 * 
+	 *
 	 * @param expression
 	 * @param itemHandle
 	 * @return data type of specified expression.
@@ -1471,7 +1469,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Find data type of expression from specified item handle.
-	 * 
+	 *
 	 * @param expression expression.
 	 * @param itemHandle specified item handle.
 	 * @return an object array, size is two, the first element is a boolean object,
@@ -1528,7 +1526,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Check if a expression has multiple lines.
-	 * 
+	 *
 	 * @param expression
 	 * @return true if a expression has multiple lines.
 	 */
@@ -1548,7 +1546,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Returns the boolean value from extended property.
-	 * 
+	 *
 	 * @param cm                   chart model
 	 * @param extendedPropertyName property name
 	 * @param defaultValue         default value when it's null
@@ -1562,12 +1560,12 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 		if (property == null) {
 			return defaultValue;
 		}
-		return Boolean.valueOf(property.getValue());
+		return Boolean.parseBoolean(property.getValue());
 	}
 
 	/**
 	 * Returns if cube hierarchy should be kept on category
-	 * 
+	 *
 	 * @param cm chart model
 	 * @return result
 	 */
@@ -1578,7 +1576,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Returns if cube hierarchy should be kept on series
-	 * 
+	 *
 	 * @param cm chart model
 	 * @return result
 	 */
@@ -1589,7 +1587,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Sets the property to keep cube hierarchy on category
-	 * 
+	 *
 	 * @param cm    chart model
 	 * @param value state
 	 */
@@ -1599,7 +1597,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Sets the property to keep cube hierarchy on series.
-	 * 
+	 *
 	 * @param cm    chart model
 	 * @param value state
 	 */
@@ -1609,12 +1607,12 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Get externalized message.
-	 * 
+	 *
 	 * @param handle        design element handle
 	 * @param sKey          the key of the externalized message
 	 * @param sDefaultValue default value
 	 * @param locale        locale information
-	 * 
+	 *
 	 * @return message the externalized message.
 	 */
 	public static String externalizedMessage(DesignElementHandle handle, String sKey, String sDefaultValue,
@@ -1624,7 +1622,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements ChartReportIte
 
 	/**
 	 * Returns chart output format name, null if not find.
-	 * 
+	 *
 	 * @param chartHandle extended item handle contains chart.
 	 * @return chart output format name, null if not find.
 	 */

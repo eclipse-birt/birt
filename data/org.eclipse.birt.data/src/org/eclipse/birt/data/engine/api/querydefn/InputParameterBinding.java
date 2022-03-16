@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.querydefn;
@@ -44,20 +47,22 @@ public class InputParameterBinding implements IInputParameterBinding {
 
 	/**
 	 * Returns the expression that provides the value of the parameter.
-	 * 
+	 *
 	 * @return the bound expression
 	 */
 
+	@Override
 	public IBaseExpression getExpr() {
 		return expr;
 	}
 
 	/**
 	 * Returns the parameter name.
-	 * 
+	 *
 	 * @return the name. If null, this parameter is bound by position
 	 */
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -68,9 +73,10 @@ public class InputParameterBinding implements IInputParameterBinding {
 
 	/**
 	 * Returns the parameter position.
-	 * 
+	 *
 	 * @return the name. If -1, this parameter is bound by name
 	 */
+	@Override
 	public int getPosition() {
 		return position;
 	}

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 //========================================================================
 //Copyright 2006 Mort Bay Consulting Pty. Ltd.
 //------------------------------------------------------------------------
@@ -48,8 +60,9 @@ public class Utf8StringBuffer {
 
 	public void append(byte[] b, int offset, int length) {
 		int end = offset + length;
-		for (int i = offset; i < end; i++)
+		for (int i = offset; i < end; i++) {
 			append(b[i]);
+		}
 	}
 
 	public void append(byte b) {
@@ -58,8 +71,9 @@ public class Utf8StringBuffer {
 				_buffer.append('?');
 				_more = 0;
 				_bits = 0;
-			} else
+			} else {
 				_buffer.append((char) (0x7f & b));
+			}
 		} else if (_more == 0) {
 			if ((b & 0xc0) != 0xc0) {
 				// 10xxxxxx
@@ -87,23 +101,21 @@ public class Utf8StringBuffer {
 				_more = 5;
 				_bits = b & 0x01;
 			}
+		} else if ((b & 0xc0) == 0xc0) { // 11??????
+			_buffer.append('?');
+			_more = 0;
+			_bits = 0;
+			_errors = true;
 		} else {
-			if ((b & 0xc0) == 0xc0) { // 11??????
-				_buffer.append('?');
-				_more = 0;
-				_bits = 0;
-				_errors = true;
-			} else {
-				// 10xxxxxx
-				_bits = (_bits << 6) | (b & 0x3f);
-				if (--_more == 0) {
-					if (_bits > 0xffff) {
-						// handle Unicode Extension-B cases
-						_buffer.append(0xD7C0 + (_bits >> 10));
-						_buffer.append(0xDC00 | _bits & 0x3FF);
-					} else {
-						_buffer.append((char) _bits);
-					}
+			// 10xxxxxx
+			_bits = (_bits << 6) | (b & 0x3f);
+			if (--_more == 0) {
+				if (_bits > 0xffff) {
+					// handle Unicode Extension-B cases
+					_buffer.append(0xD7C0 + (_bits >> 10));
+					_buffer.append(0xDC00 | _bits & 0x3FF);
+				} else {
+					_buffer.append((char) _bits);
 				}
 			}
 		}
@@ -124,6 +136,7 @@ public class Utf8StringBuffer {
 		return _buffer;
 	}
 
+	@Override
 	public String toString() {
 		return _buffer.toString();
 	}

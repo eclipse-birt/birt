@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.test;
 
@@ -32,13 +44,14 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 import com.ibm.icu.util.ULocale;
 
 /*
- * Compare images 
+ * Compare images
  */
 
 public class imageCompare extends ChartTestCase {
 
 	private final static String INPUT = "blankReport.rptdesign";
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		EngineConfig config = new EngineConfig();
@@ -48,6 +61,7 @@ public class imageCompare extends ChartTestCase {
 
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}
@@ -115,9 +129,11 @@ public class imageCompare extends ChartTestCase {
 
 		File[] diffreports = diffImages.listFiles(new FilenameFilter() {
 
+			@Override
 			public boolean accept(File dir, String name) {
-				if (name.endsWith(".jpg")) //$NON-NLS-1$
+				if (name.endsWith(".jpg")) { //$NON-NLS-1$
 					return true;
+				}
 				return false;
 			}
 		});
@@ -179,7 +195,7 @@ public class imageCompare extends ChartTestCase {
 
 		task.setLocale(ULocale.getDefault());
 
-		IRenderOption options = null;
+		IRenderOption options;
 
 		options = new HTMLRenderOption();
 		options.setOutputFileName(outputFile);

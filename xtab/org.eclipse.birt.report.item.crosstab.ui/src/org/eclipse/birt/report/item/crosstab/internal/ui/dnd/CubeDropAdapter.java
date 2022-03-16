@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -70,19 +73,21 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
- * 
+ *
  */
 
 public class CubeDropAdapter implements IDropAdapter {
 
 	// FIXME need refactor
+	@Override
 	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		if (target != null && transfer instanceof CubeHandle) {
 			SlotHandle targetSlot = getTargetSlotHandle(target, ICrosstabConstants.CROSSTAB_EXTENSION_NAME); // $NON-NLS-1$
 			if (targetSlot != null) {
 				if (DNDUtil.handleValidateTargetCanContainType(targetSlot, "Crosstab") //$NON-NLS-1$
-						&& DNDUtil.handleValidateTargetCanContainMore(targetSlot, 0))
+						&& DNDUtil.handleValidateTargetCanContainMore(targetSlot, 0)) {
 					return DNDService.LOGIC_TRUE;
+				}
 			} else {
 				// If the target is crosstab,and create chart view, maybe the container cann't
 				// contain the cube
@@ -116,8 +121,9 @@ public class CubeDropAdapter implements IDropAdapter {
 					if (model instanceof DesignElementHandle) {
 						DesignElementHandle targetHandle = (DesignElementHandle) model;
 						if (targetHandle.canContain(DEUtil.getDefaultContentName(targetHandle),
-								ICrosstabConstants.CROSSTAB_EXTENSION_NAME))
+								ICrosstabConstants.CROSSTAB_EXTENSION_NAME)) {
 							return DNDService.LOGIC_TRUE;
+						}
 					}
 				}
 			}
@@ -152,6 +158,7 @@ public class CubeDropAdapter implements IDropAdapter {
 		return null;
 	}
 
+	@Override
 	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
 
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();

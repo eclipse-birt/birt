@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Test case for DimensionPropertyType.
- * 
+ *
  */
 
 public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
@@ -41,7 +44,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 		/**
 		 * Constructor.
-		 * 
+		 *
 		 * @param theMeasure
 		 * @param theUnits
 		 */
@@ -51,7 +54,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
 		@Override
@@ -65,7 +68,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Override
@@ -76,7 +79,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
 	 * ()
@@ -88,7 +91,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
@@ -99,7 +102,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
 	 * ()
@@ -129,7 +132,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testValidateInputString()
 	 */
@@ -158,7 +161,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
 	 * ()
@@ -183,7 +186,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
 	 * ()
 	 */
@@ -203,7 +206,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger ()
 	 */
@@ -214,7 +217,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
 	@Override
@@ -226,7 +229,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
 	 * ()
 	 */
@@ -238,7 +241,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testToDisplayString()
 	 */
@@ -251,7 +254,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
 	 * ()
 	 */
@@ -270,7 +273,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 	/**
 	 * test the input value for dimension property. the locale used for test is EN,
 	 * which defines the decimal separator is "." .
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 	public void testValidateInputValueByEnglishULocale() throws SemanticException {
@@ -405,7 +408,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 	/**
 	 * Test the validation mechanism for input value of dimension value. The locale
 	 * used for testing is German. So the decimal separator is ",".
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -496,7 +499,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean ()
 	 */

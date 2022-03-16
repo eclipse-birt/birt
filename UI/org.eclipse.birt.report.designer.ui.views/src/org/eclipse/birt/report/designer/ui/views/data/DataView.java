@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,8 +35,8 @@ import org.eclipse.ui.part.PageBookView;
  * the selected controls have different attributes. If the controls have
  * different type, nothing will be shown in the attributes view.
  * </P>
- * 
- * 
+ *
+ *
  */
 public class DataView extends PageBookView {
 
@@ -53,10 +56,11 @@ public class DataView extends PageBookView {
 
 	/**
 	 * Creates and returns the default page for this view.
-	 * 
+	 *
 	 * @param book the pagebook control
 	 * @return the default page
 	 */
+	@Override
 	protected IPage createDefaultPage(PageBook book) {
 		MessagePage page = new MessagePage();
 		initPage(page);
@@ -69,11 +73,12 @@ public class DataView extends PageBookView {
 	 * Creates a new page in the pagebook for a particular part. This page will be
 	 * made visible whenever the part is active, and will be destroyed with a call
 	 * to <code>doDestroyPage</code>.
-	 * 
+	 *
 	 * @param part the input part
 	 * @return the record describing a new page for this view
 	 * @see #doDestroyPage
 	 */
+	@Override
 	protected PageRec doCreatePage(IWorkbenchPart part) {
 		Object page = part.getAdapter(IDataViewPage.class);
 		if (page instanceof IPageBookViewPage) {
@@ -202,11 +207,12 @@ public class DataView extends PageBookView {
 	/**
 	 * Destroys a page in the pagebook for a particular part. This page was returned
 	 * as a result from <code>doCreatePage</code>.
-	 * 
+	 *
 	 * @param part       the input part
 	 * @param pageRecord a page record for the part
 	 * @see #doCreatePage
 	 */
+	@Override
 	protected void doDestroyPage(IWorkbenchPart part, PageRec pageRecord) {
 		IPage page = pageRecord.page;
 		page.dispose();
@@ -224,50 +230,57 @@ public class DataView extends PageBookView {
 	 * Implementors of this method should return an active, important part in the
 	 * workbench or <code>null</code> if none found.
 	 * </p>
-	 * 
+	 *
 	 * @return the active important part, or <code>null</code> if none
 	 */
+	@Override
 	protected IWorkbenchPart getBootstrapPart() {
 		IWorkbenchPage page = getSite().getPage();
-		if (page != null)
+		if (page != null) {
 			return page.getActiveEditor();
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/**
 	 * Returns whether the given part should be added to this view.
-	 * 
+	 *
 	 * @param part the input part
 	 * @return <code>true</code> if the part is relevant, and <code>false</code>
 	 *         otherwise
 	 */
+	@Override
 	protected boolean isImportant(IWorkbenchPart part) {
 		return (part instanceof IEditorPart);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.PageBookView#getAdapter(java.lang.Class)
 	 */
+	@Override
 	public Object getAdapter(Class key) {
-		if (key == IContributedContentsView.class)
+		if (key == IContributedContentsView.class) {
 			return new IContributedContentsView() {
 
+				@Override
 				public IWorkbenchPart getContributingPart() {
 					return getCurrentContributingPart();
 				}
 			};
+		}
 		return super.getAdapter(key);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.PageBookView#partBroughtToTop(org.eclipse.ui.
 	 * IWorkbenchPart)
 	 */
+	@Override
 	public void partBroughtToTop(IWorkbenchPart part) {
 		super.partBroughtToTop(part);
 		partActivated(part);

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +21,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * The class wraps CCombo for field assist function.
- * 
+ *
  * @since 2.5
  */
 
@@ -26,7 +29,7 @@ public class CComboAssistField extends AssistField {
 
 	/**
 	 * Constructor of the class.
-	 * 
+	 *
 	 * @param ccombo    the CCombo to be decorated.
 	 * @param composite The SWT composite within which the decoration should be
 	 *                  rendered. The decoration will be clipped to this composite,
@@ -61,13 +64,15 @@ public class CComboAssistField extends AssistField {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.fieldassist.AssistField#initModifyListener
 	 * ()
 	 */
+	@Override
 	protected void initModifyListener() {
 		((CCombo) control).addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent event) {
 				FieldAssistHelper.getInstance().handleFieldModify(CComboAssistField.this);
 			}
@@ -76,7 +81,7 @@ public class CComboAssistField extends AssistField {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.fieldassist.AssistField#isValid()
 	 */
 	@Override
@@ -86,7 +91,7 @@ public class CComboAssistField extends AssistField {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.fieldassist.AssistField#isWarning()
 	 */
 	@Override

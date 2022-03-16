@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +21,7 @@ import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceEditor
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * 
+ *
  */
 
 public class ClassPathsEditorPage extends DataSourceEditorPage {
@@ -32,7 +35,7 @@ public class ClassPathsEditorPage extends DataSourceEditorPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.
 	 * DataSourceEditorPageCore#createTestConnectionRunnable(org.eclipse.datatools.
 	 * connectivity.IConnectionProfile)
@@ -44,7 +47,7 @@ public class ClassPathsEditorPage extends DataSourceEditorPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceEditorPage
 	 * #collectCustomProperties(java.util.Properties)
@@ -56,7 +59,7 @@ public class ClassPathsEditorPage extends DataSourceEditorPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceEditorPage
 	 * #createAndInitCustomControl(org.eclipse.swt.widgets.Composite,
@@ -64,8 +67,9 @@ public class ClassPathsEditorPage extends DataSourceEditorPage {
 	 */
 	@Override
 	protected void createAndInitCustomControl(Composite parent, Properties profileProps) {
-		if (helper.isPageInitialized())
+		if (helper.isPageInitialized()) {
 			return;
+		}
 
 		helper.setResourceIdentifiers(this.getHostResourceIdentifiers());
 		helper.setInitialProperties(profileProps);

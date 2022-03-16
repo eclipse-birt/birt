@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,11 +57,12 @@ public class ChoiceSetFactory {
 
 	/**
 	 * Gets the collection that given property value can selected from them.
-	 * 
+	 *
 	 * @param property DE Property key.
 	 * @return The ChoiceSet instance contains all the allowed values.
 	 * @deprecated Use getDEChoiceSet( String property ,String elementName) instead
 	 */
+	@Deprecated
 	public static IChoiceSet getDEChoiceSet(String property) {
 		String unitKey = DesignChoiceConstants.CHOICE_UNITS;
 		if (AttributeConstant.BACKGROUND_COLOR.equals(property)) {
@@ -108,7 +112,7 @@ public class ChoiceSetFactory {
 
 	/**
 	 * Gets the collection that given property value can selected from them.
-	 * 
+	 *
 	 * @param elementName The name of the element.
 	 * @param property    DE Property key.
 	 * @return The ChoiceSet instance contains all the allowed values.
@@ -124,7 +128,7 @@ public class ChoiceSetFactory {
 	/**
 	 * Gets the dimension collection that given property value can selected from
 	 * them.
-	 * 
+	 *
 	 * @param elementName The name of the element.
 	 * @param property    DE Property key.
 	 * @return The ChoiceSet instance contains all the allowed values.
@@ -141,7 +145,7 @@ public class ChoiceSetFactory {
 	/**
 	 * Gets the collection that given structure property value can selected from
 	 * them.
-	 * 
+	 *
 	 * @param elementName The name of the element.
 	 * @param property    DE Property key.
 	 * @return The ChoiceSet instance contains all the allowed values.
@@ -153,7 +157,7 @@ public class ChoiceSetFactory {
 	/**
 	 * Gets the collection that given structure property value can selected from
 	 * them.
-	 * 
+	 *
 	 * @param structName             The name of the element.
 	 * @param property               DE Property key.
 	 * @param removeNoSupportFilters indicate to shorter the choices excluding
@@ -173,13 +177,13 @@ public class ChoiceSetFactory {
 		if (cs == null) {
 			return null;
 		}
-		ArrayList<String> notSupportedList = new ArrayList<String>();
+		ArrayList<String> notSupportedList = new ArrayList<>();
 		notSupportedList.add(DesignChoiceConstants.FILTER_OPERATOR_TOP_N);
 		notSupportedList.add(DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N);
 		notSupportedList.add(DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT);
 		notSupportedList.add(DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT);
 		IChoice[] choiceList = cs.getChoices();
-		ArrayList<IChoice> newChoiceList = new ArrayList<IChoice>();
+		ArrayList<IChoice> newChoiceList = new ArrayList<>();
 		for (int i = 0; i < choiceList.length; i++) {
 			if (!notSupportedList.contains(choiceList[i].getName())) {
 				newChoiceList.add(choiceList[i]);
@@ -192,7 +196,7 @@ public class ChoiceSetFactory {
 
 	/**
 	 * Gets all displayNames that a given ChoiceSet instance contained.
-	 * 
+	 *
 	 * @param choiceSet The ChoiceSet instance.
 	 * @return A String array contains displayNames.
 	 */
@@ -202,20 +206,21 @@ public class ChoiceSetFactory {
 
 	/**
 	 * Gets all displayNames that a given ChoiceSet instance contained.
-	 * 
+	 *
 	 * @param choiceSet  The ChoiceSet instance.
 	 * @param comparator The sort comparator.
 	 * @return A String array contains displayNames.
 	 */
 	public static String[] getDisplayNamefromChoiceSet(IChoiceSet choiceSet, Comparator comparator) {
-		String[] displayNames = new String[0];
+		String[] displayNames = {};
 		if (choiceSet == null) {
 			return displayNames;
 		}
 		IChoice[] choices = choiceSet.getChoices(comparator);
 
-		if (choices == null)
+		if (choices == null) {
 			return displayNames;
+		}
 
 		displayNames = new String[choices.length];
 		for (int i = 0; i < choices.length; i++) {
@@ -226,17 +231,19 @@ public class ChoiceSetFactory {
 
 	/**
 	 * Gets all names that a given ChoiceSet instance contained.
-	 * 
+	 *
 	 * @param choiceSet The ChoiceSet instance.
 	 * @return A String array contains names.
 	 */
 	public static String[] getNamefromChoiceSet(IChoiceSet choiceSet) {
-		String[] names = new String[0];
-		if (choiceSet == null)
+		String[] names = {};
+		if (choiceSet == null) {
 			return names;
+		}
 		IChoice[] choices = choiceSet.getChoices();
-		if (choices == null)
+		if (choices == null) {
 			return names;
+		}
 
 		names = new String[choices.length];
 		for (int i = 0; i < choices.length; i++) {
@@ -247,7 +254,7 @@ public class ChoiceSetFactory {
 
 	/**
 	 * Gets property 's display names given element name and the property name.
-	 * 
+	 *
 	 * @param elemenName The design element name.
 	 * @param property   The property name.
 	 * @return The given property 's display names
@@ -260,7 +267,7 @@ public class ChoiceSetFactory {
 	/**
 	 * Gets property 's display name given element name, property name and the
 	 * property's value.
-	 * 
+	 *
 	 * @param elemenName The design element name.
 	 * @param property   The property name.
 	 * @param valule     The property 's value.
@@ -274,7 +281,7 @@ public class ChoiceSetFactory {
 	/**
 	 * Gets structure property 's display name given element name, property name and
 	 * the property's value.
-	 * 
+	 *
 	 * @param structName The structure name.
 	 * @param memberName The member name.
 	 * @param valule     The property 's value.
@@ -289,7 +296,7 @@ public class ChoiceSetFactory {
 	/**
 	 * Gets property value given element name, property name and its the property's
 	 * display name.
-	 * 
+	 *
 	 * @param elemenName  The design element name.
 	 * @param property    The property name.
 	 * @param displayName The property 's display name.
@@ -303,7 +310,7 @@ public class ChoiceSetFactory {
 	/**
 	 * Gets structure property value given element name, property name and its the
 	 * property's display name.
-	 * 
+	 *
 	 * @param structName  The design element name.
 	 * @param memberName  The property name.
 	 * @param displayName The property 's display name.
@@ -317,7 +324,7 @@ public class ChoiceSetFactory {
 	/**
 	 * Gets UI display name from a choice set given the the value and the choice set
 	 * name.
-	 * 
+	 *
 	 * @param value The value corresponding to the display name.
 	 * @param set   The choice set name from which to get display name.
 	 * @return The display name of the given value
@@ -342,7 +349,7 @@ public class ChoiceSetFactory {
 	/**
 	 * Gets the value from a choice set given the UI display name and the choice set
 	 * name.
-	 * 
+	 *
 	 * @param displayName The UI display name corresponding to the value.
 	 * @param set         The choice set name from which to get property value.
 	 * @return The value of the given UI display name.
@@ -366,12 +373,13 @@ public class ChoiceSetFactory {
 
 	/**
 	 * Gets the collection that given property value can selected from them.
-	 * 
+	 *
 	 * @param property DE Property key.
 	 * @return A String array contains all the allowed values.
 	 * @deprecated Use getDEChoiceSet( String property ,String elementName) instead
 	 */
 
+	@Deprecated
 	public static Object[] getChoiceSet(String property) {
 		// The dataSet has different access method.
 		if (AttributeConstant.DATASET.equals(property)) {
@@ -419,7 +427,7 @@ public class ChoiceSetFactory {
 
 	/**
 	 * Gets the collection that DE provides.
-	 * 
+	 *
 	 * @param unitKey Choice type key.
 	 * @return A String array contains all the allowed values.
 	 */
@@ -438,7 +446,7 @@ public class ChoiceSetFactory {
 
 	/**
 	 * Gets all the DataSets available.
-	 * 
+	 *
 	 * @return A String array contains all the DataSets.
 	 */
 	public static String[] getDataSets() {
@@ -463,7 +471,7 @@ public class ChoiceSetFactory {
 
 	/**
 	 * Gets all the Cubes available.
-	 * 
+	 *
 	 * @return A String array contains all the Cubs.
 	 */
 	public static String[] getCubes() {
@@ -482,7 +490,7 @@ public class ChoiceSetFactory {
 
 	/**
 	 * Gets all the MasterPages available.
-	 * 
+	 *
 	 * @return A String array contains all the MasterPages.
 	 */
 	public static String[] getMasterPages() {
@@ -502,7 +510,7 @@ public class ChoiceSetFactory {
 
 	/**
 	 * Gets all the Styles available.
-	 * 
+	 *
 	 * @return A String array contains all the Styles.
 	 */
 	public static String[] getStyles() {
@@ -522,7 +530,7 @@ public class ChoiceSetFactory {
 
 	/**
 	 * Gets all available themes .
-	 * 
+	 *
 	 * @return A String array contains all available themes.
 	 */
 	public static String[] getThemes() {
@@ -559,7 +567,7 @@ public class ChoiceSetFactory {
 
 	/**
 	 * Gets the default format value given the struct name of format property .
-	 * 
+	 *
 	 * @param structName The struct name of the format property.
 	 * @return formatValue = new String[2]. The default format value, String[0]:
 	 *         default category; String[1]: default pattern.

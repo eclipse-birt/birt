@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -26,7 +29,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IUIManager;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class ChangeListenerImpl implements IChangeListener {
 	private transient int iBaseSeriesCount = 0;
@@ -53,33 +56,34 @@ public class ChangeListenerImpl implements IChangeListener {
 
 	private static final String LABEL_BLOCK_SHEET_COLLECTION = "LabelBlockSeriesSheets"; //$NON-NLS-1$
 
-	private static final String[] BASE_SERIES_SHEETS_FOR_CHARTS_WITH_AXES = new String[] { "Data.X Series", //$NON-NLS-1$
+	private static final String[] BASE_SERIES_SHEETS_FOR_CHARTS_WITH_AXES = { "Data.X Series", //$NON-NLS-1$
 			"Attributes.X Series" //$NON-NLS-1$
 	};
 
-	private static final String[] ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITH_AXES = new String[] { "Data.Y Series", //$NON-NLS-1$
+	private static final String[] ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITH_AXES = { "Data.Y Series", //$NON-NLS-1$
 			"Attributes.Y Series", "Attributes.Y Series.Labels" //$NON-NLS-1$ //$NON-NLS-2$
 	};
 
-	private static final String[] BASE_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES = new String[] { "Data.Base Series", //$NON-NLS-1$
+	private static final String[] BASE_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES = { "Data.Base Series", //$NON-NLS-1$
 			"Attributes.Base Series" //$NON-NLS-1$
 	};
 
-	private static final String[] ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES = new String[] {
-			"Data.Orthogonal Series", "Attributes.Orthogonal Series", "Attributes.Orthogonal Series.Labels" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	private static final String[] ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES = { "Data.Orthogonal Series", //$NON-NLS-1$
+			"Attributes.Orthogonal Series", "Attributes.Orthogonal Series.Labels" //$NON-NLS-1$ //$NON-NLS-2$
 	};
 
-	private static final String[] BASE_AXIS_SHEETS = new String[] { "Data.X Axis", "Attributes.X Axis", //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String[] BASE_AXIS_SHEETS = { "Data.X Axis", "Attributes.X Axis", //$NON-NLS-1$ //$NON-NLS-2$
 			"Attributes.X Axis.Labels", "Attributes.X Axis.Markers" //$NON-NLS-1$ //$NON-NLS-2$
 	};
 
-	private static final String[] ORTHOGONAL_AXIS_SHEETS = new String[] { "Data.Y Axis", "Attributes.Y Axis", //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String[] ORTHOGONAL_AXIS_SHEETS = { "Data.Y Axis", "Attributes.Y Axis", //$NON-NLS-1$ //$NON-NLS-2$
 			"Attributes.Y Axis.Labels", "Attributes.Y Axis.Markers" //$NON-NLS-1$ //$NON-NLS-2$
 	};
 
-	private static final String[] LABEL_BLOCK_SHEETS = new String[] { "Layout.Label Block" //$NON-NLS-1$
+	private static final String[] LABEL_BLOCK_SHEETS = { "Layout.Label Block" //$NON-NLS-1$
 	};
 
+	@Override
 	public void initialize(Chart cModel, IUIManager uiManager) {
 		// Register sheet collections
 		uiManager.registerSheetCollection(BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES,
@@ -176,11 +180,12 @@ public class ChangeListenerImpl implements IChangeListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.IChangeListener#chartModified(org.eclipse.emf.
 	 * common.notify.Notification, org.eclipse.birt.chart.ui.swt.IUIManager)
 	 */
+	@Override
 	public void chartModified(Chart cModel, IUIManager uiManager) {
 		int iNewBaseAxisCount = 0;
 		int iNewOrthogonalAxisCount = 0;

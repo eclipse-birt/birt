@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -72,7 +75,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * Popup sheet for Series Label
- * 
+ *
  */
 public class SeriesLabelSheet extends AbstractPopupSheet implements SelectionListener, Listener {
 
@@ -153,8 +156,8 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements SelectionLis
 		this.series = series;
 		this.defSeries = ChartDefaultValueUtil.getDefaultSeries(this.series);
 		this.context = context;
-		mapDataPointNames = new HashMap<String, String>();
-		dataPointIndex = new ArrayList<Integer>();
+		mapDataPointNames = new HashMap<>();
+		dataPointIndex = new ArrayList<>();
 	}
 
 	@Override
@@ -164,7 +167,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements SelectionLis
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.ISheet#getComponent(org.eclipse.swt.widgets
 	 * .Composite)
@@ -280,7 +283,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements SelectionLis
 
 		// Position
 		NameSet lpNameSet = getSeriesForProcessing().getLabelPositionScope(getContext().getModel().getDimension());
-		java.util.List<String> posItems = new ArrayList<String>(Arrays.asList(lpNameSet.getDisplayNames()));
+		java.util.List<String> posItems = new ArrayList<>(Arrays.asList(lpNameSet.getDisplayNames()));
 		cmbPosition.setItems(posItems.toArray(new String[] {}));
 		cmbPosition.setItemData(lpNameSet.getNames());
 
@@ -300,7 +303,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements SelectionLis
 
 	private String[] getDataPointComponents(DataPoint datapoint) {
 		EList<?> oArr = datapoint.getComponents();
-		ArrayList<String> sArr = new ArrayList<String>(oArr.size());
+		ArrayList<String> sArr = new ArrayList<>(oArr.size());
 		for (int i = 0; i < oArr.size(); i++) {
 			DataPointComponent dpc = (DataPointComponent) oArr.get(i);
 			if (dpc.getOrthogonalType().length() == 0) {
@@ -557,10 +560,11 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements SelectionLis
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
 	 * Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		if (event.widget.equals(fdcFont)) {
 			getSeriesForProcessing().getLabel().getCaption().setFont((FontDefinition) ((Object[]) event.data)[0]);
@@ -602,10 +606,11 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements SelectionLis
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.getSource().equals(cmbPosition)) {
 			Series s = getSeriesForProcessing();
@@ -671,11 +676,12 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements SelectionLis
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 

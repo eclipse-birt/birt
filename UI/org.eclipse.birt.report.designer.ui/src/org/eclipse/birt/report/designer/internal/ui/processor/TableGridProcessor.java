@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,17 +38,17 @@ public class TableGridProcessor extends AbstractElementProcessor {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * Creates a new instance of the table/gird processor
-	 * 
+	 *
 	 * @param elementType The type of the element to process. It must be one of the
 	 *                    following types:
 	 *                    <ul>
 	 *                    <li>ReportDesignConstants.TABLE_ITEM
 	 *                    <li>ReportDesignConstants.GRID_ITEM
 	 *                    </ul>
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	TableGridProcessor(String elementType) {
 		super(elementType);
@@ -53,10 +56,11 @@ public class TableGridProcessor extends AbstractElementProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor
 	 * #createElement(java.lang.Object)
 	 */
+	@Override
 	public DesignElementHandle createElement(Object extendedData) {
 		boolean isTable = ReportDesignConstants.TABLE_ITEM.equals(getElementType());
 		if (isTable) {
@@ -155,10 +159,11 @@ public class TableGridProcessor extends AbstractElementProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor
 	 * #editElement(org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
+	@Override
 	public boolean editElement(DesignElementHandle handle) {
 		// Do nothing
 		return false;

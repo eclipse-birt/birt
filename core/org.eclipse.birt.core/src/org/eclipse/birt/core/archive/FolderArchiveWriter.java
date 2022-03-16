@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,15 +32,16 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 	private static Logger logger = Logger.getLogger(FolderArchiveWriter.class.getName());
 	private String folderName;
 	private IStreamSorter streamSorter = null;
-	private HashSet<RAFolderInputStream> inputStreams = new HashSet<RAFolderInputStream>();
-	private HashSet<RAFolderOutputStream> outputStreams = new HashSet<RAFolderOutputStream>();
+	private HashSet<RAFolderInputStream> inputStreams = new HashSet<>();
+	private HashSet<RAFolderOutputStream> outputStreams = new HashSet<>();
 
 	/**
 	 * @param absolute fileName the archive file name
 	 */
 	public FolderArchiveWriter(String folderName) throws IOException {
-		if (folderName == null || folderName.length() == 0)
+		if (folderName == null || folderName.length() == 0) {
 			throw new IOException(CoreMessages.getString(ResourceConstants.FOLDER_NAME_IS_NULL));
+		}
 
 		File fd = new File(folderName);
 		if (!fd.exists()) {
@@ -48,20 +52,22 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#initialize()
 	 */
+	@Override
 	public void initialize() {
 		// Do nothing
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.core.archive.IDocArchiveWriter#createRandomAccessStream(java
 	 * .lang.String)
 	 */
+	@Override
 	public RAOutputStream createRandomAccessStream(String relativePath) throws IOException {
 		String path = getFilePath(relativePath);
 		File fd = new File(path);
@@ -72,6 +78,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 		return out;
 	}
 
+	@Override
 	public RAOutputStream openRandomAccessStream(String relativePath) throws IOException {
 		String path = getFilePath(relativePath);
 		File fd = new File(path);
@@ -81,14 +88,17 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 		return out;
 	}
 
+	@Override
 	public RAOutputStream createOutputStream(String relativePath) throws IOException {
 		return createRandomAccessStream(relativePath);
 	}
 
+	@Override
 	public RAOutputStream getOutputStream(String relativePath) throws IOException {
 		return openRandomAccessStream(relativePath);
 	}
 
+	@Override
 	public RAInputStream getInputStream(String relativePath) throws IOException {
 		String path = getFilePath(relativePath);
 
@@ -102,11 +112,12 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 
 	/**
 	 * Delete a stream from the archive and make sure the stream has been closed.
-	 * 
+	 *
 	 * @param relativePath - the relative path of the stream
 	 * @return whether the delete operation was successful
 	 * @throws IOException
 	 */
+	@Override
 	public boolean dropStream(String relativePath) {
 		String path = getFilePath(relativePath);
 		File fd = new File(path);
@@ -115,33 +126,37 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#getName()
 	 */
+	@Override
 	public String getName() {
 		return folderName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#exists()
 	 */
+	@Override
 	public boolean exists(String relativePath) {
 		String path = getFilePath(relativePath);
 		File fd = new File(path);
 		return fd.exists();
 	}
 
+	@Override
 	public void setStreamSorter(IStreamSorter streamSorter) {
 		this.streamSorter = streamSorter;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#finish()
 	 */
+	@Override
 	public void finish() throws IOException {
 		close();
 	}
@@ -149,7 +164,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 	public void close() throws IOException {
 		IOException exception = null;
 		synchronized (outputStreams) {
-			ArrayList<RAFolderOutputStream> outputs = new ArrayList<RAFolderOutputStream>(outputStreams);
+			ArrayList<RAFolderOutputStream> outputs = new ArrayList<>(outputStreams);
 			for (RAFolderOutputStream output : outputs) {
 				try {
 					output.close();
@@ -163,7 +178,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 			outputStreams.clear();
 		}
 		synchronized (inputStreams) {
-			ArrayList<RAFolderInputStream> inputs = new ArrayList<RAFolderInputStream>(inputStreams);
+			ArrayList<RAFolderInputStream> inputs = new ArrayList<>(inputStreams);
 			for (RAFolderInputStream input : inputs) {
 				try {
 					input.close();
@@ -184,7 +199,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 	/**
 	 * Convert the current folder archive to file archive. The original folder
 	 * archive will NOT be removed.
-	 * 
+	 *
 	 * @param fileArchiveName
 	 * @throws IOException
 	 */
@@ -194,9 +209,10 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#flush()
 	 */
+	@Override
 	public void flush() throws IOException {
 		IOException ioex = null;
 		synchronized (outputStreams) {
@@ -220,7 +236,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 
 	/**
 	 * delete file or folder with its sub-folders and sub-files
-	 * 
+	 *
 	 * @param file file/folder which need to be deleted
 	 * @return if files/folders can not be deleted, return false, or true
 	 */
@@ -242,9 +258,10 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#lock(java.lang.String)
 	 */
+	@Override
 	public Object lock(String stream) throws IOException {
 		String path = getFilePath(stream) + ".lck";
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance();
@@ -253,9 +270,10 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#unlock(java.lang.Object)
 	 */
+	@Override
 	public void unlock(Object lock) {
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance();
 		lockManager.unlock(lock);
@@ -264,8 +282,9 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 	/**
 	 * return a list of strings which are the relative path of streams
 	 */
+	@Override
 	public List<String> listStreams(String relativeStoragePath) throws IOException {
-		ArrayList<String> streamList = new ArrayList<String>();
+		ArrayList<String> streamList = new ArrayList<>();
 		String storagePath = ArchiveUtil.getFullPath(folderName, relativeStoragePath);
 		File dir = new File(storagePath);
 
@@ -287,11 +306,12 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 		return streamList;
 	}
 
+	@Override
 	public List<String> listAllStreams() throws IOException {
-		ArrayList<File> list = new ArrayList<File>();
+		ArrayList<File> list = new ArrayList<>();
 		ArchiveUtil.listAllFiles(new File(folderName), list);
 
-		ArrayList<String> streams = new ArrayList<String>();
+		ArrayList<String> streams = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
 			File file = list.get(i);
 			String relativePath = ArchiveUtil.getEntryName(folderName, file.getPath());
@@ -302,6 +322,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter {
 		return streams;
 	}
 
+	@Override
 	public IArchiveFile getArchiveFile() {
 		throw new UnsupportedOperationException("getArchiveFile is not supported on this FolderAchiveWriter");
 	}

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.memento;
 
@@ -85,54 +97,59 @@ public class MementoElement {
 		if (!children.contains(child)) {
 			children.add(child);
 			child.setParent(this);
-		} else {
-			if (child.getParent() != this)
-				child.setParent(this);
+		} else if (child.getParent() != this) {
+			child.setParent(this);
 		}
 	}
 
 	public MementoElement getChild(String key) {
 		for (int i = 0; i < children.size(); i++) {
 			MementoElement property = (MementoElement) children.get(i);
-			if (property.getKey().equals(key))
+			if (property.getKey().equals(key)) {
 				return property;
+			}
 		}
 		return null;
 	}
 
 	public MementoElement getChild(int index) {
-		if (index > -1 && index < children.size())
+		if (index > -1 && index < children.size()) {
 			return (MementoElement) children.get(index);
-		else
+		} else {
 			return null;
+		}
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof MementoElement) {
 			MementoElement memento = (MementoElement) obj;
-			if (this == obj)
+			if ((this == obj) || memento.getMementoType().equals(MementoElement.Type_Memento)) {
 				return true;
-			if (memento.getMementoType().equals(MementoElement.Type_Memento))
-				return true;
+			}
 			if (memento.getMementoType().equals(MementoElement.Type_View)
 					|| memento.getMementoType().equals(MementoElement.Type_Viewer)) {
-				if (memento.getKey().equals(key))
+				if (memento.getKey().equals(key)) {
 					return true;
-				else
+				} else {
 					return false;
+				}
 			}
 			if (memento.getMementoType().equals(MementoElement.Type_Element)) {
-				if (memento.getValue() == null)
+				if (memento.getValue() == null) {
 					return false;
-				if (memento.getKey().equals(key) && memento.getValue().equals(value))
+				}
+				if (memento.getKey().equals(key) && memento.getValue().equals(value)) {
 					return true;
-				else
+				} else {
 					return false;
+				}
 			}
 		}
 		return false;
 	}
 
+	@Override
 	public int hashCode() {
 		if (getMementoType().equals(MementoElement.Type_Memento)) {
 			return getMementoType().hashCode();

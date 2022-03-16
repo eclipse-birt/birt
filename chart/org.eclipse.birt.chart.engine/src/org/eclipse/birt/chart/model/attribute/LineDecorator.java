@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,10 +24,10 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration
  * '<em><b>Line Decorator</b></em>', and utility methods for working with them.
  * <!-- end-user-doc --> <!-- begin-model-doc -->
- * 
+ *
  * This type represents the possible line head decorators. <!-- end-model-doc
  * -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLineDecorator()
  * @model
  * @generated
@@ -33,7 +36,7 @@ public enum LineDecorator implements Enumerator {
 	/**
 	 * The '<em><b>Arrow</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #ARROW
 	 * @generated
 	 * @ordered
@@ -42,7 +45,7 @@ public enum LineDecorator implements Enumerator {
 	/**
 	 * The '<em><b>Circle</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #CIRCLE
 	 * @generated
 	 * @ordered
@@ -51,7 +54,7 @@ public enum LineDecorator implements Enumerator {
 	/**
 	 * The '<em><b>None</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #NONE
 	 * @generated
 	 * @ordered
@@ -65,7 +68,7 @@ public enum LineDecorator implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #ARROW_LITERAL
 	 * @model name="Arrow"
 	 * @generated
@@ -80,7 +83,7 @@ public enum LineDecorator implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #CIRCLE_LITERAL
 	 * @model name="Circle"
 	 * @generated
@@ -95,7 +98,7 @@ public enum LineDecorator implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #NONE_LITERAL
 	 * @model name="None"
 	 * @generated
@@ -106,16 +109,15 @@ public enum LineDecorator implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Line Decorator</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final LineDecorator[] VALUES_ARRAY = new LineDecorator[] { ARROW_LITERAL, CIRCLE_LITERAL,
-			NONE_LITERAL, };
+	private static final LineDecorator[] VALUES_ARRAY = { ARROW_LITERAL, CIRCLE_LITERAL, NONE_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Line Decorator</b></em>'
 	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static final List<LineDecorator> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -123,7 +125,7 @@ public enum LineDecorator implements Enumerator {
 	/**
 	 * Returns the '<em><b>Line Decorator</b></em>' literal with the specified
 	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static LineDecorator get(String literal) {
@@ -139,7 +141,7 @@ public enum LineDecorator implements Enumerator {
 	/**
 	 * Returns the '<em><b>Line Decorator</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static LineDecorator getByName(String name) {
@@ -155,7 +157,7 @@ public enum LineDecorator implements Enumerator {
 	/**
 	 * Returns the '<em><b>Line Decorator</b></em>' literal with the specified
 	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static LineDecorator get(int value) {
@@ -172,21 +174,21 @@ public enum LineDecorator implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String literal;
@@ -194,10 +196,10 @@ public enum LineDecorator implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private LineDecorator(int value, String name, String literal) {
+	LineDecorator(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -205,27 +207,30 @@ public enum LineDecorator implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -233,7 +238,7 @@ public enum LineDecorator implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override

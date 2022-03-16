@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +42,7 @@ public class IDEResourceSynchronizer extends ReportResourceSynchronizer
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org
 	 * .eclipse.core.resources.IResourceChangeEvent)
 	 */
@@ -60,12 +63,13 @@ public class IDEResourceSynchronizer extends ReportResourceSynchronizer
 	// }
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.ReportResourceSynchronizer
 	 * #notifyResourceChanged(org.eclipse.birt.report.designer.ui.views.
 	 * IReportResourceChangeEvent)
 	 */
+	@Override
 	public void notifyResourceChanged(IReportResourceChangeEvent event) {
 		// notifying = true;
 
@@ -109,6 +113,7 @@ public class IDEResourceSynchronizer extends ReportResourceSynchronizer
 
 			new WorkspaceModifyOperation() {
 
+				@Override
 				protected void execute(IProgressMonitor monitor) throws CoreException {
 					for (IResource rc : targes) {
 						rc.refreshLocal(IResource.DEPTH_INFINITE, null);

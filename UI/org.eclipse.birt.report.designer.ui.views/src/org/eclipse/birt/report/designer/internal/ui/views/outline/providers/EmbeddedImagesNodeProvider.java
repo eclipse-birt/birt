@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,34 +40,38 @@ public class EmbeddedImagesNodeProvider extends DefaultNodeProvider {
 	// private static final String SUPPORTED_IMAGE_FILE_EXTS = Messages
 	// .getString( "ImageBuilderDialog.FileDialog.FilterMessage" );
 	// //$NON-NLS-1$
-	private static String[] EXTENSIONS = new String[] { ".bmp", ".jpg", //$NON-NLS-1$ //$NON-NLS-2$
+	private static String[] EXTENSIONS = { ".bmp", ".jpg", //$NON-NLS-1$ //$NON-NLS-2$
 			".jpeg", ".jpe", ".jfif", ".gif", ".png", ".tif", ".tiff", ".ico", ".svg" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
 
-	private static String[] ALLEXTENSIONS = new String[] {
-			"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg" }; //$NON-NLS-1$
+	private static String[] ALLEXTENSIONS = { "*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg" }; //$NON-NLS-1$
 
+	@Override
 	public Object[] getChildren(Object model) {
 		return ((EmbeddedImageNode) model).getChildren();
 	}
 
+	@Override
 	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_NODE_IMAGES;
 	}
 
+	@Override
 	public String getNodeDisplayName(Object model) {
 		return IMAGES;
 	}
 
+	@Override
 	public Object getParent(Object model) {
 		return ((EmbeddedImageNode) model).getReportDesignHandle();
 	}
 
 	/**
 	 * Creates the context menu for the given object.
-	 * 
+	 *
 	 * @param object the object
 	 * @param menu   the menu
 	 */
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		menu.add(new InsertEmbeddedImageAction(object, Messages.getString("EmbeddedImagesNodeProvider.action.New")));//$NON-NLS-1$
 		super.createContextMenu(sourceViewer, object, menu);
@@ -72,10 +79,11 @@ public class EmbeddedImagesNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * performRequest(java.lang.Object, org.eclipse.gef.Request)
 	 */
+	@Override
 	public boolean performRequest(Object model, Request request) throws Exception {
 		if (request.getType().equals(IRequestConstants.REQUEST_TYPE_INSERT)) {
 			FileDialog fileChooser = new FileDialog(UIUtil.getDefaultShell(), SWT.OPEN);
@@ -98,7 +106,7 @@ public class EmbeddedImagesNodeProvider extends DefaultNodeProvider {
 					return false;
 				}
 
-				if (checkExtensions(fileName) == false) {
+				if (!checkExtensions(fileName)) {
 					ExceptionUtil.openError(Messages.getString("EmbeddedImagesNodeProvider.FileNameError.Title"), //$NON-NLS-1$
 							Messages.getString("EmbeddedImagesNodeProvider.FileNameError.Message")); //$NON-NLS-1$
 					return false;

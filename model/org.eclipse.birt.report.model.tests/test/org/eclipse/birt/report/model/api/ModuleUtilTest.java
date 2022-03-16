@@ -1,9 +1,12 @@
 /*******************************************************************************
- * All rights reserved. This program and the accompanying materials
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Copyright (c) 2004 Actuate Corporation.
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +42,7 @@ public class ModuleUtilTest extends BaseTestCase {
 
 	/**
 	 * Test deserilaze an stream-represented data into an action structure.
-	 * 
+	 *
 	 * @throws XMLParserException
 	 * @throws IOException
 	 * @throws DesignFileException
@@ -78,7 +81,7 @@ public class ModuleUtilTest extends BaseTestCase {
 
 	/**
 	 * Test serialize an action instance.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -106,7 +109,7 @@ public class ModuleUtilTest extends BaseTestCase {
 
 	/**
 	 * Test CheckModule.
-	 * 
+	 *
 	 * Cases:
 	 * <ul>
 	 * <li>valid report design file
@@ -114,7 +117,7 @@ public class ModuleUtilTest extends BaseTestCase {
 	 * <li>invalid report design file
 	 * <li>invalid library file
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -145,13 +148,13 @@ public class ModuleUtilTest extends BaseTestCase {
 
 	/**
 	 * Test CheckVersion.
-	 * 
+	 *
 	 * Cases:
 	 * <ul>
 	 * <li>test design file with version value "1".
 	 * <li>test design file with same version value of current version.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -186,7 +189,7 @@ public class ModuleUtilTest extends BaseTestCase {
 	 * instance. To draw the joint condition from GUI, they should be same. 2: the
 	 * hierarchy handle from the joint condition and the cube are all local
 	 * hierarchy instance, they should be same.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 	public void testIsEqualHierarchyForJointCondition() throws DesignFileException {
@@ -304,7 +307,7 @@ public class ModuleUtilTest extends BaseTestCase {
 
 	/**
 	 * Test isListStyleRuleValue method.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -331,7 +334,7 @@ public class ModuleUtilTest extends BaseTestCase {
 	/**
 	 * Test transfer script uid to script value and transfer script instance to
 	 * script uid.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testScriptuid() throws Exception {
@@ -402,7 +405,7 @@ public class ModuleUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests the method getElementsByType in ModuleUtil.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testGetElementsByType() throws Exception {

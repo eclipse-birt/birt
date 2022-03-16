@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,12 +31,12 @@ import org.eclipse.birt.data.engine.core.DataException;
  * <p>
  * The optimize query will only do no recalculate filtering based on the
  * previous query result set.
- * 
+ *
  */
 
 public class NoRecalculateIVQuery extends QueryDefnDelegator {
 	private IBaseQueryDefinition sourceQuery;
-	private HashMap<String, IBinding> bindingsMap = new HashMap<String, IBinding>();
+	private HashMap<String, IBinding> bindingsMap = new HashMap<>();
 	private List<IFilterDefinition> filters;
 	private List<ISortDefinition> sortings;
 	private List groups;
@@ -71,42 +74,52 @@ public class NoRecalculateIVQuery extends QueryDefnDelegator {
 		}
 	}
 
+	@Override
 	public List getGroups() {
 		return groups;
 	}
 
+	@Override
 	public void addBinding(IBinding binding) throws DataException {
 		this.bindingsMap.put(binding.getBindingName(), binding);
 	}
 
+	@Override
 	public Map getBindings() {
 		return this.bindingsMap;
 	}
 
+	@Override
 	public List getFilters() {
 		return filters;
 	}
 
+	@Override
 	public List getSorts() {
 		return sortings;
 	}
 
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public IBaseQueryDefinition getSourceQuery() {
 		return sourceQuery;
 	}
 
+	@Override
 	public IQueryDefinition getBaseQuery() {
 		return (IQueryDefinition) baseQuery;
 	}
 
+	@Override
 	public void setSourceQuery(IBaseQueryDefinition object) {
 		sourceQuery = object;
 	}

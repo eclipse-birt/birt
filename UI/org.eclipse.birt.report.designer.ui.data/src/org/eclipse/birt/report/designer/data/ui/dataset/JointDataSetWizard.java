@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +34,7 @@ public class JointDataSetWizard extends Wizard {
 	private WizardPage dataSetPage;
 
 	/**
-	 *  
+	 *
 	 */
 	public JointDataSetWizard() {
 		this((DataSourceHandle) null, true);
@@ -41,12 +44,13 @@ public class JointDataSetWizard extends Wizard {
 		super();
 		this.useTransaction = useTransaction;
 		setForcePreviousAndNextButtons(true);
-		for (int i = 0; i < pages.length; i++)
+		for (int i = 0; i < pages.length; i++) {
 			addPage(pages[i]);
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataSourceHandle
 	 * @param useTransaction
 	 */
@@ -60,12 +64,14 @@ public class JointDataSetWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
+	@Override
 	public boolean performFinish() {
-		if (!canFinish())
+		if (!canFinish()) {
 			return false;
+		}
 
 		if (dataSetPage != null && (dataSetPage instanceof JointDataSetPage)) {
 			if (useTransaction) {
@@ -74,8 +80,9 @@ public class JointDataSetWizard extends Wizard {
 			}
 			DataSetHandle joinDataSetHandle = ((JointDataSetPage) dataSetPage).createSelectedDataSet();
 			try {
-				if (joinDataSetHandle != null)
+				if (joinDataSetHandle != null) {
 					DataSetUIUtil.updateColumnCache(joinDataSetHandle, false);
+				}
 			} catch (Exception e) {
 				ExceptionHandler.handle(e);
 			}

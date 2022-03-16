@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,14 +26,14 @@ import org.eclipse.swt.graphics.Cursor;
 /**
  * A set of utility methods to create Handles for the common locations on a
  * figure's bounds.
- * 
+ *
  * @see Handle
  */
 public class ReportResizableHandleKit {
 
 	/**
 	 * Adds a single handle in the given direction to the given List.
-	 * 
+	 *
 	 * @param part      the owner GraphicalEditPart of the handle
 	 * @param handles   the List to add the handle to
 	 * @param direction the integer constant from PositionConstants that refers to
@@ -43,7 +46,7 @@ public class ReportResizableHandleKit {
 	/**
 	 * Adds a single handle in the given direction to the given List with the given
 	 * DragTracker
-	 * 
+	 *
 	 * @param tracker   the DragTracker to assign to this handle
 	 * @param part      the owner GraphicalEditPart of the handle
 	 * @param handles   the List to add the handle to
@@ -59,7 +62,7 @@ public class ReportResizableHandleKit {
 	/**
 	 * Fills the given List with handles at each corner and the north, south, east,
 	 * and west of the GraphicalEditPart.
-	 * 
+	 *
 	 * @param part    the owner GraphicalEditPart of the handles
 	 * @param handles the List to add the handles to
 	 */
@@ -77,7 +80,7 @@ public class ReportResizableHandleKit {
 
 	/**
 	 * Fills the given List with move borders at each side of a figure.
-	 * 
+	 *
 	 * @param f       the GraphicalEditPart thatis the owner of the handles
 	 * @param handles the List to add the handles to
 	 */
@@ -88,7 +91,7 @@ public class ReportResizableHandleKit {
 	/**
 	 * Fills the given List with move borders with the given DragTracker at each
 	 * side of a figure.
-	 * 
+	 *
 	 * @param tracker the DragTracker to assign to this handle
 	 * @param f       the GraphicalEditPart thatis the owner of the handles
 	 * @param handles the List to add the handles to
@@ -113,7 +116,7 @@ public class ReportResizableHandleKit {
 
 	/**
 	 * Returns a new {@link MoveHandle} with the given owner.
-	 * 
+	 *
 	 * @param owner the GraphicalEditPart that is the owner of the new MoveHandle
 	 * @return the new MoveHandle
 	 */
@@ -123,7 +126,7 @@ public class ReportResizableHandleKit {
 
 	/**
 	 * Returns a new {@link MoveHandle} with the given owner and DragTracker.
-	 * 
+	 *
 	 * @param tracker the DragTracker to assign to this handle
 	 * @param owner   the GraphicalEditPart that is the owner of the new MoveHandle
 	 * @return the new MoveHandle

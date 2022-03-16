@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +50,7 @@ public class CreateCommand extends Command {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param extendsData
 	 */
 	public CreateCommand(Map extendsData) {
@@ -58,6 +61,7 @@ public class CreateCommand extends Command {
 	 * Executes the Command. This method should not be called if the Command is not
 	 * executable.
 	 */
+	@Override
 	public void execute() {
 		// DesignElementHandle newObject = (DesignElementHandle)
 		// extendsData.get( DesignerConstants.KEY_NEWOBJECT );
@@ -145,7 +149,7 @@ public class CreateCommand extends Command {
 
 	/**
 	 * Gets the parent edit part the new report element be added on.
-	 * 
+	 *
 	 * @return Returns the parent.
 	 */
 	public Object getParent() {
@@ -154,7 +158,7 @@ public class CreateCommand extends Command {
 
 	/**
 	 * Sets the parent edit part the new report element be added on.
-	 * 
+	 *
 	 * @param parent The parent to set.
 	 */
 	public void setParent(Object parent) {
@@ -163,7 +167,7 @@ public class CreateCommand extends Command {
 
 	/**
 	 * Gets the edit part the new report element be added after.
-	 * 
+	 *
 	 * @param model The model after the new element
 	 */
 	public void setAfter(Object model) {
@@ -173,7 +177,7 @@ public class CreateCommand extends Command {
 
 	/**
 	 * Get the new object
-	 * 
+	 *
 	 * @return Return the object
 	 */
 	public DesignElementHandle getNewObject() {

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +43,7 @@ public class StreamManager {
 
 	/**
 	 * A possible directory of stream:
-	 * 
+	 *
 	 * [QuRs0] ----------------------------------<<QUERY_ROOT_STREAM>>,
 	 * <<BASE_SCOPE>> DataSetData ExprMetaInfo ExprValue QueryDefn GroupInfo
 	 * QueryIDInfo ResultClass RowLengthInfo OriginalQueryDefinition -----[IAMTEST]
@@ -54,15 +57,15 @@ public class StreamManager {
 	 * -------------[0] -----------------------<<SUB_QUERY_STREAM>> GroupInfo
 	 * RowIndexInfo << maybe refer to 1 of parent >> -------------[1] GroupInfo
 	 * RowIndexInfo << maybe refer to 0 of parent >>
-	 * 
+	 *
 	 */
 
 	/**
 	 * Actually RDLoad and RDSave needs to have a statue to indicate which type of
 	 * query is running, and possible values are:
-	 * 
+	 *
 	 * Normal query. Normal sub query.
-	 * 
+	 *
 	 * Query is generated from normal query. Sub query is generated from normal sub
 	 * query.
 	 */
@@ -105,9 +108,9 @@ public class StreamManager {
 		this.subQueryName = queryResultInfo.getSubQueryName();
 		this.subQueryID = subQueryName == null ? null
 				: QueryResultIDUtil.buildSubQueryID(subQueryName, queryResultInfo.getIndex());
-		this.cachedStreamManagers = new HashMap<StreamID, StreamWriter>();
-		this.metaManagers = new HashMap<StreamID, MetaStreamReader>();
-		this.dataMetaManagers = new HashMap<StreamID, DataStreamReader>();
+		this.cachedStreamManagers = new HashMap<>();
+		this.metaManagers = new HashMap<>();
+		this.dataMetaManagers = new HashMap<>();
 		VersionManager vm = new VersionManager(context);
 		if (context.getMode() == DataEngineContext.MODE_GENERATION) {
 			this.version = vm.getVersion(this.getQueryResultUID());
@@ -138,8 +141,9 @@ public class StreamManager {
 			// operation.
 			if (this.version == 0 && queryResultId != null) {
 				this.version = VersionManager.getLatestVersion();
-				if (this.context.getDocWriter() != null)
+				if (this.context.getDocWriter() != null) {
 					vm.setVersion(this.version, queryResultId);
+				}
 			}
 		}
 	}
@@ -200,8 +204,9 @@ public class StreamManager {
 		if (!useTempStream(streamType)) {
 			RAOutputStream outputStream = context.getOutputStream(streamID.getStartStream(),
 					streamID.getSubQueryStream(), streamType);
-			if (this.version >= VersionManager.VERSION_2_5_2_1)
+			if (this.version >= VersionManager.VERSION_2_5_2_1) {
 				return outputStream;
+			}
 			if (streamType == DataEngineContext.DATASET_DATA_STREAM && this.version >= VersionManager.VERSION_2_2_0) {
 				try {
 					outputStream.seek(outputStream.length());
@@ -216,8 +221,9 @@ public class StreamManager {
 		} else {
 			int sType = DataEngineContext.META_STREAM;
 			if (streamType == DataEngineContext.DATASET_DATA_STREAM
-					|| streamType == DataEngineContext.DATASET_META_STREAM)
+					|| streamType == DataEngineContext.DATASET_META_STREAM) {
 				sType = DataEngineContext.DATASET_DATA_STREAM;
+			}
 
 			return this.getTempStreamManager(getStreamID(sType, streamPos, streamScope)).getOutputStream(streamType);
 		}
@@ -261,7 +267,7 @@ public class StreamManager {
 	 * locate its parent sub query folder. The reason is the sub query indx in the
 	 * new sub query might not be the same as its original sub query index. Don't
 	 * use it in other cases.
-	 * 
+	 *
 	 * @param streamType
 	 * @param streamPos
 	 * @param streamScope
@@ -304,7 +310,7 @@ public class StreamManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public IDocArchiveWriter getDocWriter() {
@@ -312,15 +318,16 @@ public class StreamManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 * @throws DataException
 	 */
 	private StreamReader getMetaManager(StreamID id, int sType) throws DataException {
 		if (sType == DataEngineContext.DATASET_DATA_STREAM || sType == DataEngineContext.DATASET_META_STREAM) {
-			if (this.dataMetaManagers.get(id) == null)
+			if (this.dataMetaManagers.get(id) == null) {
 				this.dataMetaManagers.put(id, new DataStreamReader(this.context, id));
+			}
 			return this.dataMetaManagers.get(id);
 		}
 
@@ -359,7 +366,7 @@ public class StreamManager {
 				List<String> streams = this.context.getDocReader().listStreams(
 						DataEngineContext.getPath(streamID.getStartStream(), streamID.getSubQueryStream(), streamType));
 				Collections.sort(streams);
-				List<RAInputStream> results = new ArrayList<RAInputStream>();
+				List<RAInputStream> results = new ArrayList<>();
 				for (String streamName : streams) {
 					results.add(this.context.getDocReader().getInputStream(streamName));
 				}
@@ -368,7 +375,7 @@ public class StreamManager {
 				throw new DataException(e.getLocalizedMessage(), e);
 			}
 		}
-		return new ArrayList<RAInputStream>();
+		return new ArrayList<>();
 	}
 
 	/**
@@ -383,8 +390,9 @@ public class StreamManager {
 			 * if ( this.metaManagers.get( streamID ) == null ) return false;
 			 */
 			return this.getMetaManager(streamID, streamType).hasInputStream(streamType);
-		} else
+		} else {
 			return context.hasInStream(streamID.getStartStream(), streamID.getSubQueryStream(), streamType);
+		}
 	}
 
 	public boolean hasInStream(int streamType, int streamPos, int streamScope, String subname) throws DataException {
@@ -408,7 +416,7 @@ public class StreamManager {
 
 	/**
 	 * Drop specified streamType
-	 * 
+	 *
 	 * @param streamType
 	 * @throws DataException
 	 */
@@ -419,7 +427,7 @@ public class StreamManager {
 
 	/**
 	 * Drop specified sub stream
-	 * 
+	 *
 	 * @param subStream
 	 * @throws DataException
 	 */
@@ -435,7 +443,7 @@ public class StreamManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int getVersion() {
@@ -449,31 +457,33 @@ public class StreamManager {
 	 */
 	private StreamID getStreamID(int streamType, int streamPos, int streamScope) {
 		String startStream = null;
-		if (streamScope == BASE_SCOPE)
-			if (rootQueryResultID != null)
+		if (streamScope == BASE_SCOPE) {
+			if (rootQueryResultID != null) {
 				startStream = rootQueryResultID;
-			else
+			} else {
 				startStream = selfQueryResultID;
-		else if (streamScope == PARENT_SCOPE)
+			}
+		} else if (streamScope == PARENT_SCOPE) {
 			startStream = QueryResultIDUtil.getRealStreamID(rootQueryResultID, parentQueryResultID);
-		else if (streamScope == SELF_SCOPE)
+		} else if (streamScope == SELF_SCOPE) {
 			startStream = QueryResultIDUtil.getRealStreamID(rootQueryResultID, selfQueryResultID);
+		}
 
 		String subQueryStream = null;
-		if (isSubquery() == false) {
-			if (streamPos == ROOT_STREAM)
+		if (!isSubquery()) {
+			if (streamPos == ROOT_STREAM) {
 				subQueryStream = null;
-			else if (streamPos == SUB_QUERY_ROOT_STREAM)
+			} else if (streamPos == SUB_QUERY_ROOT_STREAM) {
 				subQueryStream = subQueryName;
-			else if (streamPos == SUB_QUERY_STREAM)
+			} else if (streamPos == SUB_QUERY_STREAM) {
 				subQueryStream = subQueryID;
-		} else {
-			if (streamPos == ROOT_STREAM)
-				subQueryStream = subQueryID;
-			else if (streamPos == SUB_QUERY_ROOT_STREAM)
-				subQueryStream = subQueryName;
-			else if (streamPos == SUB_QUERY_STREAM)
-				subQueryStream = subQueryID;
+			}
+		} else if (streamPos == ROOT_STREAM) {
+			subQueryStream = subQueryID;
+		} else if (streamPos == SUB_QUERY_ROOT_STREAM) {
+			subQueryStream = subQueryName;
+		} else if (streamPos == SUB_QUERY_STREAM) {
+			subQueryStream = subQueryID;
 		}
 
 		return new StreamID(startStream, subQueryStream);
@@ -488,16 +498,16 @@ public class StreamManager {
 
 	/**
 	 * Original query -> report document 1
-	 * 
+	 *
 	 * new query ---------> report document 1.2
-	 * 
+	 *
 	 * new query ---------------------> report document 1.2.1
-	 * 
+	 *
 	 * new query ---------> report document 1.3
-	 * 
+	 *
 	 * Used in read. To determine whether the associated stream manager is to read
 	 * the query which is running on a report document.
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -509,7 +519,7 @@ public class StreamManager {
 	 * Used in read and write. To determine whether the associated stream manager is
 	 * to read/write the query which is running on a report document. If
 	 * isBasedOnSecondRD is true, isSecondRD must be true.
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -525,19 +535,21 @@ public class StreamManager {
 	}
 
 	private StreamWriter getTempStreamManager(StreamID id) {
-		if (this.cachedStreamManagers.get(id) == null)
+		if (this.cachedStreamManagers.get(id) == null) {
 			this.cachedStreamManagers.put(id, new StreamWriter(this.context, id));
+		}
 		return this.cachedStreamManagers.get(id);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param streamType
 	 * @return
 	 */
 	private boolean useTempStream(int streamType) {
-		if (this.version < VersionManager.VERSION_2_2 || this.version >= VersionManager.VERSION_2_5_2_1)
+		if (this.version < VersionManager.VERSION_2_2 || this.version >= VersionManager.VERSION_2_5_2_1) {
 			return false;
+		}
 
 		switch (streamType) {
 		case DataEngineContext.DATASET_DATA_STREAM:

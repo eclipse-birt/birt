@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,17 +32,15 @@ import org.mozilla.javascript.Scriptable;
  */
 public class PreparedSubCubeQuery implements IPreparedCubeQuery {
 	private ISubCubeQueryDefinition query;
-	private Map appContext;
 	private DataEngineSession session;
 
 	/**
-	 * 
+	 *
 	 * @param query
 	 * @param appContext
 	 */
 	public PreparedSubCubeQuery(ISubCubeQueryDefinition query, Map appContext, DataEngineSession session) {
 		this.query = query;
-		this.appContext = appContext;
 		this.session = session;
 	}
 
@@ -48,6 +49,7 @@ public class PreparedSubCubeQuery implements IPreparedCubeQuery {
 	 * org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery#execute(org.mozilla.
 	 * javascript.Scriptable)
 	 */
+	@Override
 	public ICubeQueryResults execute(Scriptable scope) throws DataException {
 		throw new DataException(ResourceConstants.NO_PARENT_RESULT_CURSOR);
 	}
@@ -57,6 +59,7 @@ public class PreparedSubCubeQuery implements IPreparedCubeQuery {
 	 * org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery#execute(org.eclipse.
 	 * birt.data.engine.api.IBaseQueryResults, org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	public ICubeQueryResults execute(IBaseQueryResults outerResults, Scriptable scope) throws DataException {
 		if (outerResults instanceof ICubeQueryResults) {
 			ICubeQueryResults parent = (ICubeQueryResults) outerResults;
@@ -70,6 +73,7 @@ public class PreparedSubCubeQuery implements IPreparedCubeQuery {
 	 * @see org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery#
 	 * getCubeQueryDefinition()
 	 */
+	@Override
 	public IBaseCubeQueryDefinition getCubeQueryDefinition() {
 		return query;
 	}

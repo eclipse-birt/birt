@@ -1,15 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.olap.data.impl;
+
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,20 +72,18 @@ import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.util.filter.BaseDimensionFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
-import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.JSFacttableFilterEvalHelper;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.mozilla.javascript.ImporterTopLevel;
 
 import testutil.BaseTestCase;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 /**
- * 
+ *
  */
 
 public class CubeAggregationTest extends BaseTestCase {
@@ -108,7 +111,7 @@ public class CubeAggregationTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
@@ -136,9 +139,10 @@ public class CubeAggregationTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#finalize()
 	 */
+	@Override
 	protected void finalize() throws Throwable {
 		documentManager.close();
 		documentManager = null;
@@ -147,7 +151,7 @@ public class CubeAggregationTest extends BaseTestCase {
 
 	/**
 	 * test aggregation using random access document manager.
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -177,7 +181,7 @@ public class CubeAggregationTest extends BaseTestCase {
 
 	/**
 	 * create cube query definition for aggregation filtering.
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -229,7 +233,7 @@ public class CubeAggregationTest extends BaseTestCase {
 
 	/**
 	 * get distincted string array, in which any object is unique.
-	 * 
+	 *
 	 * @param iValues
 	 * @return
 	 */
@@ -330,7 +334,7 @@ public class CubeAggregationTest extends BaseTestCase {
 		AggregationDefinition[] aggregations = new AggregationDefinition[4];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[2];
 		funcitons[0] = new AggregationFunctionDefinition("measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		funcitons[1] = new AggregationFunctionDefinition("C_Measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
@@ -442,7 +446,7 @@ public class CubeAggregationTest extends BaseTestCase {
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition(null, "measure1", null, null,
 				IBuildInAggregation.TOTAL_SUM_FUNC, new JSMeasureFilterEvalHelper());
@@ -478,14 +482,14 @@ public class CubeAggregationTest extends BaseTestCase {
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition(null, "measure1", null, null,
 				IBuildInAggregation.TOTAL_SUM_FUNC, null);
 
 		aggregations[0] = new AggregationDefinition(levelsForFilter, sortType, funcitons);
 		JSMeasureFilterEvalHelper measureFilter = new JSMeasureFilterEvalHelper();
-		List<IJSFacttableFilterEvalHelper> helper = new ArrayList<IJSFacttableFilterEvalHelper>();
+		List<IJSFacttableFilterEvalHelper> helper = new ArrayList<>();
 		helper.add(measureFilter);
 		cubeQueryExcutorHelper.addMeasureFilter(helper);
 		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute(aggregations, new StopSign());
@@ -521,7 +525,7 @@ public class CubeAggregationTest extends BaseTestCase {
 		AggregationDefinition[] aggregations = new AggregationDefinition[4];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition("measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		AggregationFunctionDefinition[] funcitonsWithParameterCol = new AggregationFunctionDefinition[2];
@@ -589,7 +593,7 @@ public class CubeAggregationTest extends BaseTestCase {
 	/**
 	 * test simiple aggregation with only expression such as data["level21_sum"]>30.
 	 * this will filter out the levels that does not qualify this condition.
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws DataException
 	 * @throws BirtException
@@ -617,7 +621,7 @@ public class CubeAggregationTest extends BaseTestCase {
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition("level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		aggregations[0] = new AggregationDefinition(levelsForFilter, sortType, funcitons);
@@ -639,7 +643,7 @@ public class CubeAggregationTest extends BaseTestCase {
 
 	/**
 	 * test simple aggregation with level filter in muti-level aggregation.
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws DataException
 	 * @throws BirtException
@@ -670,8 +674,8 @@ public class CubeAggregationTest extends BaseTestCase {
 		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(null, baseScope, cx, cubeQuery, cubeFilter);
 		cubeQueryExcutorHelper.addJSFilter(dimfilter);
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
-		int[] sortType = new int[] { IDimensionSortDefn.SORT_ASC, IDimensionSortDefn.SORT_ASC };
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21, dimLevel31 };
+		int[] sortType = { IDimensionSortDefn.SORT_ASC, IDimensionSortDefn.SORT_ASC };
+		DimLevel[] levelsForFilter = { dimLevel21, dimLevel31 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition("level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		aggregations[0] = new AggregationDefinition(levelsForFilter, sortType, funcitons);
@@ -701,7 +705,7 @@ public class CubeAggregationTest extends BaseTestCase {
 
 	/**
 	 * test empty aggregation result set.
-	 * 
+	 *
 	 * @param documentManager
 	 * @throws IOException
 	 * @throws DataException
@@ -730,8 +734,8 @@ public class CubeAggregationTest extends BaseTestCase {
 		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(null, baseScope, cx, cubeQuery, cubeFilter);
 		cubeQueryExcutorHelper.addJSFilter(dimfilter);
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
-		int[] sortType = new int[] { IDimensionSortDefn.SORT_ASC };
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		int[] sortType = { IDimensionSortDefn.SORT_ASC };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition("level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		aggregations[0] = new AggregationDefinition(levelsForFilter, sortType, funcitons);
@@ -746,7 +750,7 @@ public class CubeAggregationTest extends BaseTestCase {
 
 	/**
 	 * test aggregation filter with one axis condition in one level aggregation.
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws DataException
 	 * @throws BirtException
@@ -771,8 +775,8 @@ public class CubeAggregationTest extends BaseTestCase {
 		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(null, baseScope, cx, cubeQuery, cubeFilter);
 		cubeQueryExcutorHelper.addJSFilter(dimfilter);
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
-		int[] sortType = new int[] { IDimensionSortDefn.SORT_ASC };
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		int[] sortType = { IDimensionSortDefn.SORT_ASC };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition("level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		aggregations[0] = new AggregationDefinition(levelsForFilter, sortType, funcitons);
@@ -794,7 +798,7 @@ public class CubeAggregationTest extends BaseTestCase {
 
 	/**
 	 * test aggregation filter with one axis condition in muti-level aggregation.
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws DataException
 	 * @throws BirtException
@@ -821,8 +825,8 @@ public class CubeAggregationTest extends BaseTestCase {
 		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(null, baseScope, cx, cubeQuery, cubeFilter);
 		cubeQueryExcutorHelper.addJSFilter(dimfilter);
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
-		int[] sortType = new int[] { IDimensionSortDefn.SORT_ASC, IDimensionSortDefn.SORT_ASC };
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21, dimLevel31 };
+		int[] sortType = { IDimensionSortDefn.SORT_ASC, IDimensionSortDefn.SORT_ASC };
+		DimLevel[] levelsForFilter = { dimLevel21, dimLevel31 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition("level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		aggregations[0] = new AggregationDefinition(levelsForFilter, sortType, funcitons);
@@ -852,7 +856,7 @@ public class CubeAggregationTest extends BaseTestCase {
 
 	/**
 	 * test top/bottom N filter on aggregation result.
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws DataException
 	 * @throws BirtException
@@ -899,7 +903,7 @@ public class CubeAggregationTest extends BaseTestCase {
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition("level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		aggregations[0] = new AggregationDefinition(levelsForFilter, sortType, funcitons);
@@ -921,7 +925,7 @@ public class CubeAggregationTest extends BaseTestCase {
 
 	/**
 	 * test top/bottom percentage filter on aggregation result.
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws DataException
 	 * @throws BirtException
@@ -968,7 +972,7 @@ public class CubeAggregationTest extends BaseTestCase {
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition("level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		aggregations[0] = new AggregationDefinition(levelsForFilter, sortType, funcitons);
@@ -990,7 +994,7 @@ public class CubeAggregationTest extends BaseTestCase {
 
 	/**
 	 * top/bottom dimension filter.
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws DataException
 	 * @throws BirtException
@@ -1019,7 +1023,7 @@ public class CubeAggregationTest extends BaseTestCase {
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition("level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		aggregations[0] = new AggregationDefinition(levelsForFilter, sortType, funcitons);
@@ -1041,7 +1045,7 @@ public class CubeAggregationTest extends BaseTestCase {
 
 	/**
 	 * in/not in dimension filter.
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws DataException
 	 * @throws BirtException
@@ -1072,7 +1076,7 @@ public class CubeAggregationTest extends BaseTestCase {
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition("level21_sum", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		aggregations[0] = new AggregationDefinition(levelsForFilter, sortType, funcitons);
@@ -1097,7 +1101,7 @@ public class CubeAggregationTest extends BaseTestCase {
 
 	/**
 	 * add this test for ted 65288, filter refered to mutilple dimensions
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws DataException
 	 * @throws BirtException
@@ -1122,7 +1126,7 @@ public class CubeAggregationTest extends BaseTestCase {
 		AggregationDefinition[] aggregations = new AggregationDefinition[1];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 
 		funcitons[0] = new AggregationFunctionDefinition("level21_sum", "measure1", null, null,
@@ -1199,7 +1203,7 @@ public class CubeAggregationTest extends BaseTestCase {
 		AggregationDefinition[] aggregations = new AggregationDefinition[4];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition("measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		aggregations[0] = new AggregationDefinition(levelsForFilter, sortType, funcitons);
@@ -1314,6 +1318,7 @@ class TestFactTable implements IDatasetIterator {
 
 	static int[] L3Col = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 
+	@Override
 	public void close() throws BirtException {
 		// TODO Auto-generated method stub
 
@@ -1339,6 +1344,7 @@ class TestFactTable implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("col11")) {
 			return 0;
@@ -1358,6 +1364,7 @@ class TestFactTable implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("col11")) {
 			return DataType.STRING_TYPE;
@@ -1387,6 +1394,7 @@ class TestFactTable implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return L1Col[ptr];
@@ -1406,6 +1414,7 @@ class TestFactTable implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= L1Col.length) {
@@ -1418,6 +1427,7 @@ class TestFactTable implements IDatasetIterator {
 class ComputedMeasureHelper implements IComputedMeasureHelper {
 	private MeasureInfo[] measureInfos = { new MeasureInfo("C_Measure1", DataType.INTEGER_TYPE) };
 
+	@Override
 	public Object[] computeMeasureValues(IFacttableRow factTableRow) throws DataException {
 		Object[] result = new Object[1];
 		Integer value = new Integer(((Integer) factTableRow.getMeasureValue("measure1")).intValue() + 1);
@@ -1425,22 +1435,26 @@ class ComputedMeasureHelper implements IComputedMeasureHelper {
 		return result;
 	}
 
+	@Override
 	public MeasureInfo[] getAllComputedMeasureInfos() {
 		return measureInfos;
 	}
 
+	@Override
 	public void cleanUp() throws DataException {
 	}
 }
 
 class JSMeasureFilterEvalHelper implements IJSFacttableFilterEvalHelper {
 
+	@Override
 	public boolean evaluateFilter(IFacttableRow facttableRow) throws DataException {
 		Integer measureValue = (Integer) facttableRow.getMeasureValue("measure1");
-		if (measureValue.intValue() % 2 == 0)
+		if (measureValue.intValue() % 2 == 0) {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	}
 
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
@@ -83,7 +86,7 @@ public final class Regression_78699_swt extends Composite implements PaintListen
 
 	/**
 	 * main() method for constructing the layout.
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -113,8 +116,9 @@ public final class Regression_78699_swt extends Composite implements PaintListen
 
 		shell.open();
 		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
+			if (!display.readAndDispatch()) {
 				display.sleep();
+			}
 		}
 		display.dispose();
 	}
@@ -141,11 +145,12 @@ public final class Regression_78699_swt extends Composite implements PaintListen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.
 	 * PaintEvent)
 	 */
+	@Override
 	public void paintControl(PaintEvent e) {
 		Rectangle d = this.getClientArea();
 		Image imgChart = new Image(this.getDisplay(), d);
@@ -176,10 +181,11 @@ public final class Regression_78699_swt extends Composite implements PaintListen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.widget.equals(btn)) {
 			int iSelection = cbType.getSelectionIndex();
@@ -195,49 +201,55 @@ public final class Regression_78699_swt extends Composite implements PaintListen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getDesignTimeModel()
 	 */
+	@Override
 	public Chart getDesignTimeModel() {
 		return cm;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getRunTimeModel()
 	 */
+	@Override
 	public Chart getRunTimeModel() {
 		return gcs.getChartModel();
 	}
 
+	@Override
 	public Object peerInstance() {
 		return this;
 	}
 
+	@Override
 	public void regenerateChart() {
 		bNeedsGeneration = true;
 		redraw();
 	}
 
+	@Override
 	public void repaintChart() {
 		redraw();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
 	 */
@@ -247,7 +259,7 @@ public final class Regression_78699_swt extends Composite implements PaintListen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
 	 * java.lang.Object)
@@ -258,7 +270,7 @@ public final class Regression_78699_swt extends Composite implements PaintListen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
 	 */
@@ -270,7 +282,7 @@ public final class Regression_78699_swt extends Composite implements PaintListen
 
 	{
 		// Data Set
-		final Object[][] data = new Object[][] { { "x1", new Integer(1), "g1" }, { "x2", new Integer(2), "g2" },
+		final Object[][] data = { { "x1", new Integer(1), "g1" }, { "x2", new Integer(2), "g2" },
 				{ "x3", new Integer(3), "g1" }, { "x4", new Integer(4), "g3" }, { "x5", new Integer(5), "g2" },
 				{ "x6", new Integer(6), "g1" }, { "x7", new Integer(7), "g3" }, { "x8", new Integer(8), "g2" },
 				{ "x9", new Integer(9), "g2" }, { "x0", new Integer(0), "g2" }, };
@@ -281,9 +293,11 @@ public final class Regression_78699_swt extends Composite implements PaintListen
 
 				int idx = 0;
 
+				@Override
 				public void close() {
 				}
 
+				@Override
 				public Object evaluate(String expression) {
 					if ("X".equals(expression)) {
 						return data[idx][0];
@@ -295,15 +309,18 @@ public final class Regression_78699_swt extends Composite implements PaintListen
 					return null;
 				}
 
+				@Override
 				public Object evaluateGlobal(String expression) {
 					return evaluate(expression);
 				}
 
+				@Override
 				public boolean first() {
 					idx = 0;
 					return true;
 				}
 
+				@Override
 				public boolean next() {
 					idx++;
 					return (idx < 9);

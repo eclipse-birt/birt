@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +50,7 @@ public class TimeFormat {
 
 	/**
 	 * Gets the only one instance
-	 * 
+	 *
 	 * @return the default time format
 	 */
 	public static TimeFormat getDefaultFormat() {
@@ -57,7 +60,7 @@ public class TimeFormat {
 
 	/**
 	 * Gets the format list
-	 * 
+	 *
 	 * @return the format list
 	 */
 	public List getSupportList() {

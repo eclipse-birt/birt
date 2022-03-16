@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -59,7 +62,7 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param sourceEditPart
 	 * @param start
 	 * @param end
@@ -72,6 +75,7 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker {
 		this.processor = new ShowDragInfomationProcessor(sourceEditPart);
 	}
 
+	@Override
 	protected boolean handleButtonUp(int button) {
 		boolean bool = super.handleButtonUp(button);
 		eraseSourceFeedback();
@@ -87,9 +91,11 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker {
 		return bool;
 	}
 
+	@Override
 	protected void performSelection() {
 	}
 
+	@Override
 	protected void showSourceFeedback() {
 		// super.showSourceFeedback();
 		Rectangle rect = getMarqueeSelectionRectangle().getCopy();
@@ -103,12 +109,14 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.tools.TargetingTool#showTargetFeedback()
 	 */
+	@Override
 	protected void showTargetFeedback() {
 	}
 
+	@Override
 	protected void performDrag() {
 		if (isFitResize()) {
 			fitResize();
@@ -139,6 +147,7 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker {
 		return marqueeRectangleFigure;
 	}
 
+	@Override
 	protected void eraseSourceFeedback() {
 		super.eraseSourceFeedback();
 		if (marqueeRectangleFigure != null) {
@@ -162,6 +171,7 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker {
 		/**
 		 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 		 */
+		@Override
 		protected void paintFigure(Graphics graphics) {
 			Rectangle bounds = getBounds().getCopy();
 			graphics.translate(getLocation());
@@ -197,10 +207,12 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker {
 			if (schedulePaint) {
 				Display.getCurrent().timerExec(DELAY, new Runnable() {
 
+					@Override
 					public void run() {
 						offset++;
-						if (offset > 5)
+						if (offset > 5) {
 							offset = 0;
+						}
 
 						schedulePaint = true;
 						repaint();
@@ -234,7 +246,7 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker {
 
 	/**
 	 * Update the label.
-	 * 
+	 *
 	 * @param label
 	 */
 	protected void updateInfomation(String label) {

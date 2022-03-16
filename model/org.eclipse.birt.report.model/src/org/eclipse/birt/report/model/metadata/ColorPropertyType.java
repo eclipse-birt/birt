@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -174,10 +177,11 @@ public class ColorPropertyType extends PropertyType {
 
 	/**
 	 * Get the predefined color choice set.
-	 * 
+	 *
 	 * @return the predefined color choice set.
 	 */
 
+	@Override
 	public IChoiceSet getChoices() {
 		if (colorChoices == null) {
 			colorChoices = (ChoiceSet) MetaDataDictionary.getInstance().getChoiceSet(COLORS_CHOICE_SET);
@@ -210,20 +214,22 @@ public class ColorPropertyType extends PropertyType {
 	 * href="http://msdn.microsoft.com/library/default.asp?url=/workshop/author/dhtml/reference/colors/colors.asp"
 	 * Internet Explorer </a> and
 	 * <a href="http://www.w3.org/TR/html401/types.html#h-6.5">HTML </a>.
-	 * 
+	 *
 	 * @return an Integer if the value represents an RBG value, a String if the
 	 *         value represents a color name defined in rom.def or in the design, or
 	 *         null if the value is null
 	 */
 
+	@Override
 	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
 		if (value == null) {
 			return null;
 		}
 
-		if (value instanceof String)
+		if (value instanceof String) {
 			return validateInputString(module, element, defn, (String) value);
+		}
 		if (value instanceof Integer) {
 			int intValue = ((Integer) value).intValue();
 
@@ -240,10 +246,11 @@ public class ColorPropertyType extends PropertyType {
 	 * Validate a xml color property value. The possible valid values are the same
 	 * to {@link #validateValue(Module, PropertyDefn, Object)}except that the input
 	 * <code>value</code> is a String, and it can not be a localized color name.
-	 * 
+	 *
 	 * @see #validateValue(Module, PropertyDefn, Object)
 	 */
 
+	@Override
 	public Object validateXml(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
 		assert value == null || value instanceof String;
@@ -268,20 +275,22 @@ public class ColorPropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
+	@Override
 	public int getTypeCode() {
 		return COLOR_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
+	@Override
 	public String getName() {
 		return COLOR_TYPE_NAME;
 	}
@@ -290,20 +299,23 @@ public class ColorPropertyType extends PropertyType {
 	 * Returns the color as a string. Returns the color as its internal string name
 	 * if the color is identified by name. Returns the color as an RGB value if
 	 * identified by RGB value.
-	 * 
+	 *
 	 * @return the internal name of the color if it is identified by name, return
 	 *         the color as an RGB value(#FF00FF) if it is identified by RGB integer
 	 *         value.
 	 */
 
+	@Override
 	public String toString(Module module, PropertyDefn defn, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		// A color name.
 
-		if (value instanceof String)
+		if (value instanceof String) {
 			return (String) value;
+		}
 
 		// Integer color value
 		if (value instanceof Integer) {
@@ -317,37 +329,42 @@ public class ColorPropertyType extends PropertyType {
 	/**
 	 * Return the integer value of the color. The color can be identified by a color
 	 * value, a pre-defined color name or a custom color.
-	 * 
+	 *
 	 * @return the integer value of the color. Return <code>-1</code> if
 	 *         <code>value</code> is null or the <code>value</code> is not a valid
 	 *         internal value for a color.
-	 * 
-	 * 
+	 *
+	 *
 	 */
 
+	@Override
 	public int toInteger(Module module, Object value) {
-		if (value == null)
+		if (value == null) {
 			return -1;
+		}
 
 		// Color value.
 
-		if (value instanceof Integer)
+		if (value instanceof Integer) {
 			return ((Integer) value).intValue();
+		}
 
 		// A color name.
 
 		IChoiceSet choices = getChoices();
 		assert choices != null;
 
-		if (choices.contains((String) value))
+		if (choices.contains((String) value)) {
 			return ColorUtil.parsePredefinedColor((String) value);
+		}
 
 		// Check for a custom color.
 
 		if (module != null) {
 			CustomColor customColor = module.findColor((String) value);
-			if (customColor != null)
+			if (customColor != null) {
 				return customColor.getRGB();
+			}
 		}
 
 		// Choice not found.
@@ -359,7 +376,7 @@ public class ColorPropertyType extends PropertyType {
 	/**
 	 * Return the Cascading Style Sheet (CSS) value for this color. It is either an
 	 * RGB value in the form #RRGGBB, or a CSS-defined color name.
-	 * 
+	 *
 	 * @param module the module, provide informations about custom colors.
 	 * @param value  the property value
 	 * @return a String with either a CSS defined color name or an RGB color value
@@ -368,21 +385,24 @@ public class ColorPropertyType extends PropertyType {
 	 */
 
 	public String toCssColor(Module module, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		// If the value is an integer, return it in CSS color format.
 
-		if (value instanceof Integer)
+		if (value instanceof Integer) {
 			return StringUtil.toRgbText(((Integer) value).intValue());
+		}
 
 		// The standard color names match the CSS colors.
 
 		String colorName = (String) value;
 
 		IChoice choice = getChoices().findChoice(colorName);
-		if (choice != null)
+		if (choice != null) {
 			return choice.getName();
+		}
 
 		// The name must be a custom color name. Return its RGB value.
 
@@ -394,8 +414,9 @@ public class ColorPropertyType extends PropertyType {
 
 			// Return the RGB value of the system color.
 
-			if (customColor != null)
+			if (customColor != null) {
 				return StringUtil.toRgbText(customColor.getRGB());
+			}
 		}
 
 		return null;
@@ -408,19 +429,21 @@ public class ColorPropertyType extends PropertyType {
 	 * display name of the <code>CustomColor</code> will be returned; If the
 	 * <code>value</code> is an integer, then the RGB value in default format set on
 	 * the design session will be returned.
-	 * 
+	 *
 	 * @return the display string for the color.
 	 */
 
+	@Override
 	public String toDisplayString(Module module, PropertyDefn defn, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		IChoiceSet choices = getChoices();
 
 		if (value instanceof String) {
 			if (choices != null) {
-				IChoice color = null;
+				IChoice color;
 
 				// A color name.
 
@@ -457,10 +480,11 @@ public class ColorPropertyType extends PropertyType {
 	 * values are the same to
 	 * {@link #validateValue(Module, PropertyDefn, Object)}except that the input
 	 * <code>value</code> is a String.
-	 * 
+	 *
 	 * @see #validateValue(Module, PropertyDefn, Object)
 	 */
 
+	@Override
 	public Object validateInputString(Module module, DesignElement element, PropertyDefn defn, String value)
 			throws PropertyValueException {
 		value = StringUtil.trimString(value);
@@ -503,14 +527,14 @@ public class ColorPropertyType extends PropertyType {
 	 * <li>CSS absolute or relative format: {rgb(r,g,b)} or {rgb(r%,g%,b%)}</li>
 	 * <li>A custom defined color.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param module the report design, provide informations about custom colors.
 	 * @param value  color value.
 	 * @return the validated value in internal representations. Return
 	 *         <code>null</code> if the color value doesn't match any case.
-	 * 
+	 *
 	 * @throws PropertyValueException if color value is invalid.
-	 * 
+	 *
 	 */
 
 	private Object validateColor(Module module, String value) throws PropertyValueException {
@@ -563,17 +587,18 @@ public class ColorPropertyType extends PropertyType {
 	/**
 	 * Return a CSS-compatible color value. It is a CSS-defined color name, or a CSS
 	 * absolute RGB value( RGB(r,g,b) ).
-	 * 
+	 *
 	 * @param module the module
 	 * @param value  the property value
 	 * @return a CSS-compatible color value, return <code>null</code> if
 	 *         <code>value</code> is null
-	 * 
+	 *
 	 */
 
 	public String toCSSCompatibleColor(Module module, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		int rgbValue = -1;
 
@@ -581,16 +606,18 @@ public class ColorPropertyType extends PropertyType {
 			// The standard CSS colors.
 
 			IChoice choice = getChoices().findChoice((String) value);
-			if (choice != null)
+			if (choice != null) {
 				return choice.getName();
+			}
 
 			// The name may be a custom color name, get its RGB value.
 
 			if (module != null) {
 				CustomColor customColor = module.findColor((String) value);
 
-				if (customColor != null)
+				if (customColor != null) {
 					rgbValue = customColor.getRGB();
+				}
 			}
 
 		} else if (value instanceof Integer) {

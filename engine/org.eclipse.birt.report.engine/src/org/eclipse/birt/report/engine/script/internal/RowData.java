@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,11 +33,11 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
  * A class representing expression results. Can be used to get values of
  * expressions defined on a report item. Implements lazy lookup; values are not
  * evaluated until they are requested.
- * 
+ *
  * Some processing is done to the expressions to make it easier for the user.
  * Example: It is ok to write row[CUSTOMERNAME] even though the correct
  * expression would be row["CUSTOMERNAME"]
- * 
+ *
  */
 
 public class RowData implements IRowData {
@@ -78,12 +78,14 @@ public class RowData implements IRowData {
 	 * row[123] will be kept as row[123] (index lookup). The regex used is to find
 	 * things to replace is: row\\[\\w+\\], Pattern.CASE_INSENSITIVE minus
 	 * row\\[\\d+\\], Pattern.CASE_INSENSITIVE.
-	 * 
+	 *
 	 * @deprecated
 	 * @param expression
 	 * @return the evaluated value of the provided expression
 	 * @throws ScriptException
 	 */
+	@Deprecated
+	@Override
 	public Object getExpressionValue(String expression) throws ScriptException {
 		expression = process(expression);
 		try {
@@ -97,6 +99,8 @@ public class RowData implements IRowData {
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
+	@Override
 	public Object getExpressionValue(int index) throws ScriptException {
 		String name = getColumnName(index);
 		if (name != null) {
@@ -107,8 +111,9 @@ public class RowData implements IRowData {
 
 	// Process the expression (replace row[something] with row["something"])
 	private String process(String expression) {
-		if (expression == null)
+		if (expression == null) {
 			return null;
+		}
 		expression = expression.trim();
 		// Replace row[something] with row["something"]
 		Matcher mWord = rowWithWord.matcher(expression);
@@ -119,8 +124,8 @@ public class RowData implements IRowData {
 			Matcher mIndex = rowWithIndex.matcher(group);
 			// Don't replace row[123] with row["123"] (index)
 			if (!mIndex.matches()) {
-				group = group.replaceAll("\\[", "[\"");
-				group = group.replaceAll("\\]", "\"]");
+				group = group.replace("[", "[\"");
+				group = group.replace("]", "\"]");
 			}
 			mWord.appendReplacement(sb, group);
 		}
@@ -128,10 +133,12 @@ public class RowData implements IRowData {
 		return sb.toString();
 	}
 
+	@Override
 	public int getExpressionCount() {
 		return getColumnCount();
 	}
 
+	@Override
 	public Object getColumnValue(String name) throws ScriptException {
 		try {
 			if (rset != null) {
@@ -150,6 +157,7 @@ public class RowData implements IRowData {
 	/**
 	 * get column value by index index start from 0
 	 */
+	@Override
 	public Object getColumnValue(int index) throws ScriptException {
 		String name = getColumnName(index);
 		if (name != null) {
@@ -161,6 +169,7 @@ public class RowData implements IRowData {
 	/**
 	 * get column name by index index start from 0
 	 */
+	@Override
 	public String getColumnName(int index) {
 		if (index < bindingNames.size()) {
 			return (String) bindingNames.get(index);
@@ -168,6 +177,7 @@ public class RowData implements IRowData {
 		return null;
 	}
 
+	@Override
 	public int getColumnCount() {
 		return bindingNames.size();
 	}

@@ -1,18 +1,18 @@
 /*******************************************************************************
 * Copyright (c) 2004 Actuate Corporation.
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
 *******************************************************************************/
 package org.eclipse.birt.report.model.i18n;
 
-import com.ibm.icu.util.ULocale;
-
 import org.eclipse.birt.report.model.util.BaseTestCase;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Test for ThreadResources. The message files are named like
@@ -22,13 +22,13 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testGetULocale()}</td>
  * <td>Get current thread's locale.</td>
  * <td>The locale should be the one set by the current thread.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetMessage()}</td>
  * <td>Given the key, get a localized message from the corresponding resource
@@ -37,7 +37,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * message files. The locale of the message is the one set by the caller's
  * thread.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetMessage2()}</td>
  * <td>Get a message that has placeholders. Number of the input parameters is
@@ -46,21 +46,21 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * parameters. The locale of the message is the one set by the caller's
  * thread.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Number of the input parameters is less than that defined in Message file.
  * Input be String[]{"a", "b"} for a pattern like "{0},{1},{2}"</td>
  * <td>Only the first two placeholders are filled in.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Number of the input parameters is more than that defined in Message
  * file.Input be String[]{"a", "b", "c" } for a pattern like "{0},{1}"</td>
  * <td>Only first two of the input String is filled in.</td>
  * </tr>
- * 
+ *
  * </table>
  */
 public class ThreadResourcesTest extends BaseTestCase {

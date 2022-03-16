@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -12,7 +15,7 @@
 package org.eclipse.birt.chart.device.image;
 
 /**
- * 
+ *
  * @author Actuate Corporation
  */
 final class ByteArrayConversion {
@@ -40,14 +43,15 @@ final class ByteArrayConversion {
 	 * Return the int value given by the byte array in little-endian order. Here we
 	 * interpret the first bit of the first byte as being a sign bit.
 	 */
-	final static int bytesLEasINT(byte[] bytes, int start_offset, int end_offset) {
+	static int bytesLEasINT(byte[] bytes, int start_offset, int end_offset) {
 		int result;
 		int max_minus;
 		boolean is_negative = false;
 
 		// See if positive or negative.
-		if ((bytes[start_offset] & 0x80) != 0)
+		if ((bytes[start_offset] & 0x80) != 0) {
 			is_negative = true;
+		}
 
 		// Get absolute value.
 		bytes[start_offset] &= 0x7F;
@@ -66,7 +70,7 @@ final class ByteArrayConversion {
 	 * Convert the long value into a byte array that starts from index "startOff"
 	 * and end at index "endOff" - 1 of "buf". Bytes are in big-endian order.
 	 */
-	final static void ulongAsBytesBE(long value, byte[] bytes, int startOff, int endOff) {
+	static void ulongAsBytesBE(long value, byte[] bytes, int startOff, int endOff) {
 		int i, shift_cnt;
 
 		for (i = endOff - 1, shift_cnt = 0; i >= startOff; i--, shift_cnt += 8) {
@@ -79,7 +83,7 @@ final class ByteArrayConversion {
 	 * end at index "endOff" - 1 of "buf". Bytes are in big-endian order.
 	 */
 	// =============================================================================
-	final static void uintAsBytesBE(int value, byte[] bytes, int startOff, int endOff) {
+	static void uintAsBytesBE(int value, byte[] bytes, int startOff, int endOff) {
 		ulongAsBytesBE((long) value, bytes, startOff, endOff);
 	}
 
@@ -87,7 +91,7 @@ final class ByteArrayConversion {
 	 * Convert the int value into a little-endian byte array that starts from index
 	 * "startOff" and end at index "endOff" - 1 of "buf".
 	 */
-	final static void uintAsBytesLE(int value, byte[] bytes, int startOff, int endOff) {
+	static void uintAsBytesLE(int value, byte[] bytes, int startOff, int endOff) {
 		int i, shift_cnt;
 
 		for (i = startOff, shift_cnt = 0; i < endOff; i++, shift_cnt += 8) {
@@ -99,7 +103,7 @@ final class ByteArrayConversion {
 	 * Return the int value given by the byte array in little-endian order. Here we
 	 * interpret the first bit of the first byte as being a sign bit.
 	 */
-	final static void intAsBytesLE(int value, byte[] bytes, int startOffset, int endOffset) {
+	static void intAsBytesLE(int value, byte[] bytes, int startOffset, int endOffset) {
 		int abs_value;
 		int max_minus;
 

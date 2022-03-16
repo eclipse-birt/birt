@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 /**
  * Represents the choices defined by the extension element. There are two kinds
  * of choices:
- * 
+ *
  * <ul>
  * <li>The choice defined for extension property. Its name and resource key are
  * from plugin.xml.
@@ -57,7 +60,7 @@ public class ExtensionChoice extends Choice {
 
 	/**
 	 * Constructs an empty choice.
-	 * 
+	 *
 	 * @param messages the messages provideing localized messages
 	 */
 
@@ -67,7 +70,7 @@ public class ExtensionChoice extends Choice {
 
 	/**
 	 * Constructs the extension choice defined by extension elements.
-	 * 
+	 *
 	 * @param extChoiceDefn the extension choice definition based
 	 * @param messages      the messages providing localized messages
 	 */
@@ -82,10 +85,11 @@ public class ExtensionChoice extends Choice {
 	 * Returns the localized display name, if non-empty string can be found with
 	 * resource key and <code> IMessages </code> . Otherwise, return name of this
 	 * choice.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.Choice#getDisplayName()
 	 */
 
+	@Override
 	public String getDisplayName() {
 		String resourceKey = displayNameKey;
 		String choiceName = name;
@@ -97,80 +101,90 @@ public class ExtensionChoice extends Choice {
 
 		if (resourceKey != null && messages != null) {
 			String displayName = messages.getMessage(resourceKey, ThreadResources.getLocale());
-			if (!StringUtil.isBlank(displayName))
+			if (!StringUtil.isBlank(displayName)) {
 				return displayName;
+			}
 		}
 
-		if (defaultDisplayName != null)
+		if (defaultDisplayName != null) {
 			return defaultDisplayName;
+		}
 
 		return choiceName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.Choice#getDisplayNameKey()
 	 */
 
+	@Override
 	public String getDisplayNameKey() {
-		if (extChoice != null)
+		if (extChoice != null) {
 			return extChoice.getDisplayNameID();
+		}
 
 		return displayNameKey;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.Choice#getName()
 	 */
 
+	@Override
 	public String getName() {
-		if (extChoice != null)
+		if (extChoice != null) {
 			return extChoice.getName();
+		}
 
 		return name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.Choice#getValue()
 	 */
 
+	@Override
 	public Object getValue() {
-		if (extChoice != null)
+		if (extChoice != null) {
 			return extChoice.getValue();
+		}
 
 		return value;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.Choice#setDisplayNameKey(java.lang.
 	 * String)
 	 */
 
+	@Override
 	public void setDisplayNameKey(String theDisplayNameKey) {
 		this.displayNameKey = theDisplayNameKey;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.Choice#setName(java.lang.String)
 	 */
 
+	@Override
 	public void setName(String theName) {
 		this.name = theName;
 	}
 
 	/**
 	 * Sets the value for this choice.
-	 * 
+	 *
 	 * @param value the value to set
 	 */
 
@@ -180,7 +194,7 @@ public class ExtensionChoice extends Choice {
 
 	/**
 	 * Sets the default display name.
-	 * 
+	 *
 	 * @param defaultDisplayName the default display name to set
 	 */
 
@@ -190,10 +204,11 @@ public class ExtensionChoice extends Choice {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 
+	@Override
 	public int compareTo(Object o) {
 		Choice choice = (Choice) o;
 

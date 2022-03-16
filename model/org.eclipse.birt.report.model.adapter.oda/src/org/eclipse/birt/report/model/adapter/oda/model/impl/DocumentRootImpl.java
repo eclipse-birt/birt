@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -12,19 +24,14 @@ import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot;
 import org.eclipse.birt.report.model.adapter.oda.model.DynamicList;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelPackage;
-
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EMap;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
-
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
@@ -59,7 +66,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 	/**
 	 * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getMixed()
 	 * @generated
 	 * @ordered
@@ -69,7 +76,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 	/**
 	 * The cached value of the '{@link #getXMLNSPrefixMap() <em>XMLNS Prefix
 	 * Map</em>}' map. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getXMLNSPrefixMap()
 	 * @generated
 	 * @ordered
@@ -79,7 +86,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 	/**
 	 * The cached value of the '{@link #getXSISchemaLocation() <em>XSI Schema
 	 * Location</em>}' map. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getXSISchemaLocation()
 	 * @generated
 	 * @ordered
@@ -88,7 +95,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected DocumentRootImpl() {
@@ -97,7 +104,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -107,9 +114,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public FeatureMap getMixed() {
 		if (mixed == null) {
 			mixed = new BasicFeatureMap(this, ModelPackage.DOCUMENT_ROOT__MIXED);
@@ -119,12 +127,13 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public EMap<String, String> getXMLNSPrefixMap() {
 		if (xMLNSPrefixMap == null) {
-			xMLNSPrefixMap = new EcoreEMap<String, String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY,
+			xMLNSPrefixMap = new EcoreEMap<>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY,
 					EStringToStringMapEntryImpl.class, this, ModelPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
 		}
 		return xMLNSPrefixMap;
@@ -132,12 +141,13 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public EMap<String, String> getXSISchemaLocation() {
 		if (xSISchemaLocation == null) {
-			xSISchemaLocation = new EcoreEMap<String, String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY,
+			xSISchemaLocation = new EcoreEMap<>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY,
 					EStringToStringMapEntryImpl.class, this, ModelPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
 		}
 		return xSISchemaLocation;
@@ -145,16 +155,17 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public DataSetParameter getDataSetParameter() {
 		return (DataSetParameter) getMixed().get(ModelPackage.Literals.DOCUMENT_ROOT__DATA_SET_PARAMETER, true);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDataSetParameter(DataSetParameter newDataSetParameter, NotificationChain msgs) {
@@ -164,9 +175,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setDataSetParameter(DataSetParameter newDataSetParameter) {
 		((FeatureMap.Internal) getMixed()).set(ModelPackage.Literals.DOCUMENT_ROOT__DATA_SET_PARAMETER,
 				newDataSetParameter);
@@ -174,16 +186,17 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public DataSetParameters getDataSetParameters() {
 		return (DataSetParameters) getMixed().get(ModelPackage.Literals.DOCUMENT_ROOT__DATA_SET_PARAMETERS, true);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDataSetParameters(DataSetParameters newDataSetParameters, NotificationChain msgs) {
@@ -193,9 +206,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setDataSetParameters(DataSetParameters newDataSetParameters) {
 		((FeatureMap.Internal) getMixed()).set(ModelPackage.Literals.DOCUMENT_ROOT__DATA_SET_PARAMETERS,
 				newDataSetParameters);
@@ -203,16 +217,17 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public DesignValues getDesignValues() {
 		return (DesignValues) getMixed().get(ModelPackage.Literals.DOCUMENT_ROOT__DESIGN_VALUES, true);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDesignValues(DesignValues newDesignValues, NotificationChain msgs) {
@@ -222,25 +237,27 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setDesignValues(DesignValues newDesignValues) {
 		((FeatureMap.Internal) getMixed()).set(ModelPackage.Literals.DOCUMENT_ROOT__DESIGN_VALUES, newDesignValues);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public DynamicList getDynamicList() {
 		return (DynamicList) getMixed().get(ModelPackage.Literals.DOCUMENT_ROOT__DYNAMIC_LIST, true);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDynamicList(DynamicList newDynamicList, NotificationChain msgs) {
@@ -250,16 +267,17 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setDynamicList(DynamicList newDynamicList) {
 		((FeatureMap.Internal) getMixed()).set(ModelPackage.Literals.DOCUMENT_ROOT__DYNAMIC_LIST, newDynamicList);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -285,26 +303,29 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 		case ModelPackage.DOCUMENT_ROOT__MIXED:
-			if (coreType)
+			if (coreType) {
 				return getMixed();
+			}
 			return ((FeatureMap.Internal) getMixed()).getWrapper();
 		case ModelPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-			if (coreType)
+			if (coreType) {
 				return getXMLNSPrefixMap();
-			else
+			} else {
 				return getXMLNSPrefixMap().map();
+			}
 		case ModelPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-			if (coreType)
+			if (coreType) {
 				return getXSISchemaLocation();
-			else
+			} else {
 				return getXSISchemaLocation().map();
+			}
 		case ModelPackage.DOCUMENT_ROOT__DATA_SET_PARAMETER:
 			return getDataSetParameter();
 		case ModelPackage.DOCUMENT_ROOT__DATA_SET_PARAMETERS:
@@ -319,7 +340,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -352,7 +373,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -385,7 +406,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -411,15 +432,16 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (mixed: ");
 		result.append(mixed);
 		result.append(')');

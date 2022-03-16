@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +50,7 @@ public class StringVariableSelectionDialog extends ElementListSelectionDialog {
 
 	/**
 	 * Constructs a new string substitution variable selection dialog.
-	 * 
+	 *
 	 * @param parent parent shell
 	 */
 	public StringVariableSelectionDialog(Shell parent) {
@@ -63,7 +66,7 @@ public class StringVariableSelectionDialog extends ElementListSelectionDialog {
 	/**
 	 * Returns the variable expression the user generated from this dialog, or
 	 * <code>null</code> if none.
-	 * 
+	 *
 	 * @return variable expression the user generated from this dialog, or
 	 *         <code>null</code> if none
 	 */
@@ -71,7 +74,7 @@ public class StringVariableSelectionDialog extends ElementListSelectionDialog {
 		Object[] selected = getResult();
 		if (selected != null && selected.length == 1) {
 			IStringVariable variable = (IStringVariable) selected[0];
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			buffer.append("${"); //$NON-NLS-1$
 			buffer.append(variable.getName());
 
@@ -83,10 +86,11 @@ public class StringVariableSelectionDialog extends ElementListSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		Control ctrl = super.createContents(parent);
 
@@ -95,11 +99,12 @@ public class StringVariableSelectionDialog extends ElementListSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Control control = super.createDialogArea(parent);
 		createArgumentArea((Composite) control);
@@ -110,7 +115,7 @@ public class StringVariableSelectionDialog extends ElementListSelectionDialog {
 	/**
 	 * Creates an area to display a description of the selected variable and a
 	 * button to configure the variable's argument.
-	 * 
+	 *
 	 * @param parent parent widget
 	 */
 	private void createArgumentArea(Composite parent) {
@@ -130,9 +135,10 @@ public class StringVariableSelectionDialog extends ElementListSelectionDialog {
 
 	/**
 	 * Update variable description and argument button enablement.
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.AbstractElementListSelectionDialog#handleSelectionChanged()
 	 */
+	@Override
 	protected void handleSelectionChanged() {
 		super.handleSelectionChanged();
 		Object[] objects = getSelectedElements();
@@ -262,6 +268,7 @@ public class StringVariableSelectionDialog extends ElementListSelectionDialog {
 	}
 
 	static class StringVariableLabelProvider extends LabelProvider {
+		@Override
 		public String getText(Object element) {
 			if (element instanceof IStringVariable) {
 				IStringVariable variable = (IStringVariable) element;

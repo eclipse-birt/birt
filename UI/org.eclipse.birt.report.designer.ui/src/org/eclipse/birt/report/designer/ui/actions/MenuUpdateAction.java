@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,7 +60,7 @@ public abstract class MenuUpdateAction extends SelectionAction {
 
 		/**
 		 * Sets the current selection.
-		 * 
+		 *
 		 * @param selection The new selection.
 		 */
 		public void setSelection(ISelection selection) {
@@ -66,7 +69,7 @@ public abstract class MenuUpdateAction extends SelectionAction {
 
 		/**
 		 * Gets the current selection.
-		 * 
+		 *
 		 * @return The current selection.
 		 */
 		protected ISelection getSelection() {
@@ -83,18 +86,20 @@ public abstract class MenuUpdateAction extends SelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
+	@Override
 	protected boolean calculateEnabled() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
+	@Override
 	public void run() {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println("Action [" + getClass() + "] >> Run ..."); //$NON-NLS-1$ //$NON-NLS-2$
@@ -123,7 +128,7 @@ public abstract class MenuUpdateAction extends SelectionAction {
 
 	/**
 	 * Updates then current menu.
-	 * 
+	 *
 	 * @param menu the current menu
 	 */
 	public void updateMenu(MenuManager menu) {
@@ -134,7 +139,7 @@ public abstract class MenuUpdateAction extends SelectionAction {
 	/**
 	 * Gets dynamic items of current menu to generate sub-menu. If the element
 	 * returns null, menu will generate separator.
-	 * 
+	 *
 	 * @return items
 	 */
 	abstract protected List getItems();

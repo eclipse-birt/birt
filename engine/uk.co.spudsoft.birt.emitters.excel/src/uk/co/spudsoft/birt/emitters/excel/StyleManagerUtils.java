@@ -1,12 +1,14 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -61,7 +63,7 @@ import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
  * <p>
  * StyleManagerUtils is abstract to support a small number of methods that
  * require HSSF/XSSF specific implementations.
- * 
+ *
  * @author Jim Talbut
  *
  */
@@ -84,7 +86,7 @@ public abstract class StyleManagerUtils {
 
 	/**
 	 * Create a RichTextString representing a given string.
-	 * 
+	 *
 	 * @param value The string to represent in the RichTextString.
 	 * @return A RichTextString representing value.
 	 */
@@ -92,7 +94,7 @@ public abstract class StyleManagerUtils {
 
 	/**
 	 * Compare two objects in a null-safe manner.
-	 * 
+	 *
 	 * @param lhs The first object to compare.
 	 * @param rhs The second object to compare.
 	 * @return true is both objects are null or lhs.equals(rhs), otherwise false.
@@ -119,7 +121,7 @@ public abstract class StyleManagerUtils {
 
 	/**
 	 * Convert a BIRT text alignment string into a POI CellStyle constant.
-	 * 
+	 *
 	 * @param alignment The BIRT alignment string.
 	 * @return One of the CellStyle.ALIGN* constants.
 	 */
@@ -139,7 +141,7 @@ public abstract class StyleManagerUtils {
 	/**
 	 * Convert a BIRT font size string (either a dimensioned string or "xx-small" -
 	 * "xx-large") to a point size.
-	 * 
+	 *
 	 * @param fontSize The BIRT font size.
 	 * @return An appropriate size in points.
 	 */
@@ -187,7 +189,7 @@ public abstract class StyleManagerUtils {
 
 	/**
 	 * Obtain a POI column width from a BIRT DimensionType.
-	 * 
+	 *
 	 * @param dim The BIRT dimension, which must be in absolute units.
 	 * @return The column with in width units, or zero if a suitable conversion
 	 *         could not be performed.
@@ -210,7 +212,7 @@ public abstract class StyleManagerUtils {
 
 	/**
 	 * Object a POI font weight from a BIRT string.
-	 * 
+	 *
 	 * @param fontWeight The font weight as understood by BIRT.
 	 * @return One of the Font.BOLDWEIGHT_* constants.
 	 */
@@ -228,7 +230,7 @@ public abstract class StyleManagerUtils {
 	 * Convert a BIRT font name into a system font name. <br>
 	 * Just returns the passed in name unless that is a known family name ("serif"
 	 * or "sans-serif").
-	 * 
+	 *
 	 * @param fontName The font name from BIRT.
 	 * @return A real font name.
 	 */
@@ -251,7 +253,7 @@ public abstract class StyleManagerUtils {
 	 * In the current implementations the XSSF implementation will always produce
 	 * exactly the right colour, whilst the HSSF implementation takes the best
 	 * approximation from the current palette.
-	 * 
+	 *
 	 * @param workbook The workbook in which the Font is to be used, needed to
 	 *                 obtain the colour palette.
 	 * @param font     The font to which the colour is to be added.
@@ -268,7 +270,7 @@ public abstract class StyleManagerUtils {
 	 * In the current implementations the XSSF implementation will always produce
 	 * exactly the right colour, whilst the HSSF implementation takes the best
 	 * approximation from the current palette.
-	 * 
+	 *
 	 * @param workbook The workbook in which the Font is to be used, needed to
 	 *                 obtain the colour palette.
 	 * @param style    The style to which the colour is to be added.
@@ -278,21 +280,18 @@ public abstract class StyleManagerUtils {
 
 	/**
 	 * Check whether a cell is empty and unformatted.
-	 * 
+	 *
 	 * @param cell The cell to consider.
 	 * @return true is the cell is empty and has no style or has no background fill.
 	 */
 	public static boolean cellIsEmpty(Cell cell) {
 		// if (cell.getCellType() != Cell.CELL_TYPE_BLANK) {
-		if(!CellType.BLANK.equals(cell.getCellType())) {
+		if (!CellType.BLANK.equals(cell.getCellType())) {
 			return false;
 		}
 		CellStyle cellStyle = cell.getCellStyle();
-		if (cellStyle == null) {
-			return true;
-		}
 		// if (cellStyle.getFillPattern() == CellStyle.NO_FILL) {
-		if(FillPatternType.NO_FILL.equals(cellStyle.getFillPattern())) {
+		if ((cellStyle == null) || FillPatternType.NO_FILL.equals(cellStyle.getFillPattern())) {
 			return true;
 		}
 		return false;
@@ -300,7 +299,7 @@ public abstract class StyleManagerUtils {
 
 	/**
 	 * Apply a BIRT border style to one side of a POI CellStyle.
-	 * 
+	 *
 	 * @param workbook    The workbook that contains the cell being styled.
 	 * @param style       The POI CellStyle that is to have the border applied to
 	 *                    it.
@@ -322,7 +321,7 @@ public abstract class StyleManagerUtils {
 	 * In some cases BIRT fails to submit a MIME string, in which case this method
 	 * falls back to basic data signatures for JPEG and PNG images.
 	 * <p>
-	 * 
+	 *
 	 * @param mimeType The MIME type.
 	 * @param data     The image data to consider if no recognisable MIME type is
 	 *                 provided.
@@ -356,7 +355,7 @@ public abstract class StyleManagerUtils {
 	/**
 	 * Read an InputStream in full and put the results into a byte[]. <br>
 	 * This is needed by the emitter to handle images accessed by URL.
-	 * 
+	 *
 	 * @param stream The InputStream to read.
 	 * @param length The length of the InputStream
 	 * @return A byte array containing the contents of the InputStream.
@@ -384,7 +383,7 @@ public abstract class StyleManagerUtils {
 
 	/**
 	 * Read an image from a URLConnection into a byte array.
-	 * 
+	 *
 	 * @param conn The URLConnection to provide the data.
 	 * @return A byte array containing the data downloaded from the URL.
 	 */
@@ -392,14 +391,9 @@ public abstract class StyleManagerUtils {
 		try {
 			int contentLength = conn.getContentLength();
 			InputStream imageStream = conn.getInputStream();
-			try {
+			try (imageStream) {
 				return streamToByteArray(imageStream, contentLength);
-			} finally {
-				imageStream.close();
 			}
-		} catch (MalformedURLException ex) {
-			log.debug(ex.getClass(), ": ", ex.getMessage());
-			return null;
 		} catch (IOException ex) {
 			log.debug(ex.getClass(), ": ", ex.getMessage());
 			return null;
@@ -409,7 +403,7 @@ public abstract class StyleManagerUtils {
 
 	/**
 	 * Convert a BIRT paper size string into a POI PrintSetup.*PAPERSIZE constant.
-	 * 
+	 *
 	 * @param name The paper size as a BIRT string.
 	 * @return A POI PrintSetup.*PAPERSIZE constant.
 	 */
@@ -427,7 +421,7 @@ public abstract class StyleManagerUtils {
 
 	/**
 	 * Check whether a DimensionType represents an absolute (physical) dimension.
-	 * 
+	 *
 	 * @param dim The DimensionType to consider.
 	 * @return true if dim represents an absolute measurement.
 	 */
@@ -443,7 +437,7 @@ public abstract class StyleManagerUtils {
 
 	/**
 	 * Check whether a DimensionType represents pixels.
-	 * 
+	 *
 	 * @param dim The DimensionType to consider.
 	 * @return true if dim represents pixels.
 	 */
@@ -459,7 +453,7 @@ public abstract class StyleManagerUtils {
 	 * There is no way this function is complete! More special cases will be added
 	 * as they are found.
 	 * </p>
-	 * 
+	 *
 	 * @param birtFormat A string representing a number format in BIRT.
 	 * @return A string representing a data format in Excel.
 	 */
@@ -489,7 +483,7 @@ public abstract class StyleManagerUtils {
 	 * it is still likely to have issues. More special cases will be added as they
 	 * are found.
 	 * </p>
-	 * 
+	 *
 	 * @param birtFormat A string representing a date/time format in BIRT.
 	 * @return A string representing a data format in Excel.
 	 */
@@ -610,7 +604,7 @@ public abstract class StyleManagerUtils {
 
 	/**
 	 * Apply a BIRT number/date/time format to a POI CellStyle.
-	 * 
+	 *
 	 * @param workbook  The workbook containing the CellStyle (needed to create a
 	 *                  new DataFormat).
 	 * @param birtStyle The BIRT style which may contain a number format.
@@ -650,7 +644,7 @@ public abstract class StyleManagerUtils {
 
 	/**
 	 * Add font details to an AttributedString.
-	 * 
+	 *
 	 * @param attrString The AttributedString to modify.
 	 * @param font       The font to take attributes from.
 	 * @param startIdx   The index of the first character to be attributed
@@ -662,17 +656,20 @@ public abstract class StyleManagerUtils {
 		attrString.addAttribute(TextAttribute.FAMILY, font.getFontName(), startIdx, endIdx);
 		attrString.addAttribute(TextAttribute.SIZE, (float) font.getFontHeightInPoints(), startIdx, endIdx);
 		// if (font.getBoldweight() == Font.BOLDWEIGHT_BOLD)
-		if (font.getBold())
+		if (font.getBold()) {
 			attrString.addAttribute(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD, startIdx, endIdx);
-		if (font.getItalic())
+		}
+		if (font.getItalic()) {
 			attrString.addAttribute(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE, startIdx, endIdx);
-		if (font.getUnderline() == Font.U_SINGLE)
+		}
+		if (font.getUnderline() == Font.U_SINGLE) {
 			attrString.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON, startIdx, endIdx);
+		}
 	}
 
 	/**
 	 * Find a RichTextRun that includes a specific index.
-	 * 
+	 *
 	 * @param richTextRuns The list of RichTextRuns to search.
 	 * @param startIndex   The character index being sought.
 	 * @return The index into richTextRuns such that
@@ -694,7 +691,7 @@ public abstract class StyleManagerUtils {
 	/**
 	 * Calculate the height of a string formatted according to a set of RichTextRuns
 	 * and fitted within a give width.
-	 * 
+	 *
 	 * @param sourceText   The string to be measured.
 	 * @param defaultFont  The font to be used prior to the first RichTextRun.
 	 * @param widthMM      The width of the output.
@@ -843,7 +840,7 @@ public abstract class StyleManagerUtils {
 	/**
 	 * Convert a horizontal position in a column (in mm) to a ClientAnchor DX
 	 * position.
-	 * 
+	 *
 	 * @param width    The position within the column.
 	 * @param colWidth The width of the column.
 	 * @return A value suitable for use as an argument to setDx2() on ClientAnchor.
@@ -853,7 +850,7 @@ public abstract class StyleManagerUtils {
 	/**
 	 * Convert a vertical position in a row (in points) to a ClientAnchor DY
 	 * position.
-	 * 
+	 *
 	 * @param height    The position within the row.
 	 * @param rowHeight The height of the row.
 	 * @return A value suitable for use as an argument to setDy2() on ClientAnchor.
@@ -863,7 +860,7 @@ public abstract class StyleManagerUtils {
 
 	/**
 	 * Prepare the margin dimensions on the sheet as per the BIRT page.
-	 * 
+	 *
 	 * @param page The BIRT page.
 	 */
 	public abstract void prepareMarginDimensions(Sheet sheet, IPageContent page);
@@ -871,7 +868,7 @@ public abstract class StyleManagerUtils {
 	/**
 	 * Place a border around a region on the current sheet. This is used to apply
 	 * borders to entire rows or entire tables.
-	 * 
+	 *
 	 * @param colStart    The column marking the left-side boundary of the region.
 	 * @param colEnd      The column marking the right-side boundary of the region.
 	 * @param rowStart    The row marking the top boundary of the region.
@@ -982,7 +979,7 @@ public abstract class StyleManagerUtils {
 	/**
 	 * Place a border around a region on the current sheet. This is used to apply
 	 * borders to entire rows or entire tables.
-	 * 
+	 *
 	 * @param colStart    The column marking the left-side boundary of the region.
 	 * @param colEnd      The column marking the right-side boundary of the region.
 	 * @param row         The row to get a bottom border.

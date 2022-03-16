@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +20,7 @@ import junit.framework.TestCase;
 
 /**
  * Report test
- * 
+ *
  */
 public class ReportTest extends TestCase {
 
@@ -25,10 +28,10 @@ public class ReportTest extends TestCase {
 
 	/**
 	 * Test add/getPageSetup and findMasterPage methods
-	 * 
+	 *
 	 * add a random list of master pages into a page setup and set it into the
 	 * report
-	 * 
+	 *
 	 * then get it and find the master pages by one to test if they work correctly
 	 */
 
@@ -58,9 +61,9 @@ public class ReportTest extends TestCase {
 
 	/**
 	 * Test add/getContent methods
-	 * 
+	 *
 	 * add a random list of report items into the report
-	 * 
+	 *
 	 * then get the contents one by one to test if they work correctly
 	 */
 	public void testAddContent() {

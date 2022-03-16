@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +30,7 @@ import org.eclipse.ui.part.Page;
 
 /**
  * Basic class for represents the library view page.
- * 
+ *
  */
 public abstract class LibraryExplorerViewPage extends Page implements ISelectionProvider {
 
@@ -40,9 +43,10 @@ public abstract class LibraryExplorerViewPage extends Page implements ISelection
 
 	/**
 	 * Creates the SWT control for this page under the given parent control.
-	 * 
+	 *
 	 * @param parent the parent control
 	 */
+	@Override
 	public void createControl(Composite parent) {
 		treeViewer = createTreeViewer(parent);
 
@@ -54,11 +58,12 @@ public abstract class LibraryExplorerViewPage extends Page implements ISelection
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.
 			 * eclipse.jface.viewers.SelectionChangedEvent)
 			 */
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				currentSelection = event.getSelection();
 				fireSelectionChanged(currentSelection);
@@ -68,10 +73,11 @@ public abstract class LibraryExplorerViewPage extends Page implements ISelection
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.part.IPageBookViewPage#init(org.eclipse.ui.part.IPageSite)
 	 */
+	@Override
 	public void init(IPageSite pageSite) {
 		super.init(pageSite);
 		pageSite.setSelectionProvider(this);
@@ -82,15 +88,18 @@ public abstract class LibraryExplorerViewPage extends Page implements ISelection
 	 * returns <code>null</code> if the tree viewer is null. Returns the tree
 	 * viewer's control if tree viewer is null
 	 */
+	@Override
 	public Control getControl() {
-		if (treeViewer == null)
+		if (treeViewer == null) {
 			return null;
+		}
 		return treeViewer.getControl();
 	}
 
 	/**
 	 * Sets the focus to the tree viewer's control
 	 */
+	@Override
 	public void setFocus() {
 		if (treeViewer != null) {
 			treeViewer.getControl().setFocus();
@@ -99,7 +108,7 @@ public abstract class LibraryExplorerViewPage extends Page implements ISelection
 
 	/**
 	 * create the tree viewer of this page.
-	 * 
+	 *
 	 * @param parent this view page's parent.
 	 * @return
 	 */
@@ -107,7 +116,7 @@ public abstract class LibraryExplorerViewPage extends Page implements ISelection
 
 	/**
 	 * Returns the tree viewer
-	 * 
+	 *
 	 * @return the tree viewer
 	 */
 	public TreeViewer getTreeViewer() {
@@ -116,7 +125,7 @@ public abstract class LibraryExplorerViewPage extends Page implements ISelection
 
 	/**
 	 * Fires a selection changed event.
-	 * 
+	 *
 	 * @param selection the new selection
 	 */
 	private void fireSelectionChanged(ISelection selection) {
@@ -129,6 +138,7 @@ public abstract class LibraryExplorerViewPage extends Page implements ISelection
 			final ISelectionChangedListener l = (ISelectionChangedListener) listeners[i];
 			SafeRunner.run(new SafeRunnable() {
 
+				@Override
 				public void run() {
 					l.selectionChanged(event);
 				}
@@ -138,7 +148,7 @@ public abstract class LibraryExplorerViewPage extends Page implements ISelection
 
 	/**
 	 * Notifies that the selection has changed.
-	 * 
+	 *
 	 * @param event event object describing the change
 	 */
 	public void selectionChanged(SelectionChangedEvent event) {
@@ -148,18 +158,20 @@ public abstract class LibraryExplorerViewPage extends Page implements ISelection
 	/**
 	 * Adds a listener for selection changes in this selection provider. Has no
 	 * effect if an identical listener is already registered.
-	 * 
+	 *
 	 * @param listener a selection changed listener
 	 */
+	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		selectionChangedListeners.add(listener);
 	}
 
 	/**
 	 * Returns the current selection for this provider.
-	 * 
+	 *
 	 * @return the current selection
 	 */
+	@Override
 	public ISelection getSelection() {
 		return currentSelection;
 	}
@@ -167,18 +179,20 @@ public abstract class LibraryExplorerViewPage extends Page implements ISelection
 	/**
 	 * Removes the given selection change listener from this selection provider. Has
 	 * no affect if an identical listener is not registered.
-	 * 
+	 *
 	 * @param listener a selection changed listener
 	 */
+	@Override
 	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
 		selectionChangedListeners.remove(listener);
 	}
 
 	/**
 	 * Sets the current selection for this selection provider.
-	 * 
+	 *
 	 * @param selection the new selection
 	 */
+	@Override
 	public void setSelection(ISelection selection) {
 		if (getTreeViewer() != null) {
 			getTreeViewer().setSelection(selection);
@@ -191,6 +205,7 @@ public abstract class LibraryExplorerViewPage extends Page implements ISelection
 	 * disposes of this page's control (if it has one and it has not already been
 	 * disposed).
 	 */
+	@Override
 	public void dispose() {
 		selectionChangedListeners.clear();
 		treeViewer = null;

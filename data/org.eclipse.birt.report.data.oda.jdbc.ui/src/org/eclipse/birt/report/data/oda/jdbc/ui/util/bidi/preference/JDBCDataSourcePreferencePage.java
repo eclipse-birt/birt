@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 IBM Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * IBM Corporation - initial API and implementation
@@ -42,6 +45,7 @@ public class JDBCDataSourcePreferencePage extends PreferencePage implements IWor
 		setDescription(Messages.getString("preference.description"));
 	}
 
+	@Override
 	protected Control createContents(Composite parent) {
 		Composite mainComposite = new Composite(parent, SWT.NONE);
 		GridLayout twoColLayout = new GridLayout();
@@ -57,15 +61,18 @@ public class JDBCDataSourcePreferencePage extends PreferencePage implements IWor
 		return mainComposite;
 	}
 
+	@Override
 	public void init(IWorkbench workbench) {
 		ps = JdbcPlugin.getDefault().getPluginPreferences();
 		externalBiDiFormatStr = ps.getString(EXTERNAL_BIDI_FORMAT);
 	}
 
+	@Override
 	protected void performDefaults() {
 		BidiGUIUtility.INSTANCE.performDefaults();
 	}
 
+	@Override
 	public boolean performOk() {
 		externalBiDiFormatStr = BidiGUIUtility.INSTANCE.getBiDiFormat(externalBiDiFormatFrame).getBiDiFormatString();
 		ps.setValue(EXTERNAL_BIDI_FORMAT, externalBiDiFormatStr);

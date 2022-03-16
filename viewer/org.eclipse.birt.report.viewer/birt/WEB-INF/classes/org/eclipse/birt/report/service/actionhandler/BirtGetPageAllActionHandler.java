@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -37,7 +39,7 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param context
 	 * @param operation
 	 */
@@ -48,6 +50,7 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler {
 	/**
 	 * Get report service
 	 */
+	@Override
 	public IViewerReportService getReportService() {
 		return BirtReportServiceFactory.getReportService();
 	}
@@ -55,6 +58,7 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler {
 	/**
 	 * implement __execute method
 	 */
+	@Override
 	protected void __execute() throws Exception {
 		// get attribute bean
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
@@ -95,12 +99,14 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler {
 			IViewerReportDesignHandle reportDesignHandle = attrBean.getReportDesignHandle(context.getRequest());
 
 			Map parameterMap = attrBean.getParameters();
-			if (parameterMap == null)
+			if (parameterMap == null) {
 				parameterMap = new HashMap();
+			}
 
 			Map displayTexts = attrBean.getDisplayTexts();
-			if (displayTexts == null)
+			if (displayTexts == null) {
 				displayTexts = new HashMap();
+			}
 
 			// handle operation
 			BirtUtility.handleOperation(operation, attrBean, parameterMap, displayTexts);
@@ -120,8 +126,9 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler {
 		UpdateContent content = new UpdateContent();
 		content.setContent(DataUtil.toUTF8(out.toByteArray()));
 		content.setTarget("Document"); //$NON-NLS-1$
-		if (bookmark != null)
+		if (bookmark != null) {
 			content.setBookmark(bookmark);
+		}
 
 		UpdateData updateDocumentData = new UpdateData();
 		updateDocumentData.setTarget("birtReportDocument"); //$NON-NLS-1$

@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation and others. All rights reserved. This
- * program and the accompanying materials are made available under the terms of
- * the Eclipse Public License v1.0 which accompanies this distribution, and is
- * available at http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2007 Actuate Corporation and others.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - Initial implementation.
  ******************************************************************************/
 
@@ -39,7 +42,7 @@ public class CrosstabMethodInfo extends MethodInfo {
 
 	private void initArgumentList(Class<?>[] argumentList) {
 		if (argumentInfos == null) {
-			argumentInfos = new ArrayList<CrosstabArgumentInfoList>();
+			argumentInfos = new ArrayList<>();
 		}
 
 		String[] argNames = populateArgNames(argumentList);
@@ -82,6 +85,7 @@ public class CrosstabMethodInfo extends MethodInfo {
 		return null;
 	}
 
+	@Override
 	public Iterator argumentListIterator() {
 		if (argumentInfos == null) {
 			return Collections.EMPTY_LIST.iterator();
@@ -97,14 +101,15 @@ public class CrosstabMethodInfo extends MethodInfo {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#getJavaDoc()
 	 */
+	@Override
 	public String getJavaDoc() {
 		return javaDoc.get(getMethod().getName());
 	}
 
-	private final static Map<String, String> javaDoc = new HashMap<String, String>();
+	private final static Map<String, String> javaDoc = new HashMap<>();
 
 	static {
 		javaDoc.put("onPrepareCrosstab", "/**\n" //$NON-NLS-1$ //$NON-NLS-2$

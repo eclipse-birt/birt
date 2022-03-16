@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -11,15 +14,15 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import com.ibm.icu.util.ULocale;
-
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Test case for ColorPropertyType.
- * 
+ *
  */
 public class ColorPropertyTypeTest extends PropertyTypeTestCase {
 
@@ -29,6 +32,7 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign("ColorPropertyTypeTest.xml", TEST_LOCALE); //$NON-NLS-1$
@@ -61,13 +65,14 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
 	 * ()
 	 */
+	@Override
 	public void testValidateXml() throws PropertyValueException {
-		String value = null;
+		String value;
 		assertEquals(null, type.validateXml(design, null, null, null));
 		assertEquals(null, type.validateXml(design, null, null, "")); //$NON-NLS-1$
 
@@ -110,32 +115,35 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
 	 * ()
 	 */
+	@Override
 	public void testGetTypeCode() {
 		assertEquals(PropertyType.COLOR_TYPE, type.getTypeCode());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
+	@Override
 	public void testGetName() {
 		assertEquals(PropertyType.COLOR_TYPE_NAME, type.getName());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
 	 * ()
 	 */
+	@Override
 	public void testValidateValue() throws PropertyValueException {
 		assertEquals(null, type.validateValue(design, null, propDefn, null));
 
@@ -173,10 +181,11 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testValidateInputString()
 	 */
+	@Override
 	public void testValidateInputString() throws PropertyValueException {
 		assertEquals(null, type.validateInputString(design, null, null, null));
 		assertEquals(null, type.validateInputString(design, null, null, "")); //$NON-NLS-1$
@@ -209,10 +218,11 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
 	 * ()
 	 */
+	@Override
 	public void testToDouble() {
 		assertEquals(-1.0d, type.toDouble(design, null), 0);
 		assertEquals(123.0d, type.toDouble(design, new Integer(123)), 0);
@@ -223,10 +233,11 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger ()
 	 */
+	@Override
 	public void testToInteger() {
 		assertEquals(-1, type.toInteger(design, null));
 		assertEquals(123, type.toInteger(design, new Integer(123)));
@@ -237,9 +248,10 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
+	@Override
 	public void testToXml() {
 		assertEquals("red", type.toXml(design, propDefn, "red")); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals("#FF00FF", type.toXml(design, propDefn, Integer.decode("#FF00FF"))); //$NON-NLS-1$ //$NON-NLS-2$
@@ -247,10 +259,11 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
 	 * ()
 	 */
+	@Override
 	public void testToString() {
 		assertEquals(null, type.toString(design, propDefn, null));
 		assertEquals("red", type.toString(design, propDefn, "red")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -262,11 +275,12 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testToDisplayString()
 	 */
 
+	@Override
 	public void testToDisplayString() throws PropertyValueException {
 		ThreadResources.setLocale(ULocale.ENGLISH);
 		assertEquals("Red", type.toDisplayString(design, propDefn, "red")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -285,19 +299,21 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
 	 * ()
 	 */
+	@Override
 	public void testToNumber() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean ()
 	 */
+	@Override
 	public void testToBoolean() {
 	}
 

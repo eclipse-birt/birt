@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,17 +46,18 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Deals with dataset node
- * 
+ *
  */
 public class TabularLevelNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry and adds the action to the menu.
-	 * 
+	 *
 	 * @param menu   the menu
 	 * @param object the object
 	 */
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		super.createContextMenu(sourceViewer, object, menu);
 
@@ -74,10 +78,11 @@ public class TabularLevelNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeDisplayName(java.lang.Object)
 	 */
+	@Override
 	public String getNodeDisplayName(Object model) {
 		LevelHandle handle = (LevelHandle) model;
 		return handle.getName();
@@ -85,9 +90,10 @@ public class TabularLevelNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Gets the children element of the given model using visitor.
-	 * 
+	 *
 	 * @param object the handle
 	 */
+	@Override
 	public Object[] getChildren(Object object) {
 		LevelHandle level = ((LevelHandle) object);
 		List list = new ArrayList();
@@ -99,19 +105,22 @@ public class TabularLevelNodeProvider extends DefaultNodeProvider {
 		return list.toArray();
 	}
 
+	@Override
 	public Object getParent(Object model) {
 		HierarchyHandle hierarchy = (HierarchyHandle) ((LevelHandle) model).getContainer();
-		if (hierarchy == null)
+		if (hierarchy == null) {
 			return null;
+		}
 		return hierarchy.getContainer();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
 	 * #hasChildren(java.lang.Object)
 	 */
+	@Override
 	public boolean hasChildren(Object object) {
 		LevelHandle level = ((LevelHandle) object);
 		Iterator attrIter = level.attributesIterator();
@@ -120,10 +129,11 @@ public class TabularLevelNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeDisplayName(java.lang.Object)
 	 */
+	@Override
 	protected boolean performEdit(ReportElementHandle handle) {
 		TabularLevelHandle level = (TabularLevelHandle) handle;
 		CubeBuilder dialog = new CubeBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
@@ -134,6 +144,7 @@ public class TabularLevelNodeProvider extends DefaultNodeProvider {
 		return dialog.open() == Dialog.OK;
 	}
 
+	@Override
 	public Image getNodeIcon(Object model) {
 		if (model instanceof DesignElementHandle && ((DesignElementHandle) model).getSemanticErrors().size() > 0) {
 			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);

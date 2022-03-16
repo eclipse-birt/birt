@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 /**
  * A DimensionAxis represents an axis based on certain level. It provides
  * methods to point to current position, and get the value at this position.
- * 
+ *
  */
 public class DimensionAxis {
 
@@ -35,7 +38,7 @@ public class DimensionAxis {
 	private ILevelDefinition levelDefintion;
 
 	/**
-	 * 
+	 *
 	 * @param container
 	 * @param rs
 	 * @param dimAxisIndex
@@ -47,7 +50,7 @@ public class DimensionAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param container
 	 * @param rs
 	 * @param dimAixsIndex
@@ -65,7 +68,7 @@ public class DimensionAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int getLevelIndex() {
@@ -73,7 +76,7 @@ public class DimensionAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public IRowDataAccessor getRowDataAccessor() {
@@ -82,7 +85,7 @@ public class DimensionAxis {
 
 	/**
 	 * Get dimension's metadata
-	 * 
+	 *
 	 * @return
 	 */
 	public RowDataMetaData getRowDataMetaData() {
@@ -91,7 +94,7 @@ public class DimensionAxis {
 
 	/**
 	 * Move cursor to the next row.Return false if the next row does not exist.
-	 * 
+	 *
 	 * @return
 	 * @throws OLAPException
 	 */
@@ -101,7 +104,7 @@ public class DimensionAxis {
 
 	/**
 	 * Moves cursor to previous row. Return false if the previous row does not exist
-	 * 
+	 *
 	 * @return
 	 * @throws OLAPException
 	 */
@@ -112,7 +115,7 @@ public class DimensionAxis {
 	/**
 	 * Moves cursor offset positions relative to current. Returns false if the
 	 * indicated position does not exist
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -124,7 +127,7 @@ public class DimensionAxis {
 	/**
 	 * Moves the cursor to the first row in the result set. Returns false if the
 	 * result set is empty.
-	 * 
+	 *
 	 * @return
 	 * @throws OLAPException
 	 */
@@ -134,7 +137,7 @@ public class DimensionAxis {
 
 	/**
 	 * Moves cursor to last row. Returns false if the result set is empty
-	 * 
+	 *
 	 * @return
 	 * @throws OLAPException
 	 */
@@ -143,7 +146,7 @@ public class DimensionAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isBeforeFirst() {
@@ -151,7 +154,7 @@ public class DimensionAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws OLAPException
 	 */
@@ -160,7 +163,7 @@ public class DimensionAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws OLAPException
 	 */
@@ -169,7 +172,7 @@ public class DimensionAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws OLAPException
 	 */
@@ -179,7 +182,7 @@ public class DimensionAxis {
 
 	/**
 	 * Moves the cursor to the end of the result set, just after the last row
-	 * 
+	 *
 	 * @throws OLAPException
 	 */
 	public void afterLast() throws OLAPException {
@@ -188,7 +191,7 @@ public class DimensionAxis {
 
 	/**
 	 * Moves the cursor to the front of the result set, just before the first row.
-	 * 
+	 *
 	 * @throws OLAPException
 	 */
 	public void beforeFirst() throws OLAPException {
@@ -196,7 +199,7 @@ public class DimensionAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param position
 	 * @throws OLAPException
 	 */
@@ -206,7 +209,7 @@ public class DimensionAxis {
 
 	/**
 	 * Returns the cursor in current position.
-	 * 
+	 *
 	 * @return the cursor in current position.
 	 * @throws OLAPException
 	 */
@@ -216,7 +219,7 @@ public class DimensionAxis {
 
 	/**
 	 * Closes the result set and releases all resources.
-	 * 
+	 *
 	 * @throws OLAPException
 	 *
 	 */
@@ -230,7 +233,7 @@ public class DimensionAxis {
 
 	/**
 	 * Return the extend of this cursor
-	 * 
+	 *
 	 * @return
 	 */
 	public long getExtend() {
@@ -239,7 +242,7 @@ public class DimensionAxis {
 
 	/**
 	 * Returns the type of the cursor.
-	 * 
+	 *
 	 * @return
 	 */
 	public int getType() {
@@ -247,7 +250,7 @@ public class DimensionAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws OLAPException
 	 */
@@ -256,7 +259,7 @@ public class DimensionAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws OLAPException
 	 */
@@ -265,7 +268,7 @@ public class DimensionAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param attr
 	 * @return
 	 * @throws OLAPException
@@ -275,7 +278,7 @@ public class DimensionAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param attrName
 	 * @return
 	 * @throws OLAPException
@@ -285,7 +288,7 @@ public class DimensionAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param edgeInfoUtil
 	 */
 	public void setEdgeInfo(IRowDataAccessor accessor) {

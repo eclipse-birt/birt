@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -75,6 +78,7 @@ public class DateSetPreferencePage extends PropertyAndPreferencePage {
 	 * org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.
 	 * widgets.Composite)
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.PREFERENCE_BIRT_DATA_SET_EDITOR_ID);
 		Composite mainComposite = new Composite(parent, SWT.NONE);
@@ -113,9 +117,11 @@ public class DateSetPreferencePage extends PropertyAndPreferencePage {
 		maxRowEditor.setValidRange(1, MAX_MAX_ROW);
 		maxRowEditor.setPropertyChangeListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getProperty().equals(FieldEditor.IS_VALID))
+				if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 					setValid(maxRowEditor.isValid());
+				}
 			}
 		});
 
@@ -141,6 +147,7 @@ public class DateSetPreferencePage extends PropertyAndPreferencePage {
 				.setText(Messages.getString("designer.preview.preference.updateReportParameter.confirmButton"));
 
 		paramUpdatePromptButton.addSelectionListener(new SelectionListener() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (paramUpdatePromptButton.getSelection()) {
 					updateButton.setEnabled(true);
@@ -153,6 +160,7 @@ public class DateSetPreferencePage extends PropertyAndPreferencePage {
 				}
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
@@ -201,6 +209,7 @@ public class DateSetPreferencePage extends PropertyAndPreferencePage {
 	/*
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
+	@Override
 	public void init(IWorkbench workbench) {
 		// Do nothing
 	}
@@ -208,6 +217,7 @@ public class DateSetPreferencePage extends PropertyAndPreferencePage {
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
 	 */
+	@Override
 	protected void performDefaults() {
 		maxRowEditor.setStringValue(String.valueOf(DEFAULT_MAX_ROW));
 		promptButton.setSelection(false);
@@ -225,6 +235,7 @@ public class DateSetPreferencePage extends PropertyAndPreferencePage {
 		super.performDefaults();
 	}
 
+	@Override
 	protected void performApply() {
 		super.performApply();
 		if (getConfigBlock() != null) {
@@ -235,17 +246,19 @@ public class DateSetPreferencePage extends PropertyAndPreferencePage {
 	/*
 	 * @see org.eclipse.jface.preference.IPreferencePage#performOk()
 	 */
+	@Override
 	public boolean performOk() {
 		ReportPlugin.getDefault().getPluginPreferences().setValue(USER_MAXROW, maxRowEditor.getStringValue());
 		ReportPlugin.getDefault().getPluginPreferences().setValue(PROMPT_ENABLE, promptButton.getSelection());
 		ReportPlugin.getDefault().getPluginPreferences().setValue(PROMPT_PARAM_UPDATE,
 				paramUpdatePromptButton.getSelection());
-		if (updateButton.getSelection())
+		if (updateButton.getSelection()) {
 			ReportPlugin.getDefault().getPluginPreferences().setValue(PROMPT_PARAM_UPDATE_OPTION,
 					PROMPT_PARAM_UPDATE_OPTION_UPDATE);
-		else if (ignoreButton.getSelection())
+		} else if (ignoreButton.getSelection()) {
 			ReportPlugin.getDefault().getPluginPreferences().setValue(PROMPT_PARAM_UPDATE_OPTION,
 					PROMPT_PARAM_UPDATE_OPTION_IGNORE);
+		}
 
 		ReportPlugin.getDefault().savePluginPreferences();
 
@@ -267,18 +280,22 @@ public class DateSetPreferencePage extends PropertyAndPreferencePage {
 		return block;
 	}
 
+	@Override
 	protected Control createPreferenceContent(Composite composite) {
 		return null;
 	}
 
+	@Override
 	protected boolean hasProjectSpecificOptions(IProject project) {
 		return false;
 	}
 
+	@Override
 	protected String getPreferencePageID() {
 		return null;
 	}
 
+	@Override
 	protected String getPropertyPageID() {
 		return null;
 	}

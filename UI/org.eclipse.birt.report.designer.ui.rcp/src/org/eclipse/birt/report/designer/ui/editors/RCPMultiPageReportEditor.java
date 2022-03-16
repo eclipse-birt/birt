@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,11 +48,12 @@ public class RCPMultiPageReportEditor extends MultiPageReportEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#init(org.
 	 * eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
 	 */
+	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		super.init(site, input);
 		getSite().getWorkbenchWindow().getPartService().addPartListener(this);
@@ -57,15 +61,17 @@ public class RCPMultiPageReportEditor extends MultiPageReportEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#dispose()
 	 */
+	@Override
 	public void dispose() {
 		super.dispose();
 		getSite().getWorkbenchWindow().getPartService().removePartListener(this);
 	}
 
+	@Override
 	public void doSave(IProgressMonitor monitor) {
 		super.doSave(monitor);
 		try {
@@ -74,6 +80,7 @@ public class RCPMultiPageReportEditor extends MultiPageReportEditor {
 		}
 	}
 
+	@Override
 	public void doSaveAs() {
 		// TODO Auto-generated method stub
 		super.doSaveAs();

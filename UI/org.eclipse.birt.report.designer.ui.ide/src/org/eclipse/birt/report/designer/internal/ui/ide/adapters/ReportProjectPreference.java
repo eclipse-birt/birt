@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,25 +47,29 @@ public class ReportProjectPreference extends Preferences {
 	protected boolean checkSettingLocation() {
 		IPath location = project.getLocation();
 		location = location == null ? null : location.append(DEFAULT_PREFERENCES_DIRNAME);
-		if (location == null)
+		if (location == null) {
 			return false;
-		else {
+		} else {
 			File setting = location.toFile();
-			if (setting.exists() && setting.isFile())
+			if (setting.exists() && setting.isFile()) {
 				setting.delete();
-			if (!setting.exists())
+			}
+			if (!setting.exists()) {
 				setting.mkdir();
-			if (setting.isDirectory() && setting.isDirectory())
+			}
+			if (setting.isDirectory() && setting.isDirectory()) {
 				return true;
-			else
+			} else {
 				return false;
+			}
 		}
 	}
 
 	public boolean delete() {
 		File file = getLocation().toFile();
-		if (file.exists())
+		if (file.exists()) {
 			return file.delete();
+		}
 		return true;
 	}
 
@@ -79,8 +86,9 @@ public class ReportProjectPreference extends Preferences {
 					ExceptionUtil.handle(e);
 				} finally {
 					try {
-						if (fis != null)
+						if (fis != null) {
 							fis.close();
+						}
 					} catch (IOException e) {
 					}
 				}
@@ -89,8 +97,9 @@ public class ReportProjectPreference extends Preferences {
 	}
 
 	public boolean save() {
-		if (this.propertyNames() == null || this.propertyNames().length == 0)
+		if (this.propertyNames() == null || this.propertyNames().length == 0) {
 			return delete();
+		}
 		boolean flag = false;
 		if (getLocation() != null && checkSettingLocation()) {
 			FileOutputStream fos = null;
@@ -103,8 +112,9 @@ public class ReportProjectPreference extends Preferences {
 				flag = false;
 			} finally {
 				try {
-					if (fos != null)
+					if (fos != null) {
 						fos.close();
+					}
 				} catch (IOException e) {
 				}
 			}

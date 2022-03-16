@@ -1,9 +1,18 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.impl.query;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,16 +53,14 @@ import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
-
-import com.ibm.icu.util.ULocale;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ *
  */
 
 public class CubeQueryDefinitionIOUtilTest {
@@ -170,7 +177,7 @@ public class CubeQueryDefinitionIOUtilTest {
 	}
 
 	private List<IBinding> createBindings() throws DataException {
-		List<IBinding> result = new ArrayList<IBinding>();
+		List<IBinding> result = new ArrayList<>();
 		for (int i = 0; i <= 1; i++) {
 			Binding b = new Binding(String.valueOf(i));
 			b.setAggrFunction("SUM");
@@ -190,7 +197,7 @@ public class CubeQueryDefinitionIOUtilTest {
 	}
 
 	private List<ISortDefinition> createSortDefns() throws DataException {
-		List<ISortDefinition> result = new ArrayList<ISortDefinition>();
+		List<ISortDefinition> result = new ArrayList<>();
 		SortDefinition sd = new SortDefinition();
 		sd.setColumn("col");
 		sd.setExpression("true");
@@ -359,7 +366,7 @@ public class CubeQueryDefinitionIOUtilTest {
 		}
 		edf.setTargetHierarchy(createDimension("dim1").getHierarchy().get(0));
 		edf.setTargetLevelName(edf.getTargetHierarchy().getLevels().get(0).getName());
-		List<Object[]> tuples = new ArrayList<Object[]>();
+		List<Object[]> tuples = new ArrayList<>();
 		tuples.add(new Object[] { "45", 45, true });
 		tuples.add(new Object[0]);
 		tuples.add(new Object[] { 1, "tt" });

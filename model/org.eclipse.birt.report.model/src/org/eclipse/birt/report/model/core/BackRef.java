@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +36,7 @@ public final class BackRef {
 	private String propName;
 
 	/**
-	 * 
+	 *
 	 */
 
 	private Structure struct;
@@ -41,7 +44,7 @@ public final class BackRef {
 	/**
 	 * Constructs the back reference with the client element and the element
 	 * reference property name.
-	 * 
+	 *
 	 * @param obj  client element
 	 * @param prop name of the property which refers to another element
 	 */
@@ -55,7 +58,7 @@ public final class BackRef {
 	/**
 	 * Constructs the back reference with the client element and the element
 	 * reference property name.
-	 * 
+	 *
 	 * @param obj      client element
 	 * @param propName member reference
 	 * @param struct
@@ -68,20 +71,21 @@ public final class BackRef {
 
 	/**
 	 * Gets the client element of the back reference.
-	 * 
+	 *
 	 * @return the client element
 	 */
 
 	public DesignElement getElement() {
-		if (element != null)
+		if (element != null) {
 			return element;
+		}
 
 		return struct.getElement();
 	}
 
 	/**
 	 * Gets the property name that refers to one referencable element.
-	 * 
+	 *
 	 * @return the property name of the back reference
 	 */
 
@@ -91,7 +95,7 @@ public final class BackRef {
 
 	/**
 	 * Gets the structure.
-	 * 
+	 *
 	 * @return structure
 	 */
 

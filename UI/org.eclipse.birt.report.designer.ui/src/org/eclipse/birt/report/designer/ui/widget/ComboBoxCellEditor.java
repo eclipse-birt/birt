@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -69,7 +72,7 @@ public class ComboBoxCellEditor extends CellEditor {
 	/**
 	 * Creates a new dialog cell editor parented under the given control. The
 	 * combobox lists is <code>null</code> initially
-	 * 
+	 *
 	 * @param parent the parent control
 	 */
 	public ComboBoxCellEditor(Composite parent) {
@@ -80,7 +83,7 @@ public class ComboBoxCellEditor extends CellEditor {
 	/**
 	 * Creates a new dialog cell editor parented under the given control. The combo
 	 * box box lists is initialized with the items parameter
-	 * 
+	 *
 	 * @param parent the parent control
 	 * @param items  the initilizing combobox list
 	 */
@@ -95,7 +98,7 @@ public class ComboBoxCellEditor extends CellEditor {
 	/**
 	 * Creates a new dialog cell editor parented under the given control and givend
 	 * style. The combo box box lists is initialized with the items parameter
-	 * 
+	 *
 	 * @param parent the parent control
 	 * @param items  the initilizing combobox list
 	 * @param style  the style of this editor
@@ -107,7 +110,7 @@ public class ComboBoxCellEditor extends CellEditor {
 	/**
 	 * Creates a new dialog cell editor parented under the given control and givend
 	 * style. The combo box lists is initialized with the items parameter
-	 * 
+	 *
 	 * @param parent the parent control
 	 * @param items  the initilizing combobox list
 	 * @param style  the style of this editor
@@ -148,7 +151,7 @@ public class ComboBoxCellEditor extends CellEditor {
 
 	/**
 	 * Returns the list of choices for the combo box
-	 * 
+	 *
 	 * @return the list of choices for the combo box
 	 */
 	public String[] getItems() {
@@ -157,7 +160,7 @@ public class ComboBoxCellEditor extends CellEditor {
 
 	/**
 	 * Sets the list of choices for the combo box
-	 * 
+	 *
 	 * @param items the list of choices for the combo box
 	 */
 	public void setItems(String[] items) {
@@ -172,8 +175,9 @@ public class ComboBoxCellEditor extends CellEditor {
 	private void populateComboBoxItems() {
 		if (comboBox != null && items != null) {
 			comboBox.removeAll();
-			for (int i = 0; i < items.length; i++)
+			for (int i = 0; i < items.length; i++) {
 				comboBox.add(items[i], i);
+			}
 
 			setValueValid(true);
 			selection = 0;
@@ -188,6 +192,7 @@ public class ComboBoxCellEditor extends CellEditor {
 		Color bg = cell.getBackground();
 		cell.addFocusListener(new FocusAdapter() {
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				ComboBoxCellEditor.this.focusLost();
 			}
@@ -203,10 +208,12 @@ public class ComboBoxCellEditor extends CellEditor {
 
 		comboBox.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent event) {
 				applyEditorValueAndDeactivate();
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				selection = comboBox.getSelectionIndex();
 			}
@@ -215,6 +222,7 @@ public class ComboBoxCellEditor extends CellEditor {
 		comboBox.addKeyListener(new KeyAdapter() {
 
 			// hook key pressed - see PR 14201
+			@Override
 			public void keyPressed(KeyEvent e) {
 				keyReleaseOccured(e);
 			}
@@ -222,6 +230,7 @@ public class ComboBoxCellEditor extends CellEditor {
 
 		comboBox.addTraverseListener(new TraverseListener() {
 
+			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_ESCAPE || e.detail == SWT.TRAVERSE_RETURN) {
 					e.doit = false;
@@ -231,6 +240,7 @@ public class ComboBoxCellEditor extends CellEditor {
 
 		comboBox.addFocusListener(new FocusAdapter() {
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				ComboBoxCellEditor.this.focusLost();
 			}
@@ -238,6 +248,7 @@ public class ComboBoxCellEditor extends CellEditor {
 
 		comboBox.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				// TODO Auto-generated method stub
 				String valueText = comboBox.getText().trim();
@@ -296,8 +307,9 @@ public class ComboBoxCellEditor extends CellEditor {
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
 	protected void updateContents(Object value) {
-		if (comboBox == null)
+		if (comboBox == null) {
 			return;
+		}
 
 		String text = "";//$NON-NLS-1$
 		if (value != null) {
@@ -322,10 +334,11 @@ public class ComboBoxCellEditor extends CellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#keyReleaseOccured(org.eclipse.swt
 	 * .events.KeyEvent)
 	 */
+	@Override
 	protected void keyReleaseOccured(KeyEvent keyEvent) {
 		if (keyEvent.character == '\u001b') { // Escape character
 			fireCancelEditor();
@@ -344,24 +357,27 @@ public class ComboBoxCellEditor extends CellEditor {
 	 * appropriate times. Subclasses may also extend or reimplement.
 	 * </p>
 	 */
+	@Override
 	protected void focusLost() {
-		if (inProcessing == 1)
+		if (inProcessing == 1) {
 			return;
+		}
 		super.focusLost();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
+	@Override
 	protected void doSetFocus() {
 		comboBox.setFocus();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.property.widgets.
 	 * CDialogCellEditor#doValueChanged()
 	 */
@@ -410,6 +426,7 @@ public class ComboBoxCellEditor extends CellEditor {
 	/*
 	 * (non-Javadoc) Method declared on CellEditor.
 	 */
+	@Override
 	protected Control createControl(Composite parent) {
 
 		Font font = parent.getFont();
@@ -431,6 +448,7 @@ public class ComboBoxCellEditor extends CellEditor {
 	/*
 	 * (non-Javadoc) Method declared on CellEditor.
 	 */
+	@Override
 	protected Object doGetValue() {
 		return value;
 	}
@@ -438,6 +456,7 @@ public class ComboBoxCellEditor extends CellEditor {
 	/*
 	 * (non-Javadoc) Method declared on CellEditor.
 	 */
+	@Override
 	protected void doSetValue(Object value) {
 		this.value = value;
 		updateContents(value);

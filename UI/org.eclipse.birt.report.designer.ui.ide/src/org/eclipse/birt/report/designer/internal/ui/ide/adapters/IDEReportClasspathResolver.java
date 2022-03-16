@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,11 +45,12 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.IReportClasspathProvider#resolveClasspath
 	 * (java.lang.Object)
 	 */
+	@Override
 	public String[] resolveClasspath(Object adaptable) {
 		IProject project = adaptProject(adaptable);
 
@@ -164,7 +168,7 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver {
 
 	private List<String> getProjectClasspath(IProject project, boolean needExported, boolean needDepend) {
 
-		List<String> retValue = new ArrayList<String>();
+		List<String> retValue = new ArrayList<>();
 		if (project == null) {
 			return Collections.emptyList();
 		}
@@ -217,7 +221,7 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver {
 			return Collections.emptyList();
 		}
 
-		List<String> retValue = new ArrayList<String>();
+		List<String> retValue = new ArrayList<>();
 
 		IJavaProject fCurrJProject = JavaCore.create(project);
 		IClasspathEntry[] classpathEntries = null;
@@ -239,7 +243,7 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver {
 
 	private List<String> resolveClasspathEntries(IClasspathEntry[] classpathEntries, boolean needExported,
 			IJavaProject project) {
-		ArrayList<String> newClassPath = new ArrayList<String>();
+		ArrayList<String> newClassPath = new ArrayList<>();
 		IWorkspace space = ResourcesPlugin.getWorkspace();
 		IWorkspaceRoot root = space.getRoot();
 		for (int i = 0; i < classpathEntries.length; i++) {
@@ -345,7 +349,7 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver {
 	/**
 	 * Returns true if the given project is accessible and it has a java nature,
 	 * otherwise false.
-	 * 
+	 *
 	 * @param project IProject
 	 * @return boolean
 	 */

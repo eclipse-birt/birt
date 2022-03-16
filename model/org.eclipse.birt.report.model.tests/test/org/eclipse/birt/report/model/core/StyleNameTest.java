@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,7 +64,7 @@ public class StyleNameTest extends BaseTestCase {
 	/**
 	 * Tests the validation about the style name. Validation is done when inserting
 	 * a named style to design tree and when renaming a style.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testNameValidator() throws Exception {
@@ -93,7 +96,7 @@ public class StyleNameTest extends BaseTestCase {
 	/**
 	 * Parser will do some compatibilities for old design files to correct the
 	 * invalid name and rename the style with different cases.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testCompatibleWithName() throws Exception {
@@ -109,7 +112,7 @@ public class StyleNameTest extends BaseTestCase {
 	/**
 	 * Tests the renaming an old design file style name. At the same time, we will
 	 * update the style reference in all styled elements.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testCompatibleRename() throws Exception {
@@ -152,7 +155,7 @@ public class StyleNameTest extends BaseTestCase {
 	/**
 	 * Tests the renaming logic that the styles in design with duplicate name with
 	 * the library theme style.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testCompatibleRename_1() throws Exception {
@@ -164,7 +167,7 @@ public class StyleNameTest extends BaseTestCase {
 	/**
 	 * Tests the failed case: design element refers theme styles that will have to
 	 * be renamed for its name is invalid or duplicate with different cases.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testCompatibleRename_2() throws Exception {

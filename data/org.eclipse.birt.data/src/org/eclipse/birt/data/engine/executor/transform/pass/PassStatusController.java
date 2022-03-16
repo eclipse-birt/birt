@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +30,7 @@ import org.eclipse.birt.data.engine.impl.FilterByRow;
  */
 class PassStatusController {
 	/**
-	 * 
+	 *
 	 */
 	public static final int DATA_SET_FILTERING = 1;
 	public static final int DATA_SET_COMPUTED_COLUMN_POPULATING = 2;
@@ -52,7 +55,7 @@ class PassStatusController {
 	private boolean hasAggregationInDataSetCC;
 
 	/**
-	 * 
+	 *
 	 * @param populator
 	 * @param filterByRow
 	 * @param computedColumnHelper
@@ -103,7 +106,7 @@ class PassStatusController {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param operType
 	 * @return
 	 */
@@ -131,7 +134,7 @@ class PassStatusController {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	boolean needMultipassProcessing() {
@@ -140,13 +143,14 @@ class PassStatusController {
 
 	/**
 	 * Return whether there are aggregations in the query.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	static boolean hasAggregationsInComputedColumns(ComputedColumnHelper ccHelper, ResultSetPopulator rsp)
 			throws DataException {
-		if (ccHelper == null)
+		if (ccHelper == null) {
 			return false;
+		}
 
 		List expressionList = new ArrayList();
 
@@ -154,8 +158,9 @@ class PassStatusController {
 
 		for (int j = 0; j < list.size(); j++) {
 			expressionList.add(((IComputedColumn) list.get(j)).getExpression());
-			if (((IComputedColumn) list.get(j)).getAggregateFunction() != null)
+			if (((IComputedColumn) list.get(j)).getAggregateFunction() != null) {
 				return true;
+			}
 		}
 		return rsp.getExpressionProcessor().hasAggregateExpr(expressionList);
 	}

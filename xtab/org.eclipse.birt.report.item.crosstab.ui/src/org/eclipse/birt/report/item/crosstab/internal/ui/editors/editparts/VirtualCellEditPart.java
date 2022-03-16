@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +38,7 @@ public class VirtualCellEditPart extends CrosstabCellEditPart {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
 	public VirtualCellEditPart(Object model) {
@@ -44,10 +47,11 @@ public class VirtualCellEditPart extends CrosstabCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.
 	 * CrosstabCellEditPart#refreshFigure()
 	 */
+	@Override
 	public void refreshFigure() {
 		CellBorder cborder = new CellBorder();
 
@@ -63,10 +67,11 @@ public class VirtualCellEditPart extends CrosstabCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.
 	 * CrosstabCellEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new VirtualCrosstabCellFlowLayoutEditPolicy());
@@ -103,10 +108,11 @@ public class VirtualCellEditPart extends CrosstabCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.
 	 * CrosstabCellEditPart#getHandleList()
 	 */
+	@Override
 	protected List getHandleList() {
 		// TODO the virtual editpart alllow to drag the cell to adjust the
 		// column and row?
@@ -115,27 +121,30 @@ public class VirtualCellEditPart extends CrosstabCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.
 	 * CrosstabCellEditPart#isinterestSelection(java.lang.Object)
 	 */
+	@Override
 	public boolean isinterestSelection(Object object) {
-		if (object instanceof VirtualCrosstabCellAdapter && object == getModel())
+		if (object instanceof VirtualCrosstabCellAdapter && object == getModel()) {
 			return true;
+		}
 		if (object instanceof CrosstabPropertyHandleWrapper) {
 			PropertyHandle property = ((CrosstabPropertyHandleWrapper) object).getModel();
 			if (ICrosstabReportItemConstants.ROWS_PROP.equals(property.getPropertyDefn().getName())
 					&& ((VirtualCrosstabCellAdapter) getCrosstabCellAdapter())
-							.getType() == VirtualCrosstabCellAdapter.ROW_TYPE)
+							.getType() == VirtualCrosstabCellAdapter.ROW_TYPE) {
 				return true;
-			else if (ICrosstabReportItemConstants.COLUMNS_PROP.equals(property.getPropertyDefn().getName())
+			} else if (ICrosstabReportItemConstants.COLUMNS_PROP.equals(property.getPropertyDefn().getName())
 					&& ((VirtualCrosstabCellAdapter) getCrosstabCellAdapter())
-							.getType() == VirtualCrosstabCellAdapter.COLUMN_TYPE)
+							.getType() == VirtualCrosstabCellAdapter.COLUMN_TYPE) {
 				return true;
-			else if (ICrosstabReportItemConstants.MEASURES_PROP.equals(property.getPropertyDefn().getName())
+			} else if (ICrosstabReportItemConstants.MEASURES_PROP.equals(property.getPropertyDefn().getName())
 					&& ((VirtualCrosstabCellAdapter) getCrosstabCellAdapter())
-							.getType() == VirtualCrosstabCellAdapter.MEASURE_TYPE)
+							.getType() == VirtualCrosstabCellAdapter.MEASURE_TYPE) {
 				return true;
+			}
 		}
 		return false;
 	}

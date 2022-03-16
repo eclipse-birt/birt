@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +20,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.data.engine.cache.Constants;
 
 /**
- * 
+ *
  */
 
 public class BufferedPrimitiveDiskArray implements IDiskArray {
@@ -43,9 +46,10 @@ public class BufferedPrimitiveDiskArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IDiskArray#add(java.lang.Object)
 	 */
+	@Override
 	public boolean add(Object o) throws IOException {
 		if (bufferUsedSize < buffer.length) {
 			buffer[bufferUsedSize] = o;
@@ -61,18 +65,20 @@ public class BufferedPrimitiveDiskArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IDiskArray#close()
 	 */
+	@Override
 	public void close() throws IOException {
-		if (delegate != null)
+		if (delegate != null) {
 			delegate.close();
+		}
 		clearDiskFile();
 		this.buffer = null;
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	private void clearDiskFile() throws IOException {
@@ -84,7 +90,7 @@ public class BufferedPrimitiveDiskArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#finalize()
 	 */
 //	public void finalize( )
@@ -102,9 +108,10 @@ public class BufferedPrimitiveDiskArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IDiskArray#get(int)
 	 */
+	@Override
 	public Object get(int index) throws IOException {
 		if (index < bufferUsedSize) {
 			return buffer[index];
@@ -117,9 +124,10 @@ public class BufferedPrimitiveDiskArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IDiskArray#size()
 	 */
+	@Override
 	public int size() {
 		if (delegate == null) {
 			return bufferUsedSize;
@@ -130,12 +138,14 @@ public class BufferedPrimitiveDiskArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IDiskArray#clear()
 	 */
+	@Override
 	public void clear() throws IOException {
 		bufferUsedSize = 0;
-		if (delegate != null)
+		if (delegate != null) {
 			delegate.clear();
+		}
 	}
 }

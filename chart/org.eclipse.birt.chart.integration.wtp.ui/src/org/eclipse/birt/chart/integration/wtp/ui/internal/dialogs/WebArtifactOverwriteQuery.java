@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -20,7 +22,7 @@ import org.eclipse.ui.dialogs.IOverwriteQuery;
 
 /**
  * The dialog to query result if overwrite the items from web.xml file
- * 
+ *
  */
 public class WebArtifactOverwriteQuery implements IOverwriteQuery {
 
@@ -31,7 +33,7 @@ public class WebArtifactOverwriteQuery implements IOverwriteQuery {
 
 	/**
 	 * default constructor
-	 * 
+	 *
 	 * @param shell
 	 */
 	public WebArtifactOverwriteQuery(Shell shell) {
@@ -40,7 +42,7 @@ public class WebArtifactOverwriteQuery implements IOverwriteQuery {
 
 	/**
 	 * Open confirm dialog
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 */
@@ -48,6 +50,7 @@ public class WebArtifactOverwriteQuery implements IOverwriteQuery {
 		final int[] result = { IDialogConstants.CANCEL_ID };
 		shell.getDisplay().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				String title = BirtWTPMessages.BIRTOverwriteQuery_webartifact_title;
 				String msg = NLS.bind(BirtWTPMessages.BIRTOverwriteQuery_webartifact_message, item);
@@ -62,12 +65,14 @@ public class WebArtifactOverwriteQuery implements IOverwriteQuery {
 
 	/**
 	 * Returns the query result. If has selected ALL, always return ALL.
-	 * 
+	 *
 	 * @param item
 	 */
+	@Override
 	public String queryOverwrite(String item) {
-		if (isALL)
+		if (isALL) {
 			return ALL;
+		}
 
 		String[] returnCodes = { YES, NO, ALL, CANCEL };
 		int returnVal = openDialog(item);

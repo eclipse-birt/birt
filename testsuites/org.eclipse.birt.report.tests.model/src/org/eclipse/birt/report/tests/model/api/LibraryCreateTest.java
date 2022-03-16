@@ -1,8 +1,17 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.api;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -19,25 +28,28 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /**
  * TestCases for library creation.
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
- * 
+ *
  * <tr>
  * <td>{@link #testCreatLibrary()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testNoNameText()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testNoNameTable()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testNoNameStyle()}</td>
  * </tr>
@@ -45,7 +57,7 @@ import com.ibm.icu.util.ULocale;
  * <td>{@link #testDuplicateLibrary()}</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class LibraryCreateTest extends BaseTestCase {
 
@@ -53,6 +65,7 @@ public class LibraryCreateTest extends BaseTestCase {
 	private static String outFileName = "LibraryCreatLib.xml";
 	private static String goldenFileName = "LibraryCreatLib_golden.xml";
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -64,6 +77,7 @@ public class LibraryCreateTest extends BaseTestCase {
 		openDesign(fileName);
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}
@@ -79,7 +93,7 @@ public class LibraryCreateTest extends BaseTestCase {
 
 	/**
 	 * Test export elements to library
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testCreatLibrary() throws Exception {
@@ -130,7 +144,7 @@ public class LibraryCreateTest extends BaseTestCase {
 
 	/**
 	 * Test export text without name
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testNoNameText() throws Exception {
@@ -154,7 +168,7 @@ public class LibraryCreateTest extends BaseTestCase {
 
 	/**
 	 * Test export table without name
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testNoNameTable() throws Exception {
@@ -176,7 +190,7 @@ public class LibraryCreateTest extends BaseTestCase {
 
 	/**
 	 * Test export style without name
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testNoNameStyle() throws Exception {
@@ -198,7 +212,7 @@ public class LibraryCreateTest extends BaseTestCase {
 
 	/**
 	 * Test export element with duplicate name to library
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDuplicateLibrary() throws Exception {

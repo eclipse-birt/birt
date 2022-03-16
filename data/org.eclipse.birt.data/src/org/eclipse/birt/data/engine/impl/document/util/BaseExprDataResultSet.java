@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +29,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * document.
  */
 abstract class BaseExprDataResultSet implements IExprDataResultSet {
-	private int rowIndex;;
+	private int rowIndex;
 	private IResultClass rsMeta;
 	protected int rowCount;
 
@@ -47,6 +50,7 @@ abstract class BaseExprDataResultSet implements IExprDataResultSet {
 	 * @see org.eclipse.birt.data.engine.impl.document.viewing.IExprDataResultSet#
 	 * getResultClass()
 	 */
+	@Override
 	public IResultClass getResultClass() {
 		return this.rsMeta;
 	}
@@ -55,6 +59,7 @@ abstract class BaseExprDataResultSet implements IExprDataResultSet {
 	 * @see org.eclipse.birt.data.engine.impl.document.viewing.IExprDataResultSet#
 	 * getCount()
 	 */
+	@Override
 	public int getCount() throws DataException {
 		return this.rowCount;
 	}
@@ -62,9 +67,11 @@ abstract class BaseExprDataResultSet implements IExprDataResultSet {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IDataSetPopulator#next()
 	 */
+	@Override
 	public IResultObject next() throws DataException {
-		if (rowIndex == rowCount)
+		if (rowIndex == rowCount) {
 			return null;
+		}
 
 		IResultObject roObject = fetch();
 		rowIndex++;
@@ -75,6 +82,7 @@ abstract class BaseExprDataResultSet implements IExprDataResultSet {
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.document.viewing.IExprDataResultSet#fetch()
 	 */
+	@Override
 	public IResultObject fetch() throws DataException {
 		exprDataReader.next();
 
@@ -105,6 +113,7 @@ abstract class BaseExprDataResultSet implements IExprDataResultSet {
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.document.util.IExprDataResultSet#close()
 	 */
+	@Override
 	public void close() {
 		if (exprDataReader != null) {
 			exprDataReader.close();

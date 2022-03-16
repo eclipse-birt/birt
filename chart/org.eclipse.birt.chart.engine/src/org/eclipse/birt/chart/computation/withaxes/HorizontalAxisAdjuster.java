@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +34,7 @@ import com.ibm.icu.util.Calendar;
 
 /**
  * The class is used to adjust the location and scale of one horizontal axis.
- * 
+ *
  * @since 2.5
  */
 
@@ -103,6 +106,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster {
 		return fAxisBottom;
 	}
 
+	@Override
 	public void adjust() throws ChartException {
 		init();
 
@@ -227,8 +231,8 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster {
 		// 1. Compute y, yAbove, yBelow
 		IntersectionValue iv = fHorizontalAxis.getIntersectionValue();
 		double dY = PlotWithAxes.getLocation(fVerticalAxis.getScale(), iv);
-		double dY1 = dY;
-		double dY2 = dY;
+		double dY1;
+		double dY2;
 		double dY1Delta = 0;
 		// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MIN'
 
@@ -310,8 +314,8 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster {
 		// Compute y, yAbove, yBelow.
 		IntersectionValue iv = fHorizontalAxis.getIntersectionValue();
 		double dY = PlotWithAxes.getLocation(fVerticalAxis.getScale(), iv);
-		double dY1 = dY;
-		double dY2 = dY;
+		double dY1;
+		double dY2;
 		double dY2Delta = 0;
 		// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MAX'
 
@@ -627,7 +631,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Returns current horizontal axis.
-	 * 
+	 *
 	 * @return
 	 */
 	OneAxis getHorizontalAxis() {
@@ -636,7 +640,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Returns label thickness of current axis.
-	 * 
+	 *
 	 * @return
 	 */
 	double getAxisLabelThickness() {
@@ -645,7 +649,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Returns title thickness of current axis.
-	 * 
+	 *
 	 * @return
 	 */
 	double getAxisTitleThickness() {
@@ -662,7 +666,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Computes the title coordinate.
-	 * 
+	 *
 	 * @param axisCoordinate
 	 * @return
 	 */

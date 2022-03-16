@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -150,18 +153,20 @@ class TimeMemberUtil {
 				int month = getCalendar((Date) dateTimeValue).get(Calendar.MONTH);
 
 				boolean isUnderMonthHierarchy = false;
-				if (i > 0)
+				if (i > 0) {
 					isUnderMonthHierarchy = isDayMonth(dateTypes[i - 1]);
+				}
 
 				if (parentList.size() > 0) {
 					for (int t = 0; t < parentList.size(); t++) {
 						MemberTreeNode[] nodes = (MemberTreeNode[]) parentList.get(t);
 						for (int j = 0; j < nodes.length; j++) {
-							if (isUnderMonthHierarchy)
+							if (isUnderMonthHierarchy) {
 								dayOfMonthNode = createDayOfMonth(year,
 										(Integer) (((Member) nodes[j].key).getKeyValues()[0]));
-							else
+							} else {
 								dayOfMonthNode = createDayOfMonth(year, month + 1);
+							}
 							nodes[j].addAllNodes(dayOfMonthNode);
 							temp.add(dayOfMonthNode);
 						}
@@ -219,8 +224,9 @@ class TimeMemberUtil {
 	}
 
 	private static Calendar getCalendar(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException("date value is null!");
+		}
 		Calendar c = Calendar.getInstance();
 		c.setTime(d);
 		return c;
@@ -228,17 +234,19 @@ class TimeMemberUtil {
 
 	private static boolean isQuarterMonth(String[] types) {
 		for (int i = 0; i < types.length; i++) {
-			if (DATE_TIME_LEVEL_TYPE_QUARTER.equals(types[i]))
+			if (DATE_TIME_LEVEL_TYPE_QUARTER.equals(types[i])) {
 				return true;
+			}
 		}
 		return false;
 	}
 
 	private static boolean isDayMonth(String types) {
-		if (DATE_TIME_LEVEL_TYPE_MONTH.equals(types))
+		if (DATE_TIME_LEVEL_TYPE_MONTH.equals(types)) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	private static MemberTreeNode[] createQuarterNode() {
@@ -295,7 +303,7 @@ class TimeMemberUtil {
 				member.setKeyValues(new Object[] { Integer.valueOf(i) });
 				calendar.set(Calendar.MONTH, i - 1);
 				member.setAttributes(new Object[] { calendar.getTime() });
-				;
+
 				nodes[i - 7] = new MemberTreeNode(member);
 			}
 			break;
@@ -337,7 +345,7 @@ class TimeMemberUtil {
 		if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
 			isLeapYear = true;
 		}
-		MemberTreeNode[] nodes = new MemberTreeNode[0];
+		MemberTreeNode[] nodes = {};
 		if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
 			nodes = new MemberTreeNode[31];
 			for (int i = 1; i <= nodes.length; i++) {
@@ -438,16 +446,18 @@ class TimeMemberUtil {
 
 	public static boolean isTimeMirror(IAggregationResultSet rs, int index, MirrorMetaInfo service) {
 		for (int i = index; i < rs.getLevelCount(); i++) {
-			if (rs.getLevelAttributes(i) == null || !isTimeMirrorAttributes(service.getLevelType(rs.getLevel(i))))
+			if (rs.getLevelAttributes(i) == null || !isTimeMirrorAttributes(service.getLevelType(rs.getLevel(i)))) {
 				return false;
+			}
 		}
 		return true;
 	}
 
 	public static boolean containsTimeMirror(IAggregationResultSet rs, MirrorMetaInfo service) {
 		int index = service.getMirrorStartPosition();
-		if (isTimeMirror(rs, index, service))
+		if (isTimeMirror(rs, index, service)) {
 			return true;
+		}
 		return false;
 	}
 

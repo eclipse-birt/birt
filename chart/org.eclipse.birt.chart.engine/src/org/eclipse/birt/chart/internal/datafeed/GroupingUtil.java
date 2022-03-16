@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.chart.internal.datafeed;
 
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
@@ -7,14 +19,14 @@ import com.ibm.icu.util.Calendar;
 
 /**
  * The class defines some static methods for grouping.
- * 
+ *
  * @since 2.3
  */
 public final class GroupingUtil {
 
 	/**
 	 * Format object into specified data format.
-	 * 
+	 *
 	 * @param obj              object will be formated as date time.
 	 * @param groupingUnitType the grouping unit type.
 	 * @return instance of <code>CDateTime</code>.
@@ -37,7 +49,7 @@ public final class GroupingUtil {
 
 	/**
 	 * Convert GroupingUnit type to CDateUnit type.
-	 * 
+	 *
 	 * @param groupingUnitType the GroupingUnit type.
 	 * @return CDateUnit type of integer.
 	 * @since 2.3, it is merged from <code>DataProcessor</code>, make the method to
@@ -82,7 +94,7 @@ public final class GroupingUtil {
 
 	/**
 	 * Check if specified two strings are in same group with grouping setting.
-	 * 
+	 *
 	 * @param baseValue
 	 * @param baseReference
 	 * @param groupingUnit
@@ -121,7 +133,7 @@ public final class GroupingUtil {
 
 	/**
 	 * Returns grouped string of specified string on grouping setting.
-	 * 
+	 *
 	 * @param stringValue
 	 * @param groupingUnit
 	 * @param groupingInterval

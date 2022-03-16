@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,23 +39,29 @@ public class DataSet implements IDataSet {
 		this.dataSet = dataSet;
 	}
 
+	@Override
 	public IDataSource getDataSource() {
-		if (!(dataSet instanceof OdaDataSetHandle))
+		if (!(dataSet instanceof OdaDataSetHandle)) {
 			return null;
+		}
 
 		DataSourceHandle dataSource = dataSet.getDataSource();
-		if (dataSource == null)
+		if (dataSource == null) {
 			return null;
+		}
 
 		return new DataSource(dataSource);
 	}
 
+	@Override
 	public String getQueryText() {
-		if (dataSet instanceof OdaDataSetHandle)
+		if (dataSet instanceof OdaDataSetHandle) {
 			return ((OdaDataSetHandle) dataSet).getQueryText();
+		}
 		return null;
 	}
 
+	@Override
 	public void setQueryText(String query) throws SemanticException {
 		if (dataSet instanceof OdaDataSetHandle) {
 			ActivityStack cmdStack = dataSet.getModule().getActivityStack();
@@ -69,12 +78,15 @@ public class DataSet implements IDataSet {
 		}
 	}
 
+	@Override
 	public String getPrivateDriverProperty(String name) {
-		if (dataSet instanceof OdaDataSetHandle)
+		if (dataSet instanceof OdaDataSetHandle) {
 			return ((OdaDataSetHandle) dataSet).getPrivateDriverProperty(name);
+		}
 		return null;
 	}
 
+	@Override
 	public void setPrivateDriverProperty(String name, String value) throws SemanticException {
 		if (dataSet instanceof OdaDataSetHandle) {
 			ActivityStack cmdStack = dataSet.getModule().getActivityStack();
@@ -93,20 +105,23 @@ public class DataSet implements IDataSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.IDataSet#getResultSetColumn
 	 * ()
 	 */
 
+	@Override
 	public List getCachedResultSetColumns() {
 		List values = new ArrayList();
 		CachedMetaDataHandle metaDataHandle = dataSet.getCachedMetaDataHandle();
-		if (metaDataHandle == null)
+		if (metaDataHandle == null) {
 			return values;
+		}
 		MemberHandle memberHandle = metaDataHandle.getResultSet();
-		if (memberHandle == null)
+		if (memberHandle == null) {
 			return values;
+		}
 		Iterator iterator = memberHandle.iterator();
 		while (iterator.hasNext()) {
 			ResultSetColumnHandle columnHandle = (ResultSetColumnHandle) iterator.next();

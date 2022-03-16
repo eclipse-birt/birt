@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +51,7 @@ import junit.framework.TestCase;
 
 /**
  * Base test case.
- * 
+ *
  */
 
 abstract public class BaseTestCase extends TestCase {
@@ -67,10 +70,12 @@ abstract public class BaseTestCase extends TestCase {
 
 	protected ByteArrayOutputStream os = null;
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
+	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		if (designHandle != null) {
@@ -81,7 +86,7 @@ abstract public class BaseTestCase extends TestCase {
 
 	/**
 	 * Opens report design.
-	 * 
+	 *
 	 * @param fileName
 	 * @throws Exception
 	 */
@@ -112,7 +117,7 @@ abstract public class BaseTestCase extends TestCase {
 
 	/**
 	 * Create report design.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -130,18 +135,20 @@ abstract public class BaseTestCase extends TestCase {
 
 	/**
 	 * Gets resource file path.
-	 * 
+	 *
 	 * @param fileName
 	 * @return
 	 * @throws Exception
 	 */
 
 	private String getResource(String fileName) throws Exception {
-		if (fileName == null)
+		if (fileName == null) {
 			return null;
+		}
 		URL url = getClass().getResource(fileName);
-		if (url == null)
+		if (url == null) {
 			return null;
+		}
 		return url.toString();
 	}
 
@@ -155,14 +162,14 @@ abstract public class BaseTestCase extends TestCase {
 
 	/**
 	 * Compares the two text files.
-	 * 
+	 *
 	 * @param goldenReader the reader for golden file
 	 * @param outputReader the reader for output file
 	 * @return true if two text files are same.
 	 * @throws Exception if any exception
 	 */
 	private boolean compareFile(Reader goldenReader, Reader outputReader) throws Exception {
-		StringBuffer errorText = new StringBuffer();
+		StringBuilder errorText = new StringBuilder();
 
 		BufferedReader lineReaderA = null;
 		BufferedReader lineReaderB = null;
@@ -182,7 +189,7 @@ abstract public class BaseTestCase extends TestCase {
 				same = strA.trim().equals(strB.trim());
 
 				if (!same) {
-					StringBuffer message = new StringBuffer();
+					StringBuilder message = new StringBuilder();
 
 					message.append("line="); //$NON-NLS-1$
 					message.append(lineNo);
@@ -203,10 +210,12 @@ abstract public class BaseTestCase extends TestCase {
 			same = strB == null;
 		} finally {
 			try {
-				if (lineReaderA != null)
+				if (lineReaderA != null) {
 					lineReaderA.close();
-				if (lineReaderB != null)
+				}
+				if (lineReaderB != null) {
 					lineReaderB.close();
+				}
 			} catch (Exception e) {
 				lineReaderA = null;
 				lineReaderB = null;
@@ -223,15 +232,16 @@ abstract public class BaseTestCase extends TestCase {
 	/**
 	 * Compares two text file. The comparison will ignore the line containing
 	 * "modificationDate".
-	 * 
+	 *
 	 * @param goldenFileName the 1st file name to be compared.
 	 * @param os             the 2nd output stream to be compared.
 	 * @return true if two text files are same char by char
 	 * @throws Exception if any exception.
 	 */
 	protected boolean compareFile(String goldenFileName) throws Exception {
-		if (os == null)
+		if (os == null) {
 			return false;
+		}
 
 		// String tmpGoldenFileName = GOLDEN_FOLDER + goldenFileName;
 
@@ -262,15 +272,16 @@ abstract public class BaseTestCase extends TestCase {
 	 * Eventually, this method will call
 	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the output
 	 * file of some unit test.
-	 * 
+	 *
 	 * @param moduleHandle the module to save, either a report design or a library
 	 * @throws IOException if error occurs while saving the file.
 	 */
 
 	protected void save(ModuleHandle moduleHandle) throws IOException {
 		os = new ByteArrayOutputStream();
-		if (moduleHandle != null)
+		if (moduleHandle != null) {
 			moduleHandle.serialize(os);
+		}
 		os.close();
 	}
 
@@ -280,7 +291,7 @@ abstract public class BaseTestCase extends TestCase {
 
 	/**
 	 * Create simple cube handle.
-	 * 
+	 *
 	 * @param module
 	 * @return
 	 */

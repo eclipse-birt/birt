@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +51,7 @@ public class PropertySearchStrategy {
 	/**
 	 * Returns the instance of <code>PropertySearchStrategy</code> which provide the
 	 * specific property searching route for most design elements.
-	 * 
+	 *
 	 * @return the instance of <code>PropertySearchStrategy</code>
 	 */
 	public static PropertySearchStrategy getInstance() {
@@ -60,7 +63,7 @@ public class PropertySearchStrategy {
 	 * search with style reference, extends reference and containment. The default
 	 * value style property defined in session is also searched, but the default
 	 * value defined in ROM will not be returned.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the element to start search
 	 * @param prop    definition of the property to get
@@ -85,11 +88,13 @@ public class PropertySearchStrategy {
 			// Check if this element or parent provides the value
 
 			value = tmpStrategy.getNonIntrinsicPropertyFromElement(module, e, prop);
-			if (value != null)
+			if (value != null) {
 				return value;
+			}
 
-			if (!prop.isStyleProperty() || e.isStyle() || !tmpStrategy.isInheritableProperty(e, prop))
+			if (!prop.isStyleProperty() || e.isStyle() || !tmpStrategy.isInheritableProperty(e, prop)) {
 				break;
+			}
 
 			// Try to get the value of this property from container
 			// hierarchy.
@@ -104,7 +109,7 @@ public class PropertySearchStrategy {
 
 	/**
 	 * Gets the container element.
-	 * 
+	 *
 	 * @param designElement the design element
 	 * @return the container of design element.
 	 */
@@ -123,7 +128,7 @@ public class PropertySearchStrategy {
 	 * inheritance hierarchy if the non-style property is not inheritable.
 	 * <p>
 	 * Part of: Property value system.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the element to search
 	 * @param prop    definition of the property to get
@@ -151,7 +156,7 @@ public class PropertySearchStrategy {
 	 * inheritance hierarchy if the non-style property is not inheritable.
 	 * <p>
 	 * Part of: Property value system.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the element to search
 	 * @param prop    definition of the property to get
@@ -162,11 +167,12 @@ public class PropertySearchStrategy {
 			ElementPropertyDefn prop) {
 		assert !prop.isIntrinsic();
 
-		Object value = null;
+		Object value;
 
 		value = getPropertyFromSelf(module, element, prop);
-		if (value != null)
+		if (value != null) {
 			return value;
+		}
 
 		// Can we search the parent element ?
 		// search the parent element: (1) the property is not a style property
@@ -175,33 +181,38 @@ public class PropertySearchStrategy {
 		if (isInheritableProperty(element, prop) || prop.isStyleProperty()) {
 			value = getPropertyFromParent(module, element, prop);
 
-			if (value != null)
+			if (value != null) {
 				return value;
+			}
 		}
 
 		// Check if this element predefined style provides
 		// the property value
 
-		if (module == null)
+		if (module == null) {
 			return null;
+		}
 
 		if (prop.isStyleProperty()) {
 			value = getPropertyFromSelfSelector(module, element, prop);
-			if (value != null)
+			if (value != null) {
 				return value;
+			}
 
 			// Check if the container/slot predefined style provides
 			// the value
 
 			value = getPropertyFromSlotSelector(module, element, prop);
-			if (value != null)
+			if (value != null) {
 				return value;
+			}
 
 			// for the special case that may relates to the container.
 
 			value = getPropertyRelatedToContainer(module, element, prop);
-			if (value != null)
+			if (value != null) {
 				return value;
+			}
 		}
 
 		return null;
@@ -210,7 +221,7 @@ public class PropertySearchStrategy {
 	/**
 	 * Returns the property value from this element. The value is only from local
 	 * properties or local style of this element.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the element to start search
 	 * @param prop    the definition of property
@@ -228,14 +239,16 @@ public class PropertySearchStrategy {
 
 		// 2). Does the style provide the value of this property ?
 
-		if (!prop.isStyleProperty())
+		if (!prop.isStyleProperty()) {
 			return null;
+		}
 
 		StyleElement style = element.getStyle(module);
 		if (style != null) {
 			value = style.getLocalProperty(module, prop);
-			if (value != null)
+			if (value != null) {
 				return value;
+			}
 		}
 
 		return null;
@@ -244,7 +257,7 @@ public class PropertySearchStrategy {
 	/**
 	 * Returns the property value from this element's parent, or its virtual parent.
 	 * The value is only from local properties, or local style of its ancestor.
-	 * 
+	 *
 	 * @param element the element to start search parent
 	 * @param module  module
 	 * @param prop    definition of the property to get.
@@ -263,8 +276,9 @@ public class PropertySearchStrategy {
 				e = cur.getVirtualParent();
 
 				// Does the dynamic virtual parent provide the value ?
-				if (e == null)
+				if (e == null) {
 					e = cur.getDynamicVirtualParent(cur.getRoot());
+				}
 			} else {
 				// Does the parent provide the value of this property?
 
@@ -292,7 +306,7 @@ public class PropertySearchStrategy {
 
 	/**
 	 * Updates the container information for the content element.
-	 * 
+	 *
 	 * @param module the module
 	 * @param prop   definition of the property to get
 	 * @param value  the property value, or null if no value is set.
@@ -301,15 +315,17 @@ public class PropertySearchStrategy {
 	private void updateContainerForContentElement(Module module, DesignElement element, ElementPropertyDefn prop,
 			Object value) {
 		if (prop.getTypeCode() != IPropertyType.CONTENT_ELEMENT_TYPE
-				&& prop.getSubTypeCode() != IPropertyType.CONTENT_ELEMENT_TYPE)
+				&& prop.getSubTypeCode() != IPropertyType.CONTENT_ELEMENT_TYPE) {
 			return;
+		}
 
 		ContentElementInfo info = null;
-		if (element instanceof ContentElement)
+		if (element instanceof ContentElement) {
 			info = ((ContentElement) element).getValueContainer();
-		else if (prop.getTypeCode() == IPropertyType.CONTENT_ELEMENT_TYPE
-				|| prop.getSubTypeCode() == IPropertyType.CONTENT_ELEMENT_TYPE)
+		} else if (prop.getTypeCode() == IPropertyType.CONTENT_ELEMENT_TYPE
+				|| prop.getSubTypeCode() == IPropertyType.CONTENT_ELEMENT_TYPE) {
 			info = new ContentElementInfo(element, prop);
+		}
 
 		if (value instanceof ContentElement) {
 			Module root = ((ContentElement) value).getRoot();
@@ -330,8 +346,9 @@ public class PropertySearchStrategy {
 
 				if (root == null) {
 					root = item.getRoot();
-					if (root != module)
+					if (root != module) {
 						tmpInfo = info;
+					}
 				}
 				item.setValueContainer(tmpInfo);
 			}
@@ -341,7 +358,7 @@ public class PropertySearchStrategy {
 	/**
 	 * Returns the property value which is related to element selector. It is from
 	 * the selector style.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the element to start search
 	 * @param prop    the definition of property
@@ -355,7 +372,7 @@ public class PropertySearchStrategy {
 	/**
 	 * Returns the property value which is related to element selector. It is from
 	 * the selector style.
-	 * 
+	 *
 	 * @param module    the module
 	 * @param element   the element to start search
 	 * @param prop      the definition of property
@@ -374,7 +391,7 @@ public class PropertySearchStrategy {
 	 * Returns the property value which is related to slot selector. It is from the
 	 * selector style which represents the slot or combination of container and
 	 * slot.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the element to search
 	 * @param prop    the definition of property
@@ -389,7 +406,7 @@ public class PropertySearchStrategy {
 	 * Returns the property value which is related to slot selector. It is from the
 	 * selector style which represents the slot or combination of container and
 	 * slot.
-	 * 
+	 *
 	 * @param module    the module
 	 * @param element   the element to search
 	 * @param prop      the definition of property
@@ -399,8 +416,9 @@ public class PropertySearchStrategy {
 
 	public Object getPropertyFromSlotSelector(Module module, DesignElement element, ElementPropertyDefn prop,
 			PropertyValueInfo valueInfo) {
-		if (element.getContainer() == null)
+		if (element.getContainer() == null) {
 			return null;
+		}
 
 		String selector = element.getContainerInfo().getSelector();
 
@@ -409,7 +427,7 @@ public class PropertySearchStrategy {
 
 	/**
 	 * Returns property value with predefined style.
-	 * 
+	 *
 	 * @param module   module
 	 * @param prop     definition of property to get
 	 * @param selector predefined style
@@ -420,8 +438,9 @@ public class PropertySearchStrategy {
 			String selector, PropertyValueInfo valueInfo) {
 		assert module != null;
 
-		if (selector == null)
+		if (selector == null) {
 			return null;
+		}
 
 		// get it from report item theme
 		DesignElement e = element;
@@ -431,11 +450,13 @@ public class PropertySearchStrategy {
 				if (theme != null) {
 					StyleElement style = theme.findStyle(selector);
 					if (style != null) {
-						if (valueInfo != null)
+						if (valueInfo != null) {
 							valueInfo.addSelectorStyle(style);
+						}
 						Object value = style.getLocalProperty(module, prop);
-						if (value != null)
+						if (value != null) {
 							return value;
+						}
 					}
 					break;
 				}
@@ -448,8 +469,9 @@ public class PropertySearchStrategy {
 
 		StyleElement style = module.findStyle(selector);
 		if (style != null) {
-			if (valueInfo != null)
+			if (valueInfo != null) {
 				valueInfo.addSelectorStyle(style);
+			}
 			return style.getLocalProperty(module, prop);
 		}
 
@@ -458,7 +480,7 @@ public class PropertySearchStrategy {
 
 	/**
 	 * Returns the property value which is related to container.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the element
 	 * @param prop    the definition of property
@@ -472,7 +494,7 @@ public class PropertySearchStrategy {
 	/**
 	 * Gets the session default value of the specified property if it is style
 	 * property.
-	 * 
+	 *
 	 * @param module module
 	 * @param prop   definition of the property to get
 	 * @return The session default property value, or null if no default value is
@@ -491,7 +513,7 @@ public class PropertySearchStrategy {
 
 	/**
 	 * Tests if the property is inheritable in the context.
-	 * 
+	 *
 	 * @param element the element to test
 	 * @param prop    definition of the property to test
 	 * @return <code>true</code> if the property is inheritable in the context,
@@ -502,8 +524,9 @@ public class PropertySearchStrategy {
 		assert prop != null;
 
 		boolean inherit = prop.canInherit();
-		if (!inherit)
+		if (!inherit) {
 			return false;
+		}
 
 		if (element instanceof ReportItem) {
 			if (IReportItemModel.BOUND_DATA_COLUMNS_PROP.equals(prop.getName())) {
@@ -511,8 +534,9 @@ public class PropertySearchStrategy {
 				// bounddatacolumn property,
 				// the bounddatacolumn property can't inherit from parent
 
-				if (element.getLocalProperty(element.getRoot(), IReportItemModel.DATA_SET_PROP) != null)
+				if (element.getLocalProperty(element.getRoot(), IReportItemModel.DATA_SET_PROP) != null) {
 					return false;
+				}
 			}
 		} else if (element instanceof ScalarParameter) {
 			if (IScalarParameterModel.BOUND_DATA_COLUMNS_PROP.equals(prop.getName())) {
@@ -521,8 +545,9 @@ public class PropertySearchStrategy {
 				// the bounddatacolumn property can't inherit from parent
 
 				if (element.getLocalProperty(element.getRoot(),
-						IAbstractScalarParameterModel.DATASET_NAME_PROP) != null)
+						IAbstractScalarParameterModel.DATASET_NAME_PROP) != null) {
 					return false;
+				}
 			}
 		}
 
@@ -531,7 +556,7 @@ public class PropertySearchStrategy {
 
 	/**
 	 * Creates property value information.
-	 * 
+	 *
 	 * @return
 	 */
 	public PropertyValueInfo createPropertyValueInfo() {
@@ -586,10 +611,12 @@ public class PropertySearchStrategy {
 		 * @param selectorStyle the selectorStyle to set
 		 */
 		public void addSelectorStyle(StyleElement selectorStyle) {
-			if (selectorStyles == null)
-				selectorStyles = new ArrayList<StyleElement>();
-			if (selectorStyle != null && !selectorStyles.contains(selectorStyle))
+			if (selectorStyles == null) {
+				selectorStyles = new ArrayList<>();
+			}
+			if (selectorStyle != null && !selectorStyles.contains(selectorStyle)) {
 				selectorStyles.add(selectorStyle);
+			}
 		}
 
 	}

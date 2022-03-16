@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -40,7 +43,7 @@ public final class UIHelper {
 	/**
 	 * This is a helper method created to get the location on screen of a composite.
 	 * It does not take into account multiple monitors.
-	 * 
+	 *
 	 * @param cmpTarget The composite whose location on screen is required
 	 * @return The location of the composite on screen.
 	 */
@@ -62,7 +65,7 @@ public final class UIHelper {
 	/**
 	 * This is a helper method created to center a shell on the screen. It centers
 	 * the shell on the primary monitor in a multi-monitor configuration.
-	 * 
+	 *
 	 * @param shell The shell to be centered on screen
 	 */
 	public static void centerOnScreen(Shell shell) {
@@ -73,7 +76,7 @@ public final class UIHelper {
 	 * This method returns an URL for a resource given its plugin relative path. It
 	 * is intended to be used to abstract out the usage of the UI as a plugin or
 	 * standalone component when it comes to accessing resources.
-	 * 
+	 *
 	 * @param sPluginRelativePath The path to the resource relative to the plugin
 	 *                            location.
 	 * @return URL representing the location of the resource.
@@ -108,14 +111,13 @@ public final class UIHelper {
 		try {
 			try {
 				URL url = getURL(sPluginRelativePath);
-				if (url != null)
+				if (url != null) {
 					img = new Image(Display.getCurrent(), url.openStream());
+				}
 
 			} catch (MalformedURLException e1) {
 				img = new Image(Display.getCurrent(), new FileInputStream(getURL(sPluginRelativePath).toString()));
 			}
-		} catch (FileNotFoundException e) {
-			logger.log(e);
 		} catch (IOException e) {
 			logger.log(e);
 		}
@@ -129,7 +131,7 @@ public final class UIHelper {
 
 	/**
 	 * This is a convenience method to get an imgIcon from a URL.
-	 * 
+	 *
 	 * @param sPluginRelativePath The URL for the imgIcon.
 	 * @return The imgIcon represented by the given URL.
 	 * @see #setImageCached( boolean )
@@ -147,7 +149,7 @@ public final class UIHelper {
 
 	/**
 	 * Returns if running in eclipse mode or stand-alone mode currently.
-	 * 
+	 *
 	 */
 	public static boolean isEclipseMode() {
 		return org.eclipse.birt.core.ui.utils.UIHelper.isEclipseMode();

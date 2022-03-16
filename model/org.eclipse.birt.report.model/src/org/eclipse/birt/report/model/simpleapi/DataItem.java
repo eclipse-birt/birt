@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,22 +30,24 @@ public class DataItem extends ReportItem implements IDataItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#getValueExpr
 	 * ()
 	 */
 
+	@Override
 	public String getHelpText() {
 		return ((DataItemHandle) handle).getHelpText();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#setHelpText
 	 * (java.lang.String)
 	 */
 
+	@Override
 	public void setHelpText(String value) throws SemanticException {
 		setProperty(IDataItemModel.HELP_TEXT_PROP, value);
 
@@ -50,41 +55,46 @@ public class DataItem extends ReportItem implements IDataItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.IDataItem#getHelpTextKey ()
 	 */
 
+	@Override
 	public String getHelpTextKey() {
 		return ((DataItemHandle) handle).getHelpTextKey();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.IDataItem#setHelpTextKey
 	 * (java.lang.String)
 	 */
 
+	@Override
 	public void setHelpTextKey(String value) throws SemanticException {
 		setProperty(IDataItemModel.HELP_TEXT_KEY_PROP, value);
 	}
 
+	@Override
 	public IAction getAction() {
 		return new ActionImpl(((DataItemHandle) handle).getActionHandle(), (DataItemHandle) handle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IDataItem#addAction(org.eclipse
 	 * .birt.report.model.api.simpleapi.IAction)
 	 */
+	@Override
 	public void addAction(IAction action) throws SemanticException {
-		if (action == null)
+		if (action == null) {
 			return;
+		}
 
 		ActivityStack cmdStack = handle.getModule().getActivityStack();
 		cmdStack.startNonUndoableTrans(null);
@@ -100,20 +110,22 @@ public class DataItem extends ReportItem implements IDataItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IDataItem#getResultSetColumn
 	 * ()
 	 */
+	@Override
 	public String getResultSetColumn() {
 		return ((DataItemHandle) handle).getResultSetColumn();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IDataItem#setResultSetColumn
 	 * (java.lang.String)
 	 */
+	@Override
 	public void setResultSetColumn(String columnName) throws SemanticException {
 		setProperty(IDataItemModel.RESULT_SET_COLUMN_PROP, columnName);
 

@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.report.data.adapter.internal.adapter;
@@ -54,9 +57,8 @@ public class JointDataSetAdapter extends JointDataSetDesign {
 			if (iter.hasNext()) {
 				rightHandle = (DataSetHandle) iter.next();
 				setRightDataSetDesignQulifiedName(rightHandle.getQualifiedName());
-			} else {
-				if (leftHandle != null)
-					setRightDataSetDesignQulifiedName(leftHandle.getQualifiedName());
+			} else if (leftHandle != null) {
+				setRightDataSetDesignQulifiedName(leftHandle.getQualifiedName());
 			}
 			setLeftDataSetDesignName(jc.getLeftDataSet());
 			setRightDataSetDesignName(jc.getRightDataSet());
@@ -86,8 +88,9 @@ public class JointDataSetAdapter extends JointDataSetDesign {
 	 * Converts a Model join operator (String) to DtE joint operator (int)
 	 */
 	public static int adaptJoinOperator(String operator) {
-		if (operator.equals(DesignChoiceConstants.JOIN_OPERATOR_EQALS))
+		if (operator.equals(DesignChoiceConstants.JOIN_OPERATOR_EQALS)) {
 			return IJoinCondition.OP_EQ;
+		}
 		return -1;
 	}
 

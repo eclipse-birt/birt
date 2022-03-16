@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.api.cube;
 
 import java.util.Date;
@@ -36,30 +48,31 @@ public class TimeDimensionUtil {
 	}
 
 	public static int getFieldIndex(String fieldName) {
-		if (fieldName.equals(YEAR))
+		if (fieldName.equals(YEAR)) {
 			return Calendar.YEAR;
-		else if (fieldName.equals(MONTH))
+		} else if (fieldName.equals(MONTH)) {
 			return Calendar.MONTH;
-		else if (fieldName.equals(WEEK_OF_YEAR))
+		} else if (fieldName.equals(WEEK_OF_YEAR)) {
 			return Calendar.WEEK_OF_YEAR;
-		else if (fieldName.equals(WEEK_OF_MONTH))
+		} else if (fieldName.equals(WEEK_OF_MONTH)) {
 			return Calendar.WEEK_OF_MONTH;
-		else if (fieldName.equals(DAY_OF_MONTH))
+		} else if (fieldName.equals(DAY_OF_MONTH)) {
 			return Calendar.DAY_OF_MONTH;
-		else if (fieldName.equals(DAY_OF_YEAR))
+		} else if (fieldName.equals(DAY_OF_YEAR)) {
 			return Calendar.DAY_OF_YEAR;
-		else if (fieldName.equals(DAY_OF_WEEK))
+		} else if (fieldName.equals(DAY_OF_WEEK)) {
 			return Calendar.DAY_OF_WEEK;
-		else if (fieldName.equals(HOUR))
+		} else if (fieldName.equals(HOUR)) {
 			return Calendar.HOUR;
-		else if (fieldName.equals(HOUR_OF_DAY))
+		} else if (fieldName.equals(HOUR_OF_DAY)) {
 			return Calendar.HOUR_OF_DAY;
-		else if (fieldName.equals(MINUTE))
+		} else if (fieldName.equals(MINUTE)) {
 			return Calendar.MINUTE;
-		else if (fieldName.equals(SECOND))
+		} else if (fieldName.equals(SECOND)) {
 			return Calendar.SECOND;
-		else if (fieldName.equals(MILLISECOND))
+		} else if (fieldName.equals(MILLISECOND)) {
 			return Calendar.MILLISECOND;
+		}
 		return -1;
 	}
 
@@ -104,16 +117,17 @@ public class TimeDimensionUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
 	private static Calendar getCalendar(Date d) {
 		Calendar c = null;
-		if (timeZone == null)
+		if (timeZone == null) {
 			c = Calendar.getInstance();
-		else
+		} else {
 			c = Calendar.getInstance(timeZone);
+		}
 		c.setTime(d);
 		return c;
 	}

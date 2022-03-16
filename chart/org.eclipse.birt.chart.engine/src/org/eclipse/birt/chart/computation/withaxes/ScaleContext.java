@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
 
 /**
  * Scale context for min/max computation.
- * 
+ *
  * @TODO only support computation for linear value, to add support DataTime
  *       value if need be
  */
@@ -97,7 +100,7 @@ public class ScaleContext extends Methods {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param that
 	 */
 	public void updateShared(ScaleContext that) {
@@ -108,7 +111,7 @@ public class ScaleContext extends Methods {
 	/**
 	 * Creates a simple instance of scale. Note that this instance is just used to
 	 * store min/max and can not be computed directly.
-	 * 
+	 *
 	 * @param oMin
 	 * @param oMax
 	 * @since 2.3
@@ -143,7 +146,7 @@ public class ScaleContext extends Methods {
 
 	/**
 	 * Returns the minimum of the scale
-	 * 
+	 *
 	 * @return the minimum of the scale
 	 */
 	public Object getMin() {
@@ -156,7 +159,7 @@ public class ScaleContext extends Methods {
 
 	/**
 	 * Returns the maximum of the scale
-	 * 
+	 *
 	 * @return the maximum of the scale
 	 */
 	public Object getMax() {
@@ -170,7 +173,7 @@ public class ScaleContext extends Methods {
 	/**
 	 * Returns the minimum plus margin. Margin means extra space for rendering and
 	 * clipping. If margin is 0, or no margin needed, return null.
-	 * 
+	 *
 	 * @return the minimum plus margin. If no margin, return null.
 	 */
 	public Object getMinWithMargin() {
@@ -184,7 +187,7 @@ public class ScaleContext extends Methods {
 	/**
 	 * Returns the maximum plus margin. Margin means extra space for rendering and
 	 * clipping. If margin is 0, or no margin needed, return null.
-	 * 
+	 *
 	 * @return the maximum plus margin. If no margin, return null.
 	 */
 	public Object getMaxWithMargin() {
@@ -304,12 +307,10 @@ public class ScaleContext extends Methods {
 					} else if (dMinValue == 0) {
 						dMinAxis = 0;
 					}
-				} else {
-					if (dMinValue < 0) {
-						dMinAxis = -(dMinAxis + dStep);
-					} else if (dMinAxis >= dMinValue && dMinAxis != 0) {
-						dMinAxis -= dStep;
-					}
+				} else if (dMinValue < 0) {
+					dMinAxis = -(dMinAxis + dStep);
+				} else if (dMinAxis >= dMinValue && dMinAxis != 0) {
+					dMinAxis -= dStep;
 				}
 
 				if (ChartUtil.mathEqual(dMaxAxis, dAbsMax)) {

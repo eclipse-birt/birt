@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,13 +33,13 @@ import org.eclipse.birt.report.model.util.StyleUtil;
 
 /**
  * This class represents a theme in the library.
- * 
+ *
  */
 
 public abstract class AbstractTheme extends ReferenceableElement
 		implements IAbstractThemeModel, ICssStyleSheetOperation {
 
-	protected List<String> cachedStyleNames = new ArrayList<String>();
+	protected List<String> cachedStyleNames = new ArrayList<>();
 
 	protected ICssStyleSheetOperation operation = null;
 
@@ -51,7 +54,7 @@ public abstract class AbstractTheme extends ReferenceableElement
 
 	/**
 	 * Constructor with the element name.
-	 * 
+	 *
 	 * @param theName the element name
 	 */
 
@@ -62,10 +65,11 @@ public abstract class AbstractTheme extends ReferenceableElement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
 	 */
 
+	@Override
 	public final ContainerSlot getSlot(int slot) {
 		assert (slot == STYLES_SLOT);
 		return slots[STYLES_SLOT];
@@ -73,7 +77,7 @@ public abstract class AbstractTheme extends ReferenceableElement
 
 	/**
 	 * Gets all styles including styles in css file.
-	 * 
+	 *
 	 * @return all styles
 	 */
 
@@ -89,8 +93,9 @@ public abstract class AbstractTheme extends ReferenceableElement
 			for (DesignElement style : styles) {
 				String name = ((StyleElement) style).getFullName();
 				int pos = StyleUtil.getStylePosition(styleList, name);
-				if (pos != -1)
+				if (pos != -1) {
 					styleList.remove(pos);
+				}
 			}
 		}
 		styleList.addAll(styles);
@@ -99,14 +104,15 @@ public abstract class AbstractTheme extends ReferenceableElement
 
 	/**
 	 * Returns the style with the given name.
-	 * 
+	 *
 	 * @param styleName the style name
 	 * @return the corresponding style
 	 */
 
 	public final StyleElement findStyle(String styleName) {
-		if (styleName == null)
+		if (styleName == null) {
 			return null;
+		}
 		List<StyleElement> styles = getAllStyles();
 		for (int i = 0; i < styles.size(); ++i) {
 			StyleElement style = styles.get(i);
@@ -120,35 +126,32 @@ public abstract class AbstractTheme extends ReferenceableElement
 
 	/**
 	 * Makes a unique name for this element.
-	 * 
+	 *
 	 * @param element
 	 */
 
 	public final void makeUniqueName(DesignElement element) {
-		if (element == null)
-			return;
-
-		if (!(element instanceof StyleElement))
-			return;
-
 		// if style is on the tree already, return
-		if (element.getRoot() != null)
+		if ((element == null) || !(element instanceof StyleElement) || (element.getRoot() != null)) {
 			return;
+		}
 
 		String name = StringUtil.trimString(element.getName());
 
 		// replace all the illegal chars with '_'
 		name = NamePropertyType.validateName(name);
 
-		if (name == null)
+		if (name == null) {
 			name = ModelMessages.getMessage("New." //$NON-NLS-1$
 					+ element.getDefn().getName()).trim();
+		}
 
 		List<DesignElement> styles = slots[STYLES_SLOT].getContents();
-		List<String> ns = new ArrayList<String>(styles.size());
+		List<String> ns = new ArrayList<>(styles.size());
 		// style name is case-insensitive
-		for (int i = 0; i < styles.size(); i++)
+		for (int i = 0; i < styles.size(); i++) {
 			ns.add(styles.get(i).getName().toLowerCase());
+		}
 
 		int index = 0;
 		String baseName = name;
@@ -168,7 +171,7 @@ public abstract class AbstractTheme extends ReferenceableElement
 
 	/**
 	 * Remove some cached name.
-	 * 
+	 *
 	 * @param name the name of style element.
 	 */
 
@@ -180,51 +183,59 @@ public abstract class AbstractTheme extends ReferenceableElement
 
 	/**
 	 * Drops the given css from css list.
-	 * 
+	 *
 	 * @param css the css to drop
 	 * @return the position of the css to drop
 	 */
 
+	@Override
 	public int dropCss(CssStyleSheet css) {
-		if (operation == null)
+		if (operation == null) {
 			return -1;
+		}
 		return operation.dropCss(css);
 	}
 
 	/**
 	 * Adds the given css to css list.
-	 * 
+	 *
 	 * @param css the css to insert
 	 */
 
+	@Override
 	public void addCss(CssStyleSheet css) {
-		if (operation == null)
+		if (operation == null) {
 			operation = new CssStyleSheetAdapter();
+		}
 		operation.addCss(css);
 	}
 
 	/**
 	 * Insert the given css to the given position
-	 * 
+	 *
 	 * @param css
 	 * @param index
 	 */
 
+	@Override
 	public void insertCss(CssStyleSheet css, int index) {
-		if (operation == null)
+		if (operation == null) {
 			operation = new CssStyleSheetAdapter();
+		}
 		operation.insertCss(css, index);
 	}
 
 	/**
 	 * Returns only csses this module includes directly.
-	 * 
+	 *
 	 * @return list of csses. each item is <code>CssStyleSheet</code>
 	 */
 
+	@Override
 	public List<CssStyleSheet> getCsses() {
-		if (operation == null)
+		if (operation == null) {
 			return Collections.emptyList();
+		}
 		return operation.getCsses();
 	}
 

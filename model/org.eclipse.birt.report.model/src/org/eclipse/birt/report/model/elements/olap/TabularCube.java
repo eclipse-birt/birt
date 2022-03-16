@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +34,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * measures. It specifies a dataset to refer to o outside data set element.Use
  * the {@link org.eclipse.birt.report.model.api.olap.CubeHandle}class to change
  * the properties.
- * 
+ *
  */
 
 public class TabularCube extends Cube {
@@ -45,7 +48,7 @@ public class TabularCube extends Cube {
 
 	/**
 	 * Constructs a cube element with the given name.
-	 * 
+	 *
 	 * @param name the name given for the element
 	 */
 
@@ -55,42 +58,45 @@ public class TabularCube extends Cube {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
+	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitTabularCube(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
+	@Override
 	public String getElementName() {
 		return ReportDesignConstants.TABULAR_CUBE_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
 	 * .birt.report.model.core.Module)
 	 */
 
+	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 * 
+	 *
 	 * @param module the module of the cube
-	 * 
+	 *
 	 * @return an API handle for this element.
 	 */
 
@@ -103,32 +109,37 @@ public class TabularCube extends Cube {
 
 	/**
 	 * Sets the measure group at the specified position to be default.
-	 * 
+	 *
 	 * @param index
 	 */
 
 	public void setDefaultMeasureGroup(int index) {
 		List groups = getListProperty(getRoot(), MEASURE_GROUPS_PROP);
-		if (groups == null || groups.isEmpty())
+		if (groups == null || groups.isEmpty()) {
 			return;
-		if (index >= 0 && index < groups.size())
+		}
+		if (index >= 0 && index < groups.size()) {
 			setProperty(Cube.DEFAULT_MEASURE_GROUP_PROP, new ElementRefValue(null, (DesignElement) groups.get(index)));
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.olap.Cube#findLocalElement(java
 	 * .lang.String, org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
 
+	@Override
 	public DesignElement findLocalElement(String name, IElementDefn type) {
-		if (StringUtil.isBlank(name) || type == null)
+		if (StringUtil.isBlank(name) || type == null) {
 			return null;
+		}
 
 		Module root = getRoot();
-		if (root == null)
+		if (root == null) {
 			return null;
+		}
 
 		ElementDefn targetDefn = (ElementDefn) type;
 		String nameSpaceID = targetDefn.getNameSpaceID();
@@ -142,8 +153,9 @@ public class TabularCube extends Cube {
 		if (tmpSharedElement instanceof TabularHierarchy) {
 			Dimension tmpCubeDim = findLocalDimension((Dimension) tmpSharedElement.getContainer());
 
-			if (tmpCubeDim == null)
+			if (tmpCubeDim == null) {
 				return null;
+			}
 
 			return tmpCubeDim.getLocalHierarchy(root, name);
 		} else if (tmpSharedElement instanceof Dimension) {
@@ -153,8 +165,9 @@ public class TabularCube extends Cube {
 	}
 
 	private Dimension findLocalDimension(Dimension sharedDim) {
-		if (sharedDim.getContainer() == this)
+		if (sharedDim.getContainer() == this) {
 			return sharedDim;
+		}
 
 		Dimension tmpCubeDim = null;
 		List<BackRef> cubeDims = sharedDim.getClientList();

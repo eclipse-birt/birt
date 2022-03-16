@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -27,12 +27,12 @@ import java.util.Iterator;
  * <li>widthRestrict</li>
  * </ul>
  * to generate page hint.
- * 
+ *
  */
 public class InlineTextExtension {
-	private ArrayList<InlineTextArea> lines = new ArrayList<InlineTextArea>();
+	private ArrayList<InlineTextArea> lines = new ArrayList<>();
 
-	private ArrayList<Integer> lineBreaks = new ArrayList<Integer>();
+	private ArrayList<Integer> lineBreaks = new ArrayList<>();
 
 	/**
 	 * @see SizeBasedContent#floatPos
@@ -57,16 +57,12 @@ public class InlineTextExtension {
 	 * when generating page hint, inline text must invoke this method first.
 	 */
 	public void updatePageHintInfo(InlineTextArea area) {
-		if (lineBreaks == null || lineBreaks.size() == 0) {
-			return;
-		}
-
 		// if the area is in the repeated header, its page hint info should only
 		// be updated for one time.
 		// And then we should not update the page hint info any more.
 		// Because the cloned area will not be in the lines. And the page hint
 		// info should not change any more as the area is in repeated header.
-		if (!firstTimeEnter && area.isInRepeatedHeader()) {
+		if (lineBreaks == null || lineBreaks.size() == 0 || (!firstTimeEnter && area.isInRepeatedHeader())) {
 			return;
 		}
 

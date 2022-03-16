@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +36,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
- * 
+ *
  */
 
 public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider {
@@ -41,14 +44,14 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider {
 	/**
 	 * Column properties.
 	 */
-	private String[] columnKeys = new String[] { ILevelViewConstants.LEVEL_PROP, IFilterConditionElementModel.EXPR_PROP,
+	private String[] columnKeys = { ILevelViewConstants.LEVEL_PROP, IFilterConditionElementModel.EXPR_PROP,
 			IFilterConditionElementModel.OPERATOR_PROP, IFilterConditionElementModel.VALUE1_PROP,
 			IFilterConditionElementModel.VALUE2_PROP };
 
 	/**
 	 * Column widths.
 	 */
-	private static int[] columnWidth = new int[] { 180, 150, 100, 150, 150 };
+	private static int[] columnWidth = { 180, 150, 100, 150, 150 };
 
 	/**
 	 * The display name of columns.
@@ -66,10 +69,11 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnNames()
 	 */
+	@Override
 	public String[] getColumnNames() {
 		if (columnNames == null) {
 			columnNames = modelAdapter.getColumnNames(columnKeys);
@@ -79,20 +83,22 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getTitle()
 	 */
+	@Override
 	public String getDisplayName() {
 		return Messages.getString("FilterHandleProvider.Label.Filterby"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
+	@Override
 	public CellEditor[] getEditors(final Table table) {
 		if (editors == null) {
 			editors = new CellEditor[columnKeys.length];
@@ -108,10 +114,11 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doMoveItem(int, int)
 	 */
+	@Override
 	public boolean doMoveItem(int oldPos, int newPos) throws PropertyValueException {
 		// can not move
 		return false;
@@ -119,40 +126,44 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doDeleteItem(int)
 	 */
+	@Override
 	public boolean doDeleteItem(int pos) throws PropertyValueException {
 		return modelAdapter.deleteItem(contentInput.get(0), pos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doAddItem(int)
 	 */
+	@Override
 	public boolean doAddItem(int pos) throws SemanticException {
 		return modelAdapter.doAddItem(contentInput.get(0), pos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doEditItem(int)
 	 */
+	@Override
 	public boolean doEditItem(int pos) {
 		return ((CrosstabFilterModelProvider) modelAdapter).doEditItem(contentInput.get(0), pos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnText(java.lang.Object, int)
 	 */
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		String key = columnKeys[columnIndex];
 		return modelAdapter.getText(element, key);
@@ -160,25 +171,27 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getImagePath(java.lang.Object, int)
 	 */
+	@Override
 	public Image getImage(Object element, int columnIndex) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getElements(java.lang.Object)
 	 */
+	@Override
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof List) {
 			contentInput = (List) inputElement;
 		} else {
-			contentInput = new ArrayList<Object>();
+			contentInput = new ArrayList<>();
 			contentInput.add(inputElement);
 		}
 //		getDataSetColumns( input.get( 0 ) );
@@ -188,20 +201,22 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#canModify(java.lang.Object, java.lang.String)
 	 */
+	@Override
 	public boolean canModify(Object element, String property) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getValue(java.lang.Object, java.lang.String)
 	 */
+	@Override
 	public Object getValue(Object element, String property) {
 		int index = Arrays.asList(columnNames).indexOf(property);
 		String columnText = getColumnText(element, index);
@@ -211,11 +226,12 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#modify(java.lang.Object, java.lang.String,
 	 * java.lang.Object)
 	 */
+	@Override
 	public boolean modify(Object data, String property, Object value) throws NameException, SemanticException {
 
 		return false;
@@ -224,21 +240,23 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnWidths()
 	 */
+	@Override
 	public int[] getColumnWidths() {
 		return columnWidth;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#needRefreshed(org.eclipse.birt.model.activity.
 	 * NotificationEvent)
 	 */
+	@Override
 	public boolean needRefreshed(NotificationEvent event) {
 		if (event instanceof PropertyEvent) {
 			String propertyName = ((PropertyEvent) event).getPropertyName();
@@ -246,14 +264,7 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider {
 //			{
 //				getDataSetColumns( input.get( 0 ) );
 //			}
-			if (ListingHandle.FILTER_PROP.equals(propertyName)) {
-				return true;
-			}
-			if (ReportItemHandle.PARAM_BINDINGS_PROP.equals(propertyName)) {
-				return true;
-			}
-
-			if (ILevelViewConstants.LEVEL_PROP.equals(propertyName)) {
+			if (ListingHandle.FILTER_PROP.equals(propertyName) || ReportItemHandle.PARAM_BINDINGS_PROP.equals(propertyName) || ILevelViewConstants.LEVEL_PROP.equals(propertyName)) {
 				return true;
 			}
 		}
@@ -262,10 +273,11 @@ public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * AbstractFilterHandleProvider#getConcreteFilterProvider()
 	 */
+	@Override
 	public IFormProvider getConcreteFilterProvider() {
 		return this;
 	}

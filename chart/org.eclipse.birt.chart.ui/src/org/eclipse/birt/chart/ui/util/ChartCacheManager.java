@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,21 +30,21 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 
 public final class ChartCacheManager {
 
-	private static Map<String, ChartCacheManager> instances = new HashMap<String, ChartCacheManager>(3);
+	private static Map<String, ChartCacheManager> instances = new HashMap<>(3);
 
 	private static String currentInstanceId = null;
 
 	private static final String DEFAULT_INSTANCE = "default"; //$NON-NLS-1$
 
-	private List<Map<String, Series>> cacheSeries = new ArrayList<Map<String, Series>>(3);
+	private List<Map<String, Series>> cacheSeries = new ArrayList<>(3);
 
-	private Map<String, Object> cacheCharts = new HashMap<String, Object>();
+	private Map<String, Object> cacheCharts = new HashMap<>();
 
 	/**
 	 * The map stores Series label position, key is Chart stacked type, value is
 	 * reated label position object whose class type is <code>Position</code>.
 	 */
-	private Map<String, Position> cacheLabelPosition = new HashMap<String, Position>();
+	private Map<String, Position> cacheLabelPosition = new HashMap<>();
 
 	private static final String PREFIX_SUBTYPE = "s_"; //$NON-NLS-1$
 
@@ -60,7 +63,7 @@ public final class ChartCacheManager {
 	/**
 	 * Returns an instance. Must invoke <code>switchInstance(String)</code> at first
 	 * to ensure returned instance is what you want, or return a default instance.
-	 * 
+	 *
 	 * @return instance
 	 */
 	public static ChartCacheManager getInstance() {
@@ -72,7 +75,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Returns a specified instance.
-	 * 
+	 *
 	 * @param instanceId Instance id.
 	 * @return instance
 	 */
@@ -83,7 +86,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Switched the instance by passing id. If id is new, create an instance.
-	 * 
+	 *
 	 * @param instanceId Instance id.
 	 */
 	public static void switchInstance(String instanceId) {
@@ -96,7 +99,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Returns a cached series.
-	 * 
+	 *
 	 * @param seriesClass Class name of series
 	 * @param seriesIndex The series index in the all series definitions
 	 * @return a cloned series instances of specified type. Returns null if not
@@ -117,7 +120,7 @@ public final class ChartCacheManager {
 	/**
 	 * Caches a list of series. Series instance will be cloned before being stored.
 	 * If the series instance is existent, replace it with the latest.
-	 * 
+	 *
 	 * @param seriesDefinitions A list of series definitions. Series types can be
 	 *                          different from each other.
 	 */
@@ -138,7 +141,7 @@ public final class ChartCacheManager {
 	/**
 	 * Caches a series. Series instance will be cloned before being stored. If the
 	 * series instance is existent, replace it with the latest.
-	 * 
+	 *
 	 * @param seriesIndex The series index in the all series definitions
 	 * @param series      Series instance
 	 */
@@ -152,7 +155,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Removes redundant series instances.
-	 * 
+	 *
 	 * @param seriesSize The series number of current chart model
 	 */
 	public void removeSeries(int seriesSize) {
@@ -163,7 +166,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Clears current instance and related resources.
-	 * 
+	 *
 	 */
 	public void dispose() {
 		cacheSeries.clear();
@@ -175,7 +178,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Caches the latest selection of sub-type
-	 * 
+	 *
 	 * @param chartType Chart type
 	 * @param subtype   Chart sub-type
 	 */
@@ -185,7 +188,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Cache the latest selection of series-type
-	 * 
+	 *
 	 * @param seriesType Chart second axis series-type
 	 */
 	public void cacheSeriesType(String seriesType) {
@@ -194,7 +197,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Caches the label position of specified Chart stacked type
-	 * 
+	 *
 	 * @param stackedType   Chart stacked type.
 	 * @param labelPosition Series label position.
 	 */
@@ -204,7 +207,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Returns label position of specified Chart stacked type.
-	 * 
+	 *
 	 * @param stackedType Chart stacked type.
 	 * @return value of Series label position.
 	 */
@@ -214,7 +217,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Returns the latest selection of sub-type
-	 * 
+	 *
 	 * @param chartType Chart type
 	 * @return the latest selection of sub-type. Returns null if not found
 	 */
@@ -224,7 +227,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Returns the latest selection of series-type
-	 * 
+	 *
 	 * @return the latest selection of series-type. Returns null if not found
 	 */
 	public String findSeriesType() {
@@ -233,7 +236,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Caches the latest selection of orientation.
-	 * 
+	 *
 	 * @param chartType   Chart type
 	 * @param orientation Chart orientation
 	 */
@@ -243,7 +246,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Returns the latest selection of orientation.
-	 * 
+	 *
 	 * @param chartType Chart type
 	 * @return the latest selection of orientation. Returns null if not found
 	 */
@@ -253,7 +256,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Caches the latest selection of axis category.
-	 * 
+	 *
 	 * @param chartType Chart type
 	 * @param bCategory
 	 */
@@ -263,7 +266,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Returns the latest selection of axis category.
-	 * 
+	 *
 	 * @param chartType Chart type
 	 * @return the latest selection of axis category. Returns null if not found
 	 */
@@ -273,7 +276,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Cache the dimension selection matching to the chart type.
-	 * 
+	 *
 	 * @param chartType Chart type
 	 * @param dimension dimension
 	 */
@@ -283,7 +286,7 @@ public final class ChartCacheManager {
 
 	/**
 	 * Return the latest selection according to the chart type.
-	 * 
+	 *
 	 * @param chartType chart type
 	 * @return the latest selection according to the chart type.
 	 */

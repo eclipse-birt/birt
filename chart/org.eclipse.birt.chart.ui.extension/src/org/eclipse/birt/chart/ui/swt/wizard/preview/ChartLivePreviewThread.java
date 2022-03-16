@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +36,7 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * This class is used to manage chart live preview, makes no-UI task and UI task
  * running in different threads and controls correct invoking orders.
- * 
+ *
  * @since 2.5.2
  */
 
@@ -75,7 +78,7 @@ public class ChartLivePreviewThread extends Thread {
 
 	/**
 	 * Sets parent shell that is used to create a progress dialog.
-	 * 
+	 *
 	 * @param shell
 	 */
 	public void setParentShell(Shell shell) {
@@ -84,9 +87,10 @@ public class ChartLivePreviewThread extends Thread {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Thread#start()
 	 */
+	@Override
 	public void start() {
 		blinker = this;
 		super.start();
@@ -115,7 +119,7 @@ public class ChartLivePreviewThread extends Thread {
 
 	/**
 	 * Adds a task.
-	 * 
+	 *
 	 * @param atask
 	 */
 	public synchronized void add(LivePreviewTask atask) {
@@ -126,7 +130,7 @@ public class ChartLivePreviewThread extends Thread {
 
 	/**
 	 * Removes a task from inactive task.
-	 * 
+	 *
 	 * @return
 	 */
 	private synchronized LivePreviewTask remove() {
@@ -138,9 +142,10 @@ public class ChartLivePreviewThread extends Thread {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Thread#run()
 	 */
+	@Override
 	public void run() {
 		initDataEngine();
 		initFinished = true;
@@ -153,14 +158,16 @@ public class ChartLivePreviewThread extends Thread {
 			try {
 				LivePreviewTask tp = null;
 				synchronized (this) {
-					while (threadSuspended)
+					while (threadSuspended) {
 						this.wait();
+					}
 					tp = remove();
 				}
 
 				if (!hasDataEngine) {
 					Display.getDefault().asyncExec(new Runnable() {
 
+						@Override
 						public void run() {
 							WizardBase.showException(
 									Messages.getString("ChartLivePreviewThread.ErrorMessage.NoDataEngine")); //$NON-NLS-1$
@@ -205,7 +212,7 @@ public class ChartLivePreviewThread extends Thread {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void initDataEngine() {
 		if (dataProvider != null) {
@@ -216,6 +223,7 @@ public class ChartLivePreviewThread extends Thread {
 				final Exception exp = e;
 				Display.getDefault().asyncExec(new Runnable() {
 
+					@Override
 					public void run() {
 						WizardBase.displayException(exp);
 					}
@@ -225,7 +233,7 @@ public class ChartLivePreviewThread extends Thread {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void disposeDataEngine() {
 		if (dataProvider != null) {
@@ -255,9 +263,11 @@ public class ChartLivePreviewThread extends Thread {
 			}
 		}
 
+		@Override
 		public void run() {
 			Display.getDefault().syncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					Display display = null;
 					if (parentShell != null && !parentShell.isDisposed()) {
@@ -293,8 +303,9 @@ public class ChartLivePreviewThread extends Thread {
 
 					shell.open();
 					while (!shell.isDisposed()) {
-						if (!display.readAndDispatch())
+						if (!display.readAndDispatch()) {
 							display.sleep();
+						}
 					}
 				}
 			});
@@ -303,6 +314,7 @@ public class ChartLivePreviewThread extends Thread {
 		public void dispose() {
 			Display.getDefault().syncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					try {
 						if (shell != null) {

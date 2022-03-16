@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -12,7 +15,7 @@ package org.eclipse.birt.report.model.api;
 /**
  * Prepares parameters for row operation , including copy , paste , insert and
  * shift operation.
- * 
+ *
  */
 
 public class RowOperationParameters {
@@ -21,7 +24,7 @@ public class RowOperationParameters {
 	 * slot id. When group id is smaller than zero , slot id stands for group
 	 * header, or SLOT_GROUP_FOOTER; else slot id stands for SLOT_TABLE_HEADER ,
 	 * SLOT_TABLE_DETAIL , SLOT_TABLE_FOOTER
-	 * 
+	 *
 	 */
 
 	private int slotId;
@@ -56,7 +59,7 @@ public class RowOperationParameters {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param slotId    slot id
 	 * @param groupId   group id
 	 * @param destIndex destination index
@@ -70,7 +73,7 @@ public class RowOperationParameters {
 
 	/**
 	 * Returns target index.
-	 * 
+	 *
 	 * @return index.
 	 */
 
@@ -80,7 +83,7 @@ public class RowOperationParameters {
 
 	/**
 	 * Sets target index
-	 * 
+	 *
 	 * @param destIndex target index
 	 */
 
@@ -90,7 +93,7 @@ public class RowOperationParameters {
 
 	/**
 	 * Returns group id
-	 * 
+	 *
 	 * @return group id.
 	 */
 
@@ -100,7 +103,7 @@ public class RowOperationParameters {
 
 	/**
 	 * Sets group id
-	 * 
+	 *
 	 * @param groupId groupd id
 	 */
 
@@ -110,7 +113,7 @@ public class RowOperationParameters {
 
 	/**
 	 * Returns slot id.
-	 * 
+	 *
 	 * @return slot id.
 	 */
 
@@ -120,7 +123,7 @@ public class RowOperationParameters {
 
 	/**
 	 * Sets slot id.
-	 * 
+	 *
 	 * @param slotId slot id.
 	 */
 
@@ -130,7 +133,7 @@ public class RowOperationParameters {
 
 	/**
 	 * Returns source index.
-	 * 
+	 *
 	 * @return source index.
 	 */
 
@@ -140,7 +143,7 @@ public class RowOperationParameters {
 
 	/**
 	 * Sets source index.
-	 * 
+	 *
 	 * @param sourceIndex source index
 	 */
 

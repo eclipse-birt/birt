@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ISimpleMasterPageModel;
 /**
  * Represents a simple master page. The simple master page provides a header and
  * footer that appear on every page.
- * 
+ *
  */
 
 public class SimpleMasterPageHandle extends MasterPageHandle implements ISimpleMasterPageModel {
@@ -28,7 +31,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle implements ISimpleM
 	 * Constructs the handle for a simple master page with the given design and
 	 * element. The application generally does not create handles directly. Instead,
 	 * it uses one of the navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -39,7 +42,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle implements ISimpleM
 
 	/**
 	 * Tests whether to show the page header on the first page of the report.
-	 * 
+	 *
 	 * @return <code>true</code> if allows to show the header on the first page.
 	 */
 
@@ -49,7 +52,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle implements ISimpleM
 
 	/**
 	 * Changes the status to show page header on the first page or not.
-	 * 
+	 *
 	 * @param showHeaderOnFirst <code>true</code> if allow show header on the first
 	 *                          page, <code>false</code> otherwise.
 	 * @throws SemanticException if the property is locked.
@@ -61,7 +64,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle implements ISimpleM
 
 	/**
 	 * Tests whether to show the page footer on the last page.
-	 * 
+	 *
 	 * @return <code>true</code> if allows to show the footer on the last page.
 	 */
 
@@ -71,7 +74,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle implements ISimpleM
 
 	/**
 	 * Changes the status to show footer on the last page.
-	 * 
+	 *
 	 * @param showFooterOnLast <code>true</code> to allow to show footer on last
 	 *                         page, <code>false</code> otherwise.
 	 * @throws SemanticException if the property is locked.
@@ -83,7 +86,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle implements ISimpleM
 
 	/**
 	 * Tests whether allows the footer 'floats' after the last content on each page.
-	 * 
+	 *
 	 * @return <code>true</code> if the simple master page allows floating footer.
 	 */
 
@@ -93,7 +96,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle implements ISimpleM
 
 	/**
 	 * Changes the status to say if it has a floating footer or not.
-	 * 
+	 *
 	 * @param isFloatingFooter <code>true</code> to allow the footer floating,
 	 *                         <code>false</code> not.
 	 * @throws SemanticException if the property is locked.
@@ -105,7 +108,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle implements ISimpleM
 
 	/**
 	 * Returns the page header slot of this simple master page.
-	 * 
+	 *
 	 * @return the page header slot handle.
 	 */
 
@@ -115,7 +118,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle implements ISimpleM
 
 	/**
 	 * Returns the page footer slot of this simple master page.
-	 * 
+	 *
 	 * @return the page footer slot handle.
 	 */
 
@@ -125,7 +128,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle implements ISimpleM
 
 	/**
 	 * Gets a dimension handle to work with the height on page header.
-	 * 
+	 *
 	 * @return a DimensionHandle for the header height.
 	 */
 
@@ -135,7 +138,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle implements ISimpleM
 
 	/**
 	 * Gets a dimension handle to work with the height on page footer.
-	 * 
+	 *
 	 * @return a DimensionHandle for the header footer.
 	 */
 

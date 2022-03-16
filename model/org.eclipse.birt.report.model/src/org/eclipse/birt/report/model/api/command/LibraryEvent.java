@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,10 +43,11 @@ public class LibraryEvent extends NotificationEvent {
 
 	/**
 	 * The library is shifted downwards or forwards.
-	 * 
+	 *
 	 * @deprecated by LibraryLoadedEvent
 	 */
 
+	@Deprecated
 	public static final int RELOAD = 4;
 
 	/**
@@ -60,7 +64,7 @@ public class LibraryEvent extends NotificationEvent {
 
 	/**
 	 * Constructs the event with the added or dropped library and action.
-	 * 
+	 *
 	 * @param library the library causing this event
 	 * @param action  th etype of change
 	 */
@@ -72,18 +76,19 @@ public class LibraryEvent extends NotificationEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
 	 */
 
+	@Override
 	public int getEventType() {
 		return LIBRARY_EVENT;
 	}
 
 	/**
 	 * Returns the type of change.
-	 * 
+	 *
 	 * @return the type of change.
 	 */
 
@@ -93,7 +98,7 @@ public class LibraryEvent extends NotificationEvent {
 
 	/**
 	 * Returns the library causing this event.
-	 * 
+	 *
 	 * @return the library causing this event
 	 */
 

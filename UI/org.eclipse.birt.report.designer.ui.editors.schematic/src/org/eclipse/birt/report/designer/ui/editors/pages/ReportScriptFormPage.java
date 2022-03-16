@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -80,10 +82,11 @@ public class ReportScriptFormPage extends ReportFormPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#init
 	 * (org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
 	 */
+	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		super.init(site, input);
 		jsEditor = createJSEditor();
@@ -92,7 +95,7 @@ public class ReportScriptFormPage extends ReportFormPage {
 
 	/**
 	 * Creates javascript editor for the page.
-	 * 
+	 *
 	 * @return the javascript editor
 	 */
 	protected IEditorPart createJSEditor() {
@@ -124,11 +127,12 @@ public class ReportScriptFormPage extends ReportFormPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop
 	 * (org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
 	 */
+	@Override
 	public boolean onBroughtToTop(IReportEditorPage prePage) {
 		boolean notify = true;
 		if (prePage == this) {
@@ -221,11 +225,12 @@ public class ReportScriptFormPage extends ReportFormPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale
 	 * (int)
 	 */
+	@Override
 	public void markPageStale(int type) {
 		this.staleType = type;
 	}
@@ -241,39 +246,43 @@ public class ReportScriptFormPage extends ReportFormPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType ()
 	 */
+	@Override
 	public int getStaleType() {
 		return staleType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getPartControl()
 	 */
+	@Override
 	public Control getPartControl() {
 		return this.control;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getId()
 	 */
+	@Override
 	public String getId() {
 		return ID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	public void createPartControl(Composite parent) {
 		try {
 			jsEditor.createPartControl(parent);
@@ -297,10 +306,11 @@ public class ReportScriptFormPage extends ReportFormPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
 	 * IProgressMonitor)
 	 */
+	@Override
 	public void doSave(IProgressMonitor monitor) {
 		if (jsEditor instanceof JSEditor) {
 			((JSEditor) jsEditor).doSave(monitor, false);
@@ -320,9 +330,10 @@ public class ReportScriptFormPage extends ReportFormPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
 	 */
+	@Override
 	public void doSaveAs() {
 		IReportProvider provider = getProvider();
 		if (provider != null) {
@@ -338,12 +349,14 @@ public class ReportScriptFormPage extends ReportFormPage {
 
 			IRunnableWithProgress op = new IRunnableWithProgress() {
 
+				@Override
 				public synchronized final void run(IProgressMonitor monitor)
 						throws InvocationTargetException, InterruptedException {
 					final InvocationTargetException[] iteHolder = new InvocationTargetException[1];
 					try {
 						IWorkspaceRunnable workspaceRunnable = new IWorkspaceRunnable() {
 
+							@Override
 							public void run(IProgressMonitor pm) throws CoreException {
 								try {
 									execute(pm);
@@ -403,9 +416,10 @@ public class ReportScriptFormPage extends ReportFormPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#isDirty()
 	 */
+	@Override
 	public boolean isDirty() {
 		boolean isModelDirty = false;
 
@@ -418,9 +432,10 @@ public class ReportScriptFormPage extends ReportFormPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#dispose()
 	 */
+	@Override
 	public void dispose() {
 		unhookModelEventManager(model);
 		if (jsEditor instanceof JSEditor) {
@@ -434,9 +449,10 @@ public class ReportScriptFormPage extends ReportFormPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
 	 */
+	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter.equals(ITextEditor.class)) {
 			if (jsEditor != null) {
@@ -464,7 +480,7 @@ public class ReportScriptFormPage extends ReportFormPage {
 
 	/**
 	 * Get JS Script editor.
-	 * 
+	 *
 	 * @return
 	 */
 	public IEditorPart getScriptEditor() {
@@ -473,15 +489,17 @@ public class ReportScriptFormPage extends ReportFormPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#
 	 * canLeaveThePage()
 	 */
+	@Override
 	public boolean canLeaveThePage() {
 		jsEditor.doSave(null);
 		return super.canLeaveThePage();
 	}
 
+	@Override
 	protected void finalize() throws Throwable {
 		if (Policy.TRACING_PAGE_CLOSE) {
 			System.out.println("Report script page finalized"); //$NON-NLS-1$

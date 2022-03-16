@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -82,7 +85,7 @@ public class SwtRendererImpl extends DeviceAdapter {
 	 */
 	public static final String DOUBLE_BUFFERED = "device.double.buffered"; //$NON-NLS-1$
 
-	private final LinkedHashMap<TriggerCondition, List<RegionAction>> _lhmAllTriggers = new LinkedHashMap<TriggerCondition, List<RegionAction>>();
+	private final LinkedHashMap<TriggerCondition, List<RegionAction>> _lhmAllTriggers = new LinkedHashMap<>();
 
 	private IDisplayServer _ids;
 
@@ -126,29 +129,32 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.IDeviceRenderer#getGraphicsContext()
 	 */
+	@Override
 	public Object getGraphicsContext() {
 		return _gc;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.IDeviceRenderer#getDisplayServer()
 	 */
+	@Override
 	public IDisplayServer getDisplayServer() {
 		return _ids;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#setClip(org.eclipse.birt.
 	 * chart.event.ClipRenderEvent)
 	 */
+	@Override
 	public void setClip(ClipRenderEvent cre) {
 		final Location[] loa = cre.getVertices();
 
@@ -164,11 +170,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawImage(org.eclipse.birt.
 	 * chart.event.ImageRenderEvent)
 	 */
+	@Override
 	public void drawImage(ImageRenderEvent pre) throws ChartException {
 		if (pre.getImage() == null || pre.getLocation() == null) {
 			return;
@@ -250,11 +257,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawLine(org.eclipse.birt.
 	 * chart.event.LineRenderEvent)
 	 */
+	@Override
 	public void drawLine(LineRenderEvent lre) throws ChartException {
 		iv.modifyEvent(lre);
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
@@ -298,11 +306,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawRectangle(org.eclipse.
 	 * birt.chart.event.RectangleRenderEvent)
 	 */
+	@Override
 	public void drawRectangle(RectangleRenderEvent rre) throws ChartException {
 		iv.modifyEvent(rre);
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
@@ -350,11 +359,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IPrimitiveRenderer#fillRectangle(org.eclipse.
 	 * birt.chart.event.RectangleRenderEvent)
 	 */
+	@Override
 	public void fillRectangle(RectangleRenderEvent rre) throws ChartException {
 		iv.modifyEvent(rre);
 		final Fill flBackground = validateMultipleFill(rre.getBackground());
@@ -391,11 +401,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawPolygon(org.eclipse.birt.
 	 * chart.event.PolygonRenderEvent)
 	 */
+	@Override
 	public void drawPolygon(PolygonRenderEvent pre) throws ChartException {
 		iv.modifyEvent(pre);
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
@@ -442,11 +453,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#fillPolygon(org.eclipse.birt.
 	 * chart.event.PolygonRenderEvent)
 	 */
+	@Override
 	public void fillPolygon(PolygonRenderEvent pre) throws ChartException {
 		iv.modifyEvent(pre);
 
@@ -494,7 +506,7 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/**
 	 * Extra fix due to SWT arc rendering limitation.
-	 * 
+	 *
 	 * @param _gc
 	 * @param are
 	 * @param dTranslateX
@@ -553,56 +565,48 @@ public class SwtRendererImpl extends DeviceAdapter {
 			_gc.drawPath(pt);
 
 			pt.dispose();
+		} else if (are.getStyle() == ArcRenderEvent.OPEN) {
+			_gc.drawArc((int) ((are.getTopLeft().getX() + dTranslateX) * dScale),
+					(int) ((are.getTopLeft().getY() + dTranslateY) * dScale), (int) (are.getWidth() * dScale),
+					(int) (are.getHeight() * dScale), (int) are.getStartAngle(), (int) are.getAngleExtent());
 		} else {
-			if (are.getStyle() == ArcRenderEvent.OPEN) {
-				_gc.drawArc((int) ((are.getTopLeft().getX() + dTranslateX) * dScale),
-						(int) ((are.getTopLeft().getY() + dTranslateY) * dScale), (int) (are.getWidth() * dScale),
-						(int) (are.getHeight() * dScale), (int) are.getStartAngle(), (int) are.getAngleExtent());
-			} else {
-				double xc = ((are.getTopLeft().getX() + dTranslateX + are.getWidth() / 2d) * dScale);
-				double yc = ((are.getTopLeft().getY() + dTranslateY + are.getHeight() / 2d) * dScale);
+			double xc = ((are.getTopLeft().getX() + dTranslateX + are.getWidth() / 2d) * dScale);
+			double yc = ((are.getTopLeft().getY() + dTranslateY + are.getHeight() / 2d) * dScale);
 
-				double xs = 0, ys = 0, xe = 0, ye = 0;
+			double xs = 0, ys = 0, xe = 0, ye = 0;
 
-				double angle = Math.toRadians(-are.getStartAngle());
+			double angle = Math.toRadians(-are.getStartAngle());
 
-				xs = ((are.getTopLeft().getX() + dTranslateX + (Math.cos(angle) * 0.5 + 0.5) * are.getWidth())
-						* dScale);
-				ys = ((are.getTopLeft().getY() + dTranslateY + (Math.sin(angle) * 0.5 + 0.5) * are.getHeight())
-						* dScale);
+			xs = ((are.getTopLeft().getX() + dTranslateX + (Math.cos(angle) * 0.5 + 0.5) * are.getWidth()) * dScale);
+			ys = ((are.getTopLeft().getY() + dTranslateY + (Math.sin(angle) * 0.5 + 0.5) * are.getHeight()) * dScale);
 
-				angle = Math.toRadians(-are.getStartAngle() - are.getAngleExtent());
+			angle = Math.toRadians(-are.getStartAngle() - are.getAngleExtent());
 
-				xe = ((are.getTopLeft().getX() + dTranslateX + (Math.cos(angle) * 0.5 + 0.5) * are.getWidth())
-						* dScale);
-				ye = ((are.getTopLeft().getY() + dTranslateY + (Math.sin(angle) * 0.5 + 0.5) * are.getHeight())
-						* dScale);
+			xe = ((are.getTopLeft().getX() + dTranslateX + (Math.cos(angle) * 0.5 + 0.5) * are.getWidth()) * dScale);
+			ye = ((are.getTopLeft().getY() + dTranslateY + (Math.sin(angle) * 0.5 + 0.5) * are.getHeight()) * dScale);
 
-				Path pt = new Path(_dv);
-				if (are.getStyle() == ArcRenderEvent.CLOSED) {
-					pt.addArc((float) ((are.getTopLeft().getX() + dTranslateX) * dScale),
-							(float) ((are.getTopLeft().getY() + dTranslateY) * dScale),
-							(float) (are.getWidth() * dScale), (float) (are.getHeight() * dScale),
-							(float) are.getStartAngle(), (float) are.getAngleExtent());
-					// fix in case angle extent is zero.
-					pt.moveTo((float) xe, (float) ye);
-					pt.lineTo((float) xs, (float) ys);
+			Path pt = new Path(_dv);
+			if (are.getStyle() == ArcRenderEvent.CLOSED) {
+				pt.addArc((float) ((are.getTopLeft().getX() + dTranslateX) * dScale),
+						(float) ((are.getTopLeft().getY() + dTranslateY) * dScale), (float) (are.getWidth() * dScale),
+						(float) (are.getHeight() * dScale), (float) are.getStartAngle(), (float) are.getAngleExtent());
+				// fix in case angle extent is zero.
+				pt.moveTo((float) xe, (float) ye);
+				pt.lineTo((float) xs, (float) ys);
 
-					_gc.drawPath(pt);
-				} else if (are.getStyle() == ArcRenderEvent.SECTOR) {
-					pt.addArc((float) ((are.getTopLeft().getX() + dTranslateX) * dScale),
-							(float) ((are.getTopLeft().getY() + dTranslateY) * dScale),
-							(float) (are.getWidth() * dScale), (float) (are.getHeight() * dScale),
-							(float) are.getStartAngle(), (float) are.getAngleExtent());
-					// fix in case angle extent is zero.
-					pt.moveTo((float) xe, (float) ye);
-					pt.lineTo((float) xc, (float) yc);
-					pt.lineTo((float) xs, (float) ys);
+				_gc.drawPath(pt);
+			} else if (are.getStyle() == ArcRenderEvent.SECTOR) {
+				pt.addArc((float) ((are.getTopLeft().getX() + dTranslateX) * dScale),
+						(float) ((are.getTopLeft().getY() + dTranslateY) * dScale), (float) (are.getWidth() * dScale),
+						(float) (are.getHeight() * dScale), (float) are.getStartAngle(), (float) are.getAngleExtent());
+				// fix in case angle extent is zero.
+				pt.moveTo((float) xe, (float) ye);
+				pt.lineTo((float) xc, (float) yc);
+				pt.lineTo((float) xs, (float) ys);
 
-					_gc.drawPath(pt);
-				}
-				pt.dispose();
+				_gc.drawPath(pt);
 			}
+			pt.dispose();
 		}
 
 	}
@@ -641,11 +645,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawArc(org.eclipse.birt.
 	 * chart.event.ArcRenderEvent)
 	 */
+	@Override
 	public void drawArc(ArcRenderEvent are) throws ChartException {
 		iv.modifyEvent(are);
 
@@ -692,11 +697,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#fillArc(org.eclipse.birt.
 	 * chart.event.ArcRenderEvent)
 	 */
+	@Override
 	public void fillArc(ArcRenderEvent are) throws ChartException {
 		iv.modifyEvent(are);
 
@@ -741,51 +747,45 @@ public class SwtRendererImpl extends DeviceAdapter {
 					(float) -are.getAngleExtent());
 
 			pt.lineTo((float) xsOuter, (float) ysOuter);
-		} else {
-			if (are.getStyle() == ArcRenderEvent.SECTOR
-					|| (are.getStyle() == ArcRenderEvent.CLOSED && Math.abs(are.getAngleExtent()) >= 360)) {
-				double xc = ((are.getTopLeft().getX() + dTranslateX + are.getWidth() / 2d) * dScale);
-				double yc = ((are.getTopLeft().getY() + dTranslateY + are.getHeight() / 2d) * dScale);
+		} else if (are.getStyle() == ArcRenderEvent.SECTOR
+				|| (are.getStyle() == ArcRenderEvent.CLOSED && Math.abs(are.getAngleExtent()) >= 360)) {
+			double xc = ((are.getTopLeft().getX() + dTranslateX + are.getWidth() / 2d) * dScale);
+			double yc = ((are.getTopLeft().getY() + dTranslateY + are.getHeight() / 2d) * dScale);
 
-				double xs = 0, ys = 0;
-				double angle = Math.toRadians(-are.getStartAngle());
+			double xs = 0, ys = 0;
+			double angle = Math.toRadians(-are.getStartAngle());
 
-				xs = ((are.getTopLeft().getX() + dTranslateX + (Math.cos(angle) * 0.5 + 0.5) * are.getWidth())
-						* dScale);
-				ys = ((are.getTopLeft().getY() + dTranslateY + (Math.sin(angle) * 0.5 + 0.5) * are.getHeight())
-						* dScale);
+			xs = ((are.getTopLeft().getX() + dTranslateX + (Math.cos(angle) * 0.5 + 0.5) * are.getWidth()) * dScale);
+			ys = ((are.getTopLeft().getY() + dTranslateY + (Math.sin(angle) * 0.5 + 0.5) * are.getHeight()) * dScale);
 
-				if (are.getStyle() == ArcRenderEvent.CLOSED) {
-					pt.addArc((float) ((are.getTopLeft().getX() + dTranslateX) * dScale),
-							(float) ((are.getTopLeft().getY() + dTranslateY) * dScale),
-							(float) (are.getWidth() * dScale), (float) (are.getHeight() * dScale),
-							(float) are.getStartAngle(), (float) are.getAngleExtent());
-					pt.lineTo((float) xs, (float) ys);
-				} else if (are.getStyle() == ArcRenderEvent.SECTOR) {
-					pt.addArc((float) ((are.getTopLeft().getX() + dTranslateX) * dScale),
-							(float) ((are.getTopLeft().getY() + dTranslateY) * dScale),
-							(float) (are.getWidth() * dScale), (float) (are.getHeight() * dScale),
-							(float) are.getStartAngle(), (float) are.getAngleExtent());
-					pt.lineTo((float) xc, (float) yc);
-					pt.lineTo((float) xs, (float) ys);
-				}
-			}
-
-			// Extra fix due to SWT arc rendering limitation.
-			else if (are.getStyle() == ArcRenderEvent.OPEN || are.getStyle() == ArcRenderEvent.CLOSED) {
-				double angle = Math.toRadians(-are.getStartAngle());
-
-				double xs = ((are.getTopLeft().getX() + dTranslateX + (Math.cos(angle) * 0.5 + 0.5) * are.getWidth())
-						* dScale);
-				double ys = ((are.getTopLeft().getY() + dTranslateY + (Math.sin(angle) * 0.5 + 0.5) * are.getHeight())
-						* dScale);
-
+			if (are.getStyle() == ArcRenderEvent.CLOSED) {
 				pt.addArc((float) ((are.getTopLeft().getX() + dTranslateX) * dScale),
 						(float) ((are.getTopLeft().getY() + dTranslateY) * dScale), (float) (are.getWidth() * dScale),
 						(float) (are.getHeight() * dScale), (float) are.getStartAngle(), (float) are.getAngleExtent());
-
+				pt.lineTo((float) xs, (float) ys);
+			} else if (are.getStyle() == ArcRenderEvent.SECTOR) {
+				pt.addArc((float) ((are.getTopLeft().getX() + dTranslateX) * dScale),
+						(float) ((are.getTopLeft().getY() + dTranslateY) * dScale), (float) (are.getWidth() * dScale),
+						(float) (are.getHeight() * dScale), (float) are.getStartAngle(), (float) are.getAngleExtent());
+				pt.lineTo((float) xc, (float) yc);
 				pt.lineTo((float) xs, (float) ys);
 			}
+		}
+
+		// Extra fix due to SWT arc rendering limitation.
+		else if (are.getStyle() == ArcRenderEvent.OPEN || are.getStyle() == ArcRenderEvent.CLOSED) {
+			double angle = Math.toRadians(-are.getStartAngle());
+
+			double xs = ((are.getTopLeft().getX() + dTranslateX + (Math.cos(angle) * 0.5 + 0.5) * are.getWidth())
+					* dScale);
+			double ys = ((are.getTopLeft().getY() + dTranslateY + (Math.sin(angle) * 0.5 + 0.5) * are.getHeight())
+					* dScale);
+
+			pt.addArc((float) ((are.getTopLeft().getX() + dTranslateX) * dScale),
+					(float) ((are.getTopLeft().getY() + dTranslateY) * dScale), (float) (are.getWidth() * dScale),
+					(float) (are.getHeight() * dScale), (float) are.getStartAngle(), (float) are.getAngleExtent());
+
+			pt.lineTo((float) xs, (float) ys);
 		}
 
 		try {
@@ -902,18 +902,15 @@ public class SwtRendererImpl extends DeviceAdapter {
 		} else if (g instanceof PatternImage) {
 			PatternImage patternImage = (PatternImage) g;
 			img = createImageFromPattern(patternImage);
-		} else {
-			if (g.getSource() == ImageSourceType.STATIC) {
-				final String sUrl = g.getURL();
-				try {
-					img = (org.eclipse.swt.graphics.Image) _ids.loadImage(SecurityUtil.newURL(sUrl));
-				} catch (MalformedURLException muex) {
-					throw new ChartException(ChartDeviceSwtActivator.ID, ChartException.RENDERING, muex);
-				}
-			} else {
-				img = createEmptyImage();
+		} else if (g.getSource() == ImageSourceType.STATIC) {
+			final String sUrl = g.getURL();
+			try {
+				img = (org.eclipse.swt.graphics.Image) _ids.loadImage(SecurityUtil.newURL(sUrl));
+			} catch (MalformedURLException muex) {
+				throw new ChartException(ChartDeviceSwtActivator.ID, ChartException.RENDERING, muex);
 			}
-
+		} else {
+			img = createEmptyImage();
 		}
 
 		Pattern pattern = new Pattern(_gc.getDevice(), img);
@@ -942,11 +939,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#enableInteraction(org.eclipse
 	 * .birt.chart.event.InteractionEvent)
 	 */
+	@Override
 	public void enableInteraction(InteractionEvent iev) throws ChartException {
 		if (_iun == null) {
 			logger.log(ILogger.INFORMATION,
@@ -973,7 +971,7 @@ public class SwtRendererImpl extends DeviceAdapter {
 				tc = tga[i].getCondition();
 				al = _lhmAllTriggers.get(tc);
 				if (al == null) {
-					al = new ArrayList<RegionAction>(4); // UNDER NORMAL
+					al = new ArrayList<>(4); // UNDER NORMAL
 															// CONDITIONS
 					_lhmAllTriggers.put(tc, al);
 				}
@@ -989,7 +987,7 @@ public class SwtRendererImpl extends DeviceAdapter {
 				tc = tga[i].getCondition();
 				al = _lhmAllTriggers.get(tc);
 				if (al == null) {
-					al = new ArrayList<RegionAction>(4); // UNDER NORMAL
+					al = new ArrayList<>(4); // UNDER NORMAL
 															// CONDITIONS
 					_lhmAllTriggers.put(tc, al);
 				}
@@ -1005,7 +1003,7 @@ public class SwtRendererImpl extends DeviceAdapter {
 				tc = tga[i].getCondition();
 				al = _lhmAllTriggers.get(tc);
 				if (al == null) {
-					al = new ArrayList<RegionAction>(4); // UNDER NORMAL
+					al = new ArrayList<>(4); // UNDER NORMAL
 															// CONDITIONS
 					_lhmAllTriggers.put(tc, al);
 				}
@@ -1027,7 +1025,7 @@ public class SwtRendererImpl extends DeviceAdapter {
 				tc = tga[i].getCondition();
 				al = _lhmAllTriggers.get(tc);
 				if (al == null) {
-					al = new ArrayList<RegionAction>(4); // UNDER NORMAL
+					al = new ArrayList<>(4); // UNDER NORMAL
 															// CONDITIONS
 					_lhmAllTriggers.put(tc, al);
 				}
@@ -1045,7 +1043,7 @@ public class SwtRendererImpl extends DeviceAdapter {
 				tc = tga[i].getCondition();
 				al = _lhmAllTriggers.get(tc);
 				if (al == null) {
-					al = new ArrayList<RegionAction>(4); // UNDER NORMAL
+					al = new ArrayList<>(4); // UNDER NORMAL
 															// CONDITIONS
 					_lhmAllTriggers.put(tc, al);
 				}
@@ -1062,11 +1060,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawArea(org.eclipse.birt.
 	 * chart.event.AreaRenderEvent)
 	 */
+	@Override
 	public void drawArea(AreaRenderEvent are) throws ChartException {
 		iv.modifyEvent(are);
 
@@ -1135,11 +1134,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#fillArea(org.eclipse.birt.
 	 * chart.event.AreaRenderEvent)
 	 */
+	@Override
 	public void fillArea(AreaRenderEvent are) throws ChartException {
 		iv.modifyEvent(are);
 
@@ -1188,11 +1188,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawOval(org.eclipse.birt.
 	 * chart.event.OvalRenderEvent)
 	 */
+	@Override
 	public void drawOval(OvalRenderEvent ore) throws ChartException {
 		iv.modifyEvent(ore);
 
@@ -1241,11 +1242,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#fillOval(org.eclipse.birt.
 	 * chart.event.OvalRenderEvent)
 	 */
+	@Override
 	public void fillOval(OvalRenderEvent ore) throws ChartException {
 		iv.modifyEvent(ore);
 
@@ -1278,11 +1280,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawText(org.eclipse.birt.
 	 * chart.event.TextRenderEvent)
 	 */
+	@Override
 	public void drawText(TextRenderEvent tre) throws ChartException {
 		String fontName = convertFont(tre.getLabel().getCaption().getFont().getName());
 		if (fontName != null) {
@@ -1290,8 +1293,9 @@ public class SwtRendererImpl extends DeviceAdapter {
 		}
 
 		iv.modifyEvent(tre);
-		if (!tre.getLabel().isVisible())
+		if (!tre.getLabel().isVisible()) {
 			return;
+		}
 
 		switch (tre.getAction()) {
 		case TextRenderEvent.UNDEFINED:
@@ -1329,7 +1333,7 @@ public class SwtRendererImpl extends DeviceAdapter {
 	 * Converts an array of high-res co-ordinates into a single dimensional integer
 	 * array that represents consecutive X/Y co-ordinates associated with a
 	 * polygon's vertices as required in SWT.
-	 * 
+	 *
 	 * @param la
 	 * @return int array
 	 */
@@ -1342,7 +1346,7 @@ public class SwtRendererImpl extends DeviceAdapter {
 	 * Converts an array of high-res co-ordinates into a single dimensional double
 	 * array that represents consecutive X/Y co-ordinates associated with a
 	 * polygon's vertices as required in SWT.
-	 * 
+	 *
 	 * @param la
 	 * @return double array
 	 */
@@ -1390,11 +1394,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IPrimitiveRenderer#applyTransformation(org.
 	 * eclipse.birt.chart.event.TransformationEvent)
 	 */
+	@Override
 	public void applyTransformation(TransformationEvent tev) throws ChartException {
 		// NOTE: Transformations are accumulated
 		switch (tev.getTransform()) {
@@ -1417,9 +1422,10 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#start()
 	 */
+	@Override
 	public void before() throws ChartException {
 		// Clean previous status.
 		cleanUpTriggers();
@@ -1427,9 +1433,10 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#end()
 	 */
+	@Override
 	public void after() throws ChartException {
 		// USED BY SUBCLASSES IF NEEDED
 	}
@@ -1452,6 +1459,7 @@ public class SwtRendererImpl extends DeviceAdapter {
 	/**
 	 * Free all allocated system resources.
 	 */
+	@Override
 	public void dispose() {
 		cleanUpTriggers();
 
@@ -1486,11 +1494,12 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IDeviceRenderer#setProperty(java.lang.String,
 	 * java.lang.Object)
 	 */
+	@Override
 	public final void setProperty(final String sProperty, final Object oValue) {
 		if (sProperty.equals(IDeviceRenderer.UPDATE_NOTIFIER)) {
 			_iun = (IUpdateNotifier) oValue;
@@ -1556,7 +1565,7 @@ public class SwtRendererImpl extends DeviceAdapter {
 
 	/**
 	 * Make bounds height/width always positive.
-	 * 
+	 *
 	 * @param bo
 	 * @return
 	 */

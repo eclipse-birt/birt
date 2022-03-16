@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ public class LevelHandleDataItemEditPart extends DataEditPart {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
 	public LevelHandleDataItemEditPart(Object model) {
@@ -33,11 +36,12 @@ public class LevelHandleDataItemEditPart extends DataEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * DataEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		LabelFigure label = new LabelFigure();
 		label.setLayoutManager(new StackLayout());
@@ -46,12 +50,13 @@ public class LevelHandleDataItemEditPart extends DataEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#refreshBackgroundColor(org.eclipse.birt.report.model.
 	 * api.DesignElementHandle)
 	 */
+	@Override
 	protected void refreshBackgroundColor(DesignElementHandle handle) {
 		super.refreshBackgroundColor(handle);
 

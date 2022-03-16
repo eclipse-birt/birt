@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -29,20 +31,22 @@ import org.eclipse.ui.ISharedImages;
 /**
  * Group provider class - Populates the Group node menu items and associates to
  * the Action class. - Implements the getChildren method for this node type.
- * 
- * 
+ *
+ *
  */
 public class CrossTabNodeProvider extends DefaultNodeProvider {
 
+	@Override
 	public Object getParent(Object model) {
 		return super.getParent(model);
 	}
 
 	/**
 	 * Gets the children element of the given model using visitor.
-	 * 
+	 *
 	 * @param model the model
 	 */
+	@Override
 	public Object[] getChildren(Object model) {
 		ArrayList list = new ArrayList();
 		ExtendedItemHandle crossTabHandle = (ExtendedItemHandle) model;
@@ -52,16 +56,18 @@ public class CrossTabNodeProvider extends DefaultNodeProvider {
 					crossTabHandle.getPropertyHandle(ICrosstabReportItemConstants.HEADER_PROP));
 			headerWrap.setTestType("crosstabHeader");
 			list.add(headerWrap);
-			if (crossTab.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE) != null)
+			if (crossTab.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE) != null) {
 				list.add(crossTab.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE).getModelHandle());
-			else
+			} else {
 				list.add(new CrosstabPropertyHandleWrapper(
 						crossTabHandle.getPropertyHandle(ICrosstabReportItemConstants.COLUMNS_PROP)));
-			if (crossTab.getCrosstabView(ICrosstabConstants.ROW_AXIS_TYPE) != null)
+			}
+			if (crossTab.getCrosstabView(ICrosstabConstants.ROW_AXIS_TYPE) != null) {
 				list.add(crossTab.getCrosstabView(ICrosstabConstants.ROW_AXIS_TYPE).getModelHandle());
-			else
+			} else {
 				list.add(new CrosstabPropertyHandleWrapper(
 						crossTabHandle.getPropertyHandle(ICrosstabReportItemConstants.ROWS_PROP)));
+			}
 		} catch (ExtendedElementException e) {
 			ExceptionUtil.handle(e);
 		}
@@ -70,6 +76,7 @@ public class CrossTabNodeProvider extends DefaultNodeProvider {
 		return list.toArray();
 	}
 
+	@Override
 	public Image getNodeIcon(Object model) {
 		if (model instanceof DesignElementHandle && ((DesignElementHandle) model).getSemanticErrors().size() > 0) {
 			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);

@@ -1,9 +1,9 @@
 /*******************************************************************************
 * Copyright (c) 2004 Actuate Corporation.
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ public class StructureValidator extends AbstractPropertyValidator {
 
 	/**
 	 * Returns the singleton validator instance.
-	 * 
+	 *
 	 * @return the validator instance
 	 */
 
@@ -50,13 +50,14 @@ public class StructureValidator extends AbstractPropertyValidator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.validators.AbstractPropertyValidator#validate(
 	 * org.eclipse.birt.report.model.elements.ReportDesign,
 	 * org.eclipse.birt.report.model.core.DesignElement, java.lang.String)
 	 */
 
+	@Override
 	public List validate(Module module, DesignElement element, String propName) {
 		List errorList = new ArrayList();
 		ElementPropertyDefn propDefn = element.getPropertyDefn(propName);

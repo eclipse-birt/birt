@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -104,7 +104,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
 /**
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
- * 
+ *
  */
 public class ReportQueryBuilder {
 
@@ -151,7 +151,7 @@ public class ReportQueryBuilder {
 	/**
 	 * used to register the unresolved query reference.
 	 */
-	protected Map<ReportItemHandle, List<ReportItemDesign>> unresolvedQueryReferences = new HashMap<ReportItemHandle, List<ReportItemDesign>>();
+	protected Map<ReportItemHandle, List<ReportItemDesign>> unresolvedQueryReferences = new HashMap<>();
 
 	/**
 	 * @param report  the entry point to the report design
@@ -211,8 +211,9 @@ public class ReportQueryBuilder {
 				}
 
 				// visit report
-				for (int i = 0; i < report.getContentCount(); i++)
+				for (int i = 0; i < report.getContentCount(); i++) {
 					build(null, report.getContent(i));
+				}
 
 				checkQueries();
 			}
@@ -261,7 +262,7 @@ public class ReportQueryBuilder {
 						registerQueryAndElement(query, design);
 						if (!(query instanceof ISubqueryDefinition)) {
 							this.queries.add(query);
-						} else if (query instanceof ISubqueryDefinition) {
+						} else {
 							// TODO: chart engine make a mistake here
 							if (!(parentQuery instanceof IBaseQueryDefinition)) {
 								context.addException(design.getHandle(),
@@ -299,7 +300,7 @@ public class ReportQueryBuilder {
 
 	/**
 	 * link the query and report item
-	 * 
+	 *
 	 * @param query
 	 * @param reportItem
 	 */
@@ -312,7 +313,7 @@ public class ReportQueryBuilder {
 
 	/**
 	 * register the query to handle
-	 * 
+	 *
 	 * @param handle
 	 * @param query
 	 */
@@ -373,17 +374,19 @@ public class ReportQueryBuilder {
 	 */
 	protected class QueryBuilderVisitor extends DefaultReportItemVisitorImpl {
 
+		@Override
 		public Object visitTemplate(TemplateDesign template, Object value) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitFreeFormItem(org.
 		 * eclipse.birt.report.engine.ir.FreeFormItemDesign)
 		 */
+		@Override
 		public Object visitFreeFormItem(FreeFormItemDesign container, Object value) {
 			IDataQueryDefinition query;
 			if (container.useCachedResult()) {
@@ -396,8 +399,9 @@ public class ReportQueryBuilder {
 				query = createQuery(container, (IDataQueryDefinition) value);
 			}
 
-			for (int i = 0; i < container.getItemCount(); i++)
+			for (int i = 0; i < container.getItemCount(); i++) {
 				build(query, container.getItem(i));
+			}
 			try {
 				transformExpressions(container, query);
 			} catch (BirtException ex) {
@@ -408,11 +412,12 @@ public class ReportQueryBuilder {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitGridItem(org.eclipse
 		 * .birt.report.engine.ir.GridItemDesign)
 		 */
+		@Override
 		public Object visitGridItem(GridItemDesign grid, Object value) {
 			IDataQueryDefinition query;
 			if (grid.useCachedResult()) {
@@ -438,10 +443,11 @@ public class ReportQueryBuilder {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitImageItem(org.
 		 * eclipse.birt.report.engine.ir.ImageItemDesign)
 		 */
+		@Override
 		public Object visitImageItem(ImageItemDesign image, Object value) {
 			IDataQueryDefinition query;
 			if (image.useCachedResult()) {
@@ -479,10 +485,11 @@ public class ReportQueryBuilder {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitLabelItem(org.
 		 * eclipse.birt.report.engine.ir.LabelItemDesign)
 		 */
+		@Override
 		public Object visitLabelItem(LabelItemDesign label, Object value) {
 			IDataQueryDefinition query;
 			if (label.useCachedResult()) {
@@ -507,11 +514,12 @@ public class ReportQueryBuilder {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitExtendedItem(org.
 		 * eclipse.birt.report.engine.ir.ExtendedItemDesign)
 		 */
+		@Override
 		public Object visitExtendedItem(ExtendedItemDesign item, Object value) {
 			// create user-defined generation-time helper object
 			ExtendedItemHandle handle = (ExtendedItemHandle) item.getHandle();
@@ -606,11 +614,12 @@ public class ReportQueryBuilder {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitListItem(org.eclipse
 		 * .birt.report.engine.ir.ListItemDesign)
 		 */
+		@Override
 		public Object visitListItem(ListItemDesign list, Object value) {
 			IDataQueryDefinition query;
 			if (list.useCachedResult()) {
@@ -651,17 +660,19 @@ public class ReportQueryBuilder {
 			return getResultQuery(query, value);
 		}
 
+		@Override
 		public Object visitReportItem(ReportItemDesign item, Object value) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitTextItem(org.eclipse
 		 * .birt.report.engine.ir.TextItemDesign)
 		 */
+		@Override
 		public Object visitTextItem(TextItemDesign text, Object value) {
 			IDataQueryDefinition query;
 			if (text.useCachedResult()) {
@@ -698,7 +709,7 @@ public class ReportQueryBuilder {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitTableItem(org.
 		 * eclipse.birt.report.engine.ir.TableItemDesign)
 		 */
@@ -712,10 +723,11 @@ public class ReportQueryBuilder {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitTableItem(org.
 		 * eclipse.birt.report.engine.ir.TableItemDesign)
 		 */
+		@Override
 		public Object visitTableItem(TableItemDesign table, Object value) {
 			IDataQueryDefinition query;
 			if (table.useCachedResult()) {
@@ -766,8 +778,9 @@ public class ReportQueryBuilder {
 
 		private void setUsesDetails(BandDesign detail, BaseQueryDefinition baseQuery) {
 			if (detail == null || detail.getContentCount() == 0) {
-				if (!baseQuery.cacheQueryResults())
+				if (!baseQuery.cacheQueryResults()) {
 					baseQuery.setUsesDetails(false);
+				}
 			} else {
 				baseQuery.setUsesDetails(true);
 			}
@@ -793,11 +806,12 @@ public class ReportQueryBuilder {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitMultiLineItem(org.
 		 * eclipse.birt.report.engine.ir.MultiLineItemDesign)
 		 */
+		@Override
 		public Object visitDynamicTextItem(DynamicTextItemDesign dynamicText, Object value) {
 			IDataQueryDefinition query;
 			if (dynamicText.useCachedResult()) {
@@ -825,10 +839,11 @@ public class ReportQueryBuilder {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitDataItem(org.
 		 * eclipse.birt.report.engine.ir.DataItemDesign)
 		 */
+		@Override
 		public Object visitDataItem(DataItemDesign data, Object value) {
 			IDataQueryDefinition query;
 			if (data.useCachedResult()) {
@@ -856,11 +871,11 @@ public class ReportQueryBuilder {
 		 * of BaseQueryDefinition to GroupDefinition. This is because DTE want to know
 		 * subQueries is on group or detail. And the subQueries in group must be added
 		 * to the GroupDefinition, but their parents all should be BaseQueryDefinition.
-		 * 
+		 *
 		 * TODO: the relation may be too complex and the arithmetic also be too ugly.
 		 * Need to talk with DTE about the relations and change the arithmetic be
 		 * simple.
-		 * 
+		 *
 		 * @param band
 		 * @param query
 		 * @param onGroup
@@ -940,6 +955,7 @@ public class ReportQueryBuilder {
 		/**
 		 * visit content of a row
 		 */
+		@Override
 		public Object visitRow(RowDesign row, Object value) {
 			IDataQueryDefinition query;
 			if (row.useCachedResult()) {
@@ -966,6 +982,7 @@ public class ReportQueryBuilder {
 		/**
 		 * handles a cell in a row
 		 */
+		@Override
 		public Object visitCell(CellDesign cell, Object value) {
 			IDataQueryDefinition query;
 			if (cell.useCachedResult()) {
@@ -997,7 +1014,7 @@ public class ReportQueryBuilder {
 
 		/**
 		 * Remember the relations if the reference handle's query hasn't been builder.
-		 * 
+		 *
 		 * @param referenceHandle
 		 * @param handle
 		 */
@@ -1008,7 +1025,7 @@ public class ReportQueryBuilder {
 				List<ReportItemDesign> items = unresolvedQueryReferences.get(referenceHandle);
 				items.add(item);
 			} else {
-				List<ReportItemDesign> items = new ArrayList<ReportItemDesign>();
+				List<ReportItemDesign> items = new ArrayList<>();
 				items.add(item);
 				unresolvedQueryReferences.put(referenceHandle, items);
 			}
@@ -1057,7 +1074,7 @@ public class ReportQueryBuilder {
 
 		/**
 		 * create query for non-listing report item
-		 * 
+		 *
 		 * @param item report item
 		 * @return a report query
 		 */
@@ -1144,14 +1161,14 @@ public class ReportQueryBuilder {
 
 		/**
 		 * An item needs query when it satisfies following conditions:
-		 * 
+		 *
 		 * <li>Has column bindings.</li>
-		 * 
+		 *
 		 * <li>Is a table or a list.</li>
-		 * 
+		 *
 		 * <li>Before BIRT 2.2.1, has highlight rules and doesn't have parent
 		 * query.</li>
-		 * 
+		 *
 		 * @param item  the item.
 		 * @param query the parent query
 		 * @return true if it needs query.
@@ -1160,10 +1177,7 @@ public class ReportQueryBuilder {
 			DesignElementHandle handle = item.getHandle();
 			if (handle instanceof ReportItemHandle) {
 				ReportItemHandle designHandle = (ReportItemHandle) item.getHandle();
-				if (designHandle.columnBindingsIterator().hasNext()) {
-					return true;
-				}
-				if (designHandle instanceof ListingHandle) {
+				if (designHandle.columnBindingsIterator().hasNext() || (designHandle instanceof ListingHandle)) {
 					return true;
 				}
 				if (designHandle instanceof ExtendedItemHandle) {
@@ -1177,10 +1191,10 @@ public class ReportQueryBuilder {
 
 		/**
 		 * Test if the item need query in BIRT version before 2.2.1.
-		 * 
+		 *
 		 * In BIRT 2.1.0, 2.1.1, 2.1.2, 2.1.3, 2.2.0, the report item with highlight
 		 * also create a query
-		 * 
+		 *
 		 * @param item  item handle
 		 * @param query parent query
 		 * @return true if need create a query
@@ -1199,7 +1213,7 @@ public class ReportQueryBuilder {
 
 		/**
 		 * If the BIRT version is before 2.2.1
-		 * 
+		 *
 		 * @return true for version before 2.2.1, including 2.0, 2.1.0, 2.1.1, 2.1.2,
 		 *         2.1.3, 2.2.0.
 		 */
@@ -1224,7 +1238,7 @@ public class ReportQueryBuilder {
 				IModelAdapter adaptor = dteSession.getModelAdaptor();
 				ReportItemHandle designHandle = (ReportItemHandle) elementHandle;
 				Iterator iter = designHandle.columnBindingsIterator();
-				;
+
 				if (iter != null) {
 					while (iter.hasNext()) {
 						try {
@@ -1261,7 +1275,7 @@ public class ReportQueryBuilder {
 
 		/**
 		 * create a filter array given a filter condition handle iterator
-		 * 
+		 *
 		 * @param iter the iterator
 		 * @return filter array
 		 */
@@ -1277,7 +1291,7 @@ public class ReportQueryBuilder {
 
 		/**
 		 * create all sort conditions given a sort key handle iterator
-		 * 
+		 *
 		 * @param iter the iterator
 		 * @return sort array
 		 */
@@ -1294,7 +1308,7 @@ public class ReportQueryBuilder {
 
 		/**
 		 * create input parameter bindings
-		 * 
+		 *
 		 * @param iter parameter bindings iterator
 		 * @return a list of input parameter bindings
 		 */
@@ -1313,7 +1327,7 @@ public class ReportQueryBuilder {
 
 		/**
 		 * finish the current visit. transform the expressions of the query.
-		 * 
+		 *
 		 * @param item
 		 * @param query
 		 */
@@ -1323,7 +1337,7 @@ public class ReportQueryBuilder {
 
 		/**
 		 * Transfers old expressions to column bindings and new expression.
-		 * 
+		 *
 		 * @param item the report design.
 		 */
 		private void transformExpressions(ReportItemDesign item, IDataQueryDefinition query, String groupName)
@@ -1338,7 +1352,7 @@ public class ReportQueryBuilder {
 		/**
 		 * Transfer the old expression to column dataBinding and bind it to the Query.
 		 * And create a news expression to replace the old expression.
-		 * 
+		 *
 		 * @param expr expression to be transfered. return the transfered expression
 		 */
 		protected Expression transformExpression(Expression expr, IDataQueryDefinition query) throws BirtException {
@@ -1346,10 +1360,9 @@ public class ReportQueryBuilder {
 				return null;
 			}
 			if (query != null) {
-				List<Expression> expressions = new ArrayList<Expression>();
+				List<Expression> expressions = new ArrayList<>();
 				expressions.add(expr);
-				ITotalExprBindings totalExpressionBinding = null;
-				;
+				ITotalExprBindings totalExpressionBinding;
 
 				totalExpressionBinding = expressionUtil.prepareTotalExpressions(expressions, query);
 
@@ -1371,7 +1384,7 @@ public class ReportQueryBuilder {
 				return;
 			}
 
-			List<Expression> expressions = new ArrayList<Expression>();
+			List<Expression> expressions = new ArrayList<>();
 			VisibilityDesign visibilities = column.getVisibility();
 			if (visibilities != null) {
 				// get new expression bindings of this column's visibilities
@@ -1387,7 +1400,7 @@ public class ReportQueryBuilder {
 					addRuleExpression(expressions, rule);
 				}
 			}
-			ITotalExprBindings totalExpressionBindings = null;
+			ITotalExprBindings totalExpressionBindings;
 
 			totalExpressionBindings = expressionUtil.prepareTotalExpressions(expressions, query);
 
@@ -1472,7 +1485,7 @@ public class ReportQueryBuilder {
 									break;
 								}
 								Expression expr = (Expression) newExpressions.get(expressionIndex++);
-								ArrayList<Expression> exprList = new ArrayList<Expression>();
+								ArrayList<Expression> exprList = new ArrayList<>();
 								exprList.add(expr);
 								entry.setValue(exprList);
 							}
@@ -1490,7 +1503,7 @@ public class ReportQueryBuilder {
 
 		private ITotalExprBindings getNewExpressionBindings(ReportItemDesign item, IDataQueryDefinition query,
 				String groupName) {
-			List<Expression> expressions = new ArrayList<Expression>();
+			List<Expression> expressions = new ArrayList<>();
 			expressions.add(item.getTOC());
 			expressions.add(item.getBookmark());
 			if (item.getOnCreate() != null) {

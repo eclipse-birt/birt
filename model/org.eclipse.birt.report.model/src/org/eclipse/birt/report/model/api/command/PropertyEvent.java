@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * Notification event to send when a property changes. The listener can find out
  * which property changed by calling {@link #getPropertyName}( ). The listener
  * can get the new property value from the focus object.
- * 
+ *
  */
 
 public class PropertyEvent extends NotificationEvent {
@@ -31,7 +34,7 @@ public class PropertyEvent extends NotificationEvent {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param target   the target element.
 	 * @param propName the name of the changed property.
 	 */
@@ -44,7 +47,7 @@ public class PropertyEvent extends NotificationEvent {
 	/**
 	 * Returns the name of the property that changed. The name is the internal,
 	 * non-localized property id.
-	 * 
+	 *
 	 * @return the property name.
 	 */
 
@@ -55,7 +58,7 @@ public class PropertyEvent extends NotificationEvent {
 	/**
 	 * Sets the property name. Should be called only by the command that created the
 	 * event.
-	 * 
+	 *
 	 * @param propName the propertyName to set.
 	 */
 
@@ -65,29 +68,31 @@ public class PropertyEvent extends NotificationEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
 	 * )
 	 */
+	@Override
 	public int getEventType() {
 		return PROPERTY_EVENT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.
 	 * eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
+	@Override
 	public boolean isSame(NotificationEvent event) {
-		if (!super.isSame(event))
+		if (!super.isSame(event)) {
 			return false;
+		}
 		PropertyEvent propEvent = (PropertyEvent) event;
-		if (propertyName != null && !propertyName.equals(propEvent.getPropertyName()))
+		if ((propertyName != null && !propertyName.equals(propEvent.getPropertyName())) || (propertyName == null && propEvent.getPropertyName() != null)) {
 			return false;
-		if (propertyName == null && propEvent.getPropertyName() != null)
-			return false;
+		}
 		return true;
 	}
 

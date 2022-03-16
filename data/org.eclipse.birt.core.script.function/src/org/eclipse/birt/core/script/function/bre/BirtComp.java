@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,39 +61,40 @@ public class BirtComp implements IScriptFunctionExecutor {
 
 	/**
 	 * @throws BirtException
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	BirtComp(String functionName) throws BirtException {
-		if (ANY_OF.equals(functionName))
+		if (ANY_OF.equals(functionName)) {
 			this.executor = new Function_AnyOf();
-		else if (BETWEEN.equals(functionName))
+		} else if (BETWEEN.equals(functionName)) {
 			this.executor = new Function_Between(true);
-		else if (NOT_BETWEEN.equals(functionName))
+		} else if (NOT_BETWEEN.equals(functionName)) {
 			this.executor = new Function_Between(false);
-		else if (EQUAL_TO.equals(functionName))
+		} else if (EQUAL_TO.equals(functionName)) {
 			this.executor = new Function_Compare(Function_Compare.MODE_EQUAL);
-		else if (GREATER_THAN.equals(functionName))
+		} else if (GREATER_THAN.equals(functionName)) {
 			this.executor = new Function_Compare(Function_Compare.MODE_GREATERTHAN);
-		else if (LESS_THAN.equals(functionName))
+		} else if (LESS_THAN.equals(functionName)) {
 			this.executor = new Function_Compare(Function_Compare.MODE_LESSTHAN);
-		else if (GREATER_OR_EQUAL.equals(functionName))
+		} else if (GREATER_OR_EQUAL.equals(functionName)) {
 			this.executor = new Function_Compare(Function_Compare.MODE_GREATEROREQUAL);
-		else if (LESS_OR_EQUAL.equals(functionName))
+		} else if (LESS_OR_EQUAL.equals(functionName)) {
 			this.executor = new Function_Compare(Function_Compare.MODE_LESSOREQUAL);
-		else if (NOT_EQUAL.equals(functionName))
+		} else if (NOT_EQUAL.equals(functionName)) {
 			this.executor = new Function_Compare(Function_Compare.MODE_NOT_EQUAL);
-		else if (LIKE.equals(functionName))
+		} else if (LIKE.equals(functionName)) {
 			this.executor = new Function_Compare(Function_Compare.MODE_LIKE);
-		else if (NOT_LIKE.equals(functionName))
+		} else if (NOT_LIKE.equals(functionName)) {
 			this.executor = new Function_Compare(Function_Compare.MODE_NOT_LIKE);
-		else if (MATCH.equals(functionName))
+		} else if (MATCH.equals(functionName)) {
 			this.executor = new Function_Compare(Function_Compare.MODE_MATCH);
-		else if (COMPARE_STRING.equals(functionName))
+		} else if (COMPARE_STRING.equals(functionName)) {
 			this.executor = new Function_Compare(Function_Compare.MODE_COMPARE_STRING);
-		else
+		} else {
 			throw new BirtException(PACKAGE_ID, null,
 					Messages.getString("invalid.function.name") + "BirtComp." + functionName);
+		}
 	}
 
 	private static Collator myCollator = Collator.getInstance();
@@ -105,28 +109,32 @@ public class BirtComp implements IScriptFunctionExecutor {
 	private static int compare(Object obj1, Object obj2, Collator collator) throws BirtException {
 		if (obj1 == null || obj2 == null) {
 			// all non-null values are greater than null value
-			if (obj1 == null && obj2 != null)
+			if (obj1 == null && obj2 != null) {
 				return -1;
-			else if (obj1 != null && obj2 == null)
+			} else if (obj1 != null && obj2 == null) {
 				return 1;
-			else
+			} else {
 				return 0;
+			}
 		}
 
 		if (isSameType(obj1, obj2)) {
 			if (obj1 instanceof Boolean) {
-				if (obj1.equals(obj2))
+				if (obj1.equals(obj2)) {
 					return 0;
+				}
 
 				Boolean bool = (Boolean) obj1;
-				if (bool.equals(Boolean.TRUE))
+				if (bool) {
 					return 1;
-				else
+				} else {
 					return -1;
+				}
 			} else if (obj1 instanceof Comparable) {
 				if (obj1 instanceof String) {
-					if (collator == null)
+					if (collator == null) {
 						return ((String) obj1).compareTo((String) obj2);
+					}
 					return compareAsString(obj1, obj2, collator);
 				} else {
 					return ((Comparable) obj1).compareTo(obj2);
@@ -151,15 +159,17 @@ public class BirtComp implements IScriptFunctionExecutor {
 		} else {
 			String object1 = null;
 			String object2 = null;
-			if (obj1 instanceof ScriptableObject)
+			if (obj1 instanceof ScriptableObject) {
 				object1 = DataTypeUtil.toString(((ScriptableObject) obj1).getDefaultValue(null));
-			else
+			} else {
 				object1 = DataTypeUtil.toString(obj1);
+			}
 
-			if (obj2 instanceof ScriptableObject)
+			if (obj2 instanceof ScriptableObject) {
 				object2 = DataTypeUtil.toString(((ScriptableObject) obj2).getDefaultValue(null));
-			else
+			} else {
 				object2 = DataTypeUtil.toString(obj2);
+			}
 
 			return compare(object1, object2, collator);
 		}
@@ -173,7 +183,7 @@ public class BirtComp implements IScriptFunctionExecutor {
 
 	/**
 	 * Compare 2 object of String type by the given condition
-	 * 
+	 *
 	 * @param obj1
 	 * @param obj2
 	 * @param ignoreCase
@@ -211,7 +221,7 @@ public class BirtComp implements IScriptFunctionExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param result
 	 * @return
 	 */
@@ -226,8 +236,9 @@ public class BirtComp implements IScriptFunctionExecutor {
 	// The pattern matches string like "/regexpr/gmi", which is used in JavaScript
 	// to construct a RegExp object
 	private static Matcher getJSReExprPatternMatcher(String patternStr) {
-		if (s_JSReExprPattern == null)
+		if (s_JSReExprPattern == null) {
 			s_JSReExprPattern = Pattern.compile("^/(.*)/([a-zA-Z]*)$");
+		}
 		return s_JSReExprPattern.matcher(patternStr);
 	}
 
@@ -239,10 +250,7 @@ public class BirtComp implements IScriptFunctionExecutor {
 	 * @throws DataException
 	 */
 	private static boolean match(Object obj1, Object obj2) throws BirtException {
-		if (obj2 == null) {
-			return false;
-		}
-		if (obj1 == null) {
+		if ((obj2 == null) || (obj1 == null)) {
 			return false;
 		}
 		String sourceStr = obj1.toString();
@@ -292,7 +300,7 @@ public class BirtComp implements IScriptFunctionExecutor {
 	 * @throws DataException
 	 */
 	private static boolean like(Object source, Object pattern, boolean ignorecase) throws BirtException {
-		String sourceStr = null;
+		String sourceStr;
 		sourceStr = (source == null) ? "" : DataTypeUtil.toLocaleNeutralString(source);
 		String patternStr;
 		patternStr = (pattern == null) ? "" : DataTypeUtil.toLocaleNeutralString(pattern);
@@ -306,7 +314,7 @@ public class BirtComp implements IScriptFunctionExecutor {
 
 		final String reservedChars = "([{^$|)?*+.";
 		int patternLen = patternStr.length();
-		StringBuffer buffer = new StringBuffer(patternLen * 2);
+		StringBuilder buffer = new StringBuilder(patternLen * 2);
 
 		for (int i = 0; i < patternLen; i++) {
 			char c = patternStr.charAt(i);
@@ -316,10 +324,11 @@ public class BirtComp implements IScriptFunctionExecutor {
 				++i;
 				if (i < patternLen) {
 					c = patternStr.charAt(i);
-					if (c == '%' || c == '_')
+					if (c == '%' || c == '_') {
 						buffer.append(c);
-					else if (c == '\\')
+					} else if (c == '\\') {
 						buffer.append("\\\\"); // Need to escape \
+					}
 				} else {
 					buffer.append("\\\\"); // Leave last \ and escape it
 				}
@@ -356,15 +365,18 @@ public class BirtComp implements IScriptFunctionExecutor {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public Object execute(Object[] args, IScriptFunctionContext context) throws BirtException {
 			Collator collator = (Collator) context.findProperty("compare_locale");
-			if (args == null || args.length < 2)
+			if (args == null || args.length < 2) {
 				throw new IllegalArgumentException(MessageFormat.format(WRONG_ARGUMENT, new Object[] { ANY_OF }));
+			}
 
 			for (int i = 1; i < args.length; i++) {
 				try {
-					if (compare(args[0], args[i], collator) == 0)
+					if (compare(args[0], args[i], collator) == 0) {
 						return Boolean.TRUE;
+					}
 				} catch (Exception e) {
 					// If two values cannot be compare, simply do nothing.
 				}
@@ -374,8 +386,9 @@ public class BirtComp implements IScriptFunctionExecutor {
 				Object[] objs = (Object[]) args[1];
 				for (int i = 0; i < objs.length; i++) {
 					try {
-						if (compare(args[0], objs[i], collator) == 0)
+						if (compare(args[0], objs[i], collator) == 0) {
 							return Boolean.TRUE;
+						}
 					} catch (Exception e) {
 						// If two values cannot be compare, simply do nothing.
 					}
@@ -397,10 +410,12 @@ public class BirtComp implements IScriptFunctionExecutor {
 			this.mode = mode;
 		}
 
+		@Override
 		public Object execute(Object[] args, IScriptFunctionContext context) throws BirtException {
 			Collator collator = (Collator) context.findProperty("compare_locale");
-			if (args == null || args.length != 3)
+			if (args == null || args.length != 3) {
 				throw new IllegalArgumentException(MessageFormat.format(WRONG_ARGUMENT, new Object[] { BETWEEN }));
+			}
 
 			try {
 				return this.mode
@@ -418,7 +433,7 @@ public class BirtComp implements IScriptFunctionExecutor {
 
 		private static final long serialVersionUID = 1L;
 		/**
-		 * 
+		 *
 		 */
 		public static final int MODE_EQUAL = 0;
 		public static final int MODE_NOT_EQUAL = 1;
@@ -438,7 +453,7 @@ public class BirtComp implements IScriptFunctionExecutor {
 		}
 
 		/**
-		 * 
+		 *
 		 */
 		private void throwException() {
 			String func = null;
@@ -480,6 +495,7 @@ public class BirtComp implements IScriptFunctionExecutor {
 			throw new IllegalArgumentException(MessageFormat.format(WRONG_ARGUMENT, new Object[] { func }));
 		}
 
+		@Override
 		public Object execute(Object[] args, IScriptFunctionContext context) throws BirtException {
 			Collator collator = (Collator) context.findProperty("compare_locale");
 			try {
@@ -510,10 +526,11 @@ public class BirtComp implements IScriptFunctionExecutor {
 					try {
 						return new Boolean(compare(args[0], args[1], collator) != 0);
 					} catch (BirtException e) {
-						if (e.getErrorCode().equals(ResourceConstants.CONVERT_FAILS))
+						if (e.getErrorCode().equals(ResourceConstants.CONVERT_FAILS)) {
 							return Boolean.TRUE;
-						else
+						} else {
 							return Boolean.FALSE;
+						}
 					}
 				case MODE_GREATERTHAN:
 					return new Boolean(compare(args[0], args[1], collator) > 0);
@@ -538,16 +555,17 @@ public class BirtComp implements IScriptFunctionExecutor {
 				}
 
 			} catch (BirtException e) {
-				if (e.getErrorCode().equals(ResourceConstants.CONVERT_FAILS))
+				if (e.getErrorCode().equals(ResourceConstants.CONVERT_FAILS)) {
 					return false;
-				else
+				} else {
 					throw new IllegalArgumentException(e.getLocalizedMessage());
+				}
 			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resultExpr
 	 * @param resultOp1
 	 * @return
@@ -557,7 +575,7 @@ public class BirtComp implements IScriptFunctionExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param result
 	 * @return
 	 */
@@ -566,7 +584,7 @@ public class BirtComp implements IScriptFunctionExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param result
 	 * @return
 	 */
@@ -575,7 +593,7 @@ public class BirtComp implements IScriptFunctionExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param result
 	 * @return
 	 */
@@ -583,6 +601,7 @@ public class BirtComp implements IScriptFunctionExecutor {
 		return (result instanceof java.sql.Date) || (result instanceof String);
 	}
 
+	@Override
 	public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
 		return this.executor.execute(arguments, context);
 	}

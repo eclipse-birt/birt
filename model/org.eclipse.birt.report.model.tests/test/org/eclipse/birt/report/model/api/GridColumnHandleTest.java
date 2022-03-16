@@ -1,17 +1,18 @@
 /**
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
-
-import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
@@ -21,9 +22,11 @@ import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Test cases for copy/paste columns between grids.
- * 
+ *
  */
 
 public class GridColumnHandleTest extends BaseTestCase {
@@ -33,13 +36,14 @@ public class GridColumnHandleTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Tests copy algorithm on tables.
-	 * 
+	 *
 	 * <ul>
 	 * <li>without dropping, and col span are all 1, no column information.</li>
 	 * <li>without dropping, and col span are all 1, with column information.</li>
@@ -48,9 +52,9 @@ public class GridColumnHandleTest extends BaseTestCase {
 	 * <li>with dropping, and one cell's col span are 2, with column
 	 * information.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testColumnCopy() throws Exception {
@@ -93,14 +97,14 @@ public class GridColumnHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests copy actions on tables.
-	 * 
+	 *
 	 * <ul>
 	 * <li>without dropping, and col span are all 1, the source has no column
 	 * information but the target has.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testCopyPasteWithForbiddenLayout() throws Exception {
@@ -128,7 +132,7 @@ public class GridColumnHandleTest extends BaseTestCase {
 	/**
 	 * Tests the algorithm to copy one column without a column header to another
 	 * grid that has a column header.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -150,8 +154,9 @@ public class GridColumnHandleTest extends BaseTestCase {
 		// removes all columns in the grid 1.
 
 		int numOfColumnsInTable1 = grid1.getColumns().getCount();
-		for (int i = 0; i < numOfColumnsInTable1; i++)
+		for (int i = 0; i < numOfColumnsInTable1; i++) {
 			grid1.getColumns().dropAndClear(0);
+		}
 		assertEquals(0, grid1.getColumns().getCount());
 
 		ColumnBandData adapter = grid1.copyColumn(1);
@@ -168,7 +173,7 @@ public class GridColumnHandleTest extends BaseTestCase {
 	/**
 	 * Tests the algorithm to copy one column header to another grid that has no
 	 * column header.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -190,8 +195,9 @@ public class GridColumnHandleTest extends BaseTestCase {
 		// removes all columns in the grid 1.
 
 		int numOfColumnsInTable1 = grid2.getColumns().getCount();
-		for (int i = 0; i < numOfColumnsInTable1; i++)
+		for (int i = 0; i < numOfColumnsInTable1; i++) {
 			grid2.getColumns().dropAndClear(0);
+		}
 		assertEquals(0, grid2.getColumns().getCount());
 
 		ColumnBandData data = grid1.copyColumn(1);
@@ -210,7 +216,7 @@ public class GridColumnHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the algorithm to copy one column to another column.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -234,8 +240,9 @@ public class GridColumnHandleTest extends BaseTestCase {
 		SlotHandle columns2 = grid2.getColumns();
 
 		int numOfColumnsInTable2 = columns2.getCount();
-		for (int i = 0; i < numOfColumnsInTable2 - 1; i++)
+		for (int i = 0; i < numOfColumnsInTable2 - 1; i++) {
 			columns2.dropAndClear(0);
+		}
 		ColumnHandle columnInTable2 = (ColumnHandle) columns2.get(0);
 		columnInTable2.setRepeatCount(3);
 		assertEquals(1, columns2.getCount());
@@ -256,8 +263,9 @@ public class GridColumnHandleTest extends BaseTestCase {
 		// make only 1 column in grid 2.
 
 		numOfColumnsInTable2 = columns2.getCount();
-		for (int i = 0; i < numOfColumnsInTable2 - 1; i++)
+		for (int i = 0; i < numOfColumnsInTable2 - 1; i++) {
 			columns2.dropAndClear(0);
+		}
 		columnInTable2 = (ColumnHandle) columns2.get(0);
 		columnInTable2.setRepeatCount(3);
 		assertEquals(1, columns2.getCount());
@@ -311,7 +319,7 @@ public class GridColumnHandleTest extends BaseTestCase {
 
 	/**
 	 * Copies non-merged cells in the source grid to another grid with merged cells.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -382,7 +390,7 @@ public class GridColumnHandleTest extends BaseTestCase {
 
 	/**
 	 * Copies merged cells in the source grid to another grid without merged cells.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -457,7 +465,7 @@ public class GridColumnHandleTest extends BaseTestCase {
 
 	/**
 	 * Copies and pastes columns between tables with undo/redo supports.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

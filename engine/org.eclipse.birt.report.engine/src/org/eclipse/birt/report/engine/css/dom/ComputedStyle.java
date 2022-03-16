@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -22,7 +22,7 @@ import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.w3c.dom.css.CSSValue;
 
 public class ComputedStyle extends AbstractStyle {
-	Map<String, ComputedStyle> cachedStyles = new HashMap<String, ComputedStyle>();
+	Map<String, ComputedStyle> cachedStyles = new HashMap<>();
 	boolean[] caculated;
 	CSSStylableElement elt;
 	CSSValue[] values;
@@ -32,6 +32,7 @@ public class ComputedStyle extends AbstractStyle {
 		this.elt = elt;
 	}
 
+	@Override
 	public CSSValue getProperty(int index) {
 		if (values == null) {
 			values = new CSSValue[NUMBER_OF_STYLE];
@@ -67,10 +68,12 @@ public class ComputedStyle extends AbstractStyle {
 		return cv;
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return false;
 	}
 
+	@Override
 	public void setProperty(int index, CSSValue value) {
 		caculated[index] = false;
 		values[index] = null;

@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -32,7 +35,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class ExternalizedTextEditorComposite extends Canvas implements SelectionListener, Listener {
 	private transient TextEditorComposite txtSelection = null;
@@ -84,7 +87,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 
 	private void init() {
 		this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
-		vListeners = new Vector<Listener>();
+		vListeners = new Vector<>();
 	}
 
 	private void placeComponents() {
@@ -118,6 +121,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 		ChartUIUtil.addScreenReaderAccessbility(btnDown, btnDown.getToolTipText());
 	}
 
+	@Override
 	public void setEnabled(boolean bState) {
 		if (bState) {
 			// check compatibility with externalization
@@ -131,6 +135,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 		this.bEnabled = bState;
 	}
 
+	@Override
 	public boolean isEnabled() {
 		return this.bEnabled;
 	}
@@ -171,7 +176,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 	}
 
 	String getLocalizedValue(String str) {
-		String sTmp = ""; //$NON-NLS-1$
+		String sTmp; //$NON-NLS-1$
 		sTmp = getKey(str);
 		if ("".equals(sTmp)) //$NON-NLS-1$
 		{
@@ -201,10 +206,11 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		ExternalizedTextEditorDialog editor = new ExternalizedTextEditorDialog(getShell(), buildString(), keys,
 				serviceprovider, sCurrent);
@@ -219,20 +225,22 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		// If display text doesn't changed, don't update it.
 		if (!sDisplyText.equals(txtSelection.getText()) || !sCurrent.equals(txtSelection.getText())) {

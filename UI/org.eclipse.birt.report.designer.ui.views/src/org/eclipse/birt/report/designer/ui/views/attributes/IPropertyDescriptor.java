@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ public interface IPropertyDescriptor {
 
 	/**
 	 * Creates UI widgets this IPropertyDescriptor represented.
-	 * 
+	 *
 	 * @param parent The container control
 	 * @return The Control object this IPropertyDescriptor represented.
 	 */
@@ -31,7 +34,7 @@ public interface IPropertyDescriptor {
 
 	/**
 	 * Gets the view part of Property MVC structure.
-	 * 
+	 *
 	 * @return Control The Control instance stand for the view part.
 	 */
 	Control getControl();
@@ -45,7 +48,7 @@ public interface IPropertyDescriptor {
 
 	/**
 	 * Set DE model List instance
-	 * 
+	 *
 	 * @param handle The model List to set.
 	 */
 	void setInput(Object handle);

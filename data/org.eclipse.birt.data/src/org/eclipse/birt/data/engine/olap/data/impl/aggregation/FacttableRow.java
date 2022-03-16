@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +25,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 
 /**
- * 
+ *
  */
 
 public class FacttableRow implements IFacttableRow {
@@ -33,7 +36,7 @@ public class FacttableRow implements IFacttableRow {
 	private int[] dimPos;
 
 	/**
-	 * 
+	 *
 	 * @param measureInfo
 	 */
 	FacttableRow(MeasureInfo[] measureInfo, ICubeDimensionReader cubeDimensionReader,
@@ -44,7 +47,7 @@ public class FacttableRow implements IFacttableRow {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param measureValues
 	 */
 	void setMeasure(Object[] measureValues) {
@@ -53,11 +56,12 @@ public class FacttableRow implements IFacttableRow {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow#getMeasureValue(
 	 * java.lang.String)
 	 */
+	@Override
 	public Object getMeasureValue(String measureName) throws DataException {
 		for (int i = 0; i < measureInfo.length; i++) {
 			if (measureInfo[i].getMeasureName().equals(measureName)) {
@@ -71,28 +75,34 @@ public class FacttableRow implements IFacttableRow {
 		this.dimPos = dimPos;
 	}
 
+	@Override
 	public Object getLevelAttributeValue(String dimensionName, String levelName, String attribute)
 			throws IOException, DataException {
-		if (cubeDimensionReader == null || metaInfo == null)
+		if (cubeDimensionReader == null || metaInfo == null) {
 			return null;
+		}
 		try {
 			Member member = getLevelMember(dimensionName, levelName);
 			int attributeIndex = getAttributeIndex(dimensionName, levelName, attribute);
-			if (member != null && attributeIndex >= 0)
+			if (member != null && attributeIndex >= 0) {
 				return member.getAttributes()[attributeIndex];
+			}
 			return null;
 		} catch (BirtException e) {
 			throw DataException.wrap(e);
 		}
 	}
 
+	@Override
 	public Object[] getLevelKeyValue(String dimensionName, String levelName) throws IOException, DataException {
 		try {
-			if (cubeDimensionReader == null || metaInfo == null)
+			if (cubeDimensionReader == null || metaInfo == null) {
 				return null;
+			}
 			Member member = getLevelMember(dimensionName, levelName);
-			if (member != null)
+			if (member != null) {
 				return member.getKeyValues();
+			}
 			return null;
 		} catch (BirtException e) {
 			throw DataException.wrap(e);
@@ -101,28 +111,34 @@ public class FacttableRow implements IFacttableRow {
 
 	private Member getLevelMember(String dimensionName, String levelName) throws BirtException, IOException {
 		int dimIndex = getDimensionIndex(dimensionName);
-		if (dimIndex < 0)
+		if (dimIndex < 0) {
 			throw new DataException(ResourceConstants.DIMENSION_NOT_EXIST, dimensionName);
+		}
 		int levelIndex = getLevelIndex(dimensionName, levelName);
-		if (levelIndex < 0)
+		if (levelIndex < 0) {
 			throw new DataException(ResourceConstants.LEVEL_NAME_NOT_FOUND, dimensionName + "." + levelName);
+		}
 		return cubeDimensionReader.getLevelMember(dimIndex, levelIndex, dimPos[dimIndex]);
 	}
 
 	private int getAttributeIndex(String dimensionName, String levelName, String attributeName) throws DataException {
 		int dimIndex = getDimensionIndex(dimensionName);
-		if (dimIndex < 0)
+		if (dimIndex < 0) {
 			throw new DataException(
 					DataResourceHandle.getInstance().getMessage(ResourceConstants.DIMENSION_NOT_EXIST) + dimensionName);
+		}
 		int levelIndex = getLevelIndex(dimensionName, levelName);
-		if (levelIndex < 0)
+		if (levelIndex < 0) {
 			throw new DataException(ResourceConstants.LEVEL_NAME_NOT_FOUND, dimensionName + "." + levelName);
+		}
 		String[] attributeNames = metaInfo.getAttributeNames(dimIndex, levelIndex);
-		if (attributeNames == null || attributeNames.length == 0)
+		if (attributeNames == null || attributeNames.length == 0) {
 			return -1;
+		}
 		for (int i = 0; i < attributeNames.length; i++) {
-			if (attributeNames[i] != null && attributeNames[i].equals(attributeName))
+			if (attributeNames[i] != null && attributeNames[i].equals(attributeName)) {
 				return i;
+			}
 		}
 		return -1;
 	}

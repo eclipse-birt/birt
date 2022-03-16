@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,7 @@ import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 /**
  * Records a change to the back reference of a structure.
- * 
+ *
  * @see org.eclipse.birt.report.model.core.ReferencableStructure
  */
 
@@ -33,7 +36,7 @@ public class StructBackRefRecord extends BackRefRecord {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param module    the module
 	 * @param referred  the structure to change.
 	 * @param reference the element that refers to a structure.
@@ -51,10 +54,11 @@ public class StructBackRefRecord extends BackRefRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 
+	@Override
 	protected void perform(boolean undo) {
 		DesignElement tmpElement = (DesignElement) reference;
 		if (undo) {
@@ -73,10 +77,11 @@ public class StructBackRefRecord extends BackRefRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
+	@Override
 	public DesignElement getTarget() {
 		return module;
 	}

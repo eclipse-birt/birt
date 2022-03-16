@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,13 +25,13 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * includess sort an array and merge sort several arrays. There is one
  * significant difference between internal merge sort and external merge sort in
  * once merge sort.
- * 
+ *
  * For instance, following internal sorting and its result in one time [1, 2],
  * [3, 4] -> [1, 2 ,3, 4]
  *
  * its external sorting, assume available memory size is 2 [1, 2], [3, 4] -> [1]
  * not [1, 3]
- * 
+ *
  */
 class MergeSortUtil {
 	// Comparator
@@ -37,7 +40,7 @@ class MergeSortUtil {
 	/**
 	 * One key of MergeSortUtil is the comparator, which provides a service to
 	 * compare the data of two rows.
-	 * 
+	 *
 	 * @param comparator
 	 */
 	static MergeSortUtil getUtil(Comparator comparator) {
@@ -50,12 +53,13 @@ class MergeSortUtil {
 
 	/**
 	 * Sort an array of ResultObjects using stored comparator.
-	 * 
+	 *
 	 * @param self, which needs to be sorted
 	 */
 	void sortSelf(IResultObject[] self) {
 		Comparator comparator = new Comparator() {
 
+			@Override
 			public int compare(Object obj1, Object obj2) {
 				IResultObject data1 = (IResultObject) obj1;
 				IResultObject data2 = (IResultObject) obj2;
@@ -68,7 +72,7 @@ class MergeSortUtil {
 
 	/**
 	 * Get min object of a array
-	 * 
+	 *
 	 * @param objects
 	 * @param length
 	 * @return the postion of min object
@@ -89,7 +93,7 @@ class MergeSortUtil {
 
 	/**
 	 * Sort several arrays of resultobjects of once time
-	 * 
+	 *
 	 * @param resultObjects,       the array of resultobjects needs to be sorted
 	 * @param sortedResultObjects, the sorted result
 	 * @param stopSign
@@ -126,17 +130,21 @@ class MergeSortUtil {
 			sortedResultObjects[totalCount++] = minSortData;
 			indexOfUnit[indexUnitOfMinValue]++;
 
-			if (toBeSortData[indexUnitOfMinValue].length == indexOfUnit[indexUnitOfMinValue])
+			if (toBeSortData[indexUnitOfMinValue].length == indexOfUnit[indexUnitOfMinValue]) {
 				isDone = true;
-			if (session.getStopSign().isStopped())
+			}
+			if (session.getStopSign().isStopped()) {
 				break;
+			}
 		}
 
-		for (int i = 0, j = 0; i < mergeCount; i++)
-			if (validUnit[i] == true)
+		for (int i = 0, j = 0; i < mergeCount; i++) {
+			if (validUnit[i]) {
 				indexOfAllUnits[i] = indexOfUnit[j++];
-			else
+			} else {
 				indexOfAllUnits[i] = 0;
+			}
+		}
 
 		return new MergeSortInfo(totalCount, indexOfAllUnits);
 	}

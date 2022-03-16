@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +40,7 @@ import org.eclipse.birt.data.engine.odi.IAggrValueHolder;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
- * 
+ *
  */
 
 public class AggregationHelper implements IAggrValueHolder {
@@ -71,7 +74,7 @@ public class AggregationHelper implements IAggrValueHolder {
 	/**
 	 * For the given odi resultset, calcaulate the value of aggregate from
 	 * aggregateTable
-	 * 
+	 *
 	 * @param aggrTable
 	 * @param odiResult
 	 * @throws DataException
@@ -84,7 +87,7 @@ public class AggregationHelper implements IAggrValueHolder {
 	}
 
 	private void populateAggregations(String tempDir) throws DataException {
-		this.aggrNames = new HashSet<String>();
+		this.aggrNames = new HashSet<>();
 		this.currentAggrCount = manager.getAggrCount();
 		if (currentAggrCount > 0) {
 			currentRoundAggrValue = new List[currentAggrCount];
@@ -116,10 +119,11 @@ public class AggregationHelper implements IAggrValueHolder {
 		int count = 1;
 		for (int i = 0; i < this.currentAggrCount; i++) {
 			validAggregations.add(Integer.valueOf(i));
-			if (this.getAggrInfo(i).getAggregation().getNumberOfPasses() > 1)
+			if (this.getAggrInfo(i).getAggregation().getNumberOfPasses() > 1) {
 				populateAggrValue[i] = false;
-			else
+			} else {
 				populateAggrValue[i] = true;
+			}
 			accumulatorManagers[i] = new AccumulatorManager(this.getAggrInfo(i).getAggregation());
 		}
 
@@ -153,7 +157,7 @@ public class AggregationHelper implements IAggrValueHolder {
 	/**
 	 * Make a pass to all aggregations. Iterator over entire result set. At each
 	 * row, call each aggregate aggregationtion.
-	 * 
+	 *
 	 * @param scope
 	 * @param populateAggrValue
 	 * @param validAggregationArray
@@ -171,11 +175,12 @@ public class AggregationHelper implements IAggrValueHolder {
 					continue;
 				}
 
-				if (onRow(index, startingGroupLevel, endingGroupLevel, populateAggrValue[index]) == false) {
+				if (!onRow(index, startingGroupLevel, endingGroupLevel, populateAggrValue[index])) {
 					addInvalidAggrMsg(index, endingGroupLevel);
 
-					if (invalidAggrSet == null)
+					if (invalidAggrSet == null) {
 						invalidAggrSet = new HashSet();
+					}
 					invalidAggrSet.add(Integer.valueOf(index));
 				}
 			}
@@ -183,7 +188,7 @@ public class AggregationHelper implements IAggrValueHolder {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 * @param endingGroupLevel
 	 * @throws DataException
@@ -192,13 +197,14 @@ public class AggregationHelper implements IAggrValueHolder {
 		assert invalidAggrMsg != null;
 
 		if (getAggrInfo(index).getAggregation().getType() == IAggrFunction.RUNNING_AGGR
-				|| endingGroupLevel <= getAggrInfo(index).getGroupLevel() || getAggrInfo(index).getGroupLevel() == 0)
+				|| endingGroupLevel <= getAggrInfo(index).getGroupLevel() || getAggrInfo(index).getGroupLevel() == 0) {
 			currentRoundAggrValue[index].add(invalidAggrMsg.get(Integer.valueOf(index)));
+		}
 	}
 
 	/**
 	 * Calculate the value by row
-	 * 
+	 *
 	 * @param aggrIndex
 	 * @param startingGroupLevel
 	 * @param endingGroupLevel
@@ -242,14 +248,15 @@ public class AggregationHelper implements IAggrValueHolder {
 						this.populator.getCache().getCurrentIndex(), this.populator.getCache().getCurrentResult(),
 						this.populator.getQuery().getExprProcessor().getScope(),
 						this.populator.getSession().getEngineContext().getScriptContext());
-				if (filterResult == null)
+				if (filterResult == null) {
 					accepted = true;
-				else
-
+				} else {
 					accepted = DataTypeUtil.toBoolean(filterResult).booleanValue();
+				}
 			} catch (BirtException e) {
-				if (invalidAggrMsg == null)
+				if (invalidAggrMsg == null) {
 					invalidAggrMsg = new HashMap();
+				}
 				invalidAggrMsg.put(Integer.valueOf(aggrIndex), e);
 
 				return false;
@@ -257,8 +264,9 @@ public class AggregationHelper implements IAggrValueHolder {
 		}
 
 		if (aggrInfo.getCalcualteLevel() > 0) {
-			if (startingGroupLevel > aggrInfo.getCalcualteLevel())
+			if (startingGroupLevel > aggrInfo.getCalcualteLevel()) {
 				accepted = false;
+			}
 		}
 
 		if (accepted) {
@@ -330,7 +338,7 @@ public class AggregationHelper implements IAggrValueHolder {
 
 	/**
 	 * Checks whether the arguments number is valid
-	 * 
+	 *
 	 * @param aggrArgNumb
 	 * @param argDefsLength
 	 * @param optionalNum
@@ -342,7 +350,7 @@ public class AggregationHelper implements IAggrValueHolder {
 
 	/**
 	 * Check whether the input aggregation script expression is empty
-	 * 
+	 *
 	 * @param aggrInfo
 	 * @return
 	 */
@@ -353,24 +361,8 @@ public class AggregationHelper implements IAggrValueHolder {
 	}
 
 	/**
-	 * Check whether the number of the aggregation arguments is valid
-	 * 
-	 * @param aggrInfo
-	 * @param argDefs
-	 * @return
-	 */
-	private boolean isInvalidArgumentNum(IAggrInfo aggrInfo, IParameterDefn[] argDefs) {
-		if (aggrInfo.getArgument() == null) {
-
-		}
-		// if input argument is null or the
-		return aggrInfo.getArgument() == null || ((aggrInfo.getArgument().length != argDefs.length)
-				&& !((aggrInfo.getArgument().length == (argDefs.length - 1)) && argDefs[0].isOptional()));
-	}
-
-	/**
 	 * Get the evaluated result by the ScriptExpression
-	 * 
+	 *
 	 * @param aggrIndex
 	 * @param aggrInfo
 	 * @param i
@@ -407,14 +399,15 @@ public class AggregationHelper implements IAggrValueHolder {
 	 * @param e
 	 */
 	private void wrapException(int aggrIndex, DataException e) {
-		if (invalidAggrMsg == null)
+		if (invalidAggrMsg == null) {
 			invalidAggrMsg = new HashMap();
+		}
 		invalidAggrMsg.put(Integer.valueOf(aggrIndex), e);
 	}
 
 	/**
 	 * Checks whether the ScriptExpression has empty expression text
-	 * 
+	 *
 	 * @param argExpr
 	 * @return
 	 */
@@ -433,7 +426,7 @@ public class AggregationHelper implements IAggrValueHolder {
 
 	/**
 	 * Prepare next run of aggregation pass.
-	 * 
+	 *
 	 * @param validAggregations
 	 * @param populateAggrValue
 	 * @param count
@@ -498,11 +491,12 @@ public class AggregationHelper implements IAggrValueHolder {
 
 	/**
 	 * Get the aggregate value
-	 * 
+	 *
 	 * @param aggrIndex
 	 * @return
 	 * @throws DataException
 	 */
+	@Override
 	public Object getAggrValue(String name) throws DataException {
 		IAggrInfo aggrInfo = this.manager.getAggrDefn(name);
 
@@ -515,10 +509,11 @@ public class AggregationHelper implements IAggrValueHolder {
 
 			if (aggrInfo.getAggregation().getType() == IAggrFunction.SUMMARY_AGGR) {
 				// Aggregate on the whole list: there is only one group
-				if (aggrInfo.getGroupLevel() == 0)
+				if (aggrInfo.getGroupLevel() == 0) {
 					groupIndex = 0;
-				else
+				} else {
 					groupIndex = this.getCurrentGroupIndex(aggrInfo.getGroupLevel());
+				}
 			} else {
 				groupIndex = this.getCurrentResultIndex();
 			}
@@ -530,6 +525,7 @@ public class AggregationHelper implements IAggrValueHolder {
 		}
 	}
 
+	@Override
 	public List getAggrValues(String name) throws DataException {
 		return this.currentRoundAggrValue[this.manager.getAggrDefnIndex(name)];
 	}
@@ -552,7 +548,7 @@ public class AggregationHelper implements IAggrValueHolder {
 
 		/**
 		 * Constructor.
-		 * 
+		 *
 		 * @param aggregation
 		 */
 		AccumulatorManager(IAggrFunction aggregation) {
@@ -560,20 +556,22 @@ public class AggregationHelper implements IAggrValueHolder {
 			this.cursor = -1;
 
 			int passNum = aggregation.getNumberOfPasses();
-			if (passNum < 2)
+			if (passNum < 2) {
 				this.accumulator = aggregation.newAccumulator();
-			else
+			} else {
 				this.cachedAcc = new ArrayList();
+			}
 		}
 
 		/**
 		 * Get the current accumulator.
-		 * 
+		 *
 		 * @return
 		 */
 		Accumulator getCurrentAccumulator() {
-			if (this.accumulator != null)
+			if (this.accumulator != null) {
 				return this.accumulator;
+			}
 			if (cachedAcc.size() == 0) {
 				cachedAcc.add(aggregation.newAccumulator());
 				cursor++;
@@ -584,12 +582,13 @@ public class AggregationHelper implements IAggrValueHolder {
 
 		/**
 		 * Get the next accumulator. If there is no next accumulator, populate one.
-		 * 
+		 *
 		 * @return
 		 */
 		Accumulator next() {
-			if (this.accumulator != null)
+			if (this.accumulator != null) {
 				return this.accumulator;
+			}
 			cursor++;
 			if (cachedAcc.size() > cursor) {
 				return (Accumulator) cachedAcc.get(cursor);
@@ -608,13 +607,16 @@ public class AggregationHelper implements IAggrValueHolder {
 		}
 	}
 
+	@Override
 	public Set<String> getAggrNames() throws DataException {
 		return this.aggrNames;
 	}
 
+	@Override
 	public IAggrInfo getAggrInfo(String aggrName) throws DataException {
-		if (this.hasAggr(aggrName))
+		if (this.hasAggr(aggrName)) {
 			return this.manager.getAggrDefn(aggrName);
+		}
 		return null;
 	}
 }

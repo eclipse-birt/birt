@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * DataFieldFolder.java
  *
@@ -25,7 +37,7 @@ public class DataFieldFolder implements java.io.Serializable {
 
 	/**
 	 * Gets the name value for this DataFieldFolder.
-	 * 
+	 *
 	 * @return name
 	 */
 	public java.lang.String getName() {
@@ -34,7 +46,7 @@ public class DataFieldFolder implements java.io.Serializable {
 
 	/**
 	 * Sets the name value for this DataFieldFolder.
-	 * 
+	 *
 	 * @param name
 	 */
 	public void setName(java.lang.String name) {
@@ -43,7 +55,7 @@ public class DataFieldFolder implements java.io.Serializable {
 
 	/**
 	 * Gets the folder value for this DataFieldFolder.
-	 * 
+	 *
 	 * @return folder
 	 */
 	public org.eclipse.birt.report.soapengine.api.DataFieldFolder[] getFolder() {
@@ -52,7 +64,7 @@ public class DataFieldFolder implements java.io.Serializable {
 
 	/**
 	 * Sets the folder value for this DataFieldFolder.
-	 * 
+	 *
 	 * @param folder
 	 */
 	public void setFolder(org.eclipse.birt.report.soapengine.api.DataFieldFolder[] folder) {
@@ -69,7 +81,7 @@ public class DataFieldFolder implements java.io.Serializable {
 
 	/**
 	 * Gets the field value for this DataFieldFolder.
-	 * 
+	 *
 	 * @return field
 	 */
 	public org.eclipse.birt.report.soapengine.api.DataField[] getField() {
@@ -78,7 +90,7 @@ public class DataFieldFolder implements java.io.Serializable {
 
 	/**
 	 * Sets the field value for this DataFieldFolder.
-	 * 
+	 *
 	 * @param field
 	 */
 	public void setField(org.eclipse.birt.report.soapengine.api.DataField[] field) {
@@ -95,14 +107,18 @@ public class DataFieldFolder implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof DataFieldFolder))
+		if (!(obj instanceof DataFieldFolder)) {
 			return false;
+		}
 		DataFieldFolder other = (DataFieldFolder) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -121,6 +137,7 @@ public class DataFieldFolder implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

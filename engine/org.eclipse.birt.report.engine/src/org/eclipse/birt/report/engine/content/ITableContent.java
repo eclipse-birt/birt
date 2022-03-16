@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,8 +18,8 @@ import java.util.List;
 
 /**
  * Provides the interfaces for the Table Content
- * 
- * 
+ *
+ *
  */
 public interface ITableContent extends IContainerContent {
 
@@ -32,38 +32,38 @@ public interface ITableContent extends IContainerContent {
 	/**
 	 * @return Returns the caption.
 	 */
-	public String getCaption();
+	String getCaption();
 
-	public void setCaption(String caption);
+	void setCaption(String caption);
 
-	public String getCaptionKey();
+	String getCaptionKey();
 
-	public void setCaptionKey(String key);
+	void setCaptionKey(String key);
 
 	/**
 	 * @return
 	 */
-	public boolean isHeaderRepeat();
+	boolean isHeaderRepeat();
 
-	public void setHeaderRepeat(boolean repeat);
+	void setHeaderRepeat(boolean repeat);
 
 	/**
 	 * get the header band. return null if the table has no header.
-	 * 
+	 *
 	 * @return
 	 */
-	public ITableBandContent getHeader();
+	ITableBandContent getHeader();
 
 	/**
 	 * get the footer band,return NULL if the table has no footer.
-	 * 
+	 *
 	 * @return
 	 */
-	public ITableBandContent getFooter();
+	ITableBandContent getFooter();
 
-	public List getColumns();
+	List getColumns();
 
-	public void setSummary(String summary);
+	void setSummary(String summary);
 
-	public String getSummary();
+	String getSummary();
 }

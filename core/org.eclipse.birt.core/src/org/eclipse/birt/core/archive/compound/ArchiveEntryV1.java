@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,17 +30,21 @@ class ArchiveEntryV1 extends ArchiveEntry {
 		this.length = length;
 	}
 
+	@Override
 	public void close() throws IOException {
 	}
 
+	@Override
 	public long getLength() throws IOException {
 		return length;
 	}
 
+	@Override
 	public void setLength(long length) throws IOException {
 		throw new IOException("");
 	}
 
+	@Override
 	public int read(long pos, byte[] b, int off, int len) throws IOException {
 		if (pos >= length) {
 			return -1;
@@ -54,6 +61,7 @@ class ArchiveEntryV1 extends ArchiveEntry {
 		return af.read(start + pos, b, off, len);
 	}
 
+	@Override
 	public void write(long pos, byte[] b, int off, int len) throws IOException {
 		af.write(pos, b, off, len);
 	}

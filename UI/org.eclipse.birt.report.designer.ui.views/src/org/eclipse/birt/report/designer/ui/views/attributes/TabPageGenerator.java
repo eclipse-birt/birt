@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +50,7 @@ public class TabPageGenerator implements IPageGenerator {
 
 	/**
 	 * Creates the tab items for the page
-	 * 
+	 *
 	 * @param tabFolder The attribute tabFolder.
 	 * @param input     The current selection.
 	 */
@@ -55,14 +58,14 @@ public class TabPageGenerator implements IPageGenerator {
 	public void createTabItems(final List input) {
 		ISafeRunnable runnable = new ISafeRunnable() {
 
+			@Override
 			public void run() throws Exception {
 				CTabItem[] oldPages = tabFolder.getItems();
 				int index = tabFolder.getSelectionIndex();
 				for (int i = 0; i < oldPages.length; i++) {
-					if (oldPages[i].isDisposed())
+					if (oldPages[i].isDisposed() || (index == i)) {
 						continue;
-					if (index == i)
-						continue;
+					}
 					if (oldPages[i].getControl() != null) {
 						oldPages[i].getControl().dispose();
 					}
@@ -74,6 +77,7 @@ public class TabPageGenerator implements IPageGenerator {
 				}
 			}
 
+			@Override
 			public void handleException(Throwable exception) {
 				/* not used */
 			}
@@ -83,10 +87,11 @@ public class TabPageGenerator implements IPageGenerator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.views.IPageGenerator#createControl
 	 * (org.eclipse.swt.widgets.Composite, java.lang.Object)
 	 */
+	@Override
 	public void createControl(Composite parent, Object input) {
 		this.input = (List) input;
 		if (tabFolder == null || tabFolder.isDisposed()) {
@@ -99,17 +104,19 @@ public class TabPageGenerator implements IPageGenerator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.views.IPageGenerator#getControl()
 	 */
+	@Override
 	public Control getControl() {
 		return tabFolder;
 	}
 
 	protected void showPropertiesPage() {
 		if (SessionHandleAdapter.getInstance().getReportDesignHandle() != null) {
-			if (tabFolder == null || tabFolder.isDisposed())
+			if (tabFolder == null || tabFolder.isDisposed()) {
 				return;
+			}
 			selectStickyTab();
 			tabFolder.getParent().layout(true);
 		}
@@ -152,25 +159,27 @@ public class TabPageGenerator implements IPageGenerator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.views.IPageGenerator#getInput()
 	 */
+	@Override
 	public Object getInput() {
 		return input;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.views.IPageGenerator#refresh()
 	 */
+	@Override
 	public void refresh() {
 		// doing nothing
 	}
 
 	/**
 	 * Returns the text of current selected tab.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getSelectedTabText() {
@@ -179,7 +188,7 @@ public class TabPageGenerator implements IPageGenerator {
 
 	/**
 	 * Sets the text of current selected tab.
-	 * 
+	 *
 	 * @param selectedTabText
 	 */
 	public void setSelectedTabText(String selectedTabText) {
@@ -197,6 +206,7 @@ public class TabPageGenerator implements IPageGenerator {
 			this.generator = generator;
 		}
 
+		@Override
 		public void widgetSelected(SelectionEvent e) {
 			if (tabFolder != null) {
 				tabIndex = tabFolder.getSelectionIndex();

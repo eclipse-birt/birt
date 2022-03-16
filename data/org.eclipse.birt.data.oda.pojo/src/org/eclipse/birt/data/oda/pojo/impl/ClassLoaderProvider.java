@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -30,8 +33,9 @@ public class ClassLoaderProvider {
 	public static ClassLoaderProvider getInstance() {
 		if (sm_instance == null) {
 			synchronized (ClassLoaderProvider.class) {
-				if (sm_instance == null)
+				if (sm_instance == null) {
 					sm_instance = new ClassLoaderProvider();
+				}
 			}
 		}
 		return sm_instance;
@@ -41,8 +45,9 @@ public class ClassLoaderProvider {
 	 * Singleton instance release method.
 	 */
 	public static void releaseInstance() {
-		if (sm_instance == null)
+		if (sm_instance == null) {
 			return;
+		}
 
 		synchronized (ClassLoaderProvider.class) {
 			if (sm_instance != null) {

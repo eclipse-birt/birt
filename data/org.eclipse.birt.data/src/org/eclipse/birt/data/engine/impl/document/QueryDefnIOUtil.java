@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -73,8 +76,9 @@ public class QueryDefnIOUtil {
 			// misc property: max row, use details
 			IOUtil.writeInt(outputStream, queryDefn.getMaxRows());
 			IOUtil.writeBool(outputStream, queryDefn.usesDetails());
-			if (version >= VersionManager.VERSION_2_5_2_1 && !"2.6.1.v20100915".equals(bundleVersion))
+			if (version >= VersionManager.VERSION_2_5_2_1 && !"2.6.1.v20100915".equals(bundleVersion)) {
 				IOUtil.writeBool(outputStream, queryDefn.cacheQueryResults());
+			}
 
 			// sub query name
 			saveSubQuery(outputStream, queryDefn.getSubqueries(), version, bundleVersion);
@@ -97,7 +101,7 @@ public class QueryDefnIOUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param outputStream
 	 * @param hint
 	 * @param version
@@ -105,11 +109,12 @@ public class QueryDefnIOUtil {
 	 */
 	private static void saveQueryExecutionHints(OutputStream outputStream, IQueryExecutionHints hint, int version)
 			throws DataException {
-		if (version < VersionManager.VERSION_2_3_2_1)
+		if (version < VersionManager.VERSION_2_3_2_1) {
 			return;
+		}
 		try {
 			IOUtil.writeBool(outputStream, hint == null ? true : hint.doSortBeforeGrouping());
-			List<IGroupInstanceInfo> list = hint == null ? new ArrayList<IGroupInstanceInfo>()
+			List<IGroupInstanceInfo> list = hint == null ? new ArrayList<>()
 					: hint.getTargetGroupInstances();
 			IOUtil.writeInt(outputStream, list.size());
 			for (IGroupInstanceInfo info : list) {
@@ -141,10 +146,11 @@ public class QueryDefnIOUtil {
 				Map.Entry entry = (Entry) it.next();
 				IOUtil.writeString(dos, (String) entry.getKey());
 
-				if (version < VersionManager.VERSION_2_2_1)
+				if (version < VersionManager.VERSION_2_2_1) {
 					ExprUtil.saveBaseExpr(dos, ((IBinding) entry.getValue()).getExpression());
-				else
+				} else {
 					BindingIOUtil.saveBinding(dos, (IBinding) entry.getValue(), version);
+				}
 			}
 		}
 
@@ -170,11 +176,13 @@ public class QueryDefnIOUtil {
 				IOUtil.writeString(dos, sortDefn.getColumn());
 				ExprUtil.saveBaseExpr(dos, sortDefn.getExpression());
 				IOUtil.writeInt(dos, sortDefn.getSortDirection());
-				if (version >= VersionManager.VERSION_2_3_1)
+				if (version >= VersionManager.VERSION_2_3_1) {
 					IOUtil.writeInt(dos, sortDefn.getSortStrength());
-				if (version >= VersionManager.VERSION_2_5_0_1)
+				}
+				if (version >= VersionManager.VERSION_2_5_0_1) {
 					IOUtil.writeString(dos,
 							sortDefn.getSortLocale() == null ? null : sortDefn.getSortLocale().getBaseName());
+				}
 			}
 		}
 
@@ -239,8 +247,9 @@ public class QueryDefnIOUtil {
 			// misc property: max row, use details
 			queryDefn.setMaxRows(IOUtil.readInt(inputStream));
 			queryDefn.setUsesDetails(IOUtil.readBool(inputStream));
-			if (version >= VersionManager.VERSION_2_5_2_1 && !"2.6.1.v20100915".equals(bundleVersion))
+			if (version >= VersionManager.VERSION_2_5_2_1 && !"2.6.1.v20100915".equals(bundleVersion)) {
 				queryDefn.setCacheQueryResults(IOUtil.readBool(inputStream));
+			}
 
 			// sub query name
 			queryDefn.getSubqueries().addAll(loadSubQuery(inputStream, queryDefn, version, bundleVersion));
@@ -258,7 +267,7 @@ public class QueryDefnIOUtil {
 
 	/**
 	 * This method loads the query execution hints
-	 * 
+	 *
 	 * @param inputStream
 	 * @param version
 	 * @return
@@ -266,8 +275,9 @@ public class QueryDefnIOUtil {
 	 */
 	private static IQueryExecutionHints loadQueryExecutionHints(InputStream inputStream, int version)
 			throws DataException {
-		if (version < VersionManager.VERSION_2_3_2_1)
+		if (version < VersionManager.VERSION_2_3_2_1) {
 			return null;
+		}
 		try {
 			QueryExecutionHints hints = new QueryExecutionHints();
 			hints.setSortBeforeGrouping(IOUtil.readBool(inputStream));
@@ -298,10 +308,11 @@ public class QueryDefnIOUtil {
 
 		for (int i = 0; i < size; i++) {
 			String exprName = IOUtil.readString(dis);
-			if (version < VersionManager.VERSION_2_2_1)
+			if (version < VersionManager.VERSION_2_2_1) {
 				exprMap.put(exprName, new Binding(exprName, ExprUtil.loadBaseExpr(dis)));
-			else
+			} else {
 				exprMap.put(exprName, BindingIOUtil.loadBinding(dis, version));
+			}
 		}
 
 		return exprMap;
@@ -323,20 +334,23 @@ public class QueryDefnIOUtil {
 			int direction = IOUtil.readInt(dis);
 
 			SortDefinition sortDefn = new SortDefinition();
-			if (sortKeyColumn != null)
+			if (sortKeyColumn != null) {
 				sortDefn.setColumn(sortKeyColumn);
-			else
+			} else {
 				sortDefn.setExpression(sortKeyExpr);
+			}
 
 			sortDefn.setSortDirection(direction);
 
-			if (version >= VersionManager.VERSION_2_3_1)
+			if (version >= VersionManager.VERSION_2_3_1) {
 				sortDefn.setSortStrength(IOUtil.readInt(dis));
+			}
 
 			if (version >= VersionManager.VERSION_2_5_0_1) {
 				String locale = IOUtil.readString(dis);
-				if (locale != null)
+				if (locale != null) {
 					sortDefn.setSortLocale(new ULocale(locale));
+				}
 			}
 			sortList.add(sortDefn);
 		}

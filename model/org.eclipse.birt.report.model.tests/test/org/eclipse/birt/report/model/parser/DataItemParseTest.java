@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,19 +33,19 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 /**
  * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
  * collapse" bordercolor="#111111" width="100%" id="AutoNumber6">
- * 
+ *
  * <tr>
  * <td width="33%"><b>Method </b></td>
  * <td width="33%"><b>Test Case </b></td>
  * <td width="34%"><b>Expected Result </b></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td width="33%">{@link #testParser()}</td>
  * <td width="33%">Test all properties</td>
  * <td width="34%">the correct value returned.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td width="33%">{@link #testWriter()}</td>
  * <td width="33%">Set new value to properties and save it.</td>
@@ -50,7 +53,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * file is same as golden file.</td>
  * </tr>
  * </table>
- * 
+ *
  */
 
 public class DataItemParseTest extends BaseTestCase {
@@ -62,13 +65,14 @@ public class DataItemParseTest extends BaseTestCase {
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Test all properties.
-	 * 
+	 *
 	 * @throws Exception if opening design file failed.
 	 */
 	public void testParser() throws Exception {
@@ -180,7 +184,7 @@ public class DataItemParseTest extends BaseTestCase {
 	/**
 	 * This test sets properties, writes the design file and compares it with golden
 	 * file.
-	 * 
+	 *
 	 * @throws Exception if opening or saving design file failed.
 	 */
 	public void testWriter() throws Exception {
@@ -229,14 +233,14 @@ public class DataItemParseTest extends BaseTestCase {
 
 	/**
 	 * Tests the validation on data item. Cases are:
-	 * 
+	 *
 	 * <ul>
 	 * <li>data has column name defined. However, no column binding associated with
 	 * it.
 	 * <li>data binding has an non-existed data set defined.
 	 * </ul>
-	 * 
-	 * 
+	 *
+	 *
 	 * @throws Exception
 	 */
 

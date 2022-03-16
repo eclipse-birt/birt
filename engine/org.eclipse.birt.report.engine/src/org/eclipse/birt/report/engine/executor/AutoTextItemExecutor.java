@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,13 +22,13 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * the AutoTextItem excutor
- * 
+ *
  */
 public class AutoTextItemExecutor extends StyledItemExecutor {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param manager the excutor manager which create this executor
 	 */
 	public AutoTextItemExecutor(ExecutorManager manager) {
@@ -45,9 +45,10 @@ public class AutoTextItemExecutor extends StyledItemExecutor {
 	 * <li>execute the onCreate if necessary
 	 * <li>call emitter to start the AutoText
 	 * <li>popup the AutoText.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute(IContentEmitter)
 	 */
+	@Override
 	public IContent execute() {
 		AutoTextItemDesign textDesign = (AutoTextItemDesign) getDesign();
 		IAutoTextContent textContent = report.createAutoTextContent();

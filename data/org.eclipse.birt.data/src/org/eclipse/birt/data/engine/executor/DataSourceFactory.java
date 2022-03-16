@@ -1,13 +1,16 @@
 /*************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************/
 package org.eclipse.birt.data.engine.executor;
 
@@ -19,7 +22,7 @@ import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceFactory;
 
 /**
- * 
+ *
  */
 public class DataSourceFactory implements IDataSourceFactory {
 	/**
@@ -35,8 +38,9 @@ public class DataSourceFactory implements IDataSourceFactory {
 	public static IDataSourceFactory getFactory() {
 		if (instance == null) {
 			synchronized (DataSourceFactory.class) {
-				if (instance == null)
+				if (instance == null) {
 					instance = new DataSourceFactory();
+				}
 			}
 		}
 
@@ -52,6 +56,7 @@ public class DataSourceFactory implements IDataSourceFactory {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IDataSourceFactory#getNullDataSource()
 	 */
+	@Override
 	public IDataSource getEmptyDataSource(DataEngineSession session) {
 		// TODO: connection pooling
 		return new DataSource(null, null, session);
@@ -65,6 +70,7 @@ public class DataSourceFactory implements IDataSourceFactory {
 	 * org.eclipse.birt.data.engine.api.IBaseDataSetDesign, java.util.Collection,
 	 * int, int)
 	 */
+	@Override
 	public IDataSource getDataSource(String driverName, Map connProperties, DataEngineSession session)
 			throws DataException {
 		return new DataSource(driverName, connProperties, session);

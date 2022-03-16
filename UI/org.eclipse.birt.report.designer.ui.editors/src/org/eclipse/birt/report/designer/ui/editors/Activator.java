@@ -1,18 +1,20 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
 
 package org.eclipse.birt.report.designer.ui.editors;
 
-import org.eclipse.ui.plugin.*;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -35,6 +37,7 @@ public class Activator extends AbstractUIPlugin {
 	/**
 	 * This method is called upon plug-in activation
 	 */
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 	}
@@ -42,6 +45,7 @@ public class Activator extends AbstractUIPlugin {
 	/**
 	 * This method is called when the plug-in is stopped
 	 */
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		super.stop(context);
 		plugin = null;
@@ -49,7 +53,7 @@ public class Activator extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance.
-	 * 
+	 *
 	 * @return the shared instance.
 	 */
 	public static Activator getDefault() {
@@ -59,7 +63,7 @@ public class Activator extends AbstractUIPlugin {
 	/**
 	 * Returns an image descriptor for the image file at the given plug-in relative
 	 * path.
-	 * 
+	 *
 	 * @param path the path
 	 * @return the image descriptor
 	 */

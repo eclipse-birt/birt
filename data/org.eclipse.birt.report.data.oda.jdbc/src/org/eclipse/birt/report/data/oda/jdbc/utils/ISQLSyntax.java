@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -13,13 +16,13 @@ package org.eclipse.birt.report.data.oda.jdbc.utils;
 
 /**
  * TODO: Please document
- * 
+ *
  * @version $Revision: 1.2 $ $Date: 2007/02/01 10:58:58 $
  */
 
 public interface ISQLSyntax {
 
-	public static final String[] reservedwords = { "absolute", //$NON-NLS-1$
+	String[] reservedwords = { "absolute", //$NON-NLS-1$
 			"acquire", //$NON-NLS-1$
 			"action", //$NON-NLS-1$
 			"add", //$NON-NLS-1$
@@ -317,7 +320,7 @@ public interface ISQLSyntax {
 			"true" //$NON-NLS-1$
 	};
 
-	public static final String[] predicates = { "< >", //$NON-NLS-1$
+	String[] predicates = { "< >", //$NON-NLS-1$
 			"=", //$NON-NLS-1$
 			"<", //$NON-NLS-1$
 			">", //$NON-NLS-1$
@@ -351,7 +354,7 @@ public interface ISQLSyntax {
 			"exists" //$NON-NLS-1$
 	};
 
-	public static final String[] types = { "integer", //$NON-NLS-1$
+	String[] types = { "integer", //$NON-NLS-1$
 			"smallinteger", //$NON-NLS-1$
 			"bigint", //$NON-NLS-1$
 			"decimal", //$NON-NLS-1$
@@ -370,10 +373,10 @@ public interface ISQLSyntax {
 			"dbclob" //$NON-NLS-1$
 	};
 
-	public static final String[] constants = { "false", "true", "null" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	String[] constants = { "false", "true", "null" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	};
 
-	public static final String[] functions = { "abs", //$NON-NLS-1$
+	String[] functions = { "abs", //$NON-NLS-1$
 			"absval", //$NON-NLS-1$
 			"acos", //$NON-NLS-1$
 			"ascii", //$NON-NLS-1$

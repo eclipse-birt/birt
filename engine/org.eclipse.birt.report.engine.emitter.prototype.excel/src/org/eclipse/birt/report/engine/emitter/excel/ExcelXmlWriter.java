@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
@@ -39,11 +42,10 @@ public class ExcelXmlWriter implements IExcelWriter {
 	}
 
 	private String pageHeader, pageFooter;
-	private int sheetIndex = 1;
 
 	static class XLSEncodeUtil extends XMLEncodeUtil {
 
-		protected static final char[] XLS_TEXT_ENCODE = new char[] { '&', '<', '\r', '\n' };
+		protected static final char[] XLS_TEXT_ENCODE = { '&', '<', '\r', '\n' };
 
 		static String encodeXLSText(String s) {
 			char[] chars = s.toCharArray();
@@ -87,6 +89,7 @@ public class ExcelXmlWriter implements IExcelWriter {
 	}
 
 	public static class XMLWriterXLS extends XMLWriter {
+		@Override
 		protected String encodeText(String text) {
 			return XLSEncodeUtil.encodeXLSText(text);
 		}
@@ -138,7 +141,7 @@ public class ExcelXmlWriter implements IExcelWriter {
 	/**
 	 * excel doesn't support time zone, so always output the date time in user's
 	 * time zone
-	 * 
+	 *
 	 * @param value
 	 * @param dataType
 	 * @return
@@ -184,6 +187,7 @@ public class ExcelXmlWriter implements IExcelWriter {
 		writer.closeTag("Data");
 	}
 
+	@Override
 	public void startRow(double rowHeight) {
 		writer.openTag("Row");
 		if (rowHeight > 0) {
@@ -194,6 +198,7 @@ public class ExcelXmlWriter implements IExcelWriter {
 		}
 	}
 
+	@Override
 	public void endRow() {
 		writer.closeTag("Row");
 	}
@@ -209,9 +214,9 @@ public class ExcelXmlWriter implements IExcelWriter {
 		if (hyperLink != null) {
 			String urlAddress = hyperLink.getUrl();
 			if (hyperLink.getType() == IHyperlinkAction.ACTION_BOOKMARK) {
-				if (linkedBookmark != null)
+				if (linkedBookmark != null) {
 					urlAddress = "#" + linkedBookmark.getValidName();
-				else {
+				} else {
 					logger.log(Level.WARNING, "The bookmark: {" + urlAddress + "} is not defined!");
 				}
 			}
@@ -232,12 +237,14 @@ public class ExcelXmlWriter implements IExcelWriter {
 		}
 	}
 
+	@Override
 	public void outputData(String sheet, SheetData sheetData, StyleEntry style, int column, int colSpan) {
 		// TODO: ignore sheet here. If this function is needed, need to
 		// implement.
 		outputData(sheetData, style, column, colSpan);
 	}
 
+	@Override
 	public void outputData(SheetData sheetData, StyleEntry style, int column, int colSpan) {
 		int rowSpan = sheetData.getRowSpan();
 		int styleId = sheetData.getStyleId();
@@ -254,6 +261,7 @@ public class ExcelXmlWriter implements IExcelWriter {
 		}
 	}
 
+	@Override
 	public void outputData(int col, int row, int type, Object value) {
 		outputData(type, value, null, col, 0, 0, -1, null, null);
 	}
@@ -301,10 +309,11 @@ public class ExcelXmlWriter implements IExcelWriter {
 			writer.attribute("ss:Indent", indent);
 		}
 		if (isValid(direction)) {
-			if (CSSConstants.CSS_RTL_VALUE.equals(direction))
+			if (CSSConstants.CSS_RTL_VALUE.equals(direction)) {
 				writer.attribute("ss:ReadingOrder", "RightToLeft");
-			else
+			} else {
 				writer.attribute("ss:ReadingOrder", "LeftToRight");
+			}
 		}
 		if (wrapText) {
 			writer.attribute("ss:WrapText", "1");
@@ -455,8 +464,9 @@ public class ExcelXmlWriter implements IExcelWriter {
 	}
 
 	private String toString(Color color) {
-		if (color == null)
+		if (color == null) {
 			return null;
+		}
 		return "#" + toHexString(color.getRed()) + toHexString(color.getGreen()) + toHexString(color.getBlue());
 	}
 
@@ -470,8 +480,9 @@ public class ExcelXmlWriter implements IExcelWriter {
 
 	private void writeDataFormat(StyleEntry style) {
 		Integer type = (Integer) style.getProperty(StyleConstant.DATA_TYPE_PROP);
-		if (type == null)
+		if (type == null) {
 			return;
+		}
 		if (type == SheetData.DATE && style.getProperty(StyleConstant.DATE_FORMAT_PROP) != null) {
 			writer.openTag("NumberFormat");
 			writer.attribute("ss:Format", style.getProperty(StyleConstant.DATE_FORMAT_PROP));
@@ -534,6 +545,7 @@ public class ExcelXmlWriter implements IExcelWriter {
 		writer.closeTag("NamedRange");
 	}
 
+	@Override
 	public void startSheet(String name) {
 		startSheet(name, null);
 	}
@@ -544,8 +556,9 @@ public class ExcelXmlWriter implements IExcelWriter {
 
 		// Set the Excel Sheet RightToLeft attribute according to Report
 		// if Report Bidi-Orientation is RTL, then Sheet is RTL.
-		if (context.isRTL())
+		if (context.isRTL()) {
 			writer.attribute("ss:RightToLeft", rightToLeftisTrue);
+		}
 		// else : do nothing i.e. LTR
 		outputColumns(coordinates);
 	}
@@ -651,13 +664,14 @@ public class ExcelXmlWriter implements IExcelWriter {
 		writer.closeTag("WorksheetOptions");
 	}
 
+	@Override
 	public void startSheet(double[] coordinates, String pageHeader, String pageFooter, String name) {
 		this.pageHeader = pageHeader;
 		this.pageFooter = pageFooter;
 		startSheet(name, coordinates);
-		sheetIndex += 1;
 	}
 
+	@Override
 	public void endSheet(double[] coordinates, String orientation, int pageWidth, int pageHeight, float leftMargin,
 			float rightMargin, float topMargin, float bottomMargin) {
 		endTable();
@@ -665,6 +679,7 @@ public class ExcelXmlWriter implements IExcelWriter {
 		closeSheet();
 	}
 
+	@Override
 	public void start(IReportContent report, Map<StyleEntry, Integer> styles,
 			// TODO: style ranges.
 			// List<ExcelRange> styleRanges,
@@ -709,6 +724,7 @@ public class ExcelXmlWriter implements IExcelWriter {
 		buffer.append(String.valueOf(column));
 	}
 
+	@Override
 	public void end() {
 		writer.closeTag("Workbook");
 		close();
@@ -720,17 +736,19 @@ public class ExcelXmlWriter implements IExcelWriter {
 	}
 
 	public void setSheetIndex(int sheetIndex) {
-		this.sheetIndex = sheetIndex;
 	}
 
+	@Override
 	public void endSheet() {
 		endSheet(null, null, 0, 0, 0, 0, 0, 0);
 	}
 
+	@Override
 	public void startRow() {
 		startRow(-1);
 	}
 
+	@Override
 	public String defineName(String cells) {
 		return null;
 	}

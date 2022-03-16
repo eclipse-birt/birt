@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +53,7 @@ public class ReportCreationTool extends CreationTool {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param factory
 	 * @param preHandle
 	 */
@@ -61,9 +64,10 @@ public class ReportCreationTool extends CreationTool {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.tools.CreationTool#performCreation(int)
 	 */
+	@Override
 	protected void performCreation(int button) {
 		isCreating = true;
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
@@ -106,12 +110,13 @@ public class ReportCreationTool extends CreationTool {
 
 	/**
 	 * Performs the creation. Runs the creation via simulating the mouse move event.
-	 * 
+	 *
 	 * @param editPart the current EditPart
 	 */
 	public void performCreation(EditPart editPart) {
-		if (editPart == null)
+		if (editPart == null) {
 			return;
+		}
 		setTargetEditPart(editPart);
 		boolean validateCurr = handleValidatePalette(getFactory().getObjectType(), getTargetEditPart());
 		if (!validateCurr) {
@@ -144,16 +149,17 @@ public class ReportCreationTool extends CreationTool {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.tools.TargetingTool#getTargetRequest()
 	 */
+	@Override
 	public Request getTargetRequest() {
 		return super.getTargetRequest();
 	}
 
 	/**
 	 * Gets the new Object from request
-	 * 
+	 *
 	 * @return
 	 */
 	public Object getNewObjectFromRequest() {
@@ -162,7 +168,7 @@ public class ReportCreationTool extends CreationTool {
 
 	/**
 	 * Selects or clicks added object
-	 * 
+	 *
 	 * @param model  new object, null will do nothing
 	 * @param viewer edit part viewer, null will do nothing
 	 */
@@ -190,18 +196,20 @@ public class ReportCreationTool extends CreationTool {
 
 	/**
 	 * Selects or clicks added object
-	 * 
+	 *
 	 * @param model   new object, null will do nothing
 	 * @param viewer  edit part viewer, null will do nothing
 	 * @param request the request sended to EditPart
 	 */
 	public static void selectAddedObject(final Object model, final EditPartViewer viewer, final Request request,
 			final boolean edit) {
-		if (model == null || viewer == null)
+		if (model == null || viewer == null) {
 			return;
+		}
 
 		Display.getCurrent().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				// modify
 				Object editpart = viewer.getEditPartRegistry().get(model);
@@ -262,18 +270,16 @@ public class ReportCreationTool extends CreationTool {
 			type = ReportDesignConstants.DATA_ITEM;
 		} else if (IReportElementConstants.REPORT_ELEMENT_LIST.equalsIgnoreCase(template)) {
 			type = ReportDesignConstants.LIST_ITEM;
-		} else {
-			if (template.startsWith(IReportElementConstants.REPORT_ELEMENT_EXTENDED)) {
-				// type = ReportDesignConstants.EXTENDED_ITEM;
-				type = template.substring(IReportElementConstants.REPORT_ELEMENT_EXTENDED.length());
-			}
+		} else if (template.startsWith(IReportElementConstants.REPORT_ELEMENT_EXTENDED)) {
+			// type = ReportDesignConstants.EXTENDED_ITEM;
+			type = template.substring(IReportElementConstants.REPORT_ELEMENT_EXTENDED.length());
 		}
 		return type;
 	}
 
 	/**
 	 * Validates specified creation type can be inserted to layout editor.
-	 * 
+	 *
 	 * @param objectType     specified creation type
 	 * @param targetEditPart
 	 * @return validate result
@@ -292,9 +298,10 @@ public class ReportCreationTool extends CreationTool {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.tools.CreationTool#handleMove()
 	 */
+	@Override
 	protected boolean handleMove() {
 		boolean validateTrue = false;
 		if (isCreating) {

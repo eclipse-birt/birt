@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.impl;
@@ -81,6 +84,7 @@ class PreparedSubquery implements IPreparedQueryService {
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.IPreparedQueryService#getDataSourceQuery()
 	 */
+	@Override
 	public PreparedDataSourceQuery getDataSourceQuery() {
 		// Gets the parent's report query
 		return queryService.getDataSourceQuery();
@@ -92,6 +96,7 @@ class PreparedSubquery implements IPreparedQueryService {
 	 * eclipse.birt.data.engine.odi.IResultIterator, java.lang.String,
 	 * org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	public IQueryResults execSubquery(IResultIterator iterator, IQueryExecutor parentExecutor, String subQueryName,
 			Scriptable subScope) throws DataException {
 		return this.preparedQuery.execSubquery(iterator, parentExecutor, subQueryName, subScope);
@@ -106,7 +111,7 @@ class PreparedSubquery implements IPreparedQueryService {
 
 	/**
 	 * Executes this subquery
-	 * 
+	 *
 	 * @param parentIterator
 	 * @param scope
 	 * @return
@@ -154,6 +159,7 @@ class PreparedSubquery implements IPreparedQueryService {
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource(
 		 * )
 		 */
+		@Override
 		protected IDataSource createOdiDataSource() {
 			// Subqueries don't have its own data source
 			return null;
@@ -163,6 +169,7 @@ class PreparedSubquery implements IPreparedQueryService {
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#findDataSource()
 		 */
+		@Override
 		protected DataSourceRuntime findDataSource() {
 			// Subqueries don't have its own data source
 			return null;
@@ -172,13 +179,16 @@ class PreparedSubquery implements IPreparedQueryService {
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#newDataSetRuntime()
 		 */
+		@Override
 		protected DataSetRuntime newDataSetRuntime() {
 			return new SubqueryDataSetRuntime(this, session);
 		}
 
+		@Override
 		protected String getDataSetName() {
-			if (preparedQuery.getBaseQueryDefn() instanceof IQueryDefinition)
+			if (preparedQuery.getBaseQueryDefn() instanceof IQueryDefinition) {
 				return ((IQueryDefinition) preparedQuery.getBaseQueryDefn()).getDataSetName();
+			}
 			return null;
 		}
 
@@ -186,6 +196,7 @@ class PreparedSubquery implements IPreparedQueryService {
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery()
 		 */
+		@Override
 		protected IQuery createOdiQuery() throws DataException {
 			// An empty odi data source is used for sub query data set
 			return DataSourceFactory.getFactory().getEmptyDataSource(session).newCandidateQuery(false);
@@ -195,19 +206,22 @@ class PreparedSubquery implements IPreparedQueryService {
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
+		@Override
 		protected IResultIterator executeOdiQuery(IEventHandler eventHandler) throws DataException {
 			assert parentIterator != null;
 
-			if (parentIterator instanceof EmptyResultIterator)
+			if (parentIterator instanceof EmptyResultIterator) {
 				return new EmptyResultIterator();
+			}
 
-			IResultIterator ret = null;
+			IResultIterator ret;
 			ICandidateQuery cdQuery = (ICandidateQuery) odiQuery;
 
-			if (PreparedSubquery.this.subQueryOnGroup == true)
+			if (PreparedSubquery.this.subQueryOnGroup) {
 				cdQuery.setCandidates(parentIterator, groupLevel);
-			else
+			} else {
 				cdQuery.setCandidates(new CustomDataSet(parentIterator, getMergedResultClass()));
+			}
 
 			ret = cdQuery.execute(eventHandler);
 			// parentIterator = null;
@@ -252,16 +266,19 @@ class PreparedSubquery implements IPreparedQueryService {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.ISubQueryExecutor#getSubQueryStartingIndex(
 		 * )
 		 */
+		@Override
 		public int getSubQueryStartingIndex() throws DataException {
-			if (!subQueryOnGroup)
+			if (!subQueryOnGroup) {
 				return this.parentIterator.getCurrentResultIndex();
-			if (parentIterator instanceof EmptyResultIterator)
+			}
+			if (parentIterator instanceof EmptyResultIterator) {
 				return 0;
+			}
 
 			int groupIndex = this.parentIterator.getCurrentGroupIndex(groupLevel);
 
@@ -294,6 +311,7 @@ class PreparedSubquery implements IPreparedQueryService {
 		/*
 		 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#getResultClass()
 		 */
+		@Override
 		public IResultClass getResultClass() {
 			return resultClass;
 		}
@@ -301,15 +319,18 @@ class PreparedSubquery implements IPreparedQueryService {
 		/*
 		 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#open()
 		 */
+		@Override
 		public void open() throws DataException {
 		}
 
 		/*
 		 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#fetc h()
 		 */
+		@Override
 		public IResultObject fetch() throws DataException {
-			if (finished)
+			if (finished) {
 				return null;
+			}
 
 			finished = true;
 			return resultIterator.getCurrentResult();
@@ -318,6 +339,7 @@ class PreparedSubquery implements IPreparedQueryService {
 		/*
 		 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#close()
 		 */
+		@Override
 		public void close() throws DataException {
 		}
 	}

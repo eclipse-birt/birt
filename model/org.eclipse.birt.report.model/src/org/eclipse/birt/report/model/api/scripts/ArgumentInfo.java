@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +29,7 @@ public class ArgumentInfo implements IArgumentInfo {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param argumentType the argument type.
 	 */
 
@@ -36,7 +39,7 @@ public class ArgumentInfo implements IArgumentInfo {
 
 	/**
 	 * Returns the arguement type in class.
-	 * 
+	 *
 	 * @return the arguement type in class
 	 */
 
@@ -46,10 +49,11 @@ public class ArgumentInfo implements IArgumentInfo {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.metadata.IArgumentInfo#getName()
 	 */
 
+	@Override
 	public String getName() {
 		return StringUtil.EMPTY_STRING;
 	}
@@ -57,53 +61,59 @@ public class ArgumentInfo implements IArgumentInfo {
 	/**
 	 * Returns the display name for the property if the resource key of display name
 	 * is defined. Otherwise, return empty string.
-	 * 
+	 *
 	 * @return the user-visible, localized display name for the property
 	 */
 
+	@Override
 	public String getDisplayName() {
 		return ""; //$NON-NLS-1$
 	}
 
 	/**
 	 * Returns the resource key for the display name.
-	 * 
+	 *
 	 * @return The display name message ID.
 	 */
 
+	@Override
 	public String getDisplayNameKey() {
 		return ""; //$NON-NLS-1$
 	}
 
 	/**
 	 * Returns the script type of this argument.
-	 * 
+	 *
 	 * @return the script type to set
 	 */
 
+	@Override
 	public String getType() {
 		return clazz.getName();
 	}
 
 	/**
 	 * Returns the class type of this argument.
-	 * 
+	 *
 	 * @return the class type to set
 	 */
 
+	@Override
 	public IClassInfo getClassType() {
 		return new ClassInfo(clazz);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 
+	@Override
 	public String toString() {
-		if (!StringUtil.isBlank(getName()))
+		if (!StringUtil.isBlank(getName())) {
 			return getName();
+		}
 		return super.toString();
 	}
 }

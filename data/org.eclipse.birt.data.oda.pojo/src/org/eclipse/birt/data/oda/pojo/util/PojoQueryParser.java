@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +57,7 @@ public class PojoQueryParser {
 	/**
 	 * Parse a POJO query into a
 	 * <code>org.eclipse.birt.data.oda.pojo.querymodel.PojoQuery</code> instance
-	 * 
+	 *
 	 * @param query
 	 * @return the parsed
 	 *         <code>org.eclipse.birt.data.oda.pojo.querymodel.PojoQuery</code>
@@ -101,13 +104,7 @@ public class PojoQueryParser {
 				}
 			}
 			return pojoQuery;
-		} catch (ParserConfigurationException e) {
-			throw new OdaException(new Exception(Messages.getString("Query.FailedToParse", //$NON-NLS-1$
-					query), e));
-		} catch (SAXException e) {
-			throw new OdaException(new Exception(Messages.getString("Query.FailedToParse", //$NON-NLS-1$
-					query), e));
-		} catch (IOException e) {
+		} catch (ParserConfigurationException | SAXException | IOException e) {
 			throw new OdaException(new Exception(Messages.getString("Query.FailedToParse", //$NON-NLS-1$
 					query), e));
 		} finally {
@@ -199,7 +196,7 @@ public class PojoQueryParser {
 	 */
 	private static IMethodParameter[] createParameters(Element method) throws OdaException {
 		assert method != null;
-		List<IMethodParameter> result = new ArrayList<IMethodParameter>();
+		List<IMethodParameter> result = new ArrayList<>();
 		NodeList children = method.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node child = children.item(i);
@@ -254,8 +251,9 @@ public class PojoQueryParser {
 		}
 		VariableParameter vp = new VariableParameter(name, type);
 		String value = e.getAttribute(Constants.ATTR_PARMETER_VALUE);
-		if (value != null)
+		if (value != null) {
 			vp.setStringValue(value);
+		}
 		return vp;
 	}
 

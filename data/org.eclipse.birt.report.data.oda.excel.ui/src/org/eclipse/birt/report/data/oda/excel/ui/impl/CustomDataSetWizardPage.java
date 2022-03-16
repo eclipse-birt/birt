@@ -1,9 +1,9 @@
 /*******************************************************************************
   * Copyright (c) 2012 Megha Nidhi Dahal.
   * All rights reserved. This program and the accompanying materials
-  * are made available under the terms of the Eclipse Public License v1.0
+  * are made available under the terms of the Eclipse Public License v2.0
   * which accompanies this distribution, and is available at
-  * http://www.eclipse.org/legal/epl-v10.html
+  * http://www.eclipse.org/legal/epl-2.0.html
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
@@ -53,7 +53,7 @@ public class CustomDataSetWizardPage extends DataSetWizardPage {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param pageName
 	 */
 	public CustomDataSetWizardPage(String pageName) {
@@ -64,7 +64,7 @@ public class CustomDataSetWizardPage extends DataSetWizardPage {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param pageName
 	 * @param title
 	 * @param titleImage
@@ -76,11 +76,12 @@ public class CustomDataSetWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#
 	 * createPageCustomControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public void createPageCustomControl(Composite parent) {
 		setControl(createPageControl(parent));
 		initializeControl();
@@ -104,6 +105,7 @@ public class CustomDataSetWizardPage extends DataSetWizardPage {
 		data.heightHint = 100;
 		m_queryTextField.setLayoutData(data);
 		m_queryTextField.addModifyListener(new ModifyListener() {
+			@Override
 			public void modifyText(ModifyEvent e) {
 				validateData();
 			}
@@ -124,12 +126,14 @@ public class CustomDataSetWizardPage extends DataSetWizardPage {
 
 		// Restores the last saved data set design
 		DataSetDesign dataSetDesign = getInitializationDesign();
-		if (dataSetDesign == null)
+		if (dataSetDesign == null) {
 			return; // nothing to initialize
+		}
 
 		String queryText = dataSetDesign.getQueryText();
-		if (queryText == null)
+		if (queryText == null) {
 			return; // nothing to initialize
+		}
 
 		// initialize control
 		m_queryTextField.setText(queryText);
@@ -144,7 +148,7 @@ public class CustomDataSetWizardPage extends DataSetWizardPage {
 
 	/**
 	 * Obtains the user-defined query text of this data set from page control.
-	 * 
+	 *
 	 * @return query text
 	 */
 	private String getQueryText() {
@@ -153,28 +157,32 @@ public class CustomDataSetWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#
 	 * collectDataSetDesign(org.eclipse.datatools.connectivity.oda.design.
 	 * DataSetDesign)
 	 */
+	@Override
 	protected DataSetDesign collectDataSetDesign(DataSetDesign design) {
-		if (getControl() == null) // page control was never created
+		if (getControl() == null) { // page control was never created
 			return design; // no editing was done
-		if (!hasValidData())
+		}
+		if (!hasValidData()) {
 			return null; // to trigger a design session error status
+		}
 		savePage(design);
 		return design;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#
 	 * collectResponseState()
 	 */
+	@Override
 	protected void collectResponseState() {
 		super.collectResponseState();
 		/*
@@ -186,11 +194,12 @@ public class CustomDataSetWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#
 	 * canLeave()
 	 */
+	@Override
 	protected boolean canLeave() {
 		return isPageComplete();
 	}
@@ -202,10 +211,11 @@ public class CustomDataSetWizardPage extends DataSetWizardPage {
 	private void validateData() {
 		boolean isValid = (m_queryTextField != null && getQueryText() != null && getQueryText().trim().length() > 0);
 
-		if (isValid)
+		if (isValid) {
 			setMessage(DEFAULT_MESSAGE);
-		else
+		} else {
 			setMessage("Requires input value.", ERROR);
+		}
 
 		setPageComplete(isValid);
 	}
@@ -300,7 +310,7 @@ public class CustomDataSetWizardPage extends DataSetWizardPage {
 	/**
 	 * Updates the specified data set design's result set definition based on the
 	 * specified runtime metadata.
-	 * 
+	 *
 	 * @param md            runtime result set metadata instance
 	 * @param dataSetDesign data set design instance to update
 	 * @throws OdaException
@@ -320,7 +330,7 @@ public class CustomDataSetWizardPage extends DataSetWizardPage {
 	/**
 	 * Updates the specified data set design's parameter definition based on the
 	 * specified runtime metadata.
-	 * 
+	 *
 	 * @param paramMd       runtime parameter metadata instance
 	 * @param dataSetDesign data set design instance to update
 	 * @throws OdaException
@@ -331,8 +341,9 @@ public class CustomDataSetWizardPage extends DataSetWizardPage {
 
 		// no exception in conversion; go ahead and assign to specified dataSetDesign
 		dataSetDesign.setParameters(paramDesign);
-		if (paramDesign == null)
+		if (paramDesign == null) {
 			return; // no parameter definitions; done with update
+		}
 
 		paramDesign.setDerivedMetaData(true);
 
@@ -340,8 +351,9 @@ public class CustomDataSetWizardPage extends DataSetWizardPage {
 		// hard-coded parameter's default value for demo purpose
 		if (paramDesign.getParameterDefinitions().size() > 0) {
 			ParameterDefinition paramDef = (ParameterDefinition) paramDesign.getParameterDefinitions().get(0);
-			if (paramDef != null)
+			if (paramDef != null) {
 				paramDef.setDefaultScalarValue("dummy default value");
+			}
 		}
 	}
 
@@ -350,8 +362,9 @@ public class CustomDataSetWizardPage extends DataSetWizardPage {
 	 */
 	private void closeConnection(IConnection conn) {
 		try {
-			if (conn != null && conn.isOpen())
+			if (conn != null && conn.isOpen()) {
 				conn.close();
+			}
 		} catch (OdaException e) {
 			// ignore
 			e.printStackTrace();

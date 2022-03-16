@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +33,7 @@ import org.eclipse.emf.ecore.EPackage;
 /**
  * This class loads and registers extended classes/implementations of chart
  * model element.
- * 
+ *
  * @since 3.7
  */
 
@@ -50,7 +53,7 @@ public class ChartDynamicExtension {
 	}
 
 	private static List<EPackage> findExtendedPackages() {
-		List<EPackage> pkgs = new ArrayList<EPackage>();
+		List<EPackage> pkgs = new ArrayList<>();
 
 		try {
 			for (Map.Entry<String, Object> e : PluginSettings.instance().getExtChartModelPackages().entrySet()) {
@@ -65,7 +68,7 @@ public class ChartDynamicExtension {
 
 	/**
 	 * Checks if specified chart element is an extended classes of chart model.
-	 * 
+	 *
 	 * @param eObj the instance of chart element.
 	 * @return
 	 */
@@ -74,7 +77,7 @@ public class ChartDynamicExtension {
 	}
 
 	private static Set<EClass> getEClasses(List<EPackage> packages) {
-		Set<EClass> set = new HashSet<EClass>();
+		Set<EClass> set = new HashSet<>();
 		for (EPackage pkg : packages) {
 			for (EClassifier eClassifier : pkg.getEClassifiers()) {
 				if (eClassifier instanceof EClass) {

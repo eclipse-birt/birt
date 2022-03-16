@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) {DATE} Actuate Corporation {ADD OTHER COPYRIGHT OWNERS}.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,21 +18,21 @@ package org.eclipse.birt.report.model.css;
 import java.io.StringReader;
 import java.util.HashMap;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.report.model.css.property.ParseException;
 import org.eclipse.birt.report.model.css.property.PropertyParser;
 
+import junit.framework.TestCase;
+
 /**
  * Test case
- * 
- * 
+ *
+ *
  * @version $Revision: 1.2 $ $Date: 2007/01/07 15:22:01 $
  */
 public class CssParserTest extends TestCase {
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testBackground() throws Exception {
@@ -51,7 +54,7 @@ public class CssParserTest extends TestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testFont() throws Exception {
@@ -101,7 +104,7 @@ public class CssParserTest extends TestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testBorderWidth() throws Exception {
@@ -125,7 +128,7 @@ public class CssParserTest extends TestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testwithException1() throws Exception {
@@ -140,7 +143,7 @@ public class CssParserTest extends TestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testFont1() throws Exception {

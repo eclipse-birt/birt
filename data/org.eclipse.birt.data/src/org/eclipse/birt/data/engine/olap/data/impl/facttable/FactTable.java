@@ -1,12 +1,15 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ *
+ * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.facttable;
@@ -34,7 +37,7 @@ public class FactTable {
 	private static Logger logger = Logger.getLogger(FactTable.class.getName());
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param documentManager
 	 * @param dimensionInfo
@@ -59,7 +62,7 @@ public class FactTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public DimensionDivision[] getDimensionDivision() {
@@ -67,7 +70,7 @@ public class FactTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public CombinedPositionContructor getCombinedPositionCalculator() {
@@ -75,7 +78,7 @@ public class FactTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public DimensionInfo[] getDimensionInfo() {
@@ -83,7 +86,7 @@ public class FactTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public MeasureInfo[] getMeasureInfo() {
@@ -91,7 +94,7 @@ public class FactTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public MeasureInfo[] getCalcualtedMeasureInfo() {
@@ -99,7 +102,7 @@ public class FactTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public String[] getMeasureNames() {
@@ -111,7 +114,7 @@ public class FactTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int getSegmentCount() {
@@ -119,7 +122,7 @@ public class FactTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public DimensionDivision[] getSubDimensions() {
@@ -127,7 +130,7 @@ public class FactTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public IDocumentManager getDocumentManager() {
@@ -135,7 +138,7 @@ public class FactTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimensionName
 	 * @return
 	 */
@@ -149,7 +152,7 @@ public class FactTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param measureName
 	 * @return
 	 */
@@ -163,7 +166,7 @@ public class FactTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public String getName() {

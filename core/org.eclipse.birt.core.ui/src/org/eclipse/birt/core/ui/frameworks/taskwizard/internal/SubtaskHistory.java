@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +34,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 /**
  * History for navigating subtasks.
- * 
+ *
  * @since 2.2
  */
 
@@ -61,7 +64,7 @@ public class SubtaskHistory {
 
 	/**
 	 * Creates a new history for the given dialog.
-	 * 
+	 *
 	 * @param parentTask the parent task to create a history for
 	 */
 	public SubtaskHistory(TreeCompoundTask parentTask) {
@@ -71,7 +74,7 @@ public class SubtaskHistory {
 	/**
 	 * Returns the subtask path (for now: its id) for the history at
 	 * <code>index</code>.
-	 * 
+	 *
 	 * @param index the index into the history
 	 * @return the subtask node path at <code>index</code> or <code>null</code> if
 	 *         <code>index</code> is not a valid history index
@@ -85,7 +88,7 @@ public class SubtaskHistory {
 
 	/**
 	 * Adds the subtask path to the history.
-	 * 
+	 *
 	 * @param entry the subtask history entry
 	 */
 	public void addHistoryEntry(String entry) {
@@ -106,7 +109,7 @@ public class SubtaskHistory {
 	/**
 	 * Sets the current page to be the one corresponding to the given index in the
 	 * page history.
-	 * 
+	 *
 	 * @param index the index into the page history
 	 */
 	private void jumpToHistory(int index) {
@@ -119,7 +122,7 @@ public class SubtaskHistory {
 
 	/**
 	 * Updates the history controls.
-	 * 
+	 *
 	 */
 	private void updateHistoryControls() {
 		if (historyToolbar != null) {
@@ -134,7 +137,7 @@ public class SubtaskHistory {
 
 	/**
 	 * Creates the history toolbar and initializes <code>historyToolbar</code>.
-	 * 
+	 *
 	 * @param historyBar
 	 * @param manager
 	 * @return the control of the history toolbar
@@ -155,10 +158,12 @@ public class SubtaskHistory {
 				super("", IAction.AS_DROP_DOWN_MENU); //$NON-NLS-1$
 			}
 
+			@Override
 			public IMenuCreator getMenuCreator() {
 				return this;
 			}
 
+			@Override
 			public void dispose() {
 				if (lastMenu != null) {
 					lastMenu.dispose();
@@ -166,6 +171,7 @@ public class SubtaskHistory {
 				}
 			}
 
+			@Override
 			public Menu getMenu(Control parent) {
 				if (lastMenu != null) {
 					lastMenu.dispose();
@@ -176,6 +182,7 @@ public class SubtaskHistory {
 
 			}
 
+			@Override
 			public Menu getMenu(Menu parent) {
 				return null;
 			}
@@ -201,6 +208,7 @@ public class SubtaskHistory {
 				this.index = index;
 			}
 
+			@Override
 			public void run() {
 				if (isCurrentEntryAvailable(index)) {
 					jumpToHistory(index);
@@ -210,6 +218,7 @@ public class SubtaskHistory {
 
 		HistoryNavigationAction backward = new HistoryNavigationAction() {
 
+			@Override
 			public void run() {
 				int index = historyIndex - 1;
 				while (!isCurrentEntryAvailable(index)) {
@@ -218,6 +227,7 @@ public class SubtaskHistory {
 				jumpToHistory(index);
 			}
 
+			@Override
 			public boolean isEnabled() {
 				boolean enabled = historyIndex > 0;
 				if (enabled) {
@@ -229,6 +239,7 @@ public class SubtaskHistory {
 				return enabled;
 			}
 
+			@Override
 			protected void createEntries(Menu menu) {
 				for (int i = historyIndex - 1, j = 0; i >= 0 && j < MAX_ENTRIES; i--) {
 					if (isCurrentEntryAvailable(i)) {
@@ -248,6 +259,7 @@ public class SubtaskHistory {
 
 		HistoryNavigationAction forward = new HistoryNavigationAction() {
 
+			@Override
 			public void run() {
 				int index = historyIndex + 1;
 				while (!isCurrentEntryAvailable(index)) {
@@ -256,6 +268,7 @@ public class SubtaskHistory {
 				jumpToHistory(index);
 			}
 
+			@Override
 			public boolean isEnabled() {
 				boolean enabled = historyIndex < historyList.size() - 1;
 				if (enabled) {
@@ -267,6 +280,7 @@ public class SubtaskHistory {
 				return enabled;
 			}
 
+			@Override
 			protected void createEntries(Menu menu) {
 				for (int i = historyIndex + 1, j = 0; i < historyList.size() && j < MAX_ENTRIES; i++) {
 					if (isCurrentEntryAvailable(i)) {

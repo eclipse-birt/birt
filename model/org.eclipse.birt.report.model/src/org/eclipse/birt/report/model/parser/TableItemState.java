@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ import org.xml.sax.SAXException;
 
 /**
  * This class parses the Table (table item) tag.
- * 
+ *
  */
 
 public class TableItemState extends ListingItemState {
@@ -36,7 +39,7 @@ public class TableItemState extends ListingItemState {
 	/**
 	 * Constructs the table item state with the design parser handler, the container
 	 * element and the container slot of the table item.
-	 * 
+	 *
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param slot         the slot in which this element appears
@@ -49,7 +52,7 @@ public class TableItemState extends ListingItemState {
 	/**
 	 * Constructs table item state with the design parser handler, the container
 	 * element and the container property name of the report element.
-	 * 
+	 *
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param prop         the slot in which this element appears
@@ -61,12 +64,13 @@ public class TableItemState extends ListingItemState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
 	 * Attributes)
 	 */
 
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		element = new TableItem();
 		initElement(attrs);
@@ -74,33 +78,40 @@ public class TableItemState extends ListingItemState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
 	 * String)
 	 */
 
+	@Override
 	public AbstractParseState startElement(String tagName) {
 		int tagValue = tagName.toLowerCase().hashCode();
-		if (ParserSchemaConstants.COLUMN_TAG == tagValue)
+		if (ParserSchemaConstants.COLUMN_TAG == tagValue) {
 			return new TableColumnState(handler, element, TableItem.COLUMN_SLOT);
-		if (ParserSchemaConstants.HEADER_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.HEADER_TAG == tagValue) {
 			return new TableBandState(handler, element, TableItem.HEADER_SLOT);
-		if (ParserSchemaConstants.GROUP_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.GROUP_TAG == tagValue) {
 			return new TableGroupState(handler, element, TableItem.GROUP_SLOT);
-		if (ParserSchemaConstants.DETAIL_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.DETAIL_TAG == tagValue) {
 			return new TableBandState(handler, element, TableItem.DETAIL_SLOT);
-		if (ParserSchemaConstants.FOOTER_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.FOOTER_TAG == tagValue) {
 			return new TableBandState(handler, element, TableItem.FOOTER_SLOT);
+		}
 		return super.startElement(tagName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
+	@Override
 	public void end() throws SAXException {
 		super.end();
 
@@ -118,8 +129,9 @@ public class TableItemState extends ListingItemState {
 
 	private void setCompatibleOnRowMethod() {
 		String onRowValue = (String) handler.tempValue.get(element);
-		if (onRowValue == null)
+		if (onRowValue == null) {
 			return;
+		}
 
 		ContainerSlot detail = element.getSlot(IListingElementModel.DETAIL_SLOT);
 		for (int i = 0; i < detail.getCount(); i++) {
@@ -128,8 +140,9 @@ public class TableItemState extends ListingItemState {
 			// if onCreate property value is null, then set the compatible
 			// value. Otherwise not.
 
-			if (row.getLocalProperty(handler.getModule(), ITableRowModel.ON_CREATE_METHOD) == null)
+			if (row.getLocalProperty(handler.getModule(), ITableRowModel.ON_CREATE_METHOD) == null) {
 				row.setProperty(ITableRowModel.ON_CREATE_METHOD, onRowValue);
+			}
 		}
 	}
 
@@ -142,7 +155,7 @@ public class TableItemState extends ListingItemState {
 		/**
 		 * Constructs the group state with the design parser handler, the container
 		 * element and the container slot of the group element.
-		 * 
+		 *
 		 * @param handler      the design file parser handler
 		 * @param theContainer the element that contains this one
 		 * @param slot         the slot in which this element appears
@@ -154,12 +167,13 @@ public class TableItemState extends ListingItemState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
 		 * Attributes)
 		 */
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			group = new TableGroup();
 			super.parseAttrs(attrs);
@@ -167,18 +181,21 @@ public class TableItemState extends ListingItemState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
 		 * String)
 		 */
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
 			int tagValue = tagName.toLowerCase().hashCode();
-			if (ParserSchemaConstants.HEADER_TAG == tagValue)
+			if (ParserSchemaConstants.HEADER_TAG == tagValue) {
 				return new TableBandState(handler, group, TableGroup.HEADER_SLOT);
-			if (ParserSchemaConstants.FOOTER_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.FOOTER_TAG == tagValue) {
 				return new TableBandState(handler, group, TableGroup.FOOTER_SLOT);
+			}
 			return super.startElement(tagName);
 		}
 
@@ -194,22 +211,25 @@ public class TableItemState extends ListingItemState {
 			super(handler, container, slot);
 		}
 
+		@Override
 		public XMLParserHandler getHandler() {
 			return handler;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
 		 * String)
 		 */
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
 			int tagValue = tagName.toLowerCase().hashCode();
-			if (ParserSchemaConstants.ROW_TAG == tagValue)
+			if (ParserSchemaConstants.ROW_TAG == tagValue) {
 				return new TableRowState(handler, container, slotID);
+			}
 			return super.startElement(tagName);
 		}
 

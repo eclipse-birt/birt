@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -72,19 +75,21 @@ public class TimeOptionDialog extends SelectionStatusDialog implements IProperty
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.SelectionStatusDialog#computeResult()
 	 */
+	@Override
 	protected void computeResult() {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.window.Window#configureShell(org.eclipse.swt.widgets.Shell)
 	 */
+	@Override
 	protected void configureShell(Shell shell) {
 
 		super.configureShell(shell);
@@ -95,9 +100,10 @@ public class TimeOptionDialog extends SelectionStatusDialog implements IProperty
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.window.Window#create()
 	 */
+	@Override
 	public void create() {
 		super.create();
 		initActions();
@@ -107,29 +113,32 @@ public class TimeOptionDialog extends SelectionStatusDialog implements IProperty
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createButtonBar(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	protected Control createButtonBar(Composite parent) {
 		return super.createButtonBar(parent);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.SelectionStatusDialog#getFirstResult()
 	 */
+	@Override
 	public Object getFirstResult() {
 		return super.getFirstResult();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
+	@Override
 	protected void okPressed() {
 		super.okPressed();
 
@@ -137,62 +146,68 @@ public class TimeOptionDialog extends SelectionStatusDialog implements IProperty
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.SelectionStatusDialog#setImage(org.eclipse.swt.
 	 * graphics.Image)
 	 */
+	@Override
 	public void setImage(Image image) {
 		super.setImage(image);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.SelectionStatusDialog#setResult(int,
 	 * java.lang.Object)
 	 */
+	@Override
 	protected void setResult(int position, Object element) {
 		super.setResult(position, element);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.SelectionStatusDialog#setStatusLineAboveButtons(
 	 * boolean)
 	 */
+	@Override
 	public void setStatusLineAboveButtons(boolean aboveButtons) {
 		super.setStatusLineAboveButtons(aboveButtons);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.dialogs.SelectionStatusDialog#updateButtonsEnableState(org.
 	 * eclipse.core.runtime.IStatus)
 	 */
+	@Override
 	protected void updateButtonsEnableState(IStatus status) {
 		super.updateButtonsEnableState(status);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.dialogs.SelectionStatusDialog#updateStatus(org.eclipse.core.
 	 * runtime.IStatus)
 	 */
+	@Override
 	protected void updateStatus(IStatus status) {
 		super.updateStatus(status);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#createButton(org.eclipse.swt.widgets.
 	 * Composite, int, java.lang.String, boolean)
 	 */
+	@Override
 	protected org.eclipse.swt.widgets.Button createButton(Composite parent, int id, String label,
 			boolean defaultButton) {
 		return super.createButton(parent, id, label, defaultButton);
@@ -205,11 +220,12 @@ public class TimeOptionDialog extends SelectionStatusDialog implements IProperty
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		parent.setBackground(ColorConstants.blue);
 		Composite compo = (Composite) super.createDialogArea(parent);
@@ -277,7 +293,7 @@ public class TimeOptionDialog extends SelectionStatusDialog implements IProperty
 
 	/**
 	 * Sets the information
-	 * 
+	 *
 	 * @param dialogInfo
 	 * @return true
 	 */
@@ -297,7 +313,7 @@ public class TimeOptionDialog extends SelectionStatusDialog implements IProperty
 
 	/**
 	 * Gets the information
-	 * 
+	 *
 	 * @return information
 	 */
 	public DialogInfo getInfo() {
@@ -311,11 +327,12 @@ public class TimeOptionDialog extends SelectionStatusDialog implements IProperty
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.util.IPropertyChangeListener#propertyChange(org.eclipse.
 	 * jface.util.PropertyChangeEvent)
 	 */
+	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		String name = event.getProperty();
 		if (name.equals(IPropertyEventConstants.YEAR_CHANGE_EVENT)) // $NON-NLS-1$
@@ -345,6 +362,7 @@ public class TimeOptionDialog extends SelectionStatusDialog implements IProperty
 	private void initActions() {
 		combo.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				Combo source = (Combo) e.getSource();
 				format = source.getText();
@@ -353,6 +371,7 @@ public class TimeOptionDialog extends SelectionStatusDialog implements IProperty
 		});
 		zoneCombo.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				Combo source = (Combo) e.getSource();
 				// cale.setTimeZone(TimeZone.getTimeZone( source.getText()));
@@ -365,6 +384,7 @@ public class TimeOptionDialog extends SelectionStatusDialog implements IProperty
 
 		month.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				Combo source = (Combo) e.getSource();
 				cale.set(Calendar.MONTH, Integer.parseInt(source.getText()) - 1);
@@ -418,10 +438,12 @@ class MonthCombo extends Combo {
 
 	}
 
+	@Override
 	protected void checkWidget() {
 
 	}
 
+	@Override
 	protected void checkSubclass() {
 
 	}

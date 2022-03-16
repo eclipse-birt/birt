@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,6 +27,7 @@ abstract public class LabelElementProvider extends DefaultNodeProvider {
 
 	private static final String SUSPENSION_POINTS = "..."; //$NON-NLS-1$
 
+	@Override
 	public String getNodeDisplayName(Object model) {
 		DesignElementHandle handle = (DesignElementHandle) model;
 		String elementName = handle.getDefn().getDisplayName();
@@ -37,9 +41,9 @@ abstract public class LabelElementProvider extends DefaultNodeProvider {
 
 	/**
 	 * Gets the description for the specified element
-	 * 
+	 *
 	 * @param handle the handle of the element
-	 * 
+	 *
 	 * @return Returns the description
 	 */
 	abstract protected String getDescription(DesignElementHandle handle);
@@ -47,7 +51,7 @@ abstract public class LabelElementProvider extends DefaultNodeProvider {
 	/**
 	 * Eliminates long description, and changes the length of substring to
 	 * <code>DESC_MAX_LENGTH</code>
-	 * 
+	 *
 	 * @param longDesc         description needs to change
 	 * @param includeQuotation if includes double quotation marks
 	 * @return Returns the description
@@ -55,9 +59,9 @@ abstract public class LabelElementProvider extends DefaultNodeProvider {
 
 	protected String getDescription(String longDesc, boolean includeQuotation) {
 		if (longDesc == null || longDesc.equals("") //$NON-NLS-1$
-				|| longDesc.equals("null")) //$NON-NLS-1$
+				|| longDesc.equals("null")) {
 			longDesc = ""; //$NON-NLS-1$
-		else {
+		} else {
 			if (longDesc.length() > DESC_MAX_LENGTH) {
 				longDesc = longDesc.substring(0, DESC_MAX_LENGTH) + SUSPENSION_POINTS;
 			}

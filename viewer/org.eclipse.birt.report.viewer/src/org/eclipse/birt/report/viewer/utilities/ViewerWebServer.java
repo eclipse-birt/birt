@@ -1,6 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *******************************************************************************/
 package org.eclipse.birt.report.viewer.utilities;
 
@@ -40,7 +46,7 @@ public class ViewerWebServer {
 	public void start() {
 		Server server = new Server();
 		// server configuration goes here
-		Dictionary<String, Object> serverProps = new Hashtable<String, Object>();
+		Dictionary<String, Object> serverProps = new Hashtable<>();
 		serverProps.put(OSGiServerConstants.MANAGED_JETTY_SERVER_NAME, VIEWER_WEB_SERVER_ID);
 		serverProps.put(OSGiServerConstants.JETTY_HOST, host);
 		serverProps.put(OSGiServerConstants.JETTY_PORT, port);
@@ -60,11 +66,11 @@ public class ViewerWebServer {
 
 	/**
 	 * return the configuration files URLS for jetty.
-	 * 
+	 *
 	 * @return
 	 */
 	private String getJettyConfigURLs() {
-		String[] configFiles = new String[] { "/jettyhome/etc/jetty.xml", //$NON-NLS-1$
+		String[] configFiles = { "/jettyhome/etc/jetty.xml", //$NON-NLS-1$
 				"/jettyhome/etc/jetty-selector.xml", //$NON-NLS-1$
 				"/jettyhome/etc/jetty-deployer.xml", //$NON-NLS-1$
 				"/jettyhome/etc/jetty-special.xml" //$NON-NLS-1$
@@ -79,7 +85,7 @@ public class ViewerWebServer {
 				if (url != null) {
 					// Avoid invalid characters like white space in URI
 					strURL = FileLocator.toFileURL(url).toExternalForm();
-					strURL = strURL.replaceAll(" ", "%20"); //$NON-NLS-1$//$NON-NLS-2$
+					strURL = strURL.replace(" ", "%20"); //$NON-NLS-1$//$NON-NLS-2$
 				}
 			} catch (IOException ex) {
 

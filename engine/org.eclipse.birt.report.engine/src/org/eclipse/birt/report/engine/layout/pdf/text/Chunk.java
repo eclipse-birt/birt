@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -93,11 +93,11 @@ public class Chunk {
 
 	/**
 	 * Sets direction of this chunk.
-	 * 
+	 *
 	 * @param runLevel An integer value from 0 to 62
-	 * 
+	 *
 	 * @see #getRunLevel()
-	 * 
+	 *
 	 * @author bidi_hcg
 	 */
 	public void setRunLevel(int runLevel) {
@@ -109,9 +109,9 @@ public class Chunk {
 	 * Can be an integer value from 0 to 62. See<br>
 	 * <a href="http://unicode.org/unicode/standard/reports/tr9/tr9-6.html">The
 	 * Bidirectional Algorithm</a>
-	 * 
+	 *
 	 * @return Embedding level
-	 * 
+	 *
 	 * @author bidi_hcg
 	 */
 	public int getRunLevel() {

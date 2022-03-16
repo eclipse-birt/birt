@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -96,8 +99,6 @@ public class CrosstabUIHelper {
 			} catch (MalformedURLException e1) {
 				img = new Image(Display.getCurrent(), new FileInputStream(getURL(sPluginRelativePath).toString()));
 			}
-		} catch (FileNotFoundException e) {
-
 		} catch (IOException e) {
 
 		}
@@ -113,7 +114,7 @@ public class CrosstabUIHelper {
 	 * This method returns an URL for a resource given its plugin relative path. It
 	 * is intended to be used to abstract out the usage of the UI as a plugin or
 	 * standalone component when it comes to accessing resources.
-	 * 
+	 *
 	 * @param sPluginRelativePath The path to the resource relative to the plugin
 	 *                            location.
 	 * @return URL representing the location of the resource.
@@ -131,7 +132,7 @@ public class CrosstabUIHelper {
 
 	/**
 	 * This is a convenience method to get an imgIcon from a URL.
-	 * 
+	 *
 	 * @param sPluginRelativePath The URL for the imgIcon.
 	 * @return The imgIcon represented by the given URL.
 	 * @see #setImageCached( boolean )
@@ -305,8 +306,8 @@ public class CrosstabUIHelper {
 	private static void resizeFixColumn(int value, int start, int end, CrosstabTableEditPart part) {
 		CrosstabHandleAdapter crosstabAdapter = part.getCrosstabHandleAdapter();
 
-		int startWidth = 0;
-		int endWidth = 0;
+		int startWidth;
+		int endWidth;
 		startWidth = CrosstabTableUtil.caleVisualWidth(part, start);
 		endWidth = CrosstabTableUtil.caleVisualWidth(part, end);
 		int startValue = startWidth + value;

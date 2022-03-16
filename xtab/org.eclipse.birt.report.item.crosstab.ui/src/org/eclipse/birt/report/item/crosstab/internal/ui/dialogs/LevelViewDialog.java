@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -68,6 +71,7 @@ public class LevelViewDialog extends BaseDialog {
 		this.isRegular = !dimension.isTimeType();
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.XTAB_LEVEL_VIEW_DIALOG);
 
@@ -95,6 +99,7 @@ public class LevelViewDialog extends BaseDialog {
 		regularBtn = new Button(parent, SWT.RADIO);
 		regularBtn.setText(Messages.getString("LevelViewDialog.Button.Regular.Text"));
 		regularBtn.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				isRegular = true;
 				levelViewer.getTree().setVisible(false);
@@ -105,6 +110,7 @@ public class LevelViewDialog extends BaseDialog {
 		dateBtn = new Button(parent, SWT.RADIO);
 		dateBtn.setText(Messages.getString("LevelViewDialog.Button.Date.Text"));
 		dateBtn.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				isRegular = false;
 				levelViewer.getTree().setVisible(true);
@@ -132,18 +138,20 @@ public class LevelViewDialog extends BaseDialog {
 			levelViewer.expandToLevel(dimension.getDefaultHierarchy().getContentCount(IHierarchyModel.LEVELS_PROP));
 		}
 
-		if (showLevels == null || showLevels.size() == 0)
+		if (showLevels == null || showLevels.size() == 0) {
 			return;
+		}
 		TreeItem item = levelViewer.getTree().getItem(0);
 		while (item != null) {
 			LevelHandle level = (LevelHandle) item.getData();
 			if (showLevels.contains(level)) {
 				item.setChecked(true);
 			}
-			if (item.getItemCount() > 0)
+			if (item.getItemCount() > 0) {
 				item = item.getItem(0);
-			else
+			} else {
 				item = null;
+			}
 		}
 
 	}
@@ -160,15 +168,16 @@ public class LevelViewDialog extends BaseDialog {
 		levelViewer.setLabelProvider(new CubeLabelProvider());
 		levelViewer.addCheckStateListener(new ICheckStateListener() {
 
+			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
 
 				LevelHandle item = (LevelHandle) event.getElement();
 				if (event.getChecked()) {
-					if (!showLevels.contains(item))
+					if (!showLevels.contains(item)) {
 						showLevels.add(item);
-				} else {
-					if (showLevels.contains(item))
-						showLevels.remove(item);
+					}
+				} else if (showLevels.contains(item)) {
+					showLevels.remove(item);
 				}
 
 				checkOKButtonStatus();
@@ -177,6 +186,7 @@ public class LevelViewDialog extends BaseDialog {
 		});
 	}
 
+	@Override
 	public Object getResult() {
 		if (!isEdit && isRegular) {
 			return new ArrayList();
@@ -186,11 +196,11 @@ public class LevelViewDialog extends BaseDialog {
 
 	private void checkOKButtonStatus() {
 		if ((isEdit || !isRegular) && (showLevels == null || showLevels.size() == 0)) {
-			if (getOkButton() != null)
+			if (getOkButton() != null) {
 				getOkButton().setEnabled(false);
-		} else {
-			if (getOkButton() != null)
-				getOkButton().setEnabled(true);
+			}
+		} else if (getOkButton() != null) {
+			getOkButton().setEnabled(true);
 		}
 	}
 }

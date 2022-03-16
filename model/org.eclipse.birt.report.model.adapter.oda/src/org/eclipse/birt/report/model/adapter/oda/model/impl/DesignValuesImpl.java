@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -9,15 +21,11 @@ package org.eclipse.birt.report.model.adapter.oda.model.impl;
 import org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelPackage;
-
 import org.eclipse.datatools.connectivity.oda.design.ResultSets;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -44,7 +52,7 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 	/**
 	 * The default value of the '{@link #getVersion() <em>Version</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getVersion()
 	 * @generated
 	 * @ordered
@@ -54,7 +62,7 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 	/**
 	 * The cached value of the '{@link #getVersion() <em>Version</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getVersion()
 	 * @generated
 	 * @ordered
@@ -64,7 +72,7 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 	/**
 	 * This is true if the Version attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -74,7 +82,7 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 	 * The cached value of the '{@link #getDataSetParameters() <em>Data Set
 	 * Parameters</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #getDataSetParameters()
 	 * @generated
 	 * @ordered
@@ -85,7 +93,7 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 	 * The cached value of the '{@link #getDataSetParameters1() <em>Data Set
 	 * Parameters1</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #getDataSetParameters1()
 	 * @generated
 	 * @ordered
@@ -95,7 +103,7 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 	/**
 	 * The cached value of the '{@link #getResultSets() <em>Result Sets</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getResultSets()
 	 * @generated
 	 * @ordered
@@ -104,7 +112,7 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected DesignValuesImpl() {
@@ -113,7 +121,7 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -123,64 +131,71 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getVersion() {
 		return version;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setVersion(String newVersion) {
 		String oldVersion = version;
 		version = newVersion;
 		boolean oldVersionESet = versionESet;
 		versionESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DESIGN_VALUES__VERSION, oldVersion,
 					version, !oldVersionESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetVersion() {
 		String oldVersion = version;
 		boolean oldVersionESet = versionESet;
 		version = VERSION_EDEFAULT;
 		versionESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.DESIGN_VALUES__VERSION, oldVersion,
 					VERSION_EDEFAULT, oldVersionESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetVersion() {
 		return versionESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public DataSetParameters getDataSetParameters() {
 		return dataSetParameters;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDataSetParameters(DataSetParameters newDataSetParameters, NotificationChain msgs) {
@@ -189,48 +204,55 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ModelPackage.DESIGN_VALUES__DATA_SET_PARAMETERS, oldDataSetParameters, newDataSetParameters);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setDataSetParameters(DataSetParameters newDataSetParameters) {
 		if (newDataSetParameters != dataSetParameters) {
 			NotificationChain msgs = null;
-			if (dataSetParameters != null)
+			if (dataSetParameters != null) {
 				msgs = ((InternalEObject) dataSetParameters).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.DESIGN_VALUES__DATA_SET_PARAMETERS, null, msgs);
-			if (newDataSetParameters != null)
+			}
+			if (newDataSetParameters != null) {
 				msgs = ((InternalEObject) newDataSetParameters).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.DESIGN_VALUES__DATA_SET_PARAMETERS, null, msgs);
+			}
 			msgs = basicSetDataSetParameters(newDataSetParameters, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DESIGN_VALUES__DATA_SET_PARAMETERS,
 					newDataSetParameters, newDataSetParameters));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public ResultSets getResultSets() {
 		return resultSets;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetResultSets(ResultSets newResultSets, NotificationChain msgs) {
@@ -239,48 +261,55 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ModelPackage.DESIGN_VALUES__RESULT_SETS, oldResultSets, newResultSets);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setResultSets(ResultSets newResultSets) {
 		if (newResultSets != resultSets) {
 			NotificationChain msgs = null;
-			if (resultSets != null)
+			if (resultSets != null) {
 				msgs = ((InternalEObject) resultSets).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.DESIGN_VALUES__RESULT_SETS, null, msgs);
-			if (newResultSets != null)
+			}
+			if (newResultSets != null) {
 				msgs = ((InternalEObject) newResultSets).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.DESIGN_VALUES__RESULT_SETS, null, msgs);
+			}
 			msgs = basicSetResultSets(newResultSets, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DESIGN_VALUES__RESULT_SETS,
 					newResultSets, newResultSets));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public org.eclipse.datatools.connectivity.oda.design.DataSetParameters getDataSetParameters1() {
 		return dataSetParameters1;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDataSetParameters1(
@@ -291,40 +320,46 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ModelPackage.DESIGN_VALUES__DATA_SET_PARAMETERS1, oldDataSetParameters1, newDataSetParameters1);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setDataSetParameters1(
 			org.eclipse.datatools.connectivity.oda.design.DataSetParameters newDataSetParameters1) {
 		if (newDataSetParameters1 != dataSetParameters1) {
 			NotificationChain msgs = null;
-			if (dataSetParameters1 != null)
+			if (dataSetParameters1 != null) {
 				msgs = ((InternalEObject) dataSetParameters1).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.DESIGN_VALUES__DATA_SET_PARAMETERS1, null, msgs);
-			if (newDataSetParameters1 != null)
+			}
+			if (newDataSetParameters1 != null) {
 				msgs = ((InternalEObject) newDataSetParameters1).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.DESIGN_VALUES__DATA_SET_PARAMETERS1, null, msgs);
+			}
 			msgs = basicSetDataSetParameters1(newDataSetParameters1, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DESIGN_VALUES__DATA_SET_PARAMETERS1,
 					newDataSetParameters1, newDataSetParameters1));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -342,7 +377,7 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -362,7 +397,7 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -386,7 +421,7 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -410,7 +445,7 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -430,20 +465,22 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (version: ");
-		if (versionESet)
+		if (versionESet) {
 			result.append(version);
-		else
+		} else {
 			result.append("<unset>");
+		}
 		result.append(')');
 		return result.toString();
 	}

@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -128,11 +130,12 @@ public class DefaultNodeProvider implements INodeProvider {
 
 	/**
 	 * Creates the context menu
-	 * 
+	 *
 	 * @param sourceViewer the source viewer
 	 * @param object       the object
 	 * @param menu         the menu
 	 */
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		menu.add(new Separator());
 
@@ -156,12 +159,14 @@ public class DefaultNodeProvider implements INodeProvider {
 		}
 
 		CutAction cutAction = new CutAction(object);
-		if (cutAction.isEnabled())
+		if (cutAction.isEnabled()) {
 			menu.add(cutAction);
+		}
 
 		CopyAction copyAction = new CopyAction(object);
-		if (copyAction.isEnabled())
+		if (copyAction.isEnabled()) {
 			menu.add(copyAction);
+		}
 
 		if (!(object instanceof ResultSetColumnHandle) && !(object instanceof CssStyleSheetHandle)
 				&& !(object instanceof CssSharedStyleHandle) && !(object instanceof DataSetParameterHandle)) {
@@ -205,18 +210,20 @@ public class DefaultNodeProvider implements INodeProvider {
 
 	/**
 	 * Gets the display name of the node.
-	 * 
+	 *
 	 * @param model the object
 	 */
+	@Override
 	public String getNodeDisplayName(Object model) {
 		return DEUtil.getDisplayLabel(model);
 	}
 
 	/**
 	 * Gets the children element of the given model using visitor.
-	 * 
+	 *
 	 * @param model the model
 	 */
+	@Override
 	public Object[] getChildren(Object model) {
 
 		// if ( model instanceof ReportElementModel )
@@ -248,6 +255,7 @@ public class DefaultNodeProvider implements INodeProvider {
 		return new Object[] {};
 	}
 
+	@Override
 	public Object getParent(Object model) {
 		// if ( model instanceof ReportElementModel )
 		// {
@@ -274,12 +282,13 @@ public class DefaultNodeProvider implements INodeProvider {
 
 	/**
 	 * Gets the icon image for the given model.
-	 * 
+	 *
 	 * @param model the model of the node
-	 * 
+	 *
 	 * @return Returns the icon name for the model,or null if no proper one
 	 *         available for the given model
 	 */
+	@Override
 	public Image getNodeIcon(Object model) {
 		Image icon = null;
 		String iconName = getIconName(model);
@@ -307,17 +316,18 @@ public class DefaultNodeProvider implements INodeProvider {
 
 	/**
 	 * Gets the tooltip of the node
-	 * 
+	 *
 	 * @param model the model of the node
 	 * @return Returns the tooltip name for the node, or null if no tooltip is
 	 *         needed.
 	 */
+	@Override
 	public String getNodeTooltip(Object model) {
 		if (model instanceof DesignElementHandle) {
 			List<?> errors = ((DesignElementHandle) model).getSemanticErrors();
 
 			if (errors != null && errors.size() > 0) {
-				StringBuffer sb = new StringBuffer();
+				StringBuilder sb = new StringBuilder();
 
 				for (int i = 0; i < errors.size(); i++) {
 					if (i > 0) {
@@ -336,9 +346,9 @@ public class DefaultNodeProvider implements INodeProvider {
 	/**
 	 * Gets the icon name for the given model. The default implementation does
 	 * nothing.The subclasses may override it if necessary
-	 * 
+	 *
 	 * @param model the model of the node
-	 * 
+	 *
 	 * @return Returns the icon name for the model,or null if no proper one
 	 *         available for the given model
 	 */
@@ -347,7 +357,7 @@ public class DefaultNodeProvider implements INodeProvider {
 	}
 
 	protected Object[] getChildrenBySlotHandle(SlotHandle slotHandle) {
-		ArrayList<Object> list = new ArrayList<Object>();
+		ArrayList<Object> list = new ArrayList<>();
 		Iterator<?> itor = slotHandle.iterator();
 		while (itor.hasNext()) {
 			Object obj = itor.next();
@@ -361,7 +371,7 @@ public class DefaultNodeProvider implements INodeProvider {
 	}
 
 	protected Object[] getChildrenByPropertyHandle(PropertyHandle slotHandle) {
-		ArrayList<Object> list = new ArrayList<Object>();
+		ArrayList<Object> list = new ArrayList<>();
 		Iterator<?> itor = slotHandle.iterator();
 		while (itor.hasNext()) {
 			Object obj = itor.next();
@@ -376,11 +386,12 @@ public class DefaultNodeProvider implements INodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getCommand
 	 * (org.eclipse.gef.Request)
 	 */
+	@Override
 	public boolean performRequest(Object model, Request request) throws Exception {
 		if (request.getType().equals(IRequestConstants.REQUEST_TYPE_INSERT)) {
 			Map<?, ?> extendsData = request.getExtendedData();
@@ -471,8 +482,9 @@ public class DefaultNodeProvider implements INodeProvider {
 	}
 
 	private boolean performChangeDataColumn(ReportElementHandle handle) {
-		if (!(handle instanceof DataItemHandle))
+		if (!(handle instanceof DataItemHandle)) {
 			return false;
+		}
 		handle.getModuleHandle().getCommandStack()
 				.startTrans(Messages.getString("DefaultNodeProvider.stackMsg.changeBinding")); //$NON-NLS-1$
 		ColumnBindingDialog dialog = new ColumnBindingDialog((DataItemHandle) handle, UIUtil.getDefaultShell(), true);
@@ -503,7 +515,7 @@ public class DefaultNodeProvider implements INodeProvider {
 					name = dialog.getName().trim();
 					desc = (String) dialog.getResult();
 					bIsNameExist = checkNameExist(handle, name);
-					if (bIsNameExist == false) {
+					if (!bIsNameExist) {
 						template = handle.createTemplateElement(name);
 						template.setDescription(desc);
 					} else {
@@ -515,7 +527,7 @@ public class DefaultNodeProvider implements INodeProvider {
 				} else {
 					return false;
 				}
-			} while (bIsNameExist == true);
+			} while (bIsNameExist);
 		} catch (SemanticException e) {
 			ExceptionHandler.handle(e);
 			return false;
@@ -618,12 +630,10 @@ public class DefaultNodeProvider implements INodeProvider {
 				} else if (slotHandle instanceof PropertyHandle) {
 					((PropertyHandle) slotHandle).add(elementHandle);
 				}
-			} else {
-				if (slotHandle instanceof SlotHandle) {
-					((SlotHandle) slotHandle).add(elementHandle, pos);
-				} else if (slotHandle instanceof PropertyHandle) {
-					((PropertyHandle) slotHandle).add(elementHandle, pos);
-				}
+			} else if (slotHandle instanceof SlotHandle) {
+				((SlotHandle) slotHandle).add(elementHandle, pos);
+			} else if (slotHandle instanceof PropertyHandle) {
+				((PropertyHandle) slotHandle).add(elementHandle, pos);
 			}
 		}
 
@@ -691,24 +701,26 @@ public class DefaultNodeProvider implements INodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#hasChildren
 	 * (java.lang.Object)
 	 */
+	@Override
 	public boolean hasChildren(Object object) {
 		return getChildren(object).length > 0;
 	}
 
 	/**
 	 * Set comparator to control the order of children.
-	 * 
+	 *
 	 * @param comparator
 	 */
 	public void setSorter(Comparator<Object> comparator) {
 		this.comparator = comparator;
 	}
 
+	@Override
 	public boolean isReadOnly(Object model) {
 		return false;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +34,7 @@ public class CompatiblePropertyChangeTables {
 	private static List<CompatibleProperty> propToExprTable = null;
 
 	static {
-		propToExprTable = new ArrayList<CompatibleProperty>();
+		propToExprTable = new ArrayList<>();
 
 		propToExprTable.add(new CompatibleProperty(ReportDesignConstants.SCALAR_PARAMETER_ELEMENT,
 				IAbstractScalarParameterModel.DEFAULT_VALUE_PROP, ExpressionType.CONSTANT, VersionUtil.VERSION_3_2_19));
@@ -41,7 +44,7 @@ public class CompatiblePropertyChangeTables {
 	 * Returns the compatibility default expression type for the given property. The
 	 * algorithm checks the element, the property name and the version number. If
 	 * the given version < predefined version, compatibility is required.
-	 * 
+	 *
 	 * @param elementName the element definition name
 	 * @param propName    the property name
 	 * @param versionNum  the current design file version
@@ -52,8 +55,9 @@ public class CompatiblePropertyChangeTables {
 		for (int i = 0; i < propToExprTable.size(); i++) {
 			CompatibleProperty tmpOldProp = propToExprTable.get(i);
 			if (versionNum < tmpOldProp.compatibleVersion && elementName.equalsIgnoreCase(tmpOldProp.elementName)
-					&& propName.equalsIgnoreCase(tmpOldProp.propName))
+					&& propName.equalsIgnoreCase(tmpOldProp.propName)) {
 				return tmpOldProp.defaultType;
+			}
 		}
 
 		return null;

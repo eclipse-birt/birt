@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -25,13 +28,13 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
  * to it in the UI. Once such a change notification is received, it is
  * responsible for notifying all registered IChangeListener instances after
  * filtering notification events as necessary.
- * 
+ *
  * @author Actuate Corporation
- * 
+ *
  */
 public class ChartAdapter extends EContentAdapter {
 
-	private Vector<ITaskChangeListener> vListeners = new Vector<ITaskChangeListener>();
+	private Vector<ITaskChangeListener> vListeners = new Vector<>();
 
 	// For use by sample series creation
 	private static boolean bIgnoreNotifications = false;
@@ -47,6 +50,7 @@ public class ChartAdapter extends EContentAdapter {
 		this.wizardContainer = wizardContainer;
 	}
 
+	@Override
 	public void notifyChanged(Notification notification) {
 		if (needUpdateApply && wizardContainer instanceof ChartWizard) {
 			// Update Apply button status when notification may be ignored.

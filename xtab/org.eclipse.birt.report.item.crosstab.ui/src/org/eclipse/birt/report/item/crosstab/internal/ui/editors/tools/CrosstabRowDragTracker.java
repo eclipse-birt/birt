@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +44,7 @@ public class CrosstabRowDragTracker extends TableDragGuideTracker {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param sourceEditPart
 	 * @param start
 	 * @param end
@@ -61,10 +64,11 @@ public class CrosstabRowDragTracker extends TableDragGuideTracker {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
 	 * TableDragGuideTracker#getDragWidth()
 	 */
+	@Override
 	protected Dimension getDragWidth(int start, int end) {
 		return new Dimension(
 				TableUtil.getMinHeight(getCrosstabTableEditPart(), getStart())
@@ -74,10 +78,11 @@ public class CrosstabRowDragTracker extends TableDragGuideTracker {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
 	 * TableDragGuideTracker#getMarqueeSelectionRectangle()
 	 */
+	@Override
 	protected Rectangle getMarqueeSelectionRectangle() {
 		IFigure figure = getCrosstabTableEditPart().getFigure();
 		Insets insets = figure.getInsets();
@@ -96,10 +101,11 @@ public class CrosstabRowDragTracker extends TableDragGuideTracker {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
 	 * TableDragGuideTracker#resize()
 	 */
+	@Override
 	protected void resize() {
 		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart().getParent();
 		int value = getMouseTrueValueY();

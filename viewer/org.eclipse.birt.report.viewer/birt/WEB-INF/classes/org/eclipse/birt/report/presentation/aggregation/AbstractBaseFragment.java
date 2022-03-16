@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -40,7 +42,7 @@ abstract public class AbstractBaseFragment implements IFragment {
 
 	/**
 	 * Base class implementation of post service process.
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -51,7 +53,7 @@ abstract public class AbstractBaseFragment implements IFragment {
 
 	/**
 	 * Get report service instance.
-	 * 
+	 *
 	 * @return
 	 */
 	abstract protected IViewerReportService getReportService();
@@ -59,12 +61,13 @@ abstract public class AbstractBaseFragment implements IFragment {
 	/**
 	 * Service provided by the fragment. This is the entry point of each framgent.
 	 * It generally includes a JSP page to render a certain part of web viewer.
-	 * 
+	 *
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 */
+	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, BirtException {
 		doPreService(request, response);
@@ -80,12 +83,13 @@ abstract public class AbstractBaseFragment implements IFragment {
 	/**
 	 * Call back funciton to invoke children fragments' service. It should be called
 	 * only by jsp pages,
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
+	@Override
 	public void callBack(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, BirtException {
 		if (children != null) {
@@ -102,7 +106,7 @@ abstract public class AbstractBaseFragment implements IFragment {
 
 	/**
 	 * Base pre service implementation.
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -117,7 +121,7 @@ abstract public class AbstractBaseFragment implements IFragment {
 	/**
 	 * Base class implementation. This is the method performs fragment (code behand
 	 * class)'s major logic.
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -130,9 +134,10 @@ abstract public class AbstractBaseFragment implements IFragment {
 
 	/**
 	 * Get unique id of the corresponding UI gesture.
-	 * 
+	 *
 	 * @return id
 	 */
+	@Override
 	public String getClientId() {
 		return null;
 	}
@@ -140,43 +145,48 @@ abstract public class AbstractBaseFragment implements IFragment {
 	/**
 	 * Get front end client name.
 	 */
+	@Override
 	public String getClientName() {
 		return null;
 	}
 
 	/**
 	 * Gets the title ID for the html page.
-	 * 
+	 *
 	 * @return title id
 	 */
 
+	@Override
 	public String getTitle() {
 		return null;
 	}
 
 	/**
 	 * Get children fragments.
-	 * 
+	 *
 	 * @return collection of children
 	 */
+	@Override
 	public Collection getChildren() {
 		return children;
 	}
 
 	/**
 	 * Add child to the children list.
-	 * 
+	 *
 	 * @param child child fragment
 	 */
+	@Override
 	public void addChild(IFragment child) {
 		children.add(child);
 	}
 
 	/**
 	 * Build web viewer composite.
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public void buildComposite() {
 		build();
 		if (children != null) {
@@ -189,7 +199,7 @@ abstract public class AbstractBaseFragment implements IFragment {
 
 	/**
 	 * Default build implementation. Needs to be override.
-	 * 
+	 *
 	 * @return
 	 */
 	protected void build() {
@@ -198,6 +208,7 @@ abstract public class AbstractBaseFragment implements IFragment {
 	/**
 	 * Propagate root path.
 	 */
+	@Override
 	public void setJSPRootPath(String rootPath) {
 		JSPRootPath = rootPath;
 		if (children != null) {
@@ -210,9 +221,10 @@ abstract public class AbstractBaseFragment implements IFragment {
 
 	/**
 	 * Accessor.
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public String getJSPRootPath() {
 		return JSPRootPath;
 	}

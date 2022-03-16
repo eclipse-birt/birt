@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -15,9 +17,9 @@ import java.util.List;
 
 /**
  * Viewer representation of a parameter group
- * 
+ *
  * TODO: Add more javadoc
- * 
+ *
  */
 public class ParameterGroupDefinition {
 
@@ -85,8 +87,9 @@ public class ParameterGroupDefinition {
 	}
 
 	public int getParameterCount() {
-		if (parameters != null)
+		if (parameters != null) {
 			return parameters.size();
+		}
 		return 0;
 	}
 
@@ -94,16 +97,20 @@ public class ParameterGroupDefinition {
 		return cascade;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
-		if (name == null || !(obj instanceof ParameterGroupDefinition))
+		if (name == null || !(obj instanceof ParameterGroupDefinition)) {
 			return false;
+		}
 		ParameterGroupDefinition other = (ParameterGroupDefinition) obj;
 		return getName().equals(other.getName());
 	}
 
+	@Override
 	public int hashCode() {
-		if (name == null)
+		if (name == null) {
 			return 0;
+		}
 		return name.hashCode();
 	}
 

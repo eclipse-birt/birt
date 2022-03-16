@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +24,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 /**
  * Chart filter handle provider.
- * 
+ *
  * @since 2.3
  */
 public class ChartFilterHandleProvider extends ChartFilterProviderDelegate {
@@ -32,10 +35,11 @@ public class ChartFilterHandleProvider extends ChartFilterProviderDelegate {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.
 	 * CrosstabFilterHandleProvider#getConcreteFilterProvider()
 	 */
+	@Override
 	public IFormProvider getConcreteFilterProvider() {
 		if (input == null) {
 			return this;
@@ -47,8 +51,9 @@ public class ChartFilterHandleProvider extends ChartFilterProviderDelegate {
 	@Override
 	public boolean isEditable() {
 		if (((ReportItemHandle) DEUtil.getInputFirstElement(super.input))
-				.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
+				.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF) {
 			return false;
+		}
 		Object handle = null;
 		if (input instanceof List<?>) {
 			handle = ((List<?>) input).get(0);

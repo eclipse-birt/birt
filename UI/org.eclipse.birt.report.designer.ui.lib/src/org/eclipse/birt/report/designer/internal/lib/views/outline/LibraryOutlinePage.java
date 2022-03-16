@@ -1,9 +1,9 @@
 /*******************************************************************************
 * Copyright (c) 2004 Actuate Corporation .
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import org.eclipse.swt.dnd.Transfer;
 
 /**
  * Outline page to show the tree structure of library model.
- * 
+ *
  */
 public class LibraryOutlinePage extends DesignerOutlinePage {
 
@@ -38,10 +38,11 @@ public class LibraryOutlinePage extends DesignerOutlinePage {
 		super(reportHandle);
 	}
 
+	@Override
 	protected void addDragAndDropListener() {
 		// add drag and drop support
 		int ops = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK;
-		Transfer[] transfers = new Transfer[] { TemplateTransfer.getInstance() };
+		Transfer[] transfers = { TemplateTransfer.getInstance() };
 		getTreeViewer().addDragSupport(ops, transfers, new DesignerDragListener(getTreeViewer()));
 		transfers = new Transfer[] { TemplateTransfer.getInstance() };
 
@@ -60,6 +61,7 @@ public class LibraryOutlinePage extends DesignerOutlinePage {
 		// nothing can drag into CascadingParameterGroupHandle
 		dropListener.addDropConstraint(CascadingParameterGroupHandle.class, new IDropConstraint() {
 
+			@Override
 			public int validate(Object transfer, Object target) {
 				return RESULT_NO;
 			}
@@ -67,11 +69,13 @@ public class LibraryOutlinePage extends DesignerOutlinePage {
 		// can't drag into slot as a CascadingParameterGroupHandle children sibling
 		dropListener.addDropConstraint(ScalarParameterHandle.class, new IDropConstraint() {
 
+			@Override
 			public int validate(Object transfer, Object target) {
 				if (target instanceof ScalarParameterHandle) {
 					ScalarParameterHandle targetParameter = (ScalarParameterHandle) target;
-					if (targetParameter.getContainer() instanceof CascadingParameterGroupHandle)
+					if (targetParameter.getContainer() instanceof CascadingParameterGroupHandle) {
 						return RESULT_NO;
+					}
 				}
 				return RESULT_UNKNOW;
 			}
@@ -80,12 +84,14 @@ public class LibraryOutlinePage extends DesignerOutlinePage {
 		// CascadingParameterGroupHandle children can't drag into other slot.
 		IDropConstraint cascadingParameterGroupChildrenConstraint = new IDropConstraint() {
 
+			@Override
 			public int validate(Object transfer, Object target) {
 				if (transfer instanceof Object[] && ((Object[]) transfer).length > 0
 						&& ((Object[]) transfer)[0] instanceof ScalarParameterHandle) {
 					ScalarParameterHandle transferParameter = (ScalarParameterHandle) ((Object[]) transfer)[0];
-					if (transferParameter.getContainer() instanceof CascadingParameterGroupHandle)
+					if (transferParameter.getContainer() instanceof CascadingParameterGroupHandle) {
 						return RESULT_NO;
+					}
 				}
 				return RESULT_UNKNOW;
 			}

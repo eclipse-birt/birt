@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ import org.eclipse.birt.data.engine.api.querydefn.SubqueryLocator;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ *
  */
 
 public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery {
@@ -38,6 +41,7 @@ public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	protected void prepareQuery() throws DataException {
 		try {
 			IBinding[] bindings = null;
@@ -48,11 +52,12 @@ public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery {
 						.exists(baseQueryDefn.getQueryResultsID() + "/" + DATA_STREAM_POST_FIX)) {
 					this.queryResults = PreparedQueryUtil.newInstance(engine, baseQueryDefn, this.appContext)
 							.execute(null);
-				} else
+				} else {
 					this.queryResults = engine.getQueryResults(baseQueryDefn.getQueryResultsID());
+				}
 				IQueryDefinition queryDefinition = queryResults.getPreparedQuery().getReportQueryDefn();
 				if (queryDefn.getSourceQuery() instanceof SubqueryLocator) {
-					ArrayList<IBinding> bindingList = new ArrayList<IBinding>();
+					ArrayList<IBinding> bindingList = new ArrayList<>();
 					getSubQueryBindings(queryDefinition, ((SubqueryLocator) queryDefn.getSourceQuery()).getName(),
 							bindingList);
 					addQueryBindings(bindingList, queryDefinition.getBindings());
@@ -83,11 +88,12 @@ public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery {
 			if (!hasBinding) {
 				for (int i = 0; i < bindings.length; i++) {
 					IBinding binding = bindings[i];
-					if (!this.queryDefn.getBindings().containsKey(binding.getBindingName()))
+					if (!this.queryDefn.getBindings().containsKey(binding.getBindingName())) {
 						this.queryDefn.addBinding(new Binding(binding.getBindingName(),
 								new ScriptExpression(
 										ExpressionUtil.createJSDataSetRowExpression(binding.getBindingName()),
 										binding.getDataType())));
+					}
 				}
 			}
 		} catch (BirtException e) {
@@ -96,7 +102,7 @@ public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param subqueryLocator
 	 * @return
 	 */

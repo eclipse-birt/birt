@@ -1,9 +1,9 @@
 /*******************************************************************************
 * Copyright (c) 2004 Actuate Corporation.
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
- * 
+ *
  */
 
 public class GlobalInsertRowAction extends AbstractGlobalSelectionAction {
@@ -38,9 +38,10 @@ public class GlobalInsertRowAction extends AbstractGlobalSelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.AbstractGlobalSelectionAction#run()
 	 */
+	@Override
 	public void run() {
 		new InsertAction(((StructuredSelection) getSelection()).toArray()[0],
 				Messages.getString("RowProvider.action.text.above"), //$NON-NLS-1$
@@ -49,13 +50,14 @@ public class GlobalInsertRowAction extends AbstractGlobalSelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
+	@Override
 	protected boolean calculateEnabled() {
 		if (((StructuredSelection) getSelection()).toArray().length != 1
 				|| ((StructuredSelection) getSelection()).toArray()[0] == null
-				|| ((StructuredSelection) getSelection()).toArray()[0] instanceof RowHandle == false) {
+				|| !(((StructuredSelection) getSelection()).toArray()[0] instanceof RowHandle)) {
 			return false;
 		}
 

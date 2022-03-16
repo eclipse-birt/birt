@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,11 +63,13 @@ public class BindingExpressionProvider extends ExpressionProvider {
 		if (computedColumnHandle != null) {
 			addFilter(new ExpressionFilter() {
 
+				@Override
 				public boolean select(Object parentElement, Object element) {
 					if (element instanceof ComputedColumnHandle && computedColumnHandle != null) {
 						ComputedColumnHandle column = (ComputedColumnHandle) element;
-						if (column.getName().equals(computedColumnHandle.getName()))
+						if (column.getName().equals(computedColumnHandle.getName())) {
 							return false;
+						}
 					}
 					return true;
 				}
@@ -76,6 +81,7 @@ public class BindingExpressionProvider extends ExpressionProvider {
 		return this.dataSetHandle;
 	}
 
+	@Override
 	protected List getCategoryList() {
 		List categoryList = super.getCategoryList();
 		if (dataSetHandle != null) {
@@ -85,6 +91,7 @@ public class BindingExpressionProvider extends ExpressionProvider {
 		return categoryList;
 	}
 
+	@Override
 	protected List getChildrenList(Object parent) {
 		if (DATASETS.equals(parent)) {
 			List dataSeList = new ArrayList();
@@ -107,7 +114,7 @@ public class BindingExpressionProvider extends ExpressionProvider {
 
 	/**
 	 * Get output parameters if handle has.
-	 * 
+	 *
 	 * @param handle
 	 * @return
 	 */
@@ -119,7 +126,7 @@ public class BindingExpressionProvider extends ExpressionProvider {
 		if (iter != null) {
 			while (iter.hasNext()) {
 				Object dataSetParameter = iter.next();
-				if (((DataSetParameterHandle) dataSetParameter).isOutput() == true) {
+				if (((DataSetParameterHandle) dataSetParameter).isOutput()) {
 					outputList.add(dataSetParameter);
 				}
 			}
@@ -127,6 +134,7 @@ public class BindingExpressionProvider extends ExpressionProvider {
 		return outputList;
 	}
 
+	@Override
 	public String getDisplayText(Object element) {
 		if (element instanceof DataSetHandle) {
 			return ((DataSetHandle) element).getName();
@@ -138,6 +146,7 @@ public class BindingExpressionProvider extends ExpressionProvider {
 		return super.getDisplayText(element);
 	}
 
+	@Override
 	public String getInsertText(Object element) {
 		if (element instanceof ResultSetColumnHandle || element instanceof DataSetParameterHandle) {
 			return DEUtil.getExpression(element);

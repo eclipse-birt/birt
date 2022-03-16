@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -33,7 +36,7 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected ScatterSeriesImpl() {
@@ -42,7 +45,7 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -52,26 +55,28 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.Series#canBeStacked()
 	 */
+	@Override
 	public final boolean canBeStacked() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.model.component.Series#canParticipateInCombination()
 	 */
+	@Override
 	public final boolean canParticipateInCombination() {
 		return false;
 	}
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 * 
+	 *
 	 * @return
 	 */
 	public static Series create() {
@@ -82,9 +87,10 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries {
 
 	/**
 	 * Initializes all member variables within this object recursively
-	 * 
+	 *
 	 * Note: Manually written
 	 */
+	@Override
 	protected void initialize() {
 		super.initialize();
 		getLineAttributes().setVisible(false);
@@ -93,7 +99,7 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries {
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 * 
+	 *
 	 * @return
 	 */
 	public static Series createDefault() {
@@ -104,9 +110,10 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries {
 
 	/**
 	 * Initializes all member variables within this object recursively
-	 * 
+	 *
 	 * Note: Manually written
 	 */
+	@Override
 	protected void initDefault() {
 		super.initDefault();
 		try {
@@ -119,9 +126,10 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return Messages.getString("ScatterSeriesImpl.displayName"); //$NON-NLS-1$
 	}
@@ -129,6 +137,7 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries {
 	/**
 	 * @generated
 	 */
+	@Override
 	public ScatterSeries copyInstance() {
 		ScatterSeriesImpl dest = new ScatterSeriesImpl();
 		dest.set(this);

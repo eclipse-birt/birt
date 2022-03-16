@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -96,12 +99,13 @@ class DataSetParameterUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataAttrs
 	 */
 	private void processDataElementAttributes(DataElementAttributes dataAttrs) {
-		if (dataAttrs == null)
+		if (dataAttrs == null) {
 			return;
+		}
 
 		String nativeName = dataAttrs.getName();
 
@@ -116,30 +120,32 @@ class DataSetParameterUpdater {
 
 		newParam.setNativeName(nativeName);
 
-		newParam.setPosition(Integer.valueOf(dataAttrs.getPosition()));
+		newParam.setPosition(dataAttrs.getPosition());
 
 		// if the position is still null. This is possible in the oda design
 		// spec. we should make the position as index+1.
 
-		Integer newPos = Integer.valueOf(0);
+		Integer newPos = 0;
 		Integer pos = newParam.getPosition();
-		if (pos == null || pos.intValue() < 0)
+		if (pos == null || pos.intValue() < 0) {
 			newParam.setPosition(newPos);
+		}
 
 		newParam.setNativeDataType(Integer.valueOf(dataAttrs.getNativeDataTypeCode()));
 
 		// boolean is not supported in data set parameter yet.
 
 		String dataType = getROMDataType(dataSourceId, dataSetId, newParam, setDefinedParams.iterator());
-		if (dataType == null || !DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equalsIgnoreCase(dataType))
+		if (dataType == null || !DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equalsIgnoreCase(dataType)) {
 			newParam.setParameterDataType(dataType);
+		}
 
 		ElementNullability nullability = dataAttrs.getNullability();
 		processElementNullability(nullability);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param nullability
 	 */
 	private void processElementNullability(ElementNullability nullability) {
@@ -157,13 +163,14 @@ class DataSetParameterUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param mode
 	 */
 
 	private void processInOutMode(ParameterMode mode) {
-		if (mode == null)
+		if (mode == null) {
 			return;
+		}
 
 		switch (mode.getValue()) {
 		case ParameterMode.IN_OUT:
@@ -180,7 +187,7 @@ class DataSetParameterUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param attrs
 	 */
 
@@ -189,18 +196,20 @@ class DataSetParameterUpdater {
 
 		StaticValues newValues = attrs.getDefaultValues();
 		Object newValue = null;
-		if (newValues != null && !newValues.isEmpty())
+		if (newValues != null && !newValues.isEmpty()) {
 			newValue = newValues.getValues().get(0);
+		}
 
-		if (!withLinkedParameter)
+		if (!withLinkedParameter) {
 			setROMDefaultValue(newParam, newValue);
+		}
 
-		newParam.setIsOptional(Boolean.valueOf(attrs.isOptional()));
+		newParam.setIsOptional(attrs.isOptional());
 	}
 
 	/**
 	 * Sets the default value for ROM data set parameter.
-	 * 
+	 *
 	 * @param setParam the ROM data set parameter
 	 * @param newValue the new value
 	 */
@@ -210,19 +219,21 @@ class DataSetParameterUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
 	private void processLinkedReportParameter() throws SemanticException {
 		String reportParamName = newParam.getParamName();
-		if (StringUtil.isBlank(reportParamName))
+		if (StringUtil.isBlank(reportParamName)) {
 			return;
+		}
 
 		ScalarParameterHandle reportParam = (ScalarParameterHandle) module.findParameter(reportParamName);
 
-		if (reportParam == null)
+		if (reportParam == null) {
 			return;
+		}
 
 		CommandStack cmdStack = reportParam.getModuleHandle().getCommandStack();
 
@@ -237,7 +248,7 @@ class DataSetParameterUpdater {
 
 	/**
 	 * Returns the rom data type in string.
-	 * 
+	 *
 	 * @param dataSourceId    the id of the data source
 	 * @param dataSetId       the ide of the data set
 	 * @param param           the rom data set parameter
@@ -250,28 +261,29 @@ class DataSetParameterUpdater {
 		String name = param.getNativeName();
 		Integer position = param.getPosition();
 		Integer nativeType = param.getNativeDataType();
-		if (nativeType == null)
+		if (nativeType == null) {
 			return param.getParameterDataType();
+		}
 
 		OdaDataSetParameterHandle tmpParam = findDataSetParameterByName(name, position, nativeType, setHandleParams);
 
-		if (tmpParam == null)
+		if (tmpParam == null) {
 			return convertNativeTypeToROMDataType(dataSourceId, dataSetId, nativeType.intValue());
+		}
 
 		Integer tmpPosition = tmpParam.getPosition();
-		if (tmpPosition == null)
+		if ((tmpPosition == null) || !tmpPosition.equals(param.getPosition())) {
 			return convertNativeTypeToROMDataType(dataSourceId, dataSetId, nativeType.intValue());
-
-		if (!tmpPosition.equals(param.getPosition()))
-			return convertNativeTypeToROMDataType(dataSourceId, dataSetId, nativeType.intValue());
+		}
 
 		// Compare its original native type in session request with the latest
 		// native type in response. If they are the same, preserve the existing
 		// ROM data type.
 
 		Integer tmpNativeCodeType = tmpParam.getNativeDataType();
-		if (tmpNativeCodeType == null || tmpNativeCodeType.equals(nativeType))
+		if (tmpNativeCodeType == null || tmpNativeCodeType.equals(nativeType)) {
 			return tmpParam.getParameterDataType();
+		}
 
 		// If they are different, check if the latest native type in response is
 		// compatible/convertible to the existing ROM data type. If compatible
@@ -286,7 +298,7 @@ class DataSetParameterUpdater {
 
 	/**
 	 * Converts the ODA native data type code to rom data type.
-	 * 
+	 *
 	 * @param dataSourceId       the id of the data source
 	 * @param dataSetId          the ide of the data set
 	 * @param nativeDataTypeCode the oda data type code
@@ -300,7 +312,7 @@ class DataSetParameterUpdater {
 
 	/**
 	 * Converts the ODA native data type code to rom data type.
-	 * 
+	 *
 	 * @param dataSourceId       the id of the data source
 	 * @param dataSetId          the ide of the data set
 	 * @param nativeDataTypeCode the oda data type code
@@ -323,7 +335,7 @@ class DataSetParameterUpdater {
 
 	/**
 	 * Returns the matched data set parameter by given name and position.
-	 * 
+	 *
 	 * @param dataSetParamName the data set parameter name
 	 * @param position         the position
 	 * @param params           the iterator of data set parameters
@@ -332,8 +344,9 @@ class DataSetParameterUpdater {
 
 	private OdaDataSetParameterHandle findDataSetParameterByName(String dataSetParamName, Integer position,
 			Integer nativeDataType, Iterator params) {
-		if (position == null)
+		if (position == null) {
 			return null;
+		}
 
 		while (params.hasNext()) {
 			OdaDataSetParameterHandle param = (OdaDataSetParameterHandle) params.next();
@@ -345,8 +358,9 @@ class DataSetParameterUpdater {
 
 			// case 1: if the native name is not blank, just use it.
 
-			if (!StringUtil.isBlank(tmpNativeName) && tmpNativeName.equals(dataSetParamName))
+			if (!StringUtil.isBlank(tmpNativeName) && tmpNativeName.equals(dataSetParamName)) {
 				return param;
+			}
 
 			// case 2: if the native name is blank, match native data type and
 			// position

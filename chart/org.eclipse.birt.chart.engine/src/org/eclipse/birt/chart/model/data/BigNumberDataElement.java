@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -38,7 +50,7 @@ public interface BigNumberDataElement extends DataElement {
 	 * should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #setValue(BigDecimal)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getBigNumberDataElement_Value()
@@ -52,7 +64,7 @@ public interface BigNumberDataElement extends DataElement {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.data.BigNumberDataElement#getValue
 	 * <em>Value</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Value</em>' attribute.
 	 * @see #getValue()
 	 * @generated
@@ -62,6 +74,7 @@ public interface BigNumberDataElement extends DataElement {
 	/**
 	 * @generated
 	 */
+	@Override
 	BigNumberDataElement copyInstance();
 
 } // BigNumberDataElement

@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -24,7 +26,7 @@ import org.eclipse.ui.part.EditorPart;
 
 /**
  * Base page for report editor page. Clients can subclass this class.
- * 
+ *
  */
 public abstract class ReportFormPage extends EditorPart implements IReportEditorPage {
 
@@ -39,10 +41,11 @@ public abstract class ReportFormPage extends EditorPart implements IReportEditor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
 	 * org.eclipse.ui.IEditorInput)
 	 */
+	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		super.setSite(site);
 		super.setInput(input);
@@ -50,124 +53,137 @@ public abstract class ReportFormPage extends EditorPart implements IReportEditor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#getEditorSite()
 	 */
+	@Override
 	public IEditorSite getEditorSite() {
 		return (IEditorSite) getSite();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 */
+	@Override
 	public boolean isSaveAsAllowed() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
+	@Override
 	public void setFocus() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms
 	 * .editor.FormEditor)
 	 */
+	@Override
 	public void initialize(FormEditor editor) {
 		this.editor = editor;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getEditor()
 	 */
+	@Override
 	public FormEditor getEditor() {
 		return editor;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getManagedForm()
 	 */
+	@Override
 	public IManagedForm getManagedForm() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setActive(boolean)
 	 */
+	@Override
 	public void setActive(boolean active) {
 		this.isActive = active;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isActive()
 	 */
+	@Override
 	public boolean isActive() {
 		return isActive;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#canLeaveThePage()
 	 */
+	@Override
 	public boolean canLeaveThePage() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getIndex()
 	 */
+	@Override
 	public int getIndex() {
 		return this.index;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setIndex(int)
 	 */
+	@Override
 	public void setIndex(int index) {
 		this.index = index;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isEditor()
 	 */
+	@Override
 	public boolean isEditor() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#selectReveal(java.lang.Object)
 	 */
+	@Override
 	public boolean selectReveal(Object object) {
 		return false;
 	}
 
 	/**
 	 * Get the MultiPageReportEditor.
-	 * 
+	 *
 	 * @return
 	 */
 	public final MultiPageReportEditor getReportEditor() {
@@ -176,7 +192,7 @@ public abstract class ReportFormPage extends EditorPart implements IReportEditor
 
 	/**
 	 * Get editing report ModuleHandle.
-	 * 
+	 *
 	 * @return
 	 */
 	public final ModuleHandle getModel() {
@@ -195,9 +211,10 @@ public abstract class ReportFormPage extends EditorPart implements IReportEditor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
 	 */
+	@Override
 	public void setInput(IEditorInput input) {
 		super.setInput(input);
 	}

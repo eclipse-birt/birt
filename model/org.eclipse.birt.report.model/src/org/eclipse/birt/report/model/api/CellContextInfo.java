@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -63,7 +75,7 @@ class CellContextInfo implements Cloneable {
 
 	/**
 	 * Constructs a <code>CellContextInfo</code>.
-	 * 
+	 *
 	 * @param cell    the cell element
 	 * @param rowSpan the row span of the cell
 	 * @param colSpan the column span of the cell
@@ -80,7 +92,7 @@ class CellContextInfo implements Cloneable {
 	/**
 	 * Returns the definition name of the container of the row where the cell
 	 * resides.
-	 * 
+	 *
 	 * @return the definition name of the container of the row
 	 */
 
@@ -90,7 +102,7 @@ class CellContextInfo implements Cloneable {
 
 	/**
 	 * Returns the index of the row where the cell resides.
-	 * 
+	 *
 	 * @return the 0-based index of the row
 	 */
 
@@ -100,7 +112,7 @@ class CellContextInfo implements Cloneable {
 
 	/**
 	 * Sets the definition name of the container of the row where the cell resides.
-	 * 
+	 *
 	 * @param parent the definition name of the container of the row
 	 */
 
@@ -110,7 +122,7 @@ class CellContextInfo implements Cloneable {
 
 	/**
 	 * Returns the slot id where the cell resides.
-	 * 
+	 *
 	 * @return the slot id
 	 */
 
@@ -120,7 +132,7 @@ class CellContextInfo implements Cloneable {
 
 	/**
 	 * Sets the slot id where the cell resides.
-	 * 
+	 *
 	 * @param slotId the slot id
 	 */
 
@@ -130,7 +142,7 @@ class CellContextInfo implements Cloneable {
 
 	/**
 	 * Sets the index of the row where the cell resides.
-	 * 
+	 *
 	 * @param rowNumber the 0-based index of the row
 	 */
 
@@ -142,7 +154,7 @@ class CellContextInfo implements Cloneable {
 	/**
 	 * Return the cell element that this <code>CellContextInfo</code> corresponds
 	 * to.
-	 * 
+	 *
 	 * @return the cell element
 	 */
 
@@ -152,7 +164,7 @@ class CellContextInfo implements Cloneable {
 
 	/**
 	 * Returns the group index where the cell resides.
-	 * 
+	 *
 	 * @return the 0-based group index
 	 */
 
@@ -162,7 +174,7 @@ class CellContextInfo implements Cloneable {
 
 	/**
 	 * Sets the group index where the cell resides.
-	 * 
+	 *
 	 * @param groupId the 0-based group index
 	 */
 
@@ -172,7 +184,7 @@ class CellContextInfo implements Cloneable {
 
 	/**
 	 * Returns the row span of the cell.
-	 * 
+	 *
 	 * @return the row span of the cell
 	 */
 
@@ -182,7 +194,7 @@ class CellContextInfo implements Cloneable {
 
 	/**
 	 * Returns the column span of the cell.
-	 * 
+	 *
 	 * @return the column span of the cell
 	 */
 
@@ -192,7 +204,7 @@ class CellContextInfo implements Cloneable {
 
 	/**
 	 * Returns the value of the drop property of the cell.
-	 * 
+	 *
 	 * @return the value of the drop property
 	 */
 
@@ -202,10 +214,11 @@ class CellContextInfo implements Cloneable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#clone()
 	 */
 
+	@Override
 	protected Object clone() throws CloneNotSupportedException {
 		CellContextInfo clonedContext = (CellContextInfo) super.clone();
 

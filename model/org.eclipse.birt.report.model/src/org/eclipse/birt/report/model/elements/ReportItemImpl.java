@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.report.model.elements;
 
 import java.util.List;
@@ -29,32 +41,35 @@ public abstract class ReportItemImpl extends ReferencableStyledElement
 
 	/**
 	 * Returns the data set element, if any, for this element.
-	 * 
+	 *
 	 * @param module the report design of the report item
-	 * 
+	 *
 	 * @return the data set element defined on this specific element
 	 */
 	public DesignElement getDataSetElement(Module module) {
 		ElementRefValue dataSetRef = (ElementRefValue) getProperty(module, DATA_SET_PROP);
-		if (dataSetRef == null)
+		if (dataSetRef == null) {
 			return null;
+		}
 		return dataSetRef.getElement();
 	}
 
 	/**
 	 * Returns the cube element, if any, for this element.
-	 * 
+	 *
 	 * @param module the report design of the report item
-	 * 
+	 *
 	 * @return the cube element defined on this specific element
 	 */
 	public DesignElement getCubeElement(Module module) {
 		ElementRefValue cubeRef = (ElementRefValue) getProperty(module, CUBE_PROP);
-		if (cubeRef == null)
+		if (cubeRef == null) {
 			return null;
+		}
 		return cubeRef.getElement();
 	}
 
+	@Override
 	public List<SemanticException> validate(Module module) {
 		List<SemanticException> list = super.validate(module);
 
@@ -69,19 +84,21 @@ public abstract class ReportItemImpl extends ReferencableStyledElement
 
 	/**
 	 * Checks whether the listing element refers to another listing element.
-	 * 
+	 *
 	 * @param module the root of the listing element
 	 * @return <code>true</code> if the listing element shares data with other
 	 *         listing element. Otherwise <code>false</code>.
 	 */
 	public boolean isDataBindingReferring(Module module) {
 		ElementRefValue refValue = (ElementRefValue) getLocalProperty(module, IReportItemModel.DATA_BINDING_REF_PROP);
-		if (refValue == null || !refValue.isResolved())
+		if (refValue == null || !refValue.isResolved()) {
 			return false;
+		}
 
 		return true;
 	}
 
+	@Override
 	public Object getProperty(Module module, ElementPropertyDefn prop) {
 
 		String propName = prop.getName();
@@ -95,14 +112,15 @@ public abstract class ReportItemImpl extends ReferencableStyledElement
 	 * Determines whether this report item can cascade ACL or not. True if and only
 	 * if this item has define <code>IReportItemModel.CASCADE_ACL_PROP</code>
 	 * property and it is a container.
-	 * 
+	 *
 	 * @return true if this item has define
 	 *         <code>IReportItemModel.CASCADE_ACL_PROP</code> property and it is a
 	 *         container, otherwise false
 	 */
 	public boolean canCascadeACL() {
-		if (getPropertyDefn(IReportItemModel.CASCADE_ACL_PROP) != null && getDefn().isContainer())
+		if (getPropertyDefn(IReportItemModel.CASCADE_ACL_PROP) != null && getDefn().isContainer()) {
 			return true;
+		}
 		return false;
 	}
 
@@ -113,6 +131,7 @@ public abstract class ReportItemImpl extends ReferencableStyledElement
 
 	}
 
+	@Override
 	public void checkExtends(DesignElement parent) throws ExtendsException {
 		super.checkExtends(parent);
 		Module lib = parent.getRoot();
@@ -128,7 +147,7 @@ public abstract class ReportItemImpl extends ReferencableStyledElement
 
 	/**
 	 * Checks whether the report item refers to another report item.
-	 * 
+	 *
 	 * @param lib     the library.
 	 * @param element the design element.
 	 * @throws ExtendsException if the listing element shares data with other
@@ -142,31 +161,33 @@ public abstract class ReportItemImpl extends ReferencableStyledElement
 	}
 
 	/**
-	 * 
+	 *
 	 * @param module
 	 * @return
 	 */
+	@Override
 	public AbstractTheme getTheme(Module module) {
 		if (module == null) {
 			return null;
 		}
 		ElementRefValue value = (ElementRefValue) getProperty(module, THEME_PROP);
-		if (value != null)
+		if (value != null) {
 			return (ReportItemTheme) value.getElement();
+		}
 		return getDefaultTheme(module);
 	}
 
 	/**
 	 * get the default theme of report item
-	 * 
+	 *
 	 * return the one defined in report level. report level item theme is defined
 	 * as:
-	 * 
+	 *
 	 * theme_type '-' theme_name
-	 * 
+	 *
 	 * for example, if report level theme is defined as "theme_1", the table's
 	 * default theme is "Table-theme_1"
-	 * 
+	 *
 	 * @param module design module
 	 * @return
 	 */
@@ -184,17 +205,19 @@ public abstract class ReportItemImpl extends ReferencableStyledElement
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public AbstractTheme getTheme() {
 		return getTheme(getRoot());
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public String getThemeName() {
 		return getStringProperty(getRoot(), THEME_PROP);
 	}

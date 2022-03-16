@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -55,7 +58,7 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -65,7 +68,7 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -75,7 +78,7 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 	/**
 	 * The cached value of the '{@link #getEntries() <em>Entries</em>}' containment
 	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getEntries()
 	 * @generated
 	 * @ordered
@@ -125,7 +128,7 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected PaletteImpl() {
@@ -134,7 +137,7 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -144,40 +147,44 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.PALETTE__NAME, oldName, name));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public EList<Fill> getEntries() {
 		if (entries == null) {
-			entries = new EObjectContainmentEList<Fill>(Fill.class, this, AttributePackage.PALETTE__ENTRIES);
+			entries = new EObjectContainmentEList<>(Fill.class, this, AttributePackage.PALETTE__ENTRIES);
 		}
 		return entries;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -191,7 +198,7 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -207,7 +214,7 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -227,7 +234,7 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -245,7 +252,7 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -261,15 +268,16 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(')');
@@ -278,9 +286,9 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * A convenience method provided to create an empty or pre-initialized palette
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @param bEmpty
 	 */
 	public static final Palette create(int iIndex, boolean bEmpty) {
@@ -294,9 +302,9 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * A convenience method provided to create a palette with a single color entry
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @param f
 	 */
 	public static final Palette create(Fill f) {
@@ -307,7 +315,7 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * Shift the list content from tail to head.
-	 * 
+	 *
 	 * @param lst
 	 * @param pos
 	 */
@@ -341,9 +349,10 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.attribute.Palette#update(int)
 	 */
+	@Override
 	public final void update(int iIndex) {
 		final EList el = getEntries();
 		el.clear();
@@ -391,21 +400,24 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.model.attribute.Palette#update(org.eclipse.birt.chart.
 	 * model.attribute.Fill)
 	 */
+	@Override
 	public final void update(Fill f) {
 		final EList el = getEntries();
 		el.clear();
 		el.add(f);
 	}
 
+	@Override
 	public void shift(int step) {
 		shift(step, colorLib.size());
 	}
 
+	@Override
 	public void shift(int step, int size) {
 		if (size <= 0 || size > colorLib.size()) {
 			size = colorLib.size();
@@ -437,6 +449,7 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
+	@Override
 	public Palette copyInstance() {
 		PaletteImpl dest = new PaletteImpl();
 		dest.set(this);

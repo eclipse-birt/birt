@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,6 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -29,13 +31,13 @@ import org.eclipse.draw2d.geometry.Insets;
  * Adapter class to adapt model handle. This adapter provides convenience
  * methods to GUI requirement ReportDesignHandleAdapter responds to model
  * ModuleHandle
- * 
- * 
+ *
+ *
  */
 public class ReportDesignHandleAdapter extends DesignElementHandleAdapter {
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle Module handle
 	 */
 	public ReportDesignHandleAdapter(ModuleHandle handle) {
@@ -44,7 +46,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle Module handle
 	 * @param mark   Help mark
 	 */
@@ -55,16 +57,17 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter {
 	/**
 	 * Gets the Children iterator. This children relationship is determined by GUI
 	 * requirement. This is not the model children relationship.
-	 * 
+	 *
 	 * @return Children iterator.
 	 */
+	@Override
 	public List getChildren() {
 		return getReportDesignHandle().getBody().getContents();
 	}
 
 	/**
 	 * Gets all the data source binding to report element.
-	 * 
+	 *
 	 * @return Data source list
 	 */
 	public List getDataSources() {
@@ -73,7 +76,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Gets data source handle binding to report element
-	 * 
+	 *
 	 * @param name The name of specified data source
 	 * @return specified data souce's handle
 	 */
@@ -83,7 +86,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Provides naming check logic of data source name.
-	 * 
+	 *
 	 * @param name Specfied data source name
 	 * @return <code>true</code> if the data source exists, else false
 	 */
@@ -93,7 +96,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Provides naming check logic of data set name.
-	 * 
+	 *
 	 * @param name Specified data set name
 	 * @return <code>true</code> if the data set exists, else false
 	 */
@@ -103,7 +106,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Sets the ModuleHandle be adapted.
-	 * 
+	 *
 	 * @param handle the module handle
 	 */
 	public void setReportDesignHandle(ModuleHandle handle) {
@@ -112,7 +115,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Get master page handle
-	 * 
+	 *
 	 * @return the master page instace of Report Design.
 	 */
 	public MasterPageHandle getMasterPage() {
@@ -121,7 +124,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Gets the master page instace of Report Design with specific position.
-	 * 
+	 *
 	 * @param pos The position
 	 * @return handle of masterpage.
 	 */
@@ -134,7 +137,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Get the current master page size.
-	 * 
+	 *
 	 * @param handle The handle of master page.
 	 * @return The current master page size.
 	 */
@@ -179,7 +182,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Get insets of master page.
-	 * 
+	 *
 	 * @param handle the handle of master page
 	 * @return insets
 	 */

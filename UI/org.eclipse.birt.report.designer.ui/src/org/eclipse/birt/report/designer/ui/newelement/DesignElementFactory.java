@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -72,9 +75,10 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * @return An instance of DesignElementFactory
-	 * 
+	 *
 	 * @deprecated use {@link #getInstance(ModuleHandle)} whenever possible
 	 */
+	@Deprecated
 	public static DesignElementFactory getInstance() {
 		return new DesignElementFactory(SessionHandleAdapter.getInstance().getReportDesignHandle());
 	}
@@ -85,7 +89,7 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param module
 	 */
 	protected DesignElementFactory(ModuleHandle module) {
@@ -97,10 +101,10 @@ public class DesignElementFactory extends ElementFactory {
 	 * Creates a design element specified by the element type name. Element type
 	 * names are defined in rom.def or extension elements. They are managed by the
 	 * meta-data system.
-	 * 
+	 *
 	 * @param elementTypeName the element type name
 	 * @param name            the optional element name
-	 * 
+	 *
 	 * @return design element, <code>null</code> returned if the element definition
 	 *         name is not a valid element type name.
 	 */
@@ -112,6 +116,7 @@ public class DesignElementFactory extends ElementFactory {
 		return name;
 	}
 
+	@Override
 	public DesignElementHandle newElement(String elementTypeName, String name) {
 		String newName = getNewName(elementTypeName, name);
 		return factory.newElement(elementTypeName, newName);
@@ -120,11 +125,12 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new free-form item.
-	 * 
+	 *
 	 * @param name the optional free-form name. Can be <code>null</code>.
 	 * @return a handle to the free-form
 	 */
 
+	@Override
 	public FreeFormHandle newFreeForm(String name) {
 		String newName = getNewName(ReportDesignConstants.FREE_FORM_ITEM, name);
 		return factory.newFreeForm(newName);
@@ -132,11 +138,12 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new data item.
-	 * 
+	 *
 	 * @param name the optional data item name. Can be <code>null</code>.
 	 * @return a handle to the data item
 	 */
 
+	@Override
 	public DataItemHandle newDataItem(String name) {
 		String newName = getNewName(ReportDesignConstants.DATA_ITEM, name);
 		return factory.newDataItem(newName);
@@ -144,11 +151,12 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new autotext item.
-	 * 
+	 *
 	 * @param name the optional autotext name. Can be <code>null</code>.
 	 * @return a handle to the autotext
 	 */
 
+	@Override
 	public AutoTextHandle newAutoText(String name) {
 		String newName = getNewName(ReportDesignConstants.AUTOTEXT_ITEM, name);
 		return factory.newAutoText(newName);
@@ -156,11 +164,12 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new label item.
-	 * 
+	 *
 	 * @param name the optional label name. Can be <code>null</code>.
 	 * @return a handle to the label
 	 */
 
+	@Override
 	public LabelHandle newLabel(String name) {
 		String newName = getNewName(ReportDesignConstants.LABEL_ITEM, name);
 		return factory.newLabel(newName);
@@ -168,11 +177,12 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new image item.
-	 * 
+	 *
 	 * @param name the optional image name. Can be <code>null</code>.
 	 * @return a handle to the image
 	 */
 
+	@Override
 	public ImageHandle newImage(String name) {
 		String newName = getNewName(ReportDesignConstants.IMAGE_ITEM, name);
 		return factory.newImage(newName);
@@ -180,11 +190,12 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new list item.
-	 * 
+	 *
 	 * @param name the optional list name. Can be <code>null</code>.
 	 * @return a handle to the list
 	 */
 
+	@Override
 	public ListHandle newList(String name) {
 		String newName = getNewName(ReportDesignConstants.LIST_ITEM, name);
 		return factory.newList(newName);
@@ -193,11 +204,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new graphic master page element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the required graphic master page name
 	 * @return a handle to the graphic master page
 	 */
 
+	@Override
 	public GraphicMasterPageHandle newGraphicMasterPage(String name) {
 		String newName = getNewName(ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT, name);
 		return factory.newGraphicMasterPage(newName);
@@ -206,11 +218,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new simple master page element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the requirement simple master page name
 	 * @return a handle to the simple master page.
 	 */
 
+	@Override
 	public SimpleMasterPageHandle newSimpleMasterPage(String name) {
 		String newName = getNewName(ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT, name);
 		return factory.newSimpleMasterPage(newName);
@@ -219,11 +232,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new parameter group element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the optional parameter group name. Can be <code>null</code>.
 	 * @return a handle to the parameter group
 	 */
 
+	@Override
 	public ParameterGroupHandle newParameterGroup(String name) {
 		String newName = getNewName(ReportDesignConstants.PARAMETER_GROUP_ELEMENT, name);
 		return factory.newParameterGroup(newName);
@@ -232,11 +246,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new scalar parameter element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the required scalar parameter name
 	 * @return a handle to the scalar parameter
 	 */
 
+	@Override
 	public ScalarParameterHandle newScalarParameter(String name) {
 		String newName = getNewName(ReportDesignConstants.SCALAR_PARAMETER_ELEMENT, name);
 		return factory.newScalarParameter(newName);
@@ -245,11 +260,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new style element. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the required style name
 	 * @return a handle to the style
 	 */
 
+	@Override
 	public SharedStyleHandle newStyle(String name) {
 		String newName = getNewName(ReportDesignConstants.STYLE_ELEMENT, name);
 		return factory.newStyle(newName);
@@ -258,11 +274,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new theme element. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the required theme name
 	 * @return a handle to the theme
 	 */
 
+	@Override
 	public ThemeHandle newTheme(String name) {
 		String newName = getNewName(ReportDesignConstants.THEME_ITEM, name);
 		return factory.newTheme(newName);
@@ -270,11 +287,12 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new text item.
-	 * 
+	 *
 	 * @param name the optional text item name. Can be <code>null</code>.
 	 * @return a handle to the text item
 	 */
 
+	@Override
 	public TextItemHandle newTextItem(String name) {
 		String newName = getNewName(ReportDesignConstants.TEXT_ITEM, name);
 		return factory.newTextItem(newName);
@@ -282,11 +300,12 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new table item.
-	 * 
+	 *
 	 * @param name the optional table item name. Can be <code>null</code>.
 	 * @return a handle to the table item
 	 */
 
+	@Override
 	public TableHandle newTableItem(String name) {
 		String newName = getNewName(ReportDesignConstants.TABLE_ITEM, name);
 		return factory.newTableItem(newName);
@@ -300,7 +319,7 @@ public class DesignElementFactory extends ElementFactory {
 	 * <p>
 	 * It has the same effect by calling:
 	 * <code>newTableItem( name, columnNum, 1, 1, 1 )</code>.
-	 * 
+	 *
 	 * @param name      the optional table item name
 	 * @param columnNum column number of the table, if it is less than 0, then
 	 *                  column won't be defined for the table at this stage.
@@ -308,6 +327,7 @@ public class DesignElementFactory extends ElementFactory {
 	 * @see #newTableItem(String, int, int, int, int)
 	 */
 
+	@Override
 	public TableHandle newTableItem(String name, int columnNum) {
 		String newName = getNewName(ReportDesignConstants.TABLE_ITEM, name);
 		return factory.newTableItem(newName, columnNum);
@@ -318,7 +338,7 @@ public class DesignElementFactory extends ElementFactory {
 	 * table will have given number of rows for each band(header, footer, detail).
 	 * Each row in band will be filled with cells, number of cells is equal to the
 	 * specified column number.
-	 * 
+	 *
 	 * @param name      the optional table item name
 	 * @param columnNum column number of the table, if it is less than 0, then
 	 *                  column won't be defined for the table at this stage.
@@ -331,6 +351,7 @@ public class DesignElementFactory extends ElementFactory {
 	 * @return A handle to the table item.
 	 */
 
+	@Override
 	public TableHandle newTableItem(String name, int columnNum, int headerRow, int detailRow, int footerRow) {
 		String newName = getNewName(ReportDesignConstants.TABLE_ITEM, name);
 		return factory.newTableItem(newName, columnNum, headerRow, detailRow, footerRow);
@@ -338,11 +359,12 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new grid item.
-	 * 
+	 *
 	 * @param name the optional grid item name. Can be <code>null</code>.
 	 * @return a handle to the grid item
 	 */
 
+	@Override
 	public GridHandle newGridItem(String name) {
 		String newName = getNewName(ReportDesignConstants.GRID_ITEM, name);
 		return factory.newGridItem(newName);
@@ -350,16 +372,17 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new grid item with pre-defined columns and rows.
-	 * 
+	 *
 	 * @param name      the optional grid item name.
 	 * @param columnNum column number of the grid. If it is less than 0, none column
 	 *                  will be added.
 	 * @param rowNum    row number of the grid. If it is less than 0, none row will
 	 *                  be added.
-	 * 
+	 *
 	 * @return a handle to the grid item
 	 */
 
+	@Override
 	public GridHandle newGridItem(String name, int columnNum, int rowNum) {
 		String newName = getNewName(ReportDesignConstants.GRID_ITEM, name);
 		return factory.newGridItem(newName, columnNum, rowNum);
@@ -367,11 +390,12 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new line item.
-	 * 
+	 *
 	 * @param name the optional line item name. Can be <code>null</code>.
 	 * @return a handle to the line item
 	 */
 
+	@Override
 	public LineHandle newLineItem(String name) {
 		String newName = getNewName(ReportDesignConstants.LINE_ITEM, name);
 		return factory.newLineItem(newName);
@@ -379,11 +403,12 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new rectangle.
-	 * 
+	 *
 	 * @param name the optional rectangle name. Can be <code>null</code>.
 	 * @return a handle to rectangle
 	 */
 
+	@Override
 	public RectangleHandle newRectangle(String name) {
 		String newName = getNewName(ReportDesignConstants.RECTANGLE_ITEM, name);
 		return factory.newRectangle(newName);
@@ -391,11 +416,12 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new multi line data item.
-	 * 
+	 *
 	 * @param name the optional multi line data name. Can be <code>null</code>.
 	 * @return a handle to multi line data item
 	 */
 
+	@Override
 	public TextDataHandle newTextData(String name) {
 		String newName = getNewName(ReportDesignConstants.TEXT_DATA_ITEM, name);
 		return factory.newTextData(newName);
@@ -403,7 +429,7 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new extended item.
-	 * 
+	 *
 	 * @param name          the optional extended item name. Can be
 	 *                      <code>null</code>.
 	 * @param extensionName the required extension name
@@ -411,6 +437,7 @@ public class DesignElementFactory extends ElementFactory {
 	 *         with the given extension name is not found
 	 */
 
+	@Override
 	public ExtendedItemHandle newExtendedItem(String name, String extensionName) {
 		String newName = getNewName(extensionName, name);
 		return factory.newExtendedItem(newName, extensionName);
@@ -418,11 +445,12 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new script data source.
-	 * 
+	 *
 	 * @param name the required script data source name.
 	 * @return a handle to script data source
 	 */
 
+	@Override
 	public ScriptDataSourceHandle newScriptDataSource(String name) {
 		String newName = getNewName(ReportDesignConstants.SCRIPT_DATA_SOURCE, name);
 		return factory.newScriptDataSource(newName);
@@ -431,11 +459,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new script data set. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the required script data set name.
 	 * @return a handle to script data set
 	 */
 
+	@Override
 	public ScriptDataSetHandle newScriptDataSet(String name) {
 		String newName = getNewName(ReportDesignConstants.SCRIPT_DATA_SET, name);
 		return factory.newScriptDataSet(newName);
@@ -444,11 +473,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new oda data source. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the required oda data source name.
 	 * @return a handle to oda data source
 	 */
 
+	@Override
 	public OdaDataSourceHandle newOdaDataSource(String name) {
 		String newName = getNewName(ReportDesignConstants.ODA_DATA_SOURCE, name);
 		return factory.newOdaDataSource(newName, null);
@@ -460,12 +490,13 @@ public class DesignElementFactory extends ElementFactory {
 	 * used to find the extension definition.If the extension ID is not given, the
 	 * oda data source will be created without extension. If the unknown extension
 	 * ID is given, <code>null</code> will be returned.
-	 * 
+	 *
 	 * @param name        the required oda data source name.
 	 * @param extensionID the extension ID
 	 * @return a handle to oda data source
 	 */
 
+	@Override
 	public OdaDataSourceHandle newOdaDataSource(String name, String extensionID) {
 		String newName = getNewName(ReportDesignConstants.ODA_DATA_SOURCE, name);
 		return factory.newOdaDataSource(newName, extensionID);
@@ -474,11 +505,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new cube element. The name is required. If the <code>name</code> is
 	 * null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the cube element name.
 	 * @return a handle to the cube element
 	 */
 
+	@Override
 	public OdaCubeHandle newOdaCube(String name) {
 		String newName = getNewName(ReportDesignConstants.ODA_CUBE_ELEMENT, name);
 		return factory.newOdaCube(newName);
@@ -487,11 +519,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new dimension element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the dimension name
 	 * @return a handle to the dimension element
 	 */
 
+	@Override
 	public OdaDimensionHandle newOdaDimension(String name) {
 		// add a hierarchy element to the dimension
 		String newName = getNewName(ReportDesignConstants.ODA_DIMENSION_ELEMENT, name);
@@ -501,11 +534,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new hierarchy element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name hierarchy name
 	 * @return a handle to the hierarchy element
 	 */
 
+	@Override
 	public OdaHierarchyHandle newOdaHierarchy(String name) {
 		// add a hierarchy element to the dimension
 		String newName = getNewName(ReportDesignConstants.ODA_HIERARCHY_ELEMENT, name);
@@ -515,11 +549,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new oda level handle. The name is required. If given name is null,
 	 * we will make a unique name within the dimension scope for it.
-	 * 
+	 *
 	 * @param dimensionHandle the dimension handle where the level will be inserted
 	 * @param name            the level name
 	 * @return a handle to the level element
 	 */
+	@Override
 	public OdaLevelHandle newOdaLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle dimensionHandle,
 			String name) {
 		String newName = getNewName(ReportDesignConstants.ODA_LEVEL_ELEMENT, name);
@@ -529,13 +564,15 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new level element. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the level name
 	 * @return a handle to the level element
 	 * @deprecated replaced by
 	 *             {@link #newOdaLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle, String)}
 	 */
 
+	@Deprecated
+	@Override
 	public OdaLevelHandle newOdaLevel(String name) {
 		String newName = getNewName(ReportDesignConstants.ODA_LEVEL_ELEMENT, name);
 		return factory.newOdaLevel(newName);
@@ -545,11 +582,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new measure element. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the measure name
 	 * @return a handle to the measure element
 	 */
 
+	@Override
 	public OdaMeasureHandle newOdaMeasure(String name) {
 		String newName = getNewName(ReportDesignConstants.ODA_MEASURE_ELEMENT, name);
 		return factory.newOdaMeasure(newName);
@@ -557,10 +595,11 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new measure group.
-	 * 
+	 *
 	 * @param name the optional measure group name.
 	 * @return the measure group element
 	 */
+	@Override
 	public OdaMeasureGroupHandle newOdaMeasureGroup(String name) {
 		String newName = getNewName(ReportDesignConstants.ODA_MEASURE_GROUP_ELEMENT, name);
 		return factory.newOdaMeasureGroup(newName);
@@ -569,11 +608,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new cube element. The name is required. If the <code>name</code> is
 	 * null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the cube element name.
 	 * @return a handle to the cube element
 	 */
 
+	@Override
 	public TabularCubeHandle newTabularCube(String name) {
 		String newName = getNewName(ReportDesignConstants.TABULAR_CUBE_ELEMENT, name);
 		return factory.newTabularCube(newName);
@@ -582,11 +622,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new dimension element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the dimension name
 	 * @return a handle to the dimension element
 	 */
 
+	@Override
 	public TabularDimensionHandle newTabularDimension(String name) {
 		String newName = getNewName(ReportDesignConstants.TABULAR_DIMENSION_ELEMENT, name);
 		return factory.newTabularDimension(newName);
@@ -595,11 +636,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new hierarchy element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name hierarchy name
 	 * @return a handle to the hierarchy element
 	 */
 
+	@Override
 	public TabularHierarchyHandle newTabularHierarchy(String name) {
 		String newName = getNewName(ReportDesignConstants.TABULAR_HIERARCHY_ELEMENT, name);
 		return factory.newTabularHierarchy(newName);
@@ -608,13 +650,15 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new level element. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the level name
 	 * @return a handle to the level element
 	 * @deprecated replaced by
 	 *             {@link #newTabularLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle, String)}
 	 */
 
+	@Deprecated
+	@Override
 	public TabularLevelHandle newTabularLevel(String name) {
 		String newName = getNewName(ReportDesignConstants.TABULAR_LEVEL_ELEMENT, name);
 		return factory.newTabularLevel(newName);
@@ -625,13 +669,14 @@ public class DesignElementFactory extends ElementFactory {
 	 * Creates a new level element within the given dimension handle. The name is
 	 * required. If the <code>name</code> is null, we will make a unique name with
 	 * the given dimension scope for it.
-	 * 
+	 *
 	 * @param dimensionHandle the dimension handle where the level will be inserted
-	 * 
+	 *
 	 * @param name            the level name
 	 * @return a handle to the level element
 	 */
 
+	@Override
 	public TabularLevelHandle newTabularLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle dimensionHandle,
 			String name) {
 		String newName = getNewName(ReportDesignConstants.TABULAR_LEVEL_ELEMENT, name);
@@ -641,11 +686,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new measure element. The name is required. If the <code>name</code>
 	 * is null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the measure name
 	 * @return a handle to the measure element
 	 */
 
+	@Override
 	public TabularMeasureHandle newTabularMeasure(String name) {
 		String newName = getNewName(ReportDesignConstants.TABULAR_MEASURE_ELEMENT, name);
 		return factory.newTabularMeasure(newName);
@@ -653,10 +699,11 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new measure group.
-	 * 
+	 *
 	 * @param name the optional measure group name.
 	 * @return the measure group element
 	 */
+	@Override
 	public TabularMeasureGroupHandle newTabularMeasureGroup(String name) {
 		String newName = getNewName(ReportDesignConstants.TABULAR_MEASURE_GROUP_ELEMENT, name);
 		return factory.newTabularMeasureGroup(newName);
@@ -665,11 +712,12 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates a new oda data set. The name is required. If the <code>name</code> is
 	 * null, we will make a unique name for it.
-	 * 
+	 *
 	 * @param name the required oda data set name.
 	 * @return a handle to oda data set
 	 */
 
+	@Override
 	public OdaDataSetHandle newOdaDataSet(String name) {
 		String newName = getNewName(ReportDesignConstants.ODA_DATA_SET, name);
 		return factory.newOdaDataSet(newName, null);
@@ -681,12 +729,13 @@ public class DesignElementFactory extends ElementFactory {
 	 * to find the extension definition.If the extension ID is not given, the oda
 	 * data source will be created without extension. If the unknown extension ID is
 	 * given, <code>null</code> will be returned.
-	 * 
+	 *
 	 * @param name        the required oda data set name.
 	 * @param extensionID the extension ID
 	 * @return a handle to oda data set
 	 */
 
+	@Override
 	public OdaDataSetHandle newOdaDataSet(String name, String extensionID) {
 		String newName = getNewName(ReportDesignConstants.ODA_DATA_SET, name);
 		return factory.newOdaDataSet(newName, extensionID);
@@ -695,12 +744,13 @@ public class DesignElementFactory extends ElementFactory {
 	/**
 	 * Creates one new element based on the given element. The new element will
 	 * extends the given one. The element must be extendable.
-	 * 
+	 *
 	 * @param element the base element.
 	 * @param name    the optional new element name
 	 * @return the handle to the new element.
 	 */
 
+	@Override
 	public DesignElementHandle newElementFrom(DesignElementHandle element, String name) throws ExtendsException {
 		String newName = getNewName(element.getElement().getElementName(), name);
 		return factory.newElementFrom(element, newName);
@@ -708,10 +758,11 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new table group element. Table groups cannot have a name.
-	 * 
+	 *
 	 * @return a handle to the table group
 	 */
 
+	@Override
 	public TableGroupHandle newTableGroup() {
 		TableGroupHandle handle = factory.newTableGroup();
 		try {
@@ -725,10 +776,11 @@ public class DesignElementFactory extends ElementFactory {
 
 	/**
 	 * Creates a new list group element. List groups cannot have a name.
-	 * 
+	 *
 	 * @return a handle to the list group
 	 */
 
+	@Override
 	public ListGroupHandle newListGroup() {
 		ListGroupHandle handle = factory.newListGroup();
 		try {

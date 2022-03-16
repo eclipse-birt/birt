@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -84,10 +87,12 @@ public class DNDService implements IRegistryChangeListener {
 		for (Iterator iterator = this.dragAdapterList.iterator(); iterator.hasNext();) {
 			IDragAdapter dragAdapter = (IDragAdapter) iterator.next();
 			int result = dragAdapter.canDrag(object);
-			if (result == LOGIC_TRUE)
+			if (result == LOGIC_TRUE) {
 				return true;
-			if (result == LOGIC_FALSE)
+			}
+			if (result == LOGIC_FALSE) {
 				return false;
+			}
 		}
 		return false;
 	}
@@ -97,8 +102,9 @@ public class DNDService implements IRegistryChangeListener {
 		for (Iterator iterator = this.dragAdapterList.iterator(); iterator.hasNext();) {
 			IDragAdapter dragAdapter = (IDragAdapter) iterator.next();
 			int result = dragAdapter.canDrag(object);
-			if (result == LOGIC_TRUE)
+			if (result == LOGIC_TRUE) {
 				return dragAdapter.getDragTransfer(object);
+			}
 		}
 		return null;
 	}
@@ -113,10 +119,12 @@ public class DNDService implements IRegistryChangeListener {
 		for (Iterator iterator = this.dropAdapterList.iterator(); iterator.hasNext();) {
 			IDropAdapter dropAdapter = (IDropAdapter) iterator.next();
 			int result = dropAdapter.canDrop(transfer, target, operation, location);
-			if (result == LOGIC_TRUE)
+			if (result == LOGIC_TRUE) {
 				return true;
-			if (result == LOGIC_FALSE)
+			}
+			if (result == LOGIC_FALSE) {
 				return false;
+			}
 		}
 		return false;
 	}
@@ -131,15 +139,16 @@ public class DNDService implements IRegistryChangeListener {
 		for (Iterator iterator = this.dropAdapterList.iterator(); iterator.hasNext();) {
 			IDropAdapter dropAdapter = (IDropAdapter) iterator.next();
 			int result = dropAdapter.canDrop(transfer, target, operation, location);
-			if (result == LOGIC_TRUE)
+			if (result == LOGIC_TRUE) {
 				return dropAdapter.performDrop(transfer, target, operation, location);
+			}
 		}
 		return false;
 	}
 
 	/**
 	 * Adapt object to DesignElementHandle or PropertyHandle if it can.
-	 * 
+	 *
 	 * @param adapter
 	 * @return
 	 */
@@ -149,18 +158,19 @@ public class DNDService implements IRegistryChangeListener {
 			// if first one can adapt, then adapt whole array
 			if (adaptObject(adapters[0]) != adapters[0]) {
 				Object[] array = new Object[adapters.length];
-				for (int i = 0; i < array.length; i++)
+				for (int i = 0; i < array.length; i++) {
 					array[i] = adaptObject(adapters[i]);
+				}
 				return array;
 			}
-		} else {
-			if (adapter instanceof IAdaptable) {
-				Object object = ((IAdaptable) adapter).getAdapter(DesignElementHandle.class);
-				if (object != null)
-					return object;
-				object = ((IAdaptable) adapter).getAdapter(PropertyHandle.class);
-				if (object != null)
-					return object;
+		} else if (adapter instanceof IAdaptable) {
+			Object object = ((IAdaptable) adapter).getAdapter(DesignElementHandle.class);
+			if (object != null) {
+				return object;
+			}
+			object = ((IAdaptable) adapter).getAdapter(PropertyHandle.class);
+			if (object != null) {
+				return object;
 			}
 		}
 		return adapter;
@@ -170,20 +180,21 @@ public class DNDService implements IRegistryChangeListener {
 	 * public void addDNDAdapter( IDNDAdapter adapter, int priority ) {
 	 * this.adapterList.add( getIndex( priority ), adapter );
 	 * this.adapterPriorityMap.put( adapter, "" + priority ); }
-	 * 
+	 *
 	 * private int getIndex( int priority ) { int index = 0; for ( Iterator iterator
 	 * = this.adapterPriorityMap.entrySet( ) .iterator( ); iterator.hasNext( ); ) {
 	 * Map.Entry entry = (Map.Entry) iterator.next( ); if ( Integer.parseInt(
 	 * entry.getValue( ).toString( ) ) > priority ) index++; } return index; }
-	 * 
+	 *
 	 * public void removeDNDAdapter( IDNDAdapter adapter ) {
 	 * this.adapterList.remove( adapter ); }
-	 * 
+	 *
 	 * private IDNDAdapter getAdapter( final Object object ) { for ( Iterator iter =
 	 * this.adapterList.iterator( ); iter.hasNext( ); ) { IDNDAdapter adapter =
 	 * (IDNDAdapter) iter.next( ); if ( adapter.capable( object ) ) return adapter;
 	 * } return null; }
 	 */
+	@Override
 	public void registryChanged(IRegistryChangeEvent event) {
 		IExtensionDelta[] deltas = event.getExtensionDeltas("org.eclipse.birt.report.designer.ui", //$NON-NLS-1$
 				"DNDServices"); //$NON-NLS-1$
@@ -235,11 +246,6 @@ public class DNDService implements IRegistryChangeListener {
 	private void removeRegistry(IExtensionPoint extensionPoint) {
 		// TODO Auto-generated method stub
 
-	}
-
-	private int getPriority(String attribute) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	// private List getAdapters( final Object object )

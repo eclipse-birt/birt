@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -33,7 +36,7 @@ public class ReportParameters extends ScriptableObject {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param module
 	 */
 	public ReportParameters(Map parameters, Scriptable scope) {
@@ -45,6 +48,7 @@ public class ReportParameters extends ScriptableObject {
 	/*
 	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 	 */
+	@Override
 	public String getClassName() {
 		return JS_CLASS_NAME;
 	}
@@ -53,9 +57,11 @@ public class ReportParameters extends ScriptableObject {
 	 * @see org.mozilla.javascript.ScriptableObject#has(java.lang.String,
 	 * org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	public boolean has(String name, Scriptable start) {
-		if (parameters.containsKey(name))
+		if (parameters.containsKey(name)) {
 			return true;
+		}
 		return false;
 	}
 
@@ -63,9 +69,11 @@ public class ReportParameters extends ScriptableObject {
 	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
 	 * org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	public Object get(String name, Scriptable start) {
-		if (name.equals(LENGTH_VALUE))
+		if (name.equals(LENGTH_VALUE)) {
 			return Integer.valueOf(parameters.size());
+		}
 
 		Object result = getScriptableParameter(name);
 		if (result == null) {
@@ -79,6 +87,7 @@ public class ReportParameters extends ScriptableObject {
 	 * <li>params["a"] = params["b"]
 	 * <li>params["a"] = "value"
 	 */
+	@Override
 	public void put(String name, Scriptable start, Object value) {
 		DummyParameterAttribute attr = (DummyParameterAttribute) parameters.get(name);
 		if (attr == null) {
@@ -104,7 +113,7 @@ public class ReportParameters extends ScriptableObject {
 
 	/**
 	 * Get <code>ReportParameter</code> object
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */

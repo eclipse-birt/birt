@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.build;
 
 import java.io.File;
@@ -9,7 +21,7 @@ import java.util.jar.JarFile;
 
 public class ExportManifestUtils {
 	static int package_count = 0;
-	static final String[] API_JAR_PATTERNS = new String[] { "chartengineapi.jar", "com.ibm.icu.*.jar",
+	static final String[] API_JAR_PATTERNS = { "chartengineapi.jar", "com.ibm.icu.*.jar",
 			"org.apache.commons.codec_.*.jar", "coreapi.jar", "dataaggregationapi.jar", "dataadapterapi.jar",
 			"dteapi.jar", "engineapi.jar", "emitterconfig.jar", "flute.jar", "js.jar", "modelapi.jar",
 			"crosstabcoreapi.jar", "dataextraction.jar", "chartitemapi.jar", "org.eclipse.emf.common_.*.jar",
@@ -17,7 +29,7 @@ public class ExportManifestUtils {
 			"scriptapi.jar", "modelodaapi.jar", "odadesignapi.jar", "javax.servlet_.*.jar", "chartexamplescoreapi.jar",
 			"javax.servlet.jsp_.*.jar", "org.eclipse.birt.axis.overlay_.*.jar" };
 
-	static final Boolean[] API_JAR_VERSIONS = new Boolean[] { false, // "chartengineapi.jar",
+	static final Boolean[] API_JAR_VERSIONS = { false, // "chartengineapi.jar",
 			true, // "com.ibm.icu.*.jar",
 			false, // "org.apache.commons.codec_.*.jar",
 			false, // "coreapi.jar",
@@ -144,8 +156,9 @@ public class ExportManifestUtils {
 	}
 
 	static void countEntry(Entry entry, String prefix) {
-		if (entry.hasFiles && !entry.name.equals("META-INF") && prefix != "")
+		if (entry.hasFiles && !entry.name.equals("META-INF") && prefix != "") {
 			package_count++;
+		}
 
 		if (entry.children.size() > 0) {
 			if (prefix != null && prefix.length() != 0) {
@@ -171,9 +184,9 @@ public class ExportManifestUtils {
 				output = output + prefix + "." + entry.name;
 			}
 
-			if (package_count == 0)
+			if (package_count == 0) {
 				System.out.println(output);
-			else if (!output.trim().startsWith("META-INF")) {
+			} else if (!output.trim().startsWith("META-INF")) {
 				System.out.println(output + ",");
 			}
 
@@ -197,8 +210,9 @@ public class ExportManifestUtils {
 			String name = entry.getName();
 			// System.out.println("crateEntry entry name: " + name);
 			String[] names = name.split("/");
-			if (names[0].equals("MATA-INF"))
+			if (names[0].equals("MATA-INF")) {
 				return;
+			}
 			for (int i = 0; i < names.length; i++) {
 				root = createEntry(root, names[i]);
 			}

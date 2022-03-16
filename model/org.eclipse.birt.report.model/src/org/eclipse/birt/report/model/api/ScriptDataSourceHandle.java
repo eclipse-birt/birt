@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,8 +27,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSourceModel;
  * fails.
  * <li>Close: drop the connection to the external system.
  * </ul>
- * 
- * 
+ *
+ *
  * @see org.eclipse.birt.report.model.elements.ScriptDataSource
  */
 
@@ -33,7 +36,7 @@ public class ScriptDataSourceHandle extends DataSourceHandle implements IScriptD
 
 	/**
 	 * Constructs a handle for script data source.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the script data source element
 	 */
@@ -44,7 +47,7 @@ public class ScriptDataSourceHandle extends DataSourceHandle implements IScriptD
 
 	/**
 	 * Sets the script for opening data connection.
-	 * 
+	 *
 	 * @param value the script to set.
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -55,7 +58,7 @@ public class ScriptDataSourceHandle extends DataSourceHandle implements IScriptD
 
 	/**
 	 * Returns the script name for opening data connection.
-	 * 
+	 *
 	 * @return the script name for opening data connection.
 	 */
 
@@ -65,7 +68,7 @@ public class ScriptDataSourceHandle extends DataSourceHandle implements IScriptD
 
 	/**
 	 * Sets the script name for closing data connection.
-	 * 
+	 *
 	 * @param value the script name to set.
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -76,7 +79,7 @@ public class ScriptDataSourceHandle extends DataSourceHandle implements IScriptD
 
 	/**
 	 * Returns the script name for closing data connection.
-	 * 
+	 *
 	 * @return the script name for closing data connection.
 	 */
 

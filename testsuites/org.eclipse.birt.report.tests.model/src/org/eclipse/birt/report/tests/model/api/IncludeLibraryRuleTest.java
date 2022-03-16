@@ -1,13 +1,25 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.api;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * TestCases for Rule to include library.
@@ -15,48 +27,48 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
- * 
+ *
  * <tr>
  * <td>{@link #testIncludeLibraryRule1()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testIncludeLibraryRule2()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testIncludeLibraryRule3()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testIncludeLibraryRule4()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testIncludeLibraryRule5()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testIncludeLibraryRule6()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testIncludeLibraryRule7()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testIncludeLibraryRule8()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testIncludeLibraryRule9()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testIncludeLibraryRule10()}</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class IncludeLibraryRuleTest extends BaseTestCase {
 
@@ -79,6 +91,7 @@ public class IncludeLibraryRuleTest extends BaseTestCase {
 		return new TestSuite(IncludeLibraryRuleTest.class);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -90,12 +103,13 @@ public class IncludeLibraryRuleTest extends BaseTestCase {
 		copyInputToFile(INPUT_FOLDER + "/" + LibC);
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testIncludeLibraryRule1() throws Exception {

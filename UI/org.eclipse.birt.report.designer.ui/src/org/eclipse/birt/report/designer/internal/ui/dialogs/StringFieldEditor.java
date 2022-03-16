@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -12,8 +15,8 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -38,7 +41,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	/**
 	 * Validation strategy constant (value <code>0</code>) indicating that the
 	 * editor should perform validation after every key stroke.
-	 * 
+	 *
 	 * @see #setValidateStrategy
 	 */
 	public static final int VALIDATE_ON_KEY_STROKE = 0;
@@ -46,7 +49,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	/**
 	 * Validation strategy constant (value <code>1</code>) indicating that the
 	 * editor should perform validation only when the text widget loses focus.
-	 * 
+	 *
 	 * @see #setValidateStrategy
 	 */
 	public static final int VALIDATE_ON_FOCUS_LOST = 1;
@@ -106,7 +109,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	/**
 	 * Creates a string field editor. Use the method <code>setTextLimit</code> to
 	 * limit the text.
-	 * 
+	 *
 	 * @param name      the name of the preference this field editor works on
 	 * @param labelText the label text of the field editor
 	 * @param width     the width of the text input field in characters, or
@@ -130,7 +133,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	/**
 	 * Creates a string field editor. Use the method <code>setTextLimit</code> to
 	 * limit the text.
-	 * 
+	 *
 	 * @param name      the name of the preference this field editor works on
 	 * @param labelText the label text of the field editor
 	 * @param width     the width of the text input field in characters, or
@@ -144,7 +147,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	/**
 	 * Creates a string field editor of unlimited width. Use the method
 	 * <code>setTextLimit</code> to limit the text.
-	 * 
+	 *
 	 * @param name      the name of the preference this field editor works on
 	 * @param labelText the label text of the field editor
 	 * @param parent    the parent of the field editor's control
@@ -156,6 +159,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	protected void adjustForNumColumns(int numColumns) {
 		GridData gd = (GridData) textField.getLayoutData();
 		gd.horizontalSpan = numColumns - 1;
@@ -167,14 +171,15 @@ public class StringFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Checks whether the text input field contains a valid value or not.
-	 * 
+	 *
 	 * @return <code>true</code> if the field value is valid, and <code>false</code>
 	 *         if invalid
 	 */
 	protected boolean checkState() {
-		boolean result = false;
-		if (emptyStringAllowed)
+		boolean result;
+		if (emptyStringAllowed) {
 			result = true;
+		}
 
 		if (textField == null) {
 			return false;
@@ -191,10 +196,11 @@ public class StringFieldEditor extends AbstractFieldEditor {
 		// call hook for subclasses
 		result = result && doCheckState();
 
-		if (result)
+		if (result) {
 			clearErrorMessage();
-		else
+		} else {
 			showErrorMessage(errorMessage);
+		}
 
 		return result;
 	}
@@ -206,7 +212,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	 * <code>true</code>. Subclasses should override this method to specific state
 	 * checks.
 	 * </p>
-	 * 
+	 *
 	 * @return <code>true</code> if the field value is valid, and <code>false</code>
 	 *         if invalid
 	 */
@@ -222,6 +228,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	 * <code>super.doFillIntoGrid</code>.
 	 * </p>
 	 */
+	@Override
 	protected void doFillIntoGrid(Composite parent, int numColumns) {
 		getLabelControl(parent);
 
@@ -246,6 +253,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	protected void doLoad() {
 		if (textField != null) {
 			String value = getPreferenceStore().getString(getPreferenceName());
@@ -259,6 +267,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	protected void doLoadDefault() {
 		if (textField != null) {
 			String value = getPreferenceStore().getDefaultString(getPreferenceName());
@@ -271,7 +280,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Returns the error message that will be displayed when and if an error occurs.
-	 * 
+	 *
 	 * @return the error message, or <code>null</code> if none
 	 */
 	public String getErrorMessage() {
@@ -281,18 +290,20 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	public int getNumberOfControls() {
 		return 2;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor#
 	 * getValue()
 	 */
 
+	@Override
 	public String getStringValue() {
 		if (textField != null) {
 			return textField.getText();
@@ -302,7 +313,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Returns this field editor's text control.
-	 * 
+	 *
 	 * @return the text control, or <code>null</code> if no text field is created
 	 *         yet
 	 */
@@ -315,7 +326,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	 * <p>
 	 * The control is created if it does not yet exist
 	 * </p>
-	 * 
+	 *
 	 * @param parent the parent
 	 * @return the text control
 	 */
@@ -329,10 +340,11 @@ public class StringFieldEditor extends AbstractFieldEditor {
 
 					/*
 					 * (non-Javadoc)
-					 * 
+					 *
 					 * @see org.eclipse.swt.events.KeyAdapter#keyReleased(org.eclipse.swt.events.
 					 * KeyEvent)
 					 */
+					@Override
 					public void keyReleased(KeyEvent e) {
 						valueChanged();
 					}
@@ -342,16 +354,19 @@ public class StringFieldEditor extends AbstractFieldEditor {
 			case VALIDATE_ON_FOCUS_LOST:
 				textField.addKeyListener(new KeyAdapter() {
 
+					@Override
 					public void keyPressed(KeyEvent e) {
 						clearErrorMessage();
 					}
 				});
 				textField.addFocusListener(new FocusAdapter() {
 
+					@Override
 					public void focusGained(FocusEvent e) {
 						refreshValidState();
 					}
 
+					@Override
 					public void focusLost(FocusEvent e) {
 						valueChanged();
 						clearErrorMessage();
@@ -363,6 +378,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 			}
 			textField.addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					textField = null;
 				}
@@ -378,7 +394,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Returns whether an empty string is a valid value.
-	 * 
+	 *
 	 * @return <code>true</code> if an empty string is a valid value, and
 	 *         <code>false</code> if an empty string is invalid
 	 * @see #setEmptyStringAllowed
@@ -390,6 +406,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	public boolean isValid() {
 		return isValid;
 	}
@@ -397,13 +414,14 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	protected void refreshValidState() {
 		isValid = checkState();
 	}
 
 	/**
 	 * Sets whether the empty string is a valid value or not.
-	 * 
+	 *
 	 * @param b <code>true</code> if the empty string is allowed, and
 	 *          <code>false</code> if it is considered invalid
 	 */
@@ -413,7 +431,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Sets the error message that will be displayed when and if an error occurs.
-	 * 
+	 *
 	 * @param message the error message
 	 */
 	public void setErrorMessage(String message) {
@@ -423,6 +441,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	public void setFocus() {
 		if (textField != null) {
 			textField.setFocus();
@@ -431,13 +450,14 @@ public class StringFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Sets this field editor's value.
-	 * 
+	 *
 	 * @param value the new value, or <code>null</code> meaning the empty string
 	 */
 	public void setStringValue(String value) {
 		if (textField != null) {
-			if (value == null)
+			if (value == null) {
 				value = "";//$NON-NLS-1$
+			}
 			oldValue = textField.getText();
 			if (!oldValue.equals(value)) {
 				textField.setText(value);
@@ -448,15 +468,16 @@ public class StringFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Sets this text field's text limit.
-	 * 
+	 *
 	 * @param limit the limit on the number of character in the text input field, or
 	 *              <code>UNLIMITED</code> for no limit
-	 * 
+	 *
 	 */
 	public void setTextLimit(int limit) {
 		textLimit = limit;
-		if (textField != null)
+		if (textField != null) {
 			textField.setTextLimit(limit);
+		}
 	}
 
 	/**
@@ -467,7 +488,7 @@ public class StringFieldEditor extends AbstractFieldEditor {
 	 * their constructor. However, it has public visibility for backward
 	 * compatibility.
 	 * </p>
-	 * 
+	 *
 	 * @param value either <code>VALIDATE_ON_KEY_STROKE</code> to perform on the fly
 	 *              checking (the default), or <code>VALIDATE_ON_FOCUS_LOST</code>
 	 *              to perform validation only after the text has been typed in
@@ -498,14 +519,16 @@ public class StringFieldEditor extends AbstractFieldEditor {
 		boolean oldState = isValid;
 		refreshValidState();
 
-		if (isValid != oldState)
+		if (isValid != oldState) {
 			fireStateChanged(IS_VALID, oldState, isValid);
+		}
 		valueChanged(VALUE);
 	}
 
 	/*
 	 * @see FieldEditor.setEnabled(boolean,Composite).
 	 */
+	@Override
 	public void setEnabled(boolean enabled, Composite parent) {
 		super.setEnabled(enabled, parent);
 		getTextControl(parent).setEnabled(enabled);

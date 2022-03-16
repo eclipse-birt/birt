@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +23,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * add comment here
- * 
+ *
  */
 public class EditorRulerLayout extends XYLayout {
 
@@ -28,6 +31,7 @@ public class EditorRulerLayout extends XYLayout {
 	 * @see org.eclipse.draw2d.AbstractLayout#calculatePreferredSize(org.eclipse.draw2d.IFigure,
 	 *      int, int)
 	 */
+	@Override
 	protected Dimension calculatePreferredSize(IFigure container, int wHint, int hHint) {
 		return new Dimension(1, 1);
 	}
@@ -35,6 +39,7 @@ public class EditorRulerLayout extends XYLayout {
 	/**
 	 * @see org.eclipse.draw2d.AbstractLayout#getConstraint(org.eclipse.draw2d.IFigure)
 	 */
+	@Override
 	public Object getConstraint(IFigure child) {
 		return constraints.get(child);
 	}
@@ -42,6 +47,7 @@ public class EditorRulerLayout extends XYLayout {
 	/**
 	 * @see org.eclipse.draw2d.LayoutManager#layout(org.eclipse.draw2d.IFigure)
 	 */
+	@Override
 	public void layout(IFigure container) {
 		List children = container.getChildren();
 		Rectangle rulerSize = container.getClientArea();

@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -102,7 +105,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
  * <p>
  * This class may be instantiated; it is not intended to be subclassed.
  * </p>
- * 
+ *
  * @see IPropertySource
  */
 public class ReportPropertySheetPage extends Page implements IPropertySheetPage, Listener, IMediatorColleague {
@@ -169,10 +172,11 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite )
 	 */
+	@Override
 	public void createControl(Composite parent) {
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -232,7 +236,8 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 		IWorkbenchPage page = getSite().getPage();
 
 		MementoBuilder builder = new MementoBuilder();
-		if ((propertySheetMemento = builder.getRootMemento().getChild(IPageLayout.ID_PROP_SHEET)) == null) {
+		propertySheetMemento = builder.getRootMemento().getChild(IPageLayout.ID_PROP_SHEET);
+		if (propertySheetMemento == null) {
 			propertySheetMemento = builder.getRootMemento().createChild(IPageLayout.ID_PROP_SHEET,
 					MementoElement.Type_View);
 		}
@@ -246,7 +251,7 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void expandToDefaultLevel() {
 		// open the root node by default
@@ -259,17 +264,21 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 	private void createEditorListener() {
 		editorListener = new ICellEditorListener() {
 
+			@Override
 			public void cancelEditor() {
 				deactivateCellEditor();
 			}
 
+			@Override
 			public void editorValueChanged(boolean oldValidState, boolean newValidState) {
 			}
 
+			@Override
 			public void applyEditorValue() {
 				applyValue();
-				if (changed)
+				if (changed) {
 					refresh();
+				}
 			}
 		};
 	}
@@ -283,6 +292,7 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 		// activation
 		tableTree.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 				handleSelect((TreeItem) e.item);
@@ -291,6 +301,7 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 		// Part2: handle single click activation of cell editor
 		tableTree.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDown(MouseEvent event) {
 				// only activate if there is a cell editor
 				Point pt = new Point(event.x, event.y);
@@ -298,18 +309,20 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 				if (item != null) {
 					if (tableTree.getColumn(0).getWidth() < event.x) {
 						handleSelect(item);
-					} else
+					} else {
 						saveSelection(item);
+					}
 				}
 			}
 		});
 
 		tableTree.addKeyListener(new KeyAdapter() {
 
+			@Override
 			public void keyReleased(KeyEvent e) {
-				if (e.character == SWT.ESC)
+				if (e.character == SWT.ESC) {
 					deactivateCellEditor();
-				else if (e.keyCode == SWT.F5) {
+				} else if (e.keyCode == SWT.F5) {
 					// Refresh the table when F5 pressed
 					// The following will simulate a reselect
 					viewer.setInput(viewer.getInput());
@@ -320,6 +333,7 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 
+			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 				Object element = selection.getFirstElement();
@@ -327,12 +341,14 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 				if (viewer.isExpandable(element)) {
 					viewer.setExpandedState(element, !viewer.getExpandedState(element));
 					int style = SWT.Expand;
-					if (!viewer.getExpandedState(element))
+					if (!viewer.getExpandedState(element)) {
 						style = SWT.Collapse;
+					}
 					Event e = new Event();
 					e.widget = tableTree;
-					if (tableTree.getSelectionCount() > 0)
+					if (tableTree.getSelectionCount() > 0) {
 						e.item = tableTree.getSelection()[0];
+					}
 					tableTree.notifyListeners(style, e);
 				}
 			}
@@ -340,6 +356,7 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 
 		treeListener = new TreeListener() {
 
+			@Override
 			public void treeCollapsed(TreeEvent e) {
 				if (e.item instanceof TreeItem) {
 					TreeItem item = (TreeItem) e.item;
@@ -360,6 +377,7 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 				}
 			}
 
+			@Override
 			public void treeExpanded(TreeEvent e) {
 				if (e.item instanceof TreeItem) {
 					TreeItem item = (TreeItem) e.item;
@@ -393,8 +411,9 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 				if (parent.getItem(i) == item) {
 					MementoElement memento = new MementoElement(item.getText(), Integer.valueOf(i),
 							MementoElement.Type_Element);
-					if (tempMemento != null)
+					if (tempMemento != null) {
 						memento.addChild(tempMemento);
+					}
 					tempMemento = memento;
 					item = parent;
 					break;
@@ -402,8 +421,9 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 			}
 		}
 		MementoElement memento = new MementoElement(item.getText(), Integer.valueOf(0), MementoElement.Type_Element);
-		if (tempMemento != null)
+		if (tempMemento != null) {
 			memento.addChild(tempMemento);
+		}
 		return PropertyMementoUtil.getNodePath(memento);
 	}
 
@@ -433,8 +453,9 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 		if (cellEditor != null) {
 			cellEditor.deactivate();
 			applyValue();
-			if (cellEditor != null)
+			if (cellEditor != null) {
 				cellEditor.removeListener(editorListener);
+			}
 			cellEditor = null;
 		}
 	}
@@ -450,7 +471,7 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 		}
 
 		// get the new selection
-		TreeItem[] sel = new TreeItem[] { selection };
+		TreeItem[] sel = { selection };
 		if (sel.length == 0) {
 
 		} else {
@@ -478,7 +499,7 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void applyValue() {
 		if (cellEditor == null || !cellEditor.isDirty()) {
@@ -490,11 +511,11 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 				GroupPropertyHandle handle = ((GroupPropertyHandleWrapper) model).getModel();
 
 				if (cellEditor.getValue() instanceof String) {
-					if (handle.getStringValue() != null && handle.getStringValue().equals(cellEditor.getValue()))
+					if (handle.getStringValue() != null && handle.getStringValue().equals(cellEditor.getValue())) {
 						return;
-				} else {
-					if (handle.getValue() != null && handle.getValue().equals(cellEditor.getValue()))
-						return;
+					}
+				} else if (handle.getValue() != null && handle.getValue().equals(cellEditor.getValue())) {
+					return;
 				}
 
 				handle.setValue(cellEditor.getValue());
@@ -519,8 +540,9 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 	 */
 	private void activateCellEditor(TreeItem sel) {
 
-		if (sel.isDisposed())
+		if (sel.isDisposed()) {
 			return;
+		}
 		model = sel.getData();
 
 		// ensure the cell editor is visible
@@ -528,9 +550,10 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 
 		cellEditor = createCellEditor(model);
 
-		if (cellEditor == null)
+		if (cellEditor == null) {
 			// unable to create the editor
 			return;
+		}
 
 		// set the created editor as current editor
 		tableTreeEditor.setEditor(cellEditor.getControl());
@@ -600,25 +623,26 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.IPage#getControl()
 	 */
+	@Override
 	public Control getControl() {
-		if (container == null)
-			return null;
 		return container;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.IPage#setFocus()
 	 */
+	@Override
 	public void setFocus() {
 		getControl().setFocus();
 
-		if (changed)
+		if (changed) {
 			refresh();
+		}
 
 	}
 
@@ -646,6 +670,7 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 
 			Display.getDefault().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					if (!viewer.getTree().isDisposed()) {
 						// deactivateCellEditor( );
@@ -664,18 +689,21 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 						} else if (memento instanceof Memento) {
 							// expandToDefaultLevel( );
 
-							if (treeListener != null)
+							if (treeListener != null) {
 								viewer.getTree().removeTreeListener(treeListener);
+							}
 							if (provider.getViewMode() != oldViewMode) {
 								viewer.getTree().removeAll();
 								oldViewMode = provider.getViewMode();
 							}
 							expandToDefaultLevel();
-							if (treeListener != null)
+							if (treeListener != null) {
 								viewer.getTree().addTreeListener(treeListener);
+							}
 
-							if (provider.getViewMode() == ReportPropertySheetContentProvider.MODE_GROUPED)
+							if (provider.getViewMode() == ReportPropertySheetContentProvider.MODE_GROUPED) {
 								expandTreeFromMemento((Memento) memento);
+							}
 
 							Object obj = ((Memento) memento).getMementoElement()
 									.getAttribute(MementoElement.ATTRIBUTE_SELECTED);
@@ -695,8 +723,9 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 
 	private String getInputElementType() {
 		GroupElementHandle handle = (GroupElementHandle) viewer.getInput();
-		if (handle == null || handle.getElements().size() == 0)
+		if (handle == null || handle.getElements().size() == 0) {
 			return null;
+		}
 		Object obj = handle.getElements().get(0);
 		if (obj instanceof DesignElementHandle) {
 			return PropertyMementoUtil.getElementType((DesignElementHandle) obj);
@@ -704,6 +733,7 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 		return null;
 	}
 
+	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		deactivateCellEditor();
 
@@ -724,21 +754,23 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.
 	 * IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void handleSelectionChanged(ISelection selection) {
-		if (this.selection != null && this.selection.equals(selection))
+		if (this.selection != null && this.selection.equals(selection)) {
 			return;
+		}
 
 		deactivateCellEditor();
 
 		this.selection = selection;
 		deRegisterListeners();
 
-		if (treeListener != null)
+		if (treeListener != null) {
 			viewer.getTree().removeTreeListener(treeListener);
+		}
 
 		list = getModelList(selection);
 
@@ -760,20 +792,23 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 	}
 
 	private void expandTreeFromMemento(Memento memento) {
-		if (viewer.getTree().getItemCount() == 0)
+		if (viewer.getTree().getItemCount() == 0) {
 			return;
+		}
 		TreeItem root = viewer.getTree().getItem(0);
 		if (memento.getMementoElement().getKey().equals(root.getText())) {
 			restoreExpandedMemento(root, memento.getMementoElement());
 			Object obj = memento.getMementoElement().getAttribute(MementoElement.ATTRIBUTE_SELECTED);
-			if (obj != null)
+			if (obj != null) {
 				restoreSelectedMemento(root, (MementoElement[]) obj);
+			}
 		}
 	}
 
 	private void restoreSelectedMemento(TreeItem root, MementoElement[] selectedPath) {
-		if (selectedPath.length <= 1)
+		if (selectedPath.length <= 1) {
 			return;
+		}
 
 		for (int i = 1; i < selectedPath.length; i++) {
 			MementoElement element = selectedPath[i];
@@ -783,8 +818,9 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 			}
 			if (root.getItemCount() > ((Integer) element.getValue()).intValue()) {
 				root = root.getItem(((Integer) element.getValue()).intValue());
-			} else
+			} else {
 				return;
+			}
 		}
 		viewer.getTree().setSelection(root);
 
@@ -792,11 +828,13 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 
 	private void restoreExpandedMemento(TreeItem root, MementoElement memento) {
 		if (memento.getKey().equals(root.getText())) {
-			if (!root.getExpanded())
+			if (!root.getExpanded()) {
 				viewer.createChildren(root);
+			}
 			if (root.getItemCount() > 0) {
-				if (!root.getExpanded())
+				if (!root.getExpanded()) {
 					root.setExpanded(true);
+				}
 				MementoElement[] children = memento.getChildren();
 				for (int i = 0; i < children.length; i++) {
 					MementoElement child = children[i];
@@ -834,11 +872,10 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 	 * @return
 	 */
 	private List<Object> getModelList(ISelection selection) {
-		List<Object> list = new ArrayList<Object>();
-		if (selection == null)
+		List<Object> list = new ArrayList<>();
+		if ((selection == null) || !(selection instanceof StructuredSelection)) {
 			return list;
-		if (!(selection instanceof StructuredSelection))
-			return list;
+		}
 
 		StructuredSelection structured = (StructuredSelection) selection;
 		if (structured.getFirstElement() instanceof ReportElementEditPart) {
@@ -855,17 +892,19 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 		} else {
 			list = structured.toList();
 			if (list != null && list.size() > 0) {
-				List<Object> modelList = new ArrayList<Object>();
+				List<Object> modelList = new ArrayList<>();
 				for (int i = 0; i < list.size(); i++) {
 					Object obj = list.get(i);
 					if (obj instanceof IAdaptable) {
 						Object realModel = ((IAdaptable) obj).getAdapter(DesignElementHandle.class);
-						if (realModel != null)
+						if (realModel != null) {
 							modelList.add(realModel);
-						else
+						} else {
 							modelList.add(obj);
-					} else
+						}
+					} else {
 						modelList.add(obj);
+					}
 				}
 
 				list = modelList;
@@ -878,11 +917,13 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 	 * Removes model change listener.
 	 */
 	protected void deRegisterListeners() {
-		if (viewer == null)
+		if (viewer == null) {
 			return;
+		}
 		Object input = viewer.getInput();
-		if (input == null)
+		if (input == null) {
 			return;
+		}
 		if (input instanceof DesignElementHandle) {
 			DesignElementHandle element = (DesignElementHandle) input;
 			element.removeListener(this);
@@ -893,11 +934,13 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 	 * Registers model change listener to DE elements.
 	 */
 	protected void registerListeners() {
-		if (viewer == null)
+		if (viewer == null) {
 			return;
+		}
 		Object input = viewer.getInput();
-		if (input == null)
+		if (input == null) {
 			return;
+		}
 		if (input instanceof GroupElementHandle) {
 			GroupElementHandle element = (GroupElementHandle) input;
 			((DesignElementHandle) element.getElements().get(0)).addListener(this);
@@ -906,11 +949,12 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Listener#elementChanged(org.eclipse
 	 * .birt.report.model.api.DesignElementHandle,
 	 * org.eclipse.birt.report.model.activity.NotificationEvent)
 	 */
+	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 		if (!viewer.getTree().isDisposed()) {
 			refresh();
@@ -932,9 +976,10 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.IPage#dispose()
 	 */
+	@Override
 	public void dispose() {
 		// remove the mediator listener
 		IWorkbenchPage page = getSite().getPage();
@@ -948,36 +993,40 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 	 * Registers model change listener to DE elements.
 	 */
 	protected void unregisterListeners() {
-		if (viewer == null)
+		if (viewer == null) {
 			return;
+		}
 		Object input = viewer.getInput();
-		if (input == null)
+		if (input == null) {
 			return;
+		}
 		if (input instanceof GroupElementHandle) {
 			GroupElementHandle element = (GroupElementHandle) input;
 			((DesignElementHandle) element.getElements().get(0)).removeListener(this);
 		}
 	}
 
+	@Override
 	public boolean isInterested(IMediatorRequest request) {
 		return request instanceof ReportRequest;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.core.mediator.IMediatorColleague#
 	 * performRequest
 	 * (org.eclipse.birt.report.designer.core.mediator.IMediatorRequest)
 	 */
+	@Override
 	public void performRequest(IMediatorRequest request) {
 		if (ReportRequest.SELECTION.equals(request.getType())) {
 			// Remove null from the list. That fix the bug 139422
-			ArrayList<Object> selections = new ArrayList<Object>();
+			ArrayList<Object> selections = new ArrayList<>();
 			selections.add(null);
 			selections.addAll(((ReportRequest) request).getSelectionModelList());
 
-			ArrayList<Object> nullList = new ArrayList<Object>();
+			ArrayList<Object> nullList = new ArrayList<>();
 			nullList.add(null);
 			selections.removeAll(nullList);
 			// end
@@ -995,10 +1044,11 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 			super(parent, style);
 		}
 
+		@Override
 		public void createChildren(Widget widget) {
 			super.createChildren(widget);
 		}
-	};
+	}
 
 	/**
 	 * GroupSortingAction
@@ -1011,17 +1061,21 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 			setToolTipText(Messages.getString("ReportPropertySheetPage.Tooltip.Group")); //$NON-NLS-1$
 		}
 
+		@Override
 		public void run() {
 			updateSorting(ReportPropertySheetContentProvider.MODE_GROUPED);
 		}
 
+		@Override
 		public boolean isChecked() {
 			return provider.getViewMode() == ReportPropertySheetContentProvider.MODE_GROUPED;
 		}
 
+		@Override
 		public void setChecked(boolean check) {
-			if (provider.getViewMode() != ReportPropertySheetContentProvider.MODE_GROUPED)
+			if (provider.getViewMode() != ReportPropertySheetContentProvider.MODE_GROUPED) {
 				provider.setViewMode(ReportPropertySheetContentProvider.MODE_GROUPED);
+			}
 			firePropertyChange(CHECKED, null, null);
 		}
 	}
@@ -1037,17 +1091,21 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 			setToolTipText(Messages.getString("ReportPropertySheetPage.Tooltip.Alphabetic")); //$NON-NLS-1$
 		}
 
+		@Override
 		public void run() {
 			updateSorting(ReportPropertySheetContentProvider.MODE_ALPHABETIC);
 		}
 
+		@Override
 		public boolean isChecked() {
 			return provider.getViewMode() == ReportPropertySheetContentProvider.MODE_ALPHABETIC;
 		}
 
+		@Override
 		public void setChecked(boolean check) {
-			if (provider.getViewMode() != ReportPropertySheetContentProvider.MODE_ALPHABETIC)
+			if (provider.getViewMode() != ReportPropertySheetContentProvider.MODE_ALPHABETIC) {
 				provider.setViewMode(ReportPropertySheetContentProvider.MODE_ALPHABETIC);
+			}
 			firePropertyChange(CHECKED, null, null);
 		}
 	}
@@ -1064,17 +1122,21 @@ public class ReportPropertySheetPage extends Page implements IPropertySheetPage,
 			setToolTipText(Messages.getString("ReportPropertySheetPage.Tooltip.Local")); //$NON-NLS-1$
 		}
 
+		@Override
 		public void run() {
 			updateSorting(ReportPropertySheetContentProvider.MODE_LOCAL_ONLY);
 		}
 
+		@Override
 		public boolean isChecked() {
 			return provider.getViewMode() == ReportPropertySheetContentProvider.MODE_LOCAL_ONLY;
 		}
 
+		@Override
 		public void setChecked(boolean check) {
-			if (provider.getViewMode() != ReportPropertySheetContentProvider.MODE_LOCAL_ONLY)
+			if (provider.getViewMode() != ReportPropertySheetContentProvider.MODE_LOCAL_ONLY) {
 				provider.setViewMode(ReportPropertySheetContentProvider.MODE_LOCAL_ONLY);
+			}
 			firePropertyChange(CHECKED, null, null);
 		}
 	}

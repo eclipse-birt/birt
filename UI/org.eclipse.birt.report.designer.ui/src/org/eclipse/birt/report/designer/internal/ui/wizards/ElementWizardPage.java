@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,8 +23,8 @@ import org.eclipse.swt.widgets.Label;
 
 /**
  * Abstract super class of all element new/edit wizard page
- * 
- * 
+ *
+ *
  */
 
 public abstract class ElementWizardPage extends WizardPage {
@@ -30,7 +33,7 @@ public abstract class ElementWizardPage extends WizardPage {
 
 	/**
 	 * Creates a new wizard page with the given name, title, and image.
-	 * 
+	 *
 	 * @param pageName   the name of the page
 	 * @param title      the title for this wizard page, or <code>null</code> if
 	 *                   none
@@ -50,9 +53,10 @@ public abstract class ElementWizardPage extends WizardPage {
 	 * Implementors are responsible for ensuring that the created control can be
 	 * accessed via <code>getControl</code>
 	 * </p>
-	 * 
+	 *
 	 * @param parent the parent composite
 	 */
+	@Override
 	public void createControl(Composite composite) {
 		setControl(composite);
 		addListeners();
@@ -65,14 +69,14 @@ public abstract class ElementWizardPage extends WizardPage {
 
 	/**
 	 * Sets the content of the page
-	 * 
+	 *
 	 * @param model the model used to fill the page
 	 */
 	public abstract void setInput(Object model);
 
 	/**
 	 * Saves the result of the page
-	 * 
+	 *
 	 * @param model the model used to save
 	 */
 	public abstract void saveTo(Object model);
@@ -80,7 +84,7 @@ public abstract class ElementWizardPage extends WizardPage {
 	/**
 	 * Creates a separator line. Expects a <code>GridLayout</code> with at least 1
 	 * column.
-	 * 
+	 *
 	 * @param composite the parent composite
 	 * @param nColumns  number of columns to span
 	 * @param hWidth    the minimum width of the separator

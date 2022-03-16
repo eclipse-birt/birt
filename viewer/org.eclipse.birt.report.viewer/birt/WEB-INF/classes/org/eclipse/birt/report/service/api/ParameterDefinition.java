@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -15,7 +17,7 @@ import java.util.Collection;
 
 /**
  * Viewer representation of a parameter definition
- * 
+ *
  */
 public class ParameterDefinition {
 
@@ -161,6 +163,7 @@ public class ParameterDefinition {
 	 * @deprecated
 	 * @return
 	 */
+	@Deprecated
 	public boolean allowNull() {
 		return allowNull;
 	}
@@ -169,6 +172,7 @@ public class ParameterDefinition {
 	 * @deprecated
 	 * @return
 	 */
+	@Deprecated
 	public boolean allowBlank() {
 		return allowBlank;
 	}
@@ -204,16 +208,20 @@ public class ParameterDefinition {
 		return selectionList;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
-		if (name == null || !(obj instanceof ParameterDefinition))
+		if (name == null || !(obj instanceof ParameterDefinition)) {
 			return false;
+		}
 		ParameterDefinition other = (ParameterDefinition) obj;
 		return name.equals(other.getName());
 	}
 
+	@Override
 	public int hashCode() {
-		if (name == null)
+		if (name == null) {
 			return 0;
+		}
 		return name.hashCode();
 	}
 

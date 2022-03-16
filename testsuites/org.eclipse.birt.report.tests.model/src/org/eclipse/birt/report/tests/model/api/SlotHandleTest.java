@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.api;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
@@ -29,44 +29,47 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /**
  * Tests the paste and canContain methods in the SlotHandle.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testPaste()}</td>
  * <td>Tests paste a data-set to another design.</td>
  * <td>DataSource referred by the data-set was invalid.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Tests paste a data-set to the same design.</td>
  * <td>DataSource referred by the data-set was valid and the back references
  * were changed.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Tests paste a text item with a shared style to another design.</td>
  * <td>The share style referred by the text item was invalid.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Tests paste a text item with a shared style to the same design.</td>
  * <td>The shared style referred by the text item was valid and the back
  * references were changed.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 
 public class SlotHandleTest extends BaseTestCase {
@@ -86,10 +89,11 @@ public class SlotHandleTest extends BaseTestCase {
 	}
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		removeResource();
 		copyResource_INPUT(fileName, fileName);
@@ -98,6 +102,7 @@ public class SlotHandleTest extends BaseTestCase {
 		design = designHandle.getDesign();
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}

@@ -1,11 +1,13 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -39,9 +41,6 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 	protected int startDetailsRow = -1;
 	protected int endDetailsRow;
 
-	private ITableGroupContent currentGroup;
-	private ITableBandContent currentBand;
-
 	private BirtStyle tableStyle;
 	private AreaBorders borderDefn;
 
@@ -51,18 +50,21 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		super(log, parent, table);
 	}
 
+	@Override
 	public int getColumnCount() {
 		return ((ITableContent) this.element).getColumnCount();
 	}
 
+	@Override
 	public void addNestedTable(NestedTableHandler nestedTableHandler) {
 		if (nestedTables == null) {
-			nestedTables = new ArrayList<NestedTableHandler>();
+			nestedTables = new ArrayList<>();
 		}
 		log.debug("Adding nested table: ", nestedTableHandler);
 		nestedTables.add(nestedTableHandler);
 	}
 
+	@Override
 	public boolean rowHasNestedTable(int rowNum) {
 		if (nestedTables != null) {
 			for (NestedTableHandler nestedTableHandler : nestedTables) {
@@ -76,6 +78,7 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		return false;
 	}
 
+	@Override
 	public int extendRowBy(int rowNum) {
 		int offset = 1;
 		if (nestedTables != null) {
@@ -188,7 +191,6 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		if ((band.getBandType() == ITableBandContent.BAND_DETAIL) && (startDetailsRow < 0)) {
 			startDetailsRow = state.rowNum;
 		}
-		currentBand = band;
 	}
 
 	@Override
@@ -196,17 +198,14 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		if (band.getBandType() == ITableBandContent.BAND_DETAIL) {
 			endDetailsRow = state.rowNum - 1;
 		}
-		currentBand = null;
 	}
 
 	@Override
 	public void startTableGroup(HandlerState state, ITableGroupContent group) throws BirtException {
-		currentGroup = group;
 	}
 
 	@Override
 	public void endTableGroup(HandlerState state, ITableGroupContent group) throws BirtException {
-		currentGroup = null;
 	}
 
 }

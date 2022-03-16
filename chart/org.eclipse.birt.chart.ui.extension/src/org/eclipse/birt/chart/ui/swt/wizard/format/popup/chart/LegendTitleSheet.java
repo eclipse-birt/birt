@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,6 +51,7 @@ public class LegendTitleSheet extends AbstractPopupSheet implements Listener {
 		super(title, context, true);
 	}
 
+	@Override
 	protected Composite getComponent(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_LEGEND_TITLE);
 
@@ -84,10 +88,11 @@ public class LegendTitleSheet extends AbstractPopupSheet implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		if (event.widget.equals(lacTitle)) {
 			boolean isUnset = ChartUIExtensionUtil.PROPERTY_UNSET == event.detail;

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * GroupDetail.java
  *
@@ -33,7 +45,7 @@ public class GroupDetail implements java.io.Serializable {
 
 	/**
 	 * Gets the columnIdx value for this GroupDetail.
-	 * 
+	 *
 	 * @return columnIdx
 	 */
 	public int getColumnIdx() {
@@ -42,7 +54,7 @@ public class GroupDetail implements java.io.Serializable {
 
 	/**
 	 * Sets the columnIdx value for this GroupDetail.
-	 * 
+	 *
 	 * @param columnIdx
 	 */
 	public void setColumnIdx(int columnIdx) {
@@ -51,7 +63,7 @@ public class GroupDetail implements java.io.Serializable {
 
 	/**
 	 * Gets the groupOn value for this GroupDetail.
-	 * 
+	 *
 	 * @return groupOn
 	 */
 	public java.lang.String getGroupOn() {
@@ -60,7 +72,7 @@ public class GroupDetail implements java.io.Serializable {
 
 	/**
 	 * Sets the groupOn value for this GroupDetail.
-	 * 
+	 *
 	 * @param groupOn
 	 */
 	public void setGroupOn(java.lang.String groupOn) {
@@ -69,7 +81,7 @@ public class GroupDetail implements java.io.Serializable {
 
 	/**
 	 * Gets the createSection value for this GroupDetail.
-	 * 
+	 *
 	 * @return createSection
 	 */
 	public boolean isCreateSection() {
@@ -78,7 +90,7 @@ public class GroupDetail implements java.io.Serializable {
 
 	/**
 	 * Sets the createSection value for this GroupDetail.
-	 * 
+	 *
 	 * @param createSection
 	 */
 	public void setCreateSection(boolean createSection) {
@@ -87,7 +99,7 @@ public class GroupDetail implements java.io.Serializable {
 
 	/**
 	 * Gets the dataType value for this GroupDetail.
-	 * 
+	 *
 	 * @return dataType
 	 */
 	public int getDataType() {
@@ -96,7 +108,7 @@ public class GroupDetail implements java.io.Serializable {
 
 	/**
 	 * Sets the dataType value for this GroupDetail.
-	 * 
+	 *
 	 * @param dataType
 	 */
 	public void setDataType(int dataType) {
@@ -105,7 +117,7 @@ public class GroupDetail implements java.io.Serializable {
 
 	/**
 	 * Gets the intervalType value for this GroupDetail.
-	 * 
+	 *
 	 * @return intervalType
 	 */
 	public java.lang.Integer getIntervalType() {
@@ -114,7 +126,7 @@ public class GroupDetail implements java.io.Serializable {
 
 	/**
 	 * Sets the intervalType value for this GroupDetail.
-	 * 
+	 *
 	 * @param intervalType
 	 */
 	public void setIntervalType(java.lang.Integer intervalType) {
@@ -123,7 +135,7 @@ public class GroupDetail implements java.io.Serializable {
 
 	/**
 	 * Gets the intervalRange value for this GroupDetail.
-	 * 
+	 *
 	 * @return intervalRange
 	 */
 	public java.lang.Double getIntervalRange() {
@@ -132,7 +144,7 @@ public class GroupDetail implements java.io.Serializable {
 
 	/**
 	 * Sets the intervalRange value for this GroupDetail.
-	 * 
+	 *
 	 * @param intervalRange
 	 */
 	public void setIntervalRange(java.lang.Double intervalRange) {
@@ -141,7 +153,7 @@ public class GroupDetail implements java.io.Serializable {
 
 	/**
 	 * Gets the intervalBase value for this GroupDetail.
-	 * 
+	 *
 	 * @return intervalBase
 	 */
 	public java.lang.String getIntervalBase() {
@@ -150,7 +162,7 @@ public class GroupDetail implements java.io.Serializable {
 
 	/**
 	 * Sets the intervalBase value for this GroupDetail.
-	 * 
+	 *
 	 * @param intervalBase
 	 */
 	public void setIntervalBase(java.lang.String intervalBase) {
@@ -159,14 +171,18 @@ public class GroupDetail implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof GroupDetail))
+		if (!(obj instanceof GroupDetail)) {
 			return false;
+		}
 		GroupDetail other = (GroupDetail) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -188,6 +204,7 @@ public class GroupDetail implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

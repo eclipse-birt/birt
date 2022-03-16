@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,6 +27,7 @@ public class ProgressiveViewingTest extends EngineCase {
 	static final String REPORT_DESIGN = "progressive_viewing.rptdesign";
 	static final String REPORT_DOCUMENT = "./reportdocument";
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeFile(REPORT_DOCUMENT);
@@ -31,6 +35,7 @@ public class ProgressiveViewingTest extends EngineCase {
 		copyResource(REPORT_DESIGN_RESOURCE, REPORT_DESIGN);
 	}
 
+	@Override
 	public void tearDown() throws Exception {
 		removeFile(REPORT_DESIGN);
 		removeFile(REPORT_DOCUMENT);
@@ -76,7 +81,6 @@ public class ProgressiveViewingTest extends EngineCase {
 			ex.printStackTrace();
 			fail();
 		}
-		;
 
 	}
 
@@ -100,9 +104,10 @@ public class ProgressiveViewingTest extends EngineCase {
 		RenderTaskTrigger() {
 		}
 
+		@Override
 		public void onPage(int pageNumber, boolean checkpoint, IReportDocumentInfo doc) {
 			try {
-				if (checkpoint == true) {
+				if (checkpoint) {
 					IReportDocument reportDocument = doc.openReportDocument();
 					renderTask = engine.createRenderTask(reportDocument);
 					HTMLRenderOption options = new HTMLRenderOption();

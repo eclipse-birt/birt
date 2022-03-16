@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,28 +37,28 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * This is a managed object, meaning that all changes should be made though the
  * command layer so that they can be undone and redone. Each filter condition
  * has the following properties:
- * 
+ *
  * <p>
  * <dl>
  * <dt><strong>Column </strong></dt>
  * <dd>a filter condition has a required column.</dd>
- * 
+ *
  * <dt><strong>Operator </strong></dt>
  * <dd>a filter condition has a required operator to compute.</dd>
- * 
+ *
  * <dt><strong>Filter Expr </strong></dt>
  * <dd>a filter condition has a required filter expression to test. Can be a
  * column or a complete boolean expression.</dd>
- * 
+ *
  * <dt><strong>Value 1 Expr </strong></dt>
  * <dd>a filter condition has an optional value 1 expression of the comparison
  * value for all but unary operators.</dd>
- * 
+ *
  * <dt><strong>Value 2 Expr </strong></dt>
  * <dd>a filter condition has an optional value 2 expression of the second
  * comparison value for trinary operators(between, not between).</dd>
  * </dl>
- * 
+ *
  */
 
 public class FilterCondition extends PropertyStructure {
@@ -133,7 +136,7 @@ public class FilterCondition extends PropertyStructure {
 	/**
 	 * Name of the member that indicates the type of this filter condition. We
 	 * define some choices for it.
-	 * 
+	 *
 	 * @see DesignChoiceConstants#CHOICE_FILTER_CONDITION_TYPE
 	 */
 	public static final String TYPE_MEMBER = "type"; //$NON-NLS-1$
@@ -151,24 +154,25 @@ public class FilterCondition extends PropertyStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return FILTER_COND_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
 	/**
 	 * Returns the filter expression.
-	 * 
+	 *
 	 * @return the filter expression
 	 */
 
@@ -178,7 +182,7 @@ public class FilterCondition extends PropertyStructure {
 
 	/**
 	 * Sets the filter expression.
-	 * 
+	 *
 	 * @param expr the filter expression to set
 	 */
 
@@ -210,7 +214,7 @@ public class FilterCondition extends PropertyStructure {
 	 * <li><code>FILTER_OPERATOR_BOTTOM_PERCENT</code>
 	 * <li><code>FILTER_OPERATOR_ANY</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the operator
 	 */
 
@@ -242,7 +246,7 @@ public class FilterCondition extends PropertyStructure {
 	 * <li><code>FILTER_OPERATOR_BOTTOM_PERCENT</code>
 	 * <li><code>FILTER_OPERATOR_ANY</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param operator the operator to set
 	 */
 
@@ -252,14 +256,15 @@ public class FilterCondition extends PropertyStructure {
 
 	/**
 	 * Returns the value 1 expression.
-	 * 
+	 *
 	 * @return the value 1 expression
 	 */
 
 	public String getValue1() {
 		List valueList = getValue1List();
-		if (valueList == null || valueList.isEmpty())
+		if (valueList == null || valueList.isEmpty()) {
 			return null;
+		}
 
 		return (String) valueList.get(0);
 	}
@@ -268,16 +273,18 @@ public class FilterCondition extends PropertyStructure {
 	 * Gets the value1 expression list of this filter condition. For most filter
 	 * operator, there is only one expression in the returned list. However, filter
 	 * operator 'in' may contain more than one expression.
-	 * 
+	 *
 	 * @return the value1 expression list of this filter condition.
-	 * 
+	 *
 	 * @deprecated {@link #getValue1ExpressionList()}
 	 */
 
+	@Deprecated
 	public List getValue1List() {
 		List<Expression> valueList = (List<Expression>) getProperty(null, VALUE1_MEMBER);
-		if (valueList == null || valueList.isEmpty())
+		if (valueList == null || valueList.isEmpty()) {
 			return Collections.EMPTY_LIST;
+		}
 		return Collections.unmodifiableList(ModelUtil.getExpressionCompatibleList(valueList));
 	}
 
@@ -285,21 +292,22 @@ public class FilterCondition extends PropertyStructure {
 	 * Gets the value1 expression list of this filter condition. For most filter
 	 * operator, there is only one expression in the returned list. However, filter
 	 * operator 'in' may contain more than one expression.
-	 * 
+	 *
 	 * @return the value1 expression list of this filter condition. Each item is
 	 *         <code>Expression</code> object.
 	 */
 
 	public List getValue1ExpressionList() {
 		List<Expression> valueList = (List<Expression>) getProperty(null, VALUE1_MEMBER);
-		if (valueList == null || valueList.isEmpty())
+		if (valueList == null || valueList.isEmpty()) {
 			return Collections.EMPTY_LIST;
+		}
 		return Collections.unmodifiableList(valueList);
 	}
 
 	/**
 	 * Sets the value 1 expression.
-	 * 
+	 *
 	 * @param value1 the value 1 expression to set
 	 */
 
@@ -316,7 +324,7 @@ public class FilterCondition extends PropertyStructure {
 
 	/**
 	 * Sets the value 1 expression.
-	 * 
+	 *
 	 * @param value1List the value 1 expression list to set
 	 */
 
@@ -326,7 +334,7 @@ public class FilterCondition extends PropertyStructure {
 
 	/**
 	 * Returns the value 2 expression.
-	 * 
+	 *
 	 * @return the value 2 expression
 	 */
 
@@ -336,7 +344,7 @@ public class FilterCondition extends PropertyStructure {
 
 	/**
 	 * Sets the value 2 expression.
-	 * 
+	 *
 	 * @param value2 the value 2 expression to set
 	 */
 
@@ -349,11 +357,12 @@ public class FilterCondition extends PropertyStructure {
 	 * <ul>
 	 * <li>The filter expression is required.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(Module,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public List validate(Module module, DesignElement element) {
 		List list = super.validate(module, element);
 
@@ -367,105 +376,114 @@ public class FilterCondition extends PropertyStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
+	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new FilterConditionHandle(valueHandle, index);
 	}
 
 	/**
 	 * Returns the column name of this filter condition.
-	 * 
+	 *
 	 * @return <code>null</code>. NOT support any more.
-	 * 
+	 *
 	 * @deprecated This property has been removed.
 	 */
 
+	@Deprecated
 	public String getColumn() {
 		return null;
 	}
 
 	/**
 	 * Sets the column name of this filter condition. NOT support any more.
-	 * 
+	 *
 	 * @param column the column name to set
-	 * 
+	 *
 	 * @deprecated This property has been removed.
-	 * 
+	 *
 	 */
+	@Deprecated
 	public void setColumn(String column) {
 	}
 
 	/**
 	 * Returns the filter expression.
-	 * 
+	 *
 	 * @return the filter expression.
-	 * 
+	 *
 	 * @deprecated Replaced by the method {@link #getExpr()}
 	 */
 
+	@Deprecated
 	public String getFilterExpr() {
 		return getExpr();
 	}
 
 	/**
 	 * Sets the filter expression.
-	 * 
+	 *
 	 * @param filterExpr the filter expression to set
-	 * 
+	 *
 	 * @deprecated Replaced by the method {@link #setExpr(String)}
 	 */
 
+	@Deprecated
 	public void setFilterExpr(String filterExpr) {
 		setExpr(filterExpr);
 	}
 
 	/**
 	 * Returns the value 1 expression of this filter condition.
-	 * 
+	 *
 	 * @return the expression of value 1.
-	 * 
+	 *
 	 * @deprecated Replaced by the method {@link #getValue1()}
 	 */
 
+	@Deprecated
 	public String getValue1Expr() {
 		return getValue1();
 	}
 
 	/**
 	 * Sets the value 1 expression of this filter condition.
-	 * 
+	 *
 	 * @param value1Expr the value 1 expression to set
-	 * 
+	 *
 	 * @deprecated Replaced by the method {@link #setValue1(String)}
 	 */
 
+	@Deprecated
 	public void setValue1Expr(String value1Expr) {
 		setValue1(value1Expr);
 	}
 
 	/**
 	 * Returns the value 2 expression of this filter condition.
-	 * 
+	 *
 	 * @return the expression of value 1..
-	 * 
+	 *
 	 * @deprecated Replaced by the method {@link #getValue2()}
 	 */
 
+	@Deprecated
 	public String getValue2Expr() {
 		return getValue2();
 	}
 
 	/**
 	 * Sets the value 2 expression of this filter condition.
-	 * 
+	 *
 	 * @param value2Expr the value 2 expression to set
-	 * 
+	 *
 	 * @deprecated Replaced by the method {@link #setValue2(String)}
 	 */
 
+	@Deprecated
 	public void setValue2Expr(String value2Expr) {
 		setValue2(value2Expr);
 	}
@@ -478,7 +496,7 @@ public class FilterCondition extends PropertyStructure {
 	 * <li><code>FILTER_TARGET_DATA_SET</code>
 	 * <li><code>FILTER_TARGET_RESULT_SET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the operator
 	 */
 
@@ -494,7 +512,7 @@ public class FilterCondition extends PropertyStructure {
 	 * <li><code>FILTER_TARGET_DATA_SET</code>
 	 * <li><code>FILTER_TARGET_RESULT_SET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param filterTarget the filter target to set
 	 */
 
@@ -504,19 +522,20 @@ public class FilterCondition extends PropertyStructure {
 
 	/**
 	 * Determines whether this filter condition is optional or not.
-	 * 
+	 *
 	 * @return true if this filter is optional, otherwise false
 	 */
 	public boolean isOptional() {
 		Boolean isOptional = (Boolean) getProperty(null, IS_OPTIONAL_MEMBER);
-		if (isOptional == null)
+		if (isOptional == null) {
 			return false;
+		}
 		return isOptional.booleanValue();
 	}
 
 	/**
 	 * Sets the optional status for this filter condition.
-	 * 
+	 *
 	 * @param isOptional true if this filter is optional, otherwise false
 	 */
 	public void setOptional(boolean isOptional) {
@@ -527,7 +546,7 @@ public class FilterCondition extends PropertyStructure {
 	 * Returns the unique id of an
 	 * org.eclipse.datatools.connectivity.oda.filterExpressions extension to whose
 	 * custom expressions are defined to map to a BIRT filter operator.
-	 * 
+	 *
 	 * @return the extension name
 	 */
 	public String getExtensionName() {
@@ -537,7 +556,7 @@ public class FilterCondition extends PropertyStructure {
 	/**
 	 * Returns the id of a custom filter expression contributed and defined by the
 	 * extension identified in the consumerExpressionMapping.
-	 * 
+	 *
 	 * @return the extension expression id
 	 */
 
@@ -550,7 +569,7 @@ public class FilterCondition extends PropertyStructure {
 	 * Default value is false. Only the oda extension provider supported operators
 	 * can be pushed down to database. For those only BIRT supported operators even
 	 * this property is set to true, will be ignored.
-	 * 
+	 *
 	 * @return true if the current filter condition will be pushed down to the
 	 *         database, otherwise false.
 	 */
@@ -566,7 +585,7 @@ public class FilterCondition extends PropertyStructure {
 	/**
 	 * Returns the name of the dynamic filter parameter to reference when the filter
 	 * condition is dynamic.
-	 * 
+	 *
 	 * @return the name to the dynamic filter parameter to reference.
 	 */
 
@@ -578,7 +597,7 @@ public class FilterCondition extends PropertyStructure {
 	 * Sets the unique id of an
 	 * org.eclipse.datatools.connectivity.oda.filterExpressions extension to whose
 	 * custom expressions are defined to map to a BIRT filter operator.
-	 * 
+	 *
 	 * @param extensionName the extension name to set
 	 */
 
@@ -589,7 +608,7 @@ public class FilterCondition extends PropertyStructure {
 	/**
 	 * Sets the id of a custom filter expression contributed and defined by the
 	 * extension identified in the consumerExpressionMapping.
-	 * 
+	 *
 	 * @param extensionExprId the id to set
 	 */
 
@@ -599,7 +618,7 @@ public class FilterCondition extends PropertyStructure {
 
 	/**
 	 * Sets the push down status for this filter condition
-	 * 
+	 *
 	 * @param pushDown true if the current filter condition will be pushed down to
 	 *                 the database, otherwise false.
 	 */
@@ -609,7 +628,7 @@ public class FilterCondition extends PropertyStructure {
 
 	/**
 	 * Sets the name of the dynamic filter parameter to reference.
-	 * 
+	 *
 	 * @param parameterName the name of the dynamic filter parameter to set
 	 */
 
@@ -625,7 +644,7 @@ public class FilterCondition extends PropertyStructure {
 	 * <li><code>FILTER_CONDITION_TYPE_SLICER</code>
 	 * <li><code>FILTER_CONDITION_TYPE_SIMPLE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the operator
 	 */
 
@@ -641,7 +660,7 @@ public class FilterCondition extends PropertyStructure {
 	 * <li><code>FILTER_CONDITION_TYPE_SLICER</code>
 	 * <li><code>FILTER_CONDITION_TYPE_SIMPLE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param type the type to set
 	 */
 	public void setType(String type) {
@@ -650,7 +669,7 @@ public class FilterCondition extends PropertyStructure {
 
 	/**
 	 * Sets the value 2 expression.
-	 * 
+	 *
 	 * @param value1List the value 2 expression list to set
 	 */
 	public void setValue2(Expression value) {
@@ -659,19 +678,20 @@ public class FilterCondition extends PropertyStructure {
 
 	/**
 	 * Checks if this filter condition needs to update aggregation.
-	 * 
+	 *
 	 * @return the flag to indicate updating aggregation or not.
 	 */
 	public boolean updateAggregation() {
 		Boolean updateAggregation = (Boolean) getProperty(null, UPDATE_AGGREGATION_MEMBER);
-		if (updateAggregation == null)
+		if (updateAggregation == null) {
 			return false;
+		}
 		return updateAggregation.booleanValue();
 	}
 
 	/**
 	 * Sets the updateAggregation flag of the filter condition.
-	 * 
+	 *
 	 * @param updateAggregation the updateAggregation flag to set
 	 * @throws SemanticException
 	 */
@@ -682,7 +702,7 @@ public class FilterCondition extends PropertyStructure {
 
 	/**
 	 * Returns the user specified value.
-	 * 
+	 *
 	 * @return the flag to indicate updating aggregation or not.
 	 */
 	public String getCustomValue() {
@@ -691,7 +711,7 @@ public class FilterCondition extends PropertyStructure {
 
 	/**
 	 * Sets the user specified value.
-	 * 
+	 *
 	 */
 
 	public void setCustomValue(String customValue) {

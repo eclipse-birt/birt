@@ -40,6 +40,6 @@ https://download.eclipse.org/birt/downloads/drops/R-R1-4.8.0-201806261756/
 ## Latest snapshot repository towards 4.9.0
 https://download.eclipse.org/birt/update-site/snapshot/
 
-## Latest designer download towards 4.9.0
-https://ci.eclipse.org/birt/job/birt-master/lastSuccessfulBuild/artifact/build/birt-packages/birt-report-all-in-one/target/products/
+## Latest downloads towards 4.9.0
+https://download.eclipse.org/birt/downloads/drops/snapshot/
 

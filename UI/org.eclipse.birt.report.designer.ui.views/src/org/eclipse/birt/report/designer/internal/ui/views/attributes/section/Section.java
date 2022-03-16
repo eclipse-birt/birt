@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -32,7 +44,7 @@ public abstract class Section {
 
 	/**
 	 * Creates a new field editor.
-	 * 
+	 *
 	 * @param name      the name of the preference this field editor works on
 	 * @param labelText the label text of the field editor
 	 * @param parent    the parent of the field editor's control
@@ -48,7 +60,7 @@ public abstract class Section {
 	/**
 	 * Checks if the given parent is the current parent of the supplied control;
 	 * throws an (unchecked) exception if they are not correctly related.
-	 * 
+	 *
 	 * @param control the control
 	 * @param parent  the parent control
 	 */
@@ -59,7 +71,7 @@ public abstract class Section {
 	/**
 	 * Creates this field editor's main control containing all of its basic
 	 * controls.
-	 * 
+	 *
 	 * @param parent the parent control
 	 */
 
@@ -71,7 +83,7 @@ public abstract class Section {
 	 * Subclasses must implement this method to create the controls for this field
 	 * editor.
 	 * </p>
-	 * 
+	 *
 	 * @param parent     the composite used as a parent for the basic controls; the
 	 *                   parent's layout must be a <code>GridLayout</code>
 	 * @param numColumns the number of columns
@@ -92,7 +104,7 @@ public abstract class Section {
 
 	/**
 	 * Returns the label control.
-	 * 
+	 *
 	 * @return the label control, or <code>null</code> if no label control has been
 	 *         created
 	 */
@@ -105,7 +117,7 @@ public abstract class Section {
 	 * <p>
 	 * The label is created if it does not already exist
 	 * </p>
-	 * 
+	 *
 	 * @param parent the parent
 	 * @return the label control
 	 */
@@ -120,6 +132,7 @@ public abstract class Section {
 			}
 			displayLabel.addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					displayLabel = null;
 				}
@@ -132,7 +145,7 @@ public abstract class Section {
 
 	/**
 	 * Returns this field editor's label text.
-	 * 
+	 *
 	 * @return the label text
 	 */
 	public String getLabelText() {
@@ -141,7 +154,7 @@ public abstract class Section {
 
 	/**
 	 * Initialize the field editor with the given preference name and label.
-	 * 
+	 *
 	 * @param name the name of the preference this field editor works on
 	 * @param text the label text of the field editor
 	 */
@@ -152,7 +165,7 @@ public abstract class Section {
 	/**
 	 * Sets this field editor's label text. The label is typically presented to the
 	 * left of the entry field.
-	 * 
+	 *
 	 * @param text the label text
 	 */
 	public void setLabelText(String text) {
@@ -177,8 +190,9 @@ public abstract class Section {
 	protected Label placeholderLabel;
 
 	protected Label getGridPlaceholder(Composite parent) {
-		if (placeholder == 0)
+		if (placeholder == 0) {
 			return null;
+		}
 		if (placeholderLabel == null) {
 			placeholderLabel = FormWidgetFactory.getInstance().createLabel(parent, isFormStyle);
 			GridData data = new GridData();

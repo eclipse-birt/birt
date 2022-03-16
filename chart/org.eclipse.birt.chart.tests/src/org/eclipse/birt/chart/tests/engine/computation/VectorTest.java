@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -11,10 +14,10 @@
 
 package org.eclipse.birt.chart.tests.engine.computation;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.chart.computation.Vector;
 import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
+
+import junit.framework.TestCase;
 
 public class VectorTest extends TestCase {
 
@@ -23,6 +26,7 @@ public class VectorTest extends TestCase {
 	/**
 	 * Construct and initialize any objects that will be used in multiple tests.
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		v1 = new Vector();
 		v2 = new Vector(1.0, 2.0, 3.0, false);
@@ -32,6 +36,7 @@ public class VectorTest extends TestCase {
 	/**
 	 * Collect and empty any objects that are defined in the setUp() method.
 	 */
+	@Override
 	protected void tearDown() throws Exception {
 		v1 = null;
 		v2 = null;
@@ -39,7 +44,7 @@ public class VectorTest extends TestCase {
 
 	/**
 	 * Test setter and getter methods.
-	 * 
+	 *
 	 */
 	public void testSetAndGet() {
 		v1.set(5.0, 5.0, 5.0);
@@ -50,7 +55,7 @@ public class VectorTest extends TestCase {
 
 	/**
 	 * Test Add operation of Vector.
-	 * 
+	 *
 	 */
 	public void testAdd() {
 		v1.add(v2);
@@ -61,7 +66,7 @@ public class VectorTest extends TestCase {
 
 	/**
 	 * Test Sub operation of Vector.
-	 * 
+	 *
 	 */
 	public void testSub() {
 		v1.sub(v2);
@@ -72,7 +77,7 @@ public class VectorTest extends TestCase {
 
 	/**
 	 * Test Scale the Vector.
-	 * 
+	 *
 	 */
 	public void testScale() {
 		v2.scale(2.0);
@@ -83,7 +88,7 @@ public class VectorTest extends TestCase {
 
 	/**
 	 * Test the perspective of the Vector.
-	 * 
+	 *
 	 */
 	public void testPerspective() {
 		v2.perspective(3.0);
@@ -94,7 +99,7 @@ public class VectorTest extends TestCase {
 
 	/**
 	 * Test whether the Vector is a point.
-	 * 
+	 *
 	 */
 	public void testIsPoint() {
 		assertTrue(v1.isPoint());
@@ -103,7 +108,7 @@ public class VectorTest extends TestCase {
 
 	/**
 	 * Test cross Product.
-	 * 
+	 *
 	 */
 	public void testCrossProduct() {
 		v1 = v2.crossProduct(v3);
@@ -114,7 +119,7 @@ public class VectorTest extends TestCase {
 
 	/**
 	 * Test scalar product.
-	 * 
+	 *
 	 */
 	public void testScaleProduct() {
 		assertTrue(v2.scalarProduct(v2) == 14);
@@ -122,7 +127,7 @@ public class VectorTest extends TestCase {
 
 	/**
 	 * Test cosine value.
-	 * 
+	 *
 	 */
 	public void testCosineValue() {
 		assertTrue(v3.cosineValue(v3) == 1.0);
@@ -130,7 +135,7 @@ public class VectorTest extends TestCase {
 
 	/**
 	 * Test the rotation.
-	 * 
+	 *
 	 */
 	public void testRotate() {
 		v2.rotate(Angle3DImpl.create(-20, 45, 0));
@@ -141,7 +146,7 @@ public class VectorTest extends TestCase {
 
 	/**
 	 * Test the project of the Vector.
-	 * 
+	 *
 	 */
 	public void testProject() {
 		v3.project(4);
@@ -152,7 +157,7 @@ public class VectorTest extends TestCase {
 
 	/**
 	 * Test the inverse direction of the Vector.
-	 * 
+	 *
 	 */
 	public void testInverse() {
 		v2.inverse();
@@ -163,7 +168,7 @@ public class VectorTest extends TestCase {
 
 	/**
 	 * Test the string parse.
-	 * 
+	 *
 	 */
 	public void testToString() {
 		assertEquals("X:0.0,Y:3.0,Z:4.0,PV:1.0", v3.toString()); //$NON-NLS-1$

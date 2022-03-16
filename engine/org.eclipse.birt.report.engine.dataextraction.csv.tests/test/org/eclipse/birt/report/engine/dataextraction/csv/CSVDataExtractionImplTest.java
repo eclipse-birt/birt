@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,6 +35,7 @@ import java.util.TimeZone;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.DataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataExtractionOption;
@@ -43,7 +47,6 @@ import org.eclipse.birt.report.engine.dataextraction.ICSVDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.csv.mock.MockExtractionResults;
 
 import junit.framework.TestCase;
-import org.eclipse.birt.core.data.DataType;
 
 public class CSVDataExtractionImplTest extends TestCase {
 	/**
@@ -73,34 +76,34 @@ public class CSVDataExtractionImplTest extends TestCase {
 
 	private static final String ENCODING_ISO = "ISO-8859-1"; //$NON-NLS-1$
 
-	private static final String[] TEST_DATA_COLUMNS = new String[] { "stringColumn", //$NON-NLS-1$
+	private static final String[] TEST_DATA_COLUMNS = { "stringColumn", //$NON-NLS-1$
 			"integerColumn", //$NON-NLS-1$
 			"dateColumn", //$NON-NLS-1$
 			"decimalColumn" //$NON-NLS-1$
 	};
-	private static final String[] TEST_SELECT_COLUMNS = new String[] { "dateColumn", //$NON-NLS-1$
+	private static final String[] TEST_SELECT_COLUMNS = { "dateColumn", //$NON-NLS-1$
 			"stringColumn", //$NON-NLS-1$
 			"integerColumn" //$NON-NLS-1$
 	};
 
-	private static final String[] TEST_INVALID_COLUMNS = new String[] { "stringColumn", //$NON-NLS-1$
+	private static final String[] TEST_INVALID_COLUMNS = { "stringColumn", //$NON-NLS-1$
 			"invalidColumn", //$NON-NLS-1$
 			"integerColumn" //$NON-NLS-1$
 	};
 
-	private static final int[] TEST_DATA_TYPES = new int[] { DataType.STRING_TYPE, DataType.INTEGER_TYPE,
-			DataType.DATE_TYPE, DataType.DECIMAL_TYPE };
+	private static final int[] TEST_DATA_TYPES = { DataType.STRING_TYPE, DataType.INTEGER_TYPE, DataType.DATE_TYPE,
+			DataType.DECIMAL_TYPE };
 
 	// is be initialized in setUp()
 	private Object[][] TEST_DATA = null;
 
-	private static final String[] TEST_DATA_COLUMNS_QUOTING = new String[] { "Column 1", //$NON-NLS-1$
+	private static final String[] TEST_DATA_COLUMNS_QUOTING = { "Column 1", //$NON-NLS-1$
 			"Column 2" //$NON-NLS-1$
 	};
 
-	private static final int[] TEST_DATA_TYPES_QUOTING = new int[] { DataType.STRING_TYPE, DataType.STRING_TYPE, };
+	private static final int[] TEST_DATA_TYPES_QUOTING = { DataType.STRING_TYPE, DataType.STRING_TYPE, };
 
-	private static final Object[][] TEST_DATA_QUOTING = new Object[][] {
+	private static final Object[][] TEST_DATA_QUOTING = {
 			// newlines
 			new Object[] { "A string\nwith\nnewlines", //$NON-NLS-1$
 					"A second\r\nstring with\r\nnewlines" //$NON-NLS-1$
@@ -123,6 +126,7 @@ public class CSVDataExtractionImplTest extends TestCase {
 	private IExtractionResults results;
 	private DateFormat inputDateFormat;
 
+	@Override
 	public void setUp() {
 		Locale.setDefault(new Locale(TEST_LOCALE_LANGUAGE, TEST_LOCALE_COUNTRY));
 		TimeZone.setDefault(TimeZone.getTimeZone(TEST_TIME_ZONE));
@@ -143,6 +147,7 @@ public class CSVDataExtractionImplTest extends TestCase {
 		results = new MockExtractionResults(TEST_DATA_COLUMNS, TEST_DATA_TYPES, TEST_DATA);
 	}
 
+	@Override
 	public void tearDown() {
 		try {
 			out.close();
@@ -179,7 +184,7 @@ public class CSVDataExtractionImplTest extends TestCase {
 		CSVDataExtractionImpl extract = createExtraction(out, option);
 
 		// replace test value with chars available in ISO encoding
-		Object[][] data = new Object[][] { new Object[] { "\u00e9\u00fc", //$NON-NLS-1$
+		Object[][] data = { new Object[] { "\u00e9\u00fc", //$NON-NLS-1$
 				Integer.valueOf(0), null, Double.valueOf(0.0) } };
 
 		IExtractionResults results = new MockExtractionResults(TEST_DATA_COLUMNS, TEST_DATA_TYPES, data);
@@ -243,7 +248,7 @@ public class CSVDataExtractionImplTest extends TestCase {
 	 */
 	private void subtestDateFormat(String fileName) throws BirtException {
 		// replace test value with chars available in ISO encoding
-		String[] dataColumns = new String[] { "Any Type Column using DateTime", //$NON-NLS-1$
+		String[] dataColumns = { "Any Type Column using DateTime", //$NON-NLS-1$
 				"Any Type Column using Date", //$NON-NLS-1$
 				"Any Type Column using Time", //$NON-NLS-1$
 				"DateTime Column", //$NON-NLS-1$
@@ -251,10 +256,10 @@ public class CSVDataExtractionImplTest extends TestCase {
 				"SQL Time Column" //$NON-NLS-1$
 		};
 
-		int[] dataTypes = new int[] { DataType.ANY_TYPE, DataType.ANY_TYPE, DataType.ANY_TYPE, DataType.DATE_TYPE,
+		int[] dataTypes = { DataType.ANY_TYPE, DataType.ANY_TYPE, DataType.ANY_TYPE, DataType.DATE_TYPE,
 				DataType.SQL_DATE_TYPE, DataType.SQL_TIME_TYPE };
 
-		Object[][] data = new Object[][] { new Object[] { makeDate("2008-08-08 08:08:08"), //$NON-NLS-1$
+		Object[][] data = { new Object[] { makeDate("2008-08-08 08:08:08"), //$NON-NLS-1$
 				new java.sql.Date(makeDate("2008-08-08 08:08:08").getTime()), //$NON-NLS-1$
 				new java.sql.Time(makeDate("2008-08-08 08:08:08").getTime()), //$NON-NLS-1$
 				makeDate("2008-08-08 08:08:08"), //$NON-NLS-1$
@@ -310,7 +315,7 @@ public class CSVDataExtractionImplTest extends TestCase {
 	 */
 	private void subtestDataTypes(String fileName) throws SerialException, SQLException, BirtException {
 		boolean isLocaleNeutral = option.isLocaleNeutralFormat();
-		final String[] TEST_DATA_TYPES_COLUMNS = new String[] { "Any", //$NON-NLS-1$
+		final String[] TEST_DATA_TYPES_COLUMNS = { "Any", //$NON-NLS-1$
 				"Boolean", //$NON-NLS-1$
 				"Integer", //$NON-NLS-1$
 				"Double", //$NON-NLS-1$
@@ -323,12 +328,11 @@ public class CSVDataExtractionImplTest extends TestCase {
 				"SQL Time" //$NON-NLS-1$
 		};
 
-		final int[] TEST_DATA_TYPES_TYPES = new int[] { DataType.ANY_TYPE, DataType.BOOLEAN_TYPE, DataType.INTEGER_TYPE,
+		final int[] TEST_DATA_TYPES_TYPES = { DataType.ANY_TYPE, DataType.BOOLEAN_TYPE, DataType.INTEGER_TYPE,
 				DataType.DOUBLE_TYPE, DataType.DECIMAL_TYPE, DataType.STRING_TYPE, DataType.DATE_TYPE,
 				DataType.BLOB_TYPE, DataType.BINARY_TYPE, DataType.SQL_DATE_TYPE, DataType.SQL_TIME_TYPE };
 
-		final Object[][] data = new Object[][] {
-				new Object[] { null, null, null, null, null, null, null, null, null, null, null },
+		final Object[][] data = { new Object[] { null, null, null, null, null, null, null, null, null, null, null },
 				new Object[] { Boolean.TRUE, // any type
 						Boolean.TRUE, Integer.valueOf(-24), Double.valueOf(-123.456789),
 						// need to use different values because localized BigDecimal produce huge values
@@ -388,13 +392,16 @@ public class CSVDataExtractionImplTest extends TestCase {
 		// use a dummy extraction results class which throws exceptions
 		IExtractionResults faultyResults = new IExtractionResults() {
 
+			@Override
 			public void close() {
 			}
 
+			@Override
 			public IResultMetaData getResultMetaData() throws BirtException {
 				throw new BirtException("DummyPluginId", "Test exception", null); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 
+			@Override
 			public IDataIterator nextResultIterator() throws BirtException {
 				throw new BirtException("DummyPluginId", "Test exception", null); //$NON-NLS-1$ //$NON-NLS-2$
 			}
@@ -447,9 +454,7 @@ public class CSVDataExtractionImplTest extends TestCase {
 		// simulate engine's DataExtractionTaskV1.setupExtractOption() by copying the
 		// values to a new object
 		// of instance DataExtractionOption
-		Map allOptions = new HashMap();
-		allOptions.putAll(option.getOptions());
-
+		Map allOptions = new HashMap(option.getOptions());
 		DataExtractionOption deOptions = new DataExtractionOption(allOptions);
 		deOptions.setOutputStream(out);
 		extract.initialize(null, deOptions);
@@ -478,7 +483,7 @@ public class CSVDataExtractionImplTest extends TestCase {
 	/**
 	 * Asserts that the given file contains the given content. The file will be
 	 * compared row by row
-	 * 
+	 *
 	 * @param fileName  file to load
 	 * @param byteArray content to compare
 	 */

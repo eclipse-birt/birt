@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -176,7 +179,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param wizardContext
@@ -204,7 +207,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param wizardContext
@@ -219,7 +222,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param wizardContext
@@ -242,7 +245,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param wizardContext
@@ -274,7 +277,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void init() {
 		if (Display.getCurrent().getHighContrast()) {
@@ -284,11 +287,11 @@ public class FillChooserComposite extends Composite implements SelectionListener
 		this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
 		Display display = Display.getDefault();
 		colorArray = this.createColorMap(display);
-		vListeners = new Vector<Listener>();
+		vListeners = new Vector<>();
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void placeComponents() {
 		// THE LAYOUT OF THIS COMPOSITE (FILLS EVERYTHING INSIDE IT)
@@ -344,6 +347,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 
 		Listener listener = new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				handleEventCanvas(event);
 			}
@@ -429,7 +433,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void createDropDownComponent(int iXLoc, int iYLoc) {
 		if (!bEnabled) {
@@ -705,10 +709,11 @@ public class FillChooserComposite extends Composite implements SelectionListener
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		Object oSource = e.getSource();
 		if (oSource.equals(btnDown)) {
@@ -828,11 +833,12 @@ public class FillChooserComposite extends Composite implements SelectionListener
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
@@ -848,10 +854,11 @@ public class FillChooserComposite extends Composite implements SelectionListener
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt
 	 * .events.DisposeEvent)
 	 */
+	@Override
 	public void widgetDisposed(DisposeEvent e) {
 		if (colorArray != null) {
 			for (int iC = 0; iC < colorArray.length; iC++) {
@@ -862,8 +869,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 	}
 
 	private boolean isPopupControl(Object control) {
-		return control != null && control instanceof Control
-				&& ((Control) control).getShell() == cmpDropDown.getShell();
+		return control instanceof Control && ((Control) control).getShell() == cmpDropDown.getShell();
 	}
 
 	private void addAdapters(Notifier notifier) {
@@ -875,6 +881,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 	void initAccessible() {
 		getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
+			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
@@ -882,6 +889,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
+			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point testPoint = toControl(new Point(e.x, e.y));
 				if (getBounds().contains(testPoint)) {
@@ -889,6 +897,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 				}
 			}
 
+			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(new Point(location.x, location.y));
@@ -898,14 +907,17 @@ public class FillChooserComposite extends Composite implements SelectionListener
 				e.height = location.height;
 			}
 
+			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
+			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_COMBOBOX;
 			}
 
+			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
@@ -914,6 +926,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 		ChartUIUtil.addScreenReaderAccessibility(this, cnvSelection);
 	}
 
+	@Override
 	public void handleEvent(Event event) {
 		switch (event.type) {
 		case SWT.FocusOut:
@@ -991,7 +1004,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 
 	/**
 	 * Sets text indent of fill canvas.
-	 * 
+	 *
 	 * @param indent
 	 */
 	public void setTextIndent(int indent) {
@@ -1076,7 +1089,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 		/**
 		 * This method assumes a color array of 40 color arranged with equal sizes in a
 		 * 8x5 grid.
-		 * 
+		 *
 		 * @param x
 		 * @param y
 		 */
@@ -1089,6 +1102,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 			return this.colorMap[iArrayIndex];
 		}
 
+		@Override
 		public void handleEvent(Event event) {
 			switch (event.type) {
 			case SWT.Paint:

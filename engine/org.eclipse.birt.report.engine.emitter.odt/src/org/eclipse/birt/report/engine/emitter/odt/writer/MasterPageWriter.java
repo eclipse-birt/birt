@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,10 +36,12 @@ public class MasterPageWriter extends BodyWriter implements IOdfMasterPageWriter
 		mpWriter = new org.eclipse.birt.report.engine.odf.writer.MasterPageWriter(writer);
 	}
 
+	@Override
 	public void start(boolean rtl) {
 		start();
 	}
 
+	@Override
 	public void start() {
 		mpWriter.start();
 	}
@@ -50,30 +55,37 @@ public class MasterPageWriter extends BodyWriter implements IOdfMasterPageWriter
 		 */
 	}
 
+	@Override
 	public void startMasterPage(StyleEntry pageLayout, String masterPageName, String displayName) {
 		mpWriter.startMasterPage(pageLayout, masterPageName, displayName);
 	}
 
+	@Override
 	public void endMasterPage() {
 		mpWriter.endMasterPage();
 	}
 
+	@Override
 	public void startHeader() {
 		mpWriter.startHeader();
 	}
 
+	@Override
 	public void endHeader() {
 		mpWriter.endHeader();
 	}
 
+	@Override
 	public void startFooter() {
 		mpWriter.startFooter();
 	}
 
+	@Override
 	public void endFooter() {
 		mpWriter.endFooter();
 	}
 
+	@Override
 	public void writeString(String s) {
 		mpWriter.writeString(s);
 	}

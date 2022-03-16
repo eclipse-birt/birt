@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +46,7 @@ import org.eclipse.birt.data.engine.olap.util.sort.IJSSortHelper;
 public class AggregationSortHelper {
 
 	/**
-	 * 
+	 *
 	 * @param base
 	 * @param targetSorts
 	 * @param targetResultSets
@@ -62,7 +65,7 @@ public class AggregationSortHelper {
 
 	/**
 	 * release unnecessary disk arrays.
-	 * 
+	 *
 	 * @param keyDiskArrays
 	 * @throws IOException
 	 */
@@ -73,7 +76,7 @@ public class AggregationSortHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param base
 	 * @return
 	 * @throws IOException
@@ -93,7 +96,7 @@ public class AggregationSortHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param base
 	 * @param targetSorts
 	 * @param targetResultSets
@@ -143,7 +146,7 @@ public class AggregationSortHelper {
 	/**
 	 * populate aggregation values to disk arrays for the specified
 	 * AggrSortDefinitions who share the same target level.
-	 * 
+	 *
 	 * @param base
 	 * @param sortIndex
 	 * @param targetSorts
@@ -178,7 +181,7 @@ public class AggregationSortHelper {
 	/**
 	 * aggregation values to disk arrays for the specified AggrSortDefinitions who
 	 * share the same target aggregation result set.
-	 * 
+	 *
 	 * @param base
 	 * @param targetResultSet
 	 * @param sortIndex
@@ -227,10 +230,11 @@ public class AggregationSortHelper {
 			targetResultSet.seek(i);
 			Object[] values = new Object[levelIndex.length];
 			for (int j = 0; j < levelIndex.length; j++) {
-				if (levelIndex[j] == -1)
+				if (levelIndex[j] == -1) {
 					values[j] = axisQualifierValue[j];
-				else
+				} else {
 					values[j] = targetResultSet.getLevelKeyValue(levelIndex[j])[0];
+				}
 			}
 
 			if (CompareUtil.compare(values, axisQualifierValue) == 0) {
@@ -261,7 +265,7 @@ public class AggregationSortHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param base
 	 * @param targetResultSet
 	 * @param indexInBase
@@ -289,7 +293,7 @@ public class AggregationSortHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param currentRow
 	 * @param targetRow
 	 * @param compareIndex
@@ -309,7 +313,7 @@ public class AggregationSortHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sortIndex
 	 * @param keyDiskArrays
 	 * @throws IOException
@@ -321,7 +325,7 @@ public class AggregationSortHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param list
 	 * @return
 	 */
@@ -334,7 +338,7 @@ public class AggregationSortHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param base
 	 * @param targetSorts
 	 * @param sortHelperIndex
@@ -367,8 +371,8 @@ class CompareIndex {
 }
 
 /**
- * 
- * 
+ *
+ *
  */
 class WrapperedDiskArray implements IDiskArray {
 
@@ -377,7 +381,7 @@ class WrapperedDiskArray implements IDiskArray {
 	private IDiskArray[] keyValueArrays;
 
 	/**
-	 * 
+	 *
 	 * @param base
 	 * @param keyValueArrays
 	 */
@@ -388,7 +392,7 @@ class WrapperedDiskArray implements IDiskArray {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -397,7 +401,7 @@ class WrapperedDiskArray implements IDiskArray {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -411,10 +415,11 @@ class WrapperedDiskArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.util.IDiskArray#add(java.lang.Object)
 	 */
+	@Override
 	public boolean add(Object o) throws IOException {
 		assert o instanceof AggregationResultRow;
 		AggregationResultRow obj = (AggregationResultRow) o;
@@ -430,9 +435,10 @@ class WrapperedDiskArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.util.IDiskArray#clear()
 	 */
+	@Override
 	public void clear() throws IOException {
 		this.baseArray.clear();
 		for (int i = 0; i < keyValueArrays.length; i++) {
@@ -442,9 +448,10 @@ class WrapperedDiskArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.util.IDiskArray#close()
 	 */
+	@Override
 	public void close() throws IOException {
 		this.baseArray.close();
 		for (int i = 0; i < keyValueArrays.length; i++) {
@@ -454,9 +461,10 @@ class WrapperedDiskArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.util.IDiskArray#get(int)
 	 */
+	@Override
 	public Object get(int index) throws IOException {
 		this.index = index;
 		return new AggregationResultRow(((IAggregationResultRow) this.getCurrentBaseRow()).getLevelMembers(),
@@ -465,9 +473,10 @@ class WrapperedDiskArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.util.IDiskArray#size()
 	 */
+	@Override
 	public int size() {
 		return this.baseArray.size();
 	}
@@ -482,7 +491,7 @@ class AggrResultRowComparator implements Comparator {
 	private boolean[] sortDirections;
 
 	/**
-	 * 
+	 *
 	 * @param base
 	 * @param targetSorts
 	 */
@@ -523,9 +532,10 @@ class AggrResultRowComparator implements Comparator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.Comparator#compare(T, T)
 	 */
+	@Override
 	public int compare(Object arg0, Object arg1) {
 		IAggregationResultRow row1 = (IAggregationResultRow) arg0;
 		IAggregationResultRow row2 = (IAggregationResultRow) arg1;
@@ -545,7 +555,7 @@ class AggrResultRowComparator implements Comparator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sortType
 	 * @return
 	 */

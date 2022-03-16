@@ -1,15 +1,20 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
 
 package org.eclipse.birt.chart.model.attribute.impl;
+
+import java.util.Objects;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
@@ -56,7 +61,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -66,7 +71,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -76,7 +81,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The default value of the '{@link #getSize() <em>Size</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSize()
 	 * @generated
 	 * @ordered
@@ -86,7 +91,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The cached value of the '{@link #getSize() <em>Size</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSize()
 	 * @generated
 	 * @ordered
@@ -96,7 +101,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * This is true if the Size attribute has been set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -105,7 +110,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The default value of the '{@link #isBold() <em>Bold</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isBold()
 	 * @generated
 	 * @ordered
@@ -115,7 +120,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The cached value of the '{@link #isBold() <em>Bold</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isBold()
 	 * @generated
 	 * @ordered
@@ -125,7 +130,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * This is true if the Bold attribute has been set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -134,7 +139,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The default value of the '{@link #isItalic() <em>Italic</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isItalic()
 	 * @generated
 	 * @ordered
@@ -144,7 +149,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The cached value of the '{@link #isItalic() <em>Italic</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isItalic()
 	 * @generated
 	 * @ordered
@@ -154,7 +159,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * This is true if the Italic attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -163,7 +168,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The default value of the ' {@link #isStrikethrough() <em>Strikethrough</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isStrikethrough()
 	 * @generated
 	 * @ordered
@@ -173,7 +178,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The cached value of the ' {@link #isStrikethrough() <em>Strikethrough</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isStrikethrough()
 	 * @generated
 	 * @ordered
@@ -183,7 +188,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * This is true if the Strikethrough attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -192,7 +197,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The default value of the '{@link #isUnderline() <em>Underline</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isUnderline()
 	 * @generated
 	 * @ordered
@@ -202,7 +207,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The cached value of the '{@link #isUnderline() <em>Underline</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isUnderline()
 	 * @generated
 	 * @ordered
@@ -212,7 +217,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * This is true if the Underline attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -221,7 +226,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The default value of the '{@link #isWordWrap() <em>Word Wrap</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isWordWrap()
 	 * @generated
 	 * @ordered
@@ -231,7 +236,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The cached value of the '{@link #isWordWrap() <em>Word Wrap</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isWordWrap()
 	 * @generated
 	 * @ordered
@@ -241,7 +246,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * This is true if the Word Wrap attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -250,7 +255,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The cached value of the '{@link #getAlignment() <em>Alignment</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getAlignment()
 	 * @generated
 	 * @ordered
@@ -260,7 +265,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The default value of the '{@link #getRotation() <em>Rotation</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getRotation()
 	 * @generated
 	 * @ordered
@@ -270,7 +275,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * The cached value of the '{@link #getRotation() <em>Rotation</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getRotation()
 	 * @generated
 	 * @ordered
@@ -280,7 +285,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	/**
 	 * This is true if the Rotation attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -288,7 +293,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected FontDefinitionImpl() {
@@ -297,9 +302,9 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 
 	/**
 	 * A convenient constructor that allows partial definition of member variables.
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @param sName
 	 * @param dSize
 	 */
@@ -311,7 +316,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -321,326 +326,366 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.FONT_DEFINITION__NAME, oldName,
 					name));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public float getSize() {
 		return size;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setSize(float newSize) {
 		float oldSize = size;
 		size = newSize;
 		boolean oldSizeESet = sizeESet;
 		sizeESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.FONT_DEFINITION__SIZE, oldSize, size,
 					!oldSizeESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetSize() {
 		float oldSize = size;
 		boolean oldSizeESet = sizeESet;
 		size = SIZE_EDEFAULT;
 		sizeESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.FONT_DEFINITION__SIZE, oldSize,
 					SIZE_EDEFAULT, oldSizeESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetSize() {
 		return sizeESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isBold() {
 		return bold;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setBold(boolean newBold) {
 		boolean oldBold = bold;
 		bold = newBold;
 		boolean oldBoldESet = boldESet;
 		boldESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.FONT_DEFINITION__BOLD, oldBold, bold,
 					!oldBoldESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetBold() {
 		boolean oldBold = bold;
 		boolean oldBoldESet = boldESet;
 		bold = BOLD_EDEFAULT;
 		boldESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.FONT_DEFINITION__BOLD, oldBold,
 					BOLD_EDEFAULT, oldBoldESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetBold() {
 		return boldESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isItalic() {
 		return italic;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setItalic(boolean newItalic) {
 		boolean oldItalic = italic;
 		italic = newItalic;
 		boolean oldItalicESet = italicESet;
 		italicESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.FONT_DEFINITION__ITALIC, oldItalic,
 					italic, !oldItalicESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetItalic() {
 		boolean oldItalic = italic;
 		boolean oldItalicESet = italicESet;
 		italic = ITALIC_EDEFAULT;
 		italicESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.FONT_DEFINITION__ITALIC, oldItalic,
 					ITALIC_EDEFAULT, oldItalicESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetItalic() {
 		return italicESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isStrikethrough() {
 		return strikethrough;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setStrikethrough(boolean newStrikethrough) {
 		boolean oldStrikethrough = strikethrough;
 		strikethrough = newStrikethrough;
 		boolean oldStrikethroughESet = strikethroughESet;
 		strikethroughESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.FONT_DEFINITION__STRIKETHROUGH,
 					oldStrikethrough, strikethrough, !oldStrikethroughESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetStrikethrough() {
 		boolean oldStrikethrough = strikethrough;
 		boolean oldStrikethroughESet = strikethroughESet;
 		strikethrough = STRIKETHROUGH_EDEFAULT;
 		strikethroughESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.FONT_DEFINITION__STRIKETHROUGH,
 					oldStrikethrough, STRIKETHROUGH_EDEFAULT, oldStrikethroughESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetStrikethrough() {
 		return strikethroughESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isUnderline() {
 		return underline;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setUnderline(boolean newUnderline) {
 		boolean oldUnderline = underline;
 		underline = newUnderline;
 		boolean oldUnderlineESet = underlineESet;
 		underlineESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.FONT_DEFINITION__UNDERLINE,
 					oldUnderline, underline, !oldUnderlineESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetUnderline() {
 		boolean oldUnderline = underline;
 		boolean oldUnderlineESet = underlineESet;
 		underline = UNDERLINE_EDEFAULT;
 		underlineESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.FONT_DEFINITION__UNDERLINE,
 					oldUnderline, UNDERLINE_EDEFAULT, oldUnderlineESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetUnderline() {
 		return underlineESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isWordWrap() {
 		return wordWrap;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setWordWrap(boolean newWordWrap) {
 		boolean oldWordWrap = wordWrap;
 		wordWrap = newWordWrap;
 		boolean oldWordWrapESet = wordWrapESet;
 		wordWrapESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.FONT_DEFINITION__WORD_WRAP,
 					oldWordWrap, wordWrap, !oldWordWrapESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetWordWrap() {
 		boolean oldWordWrap = wordWrap;
 		boolean oldWordWrapESet = wordWrapESet;
 		wordWrap = WORD_WRAP_EDEFAULT;
 		wordWrapESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.FONT_DEFINITION__WORD_WRAP,
 					oldWordWrap, WORD_WRAP_EDEFAULT, oldWordWrapESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetWordWrap() {
 		return wordWrapESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public TextAlignment getAlignment() {
 		return alignment;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetAlignment(TextAlignment newAlignment, NotificationChain msgs) {
@@ -649,87 +694,99 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.FONT_DEFINITION__ALIGNMENT, oldAlignment, newAlignment);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setAlignment(TextAlignment newAlignment) {
 		if (newAlignment != alignment) {
 			NotificationChain msgs = null;
-			if (alignment != null)
+			if (alignment != null) {
 				msgs = ((InternalEObject) alignment).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.FONT_DEFINITION__ALIGNMENT, null, msgs);
-			if (newAlignment != null)
+			}
+			if (newAlignment != null) {
 				msgs = ((InternalEObject) newAlignment).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.FONT_DEFINITION__ALIGNMENT, null, msgs);
+			}
 			msgs = basicSetAlignment(newAlignment, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.FONT_DEFINITION__ALIGNMENT,
 					newAlignment, newAlignment));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public double getRotation() {
 		return rotation;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setRotation(double newRotation) {
 		double oldRotation = rotation;
 		rotation = newRotation;
 		boolean oldRotationESet = rotationESet;
 		rotationESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.FONT_DEFINITION__ROTATION,
 					oldRotation, rotation, !oldRotationESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetRotation() {
 		double oldRotation = rotation;
 		boolean oldRotationESet = rotationESet;
 		rotation = ROTATION_EDEFAULT;
 		rotationESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.FONT_DEFINITION__ROTATION,
 					oldRotation, ROTATION_EDEFAULT, oldRotationESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetRotation() {
 		return rotationESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -743,7 +800,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -773,7 +830,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -812,7 +869,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -851,7 +908,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -881,52 +938,60 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(", size: "); //$NON-NLS-1$
-		if (sizeESet)
+		if (sizeESet) {
 			result.append(size);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", bold: "); //$NON-NLS-1$
-		if (boldESet)
+		if (boldESet) {
 			result.append(bold);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", italic: "); //$NON-NLS-1$
-		if (italicESet)
+		if (italicESet) {
 			result.append(italic);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", strikethrough: "); //$NON-NLS-1$
-		if (strikethroughESet)
+		if (strikethroughESet) {
 			result.append(strikethrough);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", underline: "); //$NON-NLS-1$
-		if (underlineESet)
+		if (underlineESet) {
 			result.append(underline);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", wordWrap: "); //$NON-NLS-1$
-		if (wordWrapESet)
+		if (wordWrapESet) {
 			result.append(wordWrap);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", rotation: "); //$NON-NLS-1$
-		if (rotationESet)
+		if (rotationESet) {
 			result.append(rotation);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
@@ -978,7 +1043,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 
 	/**
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @param sName
 	 * @param fSize
 	 * @param bBold
@@ -1007,7 +1072,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 
 	/**
 	 * Creates an empty FontDefinition instance.
-	 * 
+	 *
 	 * @return
 	 */
 	public static final FontDefinition createEmpty() {
@@ -1030,6 +1095,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
+	@Override
 	public FontDefinition copyInstance() {
 		FontDefinitionImpl dest = new FontDefinitionImpl();
 
@@ -1058,7 +1124,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -1081,42 +1147,49 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || !(obj instanceof FontDefinition)) {
 			return false;
-		if (!(obj instanceof FontDefinition))
-			return false;
+		}
 		FontDefinition other = (FontDefinition) obj;
-		if (alignment == null) {
-			if (other.getAlignment() != null)
-				return false;
-		} else if (!alignment.equals(other.getAlignment()))
+		if (!Objects.equals(alignment, other.getAlignment())) {
 			return false;
-		if (bold != other.isBold())
+		}
+		if (bold != other.isBold()) {
 			return false;
-		if (italic != other.isItalic())
+		}
+		if (italic != other.isItalic()) {
 			return false;
+		}
 		if (name == null) {
-			if (other.getName() != null)
+			if (other.getName() != null) {
 				return false;
-		} else if (!name.equalsIgnoreCase(other.getName()))
+			}
+		} else if (!name.equalsIgnoreCase(other.getName())) {
 			return false;
-		if (Double.doubleToLongBits(rotation) != Double.doubleToLongBits(other.getRotation()))
+		}
+		if (Double.doubleToLongBits(rotation) != Double.doubleToLongBits(other.getRotation())) {
 			return false;
-		if (Float.floatToIntBits(size) != Float.floatToIntBits(other.getSize()))
+		}
+		if (Float.floatToIntBits(size) != Float.floatToIntBits(other.getSize())) {
 			return false;
-		if (strikethrough != other.isStrikethrough())
+		}
+		if (strikethrough != other.isStrikethrough()) {
 			return false;
-		if (underline != other.isUnderline())
+		}
+		if (underline != other.isUnderline()) {
 			return false;
-		if (wordWrap != other.isWordWrap())
+		}
+		if (wordWrap != other.isWordWrap()) {
 			return false;
+		}
 		return true;
 	}
 

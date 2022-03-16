@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +42,7 @@ import org.eclipse.swt.widgets.MenuItem;
 
 /**
  * TODO: Please document
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class PropertyHandleTableViewer {
@@ -72,7 +75,7 @@ public class PropertyHandleTableViewer {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public PropertyHandleTableViewer(Composite parent, boolean showMenus, boolean showButtons, boolean enableKeyStrokes,
 			boolean editable) {
@@ -94,11 +97,13 @@ public class PropertyHandleTableViewer {
 			createButtonComposite(editable);
 		}
 
-		if (showMenus)
+		if (showMenus) {
 			createMenuComposite();
+		}
 
-		if (enableKeyStrokes)
+		if (enableKeyStrokes) {
 			enableKeyStrokes();
+		}
 	}
 
 	private void createButtonComposite(boolean editable) {
@@ -110,13 +115,15 @@ public class PropertyHandleTableViewer {
 		composite.setLayout(new GridLayout());
 
 		SelectionAdapter listener = null;
-		if (editable)
+		if (editable) {
 			listener = new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					doButtonSelected(e);
 				}
 			};
+		}
 
 		if (buttonLabels != null) {
 			buttonArray = new Button[buttonLabels.length];
@@ -124,8 +131,9 @@ public class PropertyHandleTableViewer {
 				String currLabel = buttonLabels[i];
 				if (currLabel != null) {
 					buttonArray[i] = createButton(composite, currLabel, listener);
-					if (!editable)
+					if (!editable) {
 						buttonArray[i].setEnabled(editable);
+					}
 				} else {
 					buttonArray[i] = null;
 					createSeparator(composite);
@@ -138,8 +146,9 @@ public class PropertyHandleTableViewer {
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText(label);
 
-		if (listener != null)
+		if (listener != null) {
 			button.addSelectionListener(listener);
+		}
 
 		GridData gd = new GridData();
 		gd.widthHint = defaultButtonWidth;
@@ -155,8 +164,9 @@ public class PropertyHandleTableViewer {
 	private int getMaxStringWidth(String[] strArray) {
 		int maxWidth = -1;
 		for (int i = 0; i < strArray.length; i++) {
-			if (strArray[i] != null)
+			if (strArray[i] != null) {
 				maxWidth = Math.max(maxWidth, strArray[i].length());
+			}
 		}
 
 		return maxWidth * getStandardCharWidth();
@@ -269,6 +279,7 @@ public class PropertyHandleTableViewer {
 		menu = new Menu(viewer.getTable());
 		menu.addMenuListener(new MenuAdapter() {
 
+			@Override
 			public void menuShown(MenuEvent e) {
 				viewer.cancelEditing();
 			}
@@ -277,6 +288,7 @@ public class PropertyHandleTableViewer {
 		itmRemove.setText(Messages.getString("PropertyHandleTableViewer.Menu.Remove")); //$NON-NLS-1$
 		itmRemove.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doRemove();
 			}
@@ -286,6 +298,7 @@ public class PropertyHandleTableViewer {
 		itmRemoveAll.setText(Messages.getString("PropertyHandleTableViewer.Menu.RemoveAll")); //$NON-NLS-1$
 		itmRemoveAll.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					if (viewer.getInput() instanceof PropertyHandle) {
@@ -306,9 +319,11 @@ public class PropertyHandleTableViewer {
 	private void enableKeyStrokes() {
 		viewer.getTable().addKeyListener(new KeyListener() {
 
+			@Override
 			public void keyPressed(KeyEvent e) {
 			}
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.DEL) {
 					doRemove();
@@ -335,7 +350,7 @@ public class PropertyHandleTableViewer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public TableViewer getViewer() {
@@ -343,7 +358,7 @@ public class PropertyHandleTableViewer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Composite getControl() {
@@ -351,7 +366,7 @@ public class PropertyHandleTableViewer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Button getNewButton() {
@@ -359,7 +374,7 @@ public class PropertyHandleTableViewer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Button getEditButton() {
@@ -367,7 +382,7 @@ public class PropertyHandleTableViewer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Button getRemoveButton() {
@@ -375,7 +390,7 @@ public class PropertyHandleTableViewer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Button getUpButton() {
@@ -383,7 +398,7 @@ public class PropertyHandleTableViewer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Button getDownButton() {
@@ -391,7 +406,7 @@ public class PropertyHandleTableViewer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Menu getMenu() {
@@ -399,7 +414,7 @@ public class PropertyHandleTableViewer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public MenuItem getRemoveMenuItem() {
@@ -407,7 +422,7 @@ public class PropertyHandleTableViewer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public MenuItem getRemoveAllMenuItem() {

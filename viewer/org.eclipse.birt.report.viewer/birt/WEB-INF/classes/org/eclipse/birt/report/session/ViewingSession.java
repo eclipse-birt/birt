@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2008 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -48,6 +50,7 @@ public class ViewingSession implements IViewingSession, Serializable {
 	/**
 	 * @see org.eclipse.birt.report.session.IViewingSession#getId()
 	 */
+	@Override
 	public String getId() {
 		return id;
 	}
@@ -55,6 +58,7 @@ public class ViewingSession implements IViewingSession, Serializable {
 	/**
 	 * @see org.eclipse.birt.report.session.IViewingSession#getLastAccess()
 	 */
+	@Override
 	public synchronized Date getLastAccess() {
 		return lastAccess;
 	}
@@ -62,6 +66,7 @@ public class ViewingSession implements IViewingSession, Serializable {
 	/**
 	 * @see org.eclipse.birt.report.session.IViewingSession#refresh()
 	 */
+	@Override
 	public synchronized void refresh() {
 		lastAccess = new Date();
 	}
@@ -71,6 +76,7 @@ public class ViewingSession implements IViewingSession, Serializable {
 	 * @see org.eclipse.birt.report.session.IViewingSession#getCachedReportDocument(java.lang.String,
 	 *      java.lang.String)
 	 */
+	@Override
 	public synchronized String getCachedReportDocument(String reportFile, String viewerId) {
 		checkExpired();
 		return cache.getReportDocument(reportFile, httpSessionId, id, viewerId);
@@ -80,6 +86,7 @@ public class ViewingSession implements IViewingSession, Serializable {
 	 * @throws ViewerException
 	 * @see org.eclipse.birt.report.session.IViewingSession#getImageTempFolder()
 	 */
+	@Override
 	public synchronized String getImageTempFolder() {
 		checkExpired();
 		return cache.getImageTempFolder(httpSessionId, id);
@@ -87,7 +94,7 @@ public class ViewingSession implements IViewingSession, Serializable {
 
 	/**
 	 * Asserts that the session has not expired.
-	 * 
+	 *
 	 * @throws ViewerException
 	 */
 	private void checkExpired() {
@@ -100,6 +107,7 @@ public class ViewingSession implements IViewingSession, Serializable {
 	/**
 	 * @see org.eclipse.birt.report.session.IViewingSession#isExpired()
 	 */
+	@Override
 	public boolean isExpired() {
 		return expired;
 	}
@@ -108,6 +116,7 @@ public class ViewingSession implements IViewingSession, Serializable {
 	 * @throws ViewerException
 	 * @see org.eclipse.birt.report.session.IViewingSession#invalidate()
 	 */
+	@Override
 	public synchronized void invalidate() {
 		checkExpired();
 		if (locks > 0) {
@@ -122,6 +131,7 @@ public class ViewingSession implements IViewingSession, Serializable {
 	/**
 	 * @see org.eclipse.birt.report.session.IViewingSession#lock()
 	 */
+	@Override
 	public synchronized void lock() {
 		checkExpired();
 		locks++;
@@ -130,6 +140,7 @@ public class ViewingSession implements IViewingSession, Serializable {
 	/**
 	 * @see org.eclipse.birt.report.session.IViewingSession#unlock()
 	 */
+	@Override
 	public synchronized void unlock() {
 		checkExpired();
 		if (locks > 0) {
@@ -140,6 +151,7 @@ public class ViewingSession implements IViewingSession, Serializable {
 	/**
 	 * @see org.eclipse.birt.report.session.IViewingSession#isLocked()
 	 */
+	@Override
 	public boolean isLocked() {
 		return locks > 0;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,7 +58,7 @@ public class FileConfigVarManager extends SystemConfigVarManager {
 	/**
 	 * gets the default configuration file location. The file is in the same
 	 * directory as birtcore.jar.
-	 * 
+	 *
 	 * @return the default configuration file name
 	 */
 	private String getDefaultConfigFileName() {
@@ -71,15 +74,17 @@ public class FileConfigVarManager extends SystemConfigVarManager {
 	 * load configuration file
 	 */
 	synchronized private void load() {
-		if (configFileLoaded)
+		if (configFileLoaded) {
 			return;
+		}
 
 		fileConfigVars = new Properties();
 		InputStream is = null;
 		try {
 			is = new FileInputStream(configFileName);
-			if (is != null)
+			if (is != null) {
 				fileConfigVars.load(is);
+			}
 		} catch (Exception e) // IOException or FileNotFoundException
 		{
 			fileConfigVars = null;
@@ -100,21 +105,25 @@ public class FileConfigVarManager extends SystemConfigVarManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.core.config.IConfigVarManager#getConfigVar(java.lang.String)
 	 */
+	@Override
 	public String getConfigVar(String key) {
 		String ret = null;
-		if (!configFileLoaded)
+		if (!configFileLoaded) {
 			load();
+		}
 
 		if (fileConfigVars != null) {
 			ret = fileConfigVars.getProperty(key);
-			if (ret == null)
+			if (ret == null) {
 				ret = System.getProperty(key);
-		} else
+			}
+		} else {
 			ret = System.getProperty(key);
+		}
 
 		return ret;
 	}

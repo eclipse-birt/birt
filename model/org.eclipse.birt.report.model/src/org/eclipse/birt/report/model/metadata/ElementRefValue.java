@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,14 +40,14 @@ import org.eclipse.birt.report.model.core.IReferencableElement;
  * case, the target must be derived from <code>ReferenceableElement</code> so
  * that the referenced class can cache a back-pointer to the referencing
  * element.
- * 
+ *
  */
 
 public class ElementRefValue extends ReferenceValue {
 
 	/**
 	 * Constructor of an unresolved reference.
-	 * 
+	 *
 	 * @param namespace the namespace to indicate which included library this value
 	 *                  refers to
 	 * @param theName   the unresolved name
@@ -56,7 +59,7 @@ public class ElementRefValue extends ReferenceValue {
 
 	/**
 	 * Constructor of a resolved reference.
-	 * 
+	 *
 	 * @param namespace the namespace to indicate which included library this value
 	 *                  refers to
 	 * @param element   the resolved element
@@ -69,25 +72,29 @@ public class ElementRefValue extends ReferenceValue {
 	/**
 	 * Gets the reference name. The name is either the unresolved name, or the name
 	 * of the resolved element.
-	 * 
+	 *
 	 * @return the name of the referenced element, or null if this reference is not
 	 *         set
 	 */
 
+	@Override
 	public String getName() {
-		if (name != null)
+		if (name != null) {
 			return name;
-		if (resolved != null)
+		}
+		if (resolved != null) {
 			return ((DesignElement) resolved).getFullName();
+		}
 		assert false;
 		return null;
 	}
 
 	/**
 	 * Sets the resolved element.
-	 * 
+	 *
 	 * @param element the resolved element.
 	 */
+	@Override
 	public void resolve(Object element) {
 
 		assert element instanceof DesignElement;
@@ -97,7 +104,7 @@ public class ElementRefValue extends ReferenceValue {
 
 	/**
 	 * Returns the referenced element, if the element is resolved.
-	 * 
+	 *
 	 * @return the referenced element, or null if this reference is not set, or is
 	 *         unresolved
 	 */
@@ -109,7 +116,7 @@ public class ElementRefValue extends ReferenceValue {
 	/**
 	 * Returns the target element as a referenceable element. This form is used when
 	 * caching references.
-	 * 
+	 *
 	 * @return the target element as a referencable element
 	 */
 
@@ -119,46 +126,50 @@ public class ElementRefValue extends ReferenceValue {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 
+	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof ElementRefValue))
+		if (!(obj instanceof ElementRefValue)) {
 			return false;
+		}
 
 		ElementRefValue value = (ElementRefValue) obj;
-		if (isResolved() != value.isResolved())
+		if (isResolved() != value.isResolved()) {
 			return false;
+		}
 
 		// both in resolved status.
 
-		if (value.isResolved())
+		if (value.isResolved()) {
 			return getElement().equals(value.getElement());
+		}
 
 		// both in unresolved status
 
-		if (!getName().equals(value.getName()))
+		if (!getName().equals(value.getName())) {
 			return false;
+		}
 
 		String myNameSpace = getLibraryNamespace();
 		String objNameSpace = value.getLibraryNamespace();
 
-		if (myNameSpace == null && objNameSpace == null)
+		if ((myNameSpace == null && objNameSpace == null) || (myNameSpace != null && myNameSpace.equals(objNameSpace))) {
 			return true;
-
-		if (myNameSpace != null && myNameSpace.equals(objNameSpace))
-			return true;
+		}
 
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#clone()
 	 */
 
+	@Override
 	public Object copy() {
 		return new ElementRefValue(getLibraryNamespace(), getName());
 	}

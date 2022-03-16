@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +35,7 @@ public class StructureSource {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param source
 	 */
 	public StructureSource(Object source) {
@@ -44,7 +47,7 @@ public class StructureSource {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param source
 	 */
 	public StructureSource(Object source, StructureType type) {
@@ -56,7 +59,7 @@ public class StructureSource {
 
 	/**
 	 * Returns the source object.
-	 * 
+	 *
 	 * @return
 	 */
 	public Object getSource() {
@@ -65,7 +68,7 @@ public class StructureSource {
 
 	/**
 	 * Returns the source type.
-	 * 
+	 *
 	 * @return
 	 */
 	public StructureType getType() {
@@ -74,7 +77,7 @@ public class StructureSource {
 
 	/**
 	 * Creates a Structure Source for type Series.
-	 * 
+	 *
 	 * @param se
 	 * @return
 	 */
@@ -84,7 +87,7 @@ public class StructureSource {
 
 	/**
 	 * Creates a Structure Source for type Plot.
-	 * 
+	 *
 	 * @param pt
 	 * @return
 	 */
@@ -94,7 +97,7 @@ public class StructureSource {
 
 	/**
 	 * Creates a Structure Source for type Title.
-	 * 
+	 *
 	 * @param pt
 	 * @return
 	 */
@@ -104,7 +107,7 @@ public class StructureSource {
 
 	/**
 	 * Creates a Structure Source for type Chart Block.
-	 * 
+	 *
 	 * @param pt
 	 * @return
 	 */
@@ -114,7 +117,7 @@ public class StructureSource {
 
 	/**
 	 * Creates a Structure Source for type Unknown.
-	 * 
+	 *
 	 * @param o
 	 * @return
 	 */
@@ -124,7 +127,7 @@ public class StructureSource {
 
 	/**
 	 * Creates a Structure Source for type Axis.
-	 * 
+	 *
 	 * @param ax
 	 * @return
 	 */
@@ -134,7 +137,7 @@ public class StructureSource {
 
 	/**
 	 * Creates a Structure Source for type Legend.
-	 * 
+	 *
 	 * @param lg
 	 * @return
 	 */
@@ -144,7 +147,7 @@ public class StructureSource {
 
 	/**
 	 * Creates a Structure Source for type MarkerLine.
-	 * 
+	 *
 	 * @param ml
 	 * @return
 	 */
@@ -154,7 +157,7 @@ public class StructureSource {
 
 	/**
 	 * Creates a Structure Source for type MarkerRange.
-	 * 
+	 *
 	 * @param ml
 	 * @return
 	 */

@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -28,9 +30,9 @@ public class PastePartAction extends WrapperSelectionAction {
 
 	/**
 	 * Create a new paste action with given selection and default text
-	 * 
+	 *
 	 * @param part
-	 * 
+	 *
 	 */
 	public PastePartAction(IWorkbenchPart part) {
 		super(part);
@@ -40,17 +42,19 @@ public class PastePartAction extends WrapperSelectionAction {
 		setAccelerator(SWT.CTRL | 'V'); // $NON-NLS-1$
 	}
 
+	@Override
 	public String getId() {
 		return ActionFactory.PASTE.getId();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.
 	 * WrapperSelectionAction#createActionHandler(org.eclipse.jface.viewers.
 	 * ISelection)
 	 */
+	@Override
 	protected IAction createActionHandler(ISelection model) {
 		Object target = null;
 		if (model instanceof IStructuredSelection) {

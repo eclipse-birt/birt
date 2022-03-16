@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,24 +55,27 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * "Axis" subtask. Attention: the axis layout order must be consistent with axis
  * items in the navigator tree.
- * 
+ *
  */
 public class AxisSheetImpl extends SubtaskSheetImpl {
 
 	private static final int HORIZONTAL_SPACING = 10;
 	private boolean enableAxisPercent = false;
 
+	@Override
 	public void createControl(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.SUBTASK_AXIS);
 
 		enableAxisPercent = ChartUtil.isStudyLayout(getChart());
 
 		int columnNumber = 6;
-		if (enableAxisPercent)
+		if (enableAxisPercent) {
 			columnNumber++;
+		}
 
 		cmpContent = new Composite(parent, SWT.NONE) {
 
+			@Override
 			public Point computeSize(int wHint, int hHint, boolean changed) {
 				// Return a fixed height as preferred size of scrolled composite
 				Point p = super.computeSize(wHint, hHint, changed);
@@ -307,6 +313,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl {
 			if (enableAxisPercent) {
 				if (this.angleType == AngleType.Y) {
 					compAxisPercent = new TextEditorComposite(parent, SWT.BORDER, TextEditorComposite.TYPE_NUMBERIC) {
+						@Override
 						public void keyPressed(KeyEvent e) {
 							char c = e.character;
 							if (c == '0' && "".equals(compAxisPercent.getText().trim())) //$NON-NLS-1$
@@ -343,6 +350,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl {
 			btnSideBySide.setEnabled((angleType == AngleType.Y) && (getDesignTimeSeries(axis) instanceof BarSeries));
 		}
 
+		@Override
 		public void widgetSelected(SelectionEvent e) {
 			if (e.widget == btnVisible) {
 				if (btnVisible.getSelectionState() == ChartCheckbox.STATE_GRAYED) {
@@ -382,11 +390,13 @@ public class AxisSheetImpl extends SubtaskSheetImpl {
 
 		}
 
+		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void handleEvent(Event event) {
 			if (cmbColor.equals(event.widget)) {
 				if (event.type == FillChooserComposite.FILL_CHANGED_EVENT) {
@@ -394,7 +404,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl {
 				}
 			} else if (event.widget == compAxisPercent) {
 				try {
-					int value = Integer.valueOf(compAxisPercent.getText()).intValue();
+					int value = Integer.parseInt(compAxisPercent.getText());
 					if (value == 0) {
 						compAxisPercent.setText(""); //$NON-NLS-1$
 						axis.unsetAxisPercent();

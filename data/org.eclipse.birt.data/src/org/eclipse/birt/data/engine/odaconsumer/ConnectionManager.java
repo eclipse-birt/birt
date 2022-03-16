@@ -1,10 +1,13 @@
 /*
  *****************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -56,7 +59,7 @@ public class ConnectionManager {
 	/**
 	 * Returns a <code>ConnectionManager</code> instance for getting opened
 	 * <code>Connections</code>.
-	 * 
+	 *
 	 * @return a <code>ConnectionManager</code> instance.
 	 */
 	public static ConnectionManager getInstance() {
@@ -65,8 +68,9 @@ public class ConnectionManager {
 
 		if (sm_instance == null) {
 			synchronized (ConnectionManager.class) {
-				if (sm_instance == null)
+				if (sm_instance == null) {
 					sm_instance = new ConnectionManager();
+				}
 			}
 		}
 
@@ -86,8 +90,9 @@ public class ConnectionManager {
 	private static LogHelper getLogger() {
 		if (sm_logger == null) {
 			synchronized (ConnectionManager.class) {
-				if (sm_logger == null)
+				if (sm_logger == null) {
 					sm_logger = LogHelper.getInstance(sm_packageName);
+				}
 			}
 		}
 
@@ -97,7 +102,7 @@ public class ConnectionManager {
 	/**
 	 * Returns an opened <code>Connection</code> that is supported by the specified
 	 * data source extension using the specified connection properties.
-	 * 
+	 *
 	 * @param dataSourceElementId  id of the data source element defined in the data
 	 *                             source extension.
 	 * @param connectionProperties connection properties to open the underlying
@@ -106,6 +111,7 @@ public class ConnectionManager {
 	 * @throws DataException if data source error occurs.
 	 * @deprecated since 2.2
 	 */
+	@Deprecated
 	public Connection openConnection(String dataSourceElementId, Properties connectionProperties) throws DataException {
 		return openConnection(dataSourceElementId, connectionProperties, null);
 	}
@@ -113,7 +119,7 @@ public class ConnectionManager {
 	/**
 	 * Same functionality as the first openConnection method, but with an additional
 	 * argument to pass in an application context to the underlying ODA driver.
-	 * 
+	 *
 	 * @param appContext Application context map to pass thru to the underlying ODA
 	 *                   driver.
 	 * @return an opened <code>Connection</code> instance.
@@ -123,8 +129,9 @@ public class ConnectionManager {
 			throws DataException {
 		final String methodName = "openConnection"; //$NON-NLS-1$
 
-		if (getLogger().isLoggingEnterExitLevel())
+		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName, new Object[] { dataSourceElementId, connectionProperties });
+		}
 
 		try {
 			DriverManager driverMgr = DriverManager.getInstance();
@@ -156,12 +163,7 @@ public class ConnectionManager {
 
 			getLogger().exiting(sm_className, methodName, ret);
 			return ret;
-		} catch (OdaException ex) {
-			getLogger().logp(Level.SEVERE, sm_className, methodName, "Unable to open connection.", ex); //$NON-NLS-1$
-
-			throw ExceptionHandler.newException(ResourceConstants.CANNOT_OPEN_CONNECTION,
-					new Object[] { dataSourceElementId }, ex);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			getLogger().logp(Level.SEVERE, sm_className, methodName, "Unable to open connection.", ex); //$NON-NLS-1$
 
 			throw ExceptionHandler.newException(ResourceConstants.CANNOT_OPEN_CONNECTION,
@@ -174,7 +176,7 @@ public class ConnectionManager {
 	 * defined in the appContext object. This will trigger the use of the DTP ODA
 	 * framework service to apply the connection property values defined in an
 	 * external connection profile store, for opening a connection.
-	 * 
+	 *
 	 * @param appContext application context object passed thru into the data engine
 	 * @return updated application context object for passing thru to the DTP
 	 *         oda.consumer
@@ -182,17 +184,19 @@ public class ConnectionManager {
 	@SuppressWarnings("unchecked")
 	static Map addProfileProviderService(Map appContext) {
 		Map providerAppContext = appContext;
-		if (providerAppContext == null)
+		if (providerAppContext == null) {
 			providerAppContext = new HashMap();
+		}
 
 		// if externally-provided appContext has not specified own consumer id for
 		// a property provider extension, add the default ODA provider extension
 		// to use a linked connection profile's properties
 		if (!providerAppContext.containsKey(IPropertyProvider.ODA_CONSUMER_ID)) {
 			providerAppContext.put(IPropertyProvider.ODA_CONSUMER_ID, DTP_CONN_PROFILE_APPL_ID);
-			if (getLogger().isLoggable(Level.FINER))
+			if (getLogger().isLoggable(Level.FINER)) {
 				getLogger().logp(Level.FINER, sm_className, "addProfileProviderService( Map )", //$NON-NLS-1$
 						"Added default property service: " + DTP_CONN_PROFILE_APPL_ID); //$NON-NLS-1$
+			}
 		}
 
 		return providerAppContext;
@@ -200,7 +204,7 @@ public class ConnectionManager {
 
 	/**
 	 * Returns the maximum number of active connections that the driver can support.
-	 * 
+	 *
 	 * @return the maximum number of connections that can be opened concurrently, or
 	 *         0 if there is no limit or the limit is unknown.
 	 * @throws DataException if data source error occurs.
@@ -212,8 +216,9 @@ public class ConnectionManager {
 		int maxConnections = 0; // default to unknown limit
 		try {
 			IDriver driverHelper = DriverManager.getInstance().getDriverHelper(driverName);
-			if (driverHelper != null)
+			if (driverHelper != null) {
 				maxConnections = driverHelper.getMaxConnections();
+			}
 		} catch (OdaException ex) {
 			getLogger().logp(Level.WARNING, sm_className, methodName, "Cannot get max connections.", ex); //$NON-NLS-1$
 			maxConnections = 0;

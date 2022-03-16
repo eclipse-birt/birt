@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,26 +24,26 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testParser()}</td>
  * <td>Get all properties.</td>
  * <td>The property values are right.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testWriter()}</td>
  * <td>Set all properties with new value and write.</td>
  * <td>The output file is as same as golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSemanticCheck()}</td>
  * <td>Read a design file with semantic errors.</td>
  * <td>Errors of missing script open and close are found.</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class ScriptDataSourceParseTest extends BaseTestCase {
 
@@ -52,6 +55,7 @@ public class ScriptDataSourceParseTest extends BaseTestCase {
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
@@ -59,7 +63,7 @@ public class ScriptDataSourceParseTest extends BaseTestCase {
 	/**
 	 * This test reads the design file, and checks the properties and style
 	 * properties of line.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -73,7 +77,7 @@ public class ScriptDataSourceParseTest extends BaseTestCase {
 	/**
 	 * This test sets properties, writes the design file and compares it with golden
 	 * file.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -89,7 +93,7 @@ public class ScriptDataSourceParseTest extends BaseTestCase {
 
 //	/**
 //	 * Test semantic errors.
-//	 * 
+//	 *
 //	 * @throws Exception
 //	 *             if any exception.
 //	 */
@@ -111,7 +115,7 @@ public class ScriptDataSourceParseTest extends BaseTestCase {
 
 	/**
 	 * Returns the data source.
-	 * 
+	 *
 	 * @return the data source for test
 	 * @throws Exception if any exception.
 	 */

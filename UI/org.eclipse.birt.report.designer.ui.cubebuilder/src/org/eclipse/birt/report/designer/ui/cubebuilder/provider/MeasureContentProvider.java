@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,6 +21,7 @@ import org.eclipse.jface.viewers.Viewer;
 
 public class MeasureContentProvider implements ITreeContentProvider {
 
+	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof Object[]) {
 			return (Object[]) parentElement;
@@ -31,11 +35,13 @@ public class MeasureContentProvider implements ITreeContentProvider {
 		return new Object[0];
 	}
 
+	@Override
 	public Object getParent(Object element) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public boolean hasChildren(Object element) {
 		if (element instanceof Object[]) {
 			return ((Object[]) element).length > 0;
@@ -49,15 +55,18 @@ public class MeasureContentProvider implements ITreeContentProvider {
 		return false;
 	}
 
+	@Override
 	public Object[] getElements(Object inputElement) {
 		return getChildren(inputElement);
 	}
 
+	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		// TODO Auto-generated method stub
 

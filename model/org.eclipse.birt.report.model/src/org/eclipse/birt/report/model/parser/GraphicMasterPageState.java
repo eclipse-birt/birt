@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,14 +23,14 @@ import org.xml.sax.Attributes;
 
 /**
  * This class parses a graphic master page.
- * 
+ *
  */
 
 public class GraphicMasterPageState extends MasterPageState {
 
 	/**
 	 * Constructs the graphic master page state with the design file parser handler.
-	 * 
+	 *
 	 * @param handler the design file parser handler
 	 */
 
@@ -37,12 +40,13 @@ public class GraphicMasterPageState extends MasterPageState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
 	 * Attributes)
 	 */
 
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		element = new GraphicMasterPage();
 		initElement(attrs, true);
@@ -50,15 +54,17 @@ public class GraphicMasterPageState extends MasterPageState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
 	 * String)
 	 */
 
+	@Override
 	public AbstractParseState startElement(String tagName) {
-		if (tagName.equalsIgnoreCase(DesignSchemaConstants.CONTENTS_TAG))
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.CONTENTS_TAG)) {
 			return new ContentsState();
+		}
 		return super.startElement(tagName);
 	}
 
@@ -68,40 +74,52 @@ public class GraphicMasterPageState extends MasterPageState {
 
 	class ContentsState extends AbstractParseState {
 
+		@Override
 		public XMLParserHandler getHandler() {
 			return handler;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
 		 * String)
 		 */
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
 			int tagValue = tagName.toLowerCase().hashCode();
-			if (ParserSchemaConstants.LABEL_TAG == tagValue)
+			if (ParserSchemaConstants.LABEL_TAG == tagValue) {
 				return new LabelState(handler, element, GraphicMasterPage.CONTENT_SLOT);
-			if (ParserSchemaConstants.DATA_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.DATA_TAG == tagValue) {
 				return new DataItemState(handler, element, GraphicMasterPage.CONTENT_SLOT);
-			if (ParserSchemaConstants.TEXT_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.TEXT_TAG == tagValue) {
 				return new TextItemState(handler, element, GraphicMasterPage.CONTENT_SLOT);
-			if (ParserSchemaConstants.IMAGE_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.IMAGE_TAG == tagValue) {
 				return new ImageState(handler, element, GraphicMasterPage.CONTENT_SLOT);
-			if (ParserSchemaConstants.LINE_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.LINE_TAG == tagValue) {
 				return new LineItemState(handler, element, GraphicMasterPage.CONTENT_SLOT);
-			if (ParserSchemaConstants.RECTANGLE_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.RECTANGLE_TAG == tagValue) {
 				return new RectangleState(handler, element, GraphicMasterPage.CONTENT_SLOT);
-			if (ParserSchemaConstants.GRID_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.GRID_TAG == tagValue) {
 				return new GridItemState(handler, element, GraphicMasterPage.CONTENT_SLOT);
-			if (ParserSchemaConstants.BROWSER_CONTROL_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.BROWSER_CONTROL_TAG == tagValue) {
 				return new AnyElementState(handler);
-			if (ParserSchemaConstants.FREE_FORM_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.FREE_FORM_TAG == tagValue) {
 				return new FreeFormState(handler, element, GraphicMasterPage.CONTENT_SLOT);
-			if (ParserSchemaConstants.EXTENDED_ITEM_TAG == tagValue)
+			}
+			if (ParserSchemaConstants.EXTENDED_ITEM_TAG == tagValue) {
 				return new AnyElementState(handler);
+			}
 			return super.startElement(tagName);
 		}
 	}

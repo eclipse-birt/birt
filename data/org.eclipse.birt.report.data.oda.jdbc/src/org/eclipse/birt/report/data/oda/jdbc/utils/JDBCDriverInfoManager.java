@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,24 +39,26 @@ public class JDBCDriverInfoManager {
 	}
 
 	public synchronized static JDBCDriverInfoManager getInstance() {
-		if (instance == null)
+		if (instance == null) {
 			instance = new JDBCDriverInfoManager();
+		}
 		return instance;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param driverClassName
 	 * @return
 	 */
 	public JDBCDriverInformation getDriversInfo(String driverClassName) {
 		JDBCDriverInformation[] infos = getDriversInfo();
-		if (driverClassName != null)
+		if (driverClassName != null) {
 			for (JDBCDriverInformation info : infos) {
 				if (driverClassName.equals(info.getDriverClassName())) {
 					return info;
 				}
 			}
+		}
 		return null;
 	}
 
@@ -62,29 +67,34 @@ public class JDBCDriverInfoManager {
 	 * array of JDBCDriverInformation objects
 	 */
 	public JDBCDriverInformation[] getDriversInfo() {
-		if (jdbcDriverInfo != null)
+		if (jdbcDriverInfo != null) {
 			return jdbcDriverInfo;
+		}
 
 		synchronized (this) {
-			if (jdbcDriverInfo != null)
+			if (jdbcDriverInfo != null) {
 				return jdbcDriverInfo;
+			}
 
 			IExtensionRegistry extReg = Platform.getExtensionRegistry();
 			IExtensionPoint extPoint = extReg.getExtensionPoint(OdaJdbcDriver.Constants.DRIVER_INFO_EXTENSION);
 
-			if (extPoint == null)
+			if (extPoint == null) {
 				return new JDBCDriverInformation[0];
+			}
 
 			IExtension[] exts = extPoint.getExtensions();
-			if (exts == null)
+			if (exts == null) {
 				return new JDBCDriverInformation[0];
+			}
 
-			ArrayList<JDBCDriverInformation> drivers = new ArrayList<JDBCDriverInformation>();
+			ArrayList<JDBCDriverInformation> drivers = new ArrayList<>();
 
 			for (int e = 0; e < exts.length; e++) {
 				IConfigurationElement[] configElems = exts[e].getConfigurationElements();
-				if (configElems == null)
+				if (configElems == null) {
 					continue;
+				}
 
 				for (int i = 0; i < configElems.length; i++) {
 					if (configElems[i].getName().equals(OdaJdbcDriver.Constants.DRIVER_INFO_ELEM_JDBCDRIVER)) {
@@ -101,7 +111,7 @@ public class JDBCDriverInfoManager {
 	/**
 	 * Creates a new JDBCDriverInformation instance based on a driverInfo extension
 	 * element
-	 * 
+	 *
 	 * @param driverClass
 	 * @return
 	 */

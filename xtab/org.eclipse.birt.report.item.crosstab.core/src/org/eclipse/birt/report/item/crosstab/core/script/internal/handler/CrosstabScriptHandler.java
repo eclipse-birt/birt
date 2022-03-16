@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -63,7 +66,7 @@ public final class CrosstabScriptHandler {
 
 	private static final Logger logger = Logger.getLogger(CrosstabScriptHandler.class.getName());
 
-	private static final Map<String, Method> JAVA_FUNTION_MAP = new HashMap<String, Method>();
+	private static final Map<String, Method> JAVA_FUNTION_MAP = new HashMap<>();
 
 	static {
 		// init java function name lookup table.
@@ -84,7 +87,7 @@ public final class CrosstabScriptHandler {
 
 	/**
 	 * Initialize the JavaScript context using given parent scope.
-	 * 
+	 *
 	 * @param scPrototype Parent scope object. If it's null, use default scope.
 	 */
 	public void init(Scriptable scPrototype) throws CrosstabException {
@@ -105,7 +108,7 @@ public final class CrosstabScriptHandler {
 
 	/**
 	 * Finds the JavaScript funtion by given name.
-	 * 
+	 *
 	 * @param sFunctionName The name of the function to be searched for
 	 * @return An instance of the function being searched for or null if it isn't
 	 *         found
@@ -132,7 +135,7 @@ public final class CrosstabScriptHandler {
 
 	/**
 	 * Call JavaScript functions with an argument array.
-	 * 
+	 *
 	 * @param f      The function to be executed
 	 * @param oaArgs The Java object arguments passed to the function being executed
 	 */
@@ -279,12 +282,13 @@ public final class CrosstabScriptHandler {
 
 	private Class<?> getClassUsingCustomClassPath(String className, String classPathKey, ClassLoader parentLoader) {
 		String classPath = System.getProperty(classPathKey);
-		if (classPath == null || classPath.length() == 0 || className == null)
+		if (classPath == null || classPath.length() == 0 || className == null) {
 			return null;
+		}
 		String[] classPathArray = classPath.split(EngineConstants.PROPERTYSEPARATOR, -1);
 		URL[] urls = null;
 		if (classPathArray.length != 0) {
-			List<URL> l = new ArrayList<URL>();
+			List<URL> l = new ArrayList<>();
 			for (int i = 0; i < classPathArray.length; i++) {
 				String cpValue = classPathArray[i];
 				File file = new File(cpValue);
@@ -311,7 +315,7 @@ public final class CrosstabScriptHandler {
 
 	/**
 	 * Register the script content for current script handler.
-	 * 
+	 *
 	 * @param sScriptContent This is either the JavaSciprt code content or a full
 	 *                       class name which has implemented
 	 *                       <code>IChartItemScriptHandler</code>
@@ -326,9 +330,7 @@ public final class CrosstabScriptHandler {
 			if (ICrosstabEventHandler.class.isAssignableFrom(handlerClass)) {
 				try {
 					javahandler = (ICrosstabEventHandler) handlerClass.newInstance();
-				} catch (InstantiationException e) {
-					throw new CrosstabException(e);
-				} catch (IllegalAccessException e) {
+				} catch (InstantiationException | IllegalAccessException e) {
 					throw new CrosstabException(e);
 				}
 
@@ -356,7 +358,7 @@ public final class CrosstabScriptHandler {
 				Object[] objs = scope.getIds();
 
 				if (objs != null) {
-					javaScriptFunctionNamesCache = new ArrayList<String>();
+					javaScriptFunctionNamesCache = new ArrayList<>();
 
 					for (int i = 0; i < objs.length; i++) {
 						javaScriptFunctionNamesCache.add(String.valueOf(objs[i]));
@@ -376,7 +378,7 @@ public final class CrosstabScriptHandler {
 
 	/**
 	 * Converts general exception to more readable format.
-	 * 
+	 *
 	 * @param ex
 	 * @return
 	 */
@@ -386,8 +388,9 @@ public final class CrosstabScriptHandler {
 			String lineSource = e.lineSource();
 			String details = e.details();
 			String lineNumber = String.valueOf(e.lineNumber());
-			if (lineSource == null)
+			if (lineSource == null) {
 				lineSource = "";//$NON-NLS-1$
+			}
 			return new CrosstabException(Messages.getString("CrosstabScriptHandler.error.javascript", //$NON-NLS-1$
 					new Object[] { details, lineNumber, lineSource }));
 		} else {

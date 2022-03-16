@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,6 +30,7 @@ public class EngineTaskStatusTest extends EngineCase {
 	EngineStatusHandler engineHandler;
 	TaskStatusHandler taskHandler;
 
+	@Override
 	public void setUp() {
 		engineOutput = new ByteArrayOutputStream();
 		EngineConfig config = new EngineConfig();
@@ -35,9 +39,11 @@ public class EngineTaskStatusTest extends EngineCase {
 		engine = new ReportEngine(config);
 	}
 
+	@Override
 	public void tearDown() {
-		if (engine != null)
+		if (engine != null) {
 			engine.destroy();
+		}
 		engine = null;
 	}
 
@@ -154,14 +160,17 @@ class EngineStatusHandler implements IStatusHandler {
 		sb = new StringBuilder();
 	}
 
+	@Override
 	public void finish() {
 		ps.print("engine::finish()\n");
 	}
 
+	@Override
 	public void initialize() {
 		ps.print("engine::initialize()\n");
 	}
 
+	@Override
 	public void showStatus(String s) {
 		ps.print("engine::showStatus()\n");
 		ps.print(s);
@@ -188,14 +197,17 @@ class TaskStatusHandler implements IStatusHandler {
 		sb = new StringBuilder();
 	}
 
+	@Override
 	public void finish() {
 		ps.print("task::finish()\n");
 	}
 
+	@Override
 	public void initialize() {
 		ps.print("task::initialize()\n");
 	}
 
+	@Override
 	public void showStatus(String s) {
 		ps.print("task::showStatus()\n");
 		ps.print(s);

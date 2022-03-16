@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,12 +24,11 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.binding.APITestCase;
-
-import testutil.ConfigText;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import testutil.ConfigText;
 
 public class ScopedCacheTest extends APITestCase {
 	private String tableName;
@@ -204,6 +206,7 @@ public class ScopedCacheTest extends APITestCase {
 		checkOutputFile();
 	}
 
+	@Override
 	protected Map getAppContext() {
 		Map appContext = new HashMap();
 		appContext.put(DataEngine.MEMORY_DATA_SET_CACHE, 5);

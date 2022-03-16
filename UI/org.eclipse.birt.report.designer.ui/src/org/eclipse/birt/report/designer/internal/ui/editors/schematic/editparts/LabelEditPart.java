@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -39,7 +42,7 @@ import org.eclipse.jface.viewers.TextCellEditor;
 
 /**
  * Provides support for label edit parts.
- * 
+ *
  */
 public class LabelEditPart extends ReportElementEditPart {
 
@@ -49,7 +52,7 @@ public class LabelEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.core.facade.IModelAdaptHelper#markDirty(
 	 * boolean)
@@ -58,7 +61,7 @@ public class LabelEditPart extends ReportElementEditPart {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
 	public LabelEditPart(Object model) {
@@ -67,12 +70,14 @@ public class LabelEditPart extends ReportElementEditPart {
 
 	private DirectEditManager manager;
 
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy());
 
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
 	}
 
+	@Override
 	protected IFigure createFigure() {
 		LabelFigure label = new LabelFigure();
 		return label;
@@ -81,10 +86,12 @@ public class LabelEditPart extends ReportElementEditPart {
 	/**
 	 * Perform director edit on label
 	 */
+	@Override
 	public void performDirectEdit() {
-		if (manager == null)
+		if (manager == null) {
 			manager = new LabelEditManager(this, TextCellEditor.class,
 					new LabelCellEditorLocator((Figure) getFigure()));
+		}
 		manager.show();
 	}
 
@@ -97,11 +104,12 @@ public class LabelEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#refreshFigure()
 	 */
+	@Override
 	public void refreshFigure() {
 		StyleHandle style = ((DesignElementHandle) getModel()).getPrivateStyle();
 		// ( (LabelFigure) getFigure( ) ).setDirection( style.getTextDirection( ) ); //
@@ -132,11 +140,12 @@ public class LabelEditPart extends ReportElementEditPart {
 
 		((LineBorder) (getFigure().getBorder())).setPaddingInsets(pist);
 
-		if (!hasText())
+		if (!hasText()) {
 			((LabelFigure) getFigure()).setForegroundColor(ReportColorConstants.ShadowLineColor);
-		else
+		} else {
 			((LabelFigure) getFigure())
 					.setForegroundColor(ColorManager.getColor(getForegroundColor((ReportItemHandle) getModel())));
+		}
 
 		refreshBackground((DesignElementHandle) getModel());
 
@@ -145,7 +154,7 @@ public class LabelEditPart extends ReportElementEditPart {
 
 	/**
 	 * Returns if the model element has explicit text set.
-	 * 
+	 *
 	 * @return
 	 */
 	protected boolean hasText() {
@@ -158,7 +167,7 @@ public class LabelEditPart extends ReportElementEditPart {
 
 	/**
 	 * Get the text shown on label.
-	 * 
+	 *
 	 * @return The text shown on label
 	 */
 	protected String getText() {
@@ -195,11 +204,12 @@ public class LabelEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
 	 */
+	@Override
 	public EditPolicy getResizePolice(EditPolicy parentPolice) {
 		return new ReportElementNonResizablePolicy();
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,6 +44,7 @@ public class TableOptionBindingDialog extends TableOptionDialog {
 		super(parentShell, true);
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		loadPreference();
 
@@ -75,6 +79,7 @@ public class TableOptionBindingDialog extends TableOptionDialog {
 		autoChk.setLayoutData(gdata);
 		autoChk.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (dataSetCombo.getSelectionIndex() == 0) {
 					rowEditor.setEnabled(!autoChk.getSelection());
@@ -94,6 +99,7 @@ public class TableOptionBindingDialog extends TableOptionDialog {
 
 		dataSetCombo.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (dataSetCombo.getSelectionIndex() > 0) {
 					createBindingUI(contentPane);
@@ -102,7 +108,7 @@ public class TableOptionBindingDialog extends TableOptionDialog {
 				}
 
 				contentPane.layout();
-			};
+			}
 		});
 
 		UIUtil.bindHelp(parent, IHelpContextIds.TABLE_OPTION_DIALOG_ID);
@@ -175,9 +181,10 @@ public class TableOptionBindingDialog extends TableOptionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
+	@Override
 	protected void okPressed() {
 		if (dataSetCombo.getSelectionIndex() == 0) {
 			rowCount = rowEditor.getSelection();

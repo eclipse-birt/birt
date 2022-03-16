@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -13,9 +16,9 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 public class BlankData extends Data {
 
-	public static enum Type {
+	public enum Type {
 		VERTICAL, HORIZONTAL, NONE
-	};
+	}
 
 	private SheetData data;
 
@@ -26,6 +29,7 @@ public class BlankData extends Data {
 		this.data = data;
 	}
 
+	@Override
 	public boolean isBlank() {
 		return true;
 	}
@@ -34,34 +38,42 @@ public class BlankData extends Data {
 		return data;
 	}
 
+	@Override
 	public int getRowSpan() {
 		return data.getRowSpan();
 	}
 
+	@Override
 	public void setRowSpan(int rowSpan) {
 		data.setRowSpan(rowSpan);
 	}
 
+	@Override
 	public int getRowSpanInDesign() {
 		return data.getRowSpanInDesign();
 	}
 
+	@Override
 	public void decreasRowSpanInDesign() {
 		data.decreasRowSpanInDesign();
 	}
 
+	@Override
 	public float getHeight() {
 		return data.getHeight();
 	}
 
+	@Override
 	public void setHeight(float height) {
 		data.setHeight(height);
 	}
 
+	@Override
 	public int getStartX() {
 		return data.getStartX();
 	}
 
+	@Override
 	public int getEndX() {
 		return data.getEndX();
 	}

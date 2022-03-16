@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ public interface ITextDataItemModel {
 	 * file, or other data item..
 	 */
 
-	public static final String VALUE_EXPR_PROP = "valueExpr"; //$NON-NLS-1$
+	String VALUE_EXPR_PROP = "valueExpr"; //$NON-NLS-1$
 
 	/**
 	 * Name of the content type expression property. It is an optional property that
@@ -36,10 +39,10 @@ public interface ITextDataItemModel {
 	 * <li>RTF: Rich Text Format.
 	 * <li>Expression: an expression that returns one of the above strings.
 	 * </ul>
-	 * 
+	 *
 	 */
 
-	public static final String CONTENT_TYPE_PROP = "contentType"; //$NON-NLS-1$
+	String CONTENT_TYPE_PROP = "contentType"; //$NON-NLS-1$
 
 	/**
 	 * Name of the property that indicates whether there is expression in the text
@@ -51,5 +54,5 @@ public interface ITextDataItemModel {
 	 * Name of the property that indicates if jTidy is used to validate HTML
 	 * content. By default, the value is TRUE.
 	 */
-	public static String JTIDY_PROP = "jTidy"; //$NON-NLS-1$
+	String JTIDY_PROP = "jTidy"; //$NON-NLS-1$
 }

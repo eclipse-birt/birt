@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,8 +26,8 @@ import java.util.Set;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.DataEngineContext.DataEngineFlowMode;
+import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
@@ -59,7 +62,7 @@ import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 
 /**
  * Utility class to fetch all available value for filter use.
- * 
+ *
  */
 public class DistinctValueSelector {
 	/**
@@ -70,7 +73,7 @@ public class DistinctValueSelector {
 
 	/**
 	 * Used in the filter select value dialog in dataset editor
-	 * 
+	 *
 	 * @param expression
 	 * @param dataSetHandle
 	 * @param binding
@@ -154,14 +157,16 @@ public class DistinctValueSelector {
 				}
 			}
 
-			if (visitedValues.isEmpty())
+			if (visitedValues.isEmpty()) {
 				return Collections.EMPTY_LIST;
+			}
 
 			return new ArrayList(visitedValues);
 		} finally {
 			AppContextResourceReleaser.release(appContext);
-			if (previewer != null)
+			if (previewer != null) {
 				previewer.close();
+			}
 		}
 	}
 
@@ -184,7 +189,7 @@ public class DistinctValueSelector {
 
 	/**
 	 * Used in filter select value dialog in layout with group definition.
-	 * 
+	 *
 	 * @param expression
 	 * @param dataSetHandle
 	 * @param binding          The iterator of ComputedColumnHandle
@@ -202,7 +207,7 @@ public class DistinctValueSelector {
 	private static List getSelectValueFromBinding1(Expression expression, DataSetHandle dataSetHandle,
 			ModuleHandle moduleHandle, Iterator binding, Iterator groupIterator, boolean useDataSetFilter)
 			throws BirtException {
-		String columnName = null;
+		String columnName;
 		List bindingList = new ArrayList();
 
 		if (binding != null && binding.hasNext()) {
@@ -272,14 +277,17 @@ public class DistinctValueSelector {
 
 		assert result != null;
 
-		if (result == null)
+		if (result == null) {
 			throw new BirtException(Messages.getString("SelectValueDialog.messages.error.selectValueNotSupported"));
-		if (result.isEmpty())
+		}
+		if (result.isEmpty()) {
 			return Collections.EMPTY_LIST;
+		}
 
 		Object resultProtoType = result.iterator().next();
-		if (resultProtoType instanceof IBlob || resultProtoType instanceof byte[])
+		if (resultProtoType instanceof IBlob || resultProtoType instanceof byte[]) {
 			return Collections.EMPTY_LIST;
+		}
 
 		// remove the null value in list
 		result.remove(null);

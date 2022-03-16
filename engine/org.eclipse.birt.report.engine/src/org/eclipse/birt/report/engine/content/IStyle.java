@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,78 +31,78 @@ import org.w3c.dom.css.CSSValue;
 
 /**
  * Provides the interfaces for the ROM style
- * 
+ *
  * the properties must be string as the user may change them in script.
- * 
+ *
  */
 public interface IStyle extends CSSStyleDeclaration, StyleConstants, CSS2Properties, CSSConstants, CSSValueConstants,
 		BIRTConstants, BIRTValueConstants {
 
-	public String getBackgroundPositionX();
+	String getBackgroundPositionX();
 
-	public String getBackgroundPositionY();
+	String getBackgroundPositionY();
 
-	public String getTextUnderline();
+	String getTextUnderline();
 
-	public String getTextOverline();
+	String getTextOverline();
 
-	public String getTextLineThrough();
+	String getTextLineThrough();
 
-	public String getMasterPage();
+	String getMasterPage();
 
-	public String getShowIfBlank();
+	String getShowIfBlank();
 
-	public String getCanShrink();
+	String getCanShrink();
 
-	public String getStringFormat();
+	String getStringFormat();
 
-	public String getNumberFormat();
+	String getNumberFormat();
 
-	public String getDateFormat();
+	String getDateFormat();
 
-	public String getDateTimeFormat();
+	String getDateTimeFormat();
 
-	public String getTimeFormat();
+	String getTimeFormat();
 
-	public String getNumberAlign();
+	String getNumberAlign();
 
-	public String getVisibleFormat();
+	String getVisibleFormat();
 
-	public void setBackgroundPositionX(String x) throws DOMException;
+	void setBackgroundPositionX(String x) throws DOMException;
 
-	public void setBackgroundPositionY(String y) throws DOMException;
+	void setBackgroundPositionY(String y) throws DOMException;
 
-	public void setTextUnderline(String underline) throws DOMException;
+	void setTextUnderline(String underline) throws DOMException;
 
-	public void setTextOverline(String overline) throws DOMException;
+	void setTextOverline(String overline) throws DOMException;
 
-	public void setTextLineThrough(String through) throws DOMException;
+	void setTextLineThrough(String through) throws DOMException;
 
-	public void setMasterPage(String page) throws DOMException;
+	void setMasterPage(String page) throws DOMException;
 
-	public void setShowIfBlank(String blank) throws DOMException;
+	void setShowIfBlank(String blank) throws DOMException;
 
-	public void setCanShrink(String shrink) throws DOMException;
+	void setCanShrink(String shrink) throws DOMException;
 
-	public void setStringFormat(String format) throws DOMException;
+	void setStringFormat(String format) throws DOMException;
 
-	public void setNumberFormat(String format) throws DOMException;
+	void setNumberFormat(String format) throws DOMException;
 
-	public void setDateFormat(String format) throws DOMException;
+	void setDateFormat(String format) throws DOMException;
 
-	public void setNumberAlign(String align) throws DOMException;
+	void setNumberAlign(String align) throws DOMException;
 
-	public void setVisibleFormat(String visibility) throws DOMException;
+	void setVisibleFormat(String visibility) throws DOMException;
 
-	public CSSValue getProperty(int index);
+	CSSValue getProperty(int index);
 
-	public void setProperty(int index, CSSValue value);
+	void setProperty(int index, CSSValue value);
 
-	public void setProperties(IStyle style);
+	void setProperties(IStyle style);
 
-	public String getCssText(int index);
+	String getCssText(int index);
 
-	public void setCssText(int index, String value) throws DOMException;
+	void setCssText(int index, String value) throws DOMException;
 
 	boolean isEmpty();
 
@@ -110,11 +110,11 @@ public interface IStyle extends CSSStyleDeclaration, StyleConstants, CSS2Propert
 
 	void read(DataInputStream in) throws IOException;
 
-	public String getBackgroundHeight();
+	String getBackgroundHeight();
 
-	public String getBackgroundWidth();
+	String getBackgroundWidth();
 
-	public DataFormatValue getDataFormat();
+	DataFormatValue getDataFormat();
 
-	public void setDataFormat(DataFormatValue value);
+	void setDataFormat(DataFormatValue value);
 }

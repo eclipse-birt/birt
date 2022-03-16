@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,14 +26,14 @@ import org.eclipse.birt.report.model.core.Structure;
  * action type is drillthrough type. It's provided for drillthrough contents. If
  * the document supports searching, the link can include search criteria. Each
  * search key has the following properties:
- * 
+ *
  * <p>
  * <dl>
  * <dt><strong>Expression </strong></dt>
  * <dd>an expression of the search key for the drillthrough.</dd>
  * </dl>
  * <p>
- * 
+ *
  * @see Action
  */
 
@@ -56,24 +59,27 @@ public class SearchKey extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return SEARCHKEY_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (EXPRESSION_MEMBER.equals(propName))
+		if (EXPRESSION_MEMBER.equals(propName)) {
 			return expression;
+		}
 
 		assert false;
 		return null;
@@ -81,21 +87,23 @@ public class SearchKey extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (EXPRESSION_MEMBER.equals(propName))
+		if (EXPRESSION_MEMBER.equals(propName)) {
 			expression = (Expression) value;
-		else
+		} else {
 			assert false;
+		}
 	}
 
 	/**
 	 * Sets the expression value of this key.
-	 * 
+	 *
 	 * @param expression the expression to set
 	 */
 
@@ -105,7 +113,7 @@ public class SearchKey extends Structure {
 
 	/**
 	 * Returns expression value this key.
-	 * 
+	 *
 	 * @return the expression value
 	 */
 
@@ -115,10 +123,11 @@ public class SearchKey extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
+	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new SearchKeyHandle(valueHandle, index);
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -133,7 +136,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 
 	/**
 	 * The constructor. Default not using cache.
-	 * 
+	 *
 	 * @param handle
 	 */
 	public ChartReportStyleProcessor(DesignElementHandle handle) {
@@ -142,7 +145,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param handle
 	 * @param style
 	 */
@@ -152,7 +155,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param handle
 	 * @param useCache specify if use cache.
 	 */
@@ -167,7 +170,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 
 	/**
 	 * The constructor. Default not using cache.
-	 * 
+	 *
 	 * @param handle
 	 * @param useCache specify if use cache.
 	 * @param style
@@ -184,7 +187,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 
 	/**
 	 * The constructor. Default not using cache.
-	 * 
+	 *
 	 * @param handle
 	 * @param useCache specify if use cache.
 	 * @param uLocale
@@ -322,7 +325,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 
 	/**
 	 * Gets the int value of a String described font weight.
-	 * 
+	 *
 	 * @param fontWeight The String deccribed font weight.s
 	 */
 	protected static int getFontWeight(String fontWeight) {
@@ -356,7 +359,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 	/**
 	 * Get the handle's font size int value. if the font size is relative, calculate
 	 * the actual size according to its parent.
-	 * 
+	 *
 	 * @param handle The style handle to work with the style properties of this
 	 *               element.
 	 * @return The font size int value
@@ -493,7 +496,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 
 	/**
 	 * Converts object's units to pixel.
-	 * 
+	 *
 	 * @param object
 	 * @return The pixel value.
 	 */
@@ -503,7 +506,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 
 	/**
 	 * Converts object 's units to pixel.
-	 * 
+	 *
 	 * @param object
 	 * @return The pixel value.
 	 */
@@ -513,7 +516,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 
 	/**
 	 * Converts object 's units to inch, with baseSize to compute the relative unit.
-	 * 
+	 *
 	 * @param object   The origin object, may be DimensionValue or DimensionHandle.
 	 * @param baseSize The given baseSize used to compute relative unit.
 	 * @return The inch value.
@@ -571,7 +574,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 	}
 
 	private ColorDefinition getColor(CSSValue value) {
-		if (value != null && value instanceof RGBColorValue) {
+		if (value instanceof RGBColorValue) {
 			RGBColorValue color = (RGBColorValue) value;
 			try {
 				return goFactory.createColorDefinition(
@@ -672,7 +675,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 
 	/**
 	 * Applies column styles of data set onto chart.
-	 * 
+	 *
 	 * @param cm
 	 * @since 2.6.2
 	 */
@@ -754,12 +757,10 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 
 			if (old == null) {
 				triggers.add(trig);
-			} else {
-				if (old.getAction().getValue() instanceof MultiURLValues) {
-					MultiURLValues mu = (MultiURLValues) old.getAction().getValue();
-					if (mu.getURLValues().size() == 0) {
-						mu.getURLValues().add((URLValue) trig.getAction().getValue());
-					}
+			} else if (old.getAction().getValue() instanceof MultiURLValues) {
+				MultiURLValues mu = (MultiURLValues) old.getAction().getValue();
+				if (mu.getURLValues().size() == 0) {
+					mu.getURLValues().add((URLValue) trig.getAction().getValue());
 				}
 			}
 
@@ -1032,7 +1033,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 	/**
 	 * Get the default hyperlink predefined in data source. Only convert the
 	 * hyperlink type action.
-	 * 
+	 *
 	 * @param handle
 	 * @param expression
 	 * @return trigger
@@ -1106,7 +1107,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 
 	/**
 	 * Set an extra style processor proxy.
-	 * 
+	 *
 	 * @param proxy
 	 * @since 2.6.2
 	 */
@@ -1117,7 +1118,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 
 	/**
 	 * Returns instance of <code>ChartStyleProcessorProxy</code>.
-	 * 
+	 *
 	 * @return instance of ChartStyleProcessorProxy.
 	 */
 	public ChartStyleProcessorProxy getStyleProcessorProxy() {
@@ -1136,7 +1137,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.style.BaseStyleProcessor#updateChart(org.eclipse.birt.
 	 * chart.model.Chart, java.lang.Object)
@@ -1152,7 +1153,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.style.BaseStyleProcessor#needInheritingStyles()
 	 */
 	@Override

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +42,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * TODO: Please document
- * 
+ *
  * @version $Revision$ $Date$
  */
 public final class PropertyHandleTableViewer {
@@ -54,7 +57,7 @@ public final class PropertyHandleTableViewer {
 	protected Logger logger = Logger.getLogger(PropertyHandleTableViewer.class.getName());
 
 	/**
-	 * 
+	 *
 	 */
 	public PropertyHandleTableViewer(Composite parent, boolean showMenus, boolean showButtons,
 			boolean enableKeyStrokes) {
@@ -63,7 +66,7 @@ public final class PropertyHandleTableViewer {
 		layout.numColumns = 2;
 		mainControl.setLayout(layout);
 
-		GridData data = null;
+		GridData data;
 		viewer = new TableViewer(mainControl, SWT.FULL_SELECTION | SWT.BORDER);
 		data = new GridData(GridData.FILL_BOTH);
 		viewer.getControl().setLayoutData(data);
@@ -88,6 +91,7 @@ public final class PropertyHandleTableViewer {
 			btnUp.setToolTipText(Messages.getString("PropertyHandleTableViewer.Menu.Up")); //$NON-NLS-1$
 			btnUp.addSelectionListener(new SelectionListener() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					// Get the current selection and delete that row
 					int index = viewer.getTable().getSelectionIndex();
@@ -105,6 +109,7 @@ public final class PropertyHandleTableViewer {
 
 				}
 
+				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
 
@@ -119,10 +124,12 @@ public final class PropertyHandleTableViewer {
 			btnRemove.setToolTipText(Messages.getString("PropertyHandleTableViewer.Menu.Remove")); //$NON-NLS-1$
 			btnRemove.addSelectionListener(new SelectionListener() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					removeSelectedItem();
 				}
 
+				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
 
@@ -136,6 +143,7 @@ public final class PropertyHandleTableViewer {
 			btnDown.setToolTipText(Messages.getString("PropertyHandleTableViewer.Menu.Down")); //$NON-NLS-1$
 			btnDown.addSelectionListener(new SelectionListener() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					// Get the current selection and delete that row
 					int index = viewer.getTable().getSelectionIndex();
@@ -152,6 +160,7 @@ public final class PropertyHandleTableViewer {
 					}
 				}
 
+				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
 
@@ -161,6 +170,7 @@ public final class PropertyHandleTableViewer {
 		if (showMenus) {
 			menu = new Menu(viewer.getTable());
 			menu.addMenuListener(new MenuAdapter() {
+				@Override
 				public void menuShown(MenuEvent e) {
 					viewer.cancelEditing();
 				}
@@ -169,6 +179,7 @@ public final class PropertyHandleTableViewer {
 			itmRemove.setText(Messages.getString("PropertyHandleTableViewer.Menu.Remove")); //$NON-NLS-1$
 			itmRemove.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					removeSelectedItem();
 				}
@@ -177,6 +188,7 @@ public final class PropertyHandleTableViewer {
 			itmRemoveAll = new MenuItem(menu, SWT.NONE);
 			itmRemoveAll.setText(Messages.getString("PropertyHandleTableViewer.Menu.RemoveAll")); //$NON-NLS-1$
 			itmRemoveAll.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					try {
 						PropertyHandle handle = (PropertyHandle) viewer.getInput();
@@ -195,9 +207,11 @@ public final class PropertyHandleTableViewer {
 		if (enableKeyStrokes) {
 			viewer.getTable().addKeyListener(new KeyListener() {
 
+				@Override
 				public void keyPressed(KeyEvent e) {
 				}
 
+				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.keyCode == SWT.DEL) {
 						removeSelectedItem();
@@ -240,7 +254,7 @@ public final class PropertyHandleTableViewer {
 		return itmRemoveAll;
 	}
 
-	private final void removeSelectedItem() {
+	private void removeSelectedItem() {
 		int index = viewer.getTable().getSelectionIndex();
 		PropertyHandle handle = (PropertyHandle) viewer.getInput();
 		int count = (handle.getListValue() == null) ? 0 : handle.getListValue().size();

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +33,7 @@ public abstract class ElementDetailHandle {
 
 	/**
 	 * Constructs a detail handle given a handle to a report element.
-	 * 
+	 *
 	 * @param element a handle to a report element
 	 */
 
@@ -40,18 +43,19 @@ public abstract class ElementDetailHandle {
 
 	/**
 	 * Returns the report design.
-	 * 
+	 *
 	 * @return the report design
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public ReportDesign getDesign() {
 		return elementHandle.getDesign();
 	}
 
 	/**
 	 * Returns the module
-	 * 
+	 *
 	 * @return the module
 	 */
 
@@ -61,7 +65,7 @@ public abstract class ElementDetailHandle {
 
 	/**
 	 * Returns the design element.
-	 * 
+	 *
 	 * @return the design element
 	 */
 
@@ -71,7 +75,7 @@ public abstract class ElementDetailHandle {
 
 	/**
 	 * Returns a handle to the design element.
-	 * 
+	 *
 	 * @return handle to the design element
 	 */
 

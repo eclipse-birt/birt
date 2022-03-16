@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -87,7 +90,7 @@ public class BaseAttributePage extends TabPage {
 
 	/**
 	 * Creates UI control.
-	 * 
+	 *
 	 */
 	Composite container;
 
@@ -101,6 +104,7 @@ public class BaseAttributePage extends TabPage {
 		this.style = style;
 	}
 
+	@Override
 	public void buildUI(Composite parent) {
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -111,19 +115,22 @@ public class BaseAttributePage extends TabPage {
 		layout.numColumns = 2;
 		container.setLayout(layout);
 
-		if (style == SWT.HORIZONTAL)
+		if (style == SWT.HORIZONTAL) {
 			createHorizontalView();
-		else
+		} else {
 			createVerticalView();
+		}
 
 		container.addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				if (pageMap != null) {
 					for (Object value : pageMap.values()) {
 						TabPage page = (TabPage) value;
-						if (page != null)
+						if (page != null) {
 							page.dispose();
+						}
 					}
 				}
 
@@ -137,6 +144,7 @@ public class BaseAttributePage extends TabPage {
 		categoryList.getControl().setLayoutData(gd);
 		categoryList.addListener(SWT.Selection, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				if (categoryList.getSelectionIndex() > -1) {
 					BaseAttributePage.s_lastSelectedIndex = categoryList.getSelectionIndex();
@@ -156,6 +164,7 @@ public class BaseAttributePage extends TabPage {
 		categoryList.getControl().setLayoutData(gd);
 		categoryList.addListener(SWT.Selection, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				if (categoryList.getSelectionIndex() > -1) {
 					BaseAttributePage.s_lastSelectedIndex = categoryList.getSelectionIndex();
@@ -171,8 +180,9 @@ public class BaseAttributePage extends TabPage {
 		title.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		title.addListener(SWT.SELECTED, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
-				if (currentPage != null && currentPage instanceof ResetAttributePage) {
+				if (currentPage instanceof ResetAttributePage) {
 					CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
 					stack.startTrans(Messages.getString("BaseAttributePage.CommandStack.ResetStyle.Message")); //$NON-NLS-1$
 
@@ -189,6 +199,7 @@ public class BaseAttributePage extends TabPage {
 		sComposite.setExpandVertical(true);
 		sComposite.addControlListener(new ControlAdapter() {
 
+			@Override
 			public void controlResized(ControlEvent e) {
 				computeSize();
 			}
@@ -202,12 +213,14 @@ public class BaseAttributePage extends TabPage {
 		infoPane.setLayout(layout);
 		container.addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				if (pageMap != null) {
 					for (Object value : pageMap.values()) {
 						TabPage page = (TabPage) value;
-						if (page != null)
+						if (page != null) {
 							page.dispose();
+						}
 					}
 				}
 
@@ -249,12 +262,14 @@ public class BaseAttributePage extends TabPage {
 				if (page instanceof AttributePage) {
 					((AttributePage) page).addPropertyChangeListener(title);
 					Object adapter = ((AttributePage) page).getAdapter(IAction.class);
-					if (adapter instanceof IAction[])
+					if (adapter instanceof IAction[]) {
 						title.setActions((IAction[]) adapter);
-					else
+					} else {
 						title.setActions(null);
-				} else
+					}
+				} else {
 					title.setActions(null);
+				}
 			}
 			showPage(page);
 			oldPage = page;
@@ -282,15 +297,17 @@ public class BaseAttributePage extends TabPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.attributes.component.TabPage#setInput
 	 * (java.util.List)
 	 */
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 	}
 
+	@Override
 	public void refresh() {
 		selectStickyCategory();
 		processListSelected();
@@ -298,16 +315,14 @@ public class BaseAttributePage extends TabPage {
 
 	/**
 	 * Sets CategoryProvider
-	 * 
+	 *
 	 * @param categoryProvider The categoryListener to set.
 	 */
 	public void setCategoryProvider(ICategoryProvider categoryProvider) {
 		this.categoryProvider = categoryProvider;
-		if (categoryProvider == null) {
+		if ((categoryProvider == null) || (categoryList == null)) {
 			return;
 		}
-		if (categoryList == null)
-			return;
 		ICategoryPage[] pages = categoryProvider.getCategories();
 		if (pages.length != 0) {
 			SortMap categoryLabels = new SortMap();
@@ -344,12 +359,14 @@ public class BaseAttributePage extends TabPage {
 
 				FormData fd = (FormData) infoPane.getLayoutData();
 				int height = infoPane.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
-				if (height > 0)
+				if (height > 0) {
 					fd.height = height;
+				}
 				infoPane.layout();
 			}
-		} else
+		} else {
 			page.setInput(input);
+		}
 		page.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 		page.refresh();
 		pageMap.put(key, page);
@@ -362,15 +379,18 @@ public class BaseAttributePage extends TabPage {
 		if (page instanceof CategoryPage) {
 			title = ((CategoryPage) page).getDisplayTitle();
 		}
-		if (title == null)
+		if (title == null) {
 			title = page.getDisplayLabel();
+		}
 		return title;
 	}
 
+	@Override
 	public void dispose() {
 		container.dispose();
 	}
 
+	@Override
 	public Control getControl() {
 		return container;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +38,7 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle
 	 */
 	public ImageHandleAdapter(ImageHandle image, IModelAdapterHelper mark) {
@@ -44,7 +47,7 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets the SWT image instance for given Image model
-	 * 
+	 *
 	 * @return SWT image instance
 	 */
 	public Image getImage() {
@@ -95,9 +98,10 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets size of image item. If the image size is 0, return null.
-	 * 
+	 *
 	 * @return the size of image item.
 	 */
+	@Override
 	public Dimension getSize() {
 		DimensionHandle widthHandle = getImageHandle().getWidth();
 		int px = (int) DEUtil.convertoToPixel(widthHandle);
@@ -122,7 +126,7 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Gets size of image item. Always returns a non-null value.
-	 * 
+	 *
 	 * @return
 	 */
 	public Dimension getRawSize() {
@@ -144,6 +148,7 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 		return new Dimension(Math.max(px, 0), Math.max(py, 0));
 	}
 
+	@Override
 	public void setSize(Dimension size) throws SemanticException {
 		if (size.width >= 0) {
 			getImageHandle().setWidth(size.width + DesignChoiceConstants.UNITS_PX);

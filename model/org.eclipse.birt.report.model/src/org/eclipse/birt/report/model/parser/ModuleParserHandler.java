@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -111,44 +114,44 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 	 * The temporary value for parser compatible.
 	 */
 
-	protected HashMap<Object, Object> tempValue = new HashMap<Object, Object>();
+	protected HashMap<Object, Object> tempValue = new HashMap<>();
 
 	/**
 	 * Cached element list whose id is not handle and added to the id map.
 	 */
 
-	public List<DesignElement> unhandleIDElements = new ArrayList<DesignElement>();
+	public List<DesignElement> unhandleIDElements = new ArrayList<>();
 
 	/**
 	 * Cached element list that is cube dimension and defines shared dimension
 	 * property. These elements should be generated layout structures.
 	 */
-	protected List<TabularDimension> unhandleCubeDimensions = new ArrayList<TabularDimension>();
+	protected List<TabularDimension> unhandleCubeDimensions = new ArrayList<>();
 
 	/**
 	 * Lists of those extended-item whose name is not allocated.
 	 */
 
-	private List<DesignElement> unnamedReportItems = new ArrayList<DesignElement>();
+	private List<DesignElement> unnamedReportItems = new ArrayList<>();
 
 	/**
 	 * Lists of those listing element whose group need to be recovered.
 	 */
 
-	private List<ListingElement> unresolvedListingElements = new ArrayList<ListingElement>();
+	private List<ListingElement> unresolvedListingElements = new ArrayList<>();
 
 	/**
 	 * Lists of all the extended items. In the endDocument we will handle extension
 	 * parser compatibilities.
 	 */
 
-	private List<DesignElement> extendedItemList = new ArrayList<DesignElement>();
+	private List<DesignElement> extendedItemList = new ArrayList<>();
 
 	/**
 	 * The map contains libraries that have been reload.
 	 */
 
-	protected Map<String, Library> reloadLibs = new HashMap<String, Library>();
+	protected Map<String, Library> reloadLibs = new HashMap<>();
 
 	/**
 	 * Status identifying whether to only read simple property in report root
@@ -168,7 +171,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 
 	/**
 	 * Constructs the module parser handler with the design session.
-	 * 
+	 *
 	 * @param theSession the design session that is to own this module
 	 * @param fileName   name of the module file
 	 */
@@ -181,7 +184,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 
 	/**
 	 * Constructs the module parser handler with the design session.
-	 * 
+	 *
 	 * @param theSession the design session that is to own this module
 	 * @param fileName   name of the module file
 	 * @param reloadLibs
@@ -196,7 +199,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 
 	/**
 	 * Returns the file name the handler is treating.
-	 * 
+	 *
 	 * @return the file name the handler is treating.
 	 */
 
@@ -207,7 +210,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 	/**
 	 * Returns <code>true</code> if the version of the module file this handler is
 	 * parsing equals the given version.
-	 * 
+	 *
 	 * @param toCompare the version to compare
 	 * @return <code>true</code> if the version of the module file this handler is
 	 *         parsing equals <code>toCompare</code>.
@@ -219,7 +222,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 
 	/**
 	 * Returns the module being created.
-	 * 
+	 *
 	 * @return the module being created
 	 */
 
@@ -231,14 +234,15 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 	 * Overrides the super method. This method first parses attributes of the
 	 * current state, and then query whether to use a new state or the current one
 	 * according to the attributes value.
-	 * 
+	 *
 	 * @param namespaceURI
 	 * @param localName
-	 * 
+	 *
 	 * @see org.xml.sax.ContentHandler#startElement(java.lang.String,
 	 *      java.lang.String, java.lang.String, org.xml.sax.Attributes)
 	 */
 
+	@Override
 	public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
 		errorHandler.setCurrentElement(qName);
 		AbstractParseState newState = topState.startElement(qName);
@@ -255,10 +259,11 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.xml.sax.ContentHandler#endDocument()
 	 */
 
+	@Override
 	public void endDocument() throws SAXException {
 		super.endDocument();
 		doEndDocument();
@@ -269,8 +274,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 		List<XMLParserException> errors = getErrorHandler().getErrors();
 		if (module == null) {
 			Exception e = null;
-			if (errors.size() > 0)
+			if (errors.size() > 0) {
 				e = new DesignFileException(fileName, errors);
+			}
 			throw new SAXException(e);
 		}
 		this.tempValue = null;
@@ -317,8 +323,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 			// recovered.
 
 			module.setValid(false);
-			List<Exception> allExceptions = new ArrayList<Exception>();
-			allExceptions.addAll(module.getAllExceptions());
+			List<Exception> allExceptions = new ArrayList<>(module.getAllExceptions());
 			allExceptions.addAll(errorHandler.getWarnings());
 
 			DesignFileException exception = new DesignFileException(module.getFileName(), allExceptions);
@@ -344,8 +349,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 		}
 
 		// add un-named extended items to name-space
-		if (!unnamedReportItems.isEmpty() && versionNumber <= VersionUtil.VERSION_3_2_12)
+		if (!unnamedReportItems.isEmpty() && versionNumber <= VersionUtil.VERSION_3_2_12) {
 			handleUnnamedReportItems();
+		}
 
 		// if module is a report design or the directly opened library, its
 		// namespace is null, then we will clear all the cached level names
@@ -377,8 +383,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 		// to true, then perform semantic check. Semantic error is recoverable.
 
 		ModuleOption options = module.getOptions();
-		if (options == null || options.useSemanticCheck())
+		if (options == null || options.useSemanticCheck()) {
 			module.semanticCheck(module);
+		}
 
 		// translates warnings during parsing design files to ErrorDetail.
 
@@ -402,8 +409,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 		if (module instanceof ReportDesign) {
 			ReportDesign design = (ReportDesign) module;
 			List list = design.getListProperty(module, IReportDesignModel.PAGE_VARIABLES_PROP);
-			if (list == null)
+			if (list == null) {
 				return;
+			}
 			for (int i = 0; i < list.size(); i++) {
 				VariableElement element = (VariableElement) list.get(i);
 				String name = element.getName();
@@ -424,8 +432,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 			StatusInfo status = element.checkCompatibility(module);
 			assert status != null;
 			errorList.addAll(status.getErrors());
-			if (!hasCompatibilities && status.hasCompatibilities())
+			if (!hasCompatibilities && status.hasCompatibilities()) {
 				hasCompatibilities = true;
+			}
 		}
 
 		// clear the activity stack and save state
@@ -456,14 +465,15 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 					element.setID(module.getNextID());
 					module.addElementID(element);
 				}
-			} else
+			} else {
 				module.manageId(element, true);
+			}
 		}
 	}
 
 	/**
 	 * Adds unnamed extended items to name-space.
-	 * 
+	 *
 	 */
 
 	private void handleUnnamedReportItems() {
@@ -475,22 +485,24 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 
 	/**
 	 * If the name contains the invalid characters, rename it.
-	 * 
+	 *
 	 */
 
 	private List<Exception> handleInvalidName(List<? extends Exception> exceptions) {
-		List<Exception> handledExceptions = new ArrayList<Exception>();
-		List<DesignElement> processElements = new ArrayList<DesignElement>();
+		List<Exception> handledExceptions = new ArrayList<>();
+		List<DesignElement> processElements = new ArrayList<>();
 
 		for (int i = 0; i < exceptions.size(); i++) {
 			Exception tmpObj = exceptions.get(i);
-			if (!(tmpObj instanceof XMLParserException))
+			if (!(tmpObj instanceof XMLParserException)) {
 				continue;
+			}
 
 			Exception exception = ((XMLParserException) tmpObj).getException();
 
-			if (!(exception instanceof NameException))
+			if (!(exception instanceof NameException)) {
 				continue;
+			}
 
 			NameException nameException = (NameException) exception;
 			DesignElement tmpElement = nameException.getElement();
@@ -502,8 +514,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 				String oldName = nameException.getName();
 				String newName = NamePropertyType.validateName(oldName);
 
-				if (oldName.equals(newName))
+				if (oldName.equals(newName)) {
 					continue;
+				}
 
 				tmpElement.setName(newName);
 				NameExecutor executor = new NameExecutor(module, tmpElement);
@@ -519,8 +532,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 			// if the name has other exceptions, also add to return list for
 			// removing them
 
-			else if (processElements.contains(tmpElement))
+			else if (processElements.contains(tmpElement)) {
 				handledExceptions.add(tmpObj);
+			}
 		}
 
 		return handledExceptions;
@@ -528,7 +542,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 
 	/**
 	 * Adds unnamed extended items to name-space.
-	 * 
+	 *
 	 */
 
 	private void handleUnresolveListingElements() {
@@ -554,7 +568,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 
 	/**
 	 * Initializes line number mark flag if needed.
-	 * 
+	 *
 	 * @param options the options set for this module
 	 */
 
@@ -570,48 +584,52 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 				isReadOnlyModuleProperties = true;
 				// if in simple parser, need not do semantic check
 				options.setSemanticCheck(false);
-			} else
+			} else {
 				isReadOnlyModuleProperties = false;
+			}
 
 		}
 
 		if (markLineNumber) {
 			module.initLineNoMap();
-			tempLineNumbers = new HashMap<Object, Integer>();
+			tempLineNumbers = new HashMap<>();
 		}
 
 		// if read-only key is set to TRUE, then the module must be read-only
-		if (isReadOnlyModuleProperties)
+		if (isReadOnlyModuleProperties) {
 			module.setReadOnly();
+		}
 	}
 
 	/**
 	 * Adds a unNamed extended-item to the list.
-	 * 
+	 *
 	 * @param element the element to add
 	 */
 
 	final void addUnnamedReportItem(DesignElement element) {
 		assert element instanceof ReportItem;
 
-		if (!unnamedReportItems.contains(element))
+		if (!unnamedReportItems.contains(element)) {
 			unnamedReportItems.add(element);
+		}
 	}
 
 	/**
 	 * Adds a unNamed extended-item to the list.
-	 * 
+	 *
 	 * @param element the element to add
 	 */
 
 	final void addUnresolveListingElement(ListingElement element) {
-		if (!unresolvedListingElements.contains(element))
+		if (!unresolvedListingElements.contains(element)) {
 			unresolvedListingElements.add(element);
+		}
 	}
 
 	/**
 	 * Adds an extended element to the cached list.
-	 * 
+	 *
 	 * @param element
 	 */
 	final void addExtendedItem(ExtendedItem element) {
@@ -620,7 +638,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 
 	/**
 	 * Determines whether the module is opened in read-only status or not.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isReadOnlyModuleProperties() {
@@ -636,9 +654,10 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 		// for library
 		if (module instanceof ReportDesign) {
 			List<DesignElement> designStyles = module.getSlot(IReportDesignModel.STYLE_SLOT).getContents();
-			if (designStyles == null || designStyles.isEmpty())
+			if (designStyles == null || designStyles.isEmpty()) {
 				return;
-			Map<String, DesignElement> styleMap = new HashMap<String, DesignElement>();
+			}
+			Map<String, DesignElement> styleMap = new HashMap<>();
 			Theme theme = module.getTheme();
 
 			// if theme is null, handle the design style name and theme
@@ -649,8 +668,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 					for (int i = 0; i < themeStyles.size(); i++) {
 						DesignElement style = themeStyles.get(i);
 						String name = style.getName().toLowerCase();
-						if (!styleMap.containsKey(name))
+						if (!styleMap.containsKey(name)) {
 							styleMap.put(name, style);
+						}
 					}
 				}
 
@@ -659,8 +679,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 				for (int i = 0; csses != null && i < csses.size(); ++i) {
 					CssStyle s = csses.get(i);
 					String name = s.getName().toLowerCase();
-					if (!styleMap.containsKey(name))
+					if (!styleMap.containsKey(name)) {
 						styleMap.put(name, s);
+					}
 				}
 			}
 
@@ -669,8 +690,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 			for (int i = 0; csses != null && i < csses.size(); ++i) {
 				CssStyle s = csses.get(i);
 				String name = s.getName().toLowerCase();
-				if (!styleMap.containsKey(name))
+				if (!styleMap.containsKey(name)) {
 					styleMap.put(name, s);
+				}
 			}
 
 			if (!styleMap.isEmpty()) {
@@ -728,7 +750,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 		ModuleParserHandler handler = null;
 
 		/**
-		 * 
+		 *
 		 */
 
 		ModuleLexicalHandler(ModuleParserHandler handler) {
@@ -737,17 +759,19 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.xml.sax.ext.LexicalHandler#comment(char[], int, int)
 		 */
+		@Override
 		public void comment(char[] ch, int start, int length) throws SAXException {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.xml.sax.ext.LexicalHandler#endCDATA()
 		 */
+		@Override
 		public void endCDATA() throws SAXException {
 			AbstractParseState tmpState = handler.topState;
 			tmpState.setIsCDataSection(true);
@@ -755,50 +779,55 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.xml.sax.ext.LexicalHandler#endDTD()
 		 */
+		@Override
 		public void endDTD() throws SAXException {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.xml.sax.ext.LexicalHandler#endEntity(java.lang.String)
 		 */
+		@Override
 		public void endEntity(String name) throws SAXException {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.xml.sax.ext.LexicalHandler#startCDATA()
 		 */
 
+		@Override
 		public void startCDATA() throws SAXException {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.xml.sax.ext.LexicalHandler#startDTD(java.lang.String,
 		 * java.lang.String, java.lang.String)
 		 */
+		@Override
 		public void startDTD(String name, String publicId, String systemId) throws SAXException {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.xml.sax.ext.LexicalHandler#startEntity(java.lang.String)
 		 */
+		@Override
 		public void startEntity(String name) throws SAXException {
 		}
 	}
 
 	/**
 	 * whether the design file version is the later version.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isLaterVersion() {
@@ -807,7 +836,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler {
 
 	/**
 	 * set whether the design file version is the later version.
-	 * 
+	 *
 	 * @param isLaterVersion
 	 */
 	public void setLaterVersion(boolean isLaterVersion) {

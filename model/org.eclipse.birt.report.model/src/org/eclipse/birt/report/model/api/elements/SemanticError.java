@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -137,10 +140,11 @@ public class SemanticError extends SemanticException {
 
 	/**
 	 * Error code indicating the image file is not found.
-	 * 
+	 *
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public static final String DESIGN_EXCEPTION_IMAGE_FILE_NOT_EXIST = MessageConstants.SEMANTIC_ERROR_IMAGE_FILE_NOT_EXIST;
 
 	/**
@@ -411,7 +415,7 @@ public class SemanticError extends SemanticException {
 
 	/**
 	 * Constructs a SemanticError with the default serious level.
-	 * 
+	 *
 	 * @param element the element causing this semantic error
 	 * @param errCode the semantic error code
 	 */
@@ -422,7 +426,7 @@ public class SemanticError extends SemanticException {
 
 	/**
 	 * Constructs a SemanticError with the default serious level.
-	 * 
+	 *
 	 * @param element the element causing this semantic error
 	 * @param values  value array used for error message
 	 * @param errCode the semantic error code
@@ -434,7 +438,7 @@ public class SemanticError extends SemanticException {
 
 	/**
 	 * Constructs a SemanticError with the specified level.
-	 * 
+	 *
 	 * @param element the element causing this semantic error
 	 * @param errCode the semantic error code
 	 * @param level   the level of the error. Can be <code>ERROR</code> or
@@ -448,7 +452,7 @@ public class SemanticError extends SemanticException {
 
 	/**
 	 * Constructs a SemanticError with the specified level.
-	 * 
+	 *
 	 * @param element the element causing this semantic error
 	 * @param values  value array used for error message
 	 * @param errCode the semantic error code
@@ -463,10 +467,11 @@ public class SemanticError extends SemanticException {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
+	@Override
 	public String getLocalizedMessage() {
 		if (sResourceKey == DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT
 				|| sResourceKey == DESIGN_EXCEPTION_MISSING_EXTENSION) {
@@ -537,7 +542,7 @@ public class SemanticError extends SemanticException {
 	/**
 	 * Returns the level of the error. The level can be <code>ERROR</code> or
 	 * <code>WARNING</code>.
-	 * 
+	 *
 	 * @return the level of the error
 	 */
 

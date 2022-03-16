@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -31,9 +33,10 @@ public class EmbeddedBrowserAdapter implements IBrowser {
 
 	/**
 	 * Display arbitary url
-	 * 
+	 *
 	 * @param url
 	 */
+	@Override
 	public synchronized void displayURL(final String url) {
 		Display defaultDisplay = Display.getDefault();
 
@@ -42,6 +45,7 @@ public class EmbeddedBrowserAdapter implements IBrowser {
 		} else {
 			defaultDisplay.syncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					uiDisplayURL(url);
 				}
@@ -51,7 +55,7 @@ public class EmbeddedBrowserAdapter implements IBrowser {
 
 	/**
 	 * Must be run on UI thread
-	 * 
+	 *
 	 * @param url
 	 */
 	private void uiDisplayURL(final String url) {
@@ -66,6 +70,7 @@ public class EmbeddedBrowserAdapter implements IBrowser {
 	/**
 	 * Close browser
 	 */
+	@Override
 	public void close() {
 		Display defaultDisplay = Display.getDefault();
 
@@ -74,6 +79,7 @@ public class EmbeddedBrowserAdapter implements IBrowser {
 		} else {
 			defaultDisplay.syncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					uiClose();
 				}
@@ -100,37 +106,41 @@ public class EmbeddedBrowserAdapter implements IBrowser {
 
 	/**
 	 * Is browser supports close operation.
-	 * 
+	 *
 	 * @return browser supports close operation or not
 	 */
+	@Override
 	public boolean isCloseSupported() {
 		return true;
 	}
 
 	/**
 	 * Is setting browser window location supported.
-	 * 
+	 *
 	 * @return setting browser window location or not
 	 */
+	@Override
 	public boolean isSetLocationSupported() {
 		return true;
 	}
 
 	/**
 	 * Is setting browser window size supported.
-	 * 
+	 *
 	 * @return setting browser window size or not
 	 */
+	@Override
 	public boolean isSetSizeSupported() {
 		return true;
 	}
 
 	/**
 	 * Set browser window location.
-	 * 
+	 *
 	 * @param x X coordinate of browser window's top-left corner
 	 * @param y Y coordinate of browser window's top-left corner
 	 */
+	@Override
 	public void setLocation(final int x, final int y) {
 		Display defaultDisplay = Display.getDefault();
 
@@ -139,6 +149,7 @@ public class EmbeddedBrowserAdapter implements IBrowser {
 		} else {
 			defaultDisplay.syncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					uiSetLocation(x, y);
 				}
@@ -155,10 +166,11 @@ public class EmbeddedBrowserAdapter implements IBrowser {
 
 	/**
 	 * Set browser window size.
-	 * 
+	 *
 	 * @param width  browser window width
 	 * @param height browser window height
 	 */
+	@Override
 	public void setSize(final int width, final int height) {
 		Display defaultDisplay = Display.getDefault();
 
@@ -167,6 +179,7 @@ public class EmbeddedBrowserAdapter implements IBrowser {
 		} else {
 			defaultDisplay.syncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					uiSetSize(width, height);
 				}

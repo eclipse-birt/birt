@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -48,7 +51,7 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * The selector of charts in SWT.
- * 
+ *
  */
 public final class StyleChartViewer implements PaintListener {
 	private IDeviceRenderer idr = null;
@@ -57,7 +60,7 @@ public final class StyleChartViewer implements PaintListener {
 
 	/**
 	 * main() method for constructing the layout.
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -73,8 +76,9 @@ public final class StyleChartViewer implements PaintListener {
 
 		shell.open();
 		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
+			if (!display.readAndDispatch()) {
 				display.sleep();
+			}
 		}
 		display.dispose();
 	}
@@ -94,7 +98,7 @@ public final class StyleChartViewer implements PaintListener {
 		cm = createSimpleChart();
 	}
 
-	private static final Chart createSimpleChart() {
+	private static Chart createSimpleChart() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// X-Axis
@@ -135,11 +139,12 @@ public final class StyleChartViewer implements PaintListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.
 	 * PaintEvent)
 	 */
+	@Override
 	public void paintControl(PaintEvent e) {
 		idr.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, e.gc);
 		Composite co = (Composite) e.getSource();

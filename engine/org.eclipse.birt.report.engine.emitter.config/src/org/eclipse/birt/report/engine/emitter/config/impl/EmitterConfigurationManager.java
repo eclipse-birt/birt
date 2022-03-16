@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,13 +52,13 @@ public class EmitterConfigurationManager implements IEmitterConfigurationManager
 
 	/**
 	 * Returns all extension elements.
-	 * 
+	 *
 	 * @return all extension elements.
 	 * @throws FrameworkException
 	 */
 	private void initExtensions() throws FrameworkException {
-		descriptorCache = new HashMap<String, IEmitterDescriptor>();
-		configCache = new HashMap<String, IConfigurationElement>();
+		descriptorCache = new HashMap<>();
+		configCache = new HashMap<>();
 
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 
@@ -117,10 +120,11 @@ public class EmitterConfigurationManager implements IEmitterConfigurationManager
 
 	/**
 	 * Returns an emitter descriptor with the specified emitter ID.
-	 * 
+	 *
 	 * @param emitterID the emitter ID.
 	 * @return an emitter descriptor with the specified emitter ID.
 	 */
+	@Override
 	public synchronized IEmitterDescriptor getEmitterDescriptor(String emitterID) {
 		if (emitterID == null) {
 			return null;
@@ -145,6 +149,7 @@ public class EmitterConfigurationManager implements IEmitterConfigurationManager
 		return desc;
 	}
 
+	@Override
 	public synchronized IEmitterDescriptor getEmitterDescriptor(String emitterID, Locale locale) {
 		if (emitterID == null) {
 			return null;
@@ -169,9 +174,10 @@ public class EmitterConfigurationManager implements IEmitterConfigurationManager
 	/**
 	 * Register a custom emitter descriptor manually. It will overwrite the
 	 * descriptor with same emitter id if exists.
-	 * 
+	 *
 	 * @param descriptor
 	 */
+	@Override
 	@Deprecated
 	public synchronized void registerEmitterDescriptor(IEmitterDescriptor descriptor) {
 		if (descriptor != null && descriptor.getID() != null) {
@@ -183,9 +189,10 @@ public class EmitterConfigurationManager implements IEmitterConfigurationManager
 	 * Remove a custom emitter descriptor manually. If there is a descriptor
 	 * registered through extension with same emitter id, then this descriptor will
 	 * still be returned in following <code>getEmitterDescriptor()</code> call.
-	 * 
+	 *
 	 * @param descriptor
 	 */
+	@Override
 	@Deprecated
 	public synchronized void deregisterEmitterDescriptor(IEmitterDescriptor descriptor) {
 		if (descriptor != null && descriptor.getID() != null) {

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,13 +64,13 @@ import org.eclipse.emf.common.util.EList;
 
 /**
  * The class is responsible to add group bindings of chart on query definition.
- * 
+ *
  * @since BIRT 2.3
  */
 public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator {
 	/**
 	 * Constructor of the class.
-	 * 
+	 *
 	 * @param chart
 	 * @param handle
 	 * @param modelAdapter
@@ -78,7 +81,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param handle
 	 * @param cm
 	 * @param modelAdapter
@@ -93,6 +96,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator {
 		super(handle, cm, bCreateBindingForExpression, modelAdapter);
 	}
 
+	@Override
 	public IDataQueryDefinition createBaseQuery(IDataQueryDefinition parent) throws ChartException {
 		BaseQueryDefinition query = createQueryDefinition(parent);
 
@@ -169,9 +173,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator {
 			throws ChartException {
 		try {
 			transfer.addBinding(this.modelAdapter.adaptBinding(columnBinding));
-		} catch (AdapterException ex) {
-			throw new ChartException(ChartReportItemPlugin.ID, ChartException.DATA_BINDING, ex);
-		} catch (DataException ex) {
+		} catch (AdapterException | DataException ex) {
 			throw new ChartException(ChartReportItemPlugin.ID, ChartException.DATA_BINDING, ex);
 		}
 	}
@@ -231,14 +233,14 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator {
 
 	/**
 	 * create a filter array given a filter condition handle iterator
-	 * 
+	 *
 	 * @param modelAdapter
 	 * @param iter         the iterator
 	 * @return filter array
 	 */
 	protected static List<IFilterDefinition> createFilters(IModelAdapter modelAdapter,
 			Iterator<FilterConditionHandle> iter) {
-		List<IFilterDefinition> filters = new ArrayList<IFilterDefinition>();
+		List<IFilterDefinition> filters = new ArrayList<>();
 		if (iter != null) {
 
 			while (iter.hasNext()) {
@@ -252,14 +254,14 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator {
 
 	/**
 	 * Creates input parameter bindings
-	 * 
+	 *
 	 * @param iter parameter bindings iterator
 	 * @return a list of input parameter bindings
 	 * @throws ChartException
 	 */
 	protected List<IInputParameterBinding> createParamBindings(Iterator<ParamBindingHandle> iter)
 			throws ChartException {
-		List<IInputParameterBinding> list = new ArrayList<IInputParameterBinding>();
+		List<IInputParameterBinding> list = new ArrayList<>();
 		if (iter != null) {
 			while (iter.hasNext()) {
 				ParamBindingHandle modelParamBinding = iter.next();
@@ -286,23 +288,24 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator#
 	 * createBaseQuery(java.util.List)
 	 */
+	@Override
 	public IDataQueryDefinition createBaseQuery(List columns) {
 		throw new UnsupportedOperationException("Don't be implemented in the class."); //$NON-NLS-1$
 	}
 
 	/**
 	 * Returns all query expression definitions on chart.
-	 * 
+	 *
 	 * @param chart
 	 * @return query list
 	 * @since 2.3
 	 */
 	public static List<Query> getAllQueryExpressionDefinitions(Chart chart) {
-		List<Query> queryList = new ArrayList<Query>();
+		List<Query> queryList = new ArrayList<>();
 		if (chart instanceof ChartWithAxes) {
 			Axis xAxis = ((ChartWithAxes) chart).getAxes().get(0);
 			// Add base series query
@@ -338,12 +341,12 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator {
 
 	/**
 	 * Returns queries of series definition.
-	 * 
+	 *
 	 * @param seriesDefinitions
 	 * @return
 	 */
 	private static List<Query> getQueries(EList<SeriesDefinition> seriesDefinitions) {
-		List<Query> querys = new ArrayList<Query>();
+		List<Query> querys = new ArrayList<>();
 		for (Iterator<SeriesDefinition> iter = seriesDefinitions.iterator(); iter.hasNext();) {
 			querys.addAll(iter.next().getDesignTimeSeries().getDataDefinition());
 		}
@@ -421,17 +424,19 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator {
 	 * @return integer value defined in <code>ISortDefn</code>
 	 */
 	private static int parseSortDirection(String direction) {
-		if ("asc".equals(direction)) //$NON-NLS-1$
+		if ("asc".equals(direction)) { //$NON-NLS-1$
 			return ISortDefinition.SORT_ASC;
-		if ("desc".equals(direction)) //$NON-NLS-1$
+		}
+		if ("desc".equals(direction)) { //$NON-NLS-1$
 			return ISortDefinition.SORT_DESC;
+		}
 		assert false;
 		return 0;
 	}
 
 	/**
 	 * create filter array given a GroupHandle
-	 * 
+	 *
 	 * @param modelAdapter
 	 * @param group        the GroupHandle
 	 * @return filter array
@@ -442,12 +447,12 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator {
 
 	/**
 	 * create all sort conditions given a sort key handle iterator
-	 * 
+	 *
 	 * @param iter the iterator
 	 * @return sort array
 	 */
 	public static List<ISortDefinition> createSorts(Iterator<SortKeyHandle> iter, IModelAdapter modelAdapter) {
-		List<ISortDefinition> sorts = new ArrayList<ISortDefinition>();
+		List<ISortDefinition> sorts = new ArrayList<>();
 		if (iter != null) {
 			while (iter.hasNext()) {
 				sorts.add(modelAdapter.adaptSort(iter.next()));
@@ -458,7 +463,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator {
 
 	/**
 	 * create sort array by giving GroupHandle
-	 * 
+	 *
 	 * @param group the GroupHandle
 	 * @return the sort array
 	 */

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.core.archive.compound;
 
@@ -6,9 +18,9 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.archive.compound.AllocTableLoader.Node;
+
+import junit.framework.TestCase;
 
 public class AllocTableLoaderTest extends TestCase {
 
@@ -91,7 +103,7 @@ public class AllocTableLoaderTest extends TestCase {
 		File file = new File(fileName);
 		if (file.exists()) {
 			RandomAccessFile fileReader = new RandomAccessFile(file, "r");
-			String line = null;
+			String line;
 			line = fileReader.readLine();
 			Node nodes = new Node();
 			Node node = nodes;

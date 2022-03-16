@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,39 +39,48 @@ public class CrosstabInstanceImpl implements ICrosstabInstance {
 		this.runningState = runningState;
 	}
 
+	@Override
 	public String getCaption() {
 		return content.getCaption();
 	}
 
+	@Override
 	public String getCaptionKey() {
 		return content.getCaptionKey();
 	}
 
+	@Override
 	public String getSummary() {
 		return content.getSummary();
 	}
 
+	@Override
 	public boolean isRepeatColumnHeader() {
 		return content.isHeaderRepeat();
 	}
 
+	@Override
 	public boolean isRepeatRowHeader() {
 		// TODO wait content support
 		return false;
 	}
 
+	@Override
 	public void setCaption(String caption) {
 		content.setCaption(caption);
 	}
 
+	@Override
 	public void setCaptionKey(String key) {
 		content.setCaptionKey(key);
 	}
 
+	@Override
 	public void setSummary(String summary) {
 		content.setSummary(summary);
 	}
 
+	@Override
 	public void setRepeatColumnHeader(boolean repeat) {
 		if (runningState == RunningState.CREATE) {
 			content.setHeaderRepeat(repeat);
@@ -79,10 +91,12 @@ public class CrosstabInstanceImpl implements ICrosstabInstance {
 		}
 	}
 
+	@Override
 	public void setRepeatRowHeader(boolean repeat) {
 		// TODO wait content support
 	}
 
+	@Override
 	public String getHeight() {
 		DimensionType height = content.getHeight();
 		if (height != null) {
@@ -91,10 +105,12 @@ public class CrosstabInstanceImpl implements ICrosstabInstance {
 		return null;
 	}
 
+	@Override
 	public String getHelpText() {
 		return content.getHelpText();
 	}
 
+	@Override
 	public String getHorizontalPosition() {
 		DimensionType x = content.getX();
 		if (x != null) {
@@ -103,19 +119,23 @@ public class CrosstabInstanceImpl implements ICrosstabInstance {
 		return null;
 	}
 
+	@Override
 	public String getName() {
 		return content.getName();
 	}
 
+	@Override
 	public Object getNamedExpressionValue(String name) {
 		// TODO need report context support
 		return null;
 	}
 
+	@Override
 	public IScriptStyle getStyle() {
 		return new StyleInstance(content.getStyle());
 	}
 
+	@Override
 	public Object getUserPropertyValue(String name) {
 		UserPropertyDefnHandle prop = modelHandle.getUserPropertyDefnHandle(name);
 		if (prop != null) {
@@ -124,6 +144,7 @@ public class CrosstabInstanceImpl implements ICrosstabInstance {
 		return null;
 	}
 
+	@Override
 	public String getVerticalPosition() {
 		DimensionType y = content.getY();
 		if (y != null) {
@@ -132,6 +153,7 @@ public class CrosstabInstanceImpl implements ICrosstabInstance {
 		return null;
 	}
 
+	@Override
 	public String getWidth() {
 		DimensionType width = content.getWidth();
 		if (width != null) {
@@ -140,22 +162,27 @@ public class CrosstabInstanceImpl implements ICrosstabInstance {
 		return null;
 	}
 
+	@Override
 	public void setHeight(String height) {
 		content.setHeight(DimensionType.parserUnit(height));
 	}
 
+	@Override
 	public void setHelpText(String help) {
 		content.setHelpText(help);
 	}
 
+	@Override
 	public void setHorizontalPosition(String position) {
 		content.setX(DimensionType.parserUnit(position));
 	}
 
+	@Override
 	public void setName(String name) {
 		content.setName(name);
 	}
 
+	@Override
 	public void setUserPropertyValue(String name, Object value) throws ScriptException {
 		UserPropertyDefnHandle prop = modelHandle.getUserPropertyDefnHandle(name);
 		if (prop != null) {
@@ -167,10 +194,12 @@ public class CrosstabInstanceImpl implements ICrosstabInstance {
 		}
 	}
 
+	@Override
 	public void setVerticalPosition(String position) {
 		content.setY(DimensionType.parserUnit(position));
 	}
 
+	@Override
 	public void setWidth(String width) {
 		String unit = content.getReportContent().getDesign().getReportDesign().getDefaultUnits();
 		content.setWidth(DimensionType.parserUnit(width, unit));

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +23,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
  * The utility class to create a unique name for result set column.
- * 
+ *
  */
 public class IdentifierUtility {
 
@@ -31,7 +34,7 @@ public class IdentifierUtility {
 
 	/**
 	 * Get a uniqueName for columnName
-	 * 
+	 *
 	 * @param orgColumnNameSet the old column name set
 	 * @param newColumnNameSet the column name set
 	 * @param columnNativeName the column native name
@@ -45,12 +48,13 @@ public class IdentifierUtility {
 		if (columnNativeName == null || columnNativeName.trim().length() == 0
 				|| newColumnNameSet.contains(columnNativeName)) {
 			// name conflict or no name,give this column a unique name
-			StringBuffer columnName = new StringBuffer();
+			StringBuilder columnName = new StringBuilder();
 
-			if (columnNativeName == null || columnNativeName.trim().length() == 0)
+			if (columnNativeName == null || columnNativeName.trim().length() == 0) {
 				columnName.append(UNNAME_PREFIX);
-			else
+			} else {
 				columnName.append(columnNativeName);
+			}
 
 			columnName.append(RENAME_SEPARATOR);
 			columnName.append(index + 1);
@@ -71,7 +75,7 @@ public class IdentifierUtility {
 	 * Updates data set parameters with unique names. If the name is already good,
 	 * uses it directly. If the name is empty or duplicates with others, creates a
 	 * unique name.
-	 * 
+	 *
 	 * @param parameters a list containing data set parameters
 	 */
 
@@ -90,8 +94,9 @@ public class IdentifierUtility {
 				while (true) {
 					name = prefix + n;
 
-					if (!existedNames.contains(name) && !newNames.contains(name))
+					if (!existedNames.contains(name) && !newNames.contains(name)) {
 						break;
+					}
 					n++;
 				}
 
@@ -104,9 +109,9 @@ public class IdentifierUtility {
 
 	/**
 	 * Returns a listing contains unique names of data set parameters.
-	 * 
+	 *
 	 * @param parameters a list containing data set parameters
-	 * 
+	 *
 	 * @return a listing contains unique names. Not empty string or null.
 	 */
 
@@ -115,8 +120,9 @@ public class IdentifierUtility {
 		for (int i = 0; i < parameters.size(); i++) {
 			OdaDataSetParameter param = (OdaDataSetParameter) parameters.get(i);
 			String name = param.getName();
-			if (!StringUtil.isBlank(name) && !names.contains(name))
+			if (!StringUtil.isBlank(name) && !names.contains(name)) {
 				names.add(name);
+			}
 		}
 
 		return names;

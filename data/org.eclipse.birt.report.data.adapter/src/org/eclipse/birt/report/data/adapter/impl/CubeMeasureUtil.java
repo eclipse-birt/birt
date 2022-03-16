@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2012 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,20 +47,20 @@ public class CubeMeasureUtil {
 
 	/**
 	 * Check whether the derived measure reference is valid.
-	 * 
+	 *
 	 * @param cubeHandle CubeHandle
 	 * @throws BirtException If invalid measure reference or recursive measrue
 	 *                       reference is detected.
 	 */
 	public static void validateDerivedMeasures(CubeHandle cubeHandle) throws BirtException {
-		Map<String, IMeasureDefinition> measures = new HashMap<String, IMeasureDefinition>();
-		Map<String, IDerivedMeasureDefinition> calculatedMeasures = new HashMap<String, IDerivedMeasureDefinition>();
-		Map<String, MeasureHandle> mHandles = new HashMap<String, MeasureHandle>();
+		Map<String, IMeasureDefinition> measures = new HashMap<>();
+		Map<String, IDerivedMeasureDefinition> calculatedMeasures = new HashMap<>();
+		Map<String, MeasureHandle> mHandles = new HashMap<>();
 
 		populateMeasures(measures, calculatedMeasures, mHandles, cubeHandle);
 
 		for (Map.Entry<String, IDerivedMeasureDefinition> e : calculatedMeasures.entrySet()) {
-			List<String> resolving = new ArrayList<String>();
+			List<String> resolving = new ArrayList<>();
 			checkDerivedMeasure(e.getValue(), resolving, measures, calculatedMeasures, mHandles);
 		}
 	}
@@ -71,8 +74,9 @@ public class CubeMeasureUtil {
 			List measureGroup = mgh.getContents(MeasureGroupHandle.MEASURES_PROP);
 			for (int j = 0; j < measureGroup.size(); j++) {
 				MeasureHandle mHandle = (MeasureHandle) measureGroup.get(j);
-				if (measureHandles != null)
+				if (measureHandles != null) {
 					measureHandles.put(mHandle.getName(), mHandle);
+				}
 				if (mHandle.isCalculated()) {
 					DerivedMeasureDefinition m = new DerivedMeasureDefinition(mHandle.getName(),
 							DataAdapterUtil.adaptModelDataType(mHandle.getDataType()),
@@ -103,10 +107,11 @@ public class CubeMeasureUtil {
 			} else {
 				if (!calculatedMeasure.containsKey(measureName)) {
 					MeasureHandle measureHandle = mHandles.get(measureName);
-					if (measureHandle == null)
+					if (measureHandle == null) {
 						throw new DataException(AdapterResourceHandle.getInstance().getMessage(
 								ResourceConstants.CUBE_DERIVED_MEASURE_INVALID_REF,
 								new Object[] { dmeasure.getName(), measureName }));
+					}
 
 					throw new DataException(AdapterResourceHandle.getInstance().getMessage(
 							ResourceConstants.CUBE_DERIVED_MEASURE_RESOLVE_ERROR, new Object[] { resolving.get(0) }));
@@ -134,7 +139,7 @@ public class CubeMeasureUtil {
 	 * <p>
 	 * This method ensures there is not recursive reference between the returned
 	 * measures.
-	 * 
+	 *
 	 * @param cubeHandle
 	 * @param measureName
 	 * @return A list of MeasureHandles which can be referenced by the specified
@@ -143,12 +148,12 @@ public class CubeMeasureUtil {
 	 */
 	public static List<MeasureHandle> getIndependentReferences(CubeHandle cubeHandle, String measureName)
 			throws BirtException {
-		List<MeasureHandle> iMeasures = new ArrayList<MeasureHandle>();
-		List<String> mNames = new ArrayList<String>();
+		List<MeasureHandle> iMeasures = new ArrayList<>();
+		List<String> mNames = new ArrayList<>();
 
-		Map<String, IMeasureDefinition> measures = new HashMap<String, IMeasureDefinition>();
-		Map<String, IDerivedMeasureDefinition> calculatedMeasures = new HashMap<String, IDerivedMeasureDefinition>();
-		Map<String, MeasureHandle> mHandles = new HashMap<String, MeasureHandle>();
+		Map<String, IMeasureDefinition> measures = new HashMap<>();
+		Map<String, IDerivedMeasureDefinition> calculatedMeasures = new HashMap<>();
+		Map<String, MeasureHandle> mHandles = new HashMap<>();
 		populateMeasures(measures, calculatedMeasures, mHandles, cubeHandle);
 
 		if (mHandles.get(measureName) != null && !mHandles.get(measureName).isCalculated()) {
@@ -167,7 +172,7 @@ public class CubeMeasureUtil {
 		}
 
 		for (Map.Entry<String, IDerivedMeasureDefinition> e : calculatedMeasures.entrySet()) {
-			List<String> resolving = new ArrayList<String>();
+			List<String> resolving = new ArrayList<>();
 			resolving.add(measureName);
 			try {
 				checkDerivedMeasure(e.getValue(), resolving, measures, calculatedMeasures, mHandles);
@@ -178,8 +183,9 @@ public class CubeMeasureUtil {
 		}
 
 		for (String i : mNames) {
-			if (i.equals(measureName))
+			if (i.equals(measureName)) {
 				continue;
+			}
 			iMeasures.add(mHandles.get(i));
 		}
 

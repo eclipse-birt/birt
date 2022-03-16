@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -123,9 +125,10 @@ public class DesignerOutlinePage extends ContentOutlinePage
 	 * Clients should not call this method (the workbench calls this method when it
 	 * needs to, which may be never).
 	 * </p>
-	 * 
+	 *
 	 * @param parent the parent control
 	 */
+	@Override
 	public void createControl(Composite parent) {
 		super.createControl(parent);
 		// added by gao 2004.08.05
@@ -153,6 +156,7 @@ public class DesignerOutlinePage extends ContentOutlinePage
 		// 184790
 		tree.addListener(SWT.PaintItem, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				// Fix bug 192094
 				TreeItem item = (TreeItem) event.item;
@@ -184,6 +188,7 @@ public class DesignerOutlinePage extends ContentOutlinePage
 		// Adds mouse listener to disable Cell multi-selection
 		tree.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDown(MouseEvent e) {
 				if ((e.stateMask & SWT.CTRL) != 0 || (e.stateMask & SWT.SHIFT) != 0) {
 					setSingleSelection(e);
@@ -201,8 +206,9 @@ public class DesignerOutlinePage extends ContentOutlinePage
 								// Set current single selection if include
 								// multiple cells
 								TreeItem item = getTreeViewer().getTree().getItem(new Point(e.x, e.y));
-								if (item != null)
+								if (item != null) {
 									getTreeViewer().getTree().setSelection(new TreeItem[] { item });
+								}
 								break;
 							}
 							includeCell = true;
@@ -214,12 +220,14 @@ public class DesignerOutlinePage extends ContentOutlinePage
 
 		tree.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// Do nothing
 
 			}
 
 			// Handle double click event
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				if (getSelection() instanceof StructuredSelection) {
 					List list = new ArrayList();
@@ -233,10 +241,11 @@ public class DesignerOutlinePage extends ContentOutlinePage
 
 						/*
 						 * (non-Javadoc)
-						 * 
+						 *
 						 * @see org.eclipse.birt.report.designer.core.util.mediator .request
 						 * .IRequestConvert#convertSelectionToModelLisr(java .util.List)
 						 */
+						@Override
 						public List convertSelectionToModelLisr(List list) {
 							List lst = new ArrayList();
 
@@ -262,6 +271,7 @@ public class DesignerOutlinePage extends ContentOutlinePage
 							if (file != null && file.exists() && file.isFile()) {
 								Display.getCurrent().asyncExec(new Runnable() {
 
+									@Override
 									public void run() {
 										try {
 											EditorUtil.openEditor(DesignerOutlinePage.this, file,
@@ -298,6 +308,7 @@ public class DesignerOutlinePage extends ContentOutlinePage
 
 		tree.addMouseTrackListener(new MouseTrackAdapter() {
 
+			@Override
 			public void mouseHover(MouseEvent event) {
 				Widget widget = event.widget;
 				if (widget == tree) {
@@ -319,12 +330,14 @@ public class DesignerOutlinePage extends ContentOutlinePage
 			backup.restoreBackup(getTreeViewer());
 			getTreeViewer().getTree().addTreeListener(new TreeListener() {
 
+				@Override
 				public void treeCollapsed(TreeEvent e) {
 					Item item = (Item) e.item;
 					backup.updateCollapsedStatus(getTreeViewer(), item.getData());
 
 				}
 
+				@Override
 				public void treeExpanded(TreeEvent e) {
 					Item item = (Item) e.item;
 					backup.updateExpandedStatus(getTreeViewer(), item.getData());
@@ -338,7 +351,7 @@ public class DesignerOutlinePage extends ContentOutlinePage
 	protected void addDragAndDropListener() {
 		// add drag and drop support
 		int ops = DND.DROP_MOVE | DND.DROP_COPY;
-		Transfer[] transfers = new Transfer[] { TemplateTransfer.getInstance() };
+		Transfer[] transfers = { TemplateTransfer.getInstance() };
 		getTreeViewer().addDragSupport(ops, transfers, new DesignerDragListener(getTreeViewer()));
 		transfers = new Transfer[] { TemplateTransfer.getInstance() };
 
@@ -357,6 +370,7 @@ public class DesignerOutlinePage extends ContentOutlinePage
 		// nothing can drag into CascadingParameterGroupHandle
 		dropListener.addDropConstraint(CascadingParameterGroupHandle.class, new IDropConstraint() {
 
+			@Override
 			public int validate(Object transfer, Object target) {
 				return RESULT_NO;
 			}
@@ -365,11 +379,13 @@ public class DesignerOutlinePage extends ContentOutlinePage
 		// sibling
 		dropListener.addDropConstraint(ScalarParameterHandle.class, new IDropConstraint() {
 
+			@Override
 			public int validate(Object transfer, Object target) {
 				if (target instanceof ScalarParameterHandle) {
 					ScalarParameterHandle targetParameter = (ScalarParameterHandle) target;
-					if (targetParameter.getContainer() instanceof CascadingParameterGroupHandle)
+					if (targetParameter.getContainer() instanceof CascadingParameterGroupHandle) {
 						return RESULT_NO;
+					}
 				}
 				return RESULT_UNKNOW;
 			}
@@ -378,12 +394,14 @@ public class DesignerOutlinePage extends ContentOutlinePage
 		// CascadingParameterGroupHandle children can't drag into other slot.
 		IDropConstraint cascadingParameterGroupChildrenConstraint = new IDropConstraint() {
 
+			@Override
 			public int validate(Object transfer, Object target) {
 				if (transfer instanceof Object[] && ((Object[]) transfer).length > 0
 						&& ((Object[]) transfer)[0] instanceof ScalarParameterHandle) {
 					ScalarParameterHandle transferParameter = (ScalarParameterHandle) ((Object[]) transfer)[0];
-					if (transferParameter.getContainer() instanceof CascadingParameterGroupHandle)
+					if (transferParameter.getContainer() instanceof CascadingParameterGroupHandle) {
 						return RESULT_NO;
+					}
 				}
 				return RESULT_UNKNOW;
 			}
@@ -396,6 +414,7 @@ public class DesignerOutlinePage extends ContentOutlinePage
 		getTreeViewer().addDropSupport(ops, transfers, dropListener);
 	}
 
+	@Override
 	public void dispose() {
 		// if ( visitor != null )
 		// {
@@ -416,7 +435,7 @@ public class DesignerOutlinePage extends ContentOutlinePage
 
 	/**
 	 * Creates the context menu
-	 * 
+	 *
 	 */
 	protected void createContextMenu() {
 		MenuManager menuManager = new ViewContextMenuProvider(getTreeViewer());
@@ -432,7 +451,7 @@ public class DesignerOutlinePage extends ContentOutlinePage
 
 	/**
 	 * Gets the visitor.
-	 * 
+	 *
 	 * @return the visitor
 	 */
 	// private ListenerElementVisitor getListenerElementVisitor( )
@@ -526,18 +545,19 @@ public class DesignerOutlinePage extends ContentOutlinePage
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.validators.IValidationListener#
 	 * elementValidated(org.eclipse.birt.report.model.api.DesignElementHandle,
 	 * org.eclipse.birt.report.model.api.validators.ValidationEvent)
 	 */
+	@Override
 	public void elementValidated(DesignElementHandle targetElement, ValidationEvent ev) {
 		getTreeViewer().refresh();
 	}
 
 	/**
 	 * Gets the tooltip of the node
-	 * 
+	 *
 	 * @param model the model of the node
 	 * @return Returns the tooltip name for the node, or null if no tooltip is
 	 *         needed.
@@ -562,11 +582,13 @@ public class DesignerOutlinePage extends ContentOutlinePage
 		};
 	}
 
+	@Override
 	public Runnable createModelEventRunnable(Object focus, int type, Map args) {
 		switch (type) {
 		case NotificationEvent.CONTENT_EVENT: {
 			return new ReportEventRunnable(focus, type, args) {
 
+				@Override
 				public void run() {
 					if (isDispose()) {
 						return;
@@ -581,6 +603,7 @@ public class DesignerOutlinePage extends ContentOutlinePage
 		default:
 			return new ReportEventRunnable(focus, type, args) {
 
+				@Override
 				public void run() {
 					if (isDispose()) {
 						return;
@@ -595,28 +618,32 @@ public class DesignerOutlinePage extends ContentOutlinePage
 		if (obj instanceof IDesignElement) {
 			IDesignElement element = (IDesignElement) obj;
 			getTreeViewer().expandToLevel(element.getHandle(getRoot().getModule()), 0);
-			if (backup != null)
+			if (backup != null) {
 				backup.updateStatus(getTreeViewer());
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.
 	 * DesignerOutlineEventProcessor.IFactConsumerFactory#isDispose()
 	 */
+	@Override
 	public boolean isDispose() {
-		if (getTreeViewer() == null || getTreeViewer().getTree() == null)
+		if (getTreeViewer() == null || getTreeViewer().getTree() == null) {
 			return true;
-		else
+		} else {
 			return getTreeViewer().getTree().isDisposed();
+		}
 	}
 
 	public void setBackupState(ITreeViewerBackup backup) {
 		this.backup = backup;
 	}
 
+	@Override
 	public ISelectionProvider getSelectionProvider() {
 		return getTreeViewer();
 	}

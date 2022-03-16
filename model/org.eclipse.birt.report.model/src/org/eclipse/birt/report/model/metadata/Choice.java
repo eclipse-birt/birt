@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,7 +58,7 @@ public class Choice implements Cloneable, IChoice, Comparable<Object> {
 
 	/**
 	 * Constructs a new Choice by the given name and id.
-	 * 
+	 *
 	 * @param name the choice name
 	 * @param id   the message ID for the display name
 	 */
@@ -67,7 +70,7 @@ public class Choice implements Cloneable, IChoice, Comparable<Object> {
 
 	/**
 	 * Default constructor.
-	 * 
+	 *
 	 */
 
 	public Choice() {
@@ -76,20 +79,22 @@ public class Choice implements Cloneable, IChoice, Comparable<Object> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#clone()
 	 */
 
+	@Override
 	protected Object clone() throws CloneNotSupportedException {
 		return super.clone();
 	}
 
 	/**
 	 * Returns the localized display name for the choice.
-	 * 
+	 *
 	 * @return the localized display name for the choice.
 	 */
 
+	@Override
 	public String getDisplayName() {
 		if (displayNameKey != null) {
 			String displayName = null;
@@ -109,10 +114,11 @@ public class Choice implements Cloneable, IChoice, Comparable<Object> {
 
 	/**
 	 * Returns the localized display name for the choice.
-	 * 
+	 *
 	 * @return the localized display name for the choice.
 	 */
 
+	@Override
 	public String getDisplayName(ULocale locale) {
 		if (displayNameKey != null) {
 			if (messages == null) {
@@ -125,27 +131,29 @@ public class Choice implements Cloneable, IChoice, Comparable<Object> {
 
 	/**
 	 * Returns the display name resource key for the choice.
-	 * 
+	 *
 	 * @return the display name resource key
 	 */
 
+	@Override
 	public String getDisplayNameKey() {
 		return displayNameKey;
 	}
 
 	/**
 	 * Returns the choice name that appears in the XML design file.
-	 * 
+	 *
 	 * @return the choice name used in the XML design file
 	 */
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * Sets the resource key for display name.
-	 * 
+	 *
 	 * @param theDisplayNameKey the resource key for display name
 	 */
 
@@ -155,7 +163,7 @@ public class Choice implements Cloneable, IChoice, Comparable<Object> {
 
 	/**
 	 * Sets the choice name.
-	 * 
+	 *
 	 * @param theName the name to set
 	 */
 
@@ -166,20 +174,22 @@ public class Choice implements Cloneable, IChoice, Comparable<Object> {
 	/**
 	 * Returns the value of the choice. The returned value equals to the internal
 	 * name of the system choice.
-	 * 
+	 *
 	 * @return the value of the choice
 	 */
 
+	@Override
 	public Object getValue() {
 		return name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 
+	@Override
 	public int compareTo(Object o) {
 		assert name != null;
 
@@ -189,22 +199,25 @@ public class Choice implements Cloneable, IChoice, Comparable<Object> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 
+	@Override
 	public String toString() {
-		if (!StringUtil.isBlank(getName()))
+		if (!StringUtil.isBlank(getName())) {
 			return getName();
+		}
 		return super.toString();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.metadata.IChoice#copy()
 	 */
 
+	@Override
 	public IChoice copy() {
 		try {
 			return (IChoice) clone();

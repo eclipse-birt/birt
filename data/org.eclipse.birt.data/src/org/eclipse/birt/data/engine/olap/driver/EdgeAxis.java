@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +30,7 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtDimensionView;
 import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
 
 /**
- * 
+ *
  *
  */
 public class EdgeAxis implements IEdgeAxis {
@@ -39,7 +42,7 @@ public class EdgeAxis implements IEdgeAxis {
 	private RowDataAccessorService service;
 
 	/**
-	 * 
+	 *
 	 * @param resultSet
 	 * @param view
 	 * @param isCalculatedMember
@@ -50,7 +53,7 @@ public class EdgeAxis implements IEdgeAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resultSet
 	 * @param view
 	 * @param isCalculatedMember
@@ -72,7 +75,7 @@ public class EdgeAxis implements IEdgeAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parent
 	 * @param view
 	 * @param sortList
@@ -90,7 +93,7 @@ public class EdgeAxis implements IEdgeAxis {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param rs
 	 * @param view
 	 * @param isCalculatedMember
@@ -116,7 +119,7 @@ public class EdgeAxis implements IEdgeAxis {
 					dimensionAxisList.add(axis);
 				}
 			}
-		} else if (isCalculatedMember) {
+		} else {
 			DimensionAxis axis = new DimensionAxis(this, rs, index, 0);
 			dimensionAxisList.add(axis);
 		}
@@ -129,48 +132,54 @@ public class EdgeAxis implements IEdgeAxis {
 	/**
 	 * PopulateEdgeInfo operation should be done before move up/down along the edge
 	 * cursor.
-	 * 
+	 *
 	 * @throws OLAPException
 	 * @throws IOException
 	 */
+	@Override
 	public void populateEdgeInfo(boolean isPage) throws OLAPException {
-		if (this.dataAccessor != null)
+		if (this.dataAccessor != null) {
 			try {
 				this.dataAccessor.initialize(isPage);
 			} catch (IOException e) {
 				throw new OLAPException(e.getLocalizedMessage());
 			}
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public IRowDataAccessor getRowDataAccessor() {
 		return this.dataAccessor;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 * @return
 	 */
+	@Override
 	public DimensionAxis getDimensionAxis(int index) {
 		return dimensionAxis[index];
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public DimensionAxis[] getAllDimensionAxis() {
 		return this.dimensionAxis;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public IAggregationResultSet getQueryResultSet() {
 		return rs;
 	}

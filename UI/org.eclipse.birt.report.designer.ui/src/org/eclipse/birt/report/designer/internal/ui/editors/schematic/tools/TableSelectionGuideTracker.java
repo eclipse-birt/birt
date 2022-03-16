@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -24,7 +27,7 @@ public abstract class TableSelectionGuideTracker extends DragEditPartsTracker {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param sourceEditPart
 	 */
 	public TableSelectionGuideTracker(TableEditPart sourceEditPart, int number) {
@@ -34,6 +37,7 @@ public abstract class TableSelectionGuideTracker extends DragEditPartsTracker {
 		setUnloadWhenFinished(false);
 	}
 
+	@Override
 	protected boolean handleButtonUp(int button) {
 		if (stateTransition(STATE_DRAG_IN_PROGRESS, STATE_TERMINAL)) {
 			return true;
@@ -42,15 +46,18 @@ public abstract class TableSelectionGuideTracker extends DragEditPartsTracker {
 		return super.handleButtonUp(button);
 	}
 
+	@Override
 	protected void performConditionalSelection() {
 		super.performConditionalSelection();
 		select();
 	}
 
+	@Override
 	protected void performSelection() {
 
 	}
 
+	@Override
 	protected boolean handleDragInProgress() {
 		if (isDealwithDrag()) {
 			selectDrag();
@@ -68,7 +75,7 @@ public abstract class TableSelectionGuideTracker extends DragEditPartsTracker {
 
 	/**
 	 * Set number
-	 * 
+	 *
 	 * @param number
 	 */
 	public void setNumber(int number) {
@@ -117,11 +124,11 @@ public abstract class TableSelectionGuideTracker extends DragEditPartsTracker {
 	 * changes. The target is updated by using the target conditional and the target
 	 * request. If the target has been locked, this method does nothing and returns
 	 * <code>false</code>.
-	 * 
+	 *
 	 * @return <code>true</code> if the target was changed
 	 */
 //	protected EditPart getEditPartUnderMouse() {
-//		
+//
 //			Collection exclude = getExclusionSet();
 //			EditPart editPart = getCurrentViewer().findObjectAtExcluding(
 //				getLocation(),
@@ -130,7 +137,7 @@ public abstract class TableSelectionGuideTracker extends DragEditPartsTracker {
 //			if (editPart != null)
 //				return editPart.getTargetEditPart(getTargetRequest());
 //			return null;
-//			
+//
 //	}
 	protected Handle getHandleUnderMouse() {
 		return ((DeferredGraphicalViewer) (getSourceEditPart().getViewer())).findHandleAt(getLocation());

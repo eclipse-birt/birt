@@ -26,7 +26,7 @@ public enum CompressionMode {
 
 	private int value;
 
-	private CompressionMode(int value) {
+	CompressionMode(int value) {
 		this.value = value;
 	}
 

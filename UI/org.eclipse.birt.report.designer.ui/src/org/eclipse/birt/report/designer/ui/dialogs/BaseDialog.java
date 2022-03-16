@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -30,7 +32,7 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * Base class for dialogs in BIRT, the dialog extends JFace's TrayDialog
- * 
+ *
  * @since 2.5
  */
 public abstract class BaseDialog extends TrayDialog {
@@ -50,11 +52,11 @@ public abstract class BaseDialog extends TrayDialog {
 	private IDialogSettings dialogSettings;
 
 	/**
-	 * 
+	 *
 	 * Creates a dialog under the parent shell with the given title and a help
 	 * button. This constructor is equivalent to calling
 	 * <code>BaseDialog( Shell parentShell, String title, true )</code>.
-	 * 
+	 *
 	 * @param title the title of the dialog
 	 */
 
@@ -68,7 +70,7 @@ public abstract class BaseDialog extends TrayDialog {
 
 	/**
 	 * Creates a dialog under the parent shell with the given title
-	 * 
+	 *
 	 * @param parentShell the parent shell
 	 * @param title       the title of the dialog
 	 */
@@ -87,11 +89,12 @@ public abstract class BaseDialog extends TrayDialog {
 	 * after create it. If initializtion failed, the dialog will be treated as
 	 * cancel button is pressed
 	 * </p>
-	 * 
+	 *
 	 * @return the return code
-	 * 
+	 *
 	 * @see #create()
 	 */
+	@Override
 	public int open() {
 		if (getShell() == null) {
 			// create the window
@@ -112,7 +115,7 @@ public abstract class BaseDialog extends TrayDialog {
 	/**
 	 * Initialize the dialog after all controls have been created.The default
 	 * implement of this framework method does nothing.Subclassed may override it.
-	 * 
+	 *
 	 * @return Returns true if the dialog is initialized correctly, or false if
 	 *         failed
 	 */
@@ -127,9 +130,10 @@ public abstract class BaseDialog extends TrayDialog {
 	 * The <code>BaseDialog</code> overrides this framework method sets in order to
 	 * set the title of the dialog.
 	 * </p>
-	 * 
+	 *
 	 * @param shell the shell
 	 */
+	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		if (title != null) {
@@ -150,7 +154,7 @@ public abstract class BaseDialog extends TrayDialog {
 
 	/**
 	 * Gets the title of the dialog
-	 * 
+	 *
 	 * @return Returns the title.
 	 */
 	public String getTitle() {
@@ -159,7 +163,7 @@ public abstract class BaseDialog extends TrayDialog {
 
 	/**
 	 * Gets the Ok button
-	 * 
+	 *
 	 * @return Returns the OK button
 	 */
 	protected Button getOkButton() {
@@ -168,7 +172,7 @@ public abstract class BaseDialog extends TrayDialog {
 
 	/**
 	 * Sets the text for OK button.
-	 * 
+	 *
 	 * @param label
 	 */
 	protected void setOkButtonText(String label) {
@@ -177,7 +181,7 @@ public abstract class BaseDialog extends TrayDialog {
 
 	/**
 	 * Gets the dialog result.
-	 * 
+	 *
 	 * @return the dialog result.
 	 */
 	public Object getResult() {
@@ -186,7 +190,7 @@ public abstract class BaseDialog extends TrayDialog {
 
 	/**
 	 * Sets the dialog result.
-	 * 
+	 *
 	 * @param value
 	 */
 	final protected void setResult(Object value) {
@@ -196,8 +200,8 @@ public abstract class BaseDialog extends TrayDialog {
 	/**
 	 * Creates a new button with the given id. Override this method to support
 	 * custom label for OK button
-	 * 
-	 * 
+	 *
+	 *
 	 * @param parent        the parent composite
 	 * @param id            the id of the button (see
 	 *                      <code>IDialogConstants.*_ID</code> constants for
@@ -205,12 +209,13 @@ public abstract class BaseDialog extends TrayDialog {
 	 * @param label         the label from the button
 	 * @param defaultButton <code>true</code> if the button is to be the default
 	 *                      button, and <code>false</code> otherwise
-	 * 
+	 *
 	 * @return the new button
-	 * 
+	 *
 	 * @see #getCancelButton
 	 * @see #getOKButton()
 	 */
+	@Override
 	protected Button createButton(Composite parent, int id, String label, boolean defaultButton) {
 		if (IDialogConstants.OK_ID == id && okLabel != null) {
 			return super.createButton(parent, id, okLabel, defaultButton);
@@ -220,12 +225,14 @@ public abstract class BaseDialog extends TrayDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#getDialogBoundsSettings()
 	 */
+	@Override
 	protected IDialogSettings getDialogBoundsSettings() {
-		if (dialogSettings == null)
+		if (dialogSettings == null) {
 			dialogSettings = loadDialogSettings();
+		}
 		return dialogSettings;
 	}
 
@@ -237,7 +244,7 @@ public abstract class BaseDialog extends TrayDialog {
 			return null;
 		}
 		IDialogSettings dialogSettings = ReportPlugin.getDefault().getDialogSettings();
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		Shell curShell = getShell();
 		while (curShell != null) {
 			buf.append(curShell.toString() + '/');
@@ -263,9 +270,10 @@ public abstract class BaseDialog extends TrayDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.window.Window#getInitialSize()
 	 */
+	@Override
 	protected Point getInitialSize() {
 		try {
 			IDialogSettings setting = getDialogBoundsSettings();
@@ -281,7 +289,7 @@ public abstract class BaseDialog extends TrayDialog {
 
 	/**
 	 * Override this method to get the default size of current dialog.
-	 * 
+	 *
 	 * @return a Point object which encapsulate the width and height of the dialog.
 	 */
 	protected Point getDefaultSize() {
@@ -290,9 +298,10 @@ public abstract class BaseDialog extends TrayDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#initializeBounds()
 	 */
+	@Override
 	protected void initializeBounds() {
 		Shell shell = getShell();
 		if (shell != null) {

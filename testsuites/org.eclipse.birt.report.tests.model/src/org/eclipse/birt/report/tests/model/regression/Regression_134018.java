@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -53,6 +56,7 @@ public class Regression_134018 extends BaseTestCase {
 	private final static String INPUT = "regression_134018.xml";
 	private final static String LIBRARY = "regression_134018_lib.xml";//$NON-NLS-1$
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();

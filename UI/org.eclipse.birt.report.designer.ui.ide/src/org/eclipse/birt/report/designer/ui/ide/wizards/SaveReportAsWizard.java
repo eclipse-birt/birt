@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,9 +47,10 @@ public class SaveReportAsWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
+	@Override
 	public void addPages() {
 
 		saveAsPage = new WizardSaveAsPage("WizardSaveAsPage"); //$NON-NLS-1$
@@ -80,13 +84,15 @@ public class SaveReportAsWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#canFinish()
 	 */
+	@Override
 	public boolean canFinish() {
 		return saveAsPage.validatePage();
 	}
 
+	@Override
 	public boolean performFinish() {
 		saveAsPath = saveAsPage.getResult();
 
@@ -117,7 +123,7 @@ public class SaveReportAsWizard extends Wizard {
 
 	/**
 	 * The path of report design to be saved
-	 * 
+	 *
 	 * @return Path
 	 */
 	public IPath getSaveAsPath() {

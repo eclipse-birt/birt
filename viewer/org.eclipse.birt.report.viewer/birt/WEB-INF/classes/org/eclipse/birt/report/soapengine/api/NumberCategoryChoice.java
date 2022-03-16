@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * NumberCategoryChoice.java
  *
@@ -34,7 +46,7 @@ public class NumberCategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Gets the categoryChoice value for this NumberCategoryChoice.
-	 * 
+	 *
 	 * @return categoryChoice
 	 */
 	public org.eclipse.birt.report.soapengine.api.CategoryChoice getCategoryChoice() {
@@ -43,7 +55,7 @@ public class NumberCategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Sets the categoryChoice value for this NumberCategoryChoice.
-	 * 
+	 *
 	 * @param categoryChoice
 	 */
 	public void setCategoryChoice(org.eclipse.birt.report.soapengine.api.CategoryChoice categoryChoice) {
@@ -52,7 +64,7 @@ public class NumberCategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Gets the decimalPlaces value for this NumberCategoryChoice.
-	 * 
+	 *
 	 * @return decimalPlaces
 	 */
 	public org.eclipse.birt.report.soapengine.api.Vector getDecimalPlaces() {
@@ -61,7 +73,7 @@ public class NumberCategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Sets the decimalPlaces value for this NumberCategoryChoice.
-	 * 
+	 *
 	 * @param decimalPlaces
 	 */
 	public void setDecimalPlaces(org.eclipse.birt.report.soapengine.api.Vector decimalPlaces) {
@@ -70,7 +82,7 @@ public class NumberCategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Gets the symbol value for this NumberCategoryChoice.
-	 * 
+	 *
 	 * @return symbol
 	 */
 	public org.eclipse.birt.report.soapengine.api.Vector getSymbol() {
@@ -79,7 +91,7 @@ public class NumberCategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Sets the symbol value for this NumberCategoryChoice.
-	 * 
+	 *
 	 * @param symbol
 	 */
 	public void setSymbol(org.eclipse.birt.report.soapengine.api.Vector symbol) {
@@ -88,7 +100,7 @@ public class NumberCategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Gets the symbolPosition value for this NumberCategoryChoice.
-	 * 
+	 *
 	 * @return symbolPosition
 	 */
 	public org.eclipse.birt.report.soapengine.api.Vector getSymbolPosition() {
@@ -97,7 +109,7 @@ public class NumberCategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Sets the symbolPosition value for this NumberCategoryChoice.
-	 * 
+	 *
 	 * @param symbolPosition
 	 */
 	public void setSymbolPosition(org.eclipse.birt.report.soapengine.api.Vector symbolPosition) {
@@ -106,7 +118,7 @@ public class NumberCategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Gets the negativeNumberFormat value for this NumberCategoryChoice.
-	 * 
+	 *
 	 * @return negativeNumberFormat
 	 */
 	public org.eclipse.birt.report.soapengine.api.Vector getNegativeNumberFormat() {
@@ -115,7 +127,7 @@ public class NumberCategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Sets the negativeNumberFormat value for this NumberCategoryChoice.
-	 * 
+	 *
 	 * @param negativeNumberFormat
 	 */
 	public void setNegativeNumberFormat(org.eclipse.birt.report.soapengine.api.Vector negativeNumberFormat) {
@@ -124,7 +136,7 @@ public class NumberCategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Gets the useSeparator value for this NumberCategoryChoice.
-	 * 
+	 *
 	 * @return useSeparator
 	 */
 	public java.lang.Boolean getUseSeparator() {
@@ -133,7 +145,7 @@ public class NumberCategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Sets the useSeparator value for this NumberCategoryChoice.
-	 * 
+	 *
 	 * @param useSeparator
 	 */
 	public void setUseSeparator(java.lang.Boolean useSeparator) {
@@ -142,14 +154,18 @@ public class NumberCategoryChoice implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof NumberCategoryChoice))
+		if (!(obj instanceof NumberCategoryChoice)) {
 			return false;
+		}
 		NumberCategoryChoice other = (NumberCategoryChoice) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -175,6 +191,7 @@ public class NumberCategoryChoice implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

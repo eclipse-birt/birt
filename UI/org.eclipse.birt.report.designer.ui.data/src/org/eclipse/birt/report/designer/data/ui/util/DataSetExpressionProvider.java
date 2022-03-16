@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +33,7 @@ public class DataSetExpressionProvider extends ExpressionProvider {
 
 	/**
 	 * provider constructor
-	 * 
+	 *
 	 * @param handle
 	 */
 	public DataSetExpressionProvider(DesignElementHandle handle) {
@@ -43,6 +46,7 @@ public class DataSetExpressionProvider extends ExpressionProvider {
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#
 	 * getCategoryList()
 	 */
+	@Override
 	protected List getCategoryList() {
 		List categoryList = super.getCategoryList();
 		if (dataSetList != null && !dataSetList.isEmpty()) {
@@ -55,6 +59,7 @@ public class DataSetExpressionProvider extends ExpressionProvider {
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#
 	 * getChildrenList(java.lang.Object)
 	 */
+	@Override
 	protected List getChildrenList(Object parent) {
 
 		if (DATASETS.equals(parent)) {
@@ -78,6 +83,7 @@ public class DataSetExpressionProvider extends ExpressionProvider {
 	 * org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getDisplayText
 	 * (java.lang.Object)
 	 */
+	@Override
 	public String getDisplayText(Object element) {
 		if (element instanceof DataSetHandle) {
 			return ((DataSetHandle) element).getName();
@@ -92,6 +98,7 @@ public class DataSetExpressionProvider extends ExpressionProvider {
 	 * org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getInsertText(
 	 * java.lang.Object)
 	 */
+	@Override
 	public String getInsertText(Object element) {
 		if (element instanceof DataSetViewData) {
 			return Utility.getExpression(element);

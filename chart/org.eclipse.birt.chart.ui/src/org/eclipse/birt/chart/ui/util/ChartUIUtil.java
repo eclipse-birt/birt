@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -108,7 +111,7 @@ import com.ibm.icu.util.ULocale;
 public class ChartUIUtil {
 	public static final String FONT_AUTO = Messages.getString("ChartUIUtil.Font.Auto"); //$NON-NLS-1$
 
-	public static final String[] FONT_SIZES = new String[] { ChartUIUtil.FONT_AUTO, "9", //$NON-NLS-1$
+	public static final String[] FONT_SIZES = { ChartUIUtil.FONT_AUTO, "9", //$NON-NLS-1$
 			"10", //$NON-NLS-1$
 			"12", //$NON-NLS-1$
 			"14", //$NON-NLS-1$
@@ -122,7 +125,7 @@ public class ChartUIUtil {
 
 	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.ui/swt"); //$NON-NLS-1$
 
-	private static HashMap<String, ISeriesUIProvider> htSeriesAttributeUIProviders = new HashMap<String, ISeriesUIProvider>();
+	private static HashMap<String, ISeriesUIProvider> htSeriesAttributeUIProviders = new HashMap<>();
 
 	private static LinkedHashMap<String, IChartType> htTypes = null;
 
@@ -146,7 +149,7 @@ public class ChartUIUtil {
 	}
 
 	/** Initializes locales. */
-	public final static TreeMap<String, ULocale> LOCALE_TABLE = new TreeMap<String, ULocale>(Collator.getInstance());
+	public final static TreeMap<String, ULocale> LOCALE_TABLE = new TreeMap<>(Collator.getInstance());
 
 	static {
 		// Initialize the locale mapping table
@@ -190,7 +193,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Create a row expression based on column name.
-	 * 
+	 *
 	 * @param colName
 	 */
 	public static String getExpressionString(String colName) {
@@ -199,7 +202,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Returns the default number format instance for default locale.
-	 * 
+	 *
 	 * @return the default number format
 	 */
 	public static NumberFormat getDefaultNumberFormatInstance() {
@@ -220,7 +223,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Return specified axis definitions.
-	 * 
+	 *
 	 * @param chart     chart
 	 * @param axisIndex If chart is without axis type, it always return all
 	 *                  orthogonal series definition.
@@ -234,7 +237,7 @@ public class ChartUIUtil {
 	 * Return specified axis definitions or all series definitions. Remember return
 	 * type is ArrayList, not EList, no event is fired when adding or removing an
 	 * element.
-	 * 
+	 *
 	 * @param chart chart
 	 * @return specified axis definitions or all series definitions
 	 */
@@ -322,7 +325,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Checks all data definitions are bound
-	 * 
+	 *
 	 * @param chart chart model
 	 */
 	public static boolean checkDataBinding(Chart chart) {
@@ -364,7 +367,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Synchronize runtime series with design series.
-	 * 
+	 *
 	 * @param chart
 	 */
 	public static void syncRuntimeSeries(Chart chart) {
@@ -470,7 +473,7 @@ public class ChartUIUtil {
 	/**
 	 * Does Live Preview. Need to check all series data binding complete before
 	 * invoking
-	 * 
+	 *
 	 * @param cmRunTime    chart model that can add runtime data
 	 * @param dataProvider data service provider
 	 * @return chart model with runtime data
@@ -507,7 +510,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Converts sample data according to AxisType
-	 * 
+	 *
 	 * @param axisType           axis type
 	 * @param sOldRepresentation old sample data representation
 	 * @param index              sample data index
@@ -581,7 +584,7 @@ public class ChartUIUtil {
 	/**
 	 * Sets the query to all series grouping, except for the first which should be
 	 * set manually
-	 * 
+	 *
 	 * @param chart           chart model
 	 * @param queryDefinition group query definition
 	 */
@@ -612,7 +615,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Adds an orthogonal axis. Ensures only one event is fired.
-	 * 
+	 *
 	 * @param chartModel chart model
 	 */
 	public static void addAxis(final ChartWithAxes chartModel) {
@@ -668,7 +671,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Add default name for series.
-	 * 
+	 *
 	 * @param chart
 	 * @param series
 	 * @since 2.3
@@ -700,7 +703,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Removes the last orthogonal axes. This is a batch operation.
-	 * 
+	 *
 	 * @param chartModel        chart model
 	 * @param removedAxisNumber the number of axes to be removed
 	 */
@@ -712,7 +715,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Removes the last orthogonal axis. Ensures only one event is fired.
-	 * 
+	 *
 	 * @param chartModel chart model
 	 */
 	public static void removeLastAxis(ChartWithAxes chartModel) {
@@ -722,7 +725,7 @@ public class ChartUIUtil {
 	/**
 	 * Removes an orthogonal axis in the specified position. Ensures only one event
 	 * is fired.
-	 * 
+	 *
 	 * @param chartModel chart model
 	 * @param axisIndex  the index of the axis to be removed
 	 */
@@ -770,7 +773,7 @@ public class ChartUIUtil {
 	/**
 	 * Reorder the index of the orthogonal sample data. If index is wrong, sample
 	 * data can't display correctly.
-	 * 
+	 *
 	 * @param chartModel
 	 */
 	public static void reorderOrthogonalSampleDataIndex(Chart chartModel) {
@@ -782,7 +785,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Copies general attributes in Series.
-	 * 
+	 *
 	 * @param oldSeries copied series
 	 * @param newSeries target series
 	 */
@@ -821,13 +824,11 @@ public class ChartUIUtil {
 				} else {
 					newSeries.setLabelPosition(oldSeries.getLabelPosition());
 				}
+			} else if (newSeries instanceof LineSeries || newSeries instanceof StockSeries
+					|| newSeries instanceof GanttSeries) {
+				newSeries.setLabelPosition(oldSeries.getLabelPosition());
 			} else {
-				if (newSeries instanceof LineSeries || newSeries instanceof StockSeries
-						|| newSeries instanceof GanttSeries) {
-					newSeries.setLabelPosition(oldSeries.getLabelPosition());
-				} else {
-					newSeries.setLabelPosition(Position.OUTSIDE_LITERAL);
-				}
+				newSeries.setLabelPosition(Position.OUTSIDE_LITERAL);
 			}
 		}
 
@@ -915,7 +916,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Sets the given help context id on the given control's shell.
-	 * 
+	 *
 	 * @param control   the control on which to register the context id
 	 * @param contextId the context id to use when F1 help is invoked
 	 */
@@ -934,7 +935,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Returns whether wall/floor has been set if it's 3D chart.
-	 * 
+	 *
 	 * @param chart Chart model
 	 * @return Returns whether wall/floor has been set if it's 3D chart. Returns
 	 *         true if chart is ChartWithoutAxes or not 3D
@@ -966,7 +967,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Convert the displayed anchor in the case of flipped axes.
-	 * 
+	 *
 	 * @param anchor
 	 * @param isFlippedAxes true if the Orientation is Horizontal
 	 */
@@ -979,7 +980,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Convert the displayed text alignment in the case of flipped axes.
-	 * 
+	 *
 	 * @param ta
 	 * @param isFlippedAxes true if the Orientation is Horizontal
 	 * @return The flipped text alignment
@@ -993,7 +994,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Convert the displayed position in the case of flipped axes.
-	 * 
+	 *
 	 * @param position
 	 * @param isFlippedAxes true if the Orientation is Horizontal
 	 */
@@ -1019,7 +1020,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Gets the array of position display names
-	 * 
+	 *
 	 * @param positionScope position scope
 	 * @param isFlipped     current chart model's direction
 	 * @return string array of position display names
@@ -1029,7 +1030,7 @@ public class ChartUIUtil {
 			return LiteralHelper.fullPositionSet.getDisplayNames();
 		}
 
-		List<String> items = new ArrayList<String>(5);
+		List<String> items = new ArrayList<>(5);
 		// check vertical
 		if ((positionScope & ChartUIConstants.ALLOW_VERTICAL_POSITION) == ChartUIConstants.ALLOW_VERTICAL_POSITION) {
 			if (isFlipped) {
@@ -1064,7 +1065,7 @@ public class ChartUIUtil {
 			return LiteralHelper.fullPositionSet.getNames();
 		}
 
-		List<String> items = new ArrayList<String>(5);
+		List<String> items = new ArrayList<>(5);
 		// check vertical
 		if ((positionScope & ChartUIConstants.ALLOW_VERTICAL_POSITION) == ChartUIConstants.ALLOW_VERTICAL_POSITION) {
 			if (isFlipped) {
@@ -1102,7 +1103,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Caches label position for different subtype.
-	 * 
+	 *
 	 * @param seriesDefinition the series definition in chart.
 	 */
 	public static void saveLabelPositionIntoCache(SeriesDefinition seriesDefinition) {
@@ -1127,7 +1128,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Restore cached label position to BarSeries in current chart.
-	 * 
+	 *
 	 * @param currentChart current chart.
 	 */
 	public static void restoreLabelPositionFromCache(Chart currentChart) {
@@ -1151,10 +1152,8 @@ public class ChartUIUtil {
 
 					if (labelPosition != null) {
 						series.setLabelPosition(labelPosition);
-					} else {
-						if (series.isStacked()) {
-							series.setLabelPosition(Position.INSIDE_LITERAL);
-						}
+					} else if (series.isStacked()) {
+						series.setLabelPosition(Position.INSIDE_LITERAL);
 					}
 				}
 			}
@@ -1164,7 +1163,7 @@ public class ChartUIUtil {
 	/**
 	 * Gets the specific series UI provider. Do not use this method to get series
 	 * composite since current instance is always basic chart UI implementation.
-	 * 
+	 *
 	 * @param series series in chart model
 	 * @return series UI provider
 	 * @since 2.2.1
@@ -1181,7 +1180,7 @@ public class ChartUIUtil {
 
 	/**
 	 * @param gridData
-	 * 
+	 *
 	 * @since 2.3
 	 */
 	public static void setChartImageButtonSizeByPlatform(GridData gridData) {
@@ -1193,7 +1192,7 @@ public class ChartUIUtil {
 
 	/**
 	 * @param gridData
-	 * 
+	 *
 	 * @since 2.3
 	 */
 	public static void setChartImageButtonHeightByPlatform(GridData gridData) {
@@ -1224,7 +1223,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Checks if grouping is supported.
-	 * 
+	 *
 	 * @param wizardContext
 	 * @since 2.3
 	 */
@@ -1291,7 +1290,7 @@ public class ChartUIUtil {
 	/**
 	 * To check the group type of category and y series. If not compatible , show a
 	 * warning.
-	 * 
+	 *
 	 * @param context
 	 * @param chart
 	 */
@@ -1316,7 +1315,7 @@ public class ChartUIUtil {
 	/**
 	 * Check if default aggregation and value series aggregation are valid for Gantt
 	 * chart and show warning message in UI.
-	 * 
+	 *
 	 * @param context
 	 * @since 2.3
 	 */
@@ -1339,7 +1338,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Get the compatible axis type according to series type.
-	 * 
+	 *
 	 * @param series
 	 * @return NameSet
 	 * @since 2.3
@@ -1359,7 +1358,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Create runtime chart model and bind preview data.
-	 * 
+	 *
 	 * @param cm
 	 * @param dataServiceProvider
 	 * @since BIRT 2.3
@@ -1370,7 +1369,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Create runtime chart model and bind preview data.
-	 * 
+	 *
 	 * @param cm
 	 * @param dataServiceProvider
 	 * @since BIRT 2.3
@@ -1459,13 +1458,13 @@ public class ChartUIUtil {
 	/**
 	 * help method for verifying the data type compatibility of the series, returns
 	 * true if the series has a numeric aggregation function
-	 * 
+	 *
 	 * @param series
 	 */
 	public static boolean isNumericAggregate(Series series) {
 		Chart cm = ChartUtil.getChartFromSeries(series);
 		SeriesDefinition baseSD = (ChartUIUtil.getBaseSeriesDefinitions(cm).get(0));
-		SeriesDefinition orthSD = null;
+		SeriesDefinition orthSD;
 		orthSD = (SeriesDefinition) series.eContainer();
 
 		for (Query query : series.getDataDefinition()) {
@@ -1483,7 +1482,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Sets default aggregation functions for model
-	 * 
+	 *
 	 * @param cm model
 	 * @since 2.5.1
 	 */
@@ -1524,13 +1523,13 @@ public class ChartUIUtil {
 
 	/**
 	 * Populate the chart types for UI.
-	 * 
+	 *
 	 * @param context
 	 * @since 2.5
 	 */
 	public static void populateTypeTable(IWizardContext context) {
 		if (htTypes == null) {
-			htTypes = new LinkedHashMap<String, IChartType>();
+			htTypes = new LinkedHashMap<>();
 		}
 		htTypes.clear();
 
@@ -1551,7 +1550,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Returns all chart type instances.
-	 * 
+	 *
 	 * @return chart type iterator.
 	 */
 	public static Iterator<IChartType> getChartTypeInstancesIterator() {
@@ -1765,7 +1764,7 @@ public class ChartUIUtil {
 	 * optional expressions is specified and not sharing/cube cases, the Y optional
 	 * will be top group and category expression will be the second use category
 	 * expression as the sort key.
-	 * 
+	 *
 	 * @param wizardContext
 	 * @return result
 	 * @since 2.5.3
@@ -1792,7 +1791,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Checks if current aggregation function supports datetime data or not.
-	 * 
+	 *
 	 * @param aggFunc
 	 * @return supported or not
 	 */
@@ -1809,7 +1808,7 @@ public class ChartUIUtil {
 
 	/**
 	 * Add specified description to composite to support Screen Reader tool.
-	 * 
+	 *
 	 * @param composite   composite
 	 * @param description description
 	 */
@@ -1824,10 +1823,11 @@ public class ChartUIUtil {
 			} else {
 				composite.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
+					@Override
 					public void getName(AccessibleEvent e) {
-						e.result = description.replaceAll("&", IConstants.EMPTY_STRING) //$NON-NLS-1$
-								.replaceAll(":", IConstants.EMPTY_STRING) //$NON-NLS-1$
-								.replaceAll("\\*", IConstants.EMPTY_STRING); //$NON-NLS-1$
+						e.result = description.replace("&", IConstants.EMPTY_STRING) //$NON-NLS-1$
+								.replace(":", IConstants.EMPTY_STRING) //$NON-NLS-1$
+								.replace("*", IConstants.EMPTY_STRING); //$NON-NLS-1$
 					}
 				});
 			}
@@ -1837,20 +1837,22 @@ public class ChartUIUtil {
 
 	/**
 	 * Add specified description to spinner to support Screen Reader tool.
-	 * 
+	 *
 	 * @param composite   composite
 	 * @param description description
 	 */
 	public static void addSpinnerScreenReaderAccessbility(final Spinner spinner, final String description) {
 		spinner.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
+			@Override
 			public void getName(AccessibleEvent e) {
-				e.result = description.replaceAll("&", IConstants.EMPTY_STRING) //$NON-NLS-1$
-						.replaceAll(":", IConstants.EMPTY_STRING) //$NON-NLS-1$
-						.replaceAll("\\*", IConstants.EMPTY_STRING); //$NON-NLS-1$
+				e.result = description.replace("&", IConstants.EMPTY_STRING) //$NON-NLS-1$
+						.replace(":", IConstants.EMPTY_STRING) //$NON-NLS-1$
+						.replace("*", IConstants.EMPTY_STRING); //$NON-NLS-1$
 			}
 		});
 		spinner.addFocusListener(new FocusAdapter() {
+			@Override
 			public void focusGained(FocusEvent e) {
 				// work around part 1: when the text gets focus, set accessible focus to the
 				// spinner
@@ -1858,6 +1860,7 @@ public class ChartUIUtil {
 			}
 		});
 		spinner.getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
+			@Override
 			public void getValue(AccessibleControlEvent e) {
 				// work around part 2: propagate the text's value to the spinner
 				e.result = Integer.toString(spinner.getSelection());
@@ -1869,14 +1872,14 @@ public class ChartUIUtil {
 	 * Support Screen Reader for custom chart composites, like ChartCombo,
 	 * ChartCheckBox and so on, it try to find parent composite's left label as
 	 * description of Screen Reader.
-	 * 
+	 *
 	 * @param chartComposite
 	 * @param composite
 	 */
 	public static void addScreenReaderAccessibility(Control chartComposite, Control composite) {
 		Control[] controls = chartComposite.getParent().getChildren();
 		for (int i = 1; i < controls.length; i++) {
-			if (controls[i] == chartComposite && Label.class.isInstance(controls[i - 1])) {
+			if (controls[i] == chartComposite && (controls[i - 1] instanceof Label)) {
 				ChartUIUtil.addScreenReaderAccessbility(composite, ((Label) controls[i - 1]).getText());
 				break;
 			}

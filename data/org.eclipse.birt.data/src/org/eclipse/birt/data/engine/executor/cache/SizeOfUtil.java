@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http)){}//www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors)){}
  *  Actuate Corporation  - initial API and implementation
@@ -80,7 +83,7 @@ public class SizeOfUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resultClass
 	 * @throws DataException
 	 */
@@ -101,7 +104,7 @@ public class SizeOfUtil {
 
 	/**
 	 * Return whether a class is fixed size.
-	 * 
+	 *
 	 * @param objectClass
 	 * @return
 	 */
@@ -114,7 +117,7 @@ public class SizeOfUtil {
 
 	/**
 	 * Return the size of memory occupied by fixed size class object.
-	 * 
+	 *
 	 * @param objectClass
 	 * @return
 	 */
@@ -142,7 +145,7 @@ public class SizeOfUtil {
 
 	/**
 	 * Compute the size of memory occupied by result object
-	 * 
+	 *
 	 * @param resultObject
 	 * @return
 	 * @throws DataException
@@ -151,12 +154,11 @@ public class SizeOfUtil {
 		int returnValue = 0;
 		for (int i = 1; i <= fieldCount; i++) {
 			if (!isfixedSize[i - 1]) {
-				if (resultObject.getFieldValue(i) != null)
-					returnValue += sizeOf(resultObject.getFieldValue(i).getClass(), resultObject.getFieldValue(i));
-			} else {
 				if (resultObject.getFieldValue(i) != null) {
-					returnValue += fieldSize[i - 1];
+					returnValue += sizeOf(resultObject.getFieldValue(i).getClass(), resultObject.getFieldValue(i));
 				}
+			} else if (resultObject.getFieldValue(i) != null) {
+				returnValue += fieldSize[i - 1];
 			}
 		}
 		int fieldsSize = POINTER_SIZE * 2 + 8 + (4 + fieldCount * 4 - 1) / 8 * 8;
@@ -185,8 +187,9 @@ public class SizeOfUtil {
 	}
 
 	public static int getArraySize(int length) {
-		if (length == 0)
+		if (length == 0) {
 			return 0;
+		}
 		return POINTER_SIZE * 2 + 8 + (POINTER_SIZE + length * 4 - 1) / 8 * 8;
 	}
 
@@ -202,7 +205,7 @@ public class SizeOfUtil {
 
 	/**
 	 * Return the size of memory occupied by variable size class object.
-	 * 
+	 *
 	 * @param objectClass
 	 * @param object
 	 * @return

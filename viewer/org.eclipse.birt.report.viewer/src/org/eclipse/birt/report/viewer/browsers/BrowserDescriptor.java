@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others. All rights reserved. This
- * program and the accompanying materials are made available under the terms of
- * the Eclipse Public License v1.0 which accompanies this distribution, and is
- * available at http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation and others.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - Initial implementation.
  ******************************************************************************/
 
@@ -24,7 +27,7 @@ public class BrowserDescriptor {
 
 	/**
 	 * Browser descriptor constructor.
-	 * 
+	 *
 	 * @param id      ID of a browser as specified in plugin.xml
 	 * @param label   name of the browser
 	 * @param factory factory that creates instances of this browser
@@ -39,7 +42,7 @@ public class BrowserDescriptor {
 
 	/**
 	 * Get browser id
-	 * 
+	 *
 	 * @return browser id
 	 */
 	public String getID() {
@@ -48,7 +51,7 @@ public class BrowserDescriptor {
 
 	/**
 	 * Get browser label
-	 * 
+	 *
 	 * @return browser label
 	 */
 	public String getLabel() {
@@ -57,7 +60,7 @@ public class BrowserDescriptor {
 
 	/**
 	 * Get browser factory.
-	 * 
+	 *
 	 * @return browser factory instance
 	 */
 	public IBrowserFactory getFactory() {
@@ -66,7 +69,7 @@ public class BrowserDescriptor {
 
 	/**
 	 * Is browser external or not
-	 * 
+	 *
 	 * @return browser external or not
 	 */
 	public boolean isExternal() {

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,16 +18,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.report.engine.nLayout.area.style.AreaConstants;
+
+import junit.framework.TestCase;
 
 public class BackgroundImageLayoutTest extends TestCase {
 
 	/**
 	 * Test only the initial image position will be returned when the image is
 	 * smaller than the area and repeat mode is no repeat.
-	 * 
+	 *
 	 */
 	public void testNoRepeatOfSmallImage() {
 		Position imagePosition = new Position(2, 2);
@@ -78,7 +81,7 @@ public class BackgroundImageLayoutTest extends TestCase {
 	/**
 	 * Test when image is larger than area, only the initial image position will be
 	 * returned.
-	 * 
+	 *
 	 */
 	public void testNoRepeatOfBigImage() {
 		Position areaPosition = new Position(0, 0);

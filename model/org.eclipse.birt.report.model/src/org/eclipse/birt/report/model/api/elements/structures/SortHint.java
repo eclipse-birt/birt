@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +30,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * This class represents a sort hint.
- * 
+ *
  */
 public class SortHint extends PropertyStructure {
 
@@ -69,19 +72,21 @@ public class SortHint extends PropertyStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
+	@Override
 	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new SortHintHandle(valueHandle, index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.core.IStructure#getStructName()
 	 */
+	@Override
 	public String getStructName() {
 		return SORT_HINT_STRUCT;
 	}
@@ -91,11 +96,12 @@ public class SortHint extends PropertyStructure {
 	 * <ul>
 	 * <li>If a column can only be identified by position, this name may be empty.
 	 * </ul>
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(Module,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public List<SemanticException> validate(Module module, DesignElement element) {
 		List<SemanticException> list = super.validate(module, element);
 

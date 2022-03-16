@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -20,9 +23,9 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 class RowBandCopyAction extends RowBandAction {
 	/**
 	 * Constructs a <code>RowBandAdapter</code> for the copy action.
-	 * 
+	 *
 	 * @param adapter the adapter to work on tables and grids.
-	 * 
+	 *
 	 */
 
 	RowBandCopyAction(RowBandAdapter adapter) {
@@ -31,7 +34,7 @@ class RowBandCopyAction extends RowBandAction {
 
 	/**
 	 * Checks if copy action can do with the given parameters .
-	 * 
+	 *
 	 * @param parameters parameters needed by insert operation.
 	 * @return <code>true</code> returns if can do the action , otherwise return
 	 *         <code>false</code>
@@ -41,21 +44,21 @@ class RowBandCopyAction extends RowBandAction {
 		int destIndex = parameters.getDestIndex();
 
 		SlotHandle slotHandle = getSlotHandle(parameters);
-		if (slotHandle == null || slotHandle.getCount() == 0)
+		if (slotHandle == null || slotHandle.getCount() == 0 || destIndex < 0 || destIndex >= slotHandle.getCount()) {
 			return false;
-		if (destIndex < 0 || destIndex >= slotHandle.getCount())
-			return false;
+		}
 		RowHandle rowHandle = (RowHandle) slotHandle.get(destIndex);
 
-		if (!containsRowSpan(rowHandle) && isRectangleArea(rowHandle))
+		if (!containsRowSpan(rowHandle) && isRectangleArea(rowHandle)) {
 			return true;
+		}
 
 		return false;
 	}
 
 	/**
 	 * Copies table row with the given parameters.
-	 * 
+	 *
 	 * @param parameters parameters needed by insert operation.
 	 * @return the copied table row.
 	 * @throws SemanticException

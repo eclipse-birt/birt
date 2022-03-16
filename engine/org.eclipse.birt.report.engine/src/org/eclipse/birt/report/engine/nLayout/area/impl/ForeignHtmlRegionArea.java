@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -37,20 +37,20 @@ public class ForeignHtmlRegionArea extends RegionArea implements IContainerArea 
 		super(area);
 	}
 
+	@Override
 	public void initialize() throws BirtException {
 		calculateSpecifiedWidth(content);
 		calculateSpecifiedHeight(content);
 		buildProperties(content, context);
 	}
 
+	@Override
 	public void close() throws BirtException {
 		finished = true;
 		if (specifiedHeight > 0) {
 			height = specifiedHeight;
 
-		}
-		else
-		{
+		} else {
 			height = currentBP;
 		}
 
@@ -61,6 +61,7 @@ public class ForeignHtmlRegionArea extends RegionArea implements IContainerArea 
 		}
 	}
 
+	@Override
 	public SplitResult split(int height, boolean force) throws BirtException {
 		if (force) {
 			ContainerArea newArea = cloneArea();
@@ -72,6 +73,7 @@ public class ForeignHtmlRegionArea extends RegionArea implements IContainerArea 
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
 
+	@Override
 	public void update(AbstractArea area) throws BirtException {
 		int aHeight = area.getAllocatedHeight();
 		currentBP += aHeight;

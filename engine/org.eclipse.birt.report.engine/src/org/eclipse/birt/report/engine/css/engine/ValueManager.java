@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - modification of Batik's ValueManager.java to support BIRT's CSS rules
@@ -42,7 +42,7 @@ public interface ValueManager {
 
 	/**
 	 * Creates a value from a lexical unit.
-	 * 
+	 *
 	 * @param lu     The SAC lexical unit used to create the value.
 	 * @param engine The calling CSSEngine.
 	 */
@@ -50,7 +50,7 @@ public interface ValueManager {
 
 	/**
 	 * Computes the given value.
-	 * 
+	 *
 	 * @param engine The CSSEngine.
 	 * @param idx    The property index in the engine.
 	 * @param value  The value to compute.

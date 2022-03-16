@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,6 +29,7 @@ public class Member implements IComparableStructure {
 	private Object[] keyValues;
 	private Object[] attributes;
 
+	@Override
 	public Object[] getFieldValues() {
 		Object[][] objects = new Object[2][];
 		objects[0] = getKeyValues();
@@ -36,9 +40,10 @@ public class Member implements IComparableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	@Override
 	public int compareTo(Object o) {
 		Member other = (Member) o;
 		for (int i = 0; i < getKeyValues().length; i++) {
@@ -52,9 +57,10 @@ public class Member implements IComparableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
 		Member other = (Member) o;
 		for (int i = 0; i < getKeyValues().length; i++) {
@@ -67,9 +73,10 @@ public class Member implements IComparableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		int hashCode = 1;
 		for (int i = 0; i < getKeyValues().length; i++) {
@@ -86,7 +93,7 @@ public class Member implements IComparableStructure {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param keyValues
 	 */
 	public void setKeyValues(Object[] keyValues) {
@@ -94,7 +101,7 @@ public class Member implements IComparableStructure {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Object[] getKeyValues() {
@@ -102,7 +109,7 @@ public class Member implements IComparableStructure {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param attributes
 	 */
 	public void setAttributes(Object[] attributes) {
@@ -110,7 +117,7 @@ public class Member implements IComparableStructure {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Object[] getAttributes() {
@@ -120,6 +127,7 @@ public class Member implements IComparableStructure {
 
 class LevelMemberCreator implements IStructureCreator {
 
+	@Override
 	public IStructure createInstance(Object[] fields) {
 		Member result = new Member();
 		Object[][] objects = ObjectArrayUtil.convert(fields);

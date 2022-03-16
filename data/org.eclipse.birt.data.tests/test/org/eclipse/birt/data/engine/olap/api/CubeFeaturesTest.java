@@ -1,15 +1,22 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.olap.api;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -86,17 +93,15 @@ import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.impl.query.SubCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
+import org.junit.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
 
 import testutil.BaseTestCase;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 /**
- *  
+ *
  */
 
 public class CubeFeaturesTest extends BaseTestCase {
@@ -105,7 +110,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test use all dimension levels.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -171,7 +176,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test query without any measure. Only edge cursors make sense in this case.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -234,7 +239,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test use part of dimension levels.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -290,7 +295,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test use aggregation with one more arguments, referenced using "dimension".
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -360,7 +365,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test adding nest aggregations cube operation
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -467,7 +472,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test adding nest aggregations cube operation
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -575,7 +580,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test adding nest aggregations cube operation
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -664,7 +669,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 //		ICubeOperation cubeOperation1 = new AddingNestAggregations(new IBinding[]{binding7, binding8, binding10, binding11});
 //		ICubeOperation cubeOperation2 = new AddingNestAggregations(new IBinding[]{binding9});
-//		
+//
 //
 //		cqd.addCubeOperation( cubeOperation1 );
 //		cqd.addCubeOperation( cubeOperation2 );
@@ -690,7 +695,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test adding nest aggregations cube operation
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -788,7 +793,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 	/**
 	 * Test adding nest aggregations cube operation and filter on this nested
 	 * aggregation.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -1072,7 +1077,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Boundary test for adding nest aggregations cube operation
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -1083,7 +1088,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * nest aggregation with a nonexistent dimension in aggregationOns
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	private void checkNonexistentDimensionException() throws Exception {
@@ -1156,7 +1161,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * nest aggregation with a nonexistent level in aggregationOns
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	private void checkNonexistentLevelException() throws Exception {
@@ -1229,7 +1234,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test use aggregation with one more arguments, referenced using "data"
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -1304,7 +1309,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test use page cursor
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -1391,7 +1396,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test use page cursor
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -1479,7 +1484,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test use aggregation with one more arguments
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -1547,7 +1552,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Filter1, filter out all level11 == CN.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -1707,7 +1712,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Filter2, filter out all level11 = CN and level21 > 2000.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -1772,7 +1777,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Filter2, filter out all level11 = CN and level21 > 2000.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -1837,7 +1842,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Filter2, filter out all level11 = CN and level21 > 2000.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -1897,7 +1902,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Filter out all level11 == US. meanwhile level11 is not defined in cube query.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -1954,7 +1959,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 	 * Mixed dimension filter and facttable based filter, 1. filter out all level11
 	 * == US. meanwhile level11 is not defined in cube query 2. filter out all
 	 * level21 == "CS" 3. filter out all aggr measure > 38.0 cube query.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -2018,7 +2023,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test collection IN filter
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -2058,15 +2063,15 @@ public class CubeFeaturesTest extends BaseTestCase {
 		binding5.setExpression(new ScriptExpression("measure[\"measure1\"]"));
 		cqd.addBinding(binding5);
 
-		List<IScriptExpression> exprs = new ArrayList<IScriptExpression>();
+		List<IScriptExpression> exprs = new ArrayList<>();
 		exprs.add(new ScriptExpression("dimension[\"dimension1\"][\"level11\"]"));
 		exprs.add(new ScriptExpression("dimension[\"dimension1\"][\"level12\"]"));
-		List<Collection<IScriptExpression>> targets = new ArrayList<Collection<IScriptExpression>>();
-		Collection<IScriptExpression> CNBJ = new ArrayList<IScriptExpression>();
+		List<Collection<IScriptExpression>> targets = new ArrayList<>();
+		Collection<IScriptExpression> CNBJ = new ArrayList<>();
 		CNBJ.add(new ScriptExpression("\"CN\""));
 		CNBJ.add(new ScriptExpression("\"BJ\""));
 
-		Collection<IScriptExpression> JPTK = new ArrayList<IScriptExpression>();
+		Collection<IScriptExpression> JPTK = new ArrayList<>();
 		JPTK.add(new ScriptExpression("\"JP\""));
 		JPTK.add(new ScriptExpression("\"TK\""));
 
@@ -2096,7 +2101,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test collection NOTIN filter
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -2136,15 +2141,15 @@ public class CubeFeaturesTest extends BaseTestCase {
 		binding5.setExpression(new ScriptExpression("measure[\"measure1\"]"));
 		cqd.addBinding(binding5);
 
-		List<IScriptExpression> exprs = new ArrayList<IScriptExpression>();
+		List<IScriptExpression> exprs = new ArrayList<>();
 		exprs.add(new ScriptExpression("data[\"edge1level1\"]"));
 		exprs.add(new ScriptExpression("dimension[\"dimension1\"][\"level12\"]"));
-		List<Collection<IScriptExpression>> targets = new ArrayList<Collection<IScriptExpression>>();
-		Collection<IScriptExpression> CNBJ = new ArrayList<IScriptExpression>();
+		List<Collection<IScriptExpression>> targets = new ArrayList<>();
+		Collection<IScriptExpression> CNBJ = new ArrayList<>();
 		CNBJ.add(new ScriptExpression("\"CN\""));
 		CNBJ.add(new ScriptExpression("\"BJ\""));
 
-		Collection<IScriptExpression> JPTK = new ArrayList<IScriptExpression>();
+		Collection<IScriptExpression> JPTK = new ArrayList<>();
 		JPTK.add(new ScriptExpression("\"JP\""));
 		JPTK.add(new ScriptExpression("\"TK\""));
 
@@ -2174,7 +2179,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Filter on derived measure
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -2261,7 +2266,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Filter on derived measure
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -2311,7 +2316,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Filter on derived measure
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -2367,7 +2372,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Filter on derived measure
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -2481,7 +2486,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -2628,7 +2633,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * top/bottom dimension filter.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -2723,7 +2728,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Top N measure filter
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -2771,7 +2776,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Simple sort on 1 level
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -2835,7 +2840,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Complex sort on multiple levels
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -2910,7 +2915,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Complex sort on multiple levels
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -2987,7 +2992,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Filter on derived measure
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -3035,7 +3040,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 	/**
 	 * expression sort on 2 level: one with expression sort and the other with
 	 * traditional sort.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -3169,7 +3174,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -3291,7 +3296,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -3391,7 +3396,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 	/**
 	 * Test cube query without edges. In this case, only grand total bindings are
 	 * allowed
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -3421,7 +3426,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -3523,7 +3528,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -3617,7 +3622,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -3663,7 +3668,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -3718,7 +3723,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -3781,7 +3786,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -3827,7 +3832,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -3892,7 +3897,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test binding "row" reference
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -4008,7 +4013,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test computed measure.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -4076,7 +4081,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test use Nested Computed Measure.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -4144,7 +4149,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -4247,7 +4252,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test computed measure name conflict.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -4307,7 +4312,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test use all dimension levels.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -4378,7 +4383,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test use part of dimension levels.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -4442,7 +4447,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test use all dimension levels.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -4527,7 +4532,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Filter1, filter out all level11 == CN.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -4596,7 +4601,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Filter2, filter out all level11 = CN and level21 > 2000.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -4669,7 +4674,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Simple sort on 1 level
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -4739,7 +4744,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Complex sort on multiple levels
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -4822,7 +4827,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -4926,7 +4931,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -5020,7 +5025,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -5074,7 +5079,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -5138,7 +5143,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -5210,7 +5215,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test grand total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -5265,7 +5270,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test binding "row" reference
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -5386,7 +5391,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test computed measure.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -5462,7 +5467,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test aggregation on computed measure.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -5541,7 +5546,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test aggregation on derived measure.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -5621,7 +5626,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test Nested total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -5718,7 +5723,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test Table + crosstab
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -5796,7 +5801,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test crosstab + crosstab
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -5859,13 +5864,15 @@ public class CubeFeaturesTest extends BaseTestCase {
 		EdgeCursor edge2 = (EdgeCursor) (outerCursor.getOrdinateEdge().get(1));
 		edge1.beforeFirst();
 		while (edge2.next()) {
-			if (depth > 5)
+			if (depth > 5) {
 				break;
+			}
 			edge1.beforeFirst();
 			while (edge1.next()) {
 				depth++;
-				if (depth > 5)
+				if (depth > 5) {
 					break;
+				}
 				this.testPrintln("\nOUTER RESULT:" + outerCursor.getObject("edge1level3").toString());
 
 				IPreparedCubeQuery pcq1 = engine.prepare(cqd, null);
@@ -5887,7 +5894,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test crosstab + table
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -5966,7 +5973,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test Table + subTable + crosstab
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -6054,7 +6061,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test Table + crosstab + crosstab filter against cube dimension
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -6195,7 +6202,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test use all dimension levels.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -6322,14 +6329,15 @@ public class CubeFeaturesTest extends BaseTestCase {
 			this.checkOutputFile();
 			engine.shutdown();
 		} finally {
-			if (cx != null)
+			if (cx != null) {
 				cx.exit();
+			}
 		}
 	}
 
 	/**
 	 * Test subQuery in crosstab
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -6515,8 +6523,9 @@ public class CubeFeaturesTest extends BaseTestCase {
 			close(cubeCursor);
 			engine.shutdown();
 		} finally {
-			if (cx != null)
+			if (cx != null) {
 				cx.exit();
+			}
 		}
 		this.checkOutputFile();
 
@@ -6524,7 +6533,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * Test subQuery with mirrored level in crosstab
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -6591,12 +6600,13 @@ public class CubeFeaturesTest extends BaseTestCase {
 				edge1.beforeFirst();
 				while (edge1.next()) {
 					value = cubeCursor.getObject("measure1");
-					if (value != null)
+					if (value != null) {
 						this.testPrintln("\n\nParent result:" + value);
-					else
+					} else {
 						continue;
+					}
 
-					ICubeCursor subCubeCursor = null;
+					ICubeCursor subCubeCursor;
 					EdgeCursor subEdge1, subEdge2;
 
 					// subQuery1
@@ -6706,15 +6716,16 @@ public class CubeFeaturesTest extends BaseTestCase {
 			close(cubeCursor);
 			engine.shutdown();
 		} finally {
-			if (cx != null)
+			if (cx != null) {
 				cx.exit();
+			}
 		}
 		this.checkOutputFile();
 	}
 
 	/**
 	 * Test subQuery in crosstab
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -6798,15 +6809,16 @@ public class CubeFeaturesTest extends BaseTestCase {
 			close(cubeCursor);
 			engine.shutdown();
 		} finally {
-			if (cx != null)
+			if (cx != null) {
 				cx.exit();
+			}
 		}
 		this.checkOutputFile();
 	}
 
 	/**
 	 * test year to date function
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -6872,7 +6884,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test year to date function
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -6935,7 +6947,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test month to date function
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -6998,7 +7010,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test week to date function
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -7061,7 +7073,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test trailing function
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -7122,7 +7134,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test trailing function
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -7183,7 +7195,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test trailing function
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -7244,7 +7256,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test trailing function
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -7305,7 +7317,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test add tow time functions
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -7385,7 +7397,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test add tow time functions
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -7464,7 +7476,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test add two time functions
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -7544,7 +7556,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test add two time functions
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -7649,7 +7661,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test year to date function using latest date in cube
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -7714,7 +7726,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * add two time functions, one use fixed date, one use last member
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -7794,7 +7806,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test previous N period function
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -7857,7 +7869,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test previous N period function
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -7920,7 +7932,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test month to date function
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -7981,7 +7993,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 	/**
 	 * test quarter to date function
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -8156,9 +8168,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 		EdgeCursor edge2 = (EdgeCursor) (cursor.getOrdinateEdge().get(1));
 
 		String[] lines = new String[columns.length];
-		for (int i = 0; i < lines.length; i++) {
-			lines[i] = "		";
-		}
+		Arrays.fill(lines, "		");
 
 		while (edge1.next()) {
 			long countryEnd = ((DimensionCursor) edge1.getDimensionCursor().get(0)).getEdgeEnd();
@@ -8195,11 +8205,13 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 				line += cursor.getObject(measure) + "		";
 
-				if (cityEnd == edge1.getPosition())
+				if (cityEnd == edge1.getPosition()) {
 					line += "[" + cursor.getObject(city_year_total) + "]" + "		";
+				}
 
-				if (countryEnd == edge1.getPosition())
+				if (countryEnd == edge1.getPosition()) {
 					line += "[" + cursor.getObject(country_year_total) + "]" + "		";
+				}
 
 			}
 
@@ -8215,19 +8227,22 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 			line += cursor.getObject(dist_total) + "		";
 
-			if (cityEnd == edge1.getPosition())
+			if (cityEnd == edge1.getPosition()) {
 				line += "[" + cursor.getObject(city_total) + "]" + "		";
+			}
 
-			if (countryEnd == edge1.getPosition())
+			if (countryEnd == edge1.getPosition()) {
 				line += "[" + cursor.getObject(country_total) + "]" + "		";
+			}
 
 		}
 		line += "[" + cursor.getObject(grand_total) + "]" + "		";
 		output += "\n" + line;
 		this.testPrint(output);
 
-		if (checkOutput)
+		if (checkOutput) {
 			this.checkOutputFile();
+		}
 	}
 
 	private void printCube(CubeCursor cursor, List columnEdgeBindingNames, List rowEdgeBindingNames,
@@ -8272,8 +8287,9 @@ public class CubeFeaturesTest extends BaseTestCase {
 		String output = getOutputFromCursor(cursor, columnEdgeBindingNames, rowEdgeBindingNames, measureBindingNames,
 				columnAggr, rowAggr, overallAggr);
 		this.testPrint(output);
-		if (checkOutput)
+		if (checkOutput) {
 			this.checkOutputFile();
+		}
 		close(cursor);
 	}
 
@@ -8283,8 +8299,9 @@ public class CubeFeaturesTest extends BaseTestCase {
 		String output = getOutputFromCursor(cursor, columnEdgeBindingNames, rowEdgeBindingNames, measureBindingNameList,
 				columnAggr, rowAggr, overallAggr);
 		this.testPrint(output);
-		if (checkOutput)
+		if (checkOutput) {
 			this.checkOutputFile();
+		}
 		close(cursor);
 	}
 
@@ -8319,8 +8336,9 @@ public class CubeFeaturesTest extends BaseTestCase {
 			String measureBindingNames, String columnAggr, String rowAggr, String overallAggr) throws OLAPException {
 		EdgeCursor edge1 = (EdgeCursor) (cursor.getOrdinateEdge().get(0));
 		EdgeCursor edge2 = null;
-		if (cursor.getOrdinateEdge().size() > 1)
+		if (cursor.getOrdinateEdge().size() > 1) {
 			edge2 = (EdgeCursor) (cursor.getOrdinateEdge().get(1));
+		}
 
 		String[] lines = new String[columnEdgeBindingNames.size()];
 		for (int i = 0; i < columnEdgeBindingNames.size(); i++) {
@@ -8333,8 +8351,9 @@ public class CubeFeaturesTest extends BaseTestCase {
 			}
 		}
 
-		if (rowAggr != null)
+		if (rowAggr != null) {
 			lines[lines.length - 1] += "Total";
+		}
 
 		String output = "";
 		for (int i = 0; i < lines.length; i++) {
@@ -8353,8 +8372,9 @@ public class CubeFeaturesTest extends BaseTestCase {
 				}
 			}
 
-			if (rowAggr != null)
+			if (rowAggr != null) {
 				line += cursor.getObject(rowAggr);
+			}
 			output += "\n" + line;
 		}
 
@@ -8364,8 +8384,9 @@ public class CubeFeaturesTest extends BaseTestCase {
 			while (edge1.next()) {
 				line += cursor.getObject(columnAggr) + "		";
 			}
-			if (overallAggr != null)
+			if (overallAggr != null) {
 				line += cursor.getObject(overallAggr);
+			}
 
 			output += "\n" + line;
 		}
@@ -8378,8 +8399,9 @@ public class CubeFeaturesTest extends BaseTestCase {
 			throws OLAPException {
 		EdgeCursor edge1 = (EdgeCursor) (cursor.getOrdinateEdge().get(0));
 		EdgeCursor edge2 = null;
-		if (cursor.getOrdinateEdge().size() > 1)
+		if (cursor.getOrdinateEdge().size() > 1) {
 			edge2 = (EdgeCursor) (cursor.getOrdinateEdge().get(1));
+		}
 
 		String[] lines = new String[columnEdgeBindingNames.size()];
 		for (int i = 0; i < columnEdgeBindingNames.size(); i++) {
@@ -8392,8 +8414,9 @@ public class CubeFeaturesTest extends BaseTestCase {
 			}
 		}
 
-		if (rowAggr != null)
+		if (rowAggr != null) {
 			lines[lines.length - 1] += "Total";
+		}
 
 		String output = "";
 		for (int i = 0; i < lines.length; i++) {
@@ -8415,8 +8438,9 @@ public class CubeFeaturesTest extends BaseTestCase {
 
 			}
 
-			if (rowAggr != null)
+			if (rowAggr != null) {
 				line += cursor.getObject(rowAggr);
+			}
 			output += "\n" + line;
 		}
 
@@ -8426,8 +8450,9 @@ public class CubeFeaturesTest extends BaseTestCase {
 			while (edge1.next()) {
 				line += cursor.getObject(columnAggr) + "		";
 			}
-			if (overallAggr != null)
+			if (overallAggr != null) {
 				line += cursor.getObject(overallAggr);
+			}
 
 			output += "\n" + line;
 		}
@@ -8588,7 +8613,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param engine
 	 * @throws BirtException
 	 */
@@ -8612,7 +8637,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -8626,7 +8651,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataCursor
 	 * @throws OLAPException
 	 */
@@ -8639,61 +8664,6 @@ public class CubeFeaturesTest extends BaseTestCase {
 	}
 
 	private void createCube(org.eclipse.birt.data.engine.impl.DataEngineImpl engine) throws BirtException, IOException {
-		IDocumentManager documentManager = DocumentManagerFactory
-				.createFileDocumentManager(engine.getSession().getTempDir(), String.valueOf(engine.hashCode()));
-		DocManagerMap.getDocManagerMap().set(String.valueOf(engine.hashCode()),
-				engine.getSession().getTempDir() + engine.hashCode(), documentManager);
-		engine.addShutdownListener(new DocManagerReleaser(engine));
-		Dimension[] dimensions = new Dimension[2];
-
-		// dimension0
-		String[] levelNames = new String[3];
-		levelNames[0] = "level11";
-		levelNames[1] = "level12";
-		levelNames[2] = "level13";
-		DimensionForTest iterator = new DimensionForTest(levelNames);
-		iterator.setLevelMember(0, TestFactTable.DIM0_L1Col);
-		iterator.setLevelMember(1, TestFactTable.DIM0_L2Col);
-		iterator.setLevelMember(2, TestFactTable.DIM0_L3Col);
-
-		ILevelDefn[] levelDefs = new ILevelDefn[3];
-		levelDefs[0] = new LevelDefinition("level11", new String[] { "level11" }, null);
-		levelDefs[1] = new LevelDefinition("level12", new String[] { "level12" }, null);
-		levelDefs[2] = new LevelDefinition("level13", new String[] { "level13" }, null);
-		dimensions[0] = (Dimension) DimensionFactory.createDimension("dimension1", documentManager, iterator, levelDefs,
-				false, new StopSign());
-		IHierarchy hierarchy = dimensions[0].getHierarchy();
-		assertEquals(hierarchy.getName(), "dimension1");
-		assertEquals(dimensions[0].length(), 13);
-
-		// dimension1
-		levelNames = new String[] { "level21", "attr21" };
-		iterator = new DimensionForTest(levelNames);
-		iterator.setLevelMember(0, distinct(TestFactTable.DIM1_L1Col));
-		iterator.setLevelMember(1, TestFactTable.ATTRIBUTE_Col);
-
-		levelDefs = new ILevelDefn[1];
-		levelDefs[0] = new LevelDefinition("level21", new String[] { "level21" }, new String[] { "attr21" });
-		dimensions[1] = (Dimension) DimensionFactory.createDimension("dimension2", documentManager, iterator, levelDefs,
-				false, new StopSign());
-		hierarchy = dimensions[1].getHierarchy();
-		assertEquals(hierarchy.getName(), "dimension2");
-		assertEquals(dimensions[1].length(), 5);
-
-		TestFactTable factTable2 = new TestFactTable();
-		String[] measureColumnName = new String[1];
-		measureColumnName[0] = "measure1";
-		Cube cube = new Cube(cubeName, documentManager);
-
-		cube.create(getKeyColNames(dimensions), dimensions, factTable2, measureColumnName, new StopSign());
-
-		cube.close();
-		documentManager.flush();
-
-	}
-
-	private void createDateCube(org.eclipse.birt.data.engine.impl.DataEngineImpl engine)
-			throws BirtException, IOException {
 		IDocumentManager documentManager = DocumentManagerFactory
 				.createFileDocumentManager(engine.getSession().getTempDir(), String.valueOf(engine.hashCode()));
 		DocManagerMap.getDocManagerMap().set(String.valueOf(engine.hashCode()),
@@ -8841,7 +8811,7 @@ public class CubeFeaturesTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimensions
 	 * @return
 	 */
@@ -8905,11 +8875,13 @@ class TestFactTable implements IDatasetIterator {
 			4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4,
 			5, };
 
+	@Override
 	public void close() throws BirtException {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("level11")) {
 			return 0;
@@ -8925,6 +8897,7 @@ class TestFactTable implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("level11")) {
 			return DataType.STRING_TYPE;
@@ -8951,6 +8924,7 @@ class TestFactTable implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return DIM0_L1Col[ptr];
@@ -8967,6 +8941,7 @@ class TestFactTable implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= MEASURE_Col.length) {

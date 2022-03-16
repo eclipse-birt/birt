@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -19,7 +22,7 @@ import java.util.jar.JarFile;
 import org.apache.tools.ant.BuildException;
 
 /**
- * 
+ *
  *
  * @author Rock Yu
  */
@@ -29,7 +32,7 @@ public class BuildUtil {
 	/**
 	 * Get the plugin version for the plugin project. First find from "plugin.xml",
 	 * then try to find the version number from "MANIFEST.MF"
-	 * 
+	 *
 	 * @param pluginDir directory of the plugin project.
 	 * @return plugin version.
 	 */
@@ -42,8 +45,9 @@ public class BuildUtil {
 		File pluginXML = new File(pluginDir, "plugin.xml"); //$NON-NLS-1$
 		if (pluginXML.exists()) {
 			version = new PluginWrapper(pluginXML).getPluginVersion();
-			if (!StringUtil.isBlank(version))
+			if (!StringUtil.isBlank(version)) {
 				return version;
+			}
 		}
 
 		// Find version from manifest.
@@ -94,10 +98,12 @@ public class BuildUtil {
 
 	static class JarFileFilter implements FileFilter {
 
+		@Override
 		public boolean accept(File pathname) {
 
-			if (pathname.getName().endsWith(".jar"))
+			if (pathname.getName().endsWith(".jar")) {
 				return true;
+			}
 
 			return false;
 		}
@@ -108,10 +114,11 @@ public class BuildUtil {
 			File[] list = BuildUtil.getJarList(checkdir);
 			for (int i = 0; i < list.length; i++) {
 				System.out.println("Checking " + list[i].getName());
-				if (BuildUtil.checkAboutFile(list[i]))
+				if (BuildUtil.checkAboutFile(list[i])) {
 					;// System.out.println("pass");
-				else
+				} else {
 					System.out.println("File: " + list[i].getName() + "............................missing about.html");
+				}
 			}
 		}
 

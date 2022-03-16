@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,9 +33,10 @@ public abstract class BaseCrosstabAdapter implements IAdaptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
+	@Override
 	public Object getAdapter(Class adapter) {
 		// return the true model same as DesignElementHandle
 		if (adapter == DesignElementHandle.class) {
@@ -44,7 +48,7 @@ public abstract class BaseCrosstabAdapter implements IAdaptable {
 
 	/**
 	 * Copy the current aapter to the target
-	 * 
+	 *
 	 * @param crossAdapt
 	 * @return
 	 */

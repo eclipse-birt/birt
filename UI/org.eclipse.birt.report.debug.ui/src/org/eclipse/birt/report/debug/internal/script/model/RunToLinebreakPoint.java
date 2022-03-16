@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +42,7 @@ public class RunToLinebreakPoint extends ScriptLineBreakpoint {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param resource
 	 * @param name
 	 * @param subName
@@ -56,40 +59,44 @@ public class RunToLinebreakPoint extends ScriptLineBreakpoint {
 
 	/*
 	 * Overwrite the method, return the name directly, not from the mark.
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.debug.internal.script.model.ScriptLineBreakpoint#
 	 * getSubName()
 	 */
+	@Override
 	public String getSubName() {
 		return subName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.debug.internal.script.model.ScriptLineBreakpoint#
 	 * getFileName()
 	 */
+	@Override
 	public String getFileName() {
 		return name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.LineBreakpoint#getLineNumber()
 	 */
+	@Override
 	public int getLineNumber() throws CoreException {
 		return lineNumber;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.Breakpoint#isEnabled()
 	 */
+	@Override
 	public boolean isEnabled() throws CoreException {
 		return true;
 	}

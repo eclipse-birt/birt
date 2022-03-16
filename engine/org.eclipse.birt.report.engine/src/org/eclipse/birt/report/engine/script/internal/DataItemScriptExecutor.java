@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,8 +31,9 @@ public class DataItemScriptExecutor extends ScriptExecutor {
 		try {
 			IDataItem dataItem = new DataItem(dataItemHandle);
 			IDataItemEventHandler eh = getEventHandler(dataItemHandle, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onPrepare(dataItem, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
@@ -47,11 +48,13 @@ public class DataItemScriptExecutor extends ScriptExecutor {
 
 		try {
 			IDataItemInstance dataItem = new DataItemInstance(content, context, RunningState.CREATE);
-			if (handleScript(dataItem, dataItemDesign.getOnCreate(), context).didRun())
+			if (handleScript(dataItem, dataItemDesign.getOnCreate(), context).didRun()) {
 				return;
+			}
 			IDataItemEventHandler eh = getEventHandler(dataItemDesign, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onCreate(dataItem, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e, dataItemDesign.getHandle());
 		}
@@ -65,11 +68,13 @@ public class DataItemScriptExecutor extends ScriptExecutor {
 
 		try {
 			IDataItemInstance dataItem = new DataItemInstance(content, context, RunningState.RENDER);
-			if (handleScript(dataItem, dataItemDesign.getOnRender(), context).didRun())
+			if (handleScript(dataItem, dataItemDesign.getOnRender(), context).didRun()) {
 				return;
+			}
 			IDataItemEventHandler eh = getEventHandler(dataItemDesign, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onRender(dataItem, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e, dataItemDesign.getHandle());
 		}
@@ -82,11 +87,13 @@ public class DataItemScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IDataItemInstance dataItem = new DataItemInstance(content, context, RunningState.PAGEBREAK);
-			if (handleScript(dataItem, dataItemDesign.getOnPageBreak(), context).didRun())
+			if (handleScript(dataItem, dataItemDesign.getOnPageBreak(), context).didRun()) {
 				return;
+			}
 			IDataItemEventHandler eh = getEventHandler(dataItemDesign, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onPageBreak(dataItem, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e, dataItemDesign.getHandle());
 		}

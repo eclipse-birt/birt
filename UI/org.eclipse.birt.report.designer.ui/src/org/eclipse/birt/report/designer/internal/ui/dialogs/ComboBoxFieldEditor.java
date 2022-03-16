@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +43,7 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Creates a editable combo field editor.
-	 * 
+	 *
 	 * @param name                the name of the preference this field editor works
 	 *                            on
 	 * @param labelText           the label text of the field editor
@@ -58,7 +61,7 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor {
 	/**
 	 * Checks whether given <code>String[][]</code> is of "type"
 	 * <code>String[][2]</code>.
-	 * 
+	 *
 	 * @return <code>true</code> if it is ok, and <code>false</code> otherwise
 	 */
 	private boolean checkArray(String[][] table) {
@@ -76,9 +79,10 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see FieldEditor#adjustForNumColumns(int)
 	 */
+	@Override
 	protected void adjustForNumColumns(int numColumns) {
 		Control control = getLabelControl();
 		if (control != null) {
@@ -90,9 +94,10 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see FieldEditor#doFillIntoGrid(Composite, int)
 	 */
+	@Override
 	protected void doFillIntoGrid(Composite parent, int numColumns) {
 		Control control = getLabelControl(parent);
 		GridData gd = new GridData();
@@ -106,9 +111,10 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see FieldEditor#doLoad()
 	 */
+	@Override
 	protected void doLoad() {
 		updateComboForValue(getPreferenceStore().getString(getPreferenceName()), true);
 	}
@@ -116,23 +122,27 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor {
 	/*
 	 * @see FieldEditor#doLoadDefault()
 	 */
+	@Override
 	protected void doLoadDefault() {
 		updateComboForValue(getPreferenceStore().getDefaultString(getPreferenceName()), false);
 		if (this.getPreferenceStore() instanceof StylePreferenceStore) {
 			StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
-			if (store.hasLocalValue(getPreferenceName()))
+			if (store.hasLocalValue(getPreferenceName())) {
 				markDirty(true);
-			else
+			} else {
 				markDirty(false);
-		} else
+			}
+		} else {
 			markDirty(true);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see FieldEditor#getNumberOfControls()
 	 */
+	@Override
 	public int getNumberOfControls() {
 		return 2;
 	}
@@ -150,6 +160,7 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor {
 			fCombo.setVisibleItemCount(30);
 			fCombo.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent evt) {
 					valueChanged(VALUE);
 				}
@@ -201,10 +212,11 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor
 	 * #getValue()
 	 */
+	@Override
 	protected String getStringValue() {
 		if (fCombo != null) {
 			return getValueForName(fCombo.getText());

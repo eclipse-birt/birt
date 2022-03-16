@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * Filter.java
  *
@@ -29,7 +41,7 @@ public class Filter implements java.io.Serializable {
 
 	/**
 	 * Gets the type value for this Filter.
-	 * 
+	 *
 	 * @return type
 	 */
 	public org.eclipse.birt.report.soapengine.api.FilterType getType() {
@@ -38,7 +50,7 @@ public class Filter implements java.io.Serializable {
 
 	/**
 	 * Sets the type value for this Filter.
-	 * 
+	 *
 	 * @param type
 	 */
 	public void setType(org.eclipse.birt.report.soapengine.api.FilterType type) {
@@ -47,7 +59,7 @@ public class Filter implements java.io.Serializable {
 
 	/**
 	 * Gets the expression value for this Filter.
-	 * 
+	 *
 	 * @return expression
 	 */
 	public org.eclipse.birt.report.soapengine.api.FilterExpression getExpression() {
@@ -56,7 +68,7 @@ public class Filter implements java.io.Serializable {
 
 	/**
 	 * Sets the expression value for this Filter.
-	 * 
+	 *
 	 * @param expression
 	 */
 	public void setExpression(org.eclipse.birt.report.soapengine.api.FilterExpression expression) {
@@ -65,7 +77,7 @@ public class Filter implements java.io.Serializable {
 
 	/**
 	 * Gets the reportParameterList value for this Filter.
-	 * 
+	 *
 	 * @return reportParameterList
 	 */
 	public org.eclipse.birt.report.soapengine.api.ReportParameterList getReportParameterList() {
@@ -74,7 +86,7 @@ public class Filter implements java.io.Serializable {
 
 	/**
 	 * Sets the reportParameterList value for this Filter.
-	 * 
+	 *
 	 * @param reportParameterList
 	 */
 	public void setReportParameterList(org.eclipse.birt.report.soapengine.api.ReportParameterList reportParameterList) {
@@ -83,7 +95,7 @@ public class Filter implements java.io.Serializable {
 
 	/**
 	 * Gets the conditionLineList value for this Filter.
-	 * 
+	 *
 	 * @return conditionLineList
 	 */
 	public org.eclipse.birt.report.soapengine.api.ConditionLineList getConditionLineList() {
@@ -92,7 +104,7 @@ public class Filter implements java.io.Serializable {
 
 	/**
 	 * Sets the conditionLineList value for this Filter.
-	 * 
+	 *
 	 * @param conditionLineList
 	 */
 	public void setConditionLineList(org.eclipse.birt.report.soapengine.api.ConditionLineList conditionLineList) {
@@ -101,14 +113,18 @@ public class Filter implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof Filter))
+		if (!(obj instanceof Filter)) {
 			return false;
+		}
 		Filter other = (Filter) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -131,6 +147,7 @@ public class Filter implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package utility;
@@ -13,7 +16,7 @@ import java.util.HashMap;
 /**
  * Description: Utility for converting character references e.g.: &lt; &gt;
  * &quot; &#229; &#1048; &#x6C34;
- * 
+ *
  */
 public class HTMLDecoder {
 
@@ -25,7 +28,7 @@ public class HTMLDecoder {
 		int tmpPos, i;
 
 		int maxPos = s.length();
-		StringBuffer sb = new StringBuffer(maxPos);
+		StringBuilder sb = new StringBuilder(maxPos);
 		int curPos = 0;
 		while (curPos < maxPos) {
 			char c = s.charAt(curPos++);
@@ -124,7 +127,7 @@ public class HTMLDecoder {
 
 	public static String compact(String s) {
 		int maxPos = s.length();
-		StringBuffer sb = new StringBuffer(maxPos);
+		StringBuilder sb = new StringBuilder(maxPos);
 		int curPos = 0;
 		while (curPos < maxPos) {
 			char c = s.charAt(curPos++);

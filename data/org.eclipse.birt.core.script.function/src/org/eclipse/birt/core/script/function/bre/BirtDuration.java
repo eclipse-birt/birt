@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,41 +32,42 @@ public class BirtDuration implements IScriptFunctionExecutor {
 	private static final String PLUGIN_ID = "org.eclipse.birt.core.function";
 
 	public BirtDuration(String functionName) throws BirtException {
-		if ("year".equals(functionName))
+		if ("year".equals(functionName)) {
 			this.executor = new Function_Year();
-		else if ("month".equals(functionName))
+		} else if ("month".equals(functionName)) {
 			this.executor = new Function_Month();
-		else if ("day".equals(functionName))
+		} else if ("day".equals(functionName)) {
 			this.executor = new Function_Day();
-		else if ("hour".equals(functionName))
+		} else if ("hour".equals(functionName)) {
 			this.executor = new Function_Hours();
-		else if ("minute".equals(functionName))
+		} else if ("minute".equals(functionName)) {
 			this.executor = new Function_Minutes();
-		else if ("second".equals(functionName))
+		} else if ("second".equals(functionName)) {
 			this.executor = new Function_Seconds();
-		else if ("timeInMills".equals(functionName))
+		} else if ("timeInMills".equals(functionName)) {
 			this.executor = new Function_TimeInMills();
-		else if ("isLongerThan".equals(functionName))
+		} else if ("isLongerThan".equals(functionName)) {
 			this.executor = new Function_Longer();
-		else if ("isShorterThan".equals(functionName))
+		} else if ("isShorterThan".equals(functionName)) {
 			this.executor = new Function_Shorter();
-		else if ("getSign".equals(functionName))
+		} else if ("getSign".equals(functionName)) {
 			this.executor = new Function_GetSign();
-		else if ("multiply".equals(functionName))
+		} else if ("multiply".equals(functionName)) {
 			this.executor = new Function_Multiply();
-		else if ("negate".equals(functionName))
+		} else if ("negate".equals(functionName)) {
 			this.executor = new Function_Negate();
-		else if ("subtract".equals(functionName))
+		} else if ("subtract".equals(functionName)) {
 			this.executor = new Function_Subtract();
-		else if ("add".equals(functionName))
+		} else if ("add".equals(functionName)) {
 			this.executor = new Function_Add();
-		else if ("addTo".equals(functionName))
+		} else if ("addTo".equals(functionName)) {
 			this.executor = new Function_AddTo();
-		else if ("compare".equals(functionName))
+		} else if ("compare".equals(functionName)) {
 			this.executor = new Function_Compare();
-		else
+		} else {
 			throw new BirtException(PLUGIN_ID, null,
 					Messages.getString("invalid.function.name") + "BirtDuration." + functionName);
+		}
 	}
 
 	/*
@@ -72,6 +76,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 	 * java.lang.Object[],
 	 * org.eclipse.birt.core.script.functionservice.IScriptFunctionContext)
 	 */
+	@Override
 	public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
 		return this.executor.execute(arguments, context);
 	}
@@ -85,6 +90,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration;
 			try {
@@ -106,6 +112,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration;
 			try {
@@ -127,6 +134,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration;
 			try {
@@ -148,6 +156,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration;
 			try {
@@ -169,6 +178,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration;
 			try {
@@ -190,6 +200,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration;
 			try {
@@ -204,7 +215,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 
 	private static class Function_Minutes extends Function_temp {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -213,6 +224,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration;
 			try {
@@ -227,7 +239,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 
 	private static class Function_Longer extends Function_temp {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -236,6 +248,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration1, duration2;
 			try {
@@ -257,6 +270,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration1, duration2;
 			try {
@@ -278,6 +292,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration;
 			try {
@@ -298,6 +313,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration;
 			int factor;
@@ -321,6 +337,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration;
 			try {
@@ -341,6 +358,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration1, duration2;
 			try {
@@ -362,6 +380,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration1, duration2;
 			try {
@@ -383,6 +402,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration;
 			Date date;
@@ -406,6 +426,7 @@ public class BirtDuration implements IScriptFunctionExecutor {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			Duration duration1, duration2;
 			try {

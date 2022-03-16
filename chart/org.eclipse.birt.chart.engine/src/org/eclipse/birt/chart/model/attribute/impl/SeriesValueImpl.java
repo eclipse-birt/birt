@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -36,7 +39,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -46,7 +49,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -55,7 +58,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected SeriesValueImpl() {
@@ -64,7 +67,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -74,28 +77,31 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.SERIES_VALUE__NAME, oldName, name));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -109,7 +115,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -124,7 +130,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -139,7 +145,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -153,15 +159,16 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
 		result.append(')');
@@ -170,7 +177,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * A convenience method provided to build a series action value when needed
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
@@ -184,6 +191,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
+	@Override
 	public SeriesValue copyInstance() {
 		SeriesValueImpl dest = new SeriesValueImpl();
 		dest.set(this);

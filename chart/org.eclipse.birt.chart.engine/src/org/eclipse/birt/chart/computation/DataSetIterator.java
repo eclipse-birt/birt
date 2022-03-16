@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -70,7 +73,7 @@ public final class DataSetIterator implements Iterator {
 	private Number[] nda;
 
 	/**
-	 * 
+	 *
 	 * @param ds
 	 */
 	public DataSetIterator(Double[] dda) {
@@ -81,7 +84,7 @@ public final class DataSetIterator implements Iterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sa
 	 */
 	public DataSetIterator(String[] sa) {
@@ -92,7 +95,7 @@ public final class DataSetIterator implements Iterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sa
 	 */
 	public DataSetIterator(Calendar[] ca) throws ChartException {
@@ -104,7 +107,7 @@ public final class DataSetIterator implements Iterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ds
 	 * @throws IllegalArgumentException
 	 * @throws ChartException
@@ -181,7 +184,7 @@ public final class DataSetIterator implements Iterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ds
 	 * @throws IllegalArgumentException
 	 * @throws ChartException
@@ -267,14 +270,14 @@ public final class DataSetIterator implements Iterator {
 	/**
 	 * @return
 	 */
-	public final boolean isEmpty() {
+	public boolean isEmpty() {
 		return iRowCount <= 0;
 	}
 
 	/**
 	 * @return
 	 */
-	private final int getRowCountInternal() {
+	private int getRowCountInternal() {
 		if (iContentType == IConstants.COLLECTION) {
 			return co.size();
 		} else if (iDataType == IConstants.TEXT) {
@@ -295,8 +298,6 @@ public final class DataSetIterator implements Iterator {
 			} else if (iContentType == IConstants.NON_PRIMITIVE_ARRAY) {
 				return ca.length;
 			}
-		} else if (iDataType == IConstants.TEXT) {
-			return sa.length;
 		} else if (oa != null) {
 			return oa.length;
 		}
@@ -306,14 +307,14 @@ public final class DataSetIterator implements Iterator {
 	/**
 	 * @return
 	 */
-	public final double nextPrimitiveDouble() {
+	public double nextPrimitiveDouble() {
 		return da[getIndex()];
 	}
 
 	/**
 	 * @return
 	 */
-	public final Double nextDouble() {
+	public Double nextDouble() {
 		if (it != null) {
 			iCursor++;
 			return (Double) it.next();
@@ -321,7 +322,7 @@ public final class DataSetIterator implements Iterator {
 		return dda[getIndex()];
 	}
 
-	public final BigNumber nextBigNumber() {
+	public BigNumber nextBigNumber() {
 		if (it != null) {
 			iCursor++;
 			return (BigNumber) it.next();
@@ -329,7 +330,7 @@ public final class DataSetIterator implements Iterator {
 		return cnda[getIndex()];
 	}
 
-	public final Number nextNumber() {
+	public Number nextNumber() {
 		if (it != null) {
 			iCursor++;
 			return (Number) it.next();
@@ -340,7 +341,7 @@ public final class DataSetIterator implements Iterator {
 	/**
 	 * @return
 	 */
-	public final Calendar nextDateTime() {
+	public Calendar nextDateTime() {
 		if (it != null) {
 			iCursor++;
 			return (Calendar) it.next();
@@ -351,7 +352,7 @@ public final class DataSetIterator implements Iterator {
 	/**
 	 * @return
 	 */
-	public final String nextText() {
+	public String nextText() {
 		if (it != null) {
 			iCursor++;
 			return (String) it.next();
@@ -362,22 +363,23 @@ public final class DataSetIterator implements Iterator {
 	/**
 	 * @return
 	 */
-	public final Object nextObject() {
+	public Object nextObject() {
 		return oa[getIndex()];
 	}
 
 	/**
 	 * @return
 	 */
-	public final Calendar nextPrimitiveDateTime() {
+	public Calendar nextPrimitiveDateTime() {
 		cReused.setTimeInMillis(la[getIndex()]);
 		return cReused;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public boolean hasNext() {
 		if (it != null) {
 			return it.hasNext();
@@ -387,10 +389,11 @@ public final class DataSetIterator implements Iterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public final Object next() {
+	@Override
+	public Object next() {
 		if (iCursor >= iRowCount) {
 			throw new RuntimeException(
 					new ChartException(ChartEnginePlugin.ID, ChartException.COMPUTATION, "exception.out.of.bounds", //$NON-NLS-1$
@@ -430,15 +433,16 @@ public final class DataSetIterator implements Iterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.Iterator#remove()
 	 */
+	@Override
 	public void remove() {
 		// TODO Add remove operation support.
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int size() {
@@ -446,27 +450,27 @@ public final class DataSetIterator implements Iterator {
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	public final void reset() {
+	public void reset() {
 		iCursor = 0;
 		resetIterator();
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public final Object first() {
+	public Object first() {
 		reset();
 		return next();
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public final Object last() {
+	public Object last() {
 		// TBD: OPTIMIZE FOR DIRECT ACCESS TO LAST ELEMENT IN ARRAY
 		reset();
 		Object o = null;
@@ -479,7 +483,7 @@ public final class DataSetIterator implements Iterator {
 	/**
 	 * Frees all references to data held internally in this structure
 	 */
-	public final void clear() {
+	public void clear() {
 		dda = null;
 		ca = null;
 		da = null;
@@ -499,17 +503,17 @@ public final class DataSetIterator implements Iterator {
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	public final void notifyDataUpdate() {
+	public void notifyDataUpdate() {
 		reset();
 		iRowCount = getRowCountInternal();
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	final void updateDateTimeValues() throws ChartException {
+	void updateDateTimeValues() throws ChartException {
 		iRowCount = getRowCountInternal();
 		Calendar cValue;
 		CDateTime[] cdta = new CDateTime[size()];
@@ -544,20 +548,20 @@ public final class DataSetIterator implements Iterator {
 	/**
 	 * @return
 	 */
-	public final int getDataType() {
+	public int getDataType() {
 		return iDataType;
 	}
 
 	/**
 	 * @return current index
 	 */
-	public final int getIndex() {
+	public int getIndex() {
 		return isReverse ? iRowCount - 1 - iCursor++ : iCursor++;
 	}
 
 	/**
 	 * Reverses the series categories.
-	 * 
+	 *
 	 * @param bReverse
 	 */
 	public void reverse(boolean bReverse) {
@@ -573,8 +577,7 @@ public final class DataSetIterator implements Iterator {
 			if (isReverse) {
 				// Always create a new list to keep original collection
 				// immutable
-				List list = new ArrayList(co.size());
-				list.addAll(co);
+				List list = new ArrayList(co);
 				Collections.reverse(list);
 				it = list.iterator();
 			} else {
@@ -585,7 +588,7 @@ public final class DataSetIterator implements Iterator {
 
 	/**
 	 * Skips the next iCount rows
-	 * 
+	 *
 	 * @param iCount
 	 * @return number of actually skipped rows
 	 */

@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,13 +23,13 @@ import org.eclipse.birt.data.engine.olap.data.util.IStructureCreator;
 import org.eclipse.birt.data.engine.olap.data.util.ObjectArrayUtil;
 
 /**
- * 
+ *
  */
 
 public class Row4Aggregation implements IStructure {
 	private Member[] levelMembers;
 	private Object[] measures;
-	private List<Object[]> measureList = new ArrayList<Object[]>();
+	private List<Object[]> measureList = new ArrayList<>();
 	private int pos = -1;
 	private Object[] parameterValues;
 	private int[] dimPos;
@@ -34,12 +37,13 @@ public class Row4Aggregation implements IStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IStructure#getFieldValues()
 	 */
+	@Override
 	public Object[] getFieldValues() {
 		Integer[] memberSize = new Integer[1];
-		memberSize[0] = Integer.valueOf(getLevelMembers().length);
+		memberSize[0] = getLevelMembers().length;
 		Object[][] objectArrays = new Object[getLevelMembers().length + 1 + 3 + measureList.size()][];
 		objectArrays[0] = memberSize;
 		for (int i = 0; i < getLevelMembers().length; i++) {
@@ -50,12 +54,12 @@ public class Row4Aggregation implements IStructure {
 		Integer[] dimPosObj = null;
 		if (dimPos == null) {
 			dimPosObj = new Integer[1];
-			dimPosObj[0] = Integer.valueOf(0);
+			dimPosObj[0] = 0;
 		} else {
 			dimPosObj = new Integer[dimPos.length + 1];
-			dimPosObj[0] = Integer.valueOf(1);
+			dimPosObj[0] = 1;
 			for (int i = 0; i < dimPos.length; i++) {
-				dimPosObj[i + 1] = Integer.valueOf(dimPos[i]);
+				dimPosObj[i + 1] = dimPos[i];
 			}
 		}
 		objectArrays[getLevelMembers().length + 2] = dimPosObj;
@@ -68,7 +72,7 @@ public class Row4Aggregation implements IStructure {
 	}
 
 	/*
-	 * 
+	 *
 	 */
 	public static IStructureCreator getCreator() {
 		return new Row4AggregationCreator();
@@ -119,14 +123,12 @@ public class Row4Aggregation implements IStructure {
 			firstMeasures = measures;
 			pos = 0;
 			return true;
+		} else if (pos < this.measureList.size()) {
+			measures = this.measureList.get(pos);
+			pos++;
+			return true;
 		} else {
-			if (pos < this.measureList.size()) {
-				measures = this.measureList.get(pos);
-				pos++;
-				return true;
-			} else {
-				return false;
-			}
+			return false;
 		}
 	}
 
@@ -149,7 +151,7 @@ public class Row4Aggregation implements IStructure {
 }
 
 /**
- * 
+ *
  * @author Administrator
  *
  */
@@ -158,11 +160,12 @@ class Row4AggregationCreator implements IStructureCreator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.util.IStructureCreator#createInstance(java.
 	 * lang.Object[])
 	 */
+	@Override
 	public IStructure createInstance(Object[] fields) {
 		Object[][] objectArrays = ObjectArrayUtil.convert(fields);
 		Row4Aggregation result = new Row4Aggregation();

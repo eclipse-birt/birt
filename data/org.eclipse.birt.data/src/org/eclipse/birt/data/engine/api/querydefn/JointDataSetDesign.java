@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +52,7 @@ public class JointDataSetDesign extends BaseDataSetDesign implements IJointDataS
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	public JointDataSetDesign(String name, String left, String right, int joinType, List joinConditions)
@@ -72,16 +75,18 @@ public class JointDataSetDesign extends BaseDataSetDesign implements IJointDataS
 	private void validateJoinType(int joinType) throws DataException {
 		if (!((joinType == IJointDataSetDesign.INNER_JOIN) || (joinType == IJointDataSetDesign.LEFT_OUTER_JOIN)
 				|| (joinType == IJointDataSetDesign.RIGHT_OUTER_JOIN)
-				|| (joinType == IJointDataSetDesign.FULL_OUTER_JOIN)))
+				|| (joinType == IJointDataSetDesign.FULL_OUTER_JOIN))) {
 			throw new DataException(ResourceConstants.INVALID_JOIN_TYPE);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IJointDataSetDesign#getLeftDataSetDesign()
 	 */
+	@Override
 	public String getLeftDataSetDesignName() {
 		return left;
 	}
@@ -92,10 +97,11 @@ public class JointDataSetDesign extends BaseDataSetDesign implements IJointDataS
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IJointDataSetDesign#getRightDataSetDesign()
 	 */
+	@Override
 	public String getRightDataSetDesignName() {
 		return right;
 	}
@@ -106,15 +112,16 @@ public class JointDataSetDesign extends BaseDataSetDesign implements IJointDataS
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#getJoinType()
 	 */
+	@Override
 	public int getJoinType() {
 		return joinType;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param joinType
 	 */
 	public void setJoinType(int joinType) {
@@ -123,16 +130,17 @@ public class JointDataSetDesign extends BaseDataSetDesign implements IJointDataS
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#getJoinConditions()
 	 */
+	@Override
 	public List getJoinConditions() {
 		return joinConditions;
 	}
 
 	/**
 	 * add Join Condition
-	 * 
+	 *
 	 * @param jc
 	 */
 	public void addJoinCondition(JoinCondition jc) {
@@ -143,9 +151,11 @@ public class JointDataSetDesign extends BaseDataSetDesign implements IJointDataS
 	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#
 	 * getLeftDataSetDesignQulifiedName()
 	 */
+	@Override
 	public String getLeftDataSetDesignQulifiedName() {
-		if (this.leftDataSetQualifiedName == null)
+		if (this.leftDataSetQualifiedName == null) {
 			return this.left;
+		}
 		return this.leftDataSetQualifiedName;
 	}
 
@@ -157,9 +167,11 @@ public class JointDataSetDesign extends BaseDataSetDesign implements IJointDataS
 	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#
 	 * getRightDataSetDesignQulifiedName()
 	 */
+	@Override
 	public String getRightDataSetDesignQulifiedName() {
-		if (this.rightDataSetQualifiedName == null)
+		if (this.rightDataSetQualifiedName == null) {
 			return this.right;
+		}
 		return this.rightDataSetQualifiedName;
 	}
 

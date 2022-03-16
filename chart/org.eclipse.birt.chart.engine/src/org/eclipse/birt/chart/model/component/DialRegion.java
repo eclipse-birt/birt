@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -36,7 +39,7 @@ public interface DialRegion extends MarkerRange {
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Specifies
 	 * the percentage value of the inner radius of the dial region. <!--
 	 * end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Inner Radius</em>' attribute.
 	 * @see #isSetInnerRadius()
 	 * @see #unsetInnerRadius()
@@ -53,7 +56,7 @@ public interface DialRegion extends MarkerRange {
 	 * '{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius
 	 * <em>Inner Radius</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Inner Radius</em>' attribute.
 	 * @see #isSetInnerRadius()
 	 * @see #unsetInnerRadius()
@@ -67,7 +70,7 @@ public interface DialRegion extends MarkerRange {
 	 * '{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius
 	 * <em>Inner Radius</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetInnerRadius()
 	 * @see #getInnerRadius()
 	 * @see #setInnerRadius(double)
@@ -80,7 +83,7 @@ public interface DialRegion extends MarkerRange {
 	 * '{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius
 	 * <em>Inner Radius</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Inner Radius</em>' attribute is set.
 	 * @see #unsetInnerRadius()
 	 * @see #getInnerRadius()
@@ -94,7 +97,7 @@ public interface DialRegion extends MarkerRange {
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Specifies
 	 * the percentage value of the outer radius of the dial region. <!--
 	 * end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Outer Radius</em>' attribute.
 	 * @see #isSetOuterRadius()
 	 * @see #unsetOuterRadius()
@@ -111,7 +114,7 @@ public interface DialRegion extends MarkerRange {
 	 * '{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius
 	 * <em>Outer Radius</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Outer Radius</em>' attribute.
 	 * @see #isSetOuterRadius()
 	 * @see #unsetOuterRadius()
@@ -125,7 +128,7 @@ public interface DialRegion extends MarkerRange {
 	 * '{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius
 	 * <em>Outer Radius</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetOuterRadius()
 	 * @see #getOuterRadius()
 	 * @see #setOuterRadius(double)
@@ -138,7 +141,7 @@ public interface DialRegion extends MarkerRange {
 	 * '{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius
 	 * <em>Outer Radius</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Outer Radius</em>' attribute is set.
 	 * @see #unsetOuterRadius()
 	 * @see #getOuterRadius()
@@ -150,6 +153,7 @@ public interface DialRegion extends MarkerRange {
 	/**
 	 * @generated
 	 */
+	@Override
 	DialRegion copyInstance();
 
 } // DialRegion

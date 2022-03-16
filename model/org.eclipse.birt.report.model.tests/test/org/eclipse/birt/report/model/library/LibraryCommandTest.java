@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,14 +31,14 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * @author Administrator
- * 
+ *
  */
 public class LibraryCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests droping a library with different namespace but same source library file
 	 * name of the already included library in report design
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -53,9 +56,9 @@ public class LibraryCommandTest extends BaseTestCase {
 	/**
 	 * Tests a library recursively include library, including the case a library
 	 * include itself.
-	 * 
+	 *
 	 * @throws DesignFileException
-	 * 
+	 *
 	 * @throws Exception           if any exception
 	 */
 
@@ -87,7 +90,7 @@ public class LibraryCommandTest extends BaseTestCase {
 	/**
 	 * test when the library elements is used in report, exception will throw out
 	 * before the drop operation.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -146,7 +149,7 @@ public class LibraryCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests dropping library with relative path.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -163,7 +166,7 @@ public class LibraryCommandTest extends BaseTestCase {
 	/**
 	 * Tests the library add command. Test the management of the name space and
 	 * id-map about the compound element with inheritance.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -180,8 +183,9 @@ public class LibraryCommandTest extends BaseTestCase {
 		assertEquals(6, elements.size());
 		assertTrue(elements.contains(designTable));
 		assertTrue(elements.contains(designGrid));
-		for (int i = 1; i < 5; i++)
+		for (int i = 1; i < 5; i++) {
 			assertTrue(((DesignElement) elements.get(i)).isContentOf(designTable));
+		}
 
 		// add a library and let the grid to be resolved, and one child of grid
 		// has name

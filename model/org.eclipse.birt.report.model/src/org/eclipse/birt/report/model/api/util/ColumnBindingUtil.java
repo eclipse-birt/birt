@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 - 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +36,7 @@ public class ColumnBindingUtil {
 	 * trying to bind a column without a name. If the column has been bound, the
 	 * exist bound column will be returned. If the column doesn't exist but has a
 	 * duplicated name with exist columns, a new unique name will be assigned.
-	 * 
+	 *
 	 * @param handle the handle of the element to bind
 	 * @param column the column to bind
 	 * @return the handle of the bound column
@@ -41,8 +44,9 @@ public class ColumnBindingUtil {
 	 */
 	public static ComputedColumnHandle addColumnBinding(ReportItemHandle handle, ComputedColumn column)
 			throws SemanticException {
-		if (handle == null || column == null)
+		if (handle == null || column == null) {
 			return null;
+		}
 
 		PropertyHandle propHandle = handle.getPropertyHandle(IReportItemModel.BOUND_DATA_COLUMNS_PROP);
 		List<ComputedColumn> columns = (List<ComputedColumn>) propHandle.getValue();
@@ -52,11 +56,13 @@ public class ColumnBindingUtil {
 				String name = column.getName();
 				if (!StringUtil.isEmpty(name)) {
 					String uniqueName = BoundDataColumnUtil.makeUniqueName(handle, name, column);
-					if (!name.equals(uniqueName))
+					if (!name.equals(uniqueName)) {
 						column.setName(uniqueName);
+					}
 				}
-			} else
+			} else {
 				return (ComputedColumnHandle) matchedColumn.handle(propHandle, columns.indexOf(matchedColumn));
+			}
 		}
 		return (ComputedColumnHandle) propHandle.addItem(column);
 	}

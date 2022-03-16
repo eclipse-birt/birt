@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,8 +35,8 @@ public class BaseTimeFunction implements ITimeFunction {
 
 	public BaseTimeFunction(ITimeFunction function, List<IArgumentInfo.Period_Type> timeType) {
 		this(function.getName(), function.getDisplayName(), function.getDescription());
-		period_type1 = new ArrayList<Period_Type>();
-		period_type2 = new ArrayList<Period_Type>();
+		period_type1 = new ArrayList<>();
+		period_type2 = new ArrayList<>();
 		period_type1.addAll(timeType);
 		period_type2.addAll(timeType);
 	}
@@ -41,17 +44,18 @@ public class BaseTimeFunction implements ITimeFunction {
 	public BaseTimeFunction(ITimeFunction function, List<IArgumentInfo.Period_Type> timeType1,
 			List<IArgumentInfo.Period_Type> timeType2) {
 		this(function.getName(), function.getDisplayName(), function.getDescription());
-		period_type1 = new ArrayList<Period_Type>();
-		period_type2 = new ArrayList<Period_Type>();
+		period_type1 = new ArrayList<>();
+		period_type2 = new ArrayList<>();
 		period_type1.addAll(timeType1);
 		period_type2.addAll(timeType2);
 	}
 
 	/**
 	 * Get time function name
-	 * 
+	 *
 	 * @return the time function name
 	 */
+	@Override
 	public String getName() {
 		return this.name;
 	}
@@ -59,26 +63,29 @@ public class BaseTimeFunction implements ITimeFunction {
 	/**
 	 * Get display name for time function
 	 */
+	@Override
 	public String getDisplayName() {
 		return this.displayName;
 	}
 
 	/**
 	 * Get the description for time function
-	 * 
+	 *
 	 * @return the description for time function
 	 */
+	@Override
 	public String getDescription() {
 		return this.description;
 	}
 
 	/**
 	 * Get the argument info list if the function has
-	 * 
+	 *
 	 * @return the corresponding argument info in time functions.
 	 */
+	@Override
 	public List<IArgumentInfo> getArguments() {
-		List<IArgumentInfo> arguments = new ArrayList<IArgumentInfo>();
+		List<IArgumentInfo> arguments = new ArrayList<>();
 		period1 = new ArgumentInfo(IArgumentInfo.PERIOD_1,
 				Message.getMessage(ResourceConstants.TIMEFUNCITON_PERIOD1_DISPLAYNAME),
 				Message.getMessage(ResourceConstants.TIMEFUNCITON_PERIOD1), false);

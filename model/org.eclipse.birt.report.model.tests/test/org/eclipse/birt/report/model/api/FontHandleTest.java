@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,98 +29,99 @@ import com.ibm.icu.util.ULocale;
 /**
  * TestCases for FontHandle class. FontHandle should be got from the specific
  * ElementHandle that contains an font family property.
- * 
+ *
  * <p>
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testParse()}</td>
  * <td>The font name is a CSS constant.</td>
  * <td>Gets the font name and display name correctly.</td>
  * </tr>
- * 
- * 
+ *
+ *
  * <tr>
  * <td></td>
  * <td>The font name property is a list of font names separated by commas.</td>
  * <td>The font entry can be returned correctly.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>The font weight is a predefined CSS constant.</td>
  * <td>The font weight can be set and gotten correctly.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>The font weight is an invalid value.</td>
  * <td>Throws <code>PropertyValueException</code> with error code
  * CHOICE_NOT_FOUND.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Gets a font handle from the DataSource element.</td>
  * <td>FontHandle is null.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSetValue()}</td>
  * <td>Sets the font name as a localized string.</td>
  * <td>Output file matches golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Sets the standard CSS font name.</td>
  * <td>Output file matches golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Sets the font name property is a list of font names separated by commas.
  * </td>
  * <td>Output file matches golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Sets the standard CSS font weight.</td>
  * <td>Output file matches golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Sets a font name to a structure like a highlightRule.</td>
  * <td>Output file matches golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Sets a font weight to a structure like a highlightRule.</td>
  * <td>Output file matches golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testCSSFontList()}</td>
  * <td>Checks the list of standard CSS font constants.</td>
  * <td>The order and names of the list is right.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 
 public class FontHandleTest extends BaseTestCase {
 
 	private FontHandle fontHandle = null;
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign("FontHandleTest.xml"); //$NON-NLS-1$
@@ -126,18 +130,18 @@ public class FontHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests get font family when parse a design file.
-	 * 
+	 *
 	 * <p>
-	 * 
+	 *
 	 * Test Cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>The font name is a localized string.
 	 * <li>The font name property is a list of font names separated by commas.
 	 * <li>The font weight is a predefined CSS constant.
 	 * <li>The font weight is an invalid value.
 	 * </ul>
-	 * 
+	 *
 	 * @throws SemanticException if values of font properties are invalid.
 	 */
 
@@ -256,18 +260,18 @@ public class FontHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests set font family.
-	 * 
+	 *
 	 * <p>
-	 * 
+	 *
 	 * Test Cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>Sets the font name as a localized string.
 	 * <li>Sets the font name property is a list of font names separated by commas.
 	 * <li>Sets the standard CSS font name.
 	 * <li>Sets the standard CSS font weight.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception if values of font properties are invalid or the output file
 	 *                   cannot be saved on the storage.
 	 */
@@ -331,15 +335,15 @@ public class FontHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests to get the list of standard CSS font constants.
-	 * 
+	 *
 	 * <p>
-	 * 
+	 *
 	 * Test Cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>Checks the list of standard CSS font constants.
 	 * </ul>
-	 * 
+	 *
 	 */
 
 	public void testCSSFontList() {
@@ -363,16 +367,16 @@ public class FontHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests to get the definition of font properties.
-	 * 
+	 *
 	 * <p>
-	 * 
+	 *
 	 * Test Cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>Gets the property definition of a font property</li>
 	 * <li>Gets the member reference of a font property</li>
 	 * </ul>
-	 * 
+	 *
 	 */
 
 	public void testDefn() {

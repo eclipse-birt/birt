@@ -1,10 +1,13 @@
 /*
  *****************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -45,8 +48,9 @@ public class ResultSet extends ExceptionHandler {
 	ResultSet(IResultSet resultSet, IResultClass resultClass) {
 		super(sm_className);
 		final String methodName = "ResultSet"; //$NON-NLS-1$
-		if (getLogger().isLoggingEnterExitLevel())
+		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName, new Object[] { resultSet, resultClass });
+		}
 
 		assert (resultSet != null && resultClass != null);
 		m_resultSet = resultSet;
@@ -58,7 +62,7 @@ public class ResultSet extends ExceptionHandler {
 	/**
 	 * Returns an <code>IResultClass</code> representing the metadata of the result
 	 * set for this <code>ResultSet</code>.
-	 * 
+	 *
 	 * @return this <code>ResultSet</code>'s metadata
 	 * @throws DataException if data source error occurs.
 	 */
@@ -86,7 +90,7 @@ public class ResultSet extends ExceptionHandler {
 	/**
 	 * Specifies the maximum number of <code>IResultObjects</code> that can be
 	 * fetched from this <code>ResultSet</code>.
-	 * 
+	 *
 	 * @param max the maximum number of <code>IResultObjects</code> that can be
 	 *            fetched; 0 means no limit.
 	 * @throws DataException if data source error occurs.
@@ -104,24 +108,24 @@ public class ResultSet extends ExceptionHandler {
 
 	/**
 	 * Returns the IResultObject representing the next row in the result set.
-	 * 
+	 *
 	 * @return the IResultObject representing the next row; null if there are no
 	 *         more rows available or if max rows limit has been reached.
 	 * @throws DataException if data source error occurs.
 	 */
 	public IResultObject fetch() throws DataException {
-		if (m_resultSet == null)
+		if (m_resultSet == null) {
 			return null;
+		}
 
 		final String methodName = "fetch"; //$NON-NLS-1$
 		final String errorCode = ResourceConstants.CANNOT_FETCH_NEXT_ROW;
 
 		try {
-			if (!m_resultSet.next())
+			if (!m_resultSet.next()) {
 				return null;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, methodName);
-		} catch (UnsupportedOperationException ex) {
+			}
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, methodName);
 		}
 
@@ -132,8 +136,9 @@ public class ResultSet extends ExceptionHandler {
 		Object[] fields = new Object[columnCount];
 
 		for (int i = 1; i <= columnCount; i++) {
-			if (m_resultClass.isCustomField(i) == true)
+			if (m_resultClass.isCustomField(i)) {
 				continue;
+			}
 
 			Class dataType = m_resultClass.getFieldValueClass(i);
 			int driverPosition = driverPositions[i - 1];
@@ -141,39 +146,44 @@ public class ResultSet extends ExceptionHandler {
 
 			if (dataType == Integer.class) {
 				int j = getInt(driverPosition);
-				if (!wasNull())
+				if (!wasNull()) {
 					colValue = Integer.valueOf(j);
+				}
 			} else if (dataType == Double.class) {
 				double d = getDouble(driverPosition);
-				if (!wasNull())
+				if (!wasNull()) {
 					colValue = new Double(d);
-			} else if (dataType == String.class)
+				}
+			} else if (dataType == String.class) {
 				colValue = getString(driverPosition);
-			else if (dataType == BigDecimal.class)
+			} else if (dataType == BigDecimal.class) {
 				colValue = getBigDecimal(driverPosition);
-			else if (dataType == java.sql.Date.class)
+			} else if (dataType == java.sql.Date.class) {
 				colValue = getDate(driverPosition);
-			else if (dataType == Time.class)
+			} else if (dataType == Time.class) {
 				colValue = getTime(driverPosition);
-			else if (dataType == java.util.Date.class)
+			} else if (dataType == java.util.Date.class) {
 				colValue = getTimestamp(driverPosition); // use timestamp to preserve the time portion of java.util.Date
-			else if (dataType == Timestamp.class)
+			} else if (dataType == Timestamp.class) {
 				colValue = getTimestamp(driverPosition);
-			else if (dataType == IBlob.class)
+			} else if (dataType == IBlob.class) {
 				colValue = getBlob(driverPosition);
-			else if (dataType == IClob.class)
+			} else if (dataType == IClob.class) {
 				colValue = getClob(driverPosition);
-			else if (dataType == Boolean.class) {
+			} else if (dataType == Boolean.class) {
 				boolean val = getBoolean(driverPosition);
-				if (!wasNull())
+				if (!wasNull()) {
 					colValue = Boolean.valueOf(val);
-			} else if (dataType == Object.class)
+				}
+			} else if (dataType == Object.class) {
 				colValue = getObject(driverPosition);
-			else
+			} else {
 				assert false;
+			}
 
-			if (wasNull())
+			if (wasNull()) {
 				colValue = null;
+			}
 
 			fields[i - 1] = colValue;
 		}
@@ -191,9 +201,7 @@ public class ResultSet extends ExceptionHandler {
 
 		try {
 			return m_resultSet.getInt(driverPosition);
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, driverPosition, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, driverPosition, methodName);
 		}
 		return 0;
@@ -205,9 +213,7 @@ public class ResultSet extends ExceptionHandler {
 
 		try {
 			return m_resultSet.getDouble(driverPosition);
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, driverPosition, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, driverPosition, methodName);
 		}
 		return 0;
@@ -219,9 +225,7 @@ public class ResultSet extends ExceptionHandler {
 
 		try {
 			return m_resultSet.getString(driverPosition);
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, driverPosition, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, driverPosition, methodName);
 		}
 		return null;
@@ -233,9 +237,7 @@ public class ResultSet extends ExceptionHandler {
 
 		try {
 			return m_resultSet.getBigDecimal(driverPosition);
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, driverPosition, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, driverPosition, methodName);
 		}
 		return null;
@@ -247,9 +249,7 @@ public class ResultSet extends ExceptionHandler {
 
 		try {
 			return m_resultSet.getDate(driverPosition);
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, driverPosition, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, driverPosition, methodName);
 		}
 		return null;
@@ -261,9 +261,7 @@ public class ResultSet extends ExceptionHandler {
 
 		try {
 			return m_resultSet.getTime(driverPosition);
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, driverPosition, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, driverPosition, methodName);
 		}
 		return null;
@@ -275,9 +273,7 @@ public class ResultSet extends ExceptionHandler {
 
 		try {
 			return m_resultSet.getTimestamp(driverPosition);
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, driverPosition, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, driverPosition, methodName);
 		}
 		return null;
@@ -289,9 +285,7 @@ public class ResultSet extends ExceptionHandler {
 
 		try {
 			return m_resultSet.getBlob(driverPosition);
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, driverPosition, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, driverPosition, methodName);
 		}
 		return null;
@@ -303,9 +297,7 @@ public class ResultSet extends ExceptionHandler {
 
 		try {
 			return m_resultSet.getClob(driverPosition);
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, driverPosition, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, driverPosition, methodName);
 		}
 		return null;
@@ -317,9 +309,7 @@ public class ResultSet extends ExceptionHandler {
 
 		try {
 			return m_resultSet.getBoolean(driverPosition);
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, driverPosition, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, driverPosition, methodName);
 		}
 		return false;
@@ -331,9 +321,7 @@ public class ResultSet extends ExceptionHandler {
 
 		try {
 			return m_resultSet.getObject(driverPosition);
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, driverPosition, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, driverPosition, methodName);
 		}
 		return null;
@@ -353,7 +341,7 @@ public class ResultSet extends ExceptionHandler {
 
 	/**
 	 * Returns the current row's 1-based index position.
-	 * 
+	 *
 	 * @return current row's 1-based index position.
 	 * @throws DataException if data source error occurs.
 	 */
@@ -371,7 +359,7 @@ public class ResultSet extends ExceptionHandler {
 
 	/**
 	 * Closes this <code>ResultSet</code>.
-	 * 
+	 *
 	 * @throws DataException if data source error occurs.
 	 */
 	public void close() throws DataException {

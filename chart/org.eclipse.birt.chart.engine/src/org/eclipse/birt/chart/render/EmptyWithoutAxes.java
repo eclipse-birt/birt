@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -35,6 +38,7 @@ public final class EmptyWithoutAxes extends BaseRenderer {
 
 	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.engine/render"); //$NON-NLS-1$
 
+	@Override
 	public void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		Boolean bDataEmpty = rtc.getState(RunTimeContext.StateKey.DATA_EMPTY_KEY);
 		if (bDataEmpty == null) {
@@ -57,19 +61,20 @@ public final class EmptyWithoutAxes extends BaseRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.render.BaseRenderer#compute(org.eclipse.birt.chart.
 	 * model.attribute.Bounds, org.eclipse.birt.chart.model.layout.Plot,
 	 * org.eclipse.birt.chart.render.ISeriesRenderingHints)
 	 */
+	@Override
 	public void compute(Bounds bo, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		// NOTE: This method is not used by the Empty renderer
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.render.BaseRenderer#renderLegendGraphic(org.eclipse.
 	 * birt.chart.device.IPrimitiveRenderer,
@@ -77,6 +82,7 @@ public final class EmptyWithoutAxes extends BaseRenderer {
 	 * org.eclipse.birt.chart.model.attribute.Fill,
 	 * org.eclipse.birt.chart.model.attribute.Bounds)
 	 */
+	@Override
 	public void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
 			throws ChartException {
 		if ((bo.getWidth() == 0) && (bo.getHeight() == 0)) {
@@ -85,7 +91,7 @@ public final class EmptyWithoutAxes extends BaseRenderer {
 		final LineAttributes lia = goFactory.createLineAttributes(goFactory.GREY(), LineStyle.SOLID_LITERAL, 1);
 
 		// COMPUTE THE FRONT FACE ONLY
-		Location[] loaFrontFace = null;
+		Location[] loaFrontFace;
 		loaFrontFace = new Location[4];
 		final double dOffset = bo.getWidth() > bo.getHeight() ? bo.getHeight() : bo.getWidth();
 		loaFrontFace[0] = goFactory.createLocation(bo.getLeft(), bo.getTop());

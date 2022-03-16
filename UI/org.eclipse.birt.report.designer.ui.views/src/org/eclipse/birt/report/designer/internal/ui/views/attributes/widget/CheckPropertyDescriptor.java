@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,16 +41,18 @@ public class CheckPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#resetUIData()
 	 */
+	@Override
 	public void load() {
 		String value = getDescriptorProvider().load().toString();
 
 		boolean stateFlag = ((value == null) == button.getEnabled());
-		if (stateFlag)
+		if (stateFlag) {
 			button.setEnabled(value != null);
+		}
 
 		boolean boolValue = "true".equalsIgnoreCase(value); //$NON-NLS-1$
 		if (button.getSelection() != boolValue) {
@@ -57,31 +62,35 @@ public class CheckPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
+	@Override
 	public Control getControl() {
 		return button;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Control createControl(Composite parent) {
 		if (isFormStyle()) {
 			button = FormWidgetFactory.getInstance().createButton(parent, SWT.CHECK, true);
-		} else
+		} else {
 			button = new Button(parent, SWT.CHECK);
+		}
 		button.setText(getDescriptorProvider().getDisplayName());
-		if (!selectList.isEmpty())
+		if (!selectList.isEmpty()) {
 			button.addSelectionListener((SelectionListener) selectList.get(0));
-		else {
+		} else {
 			SelectionListener listener = new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					onClickButton();
 				}
@@ -90,6 +99,7 @@ public class CheckPropertyDescriptor extends PropertyDescriptor {
 		}
 		button.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				onClickButton();
 			}
@@ -104,19 +114,22 @@ public class CheckPropertyDescriptor extends PropertyDescriptor {
 	 */
 	public void addSelectionListener(SelectionListener listener) {
 		if (!selectList.contains(listener)) {
-			if (!selectList.isEmpty())
+			if (!selectList.isEmpty()) {
 				removeSelectionListener((SelectionListener) selectList.get(0));
+			}
 			selectList.add(listener);
-			if (button != null)
+			if (button != null) {
 				button.addSelectionListener(listener);
+			}
 		}
 	}
 
 	public void removeSelectionListener(SelectionListener listener) {
 		if (selectList.contains(listener)) {
 			selectList.remove(listener);
-			if (button != null)
+			if (button != null) {
 				button.removeSelectionListener(listener);
+			}
 		}
 	}
 
@@ -132,6 +145,7 @@ public class CheckPropertyDescriptor extends PropertyDescriptor {
 		}
 	}
 
+	@Override
 	public void save(Object obj) throws SemanticException {
 		descriptorProvider.save(obj);
 	}
@@ -144,6 +158,7 @@ public class CheckPropertyDescriptor extends PropertyDescriptor {
 		button.setVisible(isVisible);
 	}
 
+	@Override
 	public void setInput(Object handle) {
 		this.input = handle;
 		getDescriptorProvider().setInput(input);

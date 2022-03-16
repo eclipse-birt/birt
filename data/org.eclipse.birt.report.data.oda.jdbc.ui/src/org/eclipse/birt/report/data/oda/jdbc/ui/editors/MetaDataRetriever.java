@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,10 +29,10 @@ import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.spec.util.QuerySpecificationHelper;
 
 /**
- * 
+ *
  * This class serves to provide the updated ParameterMetaData and
  * ResultSetMetaData information according to the specified updated query text
- * 
+ *
  */
 class MetaDataRetriever {
 	private IResultSetMetaData resultMeta;
@@ -72,7 +75,7 @@ class MetaDataRetriever {
 
 	/**
 	 * Get the ParameterMetaData object
-	 * 
+	 *
 	 * @return IParameterMetaData
 	 */
 	IParameterMetaData getParameterMetaData() {
@@ -81,7 +84,7 @@ class MetaDataRetriever {
 
 	/**
 	 * Get the ResultSetMetaData object
-	 * 
+	 *
 	 * @return IResultSetMetaData
 	 */
 	IResultSetMetaData getResultSetMetaData() {

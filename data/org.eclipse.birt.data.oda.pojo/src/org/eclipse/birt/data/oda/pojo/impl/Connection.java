@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,6 +39,7 @@ public class Connection implements IConnection {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#open(java.util.Properties)
 	 */
+	@Override
 	public void open(Properties connProperties) throws OdaException {
 		if (isOpen) {
 			return;
@@ -52,6 +56,7 @@ public class Connection implements IConnection {
 	 * org.eclipse.datatools.connectivity.oda.IConnection#setAppContext(java.lang.
 	 * Object)
 	 */
+	@Override
 	public void setAppContext(Object context) throws OdaException {
 		// nothing to do
 	}
@@ -59,6 +64,7 @@ public class Connection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#close()
 	 */
+	@Override
 	public void close() throws OdaException {
 		// TODO replace with data source specific implementation
 		isOpen = false;
@@ -69,6 +75,7 @@ public class Connection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
 	 */
+	@Override
 	public boolean isOpen() throws OdaException {
 		return isOpen;
 	}
@@ -78,6 +85,7 @@ public class Connection implements IConnection {
 	 * org.eclipse.datatools.connectivity.oda.IConnection#getMetaData(java.lang.
 	 * String)
 	 */
+	@Override
 	public IDataSetMetaData getMetaData(String dataSetType) throws OdaException {
 		// this driver supports only one type of data set,
 		// ignores the specified dataSetType
@@ -88,6 +96,7 @@ public class Connection implements IConnection {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#newQuery(java.lang.String)
 	 */
+	@Override
 	public IQuery newQuery(String dataSetType) throws OdaException {
 		// this driver supports only one type of data set,
 		// ignores the specified dataSetType
@@ -99,6 +108,7 @@ public class Connection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#getMaxQueries()
 	 */
+	@Override
 	public int getMaxQueries() throws OdaException {
 		return 0; // no limit
 	}
@@ -106,6 +116,7 @@ public class Connection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#commit()
 	 */
+	@Override
 	public void commit() throws OdaException {
 		throw new UnsupportedOperationException();
 	}
@@ -113,17 +124,19 @@ public class Connection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#rollback()
 	 */
+	@Override
 	public void rollback() throws OdaException {
 		throw new UnsupportedOperationException();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#setLocale(com.ibm.icu.util
 	 * .ULocale)
 	 */
+	@Override
 	public void setLocale(ULocale locale) throws OdaException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();

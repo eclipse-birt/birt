@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine;
@@ -24,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.net.URL;
+import java.nio.file.FileSystems;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
@@ -96,6 +100,7 @@ public abstract class EngineCase extends TestCase {
 	private boolean pagination = false;
 	private Locale locale = Locale.ENGLISH;
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		EngineConfig config = new EngineConfig();
@@ -150,10 +155,10 @@ public abstract class EngineCase extends TestCase {
 	protected void runCase(String args[]) {
 		Vector runArgs = new Vector();
 		// invoke the report runner.
-		String input = PLUGIN_PATH + System.getProperty("file.separator") //$NON-NLS-1$
-				+ RESOURCE_BUNDLE.getString("CASE_INPUT"); //$NON-NLS-1$
-		input += System.getProperty("file.separator") + caseName //$NON-NLS-1$
-				+ ".rptdesign"; //$NON-NLS-1$
+		String input = PLUGIN_PATH + FileSystems.getDefault().getSeparator() //$NON-NLS-1$
+		+ RESOURCE_BUNDLE.getString("CASE_INPUT");
+		input += FileSystems.getDefault().getSeparator() + caseName //$NON-NLS-1$
+		+ ".rptdesign";
 		System.out.println("input is : " + input); //$NON-NLS-1$
 
 		// run report runner.
@@ -198,11 +203,13 @@ public abstract class EngineCase extends TestCase {
 			throw e;
 		} finally {
 			try {
-				if (bis != null)
+				if (bis != null) {
 					bis.close();
+				}
 
-				if (bos != null)
+				if (bos != null) {
 					bos.close();
+				}
 			} catch (IOException e) {
 				// ignore
 			}
@@ -335,10 +342,12 @@ public abstract class EngineCase extends TestCase {
 				URL url = source.getLocation();
 				pathBase = url.getPath();
 
-				if (pathBase.endsWith("bin/")) //$NON-NLS-1$
+				if (pathBase.endsWith("bin/")) { //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 4);
-				if (pathBase.endsWith("bin")) //$NON-NLS-1$
+				}
+				if (pathBase.endsWith("bin")) { //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 3);
+				}
 			}
 		}
 
@@ -365,7 +374,7 @@ public abstract class EngineCase extends TestCase {
 		FileReader readerA = null;
 		FileReader readerB = null;
 		boolean same = true;
-		StringBuffer errorText = new StringBuffer();
+		StringBuilder errorText = new StringBuilder();
 
 		try {
 
@@ -409,7 +418,7 @@ public abstract class EngineCase extends TestCase {
 	 * @throws Exception if any exception.
 	 */
 	protected boolean compareHTML_STRING(String output, String checkstring, int checktimes) {
-		StringBuffer errorText = new StringBuffer();
+		StringBuilder errorText = new StringBuilder();
 		String outputFile = genOutputFile(output);
 		String line = null;
 		int count = 0;
@@ -645,10 +654,11 @@ public abstract class EngineCase extends TestCase {
 
 		try {
 			copyFile(from, this.genInputFile(tempDoc));
-			if (FORMAT_PDF.equals(format)) // $NON-NLS-1$
+			if (FORMAT_PDF.equals(format)) { // $NON-NLS-1$
 				return render_PDF(tempDoc, output, pageRange);
-			else
+			} else { // $NON-NLS-1$
 				return render_HTML(tempDoc, output, pageRange);
+			}
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -667,7 +677,7 @@ public abstract class EngineCase extends TestCase {
 	 */
 
 	protected boolean compareTextFile(Reader golden, Reader output, String fileName) throws Exception {
-		StringBuffer errorText = new StringBuffer();
+		StringBuilder errorText = new StringBuilder();
 
 		BufferedReader lineReaderA = null;
 		BufferedReader lineReaderB = null;
@@ -689,7 +699,7 @@ public abstract class EngineCase extends TestCase {
 				same = filterA.trim().equals(filterB.trim());
 
 				if (!same) {
-					StringBuffer message = new StringBuffer();
+					StringBuilder message = new StringBuilder();
 
 					message.append("line="); //$NON-NLS-1$
 					message.append(lineNo);
@@ -748,12 +758,13 @@ public abstract class EngineCase extends TestCase {
 	 */
 	private boolean compareString(int checktimes, int countstring) {
 		boolean same = true;
-		StringBuffer errorText = new StringBuffer();
+		StringBuilder errorText = new StringBuilder();
 		try {
-			if (checktimes == countstring)
+			if (checktimes == countstring) {
 				same = true;
-			else
+			} else {
 				same = false;
+			}
 		} catch (Exception e) {
 			errorText.append(e.toString());
 		}
@@ -868,6 +879,7 @@ public abstract class EngineCase extends TestCase {
 		IMAGE_DIR = imageDir;
 	}
 
+	@Override
 	protected void tearDown() throws Exception {
 		this.engine.destroy();
 		super.tearDown();
@@ -943,13 +955,15 @@ public abstract class EngineCase extends TestCase {
 
 		File[] files = from.listFiles(new FilenameFilter() {
 
+			@Override
 			public boolean accept(File dir, String name) {
 				return true;
 			}
 		});
 
-		if (!to.exists())
+		if (!to.exists()) {
 			to.mkdir();
+		}
 		// System.out.println( "size is " + files.length );
 		for (int i = 0; i < files.length; i++) {
 
@@ -1005,8 +1019,9 @@ public abstract class EngineCase extends TestCase {
 	 */
 	public String tempFolder() {
 		String tempDir = System.getProperty("java.io.tmpdir");
-		if (!tempDir.endsWith(File.separator))
+		if (!tempDir.endsWith(File.separator)) {
 			tempDir += File.separator;
+		}
 		return tempDir;
 	}
 

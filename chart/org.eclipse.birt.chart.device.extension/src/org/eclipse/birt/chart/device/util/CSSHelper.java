@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,14 +26,14 @@ import org.eclipse.emf.common.util.EList;
 
 /**
  * The class defines fields and methods for Cascading Style Sheet.
- * 
+ *
  * @since 2.5
  */
 
 public class CSSHelper {
 	public static final String CURSOR_STYLE_PREFIX = "cursor:"; //$NON-NLS-1$
 
-	public static final Map<CursorType, String> CSS_CURSOR_MAP = new HashMap<org.eclipse.birt.chart.model.attribute.CursorType, String>();
+	public static final Map<CursorType, String> CSS_CURSOR_MAP = new HashMap<>();
 	static {
 		CSS_CURSOR_MAP.put(CursorType.AUTO, "auto"); //$NON-NLS-1$
 		CSS_CURSOR_MAP.put(CursorType.CROSSHAIR, "crosshair"); //$NON-NLS-1$
@@ -54,7 +57,7 @@ public class CSSHelper {
 			return null;
 		}
 
-		StringBuffer value = new StringBuffer(CSSHelper.CURSOR_STYLE_PREFIX);
+		StringBuilder value = new StringBuilder(CSSHelper.CURSOR_STYLE_PREFIX);
 		value.append(" ");//$NON-NLS-1$
 		if (cursor.getType() != CursorType.CUSTOM) {
 			value.append(CSSHelper.CSS_CURSOR_MAP.get(cursor.getType())).append(";"); //$NON-NLS-1$
@@ -95,7 +98,7 @@ public class CSSHelper {
 
 	/**
 	 * Converts CSS properties to hyphen format.
-	 * 
+	 *
 	 * @param cssProperties
 	 * @return string format
 	 * @since 2.5.1
@@ -121,7 +124,7 @@ public class CSSHelper {
 				continue;
 			}
 
-			List<String> words = new ArrayList<String>(3);
+			List<String> words = new ArrayList<>(3);
 			int begin = 0;
 			int i = 0;
 			for (; i < pair[0].length(); i++) {
@@ -154,7 +157,7 @@ public class CSSHelper {
 
 	/**
 	 * Converts CSS properties to non-hyphen format.
-	 * 
+	 *
 	 * @param cssProperties
 	 * @return string format
 	 * @since 2.5.1

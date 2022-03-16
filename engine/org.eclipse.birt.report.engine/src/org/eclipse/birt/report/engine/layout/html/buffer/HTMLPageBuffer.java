@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -46,6 +46,7 @@ public class HTMLPageBuffer implements IPageBuffer {
 		this.generator = new PageHintGenerator();
 	}
 
+	@Override
 	public void startContainer(IContent content, boolean isFirst, IContentEmitter emitter, boolean visible)
 			throws BirtException {
 		int type = content.getContentType();
@@ -88,6 +89,7 @@ public class HTMLPageBuffer implements IPageBuffer {
 		return false;
 	}
 
+	@Override
 	public void startContent(IContent content, IContentEmitter emitter, boolean visible) throws BirtException {
 		if (isRepeated || (!visible && !currentNode.isStarted())) {
 			LeafBufferNode leafNode = new LeafBufferNode(content, emitter, generator, visible);
@@ -105,6 +107,7 @@ public class HTMLPageBuffer implements IPageBuffer {
 		}
 	}
 
+	@Override
 	public void endContainer(IContent content, boolean finished, IContentEmitter emitter, boolean visible)
 			throws BirtException {
 		int type = content.getContentType();
@@ -136,13 +139,11 @@ public class HTMLPageBuffer implements IPageBuffer {
 		((AbstractNode) currentNode).setFinished(finished);
 		if (currentNode.isStarted()) {
 			currentNode.end();
-		} else {
-			if (finished && !isRepeated) {
-				if (visible) {
-					currentNode.flush();
-				} else if (isParentStarted()) {
-					currentNode.flush();
-				}
+		} else if (finished && !isRepeated) {
+			if (visible) {
+				currentNode.flush();
+			} else if (isParentStarted()) {
+				currentNode.flush();
 			}
 		}
 
@@ -164,18 +165,16 @@ public class HTMLPageBuffer implements IPageBuffer {
 		((AbstractNode) currentNode).setFinished(finished);
 		if (currentNode.isStarted()) {
 			currentNode.end();
-		} else {
-			if (!isRepeated) {
-				if (finished) {
-					if (visible) {
-						currentNode.flush();
-					} else if (isParentStarted()) {
-						currentNode.flush();
-					}
-				} else {
-					if (allCellFinished((ContainerBufferNode) currentNode)) {
-						currentNode.flush();
-					}
+		} else if (!isRepeated) {
+			if (finished) {
+				if (visible) {
+					currentNode.flush();
+				} else if (isParentStarted()) {
+					currentNode.flush();
+				}
+			} else {
+				if (allCellFinished((ContainerBufferNode) currentNode)) {
+					currentNode.flush();
 				}
 			}
 		}
@@ -217,12 +216,10 @@ public class HTMLPageBuffer implements IPageBuffer {
 		}
 		if (currentNode.isStarted()) {
 			currentNode.end();
-		} else {
-			if (finished && !isRepeated) {
-				/*
-				 * currentNode.start( ); currentNode.end( );
-				 */
-			}
+		} else if (finished && !isRepeated) {
+			/*
+			 * currentNode.start( ); currentNode.end( );
+			 */
 		}
 		currentNode = currentNode.getParent();
 	}
@@ -286,22 +283,27 @@ public class HTMLPageBuffer implements IPageBuffer {
 		}
 	}
 
+	@Override
 	public boolean isRepeated() {
 		return isRepeated;
 	}
 
+	@Override
 	public void setRepeated(boolean isRepeated) {
 		this.isRepeated = isRepeated;
 	}
 
+	@Override
 	public void flush() throws BirtException {
 
 	}
 
+	@Override
 	public boolean finished() {
 		return finished;
 	}
 
+	@Override
 	public void closePage(INode[] nodeList) throws BirtException {
 		int length = nodeList.length;
 		if (length > 0) {
@@ -313,6 +315,7 @@ public class HTMLPageBuffer implements IPageBuffer {
 		finished = true;
 	}
 
+	@Override
 	public void openPage(INode[] nodeList) throws BirtException {
 		int length = nodeList.length;
 		if (length > 0) {
@@ -323,8 +326,9 @@ public class HTMLPageBuffer implements IPageBuffer {
 		}
 	}
 
+	@Override
 	public INode[] getNodeStack() {
-		ArrayList<INode> nodeList = new ArrayList<INode>();
+		ArrayList<INode> nodeList = new ArrayList<>();
 		if (currentNode != null) {
 			nodeList.add(currentNode);
 			INode parent = currentNode.getParent();
@@ -338,6 +342,7 @@ public class HTMLPageBuffer implements IPageBuffer {
 		return list;
 	}
 
+	@Override
 	public void addTableColumnHint(TableColumnHint hint) {
 		context.getPageHintManager().addTableColumnHint(hint);
 	}

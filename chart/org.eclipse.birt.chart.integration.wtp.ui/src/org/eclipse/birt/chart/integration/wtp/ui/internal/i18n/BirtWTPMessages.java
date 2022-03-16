@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -18,7 +20,7 @@ import org.eclipse.osgi.util.NLS;
 
 /**
  * Messages used by Birt Project Wizard UI
- * 
+ *
  */
 public class BirtWTPMessages extends NLS {
 
@@ -33,20 +35,21 @@ public class BirtWTPMessages extends NLS {
 
 	/**
 	 * Make default constructor is private. Can not create new instance.
-	 * 
+	 *
 	 */
 	private BirtWTPMessages() {
 	}
 
 	/**
 	 * Return current resource bundle
-	 * 
+	 *
 	 * @return
 	 */
 	public static ResourceBundle getResourceBundle() {
 		try {
-			if (bundle == null)
+			if (bundle == null) {
 				bundle = ResourceBundle.getBundle(BUNDLE_NAME);
+			}
 		} catch (MissingResourceException x) {
 			bundle = null;
 		}

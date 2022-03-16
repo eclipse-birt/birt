@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -39,7 +51,7 @@ public interface MultipleActions extends Action {
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Actions</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getMultipleActions_Actions()
 	 * @model containment="true" extendedMetaData="kind='element' name='Actions'"
@@ -56,7 +68,7 @@ public interface MultipleActions extends Action {
 	 * should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Properties Map</em>' map.
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getMultipleActions_PropertiesMap()
 	 * @model mapType="org.eclipse.birt.chart.model.attribute.EStringToStringMapEntry<org.eclipse.emf.ecore.xml.type.String,
@@ -69,6 +81,7 @@ public interface MultipleActions extends Action {
 	/**
 	 * @generated
 	 */
+	@Override
 	MultipleActions copyInstance();
 
 } // MultipleActions

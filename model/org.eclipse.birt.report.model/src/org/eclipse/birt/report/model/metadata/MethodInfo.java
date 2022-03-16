@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,7 +56,7 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo {
 	private boolean isConstructor = false;
 
 	/**
-	 * 
+	 *
 	 */
 
 	private List<IArgumentInfoList> arguments;
@@ -66,7 +69,7 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo {
 
 	/**
 	 * Constructs method definition.
-	 * 
+	 *
 	 * @param isConstructor whether this method is constructor
 	 */
 
@@ -82,14 +85,15 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo {
 
 	/**
 	 * Adds an optional argument list to the method information.
-	 * 
+	 *
 	 * @param argumentList an optional argument list
-	 * 
+	 *
 	 */
 
 	public void addArgumentList(IArgumentInfoList argumentList) {
-		if (arguments == null)
-			arguments = new ArrayList<IArgumentInfoList>();
+		if (arguments == null) {
+			arguments = new ArrayList<>();
+		}
 
 		arguments.add(argumentList);
 	}
@@ -97,30 +101,33 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo {
 	/**
 	 * Returns the iterator of argument definition. Each one is a list that contains
 	 * <code>ArgumentInfoList</code>.
-	 * 
+	 *
 	 * @return iterator of argument definition.
 	 */
 
+	@Override
 	public Iterator<IArgumentInfoList> argumentListIterator() {
-		if (arguments == null)
+		if (arguments == null) {
 			return Collections.EMPTY_LIST.iterator();
+		}
 
 		return arguments.iterator();
 	}
 
 	/**
 	 * Returns the script type for return.
-	 * 
+	 *
 	 * @return the script type for return
 	 */
 
+	@Override
 	public String getReturnType() {
 		return returnType;
 	}
 
 	/**
 	 * Sets the script type for return.
-	 * 
+	 *
 	 * @param returnType the script type to set
 	 */
 
@@ -130,31 +137,34 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo {
 
 	/**
 	 * Returns the resource key for tool tip.
-	 * 
+	 *
 	 * @return the resource key for tool tip
 	 */
 
+	@Override
 	public String getToolTipKey() {
 		return toolTipKey;
 	}
 
 	/**
 	 * Sets the resource key for tool tip.
-	 * 
+	 *
 	 * @param toolTipKey the resource key to set
 	 */
 
+	@Override
 	public void setToolTipKey(String toolTipKey) {
 		this.toolTipKey = toolTipKey;
 	}
 
 	/**
 	 * Returns the display string for the tool tip of this method.
-	 * 
+	 *
 	 * @return the user-visible, localized display name for the tool tip of this
 	 *         method.
 	 */
 
+	@Override
 	public String getToolTip() {
 		assert toolTipKey != null;
 		return ModelMessages.getMessage(toolTipKey);
@@ -163,10 +173,11 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo {
 
 	/**
 	 * Returns whether this method is constructor.
-	 * 
+	 *
 	 * @return true, if this method is constructor
 	 */
 
+	@Override
 	public boolean isConstructor() {
 		return isConstructor;
 	}
@@ -177,17 +188,18 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo {
 
 	/**
 	 * Returns whether this method is static.
-	 * 
+	 *
 	 * @return true if this method is static
 	 */
 
+	@Override
 	public boolean isStatic() {
 		return isStatic;
 	}
 
 	/**
 	 * Sets whether this method is static.
-	 * 
+	 *
 	 * @param isStatic true if this method is static
 	 */
 
@@ -197,17 +209,18 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo {
 
 	/**
 	 * Returns the javadoc for the method.
-	 * 
+	 *
 	 * @return the javaDoc
 	 */
 
+	@Override
 	public String getJavaDoc() {
 		return javaDoc;
 	}
 
 	/**
 	 * Sets the javadoc for the method.
-	 * 
+	 *
 	 * @param javaDoc the method javaDoc in string
 	 */
 
@@ -218,7 +231,7 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo {
 	/**
 	 * Sets the method context. The method is supposed to run only in specified
 	 * context.
-	 * 
+	 *
 	 * @param context the method context
 	 */
 
@@ -229,7 +242,7 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo {
 	/**
 	 * Returns the method context. The method is supposed to run only in specified
 	 * context.
-	 * 
+	 *
 	 * @return the method context
 	 */
 
@@ -240,7 +253,7 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo {
 	/**
 	 * Sets the element definition so that the scriptable factory can be retrieved.
 	 * This method is only for peer extension elements.
-	 * 
+	 *
 	 * @param elementDefn the element definition
 	 */
 
@@ -252,25 +265,29 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.metadata.IMethodInfo#getClassReturnType ()
 	 */
 
+	@Override
 	public IClassInfo getClassReturnType() {
 		if (returnClassType != null) {
 			return returnClassType;
 		}
 		IClassInfo tmpInfo = new ScriptableClassInfo().getClass(returnType);
-		if (tmpInfo != null)
+		if (tmpInfo != null) {
 			return tmpInfo;
+		}
 
-		if (elementDefn == null)
+		if (elementDefn == null) {
 			return null;
+		}
 
 		IScriptableObjectClassInfo factory = ((PeerExtensionElementDefn) elementDefn).getScriptableFactory();
-		if (factory == null)
+		if (factory == null) {
 			return null;
+		}
 
 		return factory.getScriptableClass(returnType);
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,8 +22,8 @@ import org.eclipse.jface.viewers.ViewerSorter;
 
 /**
  * Sorts outline tree's treeNode
- * 
- * 
+ *
+ *
  */
 public class ItemSorter extends ViewerSorter {
 
@@ -35,7 +38,7 @@ public class ItemSorter extends ViewerSorter {
 	 * label provider, or their <code>toString</code> values in other cases.
 	 * Subclasses may override.
 	 * </p>
-	 * 
+	 *
 	 * @param viewer the viewer
 	 * @param e1     the first element
 	 * @param e2     the second element
@@ -45,6 +48,7 @@ public class ItemSorter extends ViewerSorter {
 	 *         greater than the second element
 	 */
 
+	@Override
 	public int compare(Viewer viewer, Object e1, Object e2) {
 		/*
 		 * if ( e1 instanceof ITreeItemNode && e2 instanceof ITreeItemNode ) { int type1
@@ -52,10 +56,7 @@ public class ItemSorter extends ViewerSorter {
 		 * ).getType(); if ( type1 == type2 && type1 == ITreeItemNode.ITEM ) { return
 		 * super.compare( viewer, e1, e2 ); } }
 		 */
-		if (e1 instanceof DataSourceHandle && e2 instanceof DataSourceHandle) {
-			return super.compare(viewer, e1, e2);
-		}
-		if (e1 instanceof DataSetHandle && e2 instanceof DataSetHandle) {
+		if ((e1 instanceof DataSourceHandle && e2 instanceof DataSourceHandle) || (e1 instanceof DataSetHandle && e2 instanceof DataSetHandle)) {
 			return super.compare(viewer, e1, e2);
 		}
 		if (e1 instanceof CubeHandle && e2 instanceof CubeHandle) {

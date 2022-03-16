@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,16 +25,16 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 /**
  * AggregationRegisterTable class is to search measure index based on its
  * measure name
- * 
+ *
  */
 public class AggregationRegisterTable {
 	private CalculatedMember[] membersFromQuery;
 
 	// contain members from query and members from cube operation
-	private List<CalculatedMember> allMembers = new ArrayList<CalculatedMember>();
+	private List<CalculatedMember> allMembers = new ArrayList<>();
 
 	/**
-	 * 
+	 *
 	 * @param members
 	 */
 	AggregationRegisterTable(CalculatedMember[] members) {
@@ -40,19 +43,20 @@ public class AggregationRegisterTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 * @return
 	 * @throws OLAPException
 	 */
 	public String getAggrName(int index) throws DataException {
-		if (index >= this.allMembers.size() || index < 0)
+		if (index >= this.allMembers.size() || index < 0) {
 			throw new DataException(ResourceConstants.MEASURE_NAME_NOT_FOUND);
+		}
 		return this.allMembers.get(index).getCubeAggrDefn().getName();
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 * @throws DataException
@@ -65,14 +69,15 @@ public class AggregationRegisterTable {
 				break;
 			}
 		}
-		if (rsID == -1)
+		if (rsID == -1) {
 			throw new DataException(ResourceConstants.CANNOT_GET_MEASURE_VALUE, new Object[] { name });
-		else
+		} else {
 			return rsID;
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 * @throws DataException
@@ -82,8 +87,9 @@ public class AggregationRegisterTable {
 		if (rsID >= 0) {
 
 			for (CalculatedMember member : allMembers) {
-				if (member.getCubeAggrDefn().getName().equals(name))
+				if (member.getCubeAggrDefn().getName().equals(name)) {
 					break;
+				}
 				if (member.getRsID() == rsID && !member.getCubeAggrDefn().getName().equals(name)) {
 					index++;
 				}
@@ -93,7 +99,7 @@ public class AggregationRegisterTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 * @throws DataException
@@ -108,7 +114,7 @@ public class AggregationRegisterTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public CalculatedMember[] getCalculatedMembers() {

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ public abstract class AbstractCrosstabAction extends Action {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle the element handle
 	 */
 	public AbstractCrosstabAction(DesignElementHandle handle) {
@@ -35,7 +38,7 @@ public abstract class AbstractCrosstabAction extends Action {
 
 	/**
 	 * Star the trans for the special name.
-	 * 
+	 *
 	 * @param name trans name
 	 */
 	public void transStar(String name) {
@@ -54,7 +57,7 @@ public abstract class AbstractCrosstabAction extends Action {
 
 	/**
 	 * Gets the handle
-	 * 
+	 *
 	 * @return
 	 */
 	public DesignElementHandle getHandle() {
@@ -63,7 +66,7 @@ public abstract class AbstractCrosstabAction extends Action {
 
 	/**
 	 * Sets the handle
-	 * 
+	 *
 	 * @param handle
 	 */
 	public void setHandle(DesignElementHandle handle) {
@@ -71,12 +74,13 @@ public abstract class AbstractCrosstabAction extends Action {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void rollBack() {
 		handle.getModuleHandle().getCommandStack().rollback();
 	}
 
+	@Override
 	public boolean isEnabled() {
 		return !DEUtil.isReferenceElement(handle);
 	}

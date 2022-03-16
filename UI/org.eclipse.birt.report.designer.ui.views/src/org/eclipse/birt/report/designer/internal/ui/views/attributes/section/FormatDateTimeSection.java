@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -28,6 +40,7 @@ public class FormatDateTimeSection extends Section {
 
 	protected FormatDateTimeDescriptor format;
 
+	@Override
 	public void createSection() {
 		getFormatControl(parent);
 		getGridPlaceholder(parent);
@@ -45,6 +58,7 @@ public class FormatDateTimeSection extends Section {
 			format.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 			format.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					format = null;
 				}
@@ -55,21 +69,25 @@ public class FormatDateTimeSection extends Section {
 		return format;
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) format.getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
+		}
 	}
 
 	public void addFormatChangeListener(IFormatChangeListener listener) {
 		format.addFormatChangeListener(listener);
 	}
 
+	@Override
 	public void load() {
-		if (format != null && !format.getControl().isDisposed())
+		if (format != null && !format.getControl().isDisposed()) {
 			format.load();
+		}
 	}
 
 	IDescriptorProvider provider;
@@ -80,27 +98,34 @@ public class FormatDateTimeSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (format != null)
+		if (format != null) {
 			format.setDescriptorProvider(provider);
+		}
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		format.setInput(input);
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (format != null)
+		if (format != null) {
 			WidgetUtil.setExcludeGridData(format.getControl(), isHidden);
+		}
 
 	}
 
+	@Override
 	public void setVisible(boolean isVisable) {
-		if (format != null)
+		if (format != null) {
 			format.getControl().setVisible(isVisable);
+		}
 
 	}
 
+	@Override
 	public void reset() {
 		if (format != null && !format.getControl().isDisposed()) {
 			format.reset();

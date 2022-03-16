@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,11 +28,11 @@ public class DataCache {
 	 * also an arrayList. Its elements are the rows in the column.
 	 */
 	protected static Logger logger = Logger.getLogger(DataCache.class.getName());
-	private List<ArrayList<SheetData>> columns = new ArrayList<ArrayList<SheetData>>();
+	private List<ArrayList<SheetData>> columns = new ArrayList<>();
 	private int maxColumnCount;
 	private int maxRowIndex = 0;
 	private int offset = 0;
-	private Map<Integer, Float> rowIndex2Height = new HashMap<Integer, Float>();
+	private Map<Integer, Float> rowIndex2Height = new HashMap<>();
 
 	public DataCache(DataCache cache) {
 		for (int i = 0; i < cache.columns.size(); i++) {
@@ -104,27 +107,31 @@ public class DataCache {
 	 */
 	public int getMaxRowIndex(int column) {
 		SheetData lastData = getColumnLastData(column);
-		if (lastData != null)
+		if (lastData != null) {
 			return lastData.getRowIndex();
+		}
 		return 0;
 	}
 
 	public void setRowHeight(int rowIndex, float height) {
-		if (!rowIndex2Height.containsKey(rowIndex) || height > rowIndex2Height.get(rowIndex))
+		if (!rowIndex2Height.containsKey(rowIndex) || height > rowIndex2Height.get(rowIndex)) {
 			rowIndex2Height.put(rowIndex, height);
+		}
 	}
 
 	public float getRowHeight(int rowIndex) {
-		if (rowIndex2Height.containsKey(rowIndex))
+		if (rowIndex2Height.containsKey(rowIndex)) {
 			return rowIndex2Height.get(rowIndex);
+		}
 		return 0f;
 	}
 
 	public boolean hasRowHeight(int rowIndex) {
-		if (rowIndex2Height.containsKey(rowIndex) && rowIndex2Height.get(rowIndex) != 0)
+		if (rowIndex2Height.containsKey(rowIndex) && rowIndex2Height.get(rowIndex) != 0) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
@@ -134,8 +141,9 @@ public class DataCache {
 	public SheetData getColumnLastData(int index) {
 		if (index < getColumnCount()) {
 			ArrayList<SheetData> columnDatas = columns.get(index);
-			if (!columnDatas.isEmpty())
+			if (!columnDatas.isEmpty()) {
 				return columnDatas.get(columnDatas.size() - 1);
+			}
 		}
 		return null;
 	}
@@ -169,10 +177,12 @@ public class DataCache {
 			columnIndexes = new int[columns.size()];
 		}
 
+		@Override
 		public boolean hasNext() {
 			return rowIndex <= maxRowIndex;
 		}
 
+		@Override
 		public SheetData[] next() {
 			if (!hasNext()) {
 				throw new NoSuchElementException();
@@ -208,17 +218,18 @@ public class DataCache {
 			return data.getRowIndex();
 		}
 
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}
 	}
 
-	public static interface RowIndexAdjuster {
+	public interface RowIndexAdjuster {
 
 		int getRowIndex(SheetData data);
 	}
 
-	public static interface DataFilter {
+	public interface DataFilter {
 
 		// The data won't be output if it's not accept.
 		boolean accept(SheetData data);

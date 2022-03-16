@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -63,9 +66,9 @@ public abstract class CustomChooserComposite extends Composite {
 
 	private Object iCurrentValue = null;
 
-	private Vector<Listener> vSelectionListeners = new Vector<Listener>();
+	private Vector<Listener> vSelectionListeners = new Vector<>();
 
-	private Vector<Listener> vDropDownListeners = new Vector<Listener>();
+	private Vector<Listener> vDropDownListeners = new Vector<>();
 
 	private boolean bEnabled = true;
 
@@ -81,6 +84,7 @@ public abstract class CustomChooserComposite extends Composite {
 
 	private Listener canvasListener = new Listener() {
 
+		@Override
 		public void handleEvent(Event event) {
 			if (event.widget == cnvSelection) {
 				handleEventCanvasSelection(event);
@@ -92,6 +96,7 @@ public abstract class CustomChooserComposite extends Composite {
 
 	private AccessibleListener accessibleListener = new AccessibleAdapter() {
 
+		@Override
 		public void getHelp(AccessibleEvent e) {
 			e.result = getToolTipText();
 		}
@@ -99,6 +104,7 @@ public abstract class CustomChooserComposite extends Composite {
 
 	private AccessibleControlListener accessibleControlListener = new AccessibleControlAdapter() {
 
+		@Override
 		public void getChildAtPoint(AccessibleControlEvent e) {
 			Point testPoint = toControl(new Point(e.x, e.y));
 			if (getBounds().contains(testPoint)) {
@@ -106,6 +112,7 @@ public abstract class CustomChooserComposite extends Composite {
 			}
 		}
 
+		@Override
 		public void getLocation(AccessibleControlEvent e) {
 			Rectangle location = getBounds();
 			Point pt = toDisplay(new Point(location.x, location.y));
@@ -115,14 +122,17 @@ public abstract class CustomChooserComposite extends Composite {
 			e.height = location.height;
 		}
 
+		@Override
 		public void getChildCount(AccessibleControlEvent e) {
 			e.detail = 0;
 		}
 
+		@Override
 		public void getRole(AccessibleControlEvent e) {
 			e.detail = ACC.ROLE_COMBOBOX;
 		}
 
+		@Override
 		public void getState(AccessibleControlEvent e) {
 			e.detail = ACC.STATE_NORMAL;
 		}
@@ -181,6 +191,7 @@ public abstract class CustomChooserComposite extends Composite {
 		btnDown.setLayoutData(gdBDown);
 		btnDown.addListener(SWT.Selection, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				toggleDropDown();
 			}
@@ -221,12 +232,14 @@ public abstract class CustomChooserComposite extends Composite {
 		return null;
 	}
 
+	@Override
 	public void setEnabled(boolean bState) {
 		btnDown.setEnabled(bState);
 		cnvSelection.setEnabled(bState);
 		this.bEnabled = bState;
 	}
 
+	@Override
 	public boolean isEnabled() {
 		return this.bEnabled;
 	}
@@ -258,6 +271,7 @@ public abstract class CustomChooserComposite extends Composite {
 
 		Listener listenerCmpDropDown = new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				handleEventCmpDropDown(event);
 			}
@@ -283,7 +297,7 @@ public abstract class CustomChooserComposite extends Composite {
 			}
 		}
 
-		int width = 0;
+		int width;
 		int height = 0;
 
 		int maxWidth = 0;
@@ -345,7 +359,7 @@ public abstract class CustomChooserComposite extends Composite {
 
 	/**
 	 * Returns the current selected choice
-	 * 
+	 *
 	 */
 	public Object getChoiceValue() {
 		return iCurrentValue;
@@ -353,7 +367,7 @@ public abstract class CustomChooserComposite extends Composite {
 
 	/**
 	 * Sets the value as selected choice, and redraws UI.
-	 * 
+	 *
 	 * @param iValue value as selected choice
 	 */
 	public void setChoiceValue(Object iValue) {
@@ -362,6 +376,7 @@ public abstract class CustomChooserComposite extends Composite {
 		cnvSelection.redraw();
 	}
 
+	@Override
 	public void addListener(int eventType, Listener listener) {
 		switch (eventType) {
 		case SELECTION_EVENT:
@@ -373,6 +388,7 @@ public abstract class CustomChooserComposite extends Composite {
 		}
 	}
 
+	@Override
 	public void removeListener(int eventType, Listener listener) {
 		switch (eventType) {
 		case SELECTION_EVENT:
@@ -471,16 +487,16 @@ public abstract class CustomChooserComposite extends Composite {
 					popupSelection.notifyListeners(SWT.FocusIn, new Event());
 					popupSelection.redraw();
 
-					if (popupSelection instanceof Control)
+					if (popupSelection instanceof Control) {
 						container.showControl((Control) popupSelection);
+					}
 				}
 			}
 		}
 	}
 
 	private boolean isPopupControl(Object control) {
-		return control != null && control instanceof Control
-				&& ((Control) control).getShell() == cmpDropDown.getShell();
+		return control instanceof Control && ((Control) control).getShell() == cmpDropDown.getShell();
 	}
 
 	void handleEventCanvasSelection(Event event) {
@@ -496,8 +512,9 @@ public abstract class CustomChooserComposite extends Composite {
 		case SWT.KeyDown: {
 			// At this point the widget may have been disposed.
 			// If so, do not continue.
-			if (isDisposed())
+			if (isDisposed()) {
 				break;
+			}
 
 			if (event.keyCode == SWT.ARROW_UP || event.keyCode == SWT.ARROW_DOWN) {
 				toggleDropDown();

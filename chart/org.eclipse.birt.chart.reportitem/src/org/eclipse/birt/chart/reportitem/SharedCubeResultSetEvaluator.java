@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,7 +60,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param rs
 	 * @param cm
 	 */
@@ -70,8 +73,6 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator {
 		parseLevelIndex(queryDefinition, cm);
 		try {
 			initCubeCursor();
-		} catch (OLAPException e) {
-			logger.log(e);
 		} catch (BirtException e) {
 			logger.log(e);
 		}
@@ -79,7 +80,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param qr
 	 * @param queryDefinition
 	 * @param cm
@@ -94,7 +95,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator {
 	/**
 	 * Parse the dimension levels on row edge and column edge to find out the level
 	 * index used by category series and Y optional.
-	 * 
+	 *
 	 * @param queryDefintion
 	 * @param cm
 	 */
@@ -115,7 +116,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator {
 			}
 
 			// Gets cube binding expressions map.
-			Map<String, String> cubeBindingMap = new HashMap<String, String>();
+			Map<String, String> cubeBindingMap = new HashMap<>();
 			List bindingList = cqd.getBindings();
 			for (int i = 0; i < bindingList.size(); i++) {
 				Binding b = (Binding) bindingList.get(i);
@@ -156,7 +157,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator {
 
 	/**
 	 * Find the inner level index from specified expression.
-	 * 
+	 *
 	 * @param expr
 	 * @param levelNames
 	 * @param cubeBindingMap
@@ -188,7 +189,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator {
 				}
 
 				List<String> levelNames = dimLevels.getValue();
-				;
+
 				for (int i = 1; i < lNames.length; i++) {
 					int levelIndex = levelNames.indexOf(lNames[i]);
 					if (levelIndex > index) {
@@ -201,10 +202,10 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator {
 	}
 
 	protected Map<String, List<String>> getDimLevelsNames(IEdgeDefinition ed) {
-		Map<String, List<String>> map = new LinkedHashMap<String, List<String>>();
+		Map<String, List<String>> map = new LinkedHashMap<>();
 		List<IDimensionDefinition> dimensions = ed.getDimensions();
 		for (IDimensionDefinition d : dimensions) {
-			List<String> levelNames = new ArrayList<String>();
+			List<String> levelNames = new ArrayList<>();
 			map.put(d.getName(), levelNames);
 			List<IHierarchyDefinition> hieDefs = d.getHierarchy();
 			for (IHierarchyDefinition hd : hieDefs) {
@@ -220,10 +221,11 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator#initCubeCursor()
 	 */
+	@Override
 	protected void initCubeCursor() throws OLAPException, BirtException {
 		// Find row and column edge cursor.
 		if (cubeCursor == null) {
@@ -283,10 +285,11 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator#getCubeCursor()
 	 */
+	@Override
 	protected ICubeCursor getCubeCursor() throws BirtException {
 		if (rs != null) {
 			return (ICubeCursor) rs.getCubeCursor();
@@ -312,9 +315,10 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#next()
 	 */
+	@Override
 	public boolean next() {
 		// In here, we use position to check if current edge cursor is moved on
 		// right position. If the previous position equals current position, it
@@ -339,7 +343,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator {
 				}
 
 				// Add break index for each start point
-				lstBreaks.add(Integer.valueOf(iIndex));
+				lstBreaks.add(iIndex);
 				subEdgeCursor.first();
 				fSubPositionNodes.updatePosition();
 
@@ -381,9 +385,10 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
 	 */
+	@Override
 	public boolean first() {
 		try {
 			if (mainEdgeCursor.first()) {

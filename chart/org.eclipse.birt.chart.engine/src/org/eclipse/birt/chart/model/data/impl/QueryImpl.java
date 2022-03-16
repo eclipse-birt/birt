@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -18,8 +21,8 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.Rule;
 import org.eclipse.birt.chart.model.data.ScriptExpression;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -52,7 +55,7 @@ public class QueryImpl extends EObjectImpl implements Query {
 	/**
 	 * The default value of the '{@link #getDefinition() <em>Definition</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getDefinition()
 	 * @generated
 	 * @ordered
@@ -62,7 +65,7 @@ public class QueryImpl extends EObjectImpl implements Query {
 	/**
 	 * The cached value of the '{@link #getDefinition() <em>Definition</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getDefinition()
 	 * @generated
 	 * @ordered
@@ -72,7 +75,7 @@ public class QueryImpl extends EObjectImpl implements Query {
 	/**
 	 * The cached value of the '{@link #getRules() <em>Rules</em>}' containment
 	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getRules()
 	 * @generated
 	 * @ordered
@@ -82,7 +85,7 @@ public class QueryImpl extends EObjectImpl implements Query {
 	/**
 	 * The cached value of the '{@link #getGrouping() <em>Grouping</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getGrouping()
 	 * @generated
 	 * @ordered
@@ -91,7 +94,7 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected QueryImpl() {
@@ -100,7 +103,7 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -110,50 +113,55 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getDefinition() {
 		return definition;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setDefinition(String newDefinition) {
 		String oldDefinition = definition;
 		definition = newDefinition;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.QUERY__DEFINITION, oldDefinition,
 					definition));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public EList<Rule> getRules() {
 		if (rules == null) {
-			rules = new EObjectContainmentEList<Rule>(Rule.class, this, DataPackage.QUERY__RULES);
+			rules = new EObjectContainmentEList<>(Rule.class, this, DataPackage.QUERY__RULES);
 		}
 		return rules;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public SeriesGrouping getGrouping() {
 		return grouping;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetGrouping(SeriesGrouping newGrouping, NotificationChain msgs) {
@@ -162,39 +170,45 @@ public class QueryImpl extends EObjectImpl implements Query {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DataPackage.QUERY__GROUPING,
 					oldGrouping, newGrouping);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setGrouping(SeriesGrouping newGrouping) {
 		if (newGrouping != grouping) {
 			NotificationChain msgs = null;
-			if (grouping != null)
+			if (grouping != null) {
 				msgs = ((InternalEObject) grouping).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.QUERY__GROUPING, null, msgs);
-			if (newGrouping != null)
+			}
+			if (newGrouping != null) {
 				msgs = ((InternalEObject) newGrouping).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.QUERY__GROUPING, null, msgs);
+			}
 			msgs = basicSetGrouping(newGrouping, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.QUERY__GROUPING, newGrouping,
 					newGrouping));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -210,7 +224,7 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -228,7 +242,7 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -251,7 +265,7 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -272,7 +286,7 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -290,15 +304,16 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (definition: "); //$NON-NLS-1$
 		result.append(definition);
 		result.append(')');
@@ -307,7 +322,7 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * A convenience method provided to create a new initialized query instance
-	 * 
+	 *
 	 * @param sDefinition
 	 * @return
 	 */
@@ -319,9 +334,10 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.data.Query#isDefined()
 	 */
+	@Override
 	public final boolean isDefined() {
 		final String sDefinition = getDefinition();
 		return sDefinition != null && sDefinition.trim().length() != 0;
@@ -330,6 +346,7 @@ public class QueryImpl extends EObjectImpl implements Query {
 	/**
 	 * @generated
 	 */
+	@Override
 	public Query copyInstance() {
 		QueryImpl dest = new QueryImpl();
 		dest.set(this);
@@ -362,9 +379,10 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/*
 	 * Get definition expression.
-	 * 
+	 *
 	 * @return expression the definition expression.
 	 */
+	@Override
 	public ScriptExpression getDefinitionExpression() {
 		ScriptExpression expression = new ScriptExpression();
 		expression.setType(ChartUtil.getExpressionType(definition));
@@ -372,6 +390,7 @@ public class QueryImpl extends EObjectImpl implements Query {
 		return expression;
 	}
 
+	@Override
 	public void setDefinitionExpression(ScriptExpression expression) {
 		this.setDefinition(ChartUtil.adaptExpression(expression));
 	}

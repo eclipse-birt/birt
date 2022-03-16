@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * Action of inserting a column into table.
- * 
+ *
  * @author Dazhen Gao
  * @version $Revision: 1.8 $ $Date: 2008/01/25 08:37:53 $
  */
@@ -37,7 +40,7 @@ public class InsertColumnAction extends ContextSelectionAction {
 
 	/**
 	 * Constructs new instance
-	 * 
+	 *
 	 * @param part current work bench part
 	 */
 	public InsertColumnAction(IWorkbenchPart part) {
@@ -48,9 +51,10 @@ public class InsertColumnAction extends ContextSelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
+	@Override
 	protected boolean calculateEnabled() {
 		return !getColumnHandles().isEmpty() && canDrop(getColumnHandles());
 	}
@@ -70,8 +74,9 @@ public class InsertColumnAction extends ContextSelectionAction {
 
 	/**
 	 * Runs action.
-	 * 
+	 *
 	 */
+	@Override
 	public void run() {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println("Insert column action >> Run ..."); //$NON-NLS-1$

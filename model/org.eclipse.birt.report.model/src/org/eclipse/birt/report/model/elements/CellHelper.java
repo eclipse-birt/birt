@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +35,7 @@ public class CellHelper {
 	/**
 	 * Gets the content slot handle of the cell at the position where the given row
 	 * and column intersect.
-	 * 
+	 *
 	 * @param module the module
 	 * @param grid   the grid item to find the cell
 	 * @param rowNum the row position indexing from 1
@@ -41,10 +44,9 @@ public class CellHelper {
 	 */
 
 	public static Cell findCell(Module module, GridItem grid, int rowNum, int colNum) {
-		if (grid == null)
+		if ((grid == null) || (colNum > grid.findMaxCols(module))) {
 			return null;
-		if (colNum > grid.findMaxCols(module))
-			return null;
+		}
 		ContainerSlot rowSlot = grid.getSlot(IGridItemModel.ROW_SLOT);
 		for (int i = 0; i < rowSlot.getCount(); i++) {
 			TableRow row = (TableRow) rowSlot.getContent(i);
@@ -62,14 +64,15 @@ public class CellHelper {
 				// the the cell maybe the one we try to find
 
 				if (rowIndex >= rowNum) {
-					int colIndex = 0;
+					int colIndex;
 					int column = grid.getCellPositionInColumn(module, cell);
 					assert column > 0;
 					int colSpan = cell.getIntProperty(module, ICellModel.COL_SPAN_PROP);
 					colSpan = (colSpan < 1) ? 1 : colSpan;
 					colIndex = column + colSpan - 1;
-					if (colIndex >= colNum)
+					if (colIndex >= colNum) {
 						return cell;
+					}
 				}
 			}
 		}
@@ -79,12 +82,12 @@ public class CellHelper {
 
 	/**
 	 * Gets cells in the table row.
-	 * 
+	 *
 	 * @param rowSlot the table row.
 	 * @return the cells.
 	 */
 	public static List<Cell> getCells(ContainerSlot rowSlot) {
-		List<Cell> list = new ArrayList<Cell>();
+		List<Cell> list = new ArrayList<>();
 		List<DesignElement> rowList = rowSlot.getContents();
 		for (int i = 0; i < rowList.size(); i++) {
 			TableRow tableRow = (TableRow) rowList.get(i);
@@ -99,12 +102,12 @@ public class CellHelper {
 
 	/**
 	 * Gets the cells in the table group.
-	 * 
+	 *
 	 * @param rowSlot the table group slot
 	 * @return the cells.
 	 */
 	public static List<Cell> getCellsInTableGroup(ContainerSlot rowSlot) {
-		List<Cell> list = new ArrayList<Cell>();
+		List<Cell> list = new ArrayList<>();
 		List<DesignElement> groupList = rowSlot.getContents();
 		for (int i = 0; i < groupList.size(); i++) {
 			TableGroup group = (TableGroup) groupList.get(i);

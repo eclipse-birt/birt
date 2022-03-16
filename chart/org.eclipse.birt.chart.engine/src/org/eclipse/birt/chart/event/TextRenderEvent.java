@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -37,7 +40,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent {
 	/**
 	 * Renders a shadow offset with the encapsulating container rectangle's corner
 	 * or edge aligned with a given point
-	 * 
+	 *
 	 * This action requires Label, Location, TextPosition to be set
 	 */
 	public static final int RENDER_SHADOW_AT_LOCATION = 1;
@@ -45,7 +48,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent {
 	/**
 	 * Renders text (with optional insets, border, fill, etc) with the encapsulating
 	 * container rectangle's corner or edge aligning with a given point
-	 * 
+	 *
 	 * This action requires Label, Location, TextPosition to be set
 	 */
 	public static final int RENDER_TEXT_AT_LOCATION = 2;
@@ -53,7 +56,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent {
 	/**
 	 * Renders text (with optional insets, border, fill, etc) with the encapsulating
 	 * container rectangle's bounding box aligned with a parent block's bounds
-	 * 
+	 *
 	 * This action requires Label, BlockBounds, BlockAlignment to be set
 	 */
 	public static final int RENDER_TEXT_IN_BLOCK = 3;
@@ -123,9 +126,11 @@ public class TextRenderEvent extends PrimitiveRenderEvent {
 		if (lbl != null) {
 			Text txt = lbl.getCaption();
 			String val = txt.getValue();
-			if (val.length() > 0)
-				if ('\u202b' != val.charAt(0))
+			if (val.length() > 0) {
+				if ('\u202b' != val.charAt(0)) {
 					txt.setValue('\u202b' + val + '\u202c');
+				}
+			}
 		}
 	}
 
@@ -147,6 +152,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent {
 	/**
 	 * @return Returns the label of the text.
 	 */
+	@Override
 	public final Label getLabel() {
 		return _la;
 	}
@@ -251,9 +257,10 @@ public class TextRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
+	@Override
 	public PrimitiveRenderEvent copy() {
 		final TextRenderEvent tre = new TextRenderEvent(source);
 		tre.setBlockBounds(goFactory.copyOf(_boBlock));
@@ -273,31 +280,34 @@ public class TextRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart
 	 * .device.IDeviceRenderer)
 	 */
+	@Override
 	public void fill(IDeviceRenderer idr) throws ChartException {
 		draw(idr);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart
 	 * .device.IDeviceRenderer)
 	 */
+	@Override
 	public final void draw(IDeviceRenderer idr) throws ChartException {
 		idr.drawText(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
 	 */
+	@Override
 	public void reset() {
 		_boBlock = null;
 		_la = null;

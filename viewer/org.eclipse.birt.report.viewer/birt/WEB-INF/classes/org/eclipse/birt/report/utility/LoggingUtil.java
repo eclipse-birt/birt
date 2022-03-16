@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -12,6 +14,7 @@
 package org.eclipse.birt.report.utility;
 
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -30,7 +33,7 @@ public class LoggingUtil {
 
 	/**
 	 * Configure the given loggers to send their output to the given folder.
-	 * 
+	 *
 	 * @param loggers       map of logger names as key and log level as value
 	 *                      (strings)
 	 * @param defaultLevel  default level to be used if the given value is empty or
@@ -65,7 +68,7 @@ public class LoggingUtil {
 	/**
 	 * Initializes a file handler for the given logger name. This will output the
 	 * log messages to a log file in the given directory name.
-	 * 
+	 *
 	 * @param loggerName name of the logger to initialize
 	 * @param level      level for the logger
 	 * @param dirName    name of the output directory
@@ -80,9 +83,7 @@ public class LoggingUtil {
 			logFileHandler.setLevel(level);
 			theLogger.addHandler(logFileHandler);
 			theLogger.setUseParentHandlers(false);
-		} catch (SecurityException e) {
-			logger.log(Level.WARNING, e.getMessage(), e);
-		} catch (IOException e) {
+		} catch (SecurityException | IOException e) {
 			logger.log(Level.WARNING, e.getMessage(), e);
 		}
 	}
@@ -93,7 +94,7 @@ public class LoggingUtil {
 	 * into the directory name. For example, if the directory name is C:\Log and the
 	 * logger name org.eclipse.datatools, the returned file name will be
 	 * C:\Log\org.eclipse.datatools_2005_02_26_11_26_56.log.
-	 * 
+	 *
 	 * @param loggerName    - the name of the logger
 	 * @param directoryName - the directory name of the log file.
 	 * @return An unique Log file name which is the directory name plus the logger
@@ -103,10 +104,11 @@ public class LoggingUtil {
 		SimpleDateFormat df = new SimpleDateFormat("_yyyy_MM_dd_HH_mm_ss"); //$NON-NLS-1$
 		String dateTimeString = df.format(new Date());
 
-		if (directoryName == null)
+		if (directoryName == null) {
 			directoryName = ""; //$NON-NLS-1$
-		else if (directoryName.length() > 0)
-			directoryName += System.getProperty("file.separator"); //$NON-NLS-1$
+		} else if (directoryName.length() > 0) {
+			directoryName += FileSystems.getDefault().getSeparator();
+		}
 
 		return directoryName + loggerName + dateTimeString + ".log"; //$NON-NLS-1$
 	}

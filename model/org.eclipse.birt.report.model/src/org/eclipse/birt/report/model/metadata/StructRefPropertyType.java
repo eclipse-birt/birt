@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +43,7 @@ import org.eclipse.birt.report.model.util.StructureRefUtil;
  * search the property list to find any properties that are of this type.
  * <p>
  * The reference value are stored as an <code>StructRefValue</code>
- * 
+ *
  * @see StructRefValue
  */
 
@@ -68,32 +71,35 @@ public class StructRefPropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyType#getTypeCode()
 	 */
 
+	@Override
 	public int getTypeCode() {
 		return STRUCT_REF_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyType#getName()
 	 */
 
+	@Override
 	public String getName() {
 		return STRUCT_REF_TYPE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
 	 * .eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
+	@Override
 	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
 		if (value == null) {
@@ -116,18 +122,21 @@ public class StructRefPropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#toString(org.eclipse
 	 * .birt.report.model.elements.ReportDesign,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
+	@Override
 	public String toString(Module module, PropertyDefn defn, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
-		if (value instanceof String)
+		if (value instanceof String) {
 			return (String) value;
+		}
 
 		return ReferenceValueUtil.needTheNamespacePrefix((StructRefValue) value, module);
 	}
@@ -135,15 +144,16 @@ public class StructRefPropertyType extends PropertyType {
 	/**
 	 * Resolves a structure reference. Look up the name in the report design. If the
 	 * target is found, replace the structure name with the cached structure.
-	 * 
+	 *
 	 * @param module the report design
 	 * @param defn   the definition of the structure ref property
 	 * @param ref    the structure reference
 	 */
 
 	public void resolve(Module module, PropertyDefn defn, StructRefValue ref) {
-		if (ref.isResolved() || module == null)
+		if (ref.isResolved() || module == null) {
 			return;
+		}
 		StructureDefn targetDefn = (StructureDefn) defn.getStructDefn();
 		Structure target = null;
 		Module targetModule = null;
@@ -152,8 +162,9 @@ public class StructRefPropertyType extends PropertyType {
 			targetModule = module.getLibraryWithNamespace(namespace);
 			if (targetModule != null) {
 				target = StructureRefUtil.findStructure(targetModule, targetDefn, ref.getName());
-				if (target != null)
+				if (target != null) {
 					ref.resolve(target);
+				}
 			}
 		} else {
 			StructRefValue retValue = StructureRefUtil.resolve(module, defn,
@@ -161,8 +172,9 @@ public class StructRefPropertyType extends PropertyType {
 			target = retValue.getStructure();
 			ref.libraryNamespace = retValue.getLibraryNamespace();
 			ref.name = retValue.getName();
-			if (target != null)
+			if (target != null) {
 				ref.resolve(target);
+			}
 		}
 	}
 }

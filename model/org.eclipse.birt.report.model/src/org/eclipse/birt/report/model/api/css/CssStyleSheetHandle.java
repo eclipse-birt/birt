@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ import org.eclipse.birt.report.model.css.CssStyleSheet;
 /**
  * Represents an include style sheet in the module. A style sheet is used for
  * the user to load an external ".css" style file in the module.
- * 
+ *
  * @see org.eclipse.birt.report.model.css.CssStyleSheet
  */
 
@@ -39,7 +42,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle {
 
 	/**
 	 * Constructs a handle for an style sheet.
-	 * 
+	 *
 	 * @param moduleHandle a handle to a module
 	 * @param styleSheet   the style sheet to be handled
 	 */
@@ -53,7 +56,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle {
 
 	/**
 	 * Gets the style sheet.
-	 * 
+	 *
 	 * @return the style sheet
 	 */
 
@@ -64,7 +67,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle {
 	/**
 	 * Returns an iterator over the styles of this style sheet. Useful only for
 	 * style sheet. Returns a list of all the styles that use this style sheet.
-	 * 
+	 *
 	 * @return an iterator over the styles of this style sheet. Each item returned
 	 *         by the iterator's <code>getNext( )</code> method is of type
 	 *         {@link SharedStyleHandle}.
@@ -76,7 +79,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle {
 
 	/**
 	 * Gets a style handle with the given name in the style sheet.
-	 * 
+	 *
 	 * @param name the name of the style to find
 	 * @return the style handle with the given name in the style sheet, otherwise
 	 *         <code>null</code>
@@ -84,14 +87,15 @@ public class CssStyleSheetHandle extends ElementDetailHandle {
 
 	public SharedStyleHandle findStyle(String name) {
 		StyleElement style = styleSheet.findStyle(name);
-		if (style == null)
+		if (style == null) {
 			return null;
+		}
 		return (SharedStyleHandle) style.getHandle(getModule());
 	}
 
 	/**
 	 * Returns all the unsupported style names.
-	 * 
+	 *
 	 * @return the list of the unsupported style name
 	 */
 
@@ -102,7 +106,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle {
 	/**
 	 * Gets the warning list of the given style. Each one in the list is instance of
 	 * <code>StyleSheetParserException</code>.
-	 * 
+	 *
 	 * @param styleName the style name
 	 * @return the warning list of the given style, otherwise null
 	 * @see org.eclipse.birt.report.model.api.css.StyleSheetParserException
@@ -114,7 +118,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle {
 
 	/**
 	 * Gets the message list for the parser errors.
-	 * 
+	 *
 	 * @return the message list for the parser errors
 	 */
 
@@ -124,7 +128,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle {
 
 	/**
 	 * Gets the message list for the parser fatal errors.
-	 * 
+	 *
 	 * @return the message list for the parser fatal errors
 	 */
 
@@ -134,7 +138,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle {
 
 	/**
 	 * Gets the message list for the parser warnings.
-	 * 
+	 *
 	 * @return the message list for the parser warnings
 	 */
 
@@ -144,7 +148,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle {
 
 	/**
 	 * Gets css file name
-	 * 
+	 *
 	 * @return css file name
 	 */
 
@@ -162,14 +166,15 @@ public class CssStyleSheetHandle extends ElementDetailHandle {
 
 	/**
 	 * Gets container handle.
-	 * 
+	 *
 	 * @return
 	 */
 
 	public DesignElementHandle getContainerHandle() {
 		DesignElement tmpElement = styleSheet.getContainer();
-		if (tmpElement == null)
+		if (tmpElement == null) {
 			return null;
+		}
 		return tmpElement.getHandle(elementHandle.getModule());
 	}
 }

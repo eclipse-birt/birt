@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,6 +47,7 @@ public class MeasureImpl implements IMeasure {
 		}
 	}
 
+	@Override
 	public String getFunctionName() {
 		if (mh != null) {
 			return mh.getFunction();
@@ -51,6 +55,7 @@ public class MeasureImpl implements IMeasure {
 		return null;
 	}
 
+	@Override
 	public String getMeasureExpression() {
 		if (mh != null) {
 			return mh.getMeasureExpression();
@@ -58,6 +63,7 @@ public class MeasureImpl implements IMeasure {
 		return null;
 	}
 
+	@Override
 	public String getName() {
 		if (mh != null) {
 			return mh.getName();
@@ -68,6 +74,7 @@ public class MeasureImpl implements IMeasure {
 		return null;
 	}
 
+	@Override
 	public void addFilterCondition(IFilterConditionElement filter) throws SemanticException {
 		if (mh != null) {
 			FilterConditionElementHandle fceh = mv.getModelHandle().getElementFactory().newFilterConditionElement();
@@ -83,9 +90,10 @@ public class MeasureImpl implements IMeasure {
 		}
 	}
 
+	@Override
 	public List<IFilterConditionElement> getFilterConditions() {
 		if (mh != null) {
-			List<IFilterConditionElement> filters = new ArrayList<IFilterConditionElement>();
+			List<IFilterConditionElement> filters = new ArrayList<>();
 			ISimpleElementFactory factory = SimpleElementFactory.getInstance();
 
 			for (Iterator itr = mv.filtersIterator(); itr.hasNext();) {
@@ -102,12 +110,14 @@ public class MeasureImpl implements IMeasure {
 		return Collections.EMPTY_LIST;
 	}
 
+	@Override
 	public void removeAllFilterConditions() throws SemanticException {
 		if (mh != null) {
 			mv.getModelHandle().setProperty(ILevelViewConstants.FILTER_PROP, null);
 		}
 	}
 
+	@Override
 	public void removeFilterCondition(IFilterConditionElement filter) throws SemanticException {
 		if (mh == null || filter == null) {
 			return;
@@ -137,10 +147,8 @@ public class MeasureImpl implements IMeasure {
 			if (val2 != null && !val2.isEmpty()) {
 				return false;
 			}
-		} else {
-			if (!val1.equals(val2)) {
-				return false;
-			}
+		} else if (!val1.equals(val2)) {
+			return false;
 		}
 
 		return (fceh.isOptional() == ifce.isOptional()) && equalString(fceh.getExpr(), ifce.getExpr())

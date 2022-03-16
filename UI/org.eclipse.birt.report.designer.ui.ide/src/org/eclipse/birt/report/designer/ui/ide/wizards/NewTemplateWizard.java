@@ -1,9 +1,11 @@
 /* Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -69,10 +71,11 @@ public class NewTemplateWizard extends NewReportWizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard#init(
 	 * org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
 	 */
+	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		super.init(workbench, selection);
 		setWindowTitle(Messages.getString("NewTemplateWizard.title.New")); //$NON-NLS-1$
@@ -80,9 +83,10 @@ public class NewTemplateWizard extends NewReportWizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#addPages()
 	 */
+	@Override
 	public void addPages() {
 		newReportFileWizardPage = new WizardNewReportCreationPage(WIZARDPAGE, getSelection(),
 				IReportElementConstants.TEMPLATE_FILE_EXTENSION);
@@ -103,20 +107,22 @@ public class NewTemplateWizard extends NewReportWizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#canFinish()
 	 */
+	@Override
 	public boolean canFinish() {
 		return newReportFileWizardPage.isPageComplete() && settingPage.canFinish();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard#performFinish
 	 * ()
 	 */
+	@Override
 	public boolean performFinish() {
 		final IPath containerName = newReportFileWizardPage.getContainerFullPath();
 		String fn = newReportFileWizardPage.getFileName();
@@ -127,12 +133,10 @@ public class NewTemplateWizard extends NewReportWizard {
 			} else {
 				fileName = fn;
 			}
+		} else if (!fn.toLowerCase(Locale.getDefault()).endsWith(getFileExtension())) {
+			fileName = fn + getFileExtension();
 		} else {
-			if (!fn.toLowerCase(Locale.getDefault()).endsWith(getFileExtension())) {
-				fileName = fn + getFileExtension();
-			} else {
-				fileName = fn;
-			}
+			fileName = fn;
 		}
 
 		if (Platform.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST) == null) {
@@ -152,6 +156,7 @@ public class NewTemplateWizard extends NewReportWizard {
 		}
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 
+			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException {
 				try {
 					doFinish(containerName, fileName, templateFileName, monitor);
@@ -177,9 +182,9 @@ public class NewTemplateWizard extends NewReportWizard {
 	/**
 	 * The worker method. It will find the container, create the file if missing or
 	 * just replace its contents, and open the editor on the newly created file.
-	 * 
+	 *
 	 * @param cheatSheetId
-	 * 
+	 *
 	 * @param containerName
 	 * @param fileName
 	 * @param showCheatSheet
@@ -235,6 +240,7 @@ public class NewTemplateWizard extends NewReportWizard {
 		monitor.setTaskName(OPENING_FILE_FOR_EDITING);
 		getShell().getDisplay().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				IWorkbench workbench = PlatformUI.getWorkbench();
 				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
@@ -253,7 +259,7 @@ public class NewTemplateWizard extends NewReportWizard {
 
 	/**
 	 * Set report basic settings.
-	 * 
+	 *
 	 * @param model
 	 * @throws IOException
 	 */

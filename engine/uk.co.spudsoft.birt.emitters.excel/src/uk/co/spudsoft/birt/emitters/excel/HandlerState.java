@@ -2,10 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -73,7 +76,7 @@ public class HandlerState {
 	/**
 	 * Collection of CellImage objects for the current sheet.
 	 */
-	public List<CellImage> images = new ArrayList<CellImage>();
+	public List<CellImage> images = new ArrayList<>();
 	/**
 	 * Possible name for the current sheet
 	 */
@@ -104,13 +107,13 @@ public class HandlerState {
 	/**
 	 * Border overrides for the current row/table
 	 */
-	public List<AreaBorders> areaBorders = new ArrayList<AreaBorders>();
+	public List<AreaBorders> areaBorders = new ArrayList<>();
 
 	/**
 	 * List of Current Spans We could probably use CellRangeAdresses inside the
 	 * sheet, but this way we keep the tests to a minimum.
 	 */
-	public List<Area> rowSpans = new ArrayList<Area>();
+	public List<Area> rowSpans = new ArrayList<>();
 
 	/**
 	 * List of sheet names This map contains the names of sheets created by the
@@ -118,7 +121,7 @@ public class HandlerState {
 	 * have the count appended to the name Any other sheets that exist in the
 	 * workbook may be overwritten
 	 */
-	public Map<String, Integer> sheetNames = new HashMap<String, Integer>();
+	public Map<String, Integer> sheetNames = new HashMap<>();
 
 	/**
 	 * Constructor
@@ -178,7 +181,7 @@ public class HandlerState {
 
 	public void insertBorderOverload(AreaBorders defn) {
 		if (areaBorders == null) {
-			areaBorders = new ArrayList<AreaBorders>();
+			areaBorders = new ArrayList<>();
 		}
 		areaBorders.add(defn);
 	}
@@ -297,7 +300,7 @@ public class HandlerState {
 	/**
 	 * Characters that Excel will not accept in a sheet name.
 	 */
-	public static final String[] ILLEGAL_SHEET_NAME_CHARACTERS = new String[] { "\\", //$NON-NLS-1$
+	public static final String[] ILLEGAL_SHEET_NAME_CHARACTERS = { "\\", //$NON-NLS-1$
 			"/", //$NON-NLS-1$
 			"*", //$NON-NLS-1$
 			"[", //$NON-NLS-1$

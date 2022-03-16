@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,11 +21,11 @@ import org.xml.sax.SAXException;
 
 /**
  * This state handle the compatible issue for old design file of highlight rule.
- * 
+ *
  * old design file:
- * 
+ *
  * <pre>
- *        
+ *
  *                    &lt;expression name=&quot;highlightTestExpr&quot;&gt;[this]&lt;/expression&gt;
  *                    &lt;list-property name=&quot;highlightRules&quot;&gt;
  *                    &lt;structure&gt;
@@ -38,25 +41,25 @@ import org.xml.sax.SAXException;
  *                    &lt;property name=&quot;category&quot;&gt;noformat&lt;/property&gt;
  *                    &lt;/structure&gt;
  *                    &lt;expression name=&quot;value1&quot;&gt;&quot;10&quot;&lt;/expression&gt;
- *                    &lt;expression name=&quot;value2&quot;&gt;&quot;20&quot;&lt;/expression&gt;         
+ *                    &lt;expression name=&quot;value2&quot;&gt;&quot;20&quot;&lt;/expression&gt;
  *                    &lt;/structure&gt;
  *                    &lt;structure&gt;
- *                    &lt;property name=&quot;operator&quot;&gt;is-null&lt;/property&gt;         
+ *                    &lt;property name=&quot;operator&quot;&gt;is-null&lt;/property&gt;
  *                    &lt;/structure&gt;
  *                    &lt;structure&gt;
- *                    &lt;property name=&quot;operator&quot;&gt;is-not-null&lt;/property&gt;                   
+ *                    &lt;property name=&quot;operator&quot;&gt;is-not-null&lt;/property&gt;
  *                    &lt;/structure&gt;
  *                    &lt;structure&gt;
- *                    &lt;property name=&quot;operator&quot;&gt;is-true&lt;/property&gt;                  
+ *                    &lt;property name=&quot;operator&quot;&gt;is-true&lt;/property&gt;
  *                    &lt;/structure&gt;
  *                    &lt;structure&gt;
- *                    &lt;property name=&quot;operator&quot;&gt;is-false&lt;/property&gt;                
+ *                    &lt;property name=&quot;operator&quot;&gt;is-false&lt;/property&gt;
  *                    &lt;/structure&gt;
  *                    &lt;/list-property&gt;
  * </pre>
- * 
+ *
  * new design file:
- * 
+ *
  * <pre>
  *                    &lt;list-property name=&quot;highlightRules&quot;&gt;
  *                   &lt;structure&gt;
@@ -93,7 +96,7 @@ import org.xml.sax.SAXException;
  *                   &lt;/structure&gt;
  *                   &lt;/list-property&gt;
  * </pre>
- * 
+ *
  */
 public class CompatibleTestExpreState extends CompatibleMiscExpressionState {
 
@@ -101,7 +104,7 @@ public class CompatibleTestExpreState extends CompatibleMiscExpressionState {
 
 	/**
 	 * Constructs <code>CompatibleTestExpreState</code>.
-	 * 
+	 *
 	 * @param theHandler the parser handler
 	 * @param element    the current element
 	 * @param key
@@ -112,6 +115,7 @@ public class CompatibleTestExpreState extends CompatibleMiscExpressionState {
 		tempVeluekey = key;
 	}
 
+	@Override
 	public void end() throws SAXException {
 		String value = text.toString();
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,43 +36,44 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected Result</th>
- * 
+ *
  * <tr>
  * <td>testImageProperties</td>
  * <td>Get the property list of Image item and compare the list with a golden
  * file.</td>
  * <td>The list and the golden file should be identical</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>testTableItemProperties</td>
  * <td>Get the property list of Table item and compare the list with a golden
  * file.</td>
  * <td>The list and the golden file should be identical</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>testCellProperties</td>
  * <td>Get the property list of Cell item and compare the list with a golden
  * file.</td>
  * <td>The list and the golden file should be identical</td>
  * </tr>
- * 
+ *
  */
 public class DesignElementPropsTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Test the image property list.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -82,7 +86,7 @@ public class DesignElementPropsTest extends BaseTestCase {
 
 	/**
 	 * Test the table item property list.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -97,7 +101,7 @@ public class DesignElementPropsTest extends BaseTestCase {
 
 	/**
 	 * Test the cell item property list.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testCellProperties() throws Exception {
@@ -109,7 +113,7 @@ public class DesignElementPropsTest extends BaseTestCase {
 
 	/**
 	 * Returns the property list of an element.
-	 * 
+	 *
 	 * @param elementName the element name.
 	 * @return the property list of the provided element.
 	 * @throws Exception
@@ -123,7 +127,7 @@ public class DesignElementPropsTest extends BaseTestCase {
 
 	/**
 	 * Returns the local property list of an element.
-	 * 
+	 *
 	 * @param elementName the element name.
 	 * @return the property list of the provided element.
 	 * @throws Exception
@@ -137,7 +141,7 @@ public class DesignElementPropsTest extends BaseTestCase {
 
 	/**
 	 * Compare the list with the golden file line by line.
-	 * 
+	 *
 	 * @param list       The list to be compared.
 	 * @param goldenFile the golden file name.
 	 * @return true is every element in the list is identical the corresponding line
@@ -163,16 +167,18 @@ public class DesignElementPropsTest extends BaseTestCase {
 
 		if (!isIdentical) {
 			StringBuilder sb = new StringBuilder();
-			for (PropertyDefn one : list)
+			for (PropertyDefn one : list) {
 				sb.append(one.getName() + "\n");
+			}
 
 			saveOutputFile(goldenFile, sb.toString());
 		}
 
 		// System.out.println( "\n" ); //$NON-NLS-1$
 		String line = reader.readLine();
-		if (line != null)
+		if (line != null) {
 			return false;
+		}
 
 		return isIdentical;
 	}

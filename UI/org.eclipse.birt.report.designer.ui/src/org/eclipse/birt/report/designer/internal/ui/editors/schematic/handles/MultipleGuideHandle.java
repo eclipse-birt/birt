@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +62,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param owner
 	 */
 	public MultipleGuideHandle(GraphicalEditPart owner) {
@@ -68,7 +71,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 
 	/**
 	 * Set the selection view.
-	 * 
+	 *
 	 * @param number
 	 */
 	public void setSelected(int number) {
@@ -93,7 +96,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 
 	/**
 	 * Add the children.
-	 * 
+	 *
 	 * @param list
 	 */
 	public void addChildren(List list) {
@@ -137,6 +140,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 	 */
 	private static class ShowSourceFigure extends Figure {
 
+		@Override
 		protected void paintFigure(Graphics graphics) {
 			Rectangle rect = getBounds();
 
@@ -154,9 +158,10 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.draw2d.Figure#containsPoint(int, int)
 		 */
+		@Override
 		public boolean containsPoint(int x, int y) {
 			return false;
 		}
@@ -178,13 +183,14 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 			this.number = number;
 		}
 
+		@Override
 		protected DragTracker createDragTracker() {
 			return new ChildrenDragTracker(getOwner(), number);
 		}
 
 		/**
 		 * Sets the left corner label
-		 * 
+		 *
 		 * @param indicatorLabel
 		 */
 		public void setIndicatorLabel(String indicatorLabel) {
@@ -193,6 +199,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 			}
 		}
 
+		@Override
 		public void mouseEntered(MouseEvent me) {
 			if (showSource.getParent() == null && !isSelected()) {
 				Rectangle rect = getBounds().getCopy();
@@ -202,6 +209,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 			super.mouseEntered(me);
 		}
 
+		@Override
 		public void mouseExited(MouseEvent me) {
 			if (showSource.getParent() != null) {
 				showSource.getParent().remove(showSource);
@@ -211,13 +219,14 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 
 		/**
 		 * Sets the left corner
-		 * 
+		 *
 		 * @param image
 		 */
 		public void setIndicatorIcon(Image image) {
 			this.image = image;
 		}
 
+		@Override
 		public void paintFigure(Graphics graphics) {
 			int width = 1;
 			Rectangle bounds = getBounds().getCopy();
@@ -287,7 +296,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 
 	/**
 	 * Calculate the size.
-	 * 
+	 *
 	 * @return
 	 */
 	protected Dimension calculateIndicatorDimension() {
@@ -313,13 +322,16 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 
 		private IMenuListener listener = new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				Action action = new Action(REMOVE) {
 
+					@Override
 					public void run() {
 						((MultipleEditPart) ChildrenDragTracker.this.getSourceEditPart()).removeView(number);
 					}
 
+					@Override
 					public boolean isEnabled() {
 						int position = number - 1;
 						List list = ((ReportItemHandle) (ChildrenDragTracker.this.getSourceEditPart().getModel()))
@@ -343,7 +355,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 
 		/**
 		 * Constructor.
-		 * 
+		 *
 		 * @param sourceEditPart
 		 * @param number
 		 */
@@ -354,10 +366,11 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.gef.tools.SelectEditPartTracker#performConditionalSelection()
 		 */
+		@Override
 		protected void performConditionalSelection() {
 			super.performConditionalSelection();
 			((MultipleEditPart) getSourceEditPart()).setCurrentView(number);
@@ -365,12 +378,14 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.gef.tools.SelectEditPartTracker#performSelection()
 		 */
+		@Override
 		protected void performSelection() {
-			if (hasSelectionOccurred())
+			if (hasSelectionOccurred()) {
 				return;
+			}
 			EditPart real = null;
 			List children = getSourceEditPart().getChildren();
 			for (int i = 0; i < children.size(); i++) {
@@ -387,14 +402,12 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 			List selectedObjects = viewer.getSelectedEditParts();
 
 			if (getCurrentInput().isModKeyDown(SWT.MOD1)) {
-				if (selectedObjects.contains(getSourceEditPart()))
+				if (selectedObjects.contains(getSourceEditPart())) {
 					viewer.deselect(getSourceEditPart());
-				else {
-					if (number == 0) {
-						viewer.appendSelection(real);
-					} else {
-						viewer.appendSelection(getSourceEditPart());
-					}
+				} else if (number == 0) {
+					viewer.appendSelection(real);
+				} else {
+					viewer.appendSelection(getSourceEditPart());
 				}
 			} else if (getCurrentInput().isShiftKeyDown()) {
 				if (number == 0) {
@@ -402,21 +415,20 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 				} else {
 					viewer.appendSelection(getSourceEditPart());
 				}
+			} else if (number == 0) {
+				viewer.select(real);
 			} else {
-				if (number == 0) {
-					viewer.select(real);
-				} else {
-					viewer.select(getSourceEditPart());
-				}
+				viewer.select(getSourceEditPart());
 			}
 
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.gef.tools.SelectEditPartTracker#handleButtonDown(int)
 		 */
+		@Override
 		protected boolean handleButtonDown(int button) {
 			if (button == 3 && number != 0) {
 				((SchematicContextMenuProvider) getSourceEditPart().getViewer().getContextMenu()).setProxy(listener);
@@ -426,9 +438,10 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.gef.tools.DragEditPartsTracker#handleButtonUp(int)
 		 */
+		@Override
 		protected boolean handleButtonUp(int button) {
 			return super.handleButtonUp(button);
 		}
@@ -472,12 +485,14 @@ public class MultipleGuideHandle extends AbstractGuideHandle {
 			super(part.getFigure());
 		}
 
+		@Override
 		public void relocate(IFigure target) {
 			Rectangle bounds;
-			if (getReference() instanceof HandleBounds)
+			if (getReference() instanceof HandleBounds) {
 				bounds = ((HandleBounds) getReference()).getHandleBounds();
-			else
+			} else {
 				bounds = getReference().getBounds();
+			}
 
 			Dimension dim = ((MultipleGuideHandle) target).calculateIndicatorDimension();
 			bounds = new PrecisionRectangle(new Rectangle(bounds.x, bounds.y + bounds.height, dim.width, dim.height));

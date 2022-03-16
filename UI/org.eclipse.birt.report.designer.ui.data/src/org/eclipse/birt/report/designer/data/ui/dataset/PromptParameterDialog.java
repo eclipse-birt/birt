@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -51,16 +54,17 @@ public class PromptParameterDialog extends BaseDialog {
 
 	public PromptParameterDialog(String title) {
 		super(title);
-		selectedStatusMap = new HashMap<IAmbiguousParameterNode, Boolean>();
+		selectedStatusMap = new HashMap<>();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -75,6 +79,7 @@ public class PromptParameterDialog extends BaseDialog {
 		return composite;
 	}
 
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.IGNORE_LABEL, false);
 
@@ -124,12 +129,13 @@ public class PromptParameterDialog extends BaseDialog {
 	/*
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.BaseDialog#getResult()
 	 */
+	@Override
 	public Object getResult() {
-		List<OdaDataSetParameter> selectedList = new ArrayList<OdaDataSetParameter>();
+		List<OdaDataSetParameter> selectedList = new ArrayList<>();
 		List<IAmbiguousParameterNode> ambiguousParameters = ((IAmbiguousOption) input).getAmbiguousParameters();
 		for (int i = 0; i < ambiguousParameters.size(); i++) {
 			Object obj = selectedStatusMap.get(ambiguousParameters.get(i));
-			if (obj != null && obj instanceof Boolean) {
+			if (obj instanceof Boolean) {
 				if (((Boolean) obj).booleanValue()) {
 					selectedList.add((OdaDataSetParameter) ((IAmbiguousParameterNode) ambiguousParameters.get(i))
 							.getOdaDataSetParameterHandle().getStructure());
@@ -146,31 +152,38 @@ public class PromptParameterDialog extends BaseDialog {
 
 class ResultSetContentProvider implements ITreeContentProvider {
 
+	@Override
 	public Object[] getChildren(Object parentElement) {
 		return null;
 	}
 
+	@Override
 	public Object getParent(Object element) {
 		return null;
 	}
 
+	@Override
 	public boolean hasChildren(Object element) {
 		return true;
 	}
 
+	@Override
 	public Object[] getElements(Object input) {
 		return new Object[0];
 	}
 
+	@Override
 	public void dispose() {
 	}
 
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}
 }
 
 class ParameterContentProvider implements ITreeContentProvider {
 
+	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof List) {
 			return ((List) parentElement).toArray();
@@ -182,15 +195,14 @@ class ParameterContentProvider implements ITreeContentProvider {
 		return null;
 	}
 
+	@Override
 	public Object getParent(Object element) {
 		return null;
 	}
 
+	@Override
 	public boolean hasChildren(Object element) {
-		if (element instanceof List) {
-			return true;
-		}
-		if (element instanceof IAmbiguousParameterNode) {
+		if ((element instanceof List) || (element instanceof IAmbiguousParameterNode)) {
 			return true;
 		}
 		if (element instanceof IAmbiguousAttribute) {
@@ -199,6 +211,7 @@ class ParameterContentProvider implements ITreeContentProvider {
 		return true;
 	}
 
+	@Override
 	public Object[] getElements(Object input) {
 		if (input instanceof List) {
 			return ((List) input).toArray();
@@ -206,9 +219,11 @@ class ParameterContentProvider implements ITreeContentProvider {
 		return new Object[0];
 	}
 
+	@Override
 	public void dispose() {
 	}
 
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}
 }
@@ -222,20 +237,22 @@ class NameLabelProvider extends ColumnLabelProvider implements IStyledLabelProvi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 	 */
+	@Override
 	public Image getImage(Object element) {
 		String symbolicName = IReportGraphicConstants.ICON_CHECKED;
 
 		if (element instanceof IAmbiguousParameterNode) {
 			if (selectedStatusMap.containsKey(element)) {
 				Object obj = selectedStatusMap.get(element);
-				if (obj != null && obj instanceof Boolean) {
-					if (((Boolean) obj).booleanValue())
+				if (obj instanceof Boolean) {
+					if (((Boolean) obj).booleanValue()) {
 						symbolicName = IReportGraphicConstants.ICON_CHECKED;
-					else
+					} else {
 						symbolicName = IReportGraphicConstants.ICON_UNCHECKED;
+					}
 				}
 			} else {
 				selectedStatusMap.put(element, Boolean.TRUE);
@@ -246,11 +263,13 @@ class NameLabelProvider extends ColumnLabelProvider implements IStyledLabelProvi
 		return super.getImage(element);
 	}
 
+	@Override
 	public String getText(Object element) {
 		String text = getStyledText(element).toString();
 		return text;
 	}
 
+	@Override
 	public StyledString getStyledText(Object element) {
 		String value = null;
 		if (element instanceof IAmbiguousParameterNode) {
@@ -258,8 +277,9 @@ class NameLabelProvider extends ColumnLabelProvider implements IStyledLabelProvi
 		} else if (element instanceof IAmbiguousAttribute) {
 			value = ((IAmbiguousAttribute) element).getAttributeName();
 		}
-		if (value == null)
+		if (value == null) {
 			value = ""; //$NON-NLS-1$
+		}
 		StyledString styledString = new StyledString();
 		styledString.append(value);
 		return styledString;
@@ -268,21 +288,25 @@ class NameLabelProvider extends ColumnLabelProvider implements IStyledLabelProvi
 
 class PreviousValueLabelProvider extends ColumnLabelProvider implements IStyledLabelProvider {
 
+	@Override
 	public String getText(Object element) {
 		String text = getStyledText(element).toString();
 		return text;
 	}
 
+	@Override
 	public StyledString getStyledText(Object element) {
 		String value = null;
 		if (element instanceof IAmbiguousAttribute) {
-			if (((IAmbiguousAttribute) element).getPreviousValue() == null)
+			if (((IAmbiguousAttribute) element).getPreviousValue() == null) {
 				value = "null";//$NON-NLS-1$
-			else
+			} else {
 				value = ((IAmbiguousAttribute) element).getPreviousValue().toString();
+			}
 		}
-		if (value == null)
+		if (value == null) {
 			value = ""; //$NON-NLS-1$
+		}
 		StyledString styledString = new StyledString();
 		styledString.append(value);
 		return styledString;
@@ -292,21 +316,25 @@ class PreviousValueLabelProvider extends ColumnLabelProvider implements IStyledL
 
 class RevisedValueLabelProvider extends ColumnLabelProvider implements IStyledLabelProvider {
 
+	@Override
 	public String getText(Object element) {
 		String text = getStyledText(element).toString();
 		return text;
 	}
 
+	@Override
 	public StyledString getStyledText(Object element) {
 		String value = null;
 		if (element instanceof IAmbiguousAttribute) {
-			if (((IAmbiguousAttribute) element).getRevisedValue() == null)
+			if (((IAmbiguousAttribute) element).getRevisedValue() == null) {
 				value = "null";//$NON-NLS-1$
-			else
+			} else {
 				value = ((IAmbiguousAttribute) element).getRevisedValue().toString();
+			}
 		}
-		if (value == null)
+		if (value == null) {
 			value = ""; //$NON-NLS-1$
+		}
 		StyledString styledString = new StyledString();
 		styledString.append(value);
 		return styledString;
@@ -326,6 +354,7 @@ class ParameterEditingSupport extends EditingSupport {
 		this.selectedStatusMap = isSelectedMap;
 	}
 
+	@Override
 	protected boolean canEdit(Object arg0) {
 		return true;
 	}
@@ -347,11 +376,12 @@ class ParameterEditingSupport extends EditingSupport {
 	protected void setValue(Object arg0, Object arg1) {
 		if (arg0 instanceof IAmbiguousParameterNode) {
 			Object obj = selectedStatusMap.get(arg0);
-			if (obj != null && obj instanceof Boolean) {
-				if (!((Boolean) obj).booleanValue())
+			if (obj instanceof Boolean) {
+				if (!((Boolean) obj).booleanValue()) {
 					selectedStatusMap.put(arg0, Boolean.TRUE);
-				else
+				} else {
 					selectedStatusMap.put(arg0, Boolean.FALSE);
+				}
 			} else {
 				selectedStatusMap.put(arg0, Boolean.FALSE);
 			}

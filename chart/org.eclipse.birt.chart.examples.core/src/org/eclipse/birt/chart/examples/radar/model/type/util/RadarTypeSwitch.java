@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -26,7 +29,7 @@ import org.eclipse.emf.ecore.EObject;
  * starting with the actual class of the object and proceeding up the
  * inheritance hierarchy until a non-null result is returned, which is the
  * result of the switch. <!-- end-user-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.examples.radar.model.type.RadarTypePackage
  * @generated
  */
@@ -34,7 +37,7 @@ public class RadarTypeSwitch<T> {
 
 	/**
 	 * The cached model package <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected static RadarTypePackage modelPackage;
@@ -42,7 +45,7 @@ public class RadarTypeSwitch<T> {
 	/**
 	 * Creates an instance of the switch. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public RadarTypeSwitch() {
@@ -55,7 +58,7 @@ public class RadarTypeSwitch<T> {
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a
 	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -67,7 +70,7 @@ public class RadarTypeSwitch<T> {
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a
 	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -84,7 +87,7 @@ public class RadarTypeSwitch<T> {
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a
 	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -93,10 +96,12 @@ public class RadarTypeSwitch<T> {
 		case RadarTypePackage.RADAR_SERIES: {
 			RadarSeries radarSeries = (RadarSeries) theEObject;
 			T result = caseRadarSeries(radarSeries);
-			if (result == null)
+			if (result == null) {
 				result = caseSeries(radarSeries);
-			if (result == null)
+			}
+			if (result == null) {
 				result = defaultCase(theEObject);
+			}
 			return result;
 		}
 		default:
@@ -108,7 +113,7 @@ public class RadarTypeSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of ' <em>Radar
 	 * Series</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of ' <em>Radar
 	 *         Series</em>'.
@@ -123,7 +128,7 @@ public class RadarTypeSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of '
 	 * <em>Series</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '
 	 *         <em>Series</em>'.
@@ -139,7 +144,7 @@ public class RadarTypeSwitch<T> {
 	 * <em>EObject</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last
 	 * case anyway. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '
 	 *         <em>EObject</em>'.

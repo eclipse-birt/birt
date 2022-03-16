@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,6 +49,7 @@ public class Regression_121352 extends BaseTestCase {
 	private String outfile = "Regression_121352_out.xml"; //$NON-NLS-1$
 	private String goldenfile = "Regression_121352_golden.xml"; //$NON-NLS-1$
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 //		removeResource( );
@@ -92,7 +96,7 @@ public class Regression_121352 extends BaseTestCase {
 		assertEquals(bindingList.get(1),
 				designHandle.getModule().findPropertyBinding(tempHandle.getElement(), "column")); //$NON-NLS-1$
 
-		ReportDesignHandle copyHandle = null;
+		ReportDesignHandle copyHandle;
 		ReportDesign copy = (ReportDesign) designHandle.copy();
 		assertNotNull(copy);
 		copyHandle = copy.handle();

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +29,7 @@ import com.ibm.icu.math.BigDecimal;
  * <p>
  * But the formatter of axis label and data points still use big decimal as
  * standard reference.
- * 
+ *
  * @since 2.6
  */
 
@@ -55,7 +58,7 @@ public class BigNumber extends Number implements Comparable {
 
 	/**
 	 * Constructs a raw instance of BigNumber, which is not set divisor.
-	 * 
+	 *
 	 * @param value
 	 */
 	public BigNumber(String value) {
@@ -64,7 +67,7 @@ public class BigNumber extends Number implements Comparable {
 
 	/**
 	 * Constructs a raw instance of BigNumber, which is not set divisor.
-	 * 
+	 *
 	 * @param value
 	 */
 	public BigNumber(BigDecimal value) {
@@ -73,7 +76,7 @@ public class BigNumber extends Number implements Comparable {
 
 	/**
 	 * Constructs an instance of BigNumber with divisor.
-	 * 
+	 *
 	 * @param value
 	 * @param divisor
 	 */
@@ -86,7 +89,7 @@ public class BigNumber extends Number implements Comparable {
 
 	/**
 	 * Sets divisor.
-	 * 
+	 *
 	 * @param divisor
 	 */
 	public void setDivisor(BigDecimal divisor) {
@@ -99,7 +102,7 @@ public class BigNumber extends Number implements Comparable {
 
 	/**
 	 * Returns original big decimal value.
-	 * 
+	 *
 	 * @return
 	 */
 	public BigDecimal getValue() {
@@ -108,7 +111,7 @@ public class BigNumber extends Number implements Comparable {
 
 	/**
 	 * Returns double part value.
-	 * 
+	 *
 	 * @return
 	 */
 	public double getDouble() {
@@ -117,7 +120,7 @@ public class BigNumber extends Number implements Comparable {
 
 	/**
 	 * Returns divrsor.
-	 * 
+	 *
 	 * @return
 	 */
 	public BigDecimal getDivisor() {
@@ -146,16 +149,17 @@ public class BigNumber extends Number implements Comparable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	@Override
 	public int compareTo(Object o) {
 		return value.compareTo(((BigNumber) o).getValue());
 	}
 
 	/**
 	 * Returns the minimum between specified value and this.
-	 * 
+	 *
 	 * @param o
 	 * @return
 	 */
@@ -165,7 +169,7 @@ public class BigNumber extends Number implements Comparable {
 
 	/**
 	 * Returns the maximum between specified value and this.
-	 * 
+	 *
 	 * @param o
 	 * @return
 	 */
@@ -175,7 +179,7 @@ public class BigNumber extends Number implements Comparable {
 
 	/**
 	 * Returns result of this adding specified value.
-	 * 
+	 *
 	 * @param num
 	 * @return
 	 */
@@ -185,7 +189,7 @@ public class BigNumber extends Number implements Comparable {
 
 	/**
 	 * Returns result of this subtracting specified value.
-	 * 
+	 *
 	 * @param num
 	 * @return
 	 */
@@ -195,9 +199,10 @@ public class BigNumber extends Number implements Comparable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		return value.toString();
 	}

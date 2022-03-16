@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +33,7 @@ import org.xml.sax.SAXException;
  * property with the container of ListingGroup , either a Table or List.
  * <p>
  * The compatible version is equals or less than 3.2.1.
- * 
+ *
  */
 public class CompatibleGroupBoundColumnsState extends CompatibleListPropertyState {
 
@@ -44,7 +47,7 @@ public class CompatibleGroupBoundColumnsState extends CompatibleListPropertyStat
 	 * Constructs the design parse state with the design file parser handler. This
 	 * constructor is used when this list property to parse is a property of one
 	 * element.
-	 * 
+	 *
 	 * @param theHandler the design file parser handler
 	 * @param element    the element which holds this property, in this place it
 	 *                   must be a Table or a List.
@@ -58,10 +61,11 @@ public class CompatibleGroupBoundColumnsState extends CompatibleListPropertyStat
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
+	@Override
 	public void end() throws SAXException {
 		if (struct != null) {
 			// Ensure that the member is defined.
@@ -83,10 +87,11 @@ public class CompatibleGroupBoundColumnsState extends CompatibleListPropertyStat
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.parser.StructureState#end()
 		 */
 
+		@Override
 		public void end() throws SAXException {
 			list.add(struct);
 		}
@@ -95,11 +100,12 @@ public class CompatibleGroupBoundColumnsState extends CompatibleListPropertyStat
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.ListPropertyState#startElement(java
 	 * .lang.String)
 	 */
 
+	@Override
 	public AbstractParseState startElement(String tagName) {
 		if (tagName.equalsIgnoreCase(DesignSchemaConstants.STRUCTURE_TAG)) {
 			return new CompatibleGroupBoundColumnState(handler, element, propDefn, list);

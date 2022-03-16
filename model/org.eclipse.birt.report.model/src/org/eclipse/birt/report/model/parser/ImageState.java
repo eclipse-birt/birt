@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +38,7 @@ import org.xml.sax.SAXException;
 
 /**
  * This class parses an image item in the design file.
- * 
+ *
  */
 
 public class ImageState extends ReportItemState {
@@ -49,7 +52,7 @@ public class ImageState extends ReportItemState {
 	/**
 	 * Constructs the image item state with the design parser handler, the container
 	 * element and the container slot of the image item.
-	 * 
+	 *
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param slot         the slot in which this element appears
@@ -62,7 +65,7 @@ public class ImageState extends ReportItemState {
 	/**
 	 * Constructs image state with the design parser handler, the container element
 	 * and the container property name of the report element.
-	 * 
+	 *
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param prop         the slot in which this element appears
@@ -74,21 +77,23 @@ public class ImageState extends ReportItemState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
+	@Override
 	public DesignElement getElement() {
 		return image;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		image = new ImageItem();
 
@@ -112,10 +117,11 @@ public class ImageState extends ReportItemState {
 				setProperty(IImageItemModel.SOURCE_PROP, DesignChoiceConstants.IMAGE_REF_TYPE_URL);
 			} catch (MalformedURLException e) {
 
-				if (isFileProtocol(uri))
+				if (isFileProtocol(uri)) {
 					setProperty(IImageItemModel.SOURCE_PROP, DesignChoiceConstants.IMAGE_REF_TYPE_FILE);
-				else
+				} else {
 					setProperty(IImageItemModel.SOURCE_PROP, DesignChoiceConstants.IMAGE_REF_TYPE_EXPR);
+				}
 			}
 
 			type++;
@@ -135,23 +141,26 @@ public class ImageState extends ReportItemState {
 			type++;
 		}
 
-		if (type > 1)
+		if (type > 1) {
 			handler.getErrorHandler().semanticError(
 					new DesignParserException(DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT));
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
+	@Override
 	public void end() throws SAXException {
 		Module module = handler.getModule();
 
 		if (image.getLocalProperty(module, IImageItemModel.SOURCE_PROP) == null
-				&& handler.versionNumber <= VersionUtil.VERSION_3_2_3)
+				&& handler.versionNumber <= VersionUtil.VERSION_3_2_3) {
 			checkImageType();
+		}
 
 		// check the validation of the image data.
 
@@ -171,7 +180,7 @@ public class ImageState extends ReportItemState {
 	 * <li>C:\\hello\..\
 	 * <li>/C:/../hello/.
 	 * </ul>
-	 * 
+	 *
 	 * @param filePath the input filePath
 	 * @return true if filePath exists on the disk. Otherwise false.
 	 */
@@ -179,8 +188,9 @@ public class ImageState extends ReportItemState {
 	private static boolean isFileProtocol(String filePath) {
 		try {
 			URL fileUrl = new URL(filePath);
-			if (URIUtil.FILE_SCHEMA.equalsIgnoreCase(fileUrl.getProtocol()))
+			if (URIUtil.FILE_SCHEMA.equalsIgnoreCase(fileUrl.getProtocol())) {
 				return true;
+			}
 
 			return false;
 		} catch (MalformedURLException e) {
@@ -189,8 +199,9 @@ public class ImageState extends ReportItemState {
 		File file = new File(filePath);
 
 		String scheme = SecurityUtil.getFiletoURISchemaPart(file);
-		if (scheme == null)
+		if (scheme == null) {
 			return false;
+		}
 
 		if (scheme.equalsIgnoreCase(URIUtil.FILE_SCHEMA)) {
 			return true;
@@ -206,8 +217,9 @@ public class ImageState extends ReportItemState {
 
 	private static String getLocalStringExpression(DesignElement element, String propName, Module root) {
 		Object value = element.getLocalProperty(root, propName);
-		if (!(value instanceof Expression))
+		if (!(value instanceof Expression)) {
 			return null;
+		}
 
 		return ((Expression) value).getStringExpression();
 	}

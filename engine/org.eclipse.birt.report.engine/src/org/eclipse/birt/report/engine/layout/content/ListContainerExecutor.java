@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,10 +33,8 @@ public class ListContainerExecutor extends BlockStackingExecutor implements IRep
 		this.executor = new ExecutorList(executor, content);
 		if (content instanceof IGroupContent) {
 			repeat = ((IGroupContent) content).isHeaderRepeat();
-		} else {
-			if (content instanceof IListContent) {
-				repeat = ((IListContent) content).isHeaderRepeat();
-			}
+		} else if (content instanceof IListContent) {
+			repeat = ((IListContent) content).isHeaderRepeat();
 		}
 	}
 
@@ -55,6 +53,7 @@ public class ListContainerExecutor extends BlockStackingExecutor implements IRep
 			this.executor = executor;
 		}
 
+		@Override
 		public void close() throws BirtException {
 			if (currentRunIn != null) {
 				currentRunIn.close();
@@ -62,10 +61,12 @@ public class ListContainerExecutor extends BlockStackingExecutor implements IRep
 			executor.close();
 		}
 
+		@Override
 		public IContent execute() {
 			return content;
 		}
 
+		@Override
 		public IReportItemExecutor getNextChild() throws BirtException {
 			if (childContent != null) {
 				IReportItemExecutor ret = new ItemExecutorWrapper(childExecutor, childContent);
@@ -84,6 +85,7 @@ public class ListContainerExecutor extends BlockStackingExecutor implements IRep
 
 		}
 
+		@Override
 		public boolean hasNextChild() throws BirtException {
 			if (!needUpdate) {
 				return hasNext;

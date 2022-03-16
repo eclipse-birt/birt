@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -30,7 +33,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent {
 
 	private static final long serialVersionUID = 4924819106091024348L;
 
-	protected final List<PrimitiveRenderEvent> alLinesAndArcs = new ArrayList<PrimitiveRenderEvent>();
+	protected final List<PrimitiveRenderEvent> alLinesAndArcs = new ArrayList<>();
 
 	protected transient Fill fill;
 
@@ -54,9 +57,10 @@ public class AreaRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
 	 */
+	@Override
 	public void reset() {
 		alLinesAndArcs.clear();
 		fill = null;
@@ -65,7 +69,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent {
 
 	/**
 	 * Add a sub event to this area.
-	 * 
+	 *
 	 * @param pre
 	 */
 	public final void add(PrimitiveRenderEvent pre) {
@@ -81,7 +85,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent {
 
 	/**
 	 * Returns the iterator for the subordinate event list.
-	 * 
+	 *
 	 * @return
 	 */
 	public final Iterator<PrimitiveRenderEvent> iterator() {
@@ -90,7 +94,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent {
 
 	/**
 	 * Returns the specific sub event by given index.
-	 * 
+	 *
 	 * @param i
 	 * @return
 	 */
@@ -101,13 +105,14 @@ public class AreaRenderEvent extends PrimitiveRenderEvent {
 	/**
 	 * @return Returns the background.
 	 */
+	@Override
 	public final Fill getBackground() {
 		return fill;
 	}
 
 	/**
 	 * Sets the background of this area.
-	 * 
+	 *
 	 * @param fill The fill to set.
 	 */
 	public final void setBackground(Fill fill) {
@@ -116,9 +121,10 @@ public class AreaRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#getBounds()
 	 */
+	@Override
 	public final Bounds getBounds() {
 		Bounds bo, boFull = null;
 		PrimitiveRenderEvent pre;
@@ -166,7 +172,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent {
 
 	/**
 	 * Sets the outline of this area.
-	 * 
+	 *
 	 * @param outline The outline to set.
 	 */
 	public final void setOutline(LineAttributes outline) {
@@ -175,9 +181,10 @@ public class AreaRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
+	@Override
 	public PrimitiveRenderEvent copy() throws ChartException {
 		AreaRenderEvent are = new AreaRenderEvent(source);
 
@@ -198,26 +205,29 @@ public class AreaRenderEvent extends PrimitiveRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart
 	 * .device.IDeviceRenderer)
 	 */
+	@Override
 	public void draw(IDeviceRenderer idr) throws ChartException {
 		idr.drawArea(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart
 	 * .device.IDeviceRenderer)
 	 */
+	@Override
 	public void fill(IDeviceRenderer idr) throws ChartException {
 		idr.fillArea(this);
 	}
 
+	@Override
 	public LineAttributes getLineAttributes() {
 		return getOutline();
 	}

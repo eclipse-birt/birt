@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api;
@@ -28,7 +31,7 @@ public interface IQueryResults extends IBaseQueryResults {
 	 * Returns the {@link org.eclipse.birt.data.engine.api.IPreparedQuery} that
 	 * produced this instance.
 	 */
-	public IPreparedQuery getPreparedQuery();
+	IPreparedQuery getPreparedQuery();
 
 	/**
 	 * Returns the metadata of the first or current result set <br>
@@ -39,26 +42,26 @@ public interface IQueryResults extends IBaseQueryResults {
 	 * <code>IResultIterator</code>, or if it is ambiguous on which result set to
 	 * reference. In such case, one should obtain the result metadata from a
 	 * specific <code>IResultIterator<code>.
-	 * 
+	 *
 	 * @return The metadata of the first result set's detail row in this
 	 *         <code>IQueryResults<code>. Null if not available or ambiguous on
 	 *         which result set to reference.
 	 * @throws DataException if error occurs in Data Engine
 	 */
-	public IResultMetaData getResultMetaData() throws BirtException;
+	IResultMetaData getResultMetaData() throws BirtException;
 
 	/**
 	 * Returns the current result's iterator. Repeated call of this method without
 	 * having advanced to the next result would return the same iterator at its
 	 * current state.
-	 * 
+	 *
 	 * @return The current result's iterator.
 	 * @throws DataException if error occurs in Data Engine
 	 */
-	public IResultIterator getResultIterator() throws BirtException;
+	IResultIterator getResultIterator() throws BirtException;
 
 	/**
 	 * Cancel the current operation.
 	 */
-	public void cancel();
+	void cancel();
 }

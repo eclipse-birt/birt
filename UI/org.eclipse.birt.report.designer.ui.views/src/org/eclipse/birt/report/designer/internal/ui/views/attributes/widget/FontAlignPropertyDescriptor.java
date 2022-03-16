@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,6 +44,7 @@ public class FontAlignPropertyDescriptor extends PropertyDescriptor {
 
 	protected SelectionListener listener;
 
+	@Override
 	public void setInput(Object handle) {
 		this.input = handle;
 		getDescriptorProvider().setInput(input);
@@ -49,15 +53,20 @@ public class FontAlignPropertyDescriptor extends PropertyDescriptor {
 	public FontAlignPropertyDescriptor() {
 		listener = new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (e.widget != right)
+				if (e.widget != right) {
 					right.setSelection(false);
-				if (e.widget != left)
+				}
+				if (e.widget != left) {
 					left.setSelection(false);
-				if (e.widget != center)
+				}
+				if (e.widget != center) {
 					center.setSelection(false);
-				if (e.widget != justify)
+				}
+				if (e.widget != justify) {
 					justify.setSelection(false);
+				}
 				try {
 					if (!right.getSelection() && !left.getSelection() && !center.getSelection()
 							&& !justify.getSelection()) {
@@ -76,11 +85,12 @@ public class FontAlignPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.attributes.widget.PropertyDescriptor#
 	 * resetUIData()
 	 */
+	@Override
 	public void load() {
 		String value = getDescriptorProvider().load().toString();
 		Button[] btns = { left, right, center, justify };
@@ -88,41 +98,47 @@ public class FontAlignPropertyDescriptor extends PropertyDescriptor {
 		boolean stateFlag = ((value == null) == btns[0].getEnabled());
 
 		for (int i = 0; i < btns.length; i++) {
-			if (btns[i].getData().equals(value))
+			if (btns[i].getData().equals(value)) {
 				btns[i].setSelection(true);
-			else
+			} else {
 				btns[i].setSelection(false);
-			if (stateFlag)
+			}
+			if (stateFlag) {
 				btns[i].setEnabled(value != null);
+			}
 		}
 
 		String[] values = { DesignChoiceConstants.TEXT_ALIGN_LEFT, DesignChoiceConstants.TEXT_ALIGN_RIGHT,
 				DesignChoiceConstants.TEXT_ALIGN_CENTER, DesignChoiceConstants.TEXT_ALIGN_JUSTIFY, };
 		for (int i = 0; i < values.length; i++) {
 			String imageName = values[i];
-			if (!btns[i].isEnabled())
+			if (!btns[i].isEnabled()) {
 				imageName += IReportGraphicConstants.DIS;
-			if (btns[i].getImage() == null)
+			}
+			if (btns[i].getImage() == null) {
 				btns[i].setImage(ReportPlatformUIImages.getImage(imageName));
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
+	@Override
 	public Control getControl() {
 		return container;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Control createControl(Composite parent) {
 		container = new Composite(parent, SWT.NONE);
 		RowLayout layout = new RowLayout(SWT.HORIZONTAL);
@@ -152,6 +168,7 @@ public class FontAlignPropertyDescriptor extends PropertyDescriptor {
 			btns[i].setData(values[i]);
 			btns[i].addSelectionListener(listener);
 			btns[i].getAccessible().addAccessibleListener(new AccessibleAdapter() {
+				@Override
 				public void getName(AccessibleEvent e) {
 					Accessible accessible = (Accessible) e.getSource();
 					Button item = (Button) accessible.getControl();
@@ -164,6 +181,7 @@ public class FontAlignPropertyDescriptor extends PropertyDescriptor {
 		return container;
 	}
 
+	@Override
 	public void save(Object obj) throws SemanticException {
 		getDescriptorProvider().save(obj);
 	}

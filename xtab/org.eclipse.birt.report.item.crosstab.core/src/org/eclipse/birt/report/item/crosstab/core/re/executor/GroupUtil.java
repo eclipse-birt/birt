@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +42,7 @@ public class GroupUtil implements ICrosstabConstants {
 
 	/**
 	 * Returns the accumulated group index for current level element.
-	 * 
+	 *
 	 * @param crosstabItem
 	 * @param axisType
 	 * @param dimensionIndex
@@ -76,7 +79,7 @@ public class GroupUtil implements ICrosstabConstants {
 	 * Returns the accumulated group index for current level element from given
 	 * group list. The search is done by comparing dimension name and level name
 	 * from given handle. Caller must ensure the name is valid.
-	 * 
+	 *
 	 * @param groups
 	 * @param levelHandle
 	 * @param levelIndex
@@ -106,7 +109,7 @@ public class GroupUtil implements ICrosstabConstants {
 	/**
 	 * Returns the accumulated group index for current level element from given
 	 * group list.
-	 * 
+	 *
 	 * @param groups
 	 * @param dimensionIndex
 	 * @param levelIndex     If this is negative(<0), means the last level index in
@@ -235,46 +238,44 @@ public class GroupUtil implements ICrosstabConstants {
 					}
 				}
 			}
+		} else if (cdCount == 0) {
+			// default as grand total
+			String rowDimName = null;
+			String rowLevelName = null;
+
+			if (dimX >= 0 && levelX >= 0) {
+				// sub total
+				DimensionViewHandle rdv = crosstabItem.getDimension(ROW_AXIS_TYPE, dimX);
+				LevelViewHandle rlv = rdv.getLevel(levelX);
+
+				rowDimName = rdv.getCubeDimensionName();
+				rowLevelName = rlv.getCubeLevelName();
+			}
+
+			return hasAggregationCell(startMeasure, endMeasure, crosstabItem, rowDimName, rowLevelName, null, null);
 		} else {
-			if (cdCount == 0) {
-				// default as grand total
-				String rowDimName = null;
-				String rowLevelName = null;
+			for (int i = 0; i < cdCount; i++) {
+				DimensionViewHandle cdv = crosstabItem.getDimension(COLUMN_AXIS_TYPE, i);
 
-				if (dimX >= 0 && levelX >= 0) {
-					// sub total
-					DimensionViewHandle rdv = crosstabItem.getDimension(ROW_AXIS_TYPE, dimX);
-					LevelViewHandle rlv = rdv.getLevel(levelX);
+				for (int j = 0; j < cdv.getLevelCount(); j++) {
+					LevelViewHandle clv = cdv.getLevel(j);
 
-					rowDimName = rdv.getCubeDimensionName();
-					rowLevelName = rlv.getCubeLevelName();
-				}
+					// default as grand total
+					String rowDimName = null;
+					String rowLevelName = null;
 
-				return hasAggregationCell(startMeasure, endMeasure, crosstabItem, rowDimName, rowLevelName, null, null);
-			} else {
-				for (int i = 0; i < cdCount; i++) {
-					DimensionViewHandle cdv = crosstabItem.getDimension(COLUMN_AXIS_TYPE, i);
+					if (dimX >= 0 && levelX >= 0) {
+						// sub total
+						DimensionViewHandle rdv = crosstabItem.getDimension(ROW_AXIS_TYPE, dimX);
+						LevelViewHandle rlv = rdv.getLevel(levelX);
 
-					for (int j = 0; j < cdv.getLevelCount(); j++) {
-						LevelViewHandle clv = cdv.getLevel(j);
+						rowDimName = rdv.getCubeDimensionName();
+						rowLevelName = rlv.getCubeLevelName();
+					}
 
-						// default as grand total
-						String rowDimName = null;
-						String rowLevelName = null;
-
-						if (dimX >= 0 && levelX >= 0) {
-							// sub total
-							DimensionViewHandle rdv = crosstabItem.getDimension(ROW_AXIS_TYPE, dimX);
-							LevelViewHandle rlv = rdv.getLevel(levelX);
-
-							rowDimName = rdv.getCubeDimensionName();
-							rowLevelName = rlv.getCubeLevelName();
-						}
-
-						if (hasAggregationCell(startMeasure, endMeasure, crosstabItem, rowDimName, rowLevelName,
-								cdv.getCubeDimensionName(), clv.getCubeLevelName())) {
-							return true;
-						}
+					if (hasAggregationCell(startMeasure, endMeasure, crosstabItem, rowDimName, rowLevelName,
+							cdv.getCubeDimensionName(), clv.getCubeLevelName())) {
+						return true;
 					}
 				}
 			}
@@ -301,7 +302,7 @@ public class GroupUtil implements ICrosstabConstants {
 	 * Returns a list of groups on specific axis.
 	 */
 	public static List<EdgeGroup> getGroups(CrosstabReportItemHandle crosstabItem, int axisType) {
-		List<EdgeGroup> groups = new ArrayList<EdgeGroup>();
+		List<EdgeGroup> groups = new ArrayList<>();
 
 		int dimCount = crosstabItem.getDimensionCount(axisType);
 
@@ -440,7 +441,7 @@ public class GroupUtil implements ICrosstabConstants {
 	/**
 	 * Computes row span for aggreagtion cell by given target span over dimension
 	 * and level.
-	 * 
+	 *
 	 * @param crosstabItem
 	 * @param rowGroups
 	 * @param targetDimensionIndex
@@ -663,12 +664,10 @@ public class GroupUtil implements ICrosstabConstants {
 						}
 					}
 				}
-			} else {
-				if (MEASURE_DIRECTION_VERTICAL.equals(crosstabItem.getMeasureDirection())) {
-					for (int i = 0; i < mc; i++) {
-						if (crosstabItem.getMeasure(i).getHeader() != null) {
-							return true;
-						}
+			} else if (MEASURE_DIRECTION_VERTICAL.equals(crosstabItem.getMeasureDirection())) {
+				for (int i = 0; i < mc; i++) {
+					if (crosstabItem.getMeasure(i).getHeader() != null) {
+						return true;
 					}
 				}
 			}

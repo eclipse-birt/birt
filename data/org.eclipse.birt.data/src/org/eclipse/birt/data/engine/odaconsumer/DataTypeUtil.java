@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -41,7 +44,7 @@ public final class DataTypeUtil {
 	/**
 	 * Converts an ODA data type to its corresponding Java class, as defined by the
 	 * {@link DataTypeUtil} utility.
-	 * 
+	 *
 	 * @param odaDataType an ODA data type code
 	 * @return the Java class that corresponds to the specified ODA data type
 	 * @throws IllegalArgumentException if the specified ODA data type is not a
@@ -63,15 +66,17 @@ public final class DataTypeUtil {
 
 		// for now, preserve existing behavior of mapping to an
 		// ODA IBlob and IClob classes
-		if (odaDataType == Types.BLOB)
+		if (odaDataType == Types.BLOB) {
 			fieldClass = IBlob.class;
-		else if (odaDataType == Types.CLOB)
+		} else if (odaDataType == Types.CLOB) {
 			fieldClass = IClob.class;
+		}
 
-		if (sm_logger.isLoggable(Level.FINEST))
+		if (sm_logger.isLoggable(Level.FINEST)) {
 			sm_logger.logp(Level.FINEST, sm_className, methodName,
 					"Converted from ODA data type {0} to Java data type class {1}.",
 					new Object[] { Integer.valueOf(odaDataType), fieldClass });
+		}
 
 		return fieldClass;
 	}
@@ -79,7 +84,7 @@ public final class DataTypeUtil {
 	/**
 	 * Converts a Java class to its corresponding ODA data type, as defined by the
 	 * {@link org.eclipse.birt.core.data.DataTypeUtil} utility.
-	 * 
+	 *
 	 * @param javaClass the Java class.
 	 * @return the ODA data type that maps to the Java class.
 	 */
@@ -92,17 +97,19 @@ public final class DataTypeUtil {
 		// for backward compatibility, preserve existing
 		// behavior of mapping from an
 		// ODA IBlob and IClob classes
-		if (javaClass == IBlob.class)
+		if (javaClass == IBlob.class) {
 			odaType = Types.BLOB;
-		else if (javaClass == IClob.class)
+		} else if (javaClass == IClob.class) {
 			odaType = Types.CLOB;
-		else
+		} else {
 			odaType = org.eclipse.birt.core.data.DataTypeUtil.toOdaDataType(javaClass);
+		}
 
-		if (sm_logger.isLoggable(Level.FINEST))
+		if (sm_logger.isLoggable(Level.FINEST)) {
 			sm_logger.logp(Level.FINEST, sm_className, methodName,
 					"Converted from Java data type class {0} to ODA data type {1}.", //$NON-NLS-1$
 					new Object[] { javaClass, Integer.valueOf(odaType) });
+		}
 
 		return odaType;
 	}
@@ -111,7 +118,7 @@ public final class DataTypeUtil {
 	 * Converts the specified native data type code to its default ODA data type
 	 * code, based on the data type mapping defined by the specified ODA data source
 	 * and data set types.
-	 * 
+	 *
 	 * @param nativeTypeCode  native type code specific to the ODA data source
 	 * @param odaDataSourceId the ODA data source element id
 	 * @param dataSetType     the type of data set
@@ -119,8 +126,9 @@ public final class DataTypeUtil {
 	 *         mapping is found
 	 */
 	public static int toOdaType(int nativeTypeCode, String odaDataSourceId, String dataSetType) {
-		if (odaDataSourceId == null || odaDataSourceId.length() == 0)
+		if (odaDataSourceId == null || odaDataSourceId.length() == 0) {
 			return Types.NULL;
+		}
 
 		return ManifestExplorer.getInstance().getDefaultOdaDataTypeCode(nativeTypeCode, odaDataSourceId, dataSetType);
 	}

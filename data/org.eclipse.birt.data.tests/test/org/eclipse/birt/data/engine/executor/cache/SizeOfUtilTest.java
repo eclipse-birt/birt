@@ -1,15 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.executor.cache;
+
+import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 import java.sql.Time;
@@ -22,12 +27,10 @@ import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.perf.util.SizeOfUtil;
-
-import com.ibm.icu.util.Calendar;
-
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * Test the function of SizeOfUtil
@@ -65,26 +68,6 @@ public class SizeOfUtilTest {
 	/**
 	 * @throws DataException
 	 */
-	private void runWithJDK14() throws DataException {
-		assertEquals(sizeOfUtil.sizeOf(getResultObject(1, 1)), 304);
-		assertEquals(sizeOfUtil.sizeOf(getResultObject(3, 3)), 312);
-		assertEquals(sizeOfUtil.sizeOf(getResultObject(3, 7)), 320);
-		assertEquals(sizeOfUtil.sizeOf(getResultObject(5, 8)), 320);
-		assertEquals(sizeOfUtil.sizeOf(getResultObject(12, 7)), 336);
-		assertEquals(sizeOfUtil.sizeOf(getResultObject(7, 12)), 328);
-		assertEquals(sizeOfUtil.sizeOf(getResultObject(18, 22)), 360);
-		assertEquals(sizeOfUtil.sizeOf(getResultObject(38, 42)), 416);
-
-		assertEquals(sizeOfUtil.sizeOf(getResultObjectWithNull(3, 3, new int[] { 2, 4, 6, 7 })), 144);
-		assertEquals(sizeOfUtil.sizeOf(getResultObjectWithNull(3, 3, new int[] { 2, 4 })), 208);
-		assertEquals(sizeOfUtil.sizeOf(getResultObjectWithNull(3, 7, new int[] { 2, 7 })), 192);
-		assertEquals(sizeOfUtil.sizeOf(getResultObjectWithNull(5, 8, new int[] { 3, 6 })), 272);
-		assertEquals(sizeOfUtil.sizeOf(getResultObjectWithNull(12, 7, new int[] { 1, 4, 5 })), 272);
-	}
-
-	/**
-	 * @throws DataException
-	 */
 	private void runWithJDK18() throws DataException {
 		assertEquals(520, sizeOfUtil.sizeOf(getResultObject(1, 1)));
 		assertEquals(528, sizeOfUtil.sizeOf(getResultObject(3, 3)));
@@ -109,7 +92,7 @@ public class SizeOfUtilTest {
 	private ResultClass getResultClass() throws DataException {
 		ArrayList columnList = new ArrayList();
 
-		ResultFieldMetadata metaData = null;
+		ResultFieldMetadata metaData;
 		metaData = new ResultFieldMetadata(1, "1", "1", Integer.class, Integer.class.getName(), false);
 		columnList.add(metaData);
 		metaData = new ResultFieldMetadata(2, "2", "2", Double.class, Double.class.getName(), false);
@@ -173,8 +156,9 @@ public class SizeOfUtilTest {
 		objectArray[7] = SizeOfUtil.newString(strLen);
 
 		// set null for object element
-		for (int i = 0; i < nullPos.length; i++)
+		for (int i = 0; i < nullPos.length; i++) {
 			objectArray[nullPos[i]] = null;
+		}
 
 		ResultObject object = new ResultObject(resultClass, objectArray);
 

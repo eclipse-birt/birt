@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,8 +44,9 @@ class ResultSetColumnUpdater {
 
 	ResultSetColumnUpdater(OdaResultSetColumn newColumn, ColumnDefinition columnDefn, OdaDataSetHandle setHandle,
 			String dataSourceId, String dataSetId) {
-		if (newColumn == null || columnDefn == null || setHandle == null)
+		if (newColumn == null || columnDefn == null || setHandle == null) {
 			throw new IllegalArgumentException("The column definition and oda result set column can not be null!"); //$NON-NLS-1$
+		}
 		this.columnDefn = columnDefn;
 		this.newColumn = newColumn;
 		this.dataSourceId = dataSourceId;
@@ -51,7 +55,7 @@ class ResultSetColumnUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 
 	ColumnHint process() {
@@ -61,8 +65,9 @@ class ResultSetColumnUpdater {
 		// update column hint
 		ColumnHint oldHint = null;
 		ColumnHintHandle oldHintHandle = AdapterUtil.findColumnHint(newColumn, setHandle.columnHintsIterator());
-		if (oldHintHandle != null)
+		if (oldHintHandle != null) {
 			oldHint = (ColumnHint) oldHintHandle.getStructure();
+		}
 
 		ColumnHint newHint = ResultSetsAdapter.newROMColumnHintFromColumnDefinition(columnDefn, null, oldHint,
 				newColumn);
@@ -71,13 +76,14 @@ class ResultSetColumnUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void processDataElementAttributes(DataElementAttributes dataAttrs) {
 		// check the native name
 
-		if (dataAttrs == null)
+		if (dataAttrs == null) {
 			return;
+		}
 
 		// update the name with the native name in oda result set column
 		String newValue = dataAttrs.getName();
@@ -85,7 +91,7 @@ class ResultSetColumnUpdater {
 
 		// update position
 		int position = dataAttrs.getPosition();
-		newColumn.setPosition(Integer.valueOf(position));
+		newColumn.setPosition(position);
 
 		// update native data type
 		int newNativeDataType = dataAttrs.getNativeDataTypeCode();

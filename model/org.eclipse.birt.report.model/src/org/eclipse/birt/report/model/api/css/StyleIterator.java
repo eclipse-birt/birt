@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +41,7 @@ public class StyleIterator implements Iterator {
 
 	/**
 	 * Constructs a iterator to return the styles of the given style sheet.
-	 * 
+	 *
 	 * @param styleSheet handle to the style sheet for which styles are included.
 	 *                   Must not be <code>null</code>.
 	 */
@@ -55,21 +58,23 @@ public class StyleIterator implements Iterator {
 	/**
 	 * Inherited method that is disabled in this iterator; the caller cannot remove
 	 * styles using this class.
-	 * 
+	 *
 	 * @see java.util.Iterator#remove()
 	 */
 
+	@Override
 	public void remove() {
 		throw new IllegalOperationException();
 	}
 
 	/**
 	 * Returns true if there is another style to retrieve.
-	 * 
+	 *
 	 * @return true if there is another style to retrieve, false otherwise
 	 * @see java.util.Iterator#hasNext()
 	 */
 
+	@Override
 	public boolean hasNext() {
 		if (iter != null) {
 			return iter.hasNext();
@@ -79,13 +84,14 @@ public class StyleIterator implements Iterator {
 
 	/**
 	 * Returns a handle of the style.
-	 * 
+	 *
 	 * @return the handle of the style
-	 * 
+	 *
 	 * @see java.util.Iterator#next()
 	 * @see SharedStyleHandle
 	 */
 
+	@Override
 	public Object next() {
 		if (iter != null) {
 			StyleElement style = (StyleElement) iter.next();

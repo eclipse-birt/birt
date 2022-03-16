@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,12 +60,12 @@ public class CompatibilityStatus {
 
 	/**
 	 * Constructs this status with the error list and the type.
-	 * 
+	 *
 	 * @param errors
 	 * @param type
 	 */
 	public CompatibilityStatus(List<? extends SemanticException> errors, int type) {
-		this.errors = new ArrayList<SemanticException>();
+		this.errors = new ArrayList<>();
 		this.errors.addAll(errors);
 		setStatusType(type);
 	}
@@ -70,7 +73,7 @@ public class CompatibilityStatus {
 	/**
 	 * Gets the error list of this status after checking the compatibilities. Each
 	 * item in the list is instance of <code>SemanticException</code>.
-	 * 
+	 *
 	 * @return the errors
 	 */
 	public List<SemanticException> getErrors() {
@@ -79,7 +82,7 @@ public class CompatibilityStatus {
 
 	/**
 	 * Sets the error list of this status.
-	 * 
+	 *
 	 * @param errors the errors to set
 	 */
 	public void setErrors(List<SemanticException> errors) {
@@ -88,15 +91,15 @@ public class CompatibilityStatus {
 
 	/**
 	 * Gets the type of this status. The possible values are:
-	 * 
+	 *
 	 * <ul>
 	 * <li>OK_TYPE
 	 * <li>NOT_SUPPORTED_TYPE
 	 * <li>CONVERT_COMPATIBILITY_TYPE
 	 * </ul>
-	 * 
+	 *
 	 * By default, type is <code>OK_TYPE</code>.
-	 * 
+	 *
 	 * @return the statusType
 	 */
 	public int getStatusType() {
@@ -105,13 +108,13 @@ public class CompatibilityStatus {
 
 	/**
 	 * Sets the type of this status. The possible values are:
-	 * 
+	 *
 	 * <ul>
 	 * <li>OK_TYPE
 	 * <li>NOT_SUPPORTED_TYPE
 	 * <li>CONVERT_COMPATIBILITY_TYPE
 	 * </ul>
-	 * 
+	 *
 	 * @param type the status type to set
 	 */
 	public void setStatusType(int type) {

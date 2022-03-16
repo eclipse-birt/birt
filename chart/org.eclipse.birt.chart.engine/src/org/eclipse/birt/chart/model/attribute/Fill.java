@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -19,7 +22,7 @@ import org.eclipse.birt.chart.model.IChartObject;
  *
  * <!-- begin-model-doc --> Fill represents the information about how to fill a
  * graphic element in a chart.
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -41,11 +44,11 @@ public interface Fill extends IChartObject {
 	 * Returns the value of the '<em><b>Type</b></em>' attribute. <!--
 	 * begin-user-doc --> Gets the type of the background element. <!-- end-user-doc
 	 * --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the type of the background element.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Type</em>' attribute.
 	 * @see #isSetType()
 	 * @see #unsetType()
@@ -62,7 +65,7 @@ public interface Fill extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Fill#getType <em>Type</em>}'
 	 * attribute. <!-- begin-user-doc --> Sets the type of the background element.
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Type</em>' attribute.
 	 * @see #isSetType()
 	 * @see #unsetType()
@@ -75,7 +78,7 @@ public interface Fill extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Fill#getType <em>Type</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetType()
 	 * @see #getType()
 	 * @see #setType(int)
@@ -87,7 +90,7 @@ public interface Fill extends IChartObject {
 	 * Returns whether the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Fill#getType <em>Type</em>}'
 	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Type</em>' attribute is set.
 	 * @see #unsetType()
 	 * @see #getType()
@@ -99,6 +102,7 @@ public interface Fill extends IChartObject {
 	/**
 	 * @generated
 	 */
+	@Override
 	Fill copyInstance();
 
 } // Fill

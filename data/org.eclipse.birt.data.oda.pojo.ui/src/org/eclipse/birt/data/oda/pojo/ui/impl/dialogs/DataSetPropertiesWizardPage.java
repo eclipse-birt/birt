@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,6 +20,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.oda.pojo.api.Constants;
+import org.eclipse.birt.data.oda.pojo.querymodel.PojoQuery;
+import org.eclipse.birt.data.oda.pojo.ui.Activator;
+import org.eclipse.birt.data.oda.pojo.ui.i18n.Messages;
+import org.eclipse.birt.data.oda.pojo.ui.util.HelpUtil;
+import org.eclipse.birt.data.oda.pojo.ui.util.Utils;
+import org.eclipse.birt.data.oda.pojo.util.ClassLister;
+import org.eclipse.birt.data.oda.pojo.util.PojoQueryParser;
 import org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
@@ -39,17 +50,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import org.eclipse.birt.data.oda.pojo.api.Constants;
-import org.eclipse.birt.data.oda.pojo.querymodel.PojoQuery;
-import org.eclipse.birt.data.oda.pojo.ui.Activator;
-import org.eclipse.birt.data.oda.pojo.ui.i18n.Messages;
-import org.eclipse.birt.data.oda.pojo.ui.util.HelpUtil;
-import org.eclipse.birt.data.oda.pojo.ui.util.Utils;
-import org.eclipse.birt.data.oda.pojo.util.ClassLister;
-import org.eclipse.birt.data.oda.pojo.util.PojoQueryParser;
-
 /**
- * 
+ *
  */
 
 public class DataSetPropertiesWizardPage extends DataSetWizardPage {
@@ -80,7 +82,7 @@ public class DataSetPropertiesWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#
 	 * collectDataSetDesign(org.eclipse.datatools.connectivity.oda.design.
@@ -105,14 +107,11 @@ public class DataSetPropertiesWizardPage extends DataSetWizardPage {
 			pq = new PojoQuery(Constants.DEFAULT_VERSION, txtPojoDataSetClass.getText().trim(),
 					txtAppContextKey.getText().trim());
 			Utils.savePojoQuery(pq, design, getControl().getShell());
-		} else {
-			if (!txtAppContextKey.getText().trim().equals(pq.getAppContextKey())
-					|| !txtPojoDataSetClass.getText().trim().equals(pq.getDataSetClass())) {
-				pq.setAppContextKey(txtAppContextKey.getText().trim());
-				pq.setDataSetClass(txtPojoDataSetClass.getText().trim());
-				Utils.savePojoQuery(pq, design, getControl().getShell());
-			}
-
+		} else if (!txtAppContextKey.getText().trim().equals(pq.getAppContextKey())
+				|| !txtPojoDataSetClass.getText().trim().equals(pq.getDataSetClass())) {
+			pq.setAppContextKey(txtAppContextKey.getText().trim());
+			pq.setDataSetClass(txtPojoDataSetClass.getText().trim());
+			Utils.savePojoQuery(pq, design, getControl().getShell());
 		}
 
 		return design;
@@ -120,7 +119,7 @@ public class DataSetPropertiesWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#
 	 * refresh(org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
@@ -151,8 +150,9 @@ public class DataSetPropertiesWizardPage extends DataSetWizardPage {
 			}
 		}
 
-		if (classLoader == null)
+		if (classLoader == null) {
 			initPageInfos();
+		}
 	}
 
 	public DataSetPropertiesWizardPage(String pageName) {
@@ -172,7 +172,7 @@ public class DataSetPropertiesWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#
 	 * createPageCustomControl(org.eclipse.swt.widgets.Composite)
@@ -194,6 +194,7 @@ public class DataSetPropertiesWizardPage extends DataSetWizardPage {
 		txtPojoDataSetClass.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		setPageComplete(false);
 		txtPojoDataSetClass.addModifyListener(new ModifyListener() {
+			@Override
 			public void modifyText(ModifyEvent e) {
 				virifyClassName();
 			}
@@ -214,14 +215,16 @@ public class DataSetPropertiesWizardPage extends DataSetWizardPage {
 		browseButton.addSelectionListener(new SelectionAdapter() {
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events
 			 * .SelectionEvent)
 			 */
+			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (classLoader == null || filteredClassNames == null)
+				if (classLoader == null || filteredClassNames == null) {
 					initPageInfos();
+				}
 
 				ClassInputDialog cid = new ClassInputDialog(getControl().getShell(), filteredClassNames,
 						txtPojoDataSetClass.getText().trim());
@@ -255,10 +258,11 @@ public class DataSetPropertiesWizardPage extends DataSetWizardPage {
 	}
 
 	private String[] getFilteredClassNames(String[] allClassNames) {
-		if (allClassNames == null || allClassNames.length == 0)
+		if (allClassNames == null || allClassNames.length == 0) {
 			return new String[0];
+		}
 
-		List<String> filteredClassList = new ArrayList<String>();
+		List<String> filteredClassList = new ArrayList<>();
 		for (int i = 0; i < allClassNames.length; i++) {
 			try {
 				if (org.eclipse.birt.data.oda.pojo.util.Utils
@@ -275,7 +279,7 @@ public class DataSetPropertiesWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.WizardPage#getNextPage()
 	 */
 	@Override
@@ -298,7 +302,7 @@ public class DataSetPropertiesWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.WizardPage#canFlipToNextPage()
 	 */
 	@Override

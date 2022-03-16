@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -63,7 +66,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
- * 
+ *
  */
 
 public class InsertCubeInLayoutAction extends AbstractViewAction {
@@ -85,6 +88,7 @@ public class InsertCubeInLayoutAction extends AbstractViewAction {
 	/*
 	 * (non-Javadoc) Method declared on IAction.
 	 */
+	@Override
 	public boolean isEnabled() {
 		Object obj = getSelection();
 		if (obj instanceof Object[]) {
@@ -117,8 +121,9 @@ public class InsertCubeInLayoutAction extends AbstractViewAction {
 				return null;
 			}
 			IStructuredSelection targets = (IStructuredSelection) viewer.getSelection();
-			if (targets.isEmpty() && targets.size() > 1)
+			if (targets.isEmpty() && targets.size() > 1) {
 				return null;
+			}
 			targetPart = (EditPart) targets.getFirstElement();
 		}
 		return targetPart;
@@ -129,8 +134,9 @@ public class InsertCubeInLayoutAction extends AbstractViewAction {
 			SlotHandle targetSlot = getTargetSlotHandle(target, ICrosstabConstants.CROSSTAB_EXTENSION_NAME); // $NON-NLS-1$
 			if (targetSlot != null) {
 				if (DNDUtil.handleValidateTargetCanContainType(targetSlot, "Crosstab")
-						&& DNDUtil.handleValidateTargetCanContainMore(targetSlot, 0))
+						&& DNDUtil.handleValidateTargetCanContainMore(targetSlot, 0)) {
 					return true;
+				}
 			} else {
 				IStructuredSelection models = InsertInLayoutUtil.editPart2Model(new StructuredSelection(target));
 				if (!models.isEmpty()) {
@@ -138,8 +144,9 @@ public class InsertCubeInLayoutAction extends AbstractViewAction {
 					if (model instanceof DesignElementHandle) {
 						DesignElementHandle targetHandle = (DesignElementHandle) model;
 						if (targetHandle.canContain(DEUtil.getDefaultContentName(targetHandle),
-								ICrosstabConstants.CROSSTAB_EXTENSION_NAME))
+								ICrosstabConstants.CROSSTAB_EXTENSION_NAME)) {
 							return true;
+						}
 					}
 				}
 			}
@@ -180,6 +187,7 @@ public class InsertCubeInLayoutAction extends AbstractViewAction {
 	 * the triggering event, or override <code>runWithEvent(Event)</code> if they
 	 * do.
 	 */
+	@Override
 	public void run() {
 
 		CubeHandle transfer = (CubeHandle) this.getFirstSelectedObj();
@@ -309,8 +317,6 @@ public class InsertCubeInLayoutAction extends AbstractViewAction {
 							HandleAdapterFactory.getInstance().getLibraryHandleAdapter().setCurrentEditorModel(handle,
 									LibraryHandleAdapter.CREATE_ELEMENT);
 						}
-
-						return;
 					}
 				} catch (Exception e) {
 					stack.rollback();

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -77,7 +80,7 @@ public class ChartComponentUtil {
 
 	/**
 	 * Converts DataElement from chart model to simple api
-	 * 
+	 *
 	 * @param data DataElement in chart model
 	 * @return DataElement in simple api
 	 */
@@ -93,7 +96,7 @@ public class ChartComponentUtil {
 
 	/**
 	 * Converts DataElement from simple api to chart model
-	 * 
+	 *
 	 * @param data DataElement in simple api
 	 * @return DataElement in chart model
 	 */
@@ -109,7 +112,7 @@ public class ChartComponentUtil {
 
 	/**
 	 * Converts Text from chart model to simple api
-	 * 
+	 *
 	 * @param text Text in chart model. If it's null, create a new Text with blank
 	 *             value.
 	 * @return Text in simple api
@@ -123,7 +126,7 @@ public class ChartComponentUtil {
 
 	/**
 	 * Converts Text from simple api to chart model
-	 * 
+	 *
 	 * @param itext Text in simple api
 	 * @return Text in chart model
 	 */
@@ -133,7 +136,7 @@ public class ChartComponentUtil {
 
 	/**
 	 * Converts Label from chart model to simple api
-	 * 
+	 *
 	 * @param label Label in chart model. If it's null, create a blank Label.
 	 * @return Label in simple api
 	 */
@@ -146,7 +149,7 @@ public class ChartComponentUtil {
 
 	/**
 	 * Converts Label from simple api to chart model
-	 * 
+	 *
 	 * @param ilabel Label in simple api
 	 * @return Label in chart model
 	 */
@@ -159,7 +162,7 @@ public class ChartComponentUtil {
 
 	/**
 	 * Converts Font from chart model to simple api
-	 * 
+	 *
 	 * @param fd Font in chart model. If it's null, create a empty font instance.
 	 * @return Font in simple api
 	 */
@@ -172,7 +175,7 @@ public class ChartComponentUtil {
 
 	/**
 	 * Converts Font from simple api to chart model
-	 * 
+	 *
 	 * @param font Font in simple api
 	 * @return Font in chart model
 	 */
@@ -183,7 +186,7 @@ public class ChartComponentUtil {
 
 	/**
 	 * Converts Color from chart model to simple api
-	 * 
+	 *
 	 * @param cd Color in chart model. If it's blank, create a black color by
 	 *           default.
 	 * @return Color in simple api
@@ -197,7 +200,7 @@ public class ChartComponentUtil {
 
 	/**
 	 * Converts Color from simple api to chart model
-	 * 
+	 *
 	 * @param color Color in simple api
 	 * @return Color in chart model
 	 */
@@ -209,7 +212,7 @@ public class ChartComponentUtil {
 
 	/**
 	 * Return series definitions of specified axis index.
-	 * 
+	 *
 	 * @param chart     chart
 	 * @param axisIndex If chart is without axis type, it always return all
 	 *                  orthogonal series definition. -1 to return all

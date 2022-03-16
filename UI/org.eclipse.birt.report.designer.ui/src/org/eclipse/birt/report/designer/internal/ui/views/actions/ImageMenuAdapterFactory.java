@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,20 +23,23 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 
 /**
- * 
+ *
  */
 
 public class ImageMenuAdapterFactory implements IAdapterFactory {
 
+	@Override
 	public Object getAdapter(final Object adaptableObject, Class adapterType) {
 		if ((adaptableObject instanceof ImageHandle) && adapterType == IMenuListener.class) {
 
 			return new ISchematicMenuListener() {
 
+				@Override
 				public void menuAboutToShow(IMenuManager manager) {
 					manager.appendToGroup(GEFActionConstants.GROUP_EDIT, new ReloadImageAction(adaptableObject));
 				}
 
+				@Override
 				public void setActionRegistry(ActionRegistry actionRegistry) {
 				}
 			};
@@ -41,6 +47,7 @@ public class ImageMenuAdapterFactory implements IAdapterFactory {
 		return null;
 	}
 
+	@Override
 	public Class[] getAdapterList() {
 		return null;
 	}

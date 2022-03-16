@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -43,22 +46,22 @@ import org.eclipse.birt.data.engine.impl.SortingOptimizer;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 /**
- * 
+ *
  * @author Work
  *
  */
 public final class QueryExecutionStrategyUtil {
 	/**
-	 * 
+	 *
 	 * @author Work
 	 *
 	 */
-	public static enum Strategy {
+	public enum Strategy {
 		SimpleLookingFoward, SimpleNoLookingFoward, Complex
 	}
 
 	/**
-	 * 
+	 *
 	 * @param query
 	 * @param dataSet
 	 * @return
@@ -73,17 +76,21 @@ public final class QueryExecutionStrategyUtil {
 
 		SortingOptimizer opt = new SortingOptimizer(dataSet, query);
 
-		if (session.getEngineContext().getMode() == DataEngineContext.MODE_UPDATE)
+		if (session.getEngineContext().getMode() == DataEngineContext.MODE_UPDATE) {
 			return Strategy.Complex;
+		}
 		if (query.getGroups() != null && query.getGroups().size() > 0) {
 			for (IGroupDefinition group : (List<IGroupDefinition>) query.getGroups()) {
-				if (group.getSubqueries() != null && group.getSubqueries().size() > 0)
+				if (group.getSubqueries() != null && group.getSubqueries().size() > 0) {
 					return Strategy.Complex;
-				if (!isDirectColumnRefGroupKey(group, query))
+				}
+				if (!isDirectColumnRefGroupKey(group, query)) {
 					return Strategy.Complex;
+				}
 				if (group.getFilters().isEmpty() && group.getSorts().isEmpty()
-						&& !query.getQueryExecutionHints().doSortBeforeGrouping())
+						&& !query.getQueryExecutionHints().doSortBeforeGrouping()) {
 					continue;
+				}
 				if (opt.acceptGroupSorting()) {
 					continue;
 				}
@@ -92,19 +99,22 @@ public final class QueryExecutionStrategyUtil {
 		}
 
 		if (query.getFilters() != null && query.getFilters().size() > 0) {
-			if (FilterUtil.hasMutipassFilters(query.getFilters()))
+			if (FilterUtil.hasMutipassFilters(query.getFilters())) {
 				return Strategy.Complex;
+			}
 
-			Set<String> bindings = new HashSet<String>();
+			Set<String> bindings = new HashSet<>();
 			for (Object filter : query.getFilters()) {
 				IBaseExpression baseExpr = ((IFilterDefinition) filter).getExpression();
-				if (ExpressionCompilerUtil.hasAggregationInExpr(baseExpr))
+				if (ExpressionCompilerUtil.hasAggregationInExpr(baseExpr)) {
 					return Strategy.Complex;
+				}
 				bindings.addAll(ExpressionCompilerUtil.extractColumnExpression(baseExpr, ExpressionUtil.ROW_INDICATOR));
 
 				// TODO: support progressive viewing on viewing time filter
-				if (((IFilterDefinition) filter).updateAggregation() == false)
+				if (!((IFilterDefinition) filter).updateAggregation()) {
 					return Strategy.Complex;
+				}
 			}
 
 			if (PreparedQueryUtil.existAggregationBinding(bindings, query.getBindings())) {
@@ -113,14 +123,12 @@ public final class QueryExecutionStrategyUtil {
 		}
 
 		if (query.getSorts() != null && query.getSorts().size() > 0) {
-			if (!opt.acceptQuerySorting())
+			if (!opt.acceptQuerySorting()) {
 				return Strategy.Complex;
+			}
 		}
 
-		if (query.getSubqueries() != null && query.getSubqueries().size() > 0)
-			return Strategy.Complex;
-
-		if (!query.usesDetails()) {
+		if ((query.getSubqueries() != null && query.getSubqueries().size() > 0) || !query.usesDetails()) {
 			return Strategy.Complex;
 		}
 
@@ -139,10 +147,10 @@ public final class QueryExecutionStrategyUtil {
 					}
 
 					// TODO:Enhance me
-					List exprs = new ArrayList();
-					exprs.addAll(binding.getArguments());
-					if (binding.getExpression() != null)
+					List exprs = new ArrayList(binding.getArguments());
+					if (binding.getExpression() != null) {
 						exprs.add(binding.getExpression());
+					}
 					for (int i = 0; i < exprs.size(); i++) {
 						Object expr = exprs.get(i);
 						if (!(expr instanceof IScriptExpression)) {
@@ -157,15 +165,17 @@ public final class QueryExecutionStrategyUtil {
 								Object obj = query.getBindings().get(temp.getResultSetColumnName());
 								if (obj instanceof IBinding) {
 									IBinding bindingObj = (IBinding) obj;
-									if (bindingObj.getAggrFunction() != null)
+									if (bindingObj.getAggrFunction() != null) {
 										return Strategy.Complex;
+									}
 
 									IBaseExpression baseExpr = ((IBinding) obj).getExpression();
 									if (baseExpr instanceof IScriptExpression) {
 										String cb = ExpressionUtil
 												.getColumnName(((IScriptExpression) baseExpr).getText());
-										if (ScriptEvalUtil.compare(bindingObj.getBindingName(), cb) != 0)
+										if (ScriptEvalUtil.compare(bindingObj.getBindingName(), cb) != 0) {
 											return Strategy.Complex;
+										}
 									}
 								}
 							}
@@ -188,23 +198,27 @@ public final class QueryExecutionStrategyUtil {
 
 				for (Object filter : dataSet.getFilters()) {
 					IBaseExpression baseExpr = ((IFilterDefinition) filter).getExpression();
-					if (ExpressionCompilerUtil.hasAggregationInExpr(baseExpr))
+					if (ExpressionCompilerUtil.hasAggregationInExpr(baseExpr)) {
 						return Strategy.Complex;
+					}
 
-					if (((IFilterDefinition) filter).updateAggregation() == false)
+					if (!((IFilterDefinition) filter).updateAggregation()) {
 						return Strategy.Complex;
+					}
 				}
 			}
 
-			if (dataSet.needDistinctValue())
+			if (dataSet.needDistinctValue()) {
 				return Strategy.Complex;
+			}
 
 			if (dataSet.getComputedColumns() != null) {
 				List computedColumns = dataSet.getComputedColumns();
 				for (int i = 0; i < computedColumns.size(); i++) {
 					IComputedColumn computedColumn = (IComputedColumn) computedColumns.get(i);
-					if (computedColumn.getAggregateFunction() != null)
+					if (computedColumn.getAggregateFunction() != null) {
 						return Strategy.Complex;
+					}
 					if (computedColumn.getExpression() instanceof IScriptExpression) {
 						if (ExpressionUtil
 								.hasAggregation(((IScriptExpression) computedColumn.getExpression()).getText())) {
@@ -258,7 +272,7 @@ public final class QueryExecutionStrategyUtil {
 			Object binding = query.getBindings().get(bindingName);
 			if (binding != null) {
 				IBaseExpression expr = ((IBinding) binding).getExpression();
-				if (expr != null && expr instanceof IScriptExpression) {
+				if (expr instanceof IScriptExpression) {
 					dataSetExpr = ((IScriptExpression) expr).getText();
 				}
 			}

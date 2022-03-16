@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +35,7 @@ public class SelectRowAction extends ContextSelectionAction {
 
 	/**
 	 * Constructs new instance
-	 * 
+	 *
 	 * @param part current work bench part
 	 */
 	public SelectRowAction(IWorkbenchPart part) {
@@ -42,9 +45,10 @@ public class SelectRowAction extends ContextSelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
+	@Override
 	protected boolean calculateEnabled() {
 		int[] intValue = getSelectionRowNumbers();
 		if (intValue == null || intValue.length == 0) {
@@ -55,8 +59,9 @@ public class SelectRowAction extends ContextSelectionAction {
 
 	/**
 	 * Runs action.
-	 * 
+	 *
 	 */
+	@Override
 	public void run() {
 		int[] intValue = getSelectionRowNumbers();
 		Arrays.sort(intValue);
@@ -79,7 +84,7 @@ public class SelectRowAction extends ContextSelectionAction {
 			int rowNumber = adapt.getRowNumber();
 			int rowSpan = adapt.getRowSpan();
 			for (int j = rowNumber; j < rowNumber + rowSpan; j++) {
-				Integer value = Integer.valueOf(j);
+				Integer value = j;
 				if (!temp.contains(value)) {
 					temp.add(value);
 				}

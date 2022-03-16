@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -65,7 +68,7 @@ public class MasterPageEditPart extends AbstractReportEditPart {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
 	public MasterPageEditPart(Object model) {
@@ -74,7 +77,7 @@ public class MasterPageEditPart extends AbstractReportEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#elementChanged(org.eclipse.birt.model.core.
@@ -103,11 +106,12 @@ public class MasterPageEditPart extends AbstractReportEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#activate()
 	 */
+	@Override
 	public void activate() {
 		super.activate();
 		getFigure().setFocusTraversable(false);
@@ -123,23 +127,26 @@ public class MasterPageEditPart extends AbstractReportEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new MasterPageEditPolicy());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		Figure figure = new ReportElementFigure() {
 
+			@Override
 			protected void paintFigure(Graphics graphics) {
 				graphics.fillRectangle(getBounds());
 				super.paintFigure(graphics);
@@ -152,6 +159,7 @@ public class MasterPageEditPart extends AbstractReportEditPart {
 				graphics.drawRectangle(getBounds().getCopy().crop(new Insets(0, 0, 1, 1)));
 			}
 
+			@Override
 			protected void paintChildren(Graphics graphics) {
 				IFigure child;
 
@@ -167,15 +175,17 @@ public class MasterPageEditPart extends AbstractReportEditPart {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.draw2d.Figure#findDescendantAtExcluding(int, int,
 			 * org.eclipse.draw2d.TreeSearch)
 			 */
+			@Override
 			protected IFigure findDescendantAtExcluding(int x, int y, TreeSearch search) {
 				PRIVATE_POINT.setLocation(x, y);
 				translateFromParent(PRIVATE_POINT);
-				if (!getBounds().contains(PRIVATE_POINT))
+				if (!getBounds().contains(PRIVATE_POINT)) {
 					return null;
+				}
 
 				IFigure fig;
 				for (int i = getChildren().size(); i > 0;) {
@@ -183,8 +193,9 @@ public class MasterPageEditPart extends AbstractReportEditPart {
 					fig = (IFigure) getChildren().get(i);
 					if (fig.isVisible()) {
 						fig = fig.findFigureAt(PRIVATE_POINT.x, PRIVATE_POINT.y, search);
-						if (fig != null)
+						if (fig != null) {
 							return fig;
+						}
 					}
 				}
 				// No descendants were found
@@ -222,9 +233,10 @@ public class MasterPageEditPart extends AbstractReportEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
 	 */
+	@Override
 	public void refreshChildren() {
 		super.refreshChildren();
 		List list = getChildren();
@@ -236,11 +248,12 @@ public class MasterPageEditPart extends AbstractReportEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#refreshFigure()
 	 */
+	@Override
 	public void refreshFigure() {
 		int color = getBackgroundColor((MasterPageHandle) getModel());
 		getFigure().setBackgroundColor(getBackGroundColor(color));
@@ -276,12 +289,13 @@ public class MasterPageEditPart extends AbstractReportEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * AbstractReportEditPart#refreshMarginBorder(org.eclipse.birt.report.designer.
 	 * internal.ui.editors.schematic.border.ReportDesignMarginBorder)
 	 */
+	@Override
 	public void refreshMarginBorder(ReportDesignMarginBorder border) {
 		refreshBorder((MasterPageHandle) getModel(), border);
 		Insets pist = getPadding(null);
@@ -294,9 +308,10 @@ public class MasterPageEditPart extends AbstractReportEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
+	@Override
 	protected List getModelChildren() {
 
 		SlotHandle model = ((SimpleMasterPageHandle) getModel()).getPageHeader();
@@ -335,6 +350,7 @@ public class MasterPageEditPart extends AbstractReportEditPart {
 
 						Display.getCurrent().asyncExec(new Runnable() {
 
+							@Override
 							public void run() {
 								ReportRequest r = new ReportRequest();
 								r.setType(ReportRequest.LOAD_MASTERPAGE);
@@ -351,6 +367,7 @@ public class MasterPageEditPart extends AbstractReportEditPart {
 		super.contentChange(focus, info);
 	}
 
+	@Override
 	public boolean isinterest(Object model) {
 		return super.isinterest(model) || model instanceof ModuleHandle;
 	}
@@ -373,6 +390,7 @@ public class MasterPageEditPart extends AbstractReportEditPart {
 			// fix bug 265256
 			Display.getCurrent().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					List list = getChildren();
 					int size = list.size();
@@ -402,26 +420,30 @@ class MasterPageEditPolicy extends GraphicalEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPolicy#getTargetEditPart(org.eclipse.gef.Request)
 	 */
+	@Override
 	public EditPart getTargetEditPart(Request request) {
 		if (REQ_ADD.equals(request.getType()) || REQ_MOVE.equals(request.getType())
-				|| REQ_CREATE.equals(request.getType()) || REQ_CLONE.equals(request.getType()))
+				|| REQ_CREATE.equals(request.getType()) || REQ_CLONE.equals(request.getType())) {
 			return getHost();
+		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.editpolicies.AbstractEditPolicy#getCommand(org.eclipse.gef.
 	 * Request)
 	 */
+	@Override
 	public Command getCommand(Request request) {
-		if (REQ_ADD.equals(request.getType()))
+		if (REQ_ADD.equals(request.getType())) {
 			return getAddCommand((ChangeBoundsRequest) request);
+		}
 
 		return super.getCommand(request);
 	}

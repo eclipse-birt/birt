@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +30,7 @@ public class ScriptValue extends ScriptDebugElement implements IValue {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param frame
 	 * @param value
 	 */
@@ -40,27 +43,30 @@ public class ScriptValue extends ScriptDebugElement implements IValue {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.IValue#getReferenceTypeName()
 	 */
+	@Override
 	public String getReferenceTypeName() throws DebugException {
 		return value.getTypeName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.IValue#getValueString()
 	 */
+	@Override
 	public String getValueString() throws DebugException {
 		return value.getValueString();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.IValue#getVariables()
 	 */
+	@Override
 	public IVariable[] getVariables() throws DebugException {
 		VMVariable[] variables = value.getMembers();
 
@@ -84,28 +90,31 @@ public class ScriptValue extends ScriptDebugElement implements IValue {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.IValue#hasVariables()
 	 */
+	@Override
 	public boolean hasVariables() throws DebugException {
 		return getVariables().length > 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.IValue#isAllocated()
 	 */
+	@Override
 	public boolean isAllocated() throws DebugException {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.debug.internal.script.model.ScriptDebugElement#
 	 * getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		try {
 			return getValueString();

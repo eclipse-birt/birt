@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ class BinaryTreeROSeekerHelper {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param segmentInfoList
 	 */
 	BinaryTreeROSeekerHelper(List segmentInfoList) {
@@ -32,7 +35,7 @@ class BinaryTreeROSeekerHelper {
 
 	/**
 	 * Search the match SegmentInfo in the tree.
-	 * 
+	 *
 	 * @param o
 	 * @return
 	 * @throws DataException
@@ -49,14 +52,15 @@ class BinaryTreeROSeekerHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param list
 	 * @return
 	 */
 	private Node populateNode(List list) {
 		int index = list.size() / 2;
-		if (index >= list.size())
+		if (index >= list.size()) {
 			return null;
+		}
 		Node n = new Node((SegmentInfo) list.get(index));
 		List left = list.subList(0, index);
 
@@ -69,7 +73,7 @@ class BinaryTreeROSeekerHelper {
 
 	/**
 	 * Find the node which encloses the given object array values.
-	 * 
+	 *
 	 * @param o
 	 * @param node
 	 * @return
@@ -78,12 +82,15 @@ class BinaryTreeROSeekerHelper {
 	private Node findNodeWithValue(Object[] o, Node node) throws DataException {
 		int compareMin = JointDataSetUtil.compare(o, node.getSegmentInfo().getMinValue());
 		int compareMax = JointDataSetUtil.compare(o, node.getSegmentInfo().getMaxValue());
-		if (compareMin >= 0 && compareMax <= 0)
+		if (compareMin >= 0 && compareMax <= 0) {
 			return node;
-		if (compareMin < 0 && node.getLeftChild() != null)
+		}
+		if (compareMin < 0 && node.getLeftChild() != null) {
 			return findNodeWithValue(o, node.getLeftChild());
-		if (compareMax > 0 && node.getRightChild() != null)
+		}
+		if (compareMax > 0 && node.getRightChild() != null) {
 			return findNodeWithValue(o, node.getRightChild());
+		}
 		return null;
 	}
 
@@ -100,7 +107,7 @@ class BinaryTreeROSeekerHelper {
 
 		/**
 		 * Constructor.
-		 * 
+		 *
 		 * @param sinfo
 		 */
 		private Node(SegmentInfo sinfo) {
@@ -109,7 +116,7 @@ class BinaryTreeROSeekerHelper {
 
 		/**
 		 * Get the SegmentInfo of this tree node.
-		 * 
+		 *
 		 * @return
 		 */
 		private SegmentInfo getSegmentInfo() {
@@ -118,7 +125,7 @@ class BinaryTreeROSeekerHelper {
 
 		/**
 		 * Get left child.
-		 * 
+		 *
 		 * @return
 		 */
 		private Node getLeftChild() {
@@ -130,15 +137,17 @@ class BinaryTreeROSeekerHelper {
 		}
 
 		private void setLeftChild(Node leftChild) {
-			if (leftChild == null)
+			if (leftChild == null) {
 				return;
+			}
 
 			this.leftChild = leftChild;
 		}
 
 		private void setRightChild(Node rightChild) {
-			if (rightChild == null)
+			if (rightChild == null) {
 				return;
+			}
 			this.rightChild = rightChild;
 		}
 	}

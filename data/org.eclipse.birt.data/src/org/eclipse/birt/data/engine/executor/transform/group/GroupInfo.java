@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +35,7 @@ public final class GroupInfo implements ICachedObject {
 	public int firstChild = -1;
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public static ICachedObjectCreator getCreator() {
@@ -41,9 +44,10 @@ public final class GroupInfo implements ICachedObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.cache.ICachedObject#getFieldValues()
 	 */
+	@Override
 	public Object[] getFieldValues() {
 		Object[] fields = new Object[2];
 		fields[0] = Integer.valueOf(parent);
@@ -56,18 +60,19 @@ public final class GroupInfo implements ICachedObject {
 /**
  * A creator class implemented ICachedObjectCreator. This class is used to
  * create GroupInfo object.
- * 
+ *
  * @author Administrator
- * 
+ *
  */
 class GroupInfoCreator implements ICachedObjectCreator {
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.cache.ICachedObjectCreator#createInstance(java.
 	 * lang.Object[])
 	 */
+	@Override
 	public ICachedObject createInstance(Object[] fields) {
 		GroupInfo groupInfo = new GroupInfo();
 		groupInfo.parent = ((Integer) fields[0]).intValue();

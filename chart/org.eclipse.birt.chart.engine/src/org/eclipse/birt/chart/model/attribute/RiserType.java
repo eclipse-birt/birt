@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,11 +24,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Riser Type</b></em>', and utility methods for working with them. <!--
  * end-user-doc --> <!-- begin-model-doc -->
- * 
+ *
  * This type represents the possible values for risers supported for Bar Series.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getRiserType()
  * @model
  * @generated
@@ -38,7 +41,7 @@ public enum RiserType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #RECTANGLE
 	 * @generated
 	 * @ordered
@@ -51,7 +54,7 @@ public enum RiserType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #TRIANGLE
 	 * @generated
 	 * @ordered
@@ -60,7 +63,7 @@ public enum RiserType implements Enumerator {
 	/**
 	 * The '<em><b>Tube</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #TUBE
 	 * @generated
 	 * @ordered
@@ -69,7 +72,7 @@ public enum RiserType implements Enumerator {
 	/**
 	 * The '<em><b>Cone</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #CONE
 	 * @generated
 	 * @ordered
@@ -79,7 +82,7 @@ public enum RiserType implements Enumerator {
 	/**
 	 * The '<em><b>Rectangle</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #RECTANGLE_LITERAL
 	 * @model name="Rectangle"
 	 * @generated
@@ -90,7 +93,7 @@ public enum RiserType implements Enumerator {
 	/**
 	 * The '<em><b>Triangle</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #TRIANGLE_LITERAL
 	 * @model name="Triangle"
 	 * @generated
@@ -105,7 +108,7 @@ public enum RiserType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #TUBE_LITERAL
 	 * @model name="Tube"
 	 * @generated
@@ -120,7 +123,7 @@ public enum RiserType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #CONE_LITERAL
 	 * @model name="Cone"
 	 * @generated
@@ -131,16 +134,16 @@ public enum RiserType implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Riser Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final RiserType[] VALUES_ARRAY = new RiserType[] { RECTANGLE_LITERAL, TRIANGLE_LITERAL, TUBE_LITERAL,
+	private static final RiserType[] VALUES_ARRAY = { RECTANGLE_LITERAL, TRIANGLE_LITERAL, TUBE_LITERAL,
 			CONE_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Riser Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static final List<RiserType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -148,7 +151,7 @@ public enum RiserType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Riser Type</b></em>' literal with the specified literal
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static RiserType get(String literal) {
@@ -164,7 +167,7 @@ public enum RiserType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Riser Type</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static RiserType getByName(String name) {
@@ -180,7 +183,7 @@ public enum RiserType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Riser Type</b></em>' literal with the specified integer
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static RiserType get(int value) {
@@ -199,21 +202,21 @@ public enum RiserType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String literal;
@@ -221,10 +224,10 @@ public enum RiserType implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private RiserType(int value, String name, String literal) {
+	RiserType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -232,27 +235,30 @@ public enum RiserType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -260,7 +266,7 @@ public enum RiserType implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override

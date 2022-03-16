@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -13,7 +16,7 @@ package org.eclipse.birt.doc.schema;
 
 /**
  * Css type
- * 
+ *
  */
 
 public final class CssType {
@@ -50,7 +53,7 @@ public final class CssType {
 
 	/**
 	 * Gets inherited
-	 * 
+	 *
 	 * @return inherited value
 	 */
 
@@ -60,7 +63,7 @@ public final class CssType {
 
 	/**
 	 * Sets inherited value
-	 * 
+	 *
 	 * @param inherited
 	 */
 
@@ -70,7 +73,7 @@ public final class CssType {
 
 	/**
 	 * Gets initial values
-	 * 
+	 *
 	 * @return values
 	 */
 
@@ -80,7 +83,7 @@ public final class CssType {
 
 	/**
 	 * Sets initial values
-	 * 
+	 *
 	 * @param initialValues
 	 */
 
@@ -90,7 +93,7 @@ public final class CssType {
 
 	/**
 	 * Gets name
-	 * 
+	 *
 	 * @return name
 	 */
 
@@ -100,7 +103,7 @@ public final class CssType {
 
 	/**
 	 * Sets name
-	 * 
+	 *
 	 * @param name
 	 */
 
@@ -110,7 +113,7 @@ public final class CssType {
 
 	/**
 	 * Gets w3c values
-	 * 
+	 *
 	 * @return w3c values
 	 */
 
@@ -120,7 +123,7 @@ public final class CssType {
 
 	/**
 	 * Sets w2c values
-	 * 
+	 *
 	 * @param values
 	 */
 
@@ -130,7 +133,7 @@ public final class CssType {
 
 	/**
 	 * Gets birt choice values
-	 * 
+	 *
 	 * @return birt choice values
 	 */
 
@@ -140,7 +143,7 @@ public final class CssType {
 
 	/**
 	 * Sets birt choice values
-	 * 
+	 *
 	 * @param birtChoiceValues
 	 */
 

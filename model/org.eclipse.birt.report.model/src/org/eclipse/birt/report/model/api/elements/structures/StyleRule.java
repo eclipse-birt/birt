@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 /**
  * Base class for highlight and map rules in the style. Choices for the operand
  * are defined in <code>DesignChoiceConstants</code>.
- * 
+ *
  * @see DesignChoiceConstants
  */
 
@@ -83,7 +86,7 @@ public abstract class StyleRule extends PropertyStructure {
 	protected Expression testExpression = null;
 
 	/**
-	 * 
+	 *
 	 */
 	protected Boolean isDesignTime = null;
 
@@ -96,7 +99,7 @@ public abstract class StyleRule extends PropertyStructure {
 
 	/**
 	 * Constructs the style rule with an operator and its operands.
-	 * 
+	 *
 	 * @param op       the choice name for the operand
 	 * @param v1       expression for the first operand
 	 * @param v2       expression for the second operand
@@ -113,37 +116,40 @@ public abstract class StyleRule extends PropertyStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.PropertyStructure#getIntrinsicProperty
 	 * (java.lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (OPERATOR_MEMBER.equals(propName))
+		if (OPERATOR_MEMBER.equals(propName)) {
 			return operator;
-		else if (VALUE1_MEMBER.equals(propName))
+		} else if (VALUE1_MEMBER.equals(propName)) {
 			return value1;
-		else if (VALUE2_MEMBER.equals(propName))
+		} else if (VALUE2_MEMBER.equals(propName)) {
 			return value2;
-		else if (TEST_EXPR_MEMBER.equals(propName))
+		} else if (TEST_EXPR_MEMBER.equals(propName)) {
 			return testExpression;
-		else if (IS_DESIGN_TIME_MEMBER.equals(propName))
+		} else if (IS_DESIGN_TIME_MEMBER.equals(propName)) {
 			return isDesignTime;
+		}
 
 		return super.getIntrinsicProperty(propName);
 	} /*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.model.core.PropertyStructure#setIntrinsicProperty
 		 * (java.lang.String, java.lang.Object)
 		 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (OPERATOR_MEMBER.equals(propName))
+		if (OPERATOR_MEMBER.equals(propName)) {
 			operator = (String) value;
-		else if (VALUE1_MEMBER.equals(propName)) {
+		} else if (VALUE1_MEMBER.equals(propName)) {
 			if (value == null) {
 				value1 = null;
 				return;
@@ -155,14 +161,15 @@ public abstract class StyleRule extends PropertyStructure {
 				value1 = new ArrayList();
 				value1.add(value);
 			}
-		} else if (VALUE2_MEMBER.equals(propName))
+		} else if (VALUE2_MEMBER.equals(propName)) {
 			value2 = (Expression) value;
-		else if (TEST_EXPR_MEMBER.equals(propName))
+		} else if (TEST_EXPR_MEMBER.equals(propName)) {
 			testExpression = (Expression) value;
-		else if (IS_DESIGN_TIME_MEMBER.equals(propName))
+		} else if (IS_DESIGN_TIME_MEMBER.equals(propName)) {
 			isDesignTime = (Boolean) value;
-		else
+		} else {
 			super.setIntrinsicProperty(propName, value);
+		}
 	}
 
 	/**
@@ -185,7 +192,7 @@ public abstract class StyleRule extends PropertyStructure {
 	 * <li>MAP_OPERATOR_LIKE
 	 * <li>MAP_OPERATOR_ANY
 	 * </ul>
-	 * 
+	 *
 	 * @return the operator
 	 */
 
@@ -213,7 +220,7 @@ public abstract class StyleRule extends PropertyStructure {
 	 * <li>MAP_OPERATOR_LIKE
 	 * <li>MAP_OPERATOR_ANY
 	 * </ul>
-	 * 
+	 *
 	 * @param operator the operator to set
 	 */
 
@@ -223,14 +230,15 @@ public abstract class StyleRule extends PropertyStructure {
 
 	/**
 	 * Returns the expression for the first operand.
-	 * 
+	 *
 	 * @return the first operand expression
 	 */
 
 	public String getValue1() {
 		List valueList = getValue1List();
-		if (valueList == null || valueList.isEmpty())
+		if (valueList == null || valueList.isEmpty()) {
 			return null;
+		}
 		return (String) valueList.get(0);
 	}
 
@@ -238,15 +246,17 @@ public abstract class StyleRule extends PropertyStructure {
 	 * Gets the value1 expression list. For most map operator, there is only one
 	 * expression in the returned list. However, map operator 'in' may contain more
 	 * than one expression.
-	 * 
+	 *
 	 * @return the value1 expression list.
-	 * 
+	 *
 	 * @deprecated {@link #getValue1ExpressionList()}
 	 */
+	@Deprecated
 	public List getValue1List() {
 		List<Expression> valueList = (List<Expression>) getProperty(null, VALUE1_MEMBER);
-		if (valueList == null || valueList.isEmpty())
+		if (valueList == null || valueList.isEmpty()) {
 			return Collections.EMPTY_LIST;
+		}
 		return Collections.unmodifiableList(ModelUtil.getExpressionCompatibleList(valueList));
 	}
 
@@ -254,20 +264,21 @@ public abstract class StyleRule extends PropertyStructure {
 	 * Gets the value1 expression list. For most map operator, there is only one
 	 * expression in the returned list. However, map operator 'in' may contain more
 	 * than one expression.
-	 * 
+	 *
 	 * @return the value1 expression list. Each item is <code>Expression</code>
 	 *         object.
 	 */
 	public List getValue1ExpressionList() {
 		List<Expression> valueList = (List<Expression>) getProperty(null, VALUE1_MEMBER);
-		if (valueList == null || valueList.isEmpty())
+		if (valueList == null || valueList.isEmpty()) {
 			return Collections.EMPTY_LIST;
+		}
 		return Collections.unmodifiableList(valueList);
 	}
 
 	/**
 	 * Set expression for the first operand.
-	 * 
+	 *
 	 * @param value the first operand expression.
 	 */
 
@@ -283,7 +294,7 @@ public abstract class StyleRule extends PropertyStructure {
 
 	/**
 	 * Sets the value 1 expression.
-	 * 
+	 *
 	 * @param value1List the value 1 expression list to set
 	 */
 
@@ -293,7 +304,7 @@ public abstract class StyleRule extends PropertyStructure {
 
 	/**
 	 * Returns the expression for the second operand.
-	 * 
+	 *
 	 * @return the second operand expression
 	 */
 
@@ -303,7 +314,7 @@ public abstract class StyleRule extends PropertyStructure {
 
 	/**
 	 * Set expression for the second operand.
-	 * 
+	 *
 	 * @param value the second operand expression.
 	 */
 
@@ -313,9 +324,9 @@ public abstract class StyleRule extends PropertyStructure {
 
 	/**
 	 * sets the test expression for the rule.
-	 * 
+	 *
 	 * @param expression the expression value
-	 * 
+	 *
 	 */
 	public void setTestExpression(String expression) {
 		setProperty(TEST_EXPR_MEMBER, expression);
@@ -323,7 +334,7 @@ public abstract class StyleRule extends PropertyStructure {
 
 	/**
 	 * gets the test expression value of this rule.
-	 * 
+	 *
 	 * @return the expression
 	 */
 	public String getTestExpression() {
@@ -332,19 +343,21 @@ public abstract class StyleRule extends PropertyStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#isDesignTime()
 	 */
+	@Override
 	public boolean isDesignTime() {
 		Boolean isDesignTime = (Boolean) getProperty(null, IS_DESIGN_TIME_MEMBER);
-		if (isDesignTime == null)
+		if (isDesignTime == null) {
 			return true;
+		}
 		return isDesignTime.booleanValue();
 	}
 
 	/**
 	 * Sets the design time status for this structure.
-	 * 
+	 *
 	 * @param isDesignTime
 	 */
 	public void setDesignTime(boolean isDesignTime) {

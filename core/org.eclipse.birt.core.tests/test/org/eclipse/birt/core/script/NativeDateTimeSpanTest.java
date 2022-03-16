@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,9 +28,9 @@ import junit.framework.TestCase;
 
 /**
  * @Created on Dec 27, 2004
- * 
+ *
  *          NativeDateTimeSpanTest Class
- * 
+ *
  *          This class is the unit test for class NativeDateTimeSpan.
  */
 public class NativeDateTimeSpanTest extends TestCase {
@@ -47,9 +50,10 @@ public class NativeDateTimeSpanTest extends TestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		/*
@@ -71,9 +75,10 @@ public class NativeDateTimeSpanTest extends TestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#tearDown()
 	 */
+	@Override
 	@After
 	public void tearDown() {
 		Context.exit();
@@ -81,7 +86,7 @@ public class NativeDateTimeSpanTest extends TestCase {
 
 	/**
 	 * Evaluate a JavaScript source string.
-	 * 
+	 *
 	 * @param script
 	 * @return the result
 	 */
@@ -161,8 +166,9 @@ public class NativeDateTimeSpanTest extends TestCase {
 		assertEquals(12, ((Integer) value3).intValue());
 		String script9 = "var startDate=\"1/5/08 8:01 PM\" ;var endDate=\"1/5/09 8:05 PM\" ;DateTimeSpan.months(startDate,endDate);";
 		Object value9 = eval(script9);
-		if (value9 instanceof Integer)
+		if (value9 instanceof Integer) {
 			assertEquals(12, ((Integer) value9).intValue());
+		}
 
 		/*
 		 * Many months within two different years
@@ -211,75 +217,88 @@ public class NativeDateTimeSpanTest extends TestCase {
 		 */
 		String script1 = "var startDate=\"1/2/04 8:01 PM\" ;var endDate=\"1/3/04 8:01 PM\" ;DateTimeSpan.days(startDate,endDate);";
 		Object value1 = eval(script1);
-		if (value1 instanceof Integer)
+		if (value1 instanceof Integer) {
 			assertEquals(1, ((Integer) value1).intValue());
+		}
 		/*
 		 * Just an hour off a day.
 		 */
 		String script2 = "var startDate=\"1/2/04 8:01 PM\" ;var endDate=\"1/3/04 7:01 PM\" ;DateTimeSpan.days(startDate,endDate);";
 		Object value2 = eval(script2);
-		if (value2 instanceof Integer)
+		if (value2 instanceof Integer) {
 			assertEquals(0, ((Integer) value2).intValue());
+		}
 		/*
 		 * Just one minute over a day, two days
 		 */
 		String script3 = "var startDate=\"1/2/04 8:01 PM\" ;var endDate=\"1/3/04 8:02 PM\" ;DateTimeSpan.days(startDate,endDate);";
 		Object value3 = eval(script3);
-		if (value3 instanceof Integer)
+		if (value3 instanceof Integer) {
 			assertEquals(1, ((Integer) value3).intValue());
+		}
 		String script5 = "var startDate=\"1/2/04 8:01 PM\" ;var endDate=\"1/4/04 8:02 PM\" ;DateTimeSpan.days(startDate,endDate);";
 		Object value5 = eval(script5);
-		if (value5 instanceof Integer)
+		if (value5 instanceof Integer) {
 			assertEquals(2, ((Integer) value5).intValue());
+		}
 		/*
 		 * The second date is only a minute more than the first one, in the same day.
 		 */
 		String script4 = "var startDate=\"1/2/04 8:01 PM\" ;var endDate=\"1/2/04 8:02 PM\" ;DateTimeSpan.days(startDate,endDate);";
 		Object value4 = eval(script4);
-		if (value4 instanceof Integer)
+		if (value4 instanceof Integer) {
 			assertEquals(0, ((Integer) value4).intValue());
+		}
 
 		/*
 		 * Though a whole year.
 		 */
 		String script6 = "var startDate=\"1/2/04 8:01 PM\" ;var endDate=\"2/4/05 8:02 PM\" ;DateTimeSpan.days(startDate,endDate);";
 		Object value6 = eval(script6);
-		if (value6 instanceof Integer)
+		if (value6 instanceof Integer) {
 			assertEquals(399, ((Integer) value6).intValue());
+		}
 		String script7 = "var startDate=\"1/2/04 8:01 PM\" ;var endDate=\"2/4/05 8:00 PM\" ;DateTimeSpan.days(startDate,endDate);";
 		Object value7 = eval(script7);
-		if (value7 instanceof Integer)
+		if (value7 instanceof Integer) {
 			assertEquals(398, ((Integer) value7).intValue());
+		}
 		String script8 = "var startDate=\"1/2/04 8:01 PM\" ;var endDate=\"3/1/05 8:01 PM\" ;DateTimeSpan.days(startDate,endDate);";
 		Object value8 = eval(script8);
-		if (value8 instanceof Integer)
+		if (value8 instanceof Integer) {
 			assertEquals(424, ((Integer) value8).intValue());
+		}
 		String script9 = "var startDate=\"2/2/04 8:01 PM\" ;var endDate=\"1/1/05 8:01 PM\" ;DateTimeSpan.days(startDate,endDate);";
 		Object value9 = eval(script9);
-		if (value9 instanceof Integer)
+		if (value9 instanceof Integer) {
 			assertEquals(334, ((Integer) value9).intValue());
+		}
 		String script10 = "var startDate=\"1/1/04 8:01 PM\" ;var endDate=\"1/1/05 8:01 PM\" ;DateTimeSpan.days(startDate,endDate);";
 		Object value10 = eval(script10);
-		if (value10 instanceof Integer)
+		if (value10 instanceof Integer) {
 			assertEquals(366, ((Integer) value10).intValue());
+		}
 		String script11 = "var startDate=\"1/1/04 8:01 PM\" ;var endDate=\"1/3/09 8:01 PM\" ;DateTimeSpan.days(startDate,endDate);";
 		Object value11 = eval(script11);
-		if (value11 instanceof Integer)
+		if (value11 instanceof Integer) {
 			assertEquals(1829, ((Integer) value11).intValue());
+		}
 		/*
 		 * The first day is more than the second one
 		 */
 		String script12 = "var startDate=\"2/4/09 0:00 PM\" ;var endDate=\"2/2/10 8:01 PM\" ;DateTimeSpan.days(startDate,endDate);";
 		Object value12 = eval(script12);
-		if (value12 instanceof Integer)
+		if (value12 instanceof Integer) {
 			assertEquals(363, ((Integer) value12).intValue());
+		}
 		/*
 		 * The first month is more than the second one.
 		 */
 		String script13 = "var startDate=\"3/5/09 0:00 PM\" ;var endDate=\"2/1/10 8:01 PM\" ;DateTimeSpan.days(startDate,endDate);";
 		Object value13 = eval(script13);
-		if (value13 instanceof Integer)
+		if (value13 instanceof Integer) {
 			assertEquals(333, ((Integer) value13).intValue());
+		}
 
 	}
 
@@ -290,73 +309,84 @@ public class NativeDateTimeSpanTest extends TestCase {
 		 */
 		String script1 = "var startDate=\"2/3/09 8:01 PM\" ;var endDate=\"2/4/09 8:01 PM\" ;DateTimeSpan.hours(startDate,endDate);";
 		Object value1 = eval(script1);
-		if (value1 instanceof Integer)
+		if (value1 instanceof Integer) {
 			assertEquals(24, ((Integer) value1).intValue());
+		}
 		/*
 		 * A whole day in a leap year
 		 */
 		String script3 = "var startDate=\"2/29/08 8:01 PM\" ;var endDate=\"3/1/08 8:01 PM\" ;DateTimeSpan.hours(startDate,endDate);";
 		Object value3 = eval(script3);
-		if (value3 instanceof Integer)
+		if (value3 instanceof Integer) {
 			assertEquals(24, ((Integer) value3).intValue());
+		}
 		/*
 		 * In the same day, less than an hour, equal to an hour, more than an hour
 		 */
 		String script2 = "var startDate=\"3/1/08 8:01 PM\" ;var endDate=\"3/1/08 9:02 PM\" ;DateTimeSpan.hours(startDate,endDate);";
 		Object value2 = eval(script2);
-		if (value2 instanceof Integer)
+		if (value2 instanceof Integer) {
 			assertEquals(1, ((Integer) value2).intValue());
+		}
 		String script4 = "var startDate=\"2/2/08 8:01 PM\" ;var endDate=\"2/2/08 9:00 PM\" ;DateTimeSpan.hours(startDate,endDate);";
 		Object value4 = eval(script4);
-		if (value4 instanceof Integer)
+		if (value4 instanceof Integer) {
 			assertEquals(0, ((Integer) value4).intValue());
+		}
 		String script5 = "var startDate=\"2/2/08 8:01 PM\" ;var endDate=\"2/2/08 9:02 PM\" ;DateTimeSpan.hours(startDate,endDate);";
 		Object value5 = eval(script5);
-		if (value5 instanceof Integer)
+		if (value5 instanceof Integer) {
 			assertEquals(1, ((Integer) value5).intValue());
+		}
 
 		/*
 		 * More than one day.
 		 */
 		String script6 = "var startDate=\"2/2/08 8:01 PM\" ;var endDate=\"2/3/08 9:02 PM\" ;DateTimeSpan.hours(startDate,endDate);";
 		Object value6 = eval(script6);
-		if (value6 instanceof Integer)
+		if (value6 instanceof Integer) {
 			assertEquals(25, ((Integer) value6).intValue());
+		}
 		/*
 		 * Just one minute off a whole day.
 		 */
 		String script7 = "var startDate=\"2/2/08 8:03 PM\" ;var endDate=\"2/3/08 8:02 PM\" ;DateTimeSpan.hours(startDate,endDate);";
 		Object value7 = eval(script7);
-		if (value7 instanceof Integer)
+		if (value7 instanceof Integer) {
 			assertEquals(23, ((Integer) value7).intValue());
+		}
 		/*
 		 * More than one year, a normal year.
 		 */
 		String script8 = "var startDate=\"2/2/09 8:01 PM\" ;var endDate=\"2/2/10 8:01 PM\" ;DateTimeSpan.hours(startDate,endDate);";
 		Object value8 = eval(script8);
-		if (value8 instanceof Integer)
+		if (value8 instanceof Integer) {
 			assertEquals(8760, ((Integer) value8).intValue());
+		}
 		/*
 		 * More than one yare, a leap year.
 		 */
 		String script9 = "var startDate=\"2/2/08 8:01 PM\" ;var endDate=\"2/3/09 8:00 PM\" ;DateTimeSpan.hours(startDate,endDate);";
 		Object value9 = eval(script9);
-		if (value9 instanceof Integer)
+		if (value9 instanceof Integer) {
 			assertEquals(8807, ((Integer) value9).intValue());
+		}
 		/*
 		 * The first hour is more than the second one.
 		 */
 		String script10 = "var startDate=\"2/2/09 9:01 PM\" ;var endDate=\"2/3/09 8:00 PM\" ;DateTimeSpan.hours(startDate,endDate);";
 		Object value10 = eval(script10);
-		if (value10 instanceof Integer)
+		if (value10 instanceof Integer) {
 			assertEquals(22, ((Integer) value10).intValue());
+		}
 		/*
 		 * The first hour is less than the second one.
 		 */
 		String script11 = "var startDate=\"2/2/09 3:01 PM\" ;var endDate=\"2/3/09 8:00 PM\" ;DateTimeSpan.hours(startDate,endDate);";
 		Object value11 = eval(script11);
-		if (value11 instanceof Integer)
+		if (value11 instanceof Integer) {
 			assertEquals(28, ((Integer) value11).intValue());
+		}
 
 		/*
 		 * Use Date instance to test this method
@@ -399,8 +429,9 @@ public class NativeDateTimeSpanTest extends TestCase {
 		ScriptableObject.putProperty(scope, "date2", jsNumber2);
 		String script1 = "DateTimeSpan.minutes(date1,date2)";
 		Object value1 = eval(script1);
-		if (value1 instanceof Integer)
+		if (value1 instanceof Integer) {
 			assertEquals(60, ((Integer) value1).intValue());
+		}
 
 		/*
 		 * Just one second off an hour
@@ -418,8 +449,9 @@ public class NativeDateTimeSpanTest extends TestCase {
 		ScriptableObject.putProperty(scope, "date4", jsNumber4);
 		String script2 = "DateTimeSpan.minutes(date3,date4)";
 		Object value2 = eval(script2);
-		if (value2 instanceof Integer)
+		if (value2 instanceof Integer) {
 			assertEquals(59, ((Integer) value2).intValue());
+		}
 
 		/*
 		 * Just one second over an hour
@@ -437,8 +469,9 @@ public class NativeDateTimeSpanTest extends TestCase {
 		ScriptableObject.putProperty(scope, "date6", jsNumber6);
 		String script3 = "DateTimeSpan.minutes(date5,date6)";
 		Object value3 = eval(script3);
-		if (value3 instanceof Integer)
+		if (value3 instanceof Integer) {
 			assertEquals(61, ((Integer) value3).intValue());
+		}
 
 		/*
 		 * In leap year
@@ -456,8 +489,9 @@ public class NativeDateTimeSpanTest extends TestCase {
 		ScriptableObject.putProperty(scope, "date8", jsNumber8);
 		String script4 = "DateTimeSpan.minutes(date7,date8)";
 		Object value4 = eval(script4);
-		if (value4 instanceof Integer)
+		if (value4 instanceof Integer) {
 			assertEquals(2881, ((Integer) value4).intValue());
+		}
 
 		/*
 		 * In the same hour, and the first minute is more than the second one.
@@ -475,8 +509,9 @@ public class NativeDateTimeSpanTest extends TestCase {
 		ScriptableObject.putProperty(scope, "date10", jsNumber10);
 		String script5 = "DateTimeSpan.minutes(date9,date10)";
 		Object value5 = eval(script5);
-		if (value5 instanceof Integer)
+		if (value5 instanceof Integer) {
 			assertEquals(58, ((Integer) value5).intValue());
+		}
 		/*
 		 * In the same hour, and the first hour is more than the second one.
 		 */
@@ -493,8 +528,9 @@ public class NativeDateTimeSpanTest extends TestCase {
 		ScriptableObject.putProperty(scope, "date12", jsNumber12);
 		String script6 = "DateTimeSpan.minutes(date11,date12)";
 		Object value6 = eval(script6);
-		if (value6 instanceof Integer)
+		if (value6 instanceof Integer) {
 			assertEquals(1198, ((Integer) value6).intValue());
+		}
 
 	}
 
@@ -516,8 +552,9 @@ public class NativeDateTimeSpanTest extends TestCase {
 		ScriptableObject.putProperty(scope, "date2", jsNumber2);
 		String script1 = "DateTimeSpan.seconds(date1,date2)";
 		Object value1 = eval(script1);
-		if (value1 instanceof Integer)
+		if (value1 instanceof Integer) {
 			assertEquals(1, ((Integer) value1).intValue());
+		}
 
 		/*
 		 * Just one second off one minute
@@ -535,8 +572,9 @@ public class NativeDateTimeSpanTest extends TestCase {
 		ScriptableObject.putProperty(scope, "date4", jsNumber4);
 		String script2 = "DateTimeSpan.seconds(date3,date4)";
 		Object value2 = eval(script2);
-		if (value2 instanceof Integer)
+		if (value2 instanceof Integer) {
 			assertEquals(59, ((Integer) value2).intValue());
+		}
 
 		/*
 		 * Just one second over one minute
@@ -554,8 +592,9 @@ public class NativeDateTimeSpanTest extends TestCase {
 		ScriptableObject.putProperty(scope, "date6", jsNumber6);
 		String script3 = "DateTimeSpan.seconds(date5,date6)";
 		Object value3 = eval(script3);
-		if (value3 instanceof Integer)
+		if (value3 instanceof Integer) {
 			assertEquals(61, ((Integer) value3).intValue());
+		}
 
 		/*
 		 * In leap year
@@ -573,8 +612,9 @@ public class NativeDateTimeSpanTest extends TestCase {
 		ScriptableObject.putProperty(scope, "date8", jsNumber8);
 		String script4 = "DateTimeSpan.seconds(date7,date8)";
 		Object value4 = eval(script4);
-		if (value4 instanceof Integer)
+		if (value4 instanceof Integer) {
 			assertEquals(172800, ((Integer) value4).intValue());
+		}
 
 		/*
 		 * In the same hour, and the first second is more than the second one.
@@ -592,8 +632,9 @@ public class NativeDateTimeSpanTest extends TestCase {
 		ScriptableObject.putProperty(scope, "date10", jsNumber10);
 		String script5 = "DateTimeSpan.seconds(date9,date10)";
 		Object value5 = eval(script5);
-		if (value5 instanceof Integer)
+		if (value5 instanceof Integer) {
 			assertEquals(3535, ((Integer) value5).intValue());
+		}
 	}
 
 	@Test

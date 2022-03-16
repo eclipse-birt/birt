@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 
 /**
  * The class implements an evaluator to retrieve grouped row data.
- * 
+ *
  * @since 2.3
  */
 public class GroupedRowExpressionsEvaluator extends AbstractGroupedDataRowExpressionEvaluator {
@@ -45,7 +48,7 @@ public class GroupedRowExpressionsEvaluator extends AbstractGroupedDataRowExpres
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param resultSet
 	 * @param hasAggregation
 	 * @param cm
@@ -72,7 +75,7 @@ public class GroupedRowExpressionsEvaluator extends AbstractGroupedDataRowExpres
 	/**
 	 * Get list of group breaks, the group level is base on 0th index, 0 index means
 	 * outermost group.
-	 * 
+	 *
 	 * @param groupLevel
 	 * @return
 	 */
@@ -86,9 +89,10 @@ public class GroupedRowExpressionsEvaluator extends AbstractGroupedDataRowExpres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.factory.IGroupedDataResultSet#getGroupBreaks(int)
 	 */
+	@Override
 	public int[] getGroupBreaks(int groupLevel) {
 		Object[] breaksArray = getGroupBreaksList(groupLevel).toArray();
 		int[] breaks = new int[breaksArray.length];
@@ -100,9 +104,10 @@ public class GroupedRowExpressionsEvaluator extends AbstractGroupedDataRowExpres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#close()
 	 */
+	@Override
 	public void close() {
 		try {
 			fResultIterator.close();
@@ -113,11 +118,12 @@ public class GroupedRowExpressionsEvaluator extends AbstractGroupedDataRowExpres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang
 	 * .String)
 	 */
+	@Override
 	public Object evaluate(String expression) {
 		try {
 			// Here, the expression should be binding name.
@@ -130,20 +136,22 @@ public class GroupedRowExpressionsEvaluator extends AbstractGroupedDataRowExpres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal(
 	 * java.lang.String)
 	 */
+	@Override
 	public Object evaluateGlobal(String expression) {
 		return evaluate(expression);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
 	 */
+	@Override
 	public boolean first() {
 		try {
 			fCountOfAvaiableRows = 0;
@@ -152,10 +160,8 @@ public class GroupedRowExpressionsEvaluator extends AbstractGroupedDataRowExpres
 				if (fResultIterator.next()) {
 					return true;
 				}
-			} else {
-				if (findFirst()) {
-					return true;
-				}
+			} else if (findFirst()) {
+				return true;
 			}
 		} catch (BirtException e) {
 			sLogger.log(e);
@@ -165,7 +171,7 @@ public class GroupedRowExpressionsEvaluator extends AbstractGroupedDataRowExpres
 
 	/**
 	 * Find the first row position.
-	 * 
+	 *
 	 * @return
 	 * @throws BirtException
 	 */
@@ -186,7 +192,7 @@ public class GroupedRowExpressionsEvaluator extends AbstractGroupedDataRowExpres
 	/**
 	 * Find next available row position. If it has grouped-enabled, should ignore
 	 * non-grouped/non-aggregation row.
-	 * 
+	 *
 	 * @return
 	 * @throws BirtException
 	 */
@@ -216,9 +222,10 @@ public class GroupedRowExpressionsEvaluator extends AbstractGroupedDataRowExpres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#next()
 	 */
+	@Override
 	public boolean next() {
 		try {
 			if (!fIsGrouped) {

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.ui.views.attributes;
 
@@ -16,11 +28,11 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class AbstractPageGenerator extends CategoryPageGenerator {
 
-	protected HashMap<CTabItem, Object> itemMap = new HashMap<CTabItem, Object>();
+	protected HashMap<CTabItem, Object> itemMap = new HashMap<>();
 
 	/**
 	 * Creates a new tab and place it as last.
-	 * 
+	 *
 	 * @param index
 	 * @param itemKey
 	 */
@@ -34,13 +46,14 @@ public class AbstractPageGenerator extends CategoryPageGenerator {
 
 	/**
 	 * Creates a new tab after the given preceding tab.
-	 * 
+	 *
 	 * @param itemKey
 	 * @param precedingItemKey
 	 */
 	protected void createTabItem(String itemKey, String precedingItemKey) {
-		if (existTabItem(itemKey))
+		if (existTabItem(itemKey)) {
 			return;
+		}
 		CTabItem tabItem = new CTabItem(tabFolder, SWT.NONE, getItemIndex(precedingItemKey) + 1);
 		tabItem.setText(itemKey);
 		itemMap.put(tabItem, null);
@@ -48,39 +61,42 @@ public class AbstractPageGenerator extends CategoryPageGenerator {
 
 	/**
 	 * Returns the index of the tab with given key.
-	 * 
+	 *
 	 * @param title
 	 * @return 0-based index. -1 means no tab found.
 	 */
 	public int getItemIndex(String itemKey) {
-		if (itemKey == null)
+		if (itemKey == null) {
 			return -1;
+		}
 		CTabItem[] items = tabFolder.getItems();
 		for (int i = 0; i < items.length; i++) {
-			if (items[i].getText().equals(itemKey))
+			if (items[i].getText().equals(itemKey)) {
 				return i;
+			}
 		}
 		return -1;
 	}
 
 	/**
 	 * Checks if a tab with given key exists.
-	 * 
+	 *
 	 * @param itemKey
 	 * @return
 	 */
 	public boolean existTabItem(String itemKey) {
 		CTabItem[] items = tabFolder.getItems();
 		for (int i = 0; i < items.length; i++) {
-			if (items[i].getText().equals(itemKey))
+			if (items[i].getText().equals(itemKey)) {
 				return true;
+			}
 		}
 		return false;
 	}
 
 	/**
 	 * Removes the tab with given key.
-	 * 
+	 *
 	 * @param itemKey
 	 */
 	public void removeTabItem(String itemKey) {

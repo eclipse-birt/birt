@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.layout.emitter;
 
@@ -38,18 +50,20 @@ public class TableBorderEx {
 
 		BorderSegment getSegmentByStart(int start) {
 			int index = segStartPoints.indexOf(new Integer(start));
-			if (-1 == index)
+			if (-1 == index) {
 				return null;
-			else
+			} else {
 				return (BorderSegment) segments.get(index);
+			}
 		}
 
 		BorderSegment getSegmentByEnd(int end) {
 			int index = segEndPoints.indexOf(new Integer(end));
-			if (-1 == index)
+			if (-1 == index) {
 				return null;
-			else
+			} else {
 				return (BorderSegment) segments.get(index);
+			}
 		}
 	}
 

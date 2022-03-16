@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,7 +19,7 @@ import java.sql.Blob;
 import java.util.Date;
 
 /**
- * 
+ *
  */
 
 public class DataType {
@@ -58,7 +61,7 @@ public class DataType {
 
 	/**
 	 * Gets the description of a data type.
-	 * 
+	 *
 	 * @param typeCode Data type enumeration value
 	 * @return Textual description of data type. "Unknown" if an undefined data type
 	 *         is passed in.
@@ -77,7 +80,7 @@ public class DataType {
 
 	/**
 	 * Gets the Java class used to represent the specified data type.
-	 * 
+	 *
 	 * @return Class for the specified data type. If data type is unknown or ANY,
 	 *         returns null.
 	 */
@@ -94,15 +97,17 @@ public class DataType {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param objClass
 	 * @return
 	 */
 	public static int getDataType(Class objClass) {
-		if (objClass.equals(java.sql.Timestamp.class))
+		if (objClass.equals(java.sql.Timestamp.class)) {
 			return typeCodes[4];
-		if (objClass.equals(byte[].class))
+		}
+		if (objClass.equals(byte[].class)) {
 			return typeCodes[6];
+		}
 		for (int i = 0; i < classes.length; i++) {
 			if (classes[i].equals(objClass)) {
 				return typeCodes[i];

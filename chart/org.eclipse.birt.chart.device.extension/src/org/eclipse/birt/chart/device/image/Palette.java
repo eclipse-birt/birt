@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -32,7 +35,7 @@ import org.eclipse.birt.chart.util.SecurityUtil;
  */
 final class Palette {
 
-	Vector<ColourEntry> colours = new Vector<ColourEntry>();
+	Vector<ColourEntry> colours = new Vector<>();
 
 	int transparentIndex;
 
@@ -46,8 +49,9 @@ final class Palette {
 
 			colours.addElement(transparent);
 			transparentIndex = 0;
-		} else
+		} else {
 			transparentIndex = -1;
+		}
 
 		// Create colour population from images
 		int imagePop = 0;
@@ -61,13 +65,13 @@ final class Palette {
 				image.getRGB(0, i, w, 1, row, 0, w);
 				for (int j = 0; j < w; j++) {
 					int col = row[j];
-					Integer x = Integer.valueOf(col);
+					Integer x = col;
 					ColourEntry ce = tempHash.get(x);
 					if (ce == null) {
 						// Map non-opaque colours appropriately
-						if ((col >>> 24) != 0xff)
+						if ((col >>> 24) != 0xff) {
 							ce = transparent;
-						else {
+						} else {
 							ce = new ColourEntry();
 							ce.argb = col;
 							ce.population = 0;
@@ -84,13 +88,13 @@ final class Palette {
 		if (extraColours != null) {
 			for (int i = 0; i < extraColours.length; i++) {
 				int col = extraColours[i].getRGB();
-				Integer x = Integer.valueOf(col);
+				Integer x = col;
 				ColourEntry ce = tempHash.get(x);
 				if (ce == null) {
 					// Map non-opaque colours appropriately
-					if ((col >>> 24) != 0xff)
+					if ((col >>> 24) != 0xff) {
 						ce = transparent;
-					else {
+					} else {
 						ce = new ColourEntry();
 						ce.argb = col;
 						ce.population = 0;
@@ -122,13 +126,15 @@ final class Palette {
 			}
 			// Find colour closest to it
 			int closeIndex = 1;
-			if (minIndex == 1)
+			if (minIndex == 1) {
 				closeIndex = 2;
+			}
 			ColourEntry closeCe = colours.elementAt(closeIndex);
 			int closeDiff = closeCe.compare(minCe);
 			for (int i = closeIndex + 1; i < l; i++) {
-				if (i == minIndex)
+				if (i == minIndex) {
 					continue;
+				}
 				ColourEntry ce = colours.elementAt(i);
 				int diff = ce.compare(minCe);
 				if (diff < closeDiff) {
@@ -154,8 +160,9 @@ final class Palette {
 			int argb = 0xffffffff;
 			while (true) {
 				ColourEntry ce = tempHash.get(Integer.valueOf(argb));
-				if (ce == null)
+				if (ce == null) {
 					break;
+				}
 				argb--;
 			}
 			transparent.argb = (argb & 0xffffff);
@@ -193,22 +200,25 @@ final class Palette {
 
 	byte[] getIndices(int[] argbs, int offset, int length) {
 		byte[] ret = new byte[length];
-		for (int index = offset, l = 0; l < length; index++, l++)
+		for (int index = offset, l = 0; l < length; index++, l++) {
 			ret[l] = (byte) getIndex(argbs[index]);
+		}
 		return ret;
 	}
 
 	int getIndex(int argb) {
-		if ((argb >>> 24) != 0xff && transparentIndex != -1)
+		if ((argb >>> 24) != 0xff && transparentIndex != -1) {
 			return transparentIndex;
+		}
 		ColourEntry ce = hashGet(argb);
 		if (ce == null) {
 			// Find colour closest to it
 			int minIndex = 0;
 			int minDiff = Integer.MAX_VALUE;
 			for (int i = 0; i < colours.size(); i++) {
-				if (i == transparentIndex)
+				if (i == transparentIndex) {
 					continue;
+				}
 				ColourEntry entry = colours.elementAt(i);
 				int diff = entry.compare(argb);
 				if (diff < minDiff) {
@@ -229,8 +239,9 @@ final class Palette {
 		int green = (argb >> 8) & 0xff;
 		int blue = argb & 0xff;
 
-		if (ces[red] == null || ces[red][green] == null)
+		if (ces[red] == null || ces[red][green] == null) {
 			return null;
+		}
 		return ces[red][green][blue];
 	}
 
@@ -239,10 +250,12 @@ final class Palette {
 		int green = (argb >> 8) & 0xff;
 		int blue = argb & 0xff;
 
-		if (ces[red] == null)
+		if (ces[red] == null) {
 			ces[red] = new ColourEntry[256][];
-		if (ces[red][green] == null)
+		}
+		if (ces[red][green] == null) {
 			ces[red][green] = new ColourEntry[256];
+		}
 		ces[red][green][blue] = ce;
 	}
 

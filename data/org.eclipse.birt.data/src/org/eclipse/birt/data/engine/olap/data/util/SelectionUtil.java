@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +25,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.RangeSelection;
 import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
 
 /**
- * 
+ *
  */
 
 public class SelectionUtil {
@@ -59,17 +62,17 @@ public class SelectionUtil {
 		}
 
 		List intersecttList = new ArrayList();
-		if (rangeSelectionList.isEmpty() == false) {
+		if (!rangeSelectionList.isEmpty()) {
 			RangeSelection[] rangeSelections = new RangeSelection[rangeSelectionList.size()];
 			rangeSelectionList.toArray(rangeSelections);
 			intersecttList.add(intersect(rangeSelections));
 		}
-		if (multiKeySelectionList.isEmpty() == false) {
+		if (!multiKeySelectionList.isEmpty()) {
 			MultiKeySelection[] multiKeySelections = new MultiKeySelection[multiKeySelectionList.size()];
 			multiKeySelectionList.toArray(multiKeySelections);
 			intersecttList.add(intersect(multiKeySelections));
 		}
-		if (oneKeySelectionList.isEmpty() == false) {
+		if (!oneKeySelectionList.isEmpty()) {
 			OneKeySelection[] oneKeySelections = new OneKeySelection[oneKeySelectionList.size()];
 			oneKeySelectionList.toArray(oneKeySelections);
 			intersecttList.add(intersect(oneKeySelections));
@@ -103,10 +106,7 @@ public class SelectionUtil {
 			return SelectionFactory.createEmptySelection();
 		}
 		ret = CompareUtil.compare(key, mutiKeySelection.getMax());
-		if (ret > 0) {
-			return SelectionFactory.createEmptySelection();
-		}
-		if (mutiKeySelection.isSelected(key) == false) {
+		if ((ret > 0) || !mutiKeySelection.isSelected(key)) {
 			return SelectionFactory.createEmptySelection();
 		}
 		return SelectionFactory.createOneKeySelection(key);
@@ -132,12 +132,13 @@ public class SelectionUtil {
 	}
 
 	public static ISelection intersect(RangeSelection[] selections) {
-		if (selections == null || selections.length == 0)
+		if (selections == null || selections.length == 0) {
 			return SelectionFactory.createEmptySelection();
-		Object[] min = null;
-		Object[] max = null;
-		boolean containsMin = false;
-		boolean containsMax = false;
+		}
+		Object[] min;
+		Object[] max;
+		boolean containsMin;
+		boolean containsMax;
 
 		min = selections[0].getMin();
 		containsMin = selections[0].isContainsMinKey();
@@ -167,8 +168,9 @@ public class SelectionUtil {
 	}
 
 	public static ISelection intersect(MultiKeySelection[] selections) {
-		if (selections == null || selections.length == 0)
+		if (selections == null || selections.length == 0) {
 			return SelectionFactory.createEmptySelection();
+		}
 		Object[][] uniqueKeyValues = selections[0].getKeyValues();
 		boolean[] removed = new boolean[uniqueKeyValues.length];
 		int size = uniqueKeyValues.length;
@@ -177,22 +179,23 @@ public class SelectionUtil {
 			for (int k = 0; k < uniqueKeyValues.length; k++) {
 				boolean found = false;
 				for (int j = 0; j < keyValues.length; j++) {
-					if (removed[k] == false && CompareUtil.compare(uniqueKeyValues[k], keyValues[j]) == 0) {
+					if (!removed[k] && CompareUtil.compare(uniqueKeyValues[k], keyValues[j]) == 0) {
 						found = true;
 						break;
 					}
 				}
-				if (found == false) {
+				if (!found) {
 					removed[k] = true;
 					size--;
 				}
 			}
 		}
-		if (size == 0)
+		if (size == 0) {
 			return SelectionFactory.createEmptySelection();
+		}
 		Object[][] intersectedKeyValues = new Object[size][];
 		for (int i = 0, j = 0; i < uniqueKeyValues.length; i++) {
-			if (removed[i] == false) {
+			if (!removed[i]) {
 				intersectedKeyValues[j++] = uniqueKeyValues[i];
 			}
 		}
@@ -200,8 +203,9 @@ public class SelectionUtil {
 	}
 
 	public static ISelection intersect(OneKeySelection[] selections) {
-		if (selections == null || selections.length == 0)
+		if (selections == null || selections.length == 0) {
 			return SelectionFactory.createEmptySelection();
+		}
 		Object[] key = selections[0].getKeyValue();
 		for (int i = 0; i < selections.length; i++) {
 			if (CompareUtil.compare(key, selections[i].getKeyValue()) != 0) {
@@ -223,8 +227,9 @@ public class SelectionUtil {
 					break;
 				}
 			}
-			if (found == false)
+			if (!found) {
 				keyValueList.add(selections[i].getKeyValue());
+			}
 		}
 
 		Object[][] keyValues = new Object[keyValueList.size()][];

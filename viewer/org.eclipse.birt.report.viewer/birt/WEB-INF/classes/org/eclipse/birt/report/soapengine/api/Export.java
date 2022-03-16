@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * Export.java
  *
@@ -26,7 +38,7 @@ public class Export implements java.io.Serializable {
 
 	/**
 	 * Gets the availableColumns value for this Export.
-	 * 
+	 *
 	 * @return availableColumns
 	 */
 	public org.eclipse.birt.report.soapengine.api.Vector getAvailableColumns() {
@@ -35,7 +47,7 @@ public class Export implements java.io.Serializable {
 
 	/**
 	 * Sets the availableColumns value for this Export.
-	 * 
+	 *
 	 * @param availableColumns
 	 */
 	public void setAvailableColumns(org.eclipse.birt.report.soapengine.api.Vector availableColumns) {
@@ -44,7 +56,7 @@ public class Export implements java.io.Serializable {
 
 	/**
 	 * Gets the selectedColumn value for this Export.
-	 * 
+	 *
 	 * @return selectedColumn
 	 */
 	public org.eclipse.birt.report.soapengine.api.Vector getSelectedColumn() {
@@ -53,7 +65,7 @@ public class Export implements java.io.Serializable {
 
 	/**
 	 * Sets the selectedColumn value for this Export.
-	 * 
+	 *
 	 * @param selectedColumn
 	 */
 	public void setSelectedColumn(org.eclipse.birt.report.soapengine.api.Vector selectedColumn) {
@@ -62,7 +74,7 @@ public class Export implements java.io.Serializable {
 
 	/**
 	 * Gets the criteria value for this Export.
-	 * 
+	 *
 	 * @return criteria
 	 */
 	public org.eclipse.birt.report.soapengine.api.ExportCriteria[] getCriteria() {
@@ -71,7 +83,7 @@ public class Export implements java.io.Serializable {
 
 	/**
 	 * Sets the criteria value for this Export.
-	 * 
+	 *
 	 * @param criteria
 	 */
 	public void setCriteria(org.eclipse.birt.report.soapengine.api.ExportCriteria[] criteria) {
@@ -88,14 +100,18 @@ public class Export implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof Export))
+		if (!(obj instanceof Export)) {
 			return false;
+		}
 		Export other = (Export) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -114,6 +130,7 @@ public class Export implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

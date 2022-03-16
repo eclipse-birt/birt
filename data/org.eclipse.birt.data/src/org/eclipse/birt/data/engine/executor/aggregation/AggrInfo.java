@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +20,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IAggrInfo;
 
 /**
- * 
+ *
  */
 
 public class AggrInfo implements IAggrInfo {
@@ -30,7 +33,7 @@ public class AggrInfo implements IAggrInfo {
 	private int round;
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param groupLevel
 	 * @param aggr
@@ -49,81 +52,90 @@ public class AggrInfo implements IAggrInfo {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IAggrDefinition#getAggregation()
 	 */
+	@Override
 	public IAggrFunction getAggregation() {
 		return this.aggr;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IAggrDefinition#getArgument()
 	 */
+	@Override
 	public IBaseExpression[] getArgument() {
 		return this.argument;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IAggrDefinition#getCalcualteLevel()
 	 */
+	@Override
 	public int getCalcualteLevel() {
 		return this.calcualteLevel;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IAggrDefinition#getFilter()
 	 */
+	@Override
 	public IBaseExpression getFilter() {
 		return this.filter;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IAggrDefinition#getGroupLevel()
 	 */
+	@Override
 	public int getGroupLevel() {
 		return this.groupLevel;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IAggrDefinition#getName()
 	 */
+	@Override
 	public String getName() {
 		return this.name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IAggrDefinition#setCalculateLevel(int)
 	 */
+	@Override
 	public void setCalculateLevel(int calculateLevel) {
 		this.calcualteLevel = calculateLevel;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IAggrDefinition#setRound(int)
 	 */
+	@Override
 	public void setRound(int round) {
 		this.round = round;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IAggrDefinition#getRound()
 	 */
+	@Override
 	public int getRound() {
 		return this.round;
 	}

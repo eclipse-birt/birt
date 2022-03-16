@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +50,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 /**
  * Abstract options configuration block providing a general implementation for
  * setting up an options configuration page.
- * 
+ *
  * @since 2.1
  */
 public abstract class OptionsConfigurationBlock {
@@ -68,13 +71,15 @@ public abstract class OptionsConfigurationBlock {
 		}
 
 		public void apply(IPreferences preference) {
-			if (value != null)
+			if (value != null) {
 				preference.setValue(fKey, value);
+			}
 		}
 
 		public String getStoredValue(IPreferences preference) {
-			if (value == null)
+			if (value == null) {
 				value = preference.getString(fKey);
+			}
 			return value;
 		}
 
@@ -93,6 +98,7 @@ public abstract class OptionsConfigurationBlock {
 			this.value = preference.getString(fKey);
 		}
 
+		@Override
 		public String toString() {
 			return fQualifier + '/' + fKey;
 		}
@@ -242,12 +248,13 @@ public abstract class OptionsConfigurationBlock {
 
 	public static class RadioComposite extends Group {
 
-		List<Button> radioBtns = new ArrayList<Button>();;
+		List<Button> radioBtns = new ArrayList<>();
 
 		public RadioComposite(Composite parent, int style) {
 			super(parent, style);
 		}
 
+		@Override
 		protected void checkSubclass() {
 			/* Do nothing to make sure subclassing is allowed */
 		}
@@ -258,7 +265,7 @@ public abstract class OptionsConfigurationBlock {
 			}
 			Control[] controls = this.getChildren();
 			for (int i = 0; i < controls.length; i++) {
-				if (controls[i] != null && controls[i] instanceof Button) {
+				if (controls[i] instanceof Button) {
 					radioBtns.add((Button) controls[i]);
 				}
 			}
@@ -271,8 +278,9 @@ public abstract class OptionsConfigurationBlock {
 
 		protected void setSelection(int index) {
 			IniRadioButtons();
-			if (radioBtns.size() <= 0)
+			if (radioBtns.size() <= 0) {
 				return;
+			}
 			if (index < 0 || index >= radioBtns.size()) {
 				index = 0;
 			}
@@ -289,8 +297,9 @@ public abstract class OptionsConfigurationBlock {
 
 		public void addSelectionListener(SelectionListener selectionListener) {
 			IniRadioButtons();
-			if (radioBtns.size() <= 0)
+			if (radioBtns.size() <= 0) {
 				return;
+			}
 			for (int i = 0; i < radioBtns.size(); i++) {
 				radioBtns.get(i).addSelectionListener(selectionListener);
 			}
@@ -480,8 +489,9 @@ public abstract class OptionsConfigurationBlock {
 		textBox.setData(key);
 		textBox.setLayoutData(new GridData());
 
-		if (labelControl != null)
+		if (labelControl != null) {
 			fLabels.put(textBox, labelControl);
+		}
 
 		String currValue = getValue(key);
 		if (currValue != null) {
@@ -492,13 +502,15 @@ public abstract class OptionsConfigurationBlock {
 		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		if (widthHint != 0) {
 			data.widthHint = widthHint;
-		} else
+		} else {
 			data.grabExcessHorizontalSpace = true;
+		}
 		data.horizontalIndent = indent;
-		if (labelControl != null)
+		if (labelControl != null) {
 			data.horizontalSpan = 2;
-		else
+		} else {
 			data.horizontalSpan = 3;
+		}
 		textBox.setLayoutData(data);
 
 		fTextBoxes.add(textBox);
@@ -512,9 +524,11 @@ public abstract class OptionsConfigurationBlock {
 		if (fSelectionListener == null) {
 			fSelectionListener = new SelectionListener() {
 
+				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					controlChanged(e.widget);
 				}
@@ -527,6 +541,7 @@ public abstract class OptionsConfigurationBlock {
 		if (fTextModifyListener == null) {
 			fTextModifyListener = new ModifyListener() {
 
+				@Override
 				public void modifyText(ModifyEvent e) {
 					textChanged((Text) e.widget);
 				}
@@ -576,7 +591,7 @@ public abstract class OptionsConfigurationBlock {
 	}
 
 	protected boolean getBooleanValue(Key key) {
-		return Boolean.valueOf(getValue(key)).booleanValue();
+		return Boolean.parseBoolean(getValue(key));
 	}
 
 	protected String setValue(Key key, String value) {
@@ -594,7 +609,7 @@ public abstract class OptionsConfigurationBlock {
 
 	/**
 	 * Returns the value as actually stored in the preference store.
-	 * 
+	 *
 	 * @param key
 	 * @return the value as actually stored in the preference store.
 	 */
@@ -721,8 +736,9 @@ public abstract class OptionsConfigurationBlock {
 			if (ignoreKeys != null && Arrays.asList(ignoreKeys).contains(data.getKey())) {
 				ControlEnableState.disable(curr);
 				Control label = (Control) fLabels.get(curr);
-				if (label != null)
+				if (label != null) {
 					ControlEnableState.disable(label);
+				}
 			}
 		}
 	}
@@ -765,8 +781,9 @@ public abstract class OptionsConfigurationBlock {
 			if (ignoreKeys != null && Arrays.asList(ignoreKeys).contains(key)) {
 				ControlEnableState.disable(curr);
 				Control label = (Control) fLabels.get(curr);
-				if (label != null)
+				if (label != null) {
 					ControlEnableState.disable(label);
+				}
 			}
 		}
 	}
@@ -814,10 +831,7 @@ public abstract class OptionsConfigurationBlock {
 			return checkBox;
 		}
 		Text text = getTextControl(key);
-		if (text != null) {
-			return text;
-		}
-		return null;
+		return text;
 	}
 
 	protected void setComboEnabled(Key key, boolean enabled) {

@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,86 +26,85 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 
 /**
- * 
+ *
  */
 
 public interface ICubeQueryUtil {
-	public static String DISPLAY_NAME_ATTR = "DisplayName";
+	String DISPLAY_NAME_ATTR = "DisplayName";
 
 	/**
 	 * Return all the level/level attributes that referenced by an expression.
-	 * 
+	 *
 	 * @param expression
 	 * @return
 	 * @throws AdapterException
 	 */
-	public IDimensionLevel[] getReferencedDimensionLevel(String expression) throws AdapterException;
+	IDimensionLevel[] getReferencedDimensionLevel(String expression) throws AdapterException;
 
 	/**
 	 * Return all the level/level attributes that referenced by an expression,
 	 * including the referenced binding
-	 * 
+	 *
 	 * @param expression
 	 * @param bindings
 	 * @return
 	 * @throws AdapterException
 	 */
-	public IDimensionLevel[] getReferencedDimensionLevel(String expression, List<IBinding> bindings)
-			throws AdapterException;
+	IDimensionLevel[] getReferencedDimensionLevel(String expression, List<IBinding> bindings) throws AdapterException;
 
 	/**
 	 * Utility method to acquire referable bindings, either in cube filter or cube
 	 * sort.
-	 * 
+	 *
 	 * @param targetLevel
 	 * @param bindings
 	 * @param isSort
 	 * @return
 	 * @throws AdapterException
 	 */
-	public List getReferableBindings(String targetLevel, ICubeQueryDefinition cubeQueryDefn, boolean isSort)
+	List getReferableBindings(String targetLevel, ICubeQueryDefinition cubeQueryDefn, boolean isSort)
 			throws AdapterException;
 
-	public List getReferableBindingsForLinkedDataSetCube(String targetLevel, ICubeQueryDefinition cubeQueryDefn,
+	List getReferableBindingsForLinkedDataSetCube(String targetLevel, ICubeQueryDefinition cubeQueryDefn,
 			boolean isSort) throws AdapterException;
 
 	/**
 	 * Utility method to acquire referable measure bindings.
-	 * 
+	 *
 	 * @param measureName
 	 * @param cubeDefn
 	 * @return
 	 * @throws DataException
 	 */
-	public List getReferableMeasureBindings(String measureName, ICubeQueryDefinition cubeDefn) throws DataException;
+	List getReferableMeasureBindings(String measureName, ICubeQueryDefinition cubeDefn) throws DataException;
 
-	public List getReferableMeasureBindingsForLinkedDataSetCube(String measureName, ICubeQueryDefinition cubeDefn)
+	List getReferableMeasureBindingsForLinkedDataSetCube(String measureName, ICubeQueryDefinition cubeDefn)
 			throws DataException;
 
 	/**
 	 * Return a list of ILevelDefinition instances that referenced by
-	 * 
+	 *
 	 * @param targetLevel
 	 * @param bindingExpr
 	 * @param queryDefn
 	 * @return
 	 * @throws AdapterException
 	 */
-	public List getReferencedLevels(String targetLevel, String bindingExpr, ICubeQueryDefinition queryDefn)
+	List getReferencedLevels(String targetLevel, String bindingExpr, ICubeQueryDefinition queryDefn)
 			throws AdapterException;
 
 	/**
 	 * Return the measure name referenced by the expression.
-	 * 
+	 *
 	 * @param expr
 	 * @return
 	 * @throws AdapterException
 	 */
-	public String getReferencedMeasureName(String expr) throws AdapterException;
+	String getReferencedMeasureName(String expr) throws AdapterException;
 
 	/**
 	 * Return cascading member values.
-	 * 
+	 *
 	 * @deprecated use method with signature
 	 *             <code>getMemberValueIterator( TabularCubeHandle cubeHandle,
 			String targetLevel, DimensionLevel[] higherLevelDefns,
@@ -114,7 +116,8 @@ public interface ICubeQueryUtil {
 	 * @return
 	 * @throws AdapterException
 	 */
-	public Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String targetLevel,
+	@Deprecated
+	Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String targetLevel,
 			ILevelDefinition[] higherLevelDefns, Object[] values) throws AdapterException;
 
 	/**
@@ -131,11 +134,12 @@ public interface ICubeQueryUtil {
 	 * @return
 	 * @throws AdapterException
 	 */
-	public Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String targetLevel,
+	@Deprecated
+	Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String targetLevel,
 			ILevelDefinition[] higherLevelDefns, Object[] values, Map appContext) throws AdapterException;
 
 	/**
-	 * 
+	 *
 	 * @param cubeHandle
 	 * @param targetLevel
 	 * @param dimensionLevels
@@ -146,23 +150,24 @@ public interface ICubeQueryUtil {
 	 *             Map appContext ) throws AdapterException;
 	 * @throws AdapterException
 	 */
-	public Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String targetLevel,
-			DimensionLevel[] dimensionLevels, Object[] values) throws AdapterException;
-
-	/**
-	 * 
-	 * @param cubeHandle
-	 * @param targetLevel
-	 * @param dimensionLevels
-	 * @param values
-	 * @return
-	 * @throws AdapterException
-	 */
-	public Iterator getMemberValueIterator(CubeHandle cubeHandle, String targetLevel, DimensionLevel[] dimensionLevels,
+	@Deprecated
+	Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String targetLevel, DimensionLevel[] dimensionLevels,
 			Object[] values) throws AdapterException;
 
 	/**
-	 * 
+	 *
+	 * @param cubeHandle
+	 * @param targetLevel
+	 * @param dimensionLevels
+	 * @param values
+	 * @return
+	 * @throws AdapterException
+	 */
+	Iterator getMemberValueIterator(CubeHandle cubeHandle, String targetLevel, DimensionLevel[] dimensionLevels,
+			Object[] values) throws AdapterException;
+
+	/**
+	 *
 	 * @param cubeHandle
 	 * @param targetLevel
 	 * @param dimensionLevels
@@ -174,11 +179,12 @@ public interface ICubeQueryUtil {
 	 *             Map appContext ) throws AdapterException;
 	 * @throws AdapterException
 	 */
-	public Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String targetLevel,
-			DimensionLevel[] dimensionLevels, Object[] values, Map appContext) throws AdapterException;
+	@Deprecated
+	Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String targetLevel, DimensionLevel[] dimensionLevels,
+			Object[] values, Map appContext) throws AdapterException;
 
 	/**
-	 * 
+	 *
 	 * @param cubeHandle
 	 * @param targetLevel
 	 * @param dimensionLevels
@@ -187,12 +193,12 @@ public interface ICubeQueryUtil {
 	 * @return
 	 * @throws AdapterException
 	 */
-	public Iterator getMemberValueIterator(CubeHandle cubeHandle, String targetLevel, DimensionLevel[] dimensionLevels,
+	Iterator getMemberValueIterator(CubeHandle cubeHandle, String targetLevel, DimensionLevel[] dimensionLevels,
 			Object[] values, Map appContext) throws AdapterException;
 
 	/**
 	 * Return member value of a given level.
-	 * 
+	 *
 	 * @param cubeHandle
 	 * @param dataBindingExpr
 	 * @param queryDefn
@@ -202,23 +208,24 @@ public interface ICubeQueryUtil {
 	 *             AdapterException;
 	 * @throws AdapterException
 	 */
-	public Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String dataBindingExpr,
+	@Deprecated
+	Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String dataBindingExpr,
 			ICubeQueryDefinition queryDefn) throws AdapterException;
 
 	/**
 	 * Return member value of a given level.
-	 * 
+	 *
 	 * @param cubeHandle
 	 * @param dataBindingExpr
 	 * @param queryDefn
 	 * @return
 	 * @throws AdapterException
 	 */
-	public Iterator getMemberValueIterator(CubeHandle cubeHandle, String dataBindingExpr,
-			ICubeQueryDefinition queryDefn) throws AdapterException;
+	Iterator getMemberValueIterator(CubeHandle cubeHandle, String dataBindingExpr, ICubeQueryDefinition queryDefn)
+			throws AdapterException;
 
 	/**
-	 * 
+	 *
 	 * @param cubeHandle
 	 * @param dataBindingExpr
 	 * @param queryDefn
@@ -229,11 +236,12 @@ public interface ICubeQueryUtil {
 	 *             throws AdapterException;
 	 * @throws AdapterException
 	 */
-	public Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String dataBindingExpr,
+	@Deprecated
+	Iterator getMemberValueIterator(TabularCubeHandle cubeHandle, String dataBindingExpr,
 			ICubeQueryDefinition queryDefn, Map appContext) throws AdapterException;
 
 	/**
-	 * 
+	 *
 	 * @param cubeHandle
 	 * @param dataBindingExpr
 	 * @param queryDefn
@@ -241,27 +249,27 @@ public interface ICubeQueryUtil {
 	 * @return
 	 * @throws AdapterException
 	 */
-	public Iterator getMemberValueIterator(CubeHandle cubeHandle, String dataBindingExpr,
-			ICubeQueryDefinition queryDefn, Map appContext) throws AdapterException;
+	Iterator getMemberValueIterator(CubeHandle cubeHandle, String dataBindingExpr, ICubeQueryDefinition queryDefn,
+			Map appContext) throws AdapterException;
 
 	/**
 	 * This is a utility method for GUI to find out all the invalid bindings in a
 	 * xTab definition.
-	 * 
+	 *
 	 * @param queryDefn
 	 * @return
 	 * @throws AdapterException
 	 */
-	public List getInvalidBindings(ICubeQueryDefinition queryDefn) throws AdapterException;
+	List getInvalidBindings(ICubeQueryDefinition queryDefn) throws AdapterException;
 
 	/**
 	 * Checks whether the given string is valid to be the name for a level/dimension
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
-	public boolean isValidDimensionName(String name);
+	boolean isValidDimensionName(String name);
 
-	public List getInvalidBindingsForLinkedDataSetCube(ICubeQueryDefinition queryDefn) throws AdapterException;
+	List getInvalidBindingsForLinkedDataSetCube(ICubeQueryDefinition queryDefn) throws AdapterException;
 
 }

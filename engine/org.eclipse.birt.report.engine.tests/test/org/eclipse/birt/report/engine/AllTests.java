@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -195,8 +198,7 @@ public class AllTests {
 		return suite;
 	}
 
-	static String[] skipTests = new String[] {
-			"org.eclipse.birt.report.engine.layout.impl.AbstractLayoutManagerTest.class",
+	static String[] skipTests = { "org.eclipse.birt.report.engine.layout.impl.AbstractLayoutManagerTest.class",
 			"org.eclipse.birt.report.engine.layout.pdf.PDFLayoutTest.class"
 
 	};
@@ -207,7 +209,7 @@ public class AllTests {
 	 */
 	public static void main(String args[]) throws IOException {
 		File root = new File("./test/");
-		ArrayList<String> test = new ArrayList<String>();
+		ArrayList<String> test = new ArrayList<>();
 
 		listTests(test, root.getCanonicalPath(), root);
 

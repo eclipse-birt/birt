@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,12 +25,13 @@ public abstract class DocObject {
 	public abstract String getName();
 
 	public String makeElementLink(String elementName, String dir) {
-		StringBuffer link = new StringBuffer();
+		StringBuilder link = new StringBuilder();
 		link.append("<a href=\""); //$NON-NLS-1$
-		if (dir == null)
+		if (dir == null) {
 			link.append("elements/"); //$NON-NLS-1$
-		else if (!dir.equals("elements")) //$NON-NLS-1$
+		} else if (!dir.equals("elements")) { // $NON-NLS-1$
 			link.append("../elements/"); //$NON-NLS-1$
+		}
 		link.append(elementName);
 		link.append(".html\">"); //$NON-NLS-1$
 		link.append(elementName);
@@ -36,12 +40,13 @@ public abstract class DocObject {
 	}
 
 	public String makeStructureLink(IStructureDefn struct, String dir) {
-		StringBuffer link = new StringBuffer();
+		StringBuilder link = new StringBuilder();
 		link.append("<a href=\""); //$NON-NLS-1$
-		if (dir == null)
+		if (dir == null) {
 			link.append("structs/"); //$NON-NLS-1$
-		else if (!dir.equals("structs")) //$NON-NLS-1$
+		} else if (!dir.equals("structs")) { // $NON-NLS-1$
 			link.append("../structs/"); //$NON-NLS-1$
+		}
 		link.append(struct.getName());
 		link.append(".html\">"); //$NON-NLS-1$
 		link.append(struct.getName());
@@ -50,10 +55,11 @@ public abstract class DocObject {
 	}
 
 	public String makeTypeLink(PropertyType type, String dir) {
-		StringBuffer link = new StringBuffer();
+		StringBuilder link = new StringBuilder();
 		link.append("<a href=\""); //$NON-NLS-1$
-		if (dir != null)
+		if (dir != null) {
 			link.append("../"); //$NON-NLS-1$
+		}
 		link.append("types.html#"); //$NON-NLS-1$
 		link.append(type.getName());
 		link.append("\">"); //$NON-NLS-1$

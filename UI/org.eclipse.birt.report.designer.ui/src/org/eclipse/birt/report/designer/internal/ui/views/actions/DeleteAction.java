@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -27,8 +29,8 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * This class implements the delete action in the outline view
- * 
- * 
+ *
+ *
  */
 public class DeleteAction extends AbstractElementAction {
 
@@ -38,9 +40,9 @@ public class DeleteAction extends AbstractElementAction {
 
 	/**
 	 * Create a new delete action with given selection and default text
-	 * 
+	 *
 	 * @param selectedObject the selected object,which cannot be null
-	 * 
+	 *
 	 */
 	public DeleteAction(Object selectedObject) {
 		this(selectedObject, DEFAULT_TEXT);
@@ -48,7 +50,7 @@ public class DeleteAction extends AbstractElementAction {
 
 	/**
 	 * Create a new delete action with given selection and text
-	 * 
+	 *
 	 * @param selectedObject the selected object,which cannot be null
 	 * @param text           the text of the action
 	 */
@@ -60,15 +62,16 @@ public class DeleteAction extends AbstractElementAction {
 		setAccelerator(SWT.DEL);
 	}
 
+	@Override
 	protected boolean doAction() throws Exception {
 
 		Object selection = getSelection();
 		if (selection instanceof IMixedHandle) {
 			selection = ((IMixedHandle) selection).getChildren().toArray();
 		}
-		if (selection != null && selection instanceof StructuredSelection) {
+		if (selection instanceof StructuredSelection) {
 			Object element = ((StructuredSelection) selection).getFirstElement();
-			if (element != null && element instanceof LibraryHandle) {
+			if (element instanceof LibraryHandle) {
 				if (((LibraryHandle) element).getHostHandle() != null) {
 					return new RemoveLibraryAction(element).doAction();
 				}
@@ -78,7 +81,7 @@ public class DeleteAction extends AbstractElementAction {
 			CommandUtils.setVariable(ICommandParameterNameContants.SELECTION, selection);
 		}
 
-		Object exeResult = null;
+		Object exeResult;
 		exeResult = CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.deleteCommand", //$NON-NLS-1$
 				null);
 
@@ -90,34 +93,37 @@ public class DeleteAction extends AbstractElementAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.IAction#isEnabled()
 	 */
+	@Override
 	public boolean isEnabled() {
 		Object selection = getSelection();
 		if (selection instanceof IMixedHandle) {
 			selection = ((IMixedHandle) selection).getChildren().toArray();
-		} else if (selection != null && selection instanceof StructuredSelection) {
+		} else if (selection instanceof StructuredSelection) {
 			Object element = ((StructuredSelection) selection).getFirstElement();
-			if (element != null && element instanceof LibraryHandle) {
+			if (element instanceof LibraryHandle) {
 				if (((LibraryHandle) element).getHostHandle() != null) {
 					return true;
 				}
 			}
 		}
 		Command cmd = createDeleteCommand(selection);
-		if (cmd == null)
+		if (cmd == null) {
 			return false;
+		}
 		return cmd.canExecute();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
 	 * AbstractElementAction#getTransactionLabel()
 	 */
 
+	@Override
 	protected String getTransactionLabel() {
 		if (getSelection() instanceof IStructuredSelection) {
 			return Messages.getString("DeleteAction.trans"); //$NON-NLS-1$

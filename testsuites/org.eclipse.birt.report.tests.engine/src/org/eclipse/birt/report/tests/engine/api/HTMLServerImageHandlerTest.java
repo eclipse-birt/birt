@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine.api;
@@ -14,6 +17,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileSystems;
 
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.HTMLServerImageHandler;
@@ -40,12 +44,14 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 		super(name);
 	}
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
 		copyResource_INPUT(INPUT, INPUT);
 	}
 
+	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
 		removeResource();
@@ -91,7 +97,7 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 			String fPath = System.getProperty("user.dir");
 			do {
 				count++;
-				String fp = fPath + System.getProperty("file.separator") + "design" + String.valueOf(count);
+				String fp = fPath + FileSystems.getDefault().getSeparator() + "design" + String.valueOf(count);
 				f = new File(fp); // $NON-NLS-1$
 				if (f.exists()) {
 					f.delete();
@@ -131,13 +137,13 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 		try {
 			// Get embedded image byte array
 			/*
-			 * String plug_path=EngineCase.PLUGIN_PATH; String
-			 * file_path=EngineCase.RESOURCE_BUNDLE.getString("CASE_INPUT")
-			 * +System.getProperty("file.separator")+"EmbedImage.txt"; String
-			 * path=plug_path+System.getProperty("file.separator")+file_path;
-			 */
-			String path = getClassFolder() + System.getProperty("file.separator") + INPUT_FOLDER
-					+ System.getProperty("file.separator") + "EmbedImage.txt";
+			* String plug_path=EngineCase.PLUGIN_PATH; String
+			* file_path=EngineCase.RESOURCE_BUNDLE.getString("CASE_INPUT")
+			* +FileSystems.getDefault().getSeparator()+"EmbedImage.txt"; String
+			* path=plug_path+FileSystems.getDefault().getSeparator()+file_path;
+			*/
+			String path = getClassFolder() + FileSystems.getDefault().getSeparator() + INPUT_FOLDER
+			+ FileSystems.getDefault().getSeparator() + "EmbedImage.txt";
 
 			byte[] imageBytes = readImageFile(path);
 
@@ -155,7 +161,7 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 			String fPath = System.getProperty("user.dir");
 			do {
 				count++;
-				String fp = fPath + System.getProperty("file.separator") + "custom" + String.valueOf(count);
+				String fp = fPath + FileSystems.getDefault().getSeparator() + "custom" + String.valueOf(count);
 				f = new File(fp); // $NON-NLS-1$
 				if (f.exists()) {
 					f.delete();

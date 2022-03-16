@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +25,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IDataBinding;
 
 /**
  * Implements of DataBinding.
- * 
+ *
  */
 
 public class DataBindingImpl extends Structure implements IDataBinding {
@@ -31,7 +34,7 @@ public class DataBindingImpl extends Structure implements IDataBinding {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param columnHandle
 	 */
 
@@ -42,7 +45,7 @@ public class DataBindingImpl extends Structure implements IDataBinding {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param columnHandle
 	 */
 
@@ -59,7 +62,7 @@ public class DataBindingImpl extends Structure implements IDataBinding {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param column
 	 */
 
@@ -75,7 +78,7 @@ public class DataBindingImpl extends Structure implements IDataBinding {
 
 	/**
 	 * Create computed column.
-	 * 
+	 *
 	 * @return instance of <code>ComputedColumn</code>
 	 */
 	private ComputedColumn createComputedColumn() {
@@ -83,22 +86,27 @@ public class DataBindingImpl extends Structure implements IDataBinding {
 		return c;
 	}
 
+	@Override
 	public String getAggregateOn() {
 		return column.getAggregateOn();
 	}
 
+	@Override
 	public String getDataType() {
 		return column.getDataType();
 	}
 
+	@Override
 	public String getExpression() {
 		return column.getExpression();
 	}
 
+	@Override
 	public String getName() {
 		return column.getName();
 	}
 
+	@Override
 	public void setAggregateOn(String on) throws SemanticException {
 		if (structureHandle != null) {
 			ActivityStack cmdStack = structureHandle.getModule().getActivityStack();
@@ -112,6 +120,7 @@ public class DataBindingImpl extends Structure implements IDataBinding {
 		column.setAggregateOn(on);
 	}
 
+	@Override
 	public void setDataType(String dataType) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(ComputedColumn.DATA_TYPE_MEMBER, dataType);
@@ -121,6 +130,7 @@ public class DataBindingImpl extends Structure implements IDataBinding {
 		column.setDataType(dataType);
 	}
 
+	@Override
 	public void setExpression(String expression) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(ComputedColumn.EXPRESSION_MEMBER, expression);
@@ -131,6 +141,7 @@ public class DataBindingImpl extends Structure implements IDataBinding {
 		column.setExpression(expression);
 	}
 
+	@Override
 	public void setName(String name) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(ComputedColumn.NAME_MEMBER, name);
@@ -141,20 +152,23 @@ public class DataBindingImpl extends Structure implements IDataBinding {
 		column.setName(name);
 	}
 
+	@Override
 	public IStructure getStructure() {
 		return column;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IDataBinding#getExpressionType ()
 	 */
+	@Override
 	public String getExpressionType() {
 		Expression expression = column.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER);
-		if (expression == null)
+		if (expression == null) {
 			return null;
+		}
 
 		return expression.getType();
 
@@ -162,11 +176,12 @@ public class DataBindingImpl extends Structure implements IDataBinding {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IDataBinding#setExpressionType
 	 * (java.lang.String)
 	 */
+	@Override
 	public void setExpressionType(String type) throws SemanticException {
 		if (structureHandle != null) {
 			ExpressionHandle handle = structureHandle.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER);
@@ -183,10 +198,11 @@ public class DataBindingImpl extends Structure implements IDataBinding {
 		Expression expression = column.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER);
 
 		Expression newValue = null;
-		if (expression != null)
+		if (expression != null) {
 			newValue = new Expression(expression.getExpression(), type);
-		else if (type != null)
+		} else if (type != null) {
 			newValue = new Expression(null, type);
+		}
 
 		column.setExpressionProperty(ComputedColumn.EXPRESSION_MEMBER, newValue);
 	}

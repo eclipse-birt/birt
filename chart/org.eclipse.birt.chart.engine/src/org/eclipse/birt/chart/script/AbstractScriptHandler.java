@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,11 +36,11 @@ import org.mozilla.javascript.ScriptableObject;
 import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ *
  * The abstract class defines methods to execute java function and java script
  * functions, it makes the sub-class can execute own regular java functions and
  * java script functions.
- * 
+ *
  * @since 2.5
  */
 
@@ -74,6 +77,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 	/**
 	 * @deprecated locale is stored in IChartScriptContext
 	 */
+	@Deprecated
 	protected transient ULocale lcl = null;
 
 	protected transient IScriptClassLoader iscl = null;
@@ -84,7 +88,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 */
 	public AbstractScriptHandler() {
 		final Context cx = Context.enter();
@@ -102,9 +106,10 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 	 */
+	@Override
 	public final String getClassName() {
 		return getClass().getName();
 	}
@@ -121,6 +126,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 	 *             now. This is kept for backward compatibility only.
 	 * @param lcl
 	 */
+	@Deprecated
 	public final void setLocale(ULocale lcl) {
 		this.lcl = lcl;
 	}
@@ -128,7 +134,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 	/**
 	 * Sets the script class loader. This loader is responsible to load all user
 	 * defined script class.
-	 * 
+	 *
 	 * @param value
 	 */
 	public final void setScriptClassLoader(IScriptClassLoader value) {
@@ -137,7 +143,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 
 	/**
 	 * Initialize the JavaScript context using given parent scope.
-	 * 
+	 *
 	 * @param scPrototype Parent scope object. If it's null, use default scope.
 	 */
 	public final void init(Scriptable scPrototype) throws ChartException {
@@ -173,7 +179,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 
 	/**
 	 * Registers an existing scriptable object into current JavaScript context.
-	 * 
+	 *
 	 * @param so       The existing scriptable object to be registered
 	 * @param sVarName The name of the javascript variable associated with the new
 	 *                 scriptable object that will be added to the scope
@@ -202,7 +208,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 
 	/**
 	 * Registers a new scriptable object into current JavaScript context.
-	 * 
+	 *
 	 * @param clsScriptable The class representing the new scriptable object to be
 	 *                      registered
 	 * @param sVarName      The name of the javascript variable associated with the
@@ -232,7 +238,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 	/**
 	 * Registers a new variable to current JavaScript context. If the name already
 	 * exists, it'll be overwritten.
-	 * 
+	 *
 	 * @param sVarName
 	 * @throws ChartException
 	 */
@@ -249,7 +255,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 
 	/**
 	 * Unregister a variable from current JavaScript context.
-	 * 
+	 *
 	 * @param sVarName
 	 * @throws ChartException
 	 */
@@ -259,7 +265,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 
 	/**
 	 * Finds the JavaScript funtion by given name.
-	 * 
+	 *
 	 * @param sFunctionName The name of the function to be searched for
 	 * @return An instance of the function being searched for or null if it isn't
 	 *         found
@@ -286,7 +292,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 
 	/**
 	 * Call JavaScript functions with an argument array.
-	 * 
+	 *
 	 * @param f      The function to be executed
 	 * @param oaArgs The Java object arguments passed to the function being executed
 	 */
@@ -351,7 +357,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 	 * This method calls actual regular java function, returns true if the specified
 	 * function is registered and called, else returns false.Sub-class will override
 	 * this method to implement own process.
-	 * 
+	 *
 	 * @param functionName
 	 * @param arguments
 	 */
@@ -362,7 +368,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 
 	/**
 	 * Call JavaScript functions with one argument.
-	 * 
+	 *
 	 * @param sh
 	 * @param sFunction
 	 * @param oArg1
@@ -380,7 +386,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 			final Function f = sh.getJavascriptFunction(sFunction);
 			if (f != null) {
 				sh.ONE_ELEMENT_ARRAY[0] = oArg1;
-				Object oReturnValue = null;
+				Object oReturnValue;
 				oReturnValue = sh.callJavaScriptFunction(f, sh.ONE_ELEMENT_ARRAY);
 
 				return oReturnValue;
@@ -392,7 +398,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 
 	/**
 	 * Call JavaScript functions with two arguments.
-	 * 
+	 *
 	 * @param sh
 	 * @param sFunction
 	 * @param oArg1
@@ -413,7 +419,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 			if (f != null) {
 				sh.TWO_ELEMENT_ARRAY[0] = oArg1;
 				sh.TWO_ELEMENT_ARRAY[1] = oArg2;
-				Object oReturnValue = null;
+				Object oReturnValue;
 				oReturnValue = sh.callJavaScriptFunction(f, sh.TWO_ELEMENT_ARRAY);
 
 				return oReturnValue;
@@ -425,7 +431,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 
 	/**
 	 * Call JavaScript functions with three arguments.
-	 * 
+	 *
 	 * @param sh
 	 * @param sFunction
 	 * @param oArg1
@@ -449,7 +455,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 				sh.THREE_ELEMENT_ARRAY[0] = oArg1;
 				sh.THREE_ELEMENT_ARRAY[1] = oArg2;
 				sh.THREE_ELEMENT_ARRAY[2] = oArg3;
-				Object oReturnValue = null;
+				Object oReturnValue;
 				oReturnValue = sh.callJavaScriptFunction(f, sh.THREE_ELEMENT_ARRAY);
 
 				return oReturnValue;
@@ -461,7 +467,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 
 	/**
 	 * Evaluates the given expression and returns the value.
-	 * 
+	 *
 	 * @param sScriptContent
 	 */
 	public final Object evaluate(String sScriptContent) throws ChartException {
@@ -477,7 +483,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 
 	/**
 	 * Register the script content for current script handler.
-	 * 
+	 *
 	 * @param sScriptContent This is either the JavaSciprt code content or a full
 	 *                       class name which has implemented
 	 *                       <code>IChartItemScriptHandler</code>
@@ -504,9 +510,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 			if (getEventHandlerClass().isAssignableFrom(handlerClass)) {
 				try {
 					javahandler = (T) SecurityUtil.newClassInstance(handlerClass);
-				} catch (InstantiationException e) {
-					throw new ChartException(ChartEnginePlugin.ID, BirtException.ERROR, e);
-				} catch (IllegalAccessException e) {
+				} catch (InstantiationException | IllegalAccessException e) {
 					throw new ChartException(ChartEnginePlugin.ID, BirtException.ERROR, e);
 				}
 
@@ -532,7 +536,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 				Object[] objs = scope.getIds();
 
 				if (objs != null) {
-					javaScriptFunctionNamesCache = new ArrayList<String>();
+					javaScriptFunctionNamesCache = new ArrayList<>();
 					for (int i = 0; i < objs.length; i++) {
 						javaScriptFunctionNamesCache.add(String.valueOf(objs[i]));
 					}
@@ -553,7 +557,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 
 	/**
 	 * Sets the context object of current script handler.
-	 * 
+	 *
 	 * @param csc
 	 */
 	public void setScriptContext(IScriptContext csc) {
@@ -563,7 +567,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 
 	/**
 	 * Converts general exception to more readable format.
-	 * 
+	 *
 	 * @param ex
 	 * @return
 	 */
@@ -573,8 +577,9 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 			String lineSource = e.lineSource();
 			String details = e.details();
 			String lineNumber = String.valueOf(e.lineNumber());
-			if (lineSource == null)
+			if (lineSource == null) {
 				lineSource = "";//$NON-NLS-1$
+			}
 			return new ChartException(ChartEnginePlugin.ID, ChartException.SCRIPT, "exception.javascript.error", //$NON-NLS-1$
 					new Object[] { details, lineNumber, lineSource }, Messages.getResourceBundle(csc.getULocale()), e);
 		}
@@ -582,8 +587,8 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject {
 		 * TODO convert those exceptions too else if ( ex instanceof
 		 * IllegalAccessException ) {} else if ( ex instanceof InstantiationException )
 		 * {} else if ( ex instanceof InvocationTargetException ) { }
-		 */
-		else
+		 */ else {
 			return new ChartException(ChartEnginePlugin.ID, ChartException.SCRIPT, ex);
+		}
 	}
 }

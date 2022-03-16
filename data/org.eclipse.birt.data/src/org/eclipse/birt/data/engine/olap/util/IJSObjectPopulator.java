@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,36 +43,36 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 /**
- * 
+ *
  */
 
 public interface IJSObjectPopulator {
 
 	/**
 	 * @throws DataException
-	 * 
+	 *
 	 */
-	public void doInit() throws DataException;
+	void doInit() throws DataException;
 
 	/**
-	 * 
+	 *
 	 * @param resultRow
 	 */
-	public void setData(Object resultRow);
+	void setData(Object resultRow);
 
 	/**
 	 * clean up the registered Javascript objects from the scope.
 	 */
-	public void cleanUp();
+	void cleanUp();
 
 	/**
 	 * Dummy Java Script Object, used to access "dimension".
-	 * 
+	 *
 	 */
 	class DummyJSDimensionAccessor extends ScriptableObject {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 6340543910367862168L;
 		//
@@ -78,7 +81,7 @@ public interface IJSObjectPopulator {
 
 		/**
 		 * Constructor
-		 * 
+		 *
 		 * @param name
 		 * @param dimObj
 		 */
@@ -92,35 +95,38 @@ public interface IJSObjectPopulator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 		 */
+		@Override
 		public String getClassName() {
 			return "DummyJSDimensionAccessor";//$NON-NLS-1$
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
 		 * org.mozilla.javascript.Scriptable)
 		 */
+		@Override
 		public Object get(String value, Scriptable scope) {
-			if (!this.dimensionName.equals(value))
+			if (!this.dimensionName.equals(value)) {
 				throw new InMatchDimensionIndicator();
-			else
+			} else {
 				return this.dimObj;
+			}
 		}
 	}
 
 	/**
 	 * A middle layer to access levels in an expression.
-	 * 
+	 *
 	 */
 	class DummyJSDimensionObject extends ScriptableObject {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = -5318363452556444748L;
 		//
@@ -129,7 +135,7 @@ public interface IJSObjectPopulator {
 		private boolean useDimensionLevel;
 
 		/**
-		 * 
+		 *
 		 * @param levels
 		 * @param levelNames
 		 */
@@ -141,23 +147,26 @@ public interface IJSObjectPopulator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 		 */
+		@Override
 		public String getClassName() {
 			return "DummyJSDimensionObject";//$NON-NLS-1$
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
 		 * org.mozilla.javascript.Scriptable)
 		 */
+		@Override
 		public Object get(String value, Scriptable scope) {
 			if (this.levels.isTimeDimLevel()) {
-				if (TimeDimensionUtil.getFieldIndex(value) == -1)
+				if (TimeDimensionUtil.getFieldIndex(value) == -1) {
 					throw new RuntimeException("Invalid level Name:" + value);//$NON-NLS-1$
+				}
 			}
 			if (!useDimensionLevel && this.levels.getLevelNames() != null) {
 				this.levelNames = this.levels.getLevelNames();
@@ -166,20 +175,21 @@ public interface IJSObjectPopulator {
 			if (this.levelNames.contains(value)) {
 				this.levels.setCurrentKey(value);
 				return this.levels;
-			} else
+			} else {
 				throw new RuntimeException("Invalid level Name:" + value);//$NON-NLS-1$
+			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @author Administrator
-	 * 
+	 *
 	 */
 	class DummyJSLevels extends ScriptableObject {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 2025085361323969740L;
 		//
@@ -193,18 +203,20 @@ public interface IJSObjectPopulator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 		 */
+		@Override
 		public String getClassName() {
 			return "DummyJSLevels";//$NON-NLS-1$
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.ScriptableObject#getDefaultValue(java.lang.Class)
 		 */
+		@Override
 		public Object getDefaultValue(Class hint) {
 			try {
 				if (resultRow.isTimeDimensionRow()) {
@@ -221,10 +233,11 @@ public interface IJSObjectPopulator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
 		 * org.mozilla.javascript.Scriptable)
 		 */
+		@Override
 		public Object get(String value, Scriptable scope) {
 			try {
 				return resultRow.getFieldValue(OlapExpressionUtil.getAttrReference(this.dimName, this.key, value));
@@ -235,7 +248,7 @@ public interface IJSObjectPopulator {
 
 		/**
 		 * Set the current proceeding level key name.
-		 * 
+		 *
 		 * @param key
 		 */
 		public void setCurrentKey(String key) {
@@ -243,7 +256,7 @@ public interface IJSObjectPopulator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param result
 		 */
 		public void setResultRow(IResultRow result) {
@@ -267,19 +280,19 @@ public interface IJSObjectPopulator {
 	class InMatchDimensionIndicator extends RuntimeException {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1231475871896514362L;
 	}
 
 	/**
 	 * Wrapper for "data" script object.
-	 * 
+	 *
 	 */
 	class DummyJSDataAccessor extends ScriptableObject {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1151785733090446202L;
 		private Map bindingMap;
@@ -312,21 +325,24 @@ public interface IJSObjectPopulator {
 			}
 		}
 
+		@Override
 		public Object get(String aggrName, Scriptable scope) {
 			try {
 				if (aggrName.equals(ScriptConstants.OUTER_RESULT_KEYWORD)) {
-					if (this.outResultsScriptable == null)
+					if (this.outResultsScriptable == null) {
 						throw Context.reportRuntimeError(
 								DataResourceHandle.getInstance().getMessage(ResourceConstants.NO_OUTER_RESULTS_EXIST));
+					}
 					return this.outResultsScriptable;
 				}
 
 				Object o = aggrAccessor.get(aggrName, scope);
 				if (o != null) {
-					if (o instanceof DataException)
+					if (o instanceof DataException) {
 						return null;
-					else
+					} else {
 						return o;
+					}
 				}
 				if (!this.bindingMap.containsKey(aggrName)) {
 					return null;
@@ -343,6 +359,7 @@ public interface IJSObjectPopulator {
 
 		}
 
+		@Override
 		public String getClassName() {
 			// TODO Auto-generated method stub
 			return null;
@@ -352,7 +369,7 @@ public interface IJSObjectPopulator {
 	class DummyJSAggregationAccessor extends ScriptableObject {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = -7910516821739958908L;
 		private IResultRow resultRow;
@@ -370,7 +387,7 @@ public interface IJSObjectPopulator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param bindingName
 		 * @param bindings
 		 * @return
@@ -393,19 +410,21 @@ public interface IJSObjectPopulator {
 					List refBindingName = ExpressionCompilerUtil.extractColumnExpression(binding.getExpression(),
 							ScriptConstants.DATA_BINDING_SCRIPTABLE);
 					for (int j = 0; j < refBindingName.size(); j++) {
-						if (isAggregationBinding((String) refBindingName.get(j), bindings))
+						if (isAggregationBinding((String) refBindingName.get(j), bindings)) {
 							return true;
+						}
 					}
 				}
 			}
-			if (!find)
+			if (!find) {
 				return true;
+			}
 
 			return false;
 		}
 
 		/**
-		 * 
+		 *
 		 * @param bindingName
 		 * @param bindings
 		 * @return
@@ -422,19 +441,21 @@ public interface IJSObjectPopulator {
 			return null;
 		}
 
+		@Override
 		public Object get(String aggrName, Scriptable scope) {
 			if (aggrName.equals(ScriptConstants.OUTER_RESULT_KEYWORD)) {
-				if (this.outResultsScriptable == null)
+				if (this.outResultsScriptable == null) {
 					throw Context.reportRuntimeError(
 							DataResourceHandle.getInstance().getMessage(ResourceConstants.NO_OUTER_RESULTS_EXIST));
+				}
 				return this.outResultsScriptable;
 			}
 
 			if (this.resultRow != null) {
 				try {
-					if (isAggregationBinding(aggrName, bindings))
+					if (isAggregationBinding(aggrName, bindings)) {
 						return this.resultRow.getAggrValue(aggrName);
-					else {
+					} else {
 						IBinding binding = getBinding(aggrName, bindings);
 						Object result = ScriptEvalUtil.evalExpr(binding.getExpression(), cx.newContext(this.scope),
 								ScriptExpression.defaultID, 0);
@@ -446,19 +467,19 @@ public interface IJSObjectPopulator {
 
 						return result;
 					}
-				} catch (DataException e) {
-					return e;
 				} catch (BirtException e) {
 					return e;
 				}
-			} else
+			} else {
 				return null;
+			}
 		}
 
 		public void setResultRow(IResultRow row) {
 			this.resultRow = row;
 		}
 
+		@Override
 		public String getClassName() {
 			return "DummyJSAggregationAccessor";//$NON-NLS-1$
 		}
@@ -466,14 +487,14 @@ public interface IJSObjectPopulator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @author Administrator
 	 *
 	 */
 	class DummyJSFacttableMeasureAccessor extends ScriptableObject {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = -7910516821739958908L;
 		private IFacttableRow resultRow;
@@ -482,7 +503,7 @@ public interface IJSObjectPopulator {
 		private ScriptContext cx;
 
 		/**
-		 * 
+		 *
 		 * @param computedMeasures
 		 * @param scope
 		 */
@@ -494,10 +515,11 @@ public interface IJSObjectPopulator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
 		 * org.mozilla.javascript.Scriptable)
 		 */
+		@Override
 		public Object get(String aggrName, Scriptable scope) {
 			if (this.resultRow != null) {
 				try {
@@ -513,12 +535,13 @@ public interface IJSObjectPopulator {
 				} catch (DataException e) {
 					return null;
 				}
-			} else
+			} else {
 				return null;
+			}
 		}
 
 		/*
-		 * 
+		 *
 		 */
 		public void setResultRow(IFacttableRow row) {
 			this.resultRow = row;
@@ -526,9 +549,10 @@ public interface IJSObjectPopulator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 		 */
+		@Override
 		public String getClassName() {
 			return "DummyJSFacttableMeasureAccessor";//$NON-NLS-1$
 		}

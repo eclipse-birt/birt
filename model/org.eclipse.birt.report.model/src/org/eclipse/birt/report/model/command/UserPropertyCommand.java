@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,14 +37,14 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
 /**
  * Creates, modifies and deletes user-defined property, which is also known as
  * user property.
- * 
+ *
  */
 
 public class UserPropertyCommand extends AbstractElementCommand {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param module the module
 	 * @param obj    the element to modify
 	 */
@@ -52,7 +55,7 @@ public class UserPropertyCommand extends AbstractElementCommand {
 
 	/**
 	 * Adds a user property.
-	 * 
+	 *
 	 * @param prop the user property to add
 	 * @throws UserPropertyException if the element is not allowed to have user
 	 *                               property or the user property definition is
@@ -63,16 +66,18 @@ public class UserPropertyCommand extends AbstractElementCommand {
 	 */
 
 	public void addUserProperty(UserPropertyDefn prop) throws UserPropertyException {
-		if (prop == null)
+		if (prop == null) {
 			return;
+		}
 
 		assert element != null;
 
 		checkUserPropertyDefn(prop);
 
 		String name = prop.getName();
-		if (element.getPropertyDefn(name) != null)
+		if (element.getPropertyDefn(name) != null) {
 			throw new UserPropertyException(element, name, UserPropertyException.DESIGN_EXCEPTION_DUPLICATE_NAME);
+		}
 
 		// Make the changes. If the property has a default value, set that
 		// value.
@@ -84,7 +89,7 @@ public class UserPropertyCommand extends AbstractElementCommand {
 
 	/**
 	 * Drops a user property.
-	 * 
+	 *
 	 * @param propName the name of the property to drop
 	 * @throws UserPropertyException if the property is not found, is not a user
 	 *                               property, or is not defined on this element.
@@ -93,18 +98,21 @@ public class UserPropertyCommand extends AbstractElementCommand {
 	public void dropUserProperty(String propName) throws UserPropertyException {
 		assert element != null;
 
-		if (StringUtil.isBlank(propName))
+		if (StringUtil.isBlank(propName)) {
 			return;
+		}
 
 		// Does the element allow user properties?
 
-		if (!element.getDefn().allowsUserProperties())
+		if (!element.getDefn().allowsUserProperties()) {
 			throw new UserPropertyException(element, propName,
 					UserPropertyException.DESIGN_EXCEPTION_USER_PROP_DISALLOWED);
+		}
 
 		UserPropertyDefn prop = element.getLocalUserPropertyDefn(propName);
-		if (prop == null)
+		if (prop == null) {
 			throw new UserPropertyException(element, propName, UserPropertyException.DESIGN_EXCEPTION_NOT_FOUND);
+		}
 
 		// Create the command to remove the property. Start a transaction
 		// using the label of this command.
@@ -137,7 +145,7 @@ public class UserPropertyCommand extends AbstractElementCommand {
 
 	/**
 	 * Sets the definition of the user-defined property.
-	 * 
+	 *
 	 * @param oldPropDefn the old user-defined property to set
 	 * @param newPropDefn the new definition to set
 	 * @throws UserPropertyException  if the element is not allowed to have user
@@ -165,8 +173,9 @@ public class UserPropertyCommand extends AbstractElementCommand {
 
 		String propName = oldPropDefn.getName();
 
-		if (element.getLocalUserPropertyDefn(propName) == null)
+		if (element.getLocalUserPropertyDefn(propName) == null) {
 			throw new UserPropertyException(element, propName, UserPropertyException.DESIGN_EXCEPTION_NOT_FOUND);
+		}
 
 		checkUserPropertyDefn(newPropDefn);
 		String name = newPropDefn.getName();
@@ -246,7 +255,7 @@ public class UserPropertyCommand extends AbstractElementCommand {
 
 	/**
 	 * Checks whether the element can take the given user property definition.
-	 * 
+	 *
 	 * @param prop the user property definition
 	 * @throws UserPropertyException if the element is not allowed to have user
 	 *                               property or the user property definition is
@@ -260,19 +269,22 @@ public class UserPropertyCommand extends AbstractElementCommand {
 		// Does the element allow user properties?
 
 		String name = prop.getName();
-		if (!element.getDefn().allowsUserProperties())
+		if (!element.getDefn().allowsUserProperties()) {
 			throw new UserPropertyException(element, name, UserPropertyException.DESIGN_EXCEPTION_USER_PROP_DISALLOWED);
+		}
 
 		// Validate the name.
 
-		if (StringUtil.isBlank(name))
+		if (StringUtil.isBlank(name)) {
 			throw new UserPropertyException(element, name, UserPropertyException.DESIGN_EXCEPTION_NAME_REQUIRED);
+		}
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance();
 		List supportedTypes = UserPropertyDefn.getAllowedTypes();
 		assert supportedTypes != null;
-		if (!supportedTypes.contains(dd.getPropertyType(prop.getTypeCode())))
+		if (!supportedTypes.contains(dd.getPropertyType(prop.getTypeCode()))) {
 			throw new UserPropertyException(element, name, UserPropertyException.DESIGN_EXCEPTION_INVALID_TYPE);
+		}
 
 		// Check the display name or id.
 
@@ -280,17 +292,19 @@ public class UserPropertyCommand extends AbstractElementCommand {
 		String displayName = prop.getDisplayName();
 		if (!StringUtil.isBlank(msgID)) {
 			displayName = module.getMessage(msgID);
-			if (StringUtil.isBlank(displayName))
+			if (StringUtil.isBlank(displayName)) {
 				throw new UserPropertyException(element, name,
 						UserPropertyException.DESIGN_EXCEPTION_INVALID_DISPLAY_ID);
+			}
 		}
 
 		// Ensure choices exist if this is a choice typeCode.
 
 		if (prop.getTypeCode() == IPropertyType.CHOICE_TYPE) {
 			IChoiceSet choices = prop.getChoices();
-			if (choices == null || choices.getChoices().length == 0)
+			if (choices == null || choices.getChoices().length == 0) {
 				throw new UserPropertyException(element, name, UserPropertyException.DESIGN_EXCEPTION_MISSING_CHOICES);
+			}
 		}
 
 		// if the user-defined property has choices and its type is not
@@ -307,9 +321,10 @@ public class UserPropertyCommand extends AbstractElementCommand {
 					throw new UserPropertyException(element, name,
 							UserPropertyException.DESIGN_EXCEPTION_CHOICE_NAME_REQUIRED);
 				}
-				if (value == null)
+				if (value == null) {
 					throw new UserPropertyException(element, name,
 							UserPropertyException.DESIGN_EXCEPTION_CHOICE_VALUE_REQUIRED);
+				}
 				if (prop.getTypeCode() != IPropertyType.CHOICE_TYPE) {
 					try {
 						value = prop.validateValue(module, element, value);
@@ -347,7 +362,7 @@ public class UserPropertyCommand extends AbstractElementCommand {
 
 	/**
 	 * Private method to validate the value of a property.
-	 * 
+	 *
 	 * @param prop  definition of the property to validate
 	 * @param value the value to validate
 	 * @return the value to store for the property
@@ -357,8 +372,9 @@ public class UserPropertyCommand extends AbstractElementCommand {
 	private Object validateValue(ElementPropertyDefn prop, String value) throws PropertyValueException {
 		// Validate the value.
 
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		try {
 			return prop.validateValue(module, element, value);

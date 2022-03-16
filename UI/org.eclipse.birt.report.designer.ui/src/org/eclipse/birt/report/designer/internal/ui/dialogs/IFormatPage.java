@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,76 +25,76 @@ public interface IFormatPage {
 	/**
 	 * Aligns the page vietically.
 	 */
-	public static int PAGE_ALIGN_VIRTICAL = 0;
+	int PAGE_ALIGN_VIRTICAL = 0;
 
 	/**
 	 * Aligns the page horizontally.
 	 */
-	public static int PAGE_ALIGN_HORIZONTAL = 1;
+	int PAGE_ALIGN_HORIZONTAL = 1;
 
 	/**
 	 * Sets preview text for default use.
-	 * 
+	 *
 	 * @param text The preview text to be set.
 	 */
-	public void setPreviewText(String text);
+	void setPreviewText(String text);
 
 	/**
 	 * Sets input for the format page.
-	 * 
+	 *
 	 * @param category The format category.
 	 * @param pattern  The format pattern.
 	 */
-	public void setInput(String category, String pattern, ULocale formatLocale);
+	void setInput(String category, String pattern, ULocale formatLocale);
 
 	/**
 	 * Sets input for the page.
-	 * 
+	 *
 	 * @param formatString The formatString.
 	 */
-	public void setInput(String formatString);
+	void setInput(String formatString);
 
 	/**
 	 * Gets format category.
-	 * 
+	 *
 	 * @return The format category.
 	 */
-	public String getCategory();
+	String getCategory();
 
 	/**
 	 * Gets format pattern.
-	 * 
+	 *
 	 * @return The format pattern.
 	 */
-	public String getPattern();
+	String getPattern();
 
-	public ULocale getLocale();
+	ULocale getLocale();
 
 	/**
 	 * Returns the format string from the page.
-	 * 
+	 *
 	 * @return The format string.
 	 */
-	public String getFormatString();
+	String getFormatString();
 
 	/**
 	 * Determines the format string of the page is modified or not.
-	 * 
+	 *
 	 * @return True if the format string is modified.
 	 */
-	public boolean isFormatModified();
+	boolean isFormatModified();
 
 	/**
 	 * Determines the page is dirty.
-	 * 
+	 *
 	 * @return True if the page is dirty.
 	 */
-	public boolean isDirty();
+	boolean isDirty();
 
 	/**
 	 * Adds format change listener to the format page.
-	 * 
+	 *
 	 * @param listener The format change listener to be added.
 	 */
-	public void addFormatChangeListener(IFormatChangeListener listener);
+	void addFormatChangeListener(IFormatChangeListener listener);
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,6 +38,7 @@ public class RadioGroupPropertyDescriptor extends PropertyDescriptor {
 		setFormStyle(formStyle);
 	}
 
+	@Override
 	public void setInput(Object handle) {
 		this.input = handle;
 		getDescriptorProvider().setInput(input);
@@ -42,11 +46,11 @@ public class RadioGroupPropertyDescriptor extends PropertyDescriptor {
 
 	private Composite composite;
 
-	private Button[] choices = new Button[0];
+	private Button[] choices = {};
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.attributes.widget.PropertyDescriptor
 	 * #resetUIData()
 	 */
@@ -64,20 +68,22 @@ public class RadioGroupPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
+	@Override
 	public Control getControl() {
 		return composite;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Control createControl(Composite parent) {
 		if (isFormStyle()) {
 			composite = FormWidgetFactory.getInstance().createComposite(parent, SWT.NONE);
@@ -105,10 +111,12 @@ public class RadioGroupPropertyDescriptor extends PropertyDescriptor {
 				final Button button = choices[i];
 				choices[i].addSelectionListener(new SelectionAdapter() {
 
+					@Override
 					public void widgetSelected(SelectionEvent e) {
 						try {
-							if (button.getSelection())
+							if (button.getSelection()) {
 								save(button.getText());
+							}
 						} catch (SemanticException e1) {
 							for (int i = 0; i < choices.length; i++) {
 								if (choices[i].getText().equals(oldValue)) {
@@ -127,6 +135,7 @@ public class RadioGroupPropertyDescriptor extends PropertyDescriptor {
 		return composite;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		descriptorProvider.save(value);
 	}
@@ -139,6 +148,7 @@ public class RadioGroupPropertyDescriptor extends PropertyDescriptor {
 		composite.setVisible(isVisible);
 	}
 
+	@Override
 	public void load() {
 		oldValue = getDescriptorProvider().load().toString();
 		refresh(oldValue);

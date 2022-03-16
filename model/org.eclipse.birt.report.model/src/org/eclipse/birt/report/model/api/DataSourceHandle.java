@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,9 +25,9 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataSourceModel;
  * <p>
  * The application can implement methods to execute code on the two primary data
  * source events: open and close.
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.DataSource
- * 
+ *
  */
 
 public abstract class DataSourceHandle extends ReportElementHandle implements IDataSourceModel {
@@ -32,7 +35,7 @@ public abstract class DataSourceHandle extends ReportElementHandle implements ID
 	 * Constructs a handle of DataSource with the given design and element. The
 	 * application generally does not create handles directly. Instead, it uses one
 	 * of the navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -44,7 +47,7 @@ public abstract class DataSourceHandle extends ReportElementHandle implements ID
 	/**
 	 * Returns the code of the beforeOpen method. This is the script called just
 	 * before opening the data source.
-	 * 
+	 *
 	 * @return the code of the method
 	 */
 
@@ -55,7 +58,7 @@ public abstract class DataSourceHandle extends ReportElementHandle implements ID
 	/**
 	 * Sets the code for the beforeOpen method. This is the script called just
 	 * before opening the data source.
-	 * 
+	 *
 	 * @param code the code for the method
 	 * @throws SemanticException if the method is locked.
 	 */
@@ -67,7 +70,7 @@ public abstract class DataSourceHandle extends ReportElementHandle implements ID
 	/**
 	 * Returns the code of the beforeClose method. This is the script called just
 	 * before closing the data source.
-	 * 
+	 *
 	 * @return the code of the method
 	 */
 
@@ -78,7 +81,7 @@ public abstract class DataSourceHandle extends ReportElementHandle implements ID
 	/**
 	 * Sets the code for the beforeClose method. This is the script called just
 	 * before closing the data source.
-	 * 
+	 *
 	 * @param code the code for the method
 	 * @throws SemanticException if the method is locked.
 	 */
@@ -90,7 +93,7 @@ public abstract class DataSourceHandle extends ReportElementHandle implements ID
 	/**
 	 * Returns the code of the afterOpen method. This is the script called just
 	 * after opening the data source.
-	 * 
+	 *
 	 * @return the code of the method
 	 */
 
@@ -101,7 +104,7 @@ public abstract class DataSourceHandle extends ReportElementHandle implements ID
 	/**
 	 * Sets the code for the afterOpen method. This is the script called just after
 	 * opening the data source.
-	 * 
+	 *
 	 * @param code the code for the method
 	 * @throws SemanticException if the method is locked.
 	 */
@@ -113,7 +116,7 @@ public abstract class DataSourceHandle extends ReportElementHandle implements ID
 	/**
 	 * Returns the code of the afterClose method. This is the script called just
 	 * after closing the data source.
-	 * 
+	 *
 	 * @return the code of the method
 	 */
 
@@ -124,7 +127,7 @@ public abstract class DataSourceHandle extends ReportElementHandle implements ID
 	/**
 	 * Sets the code for the afterClose method. This is the script called just after
 	 * closing the data source.
-	 * 
+	 *
 	 * @param code the code for the method
 	 * @throws SemanticException if the method is locked.
 	 */

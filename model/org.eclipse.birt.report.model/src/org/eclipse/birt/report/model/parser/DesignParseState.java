@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +25,7 @@ import org.xml.sax.Attributes;
 
 /**
  * Base class for report element parse states.
- * 
+ *
  */
 
 public abstract class DesignParseState extends AbstractParseState {
@@ -35,7 +38,7 @@ public abstract class DesignParseState extends AbstractParseState {
 
 	/**
 	 * Constructs the design parse state with the design file parser handler.
-	 * 
+	 *
 	 * @param theHandler SAX handler for the design file parser
 	 */
 
@@ -45,17 +48,18 @@ public abstract class DesignParseState extends AbstractParseState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
 	 */
 
+	@Override
 	public XMLParserHandler getHandler() {
 		return handler;
 	}
 
 	/**
 	 * Returns the element being created.
-	 * 
+	 *
 	 * @return the report element being created
 	 */
 
@@ -64,7 +68,7 @@ public abstract class DesignParseState extends AbstractParseState {
 	/**
 	 * Sets the value of a property with a string parsed from the XML file. Performs
 	 * any required semantic checks.
-	 * 
+	 *
 	 * @param propName property name
 	 * @param value    value string from the XML file
 	 */
@@ -92,40 +96,48 @@ public abstract class DesignParseState extends AbstractParseState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
 
+	@Override
 	public AbstractParseState startElement(String tagName) {
 		int tagValue = tagName.toLowerCase().hashCode();
-		if (ParserSchemaConstants.PROPERTY_TAG == tagValue)
+		if (ParserSchemaConstants.PROPERTY_TAG == tagValue) {
 			return new PropertyState(handler, getElement());
-		if (ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue) {
 			return new ListPropertyState(handler, getElement());
-		if (ParserSchemaConstants.EXPRESSION_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.EXPRESSION_TAG == tagValue) {
 			return new ExpressionState(handler, getElement());
-		if (ParserSchemaConstants.XML_PROPERTY_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.XML_PROPERTY_TAG == tagValue) {
 			return new XmlPropertyState(handler, getElement());
-		if (ParserSchemaConstants.STRUCTURE_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.STRUCTURE_TAG == tagValue) {
 			return new StructureState(handler, getElement());
-		if (ParserSchemaConstants.METHOD_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.METHOD_TAG == tagValue) {
 			return new PropertyState(handler, getElement());
-		if (ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue)
+		}
+		if ((ParserSchemaConstants.TEXT_PROPERTY_TAG == tagValue) || (ParserSchemaConstants.HTML_PROPERTY_TAG == tagValue)) {
 			return new TextPropertyState(handler, getElement());
-		if (ParserSchemaConstants.HTML_PROPERTY_TAG == tagValue)
-			return new TextPropertyState(handler, getElement());
-		if (ParserSchemaConstants.ENCRYPTED_PROPERTY_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.ENCRYPTED_PROPERTY_TAG == tagValue) {
 			return new EncryptedPropertyState(handler, getElement());
-		if (ParserSchemaConstants.SIMPLE_PROPERTY_LIST_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.SIMPLE_PROPERTY_LIST_TAG == tagValue) {
 			return new SimplePropertyListState(handler, getElement());
+		}
 
 		return super.startElement(tagName);
 	}
 
 	/**
 	 * Parses and sets the element id.
-	 * 
+	 *
 	 * @param attrs   the SAX attributes object.
 	 * @param element the design element.
 	 */
@@ -159,7 +171,7 @@ public abstract class DesignParseState extends AbstractParseState {
 
 	/**
 	 * Adds an element to the id-to-element map.
-	 * 
+	 *
 	 * @param module  the module.
 	 * @param content the design element.
 	 * @return <true> if the element can be added to the id-to-element map,
@@ -176,9 +188,9 @@ public abstract class DesignParseState extends AbstractParseState {
 			// the content never add to the container before
 
 			assert element != content;
-			if (element == null)
+			if (element == null) {
 				module.addElementID(content);
-			else {
+			} else {
 				// fire a semantic warning and make a unique id for it
 				handler.getErrorHandler()
 						.semanticWarning(new DesignParserException(
@@ -195,8 +207,9 @@ public abstract class DesignParseState extends AbstractParseState {
 	}
 
 	protected void markLineNumber(DesignElement element) {
-		if (handler.markLineNumber)
+		if (handler.markLineNumber) {
 			handler.tempLineNumbers.put(element, Integer.valueOf(handler.getCurrentLineNo()));
+		}
 
 	}
 }

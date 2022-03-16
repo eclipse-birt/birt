@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.swt.custom;
 
@@ -108,7 +120,7 @@ public abstract class AccordionControl extends Composite {
 	 * @return list of header labels
 	 */
 	public List<AccordionLabel> getHeaderLabels() {
-		List<AccordionLabel> headers = new ArrayList<AccordionLabel>();
+		List<AccordionLabel> headers = new ArrayList<>();
 		for (Control c : getChildren()) {
 			if (c instanceof AccordionLabel) {
 				headers.add((AccordionLabel) c);
@@ -189,7 +201,7 @@ public abstract class AccordionControl extends Composite {
 
 		mOpen = ICON_EXPAND; // $NON-NLS-1$
 		mClosed = ICON_COLLAPSE; // $NON-NLS-1$
-		List<AccordionLabel> expandLabels = new ArrayList<AccordionLabel>();
+		List<AccordionLabel> expandLabels = new ArrayList<>();
 
 		for (int i = 0; i < headers.size(); i++) {
 			Object header = headers.get(i);
@@ -210,8 +222,9 @@ public abstract class AccordionControl extends Composite {
 			}
 			label.setFont(labelFont);
 			GridData gd = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-			if (i > 0)
+			if (i > 0) {
 				gd.verticalIndent = 5;
+			}
 			label.setLayoutData(gd);
 			setHeader(header, label);
 			label.addMouseListener(new MouseAdapter() {
@@ -231,14 +244,17 @@ public abstract class AccordionControl extends Composite {
 			});
 			label.addMouseTrackListener(new MouseTrackListener() {
 
+				@Override
 				public void mouseEnter(MouseEvent e) {
 					updateBackground(label, true);
 				}
 
+				@Override
 				public void mouseExit(MouseEvent e) {
 					updateBackground(label, false);
 				}
 
+				@Override
 				public void mouseHover(MouseEvent e) {
 				}
 			});
@@ -326,8 +342,9 @@ public abstract class AccordionControl extends Composite {
 
 	/** Returns true if the content area for the given label is open/showing */
 	private boolean isOpen(Control label) {
-		if (getContentArea(label) == null)
+		if (getContentArea(label) == null) {
 			return false;
+		}
 		return !((GridData) getContentArea(label).getLayoutData()).exclude;
 	}
 

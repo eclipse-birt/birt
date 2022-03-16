@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
@@ -47,10 +59,12 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 
 	class MapLabelProvider extends LabelProvider implements ITableLabelProvider {
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			return MapDescriptorProvider.this.getColumnText(element, 1);
 		}
@@ -65,6 +79,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 			this.listener = listener;
 		}
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			Object[] elements = MapDescriptorProvider.this.getElements(inputElement);
 
@@ -74,28 +89,33 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 			return elements;
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
+		@Override
 		public void dispose() {
 			deRegisterEventManager();
 		}
 
 		protected void deRegisterEventManager() {
-			if (UIUtil.getModelEventManager() != null)
+			if (UIUtil.getModelEventManager() != null) {
 				UIUtil.getModelEventManager().removeModelEventProcessor(listener);
+			}
 		}
 
 		/**
 		 * Registers model change listener to DE elements.
 		 */
 		protected void registerEventManager() {
-			if (UIUtil.getModelEventManager() != null)
+			if (UIUtil.getModelEventManager() != null) {
 				UIUtil.getModelEventManager().addModelEventProcessor(listener);
+			}
 		}
 
 	}
 
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		MapRuleHandle handle = (MapRuleHandle) element;
 
@@ -145,6 +165,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 		return src;
 	}
 
+	@Override
 	public boolean doSwapItem(int pos, int direction) throws PropertyValueException {
 		PropertyHandle phandle = elementHandle.getPropertyHandle(StyleHandle.MAP_RULES_PROP);
 
@@ -153,7 +174,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 		} else {
 			/**
 			 * Original code: phandle.moveItem( pos, pos + 1 );
-			 * 
+			 *
 			 * Changes due to model api changes. since property handle now treats moving
 			 * from 0-0, 0-1 as the same.
 			 */
@@ -163,16 +184,19 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 		return true;
 	}
 
+	@Override
 	public IStructuredContentProvider getContentProvider(IModelEventProcessor listener) {
 		return new MapContentProvider(listener);
 	}
 
+	@Override
 	public LabelProvider getLabelProvider() {
 		return new MapLabelProvider();
 	}
 
-	private static final MapRuleHandle[] EMPTY = new MapRuleHandle[0];
+	private static final MapRuleHandle[] EMPTY = {};
 
+	@Override
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof List) {
 			if (((List) inputElement).size() > 0) {
@@ -201,13 +225,15 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 		return EMPTY;
 	}
 
+	@Override
 	public boolean doDeleteItem(int pos) throws PropertyValueException {
 		PropertyHandle phandle = elementHandle.getPropertyHandle(StyleHandle.MAP_RULES_PROP);
 
 		phandle.removeItem(pos);
 		try {
-			if (phandle.getListValue() == null || phandle.getListValue().size() == 0)
+			if (phandle.getListValue() == null || phandle.getListValue().size() == 0) {
 				elementHandle.setProperty(StyleHandle.MAP_RULES_PROP, null);
+			}
 		} catch (SemanticException e) {
 			ExceptionHandler.handle(e);
 		}
@@ -215,6 +241,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 		return true;
 	}
 
+	@Override
 	public MapRuleHandle doAddItem(MapRule rule, int pos) {
 		PropertyHandle phandle = elementHandle.getPropertyHandle(StyleHandle.MAP_RULES_PROP);
 
@@ -229,6 +256,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 		return (MapRuleHandle) handle;
 	}
 
+	@Override
 	public boolean edit(Object input, int handleCount) {
 		boolean result = false;
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
@@ -255,8 +283,9 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 				} else {
 					reportElement = designElement;
 				}
-				if (reportElement == null)
+				if (reportElement == null) {
 					break;
+				}
 			}
 
 			if (reportElement instanceof ReportItemHandle) {
@@ -278,9 +307,10 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 		return result;
 	}
 
+	@Override
 	public boolean add(int handleCount) {
 		boolean result = false;
-		;
+
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
 
 		try {
@@ -321,8 +351,9 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 			} else {
 				reportElement = designElement;
 			}
-			if (reportElement == null)
+			if (reportElement == null) {
 				break;
+			}
 		}
 		if (reportElement instanceof ReportItemHandle) {
 			builder.setReportElement((ReportItemHandle) reportElement);
@@ -333,6 +364,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 		return builder;
 	}
 
+	@Override
 	public boolean delete(int index) {
 		boolean result = false;
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
@@ -354,6 +386,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 		return result;
 	}
 
+	@Override
 	public boolean moveUp(int index) {
 		boolean result = false;
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
@@ -375,6 +408,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 		return result;
 	}
 
+	@Override
 	public boolean moveDown(int index) {
 
 		boolean result = false;
@@ -399,25 +433,30 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 
 	protected Object input;
 
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 	}
 
+	@Override
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
 		return Messages.getString("MapPage.label.mapList"); //$NON-NLS-1$
 	}
 
+	@Override
 	public Object load() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public String getText(int key) {
 		switch (key) {
 		case 0:
@@ -454,6 +493,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 
 	private boolean canReset = false;
 
+	@Override
 	public boolean canReset() {
 		return canReset;
 	}
@@ -462,14 +502,17 @@ public class MapDescriptorProvider extends MapHandleProvider implements PreviewP
 		this.canReset = canReset;
 	}
 
+	@Override
 	public void reset() throws SemanticException {
-		if (canReset())
+		if (canReset()) {
 			save(null);
+		}
 	}
 
+	@Override
 	public boolean duplicate(int pos) {
 		boolean result = false;
-		;
+
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
 
 		try {

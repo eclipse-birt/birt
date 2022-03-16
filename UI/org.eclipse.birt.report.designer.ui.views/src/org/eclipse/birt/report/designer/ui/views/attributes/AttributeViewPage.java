@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -119,6 +122,7 @@ public class AttributeViewPage extends Page
 					Messages.getString("AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg")); //$NON-NLS-1$
 		}
 
+		@Override
 		public void run() {
 			if (view != null) {
 
@@ -150,7 +154,7 @@ public class AttributeViewPage extends Page
 
 	/**
 	 * Clear all the local properties
-	 * 
+	 *
 	 * @param ret
 	 */
 	public void resetLocalProperties(int ret) {
@@ -172,7 +176,6 @@ public class AttributeViewPage extends Page
 		} catch (SemanticException e) {
 			ExceptionUtil.handle(e);
 		}
-		return;
 	}
 
 	/**
@@ -192,11 +195,12 @@ public class AttributeViewPage extends Page
 	 * (optional).</li>
 	 * </ol>
 	 * </p>
-	 * 
+	 *
 	 * @param parent the parent control
 	 */
 	private Composite container;
 
+	@Override
 	public void createControl(Composite parent) {
 		addActions();
 		container = new Composite(parent, SWT.NONE);
@@ -249,9 +253,11 @@ public class AttributeViewPage extends Page
 	 * <code>IWorkbenchPage.activate(IWorkbenchPart) instead</code>.
 	 * </p>
 	 */
+	@Override
 	public void setFocus() {
 		Display.getCurrent().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				handleSelectionChanged(selection);
 			}
@@ -261,8 +267,9 @@ public class AttributeViewPage extends Page
 	private void setPartName() {
 		String typeInfo = builder.getTypeInfo();
 		IViewPart view = UIUtil.getView(AttributeView.ID);
-		if (view != null && typeInfo != null)
+		if (view != null && typeInfo != null) {
 			((AttributeView) view).setPartName(typeInfo);
+		}
 	}
 
 	private boolean hasLocalProperties(ISelection selection) {
@@ -281,16 +288,15 @@ public class AttributeViewPage extends Page
 
 	/**
 	 * Parse out the DE models for all kinds of input source.
-	 * 
+	 *
 	 * @param selection the current selection.
 	 * @return
 	 */
 	protected List getModelList(ISelection selection) {
 		List list = new ArrayList();
-		if (selection == null)
+		if ((selection == null) || !(selection instanceof StructuredSelection)) {
 			return list;
-		if (!(selection instanceof StructuredSelection))
-			return list;
+		}
 
 		StructuredSelection structured = (StructuredSelection) selection;
 		if (structured.getFirstElement() instanceof ReportElementEditPart) {
@@ -320,11 +326,12 @@ public class AttributeViewPage extends Page
 	 * scenario, implement <code>INullSelectionListener</code>. The event will be
 	 * posted through this method.
 	 * </p>
-	 * 
+	 *
 	 * @param part      the workbench part containing the selection
 	 * @param selection the current selection. This may be <code>null</code> if
 	 *                  <code>INullSelectionListener</code> is implemented.
 	 */
+	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		// if ( part != null && !PART_IDS.contains( part.getSite( ).getId( ) )
 		// && !ID.equals( part.getSite( ).getId( ) )
@@ -368,6 +375,7 @@ public class AttributeViewPage extends Page
 	 * appropriate times).
 	 * </p>
 	 */
+	@Override
 	public void dispose() {
 		if (pageGenerator instanceof AbstractPageGenerator) {
 			((AbstractPageGenerator) pageGenerator).dispose();
@@ -407,6 +415,7 @@ public class AttributeViewPage extends Page
 			setId(ActionFactory.SELECT_ALL.getId());
 		}
 
+		@Override
 		public void runWithEvent(Event event) {
 			try {
 				execute();
@@ -419,7 +428,7 @@ public class AttributeViewPage extends Page
 		 * The parameters to pass to the method this handler invokes. This handler
 		 * always passes no parameters.
 		 */
-		protected static final Class[] NO_PARAMETERS = new Class[0];
+		protected static final Class[] NO_PARAMETERS = {};
 
 		private static final String methodName = "selectAll";//$NON-NLS-1$
 
@@ -461,14 +470,11 @@ public class AttributeViewPage extends Page
 
 					}
 
-				} catch (IllegalAccessException e) {
-					// The method is protected, so do nothing.
-
 				} catch (InvocationTargetException e) {
 					throw new ExecutionException("An exception occurred while executing " //$NON-NLS-1$
 							+ getMethodToExecute(), e.getTargetException());
 
-				} catch (NoSuchMethodException e) {
+				} catch (IllegalAccessException | NoSuchMethodException e) {
 					// I can't get the text limit. Do nothing.
 
 				}
@@ -479,7 +485,7 @@ public class AttributeViewPage extends Page
 
 		/**
 		 * Looks up the select all method on the given focus control.
-		 * 
+		 *
 		 * @return The method on the focus control; <code>null</code> if none.
 		 */
 		protected Method getMethodToExecute() {
@@ -523,13 +529,7 @@ public class AttributeViewPage extends Page
 				} catch (final ClassNotFoundException e) {
 					// There is no Swing support, so do nothing.
 
-				} catch (final NoSuchMethodException e) {
-					// The API has changed, which seems amazingly unlikely.
-					throw new Error("Something is seriously wrong here"); //$NON-NLS-1$
-				} catch (IllegalAccessException e) {
-					// The API has changed, which seems amazingly unlikely.
-					throw new Error("Something is seriously wrong here"); //$NON-NLS-1$
-				} catch (InvocationTargetException e) {
+				} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
 					// The API has changed, which seems amazingly unlikely.
 					throw new Error("Something is seriously wrong here"); //$NON-NLS-1$
 				}
@@ -541,7 +541,7 @@ public class AttributeViewPage extends Page
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
 	 * ( org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest )
@@ -550,10 +550,12 @@ public class AttributeViewPage extends Page
 
 	private IPageGenerator pageGenerator;
 
+	@Override
 	public boolean isInterested(IMediatorRequest request) {
 		return request instanceof ReportRequest;
 	}
 
+	@Override
 	public void performRequest(IMediatorRequest request) {
 		if (ReportRequest.SELECTION.equals(request.getType())) {
 			if (!requesList.equals(request.getData())) {
@@ -577,16 +579,18 @@ public class AttributeViewPage extends Page
 	 * Removes model change listener.
 	 */
 	protected void deRegisterEventManager() {
-		if (UIUtil.getModelEventManager() != null)
+		if (UIUtil.getModelEventManager() != null) {
 			UIUtil.getModelEventManager().removeModelEventProcessor(this);
+		}
 	}
 
 	/**
 	 * Registers model change listener to DE elements.
 	 */
 	protected void registerEventManager() {
-		if (UIUtil.getModelEventManager() != null)
+		if (UIUtil.getModelEventManager() != null) {
 			UIUtil.getModelEventManager().addModelEventProcessor(this);
+		}
 	}
 
 	/**
@@ -598,7 +602,7 @@ public class AttributeViewPage extends Page
 	 * scenario, implement <code>INullSelectionListener</code>. The event will be
 	 * posted through this method.
 	 * </p>
-	 * 
+	 *
 	 * @param part      the workbench part containing the selection
 	 * @param selection the current selection. This may be <code>null</code> if
 	 *                  <code>INullSelectionListener</code> is implemented.
@@ -606,8 +610,9 @@ public class AttributeViewPage extends Page
 
 	public void handleSelectionChanged(ISelection selection) {
 		List modelList = getModelList(selection);
-		if (modelList == null || modelList.size() == 0)
+		if (modelList == null || modelList.size() == 0) {
 			return;
+		}
 		pageGenerator = builder.getPageGenerator(modelList);
 		if (container != null && !container.isDisposed()) {
 			pageGenerator.createControl(container, modelList);
@@ -623,6 +628,7 @@ public class AttributeViewPage extends Page
 
 	static class MessagePageGenerator extends TabPageGenerator {
 
+		@Override
 		public void createTabItems(List input) {
 			super.createTabItems(input);
 			Composite pane = new Composite(tabFolder, SWT.NONE);
@@ -698,24 +704,30 @@ public class AttributeViewPage extends Page
 		}
 	}
 
+	@Override
 	public Control getControl() {
 		return container;
 	}
 
+	@Override
 	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
 
 	}
 
+	@Override
 	public void clear() {
 
 	}
 
+	@Override
 	public void postElementEvent() {
 		restoreLibraryPropertiesAction.setEnabled(hasLocalProperties(selection));
-		if (pageGenerator != null && pageGenerator.getControl() != null && !pageGenerator.getControl().isDisposed())
+		if (pageGenerator != null && pageGenerator.getControl() != null && !pageGenerator.getControl().isDisposed()) {
 			pageGenerator.refresh();
+		}
 	}
 
+	@Override
 	public Object getAdapter(Class adapter) {
 		return null;
 	}

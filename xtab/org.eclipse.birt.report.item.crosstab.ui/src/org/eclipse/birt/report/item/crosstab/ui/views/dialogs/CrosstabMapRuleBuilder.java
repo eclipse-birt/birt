@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +62,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ *
  */
 
 public class CrosstabMapRuleBuilder extends MapRuleBuilder {
@@ -73,10 +76,12 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder {
 		super(parentShell, title, provider);
 	}
 
+	@Override
 	protected void inilializeColumnList(DesignElementHandle handle) {
 		super.inilializeColumnList(handle);
 		expSelListener = new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter(expression);
 				if (converter != null) {
@@ -90,8 +95,9 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder {
 						if (computedColumn != null) {
 							String value = ExpressionUtility
 									.getDataExpression(((ComputedColumnHandle) computedColumn).getName(), converter);
-							if (value != null)
+							if (value != null) {
 								newValue = value;
+							}
 							expression.setText(newValue);
 						}
 					}
@@ -101,6 +107,7 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder {
 		};
 	}
 
+	@Override
 	protected List getSelectValueList() throws BirtException {
 		CubeHandle cube = null;
 		CrosstabReportItemHandle crosstab = null;
@@ -201,11 +208,13 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder {
 		return valueList;
 	}
 
+	@Override
 	protected ExpressionProvider getExpressionProvider() {
 		if (expressionProvider == null) {
 			expressionProvider = new CrosstabBindingExpressionProvider(designHandle, null);
 			expressionProvider.addFilter(new ExpressionFilter() {
 
+				@Override
 				public boolean select(Object parentElement, Object element) {
 					if (ExpressionFilter.CATEGORY.equals(parentElement)
 							&& (ExpressionProvider.CURRENT_CUBE.equals(element)
@@ -220,6 +229,7 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder {
 		return expressionProvider;
 	}
 
+	@Override
 	protected String getSelectionValue(Combo combo) {
 		String retValue = null;
 
@@ -250,6 +260,7 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder {
 		return retValue;
 	}
 
+	@Override
 	protected void selectMultiValues(Combo combo) {
 		String[] retValue = null;
 

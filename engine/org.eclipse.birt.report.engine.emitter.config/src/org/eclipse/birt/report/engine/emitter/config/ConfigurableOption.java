@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +49,7 @@ public final class ConfigurableOption implements IConfigurableOption {
 
 	/**
 	 * Constructs a configurable option with the specified name.
-	 * 
+	 *
 	 * @param name the option name.
 	 */
 	public ConfigurableOption(String name) {
@@ -65,7 +68,7 @@ public final class ConfigurableOption implements IConfigurableOption {
 
 	/**
 	 * Constructs a configurable option with the all specified params.
-	 * 
+	 *
 	 * @param name         the option name.
 	 * @param dataType     the data type.
 	 * @param displayType  the option type.
@@ -87,18 +90,19 @@ public final class ConfigurableOption implements IConfigurableOption {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.config.IConfigurableOption#getDataType
 	 * ()
 	 */
+	@Override
 	public DataType getDataType() {
 		return dataType;
 	}
 
 	/**
 	 * Sets data type
-	 * 
+	 *
 	 * @param dataType the data type to set.
 	 */
 	public void setDataType(DataType dataType) {
@@ -107,17 +111,18 @@ public final class ConfigurableOption implements IConfigurableOption {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IConfigurableOption#
 	 * getOptionType()
 	 */
+	@Override
 	public DisplayType getDisplayType() {
 		return displayType;
 	}
 
 	/**
 	 * Sets option type.
-	 * 
+	 *
 	 * @param displayType the option type to set.
 	 */
 	public void setDisplayType(DisplayType displayType) {
@@ -126,17 +131,18 @@ public final class ConfigurableOption implements IConfigurableOption {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IConfigurableOption#
 	 * getDefaultValue()
 	 */
+	@Override
 	public Object getDefaultValue() {
 		return defaultValue;
 	}
 
 	/**
 	 * Sets default value.
-	 * 
+	 *
 	 * @param defaultValue the default value to set.
 	 */
 	public void setDefaultValue(Object defaultValue) {
@@ -145,18 +151,19 @@ public final class ConfigurableOption implements IConfigurableOption {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.config.IConfigurableOption#getChoices
 	 * ()
 	 */
+	@Override
 	public IOptionValue[] getChoices() {
 		return choices;
 	}
 
 	/**
 	 * Sets choice values
-	 * 
+	 *
 	 * @param choices the value list to set.
 	 */
 	public void setChoices(IOptionValue[] choices) {
@@ -165,17 +172,18 @@ public final class ConfigurableOption implements IConfigurableOption {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IConfigurableOption#
 	 * getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
 
 	/**
 	 * Sets display name.
-	 * 
+	 *
 	 * @param displayName the display name to set.
 	 */
 	public void setDisplayName(String displayName) {
@@ -184,17 +192,18 @@ public final class ConfigurableOption implements IConfigurableOption {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IConfigurableOption#
 	 * getDescription()
 	 */
+	@Override
 	public String getDescription() {
 		return description;
 	}
 
 	/**
 	 * Sets option description.
-	 * 
+	 *
 	 * @param description the description to set.
 	 */
 	public void setDescription(String description) {
@@ -203,18 +212,19 @@ public final class ConfigurableOption implements IConfigurableOption {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.config.IConfigurableOption#getToolTip
 	 * ()
 	 */
+	@Override
 	public String getToolTip() {
 		return toolTip;
 	}
 
 	/**
 	 * Sets tool tip.
-	 * 
+	 *
 	 * @param toolTip the tool tip to set.
 	 */
 	public void setToolTip(String toolTip) {
@@ -223,10 +233,11 @@ public final class ConfigurableOption implements IConfigurableOption {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.emitter.config.IConfigurableOption#getName ()
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -235,10 +246,12 @@ public final class ConfigurableOption implements IConfigurableOption {
 		this.enabled = enabled;
 	}
 
+	@Override
 	public boolean isEnabled() {
 		return enabled;
 	}
 
+	@Override
 	public String getCategory() {
 		return category;
 	}

@@ -1,9 +1,9 @@
 /*******************************************************************************
 * Copyright (c) 2004 Actuate Corporation.
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.core.Module;
 
 /**
  * This class represents a group within a table element.
- * 
+ *
  */
 
 public class TableGroup extends GroupElement {
@@ -32,40 +32,43 @@ public class TableGroup extends GroupElement {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
 	 * report.model.elements.ElementVisitor)
 	 */
 
+	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitTableGroup(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
+	@Override
 	public String getElementName() {
 		return ReportDesignConstants.TABLE_GROUP_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
 	 * report.model.elements.ReportDesign)
 	 */
 
+	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 * 
+	 *
 	 * @param module the report design
 	 * @return an API handle for this element
 	 */

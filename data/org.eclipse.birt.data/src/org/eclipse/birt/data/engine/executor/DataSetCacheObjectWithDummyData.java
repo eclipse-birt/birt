@@ -1,8 +1,21 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.data.engine.executor;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -21,18 +34,22 @@ public class DataSetCacheObjectWithDummyData implements IDataSetCacheObject {
 		this.resultClass = this.populateResultClass(dataSetDesign, base.getResultClass());
 	}
 
+	@Override
 	public boolean isCachedDataReusable(int requiredCapability) {
 		return this.base.isCachedDataReusable(requiredCapability);
 	}
 
+	@Override
 	public boolean needUpdateCache(int requiredCapability) {
 		return this.base.needUpdateCache(requiredCapability);
 	}
 
+	@Override
 	public IResultClass getResultClass() throws DataException {
 		return this.resultClass;
 	}
 
+	@Override
 	public void release() {
 		this.base.release();
 	}
@@ -56,8 +73,9 @@ public class DataSetCacheObjectWithDummyData implements IDataSetCacheObject {
 			// data object with alias is retrieve as metadata on base
 			// add check on columnDefn alias name
 			if (baseResultClass.getFieldIndex(columnDefn.getColumnName()) != -1
-					|| baseResultClass.getFieldIndex(columnDefn.getAlias()) != -1)
+					|| baseResultClass.getFieldIndex(columnDefn.getAlias()) != -1) {
 				continue;
+			}
 
 			ResultFieldMetadata columnMetaData = new ResultFieldMetadata(j + 1, columnDefn.getColumnName(),
 					columnDefn.getDisplayName(), DataType.getClass(columnDefn.getDataType()), null /* nativeTypeName */,
@@ -72,8 +90,9 @@ public class DataSetCacheObjectWithDummyData implements IDataSetCacheObject {
 		it = computedColumns.iterator();
 		for (int j = resultHints.size(); it.hasNext(); j++) {
 			IComputedColumn compColumn = (IComputedColumn) it.next();
-			if (baseResultClass.getFieldIndex(compColumn.getName()) != -1)
+			if (baseResultClass.getFieldIndex(compColumn.getName()) != -1) {
 				continue;
+			}
 			ResultFieldMetadata columnMetaData = new ResultFieldMetadata(++count, compColumn.getName(),
 					compColumn.getName(), DataType.getClass(compColumn.getDataType()), null /* nativeTypeName */, true,
 					-1);

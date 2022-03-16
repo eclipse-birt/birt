@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -67,7 +70,6 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
 import com.ibm.icu.util.ULocale;
@@ -80,15 +82,15 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * In the example, it only uses flat file as data source, actually it supports
  * any JDBC data source, referring to Data Engine to get detail information.
- * 
+ *
  * @since 2.3
  */
 public class WorkingWithBIRTDataEngine {
-	private final Map<String, String> expressionMap = new HashMap<String, String>();
+	private final Map<String, String> expressionMap = new HashMap<>();
 
 	/**
 	 * Create runtime chart model and bind data.
-	 * 
+	 *
 	 * @throws ChartException
 	 */
 	public static final Chart createWorkingWithBIRTDataEngine() throws ChartException {
@@ -106,7 +108,7 @@ public class WorkingWithBIRTDataEngine {
 
 	/**
 	 * Create chart model.
-	 * 
+	 *
 	 * @param expressions expressions are used to set category series and value
 	 *                    series.
 	 * @return
@@ -179,7 +181,7 @@ public class WorkingWithBIRTDataEngine {
 
 	/**
 	 * Binds data into chart model.
-	 * 
+	 *
 	 * @param cwaBar
 	 * @return
 	 * @throws ChartException
@@ -205,7 +207,7 @@ public class WorkingWithBIRTDataEngine {
 	/**
 	 * Uses BIRT data engine to do query and wraps data with
 	 * <code>IDataRowExpressionEvaluator</code> for chart doing data binding.
-	 * 
+	 *
 	 * @return
 	 * @throws BirtException
 	 */
@@ -229,10 +231,12 @@ public class WorkingWithBIRTDataEngine {
 
 		// Create row expression evaluator.
 		return new GroupedRowExpressionsEvaluator(queryResults.getResultIterator(), true) {
+			@Override
 			public Object evaluate(String expression) {
 				String bindingName = expressionMap.get(expression);
-				if (bindingName != null)
+				if (bindingName != null) {
 					return super.evaluate(bindingName);
+				}
 				return super.evaluate(expression);
 			}
 		};
@@ -240,7 +244,7 @@ public class WorkingWithBIRTDataEngine {
 
 	/**
 	 * Create query definition.
-	 * 
+	 *
 	 * @param chart
 	 * @param odaDataSet
 	 * @return
@@ -291,7 +295,7 @@ public class WorkingWithBIRTDataEngine {
 
 	/**
 	 * Initialize default column bindings for original columns.
-	 * 
+	 *
 	 * @param queryDefn
 	 * @throws DataException
 	 */
@@ -310,7 +314,7 @@ public class WorkingWithBIRTDataEngine {
 
 	/**
 	 * Create a new data engine.
-	 * 
+	 *
 	 * @return
 	 * @throws BirtException
 	 */
@@ -324,7 +328,7 @@ public class WorkingWithBIRTDataEngine {
 
 	/**
 	 * Create a new data set.
-	 * 
+	 *
 	 * @param dataSourceDesign
 	 * @return
 	 */
@@ -339,7 +343,7 @@ public class WorkingWithBIRTDataEngine {
 
 	/**
 	 * Create a new data source.
-	 * 
+	 *
 	 * @return
 	 * @throws BirtException
 	 */

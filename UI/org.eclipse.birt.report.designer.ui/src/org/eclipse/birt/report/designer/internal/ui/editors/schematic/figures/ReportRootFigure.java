@@ -1,9 +1,9 @@
 /*******************************************************************************
 * Copyright (c) 2004 Actuate Corporation .
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
 import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -22,7 +23,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * Report Editot root editpart.
- * 
+ *
  */
 public class ReportRootFigure extends ReportElementFigure {
 	private static final Insets DEFAULT_MARGIN = new Insets(3, 3, 3, 3);
@@ -32,7 +33,7 @@ public class ReportRootFigure extends ReportElementFigure {
 	private boolean showMargin;
 
 	/**
-	 * 
+	 *
 	 */
 	public ReportRootFigure() {
 
@@ -40,7 +41,7 @@ public class ReportRootFigure extends ReportElementFigure {
 
 	/*
 	 * Do nothing
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#paintBorder(org.eclipse.draw2d.Graphics)
 	 */
 //	protected void paintBorder( Graphics graphics )
@@ -50,9 +51,10 @@ public class ReportRootFigure extends ReportElementFigure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.IFigure#getInsets()
 	 */
+	@Override
 	public Insets getInsets() {
 		if (showMargin) {
 			if (getBorder() != null) {
@@ -66,9 +68,10 @@ public class ReportRootFigure extends ReportElementFigure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
+	@Override
 	protected void paintFigure(Graphics graphics) {
 		graphics.fillRectangle(getBounds());
 		super.paintFigure(graphics);
@@ -82,7 +85,7 @@ public class ReportRootFigure extends ReportElementFigure {
 		graphics.drawRectangle(getBounds().getCopy().crop(new Insets(0, 0, 1, 1)));
 
 //		Rectangle rect = getBounds( );
-//		
+//
 //		graphics.setForegroundColor( ColorConstants.white );
 //		graphics.setBackgroundColor( ColorConstants.gray );
 //		graphics.fillGradient( rect.x, rect.y, 5, rect.height, false );
@@ -91,9 +94,10 @@ public class ReportRootFigure extends ReportElementFigure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#paintChildren(org.eclipse.draw2d.Graphics)
 	 */
+	@Override
 	protected void paintChildren(Graphics graphics) {
 		IFigure child;
 
@@ -125,15 +129,17 @@ public class ReportRootFigure extends ReportElementFigure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#findDescendantAtExcluding(int, int,
 	 * org.eclipse.draw2d.TreeSearch)
 	 */
+	@Override
 	protected IFigure findDescendantAtExcluding(int x, int y, TreeSearch search) {
 		PRIVATE_POINT.setLocation(x, y);
 		translateFromParent(PRIVATE_POINT);
-		if (!getBounds().contains(PRIVATE_POINT))
+		if (!getBounds().contains(PRIVATE_POINT)) {
 			return null;
+		}
 
 		IFigure fig;
 		for (int i = getChildren().size(); i > 0;) {
@@ -141,8 +147,9 @@ public class ReportRootFigure extends ReportElementFigure {
 			fig = (IFigure) getChildren().get(i);
 			if (fig.isVisible()) {
 				fig = fig.findFigureAt(PRIVATE_POINT.x, PRIVATE_POINT.y, search);
-				if (fig != null)
+				if (fig != null) {
 					return fig;
+				}
 			}
 		}
 		// No descendants were found
@@ -165,15 +172,17 @@ public class ReportRootFigure extends ReportElementFigure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#findMouseEventTargetInDescendantsAt(int, int)
 	 */
+	@Override
 	protected IFigure findMouseEventTargetInDescendantsAt(int x, int y) {
 		PRIVATE_POINT.setLocation(x, y);
 		translateFromParent(PRIVATE_POINT);
 
-		if (!getBounds().contains(PRIVATE_POINT))
+		if (!getBounds().contains(PRIVATE_POINT)) {
 			return null;
+		}
 
 		IFigure fig;
 		List children = getChildren();

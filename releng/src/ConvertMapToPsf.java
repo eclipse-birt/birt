@@ -1,3 +1,16 @@
+
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -55,12 +68,12 @@ public class ConvertMapToPsf {
 	}
 
 	public void run() throws IOException {
-		if (mapRoot == null || mapRoot.exists() == false) {
+		if (mapRoot == null || !mapRoot.exists()) {
 			System.out.println("NO MAP FILES");
 		}
 		File allFile = new File(mapRoot.getParent() + "/" + psfFolder + "/all_files.psf");
 		System.out.print(mapRoot.getParent() + "/" + psfFolder + "/all_files.psf");
-		if (allFile.exists() == false) {
+		if (!allFile.exists()) {
 			allFile.createNewFile();
 		}
 		allOut = new BufferedWriter(new FileWriter(allFile));
@@ -95,7 +108,7 @@ public class ConvertMapToPsf {
 		String inFile = mapRoot.getPath() + "/" + fileName;
 		String outFilePath = mapRoot.getParent() + "/" + psfFolder;
 		File mapFile = new File(inFile);
-		if (mapFile.exists() == false) {
+		if (!mapFile.exists()) {
 			System.out.println("No Map File " + mapRoot.getPath() + "/" + fileName);
 			return;
 		}
@@ -107,13 +120,14 @@ public class ConvertMapToPsf {
 		BufferedReader in = new BufferedReader(new FileReader(mapFile));
 
 		while (true) {
-			if (!in.ready())
+			if (!in.ready()) {
 				break;
+			}
 
 			String line = in.readLine();
 			String[] tokens = line.split("\\,");
 
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			if (tokens.length == 1 || line.indexOf("!***") > -1 || line.indexOf("GET") > 0) {
 				if (tokens[0] != null && tokens[0].length() > 0) {
 					sb.append("\t<!--");
@@ -154,8 +168,9 @@ public class ConvertMapToPsf {
 	}
 
 	public final void writeOut(String chars) throws IOException {
-		if (curOut == null || allOut == null)
+		if (curOut == null || allOut == null) {
 			throw new IOException("output writers not ready");
+		}
 
 		curOut.write(chars);
 		allOut.write(chars);
@@ -167,6 +182,7 @@ public class ConvertMapToPsf {
 		public MapFilter() {
 		}
 
+		@Override
 		public boolean accept(File dir, String name) {
 			return name.toLowerCase().endsWith(extension);
 		}

@@ -1,5 +1,17 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
- * 
+ *
  */
 
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
@@ -21,7 +33,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 
 /**
  * @author Administrator
- * 
+ *
  */
 public class MeasureComboPropertyDescriptorProvider extends ComboPropertyDescriptorProvider {
 
@@ -37,10 +49,11 @@ public class MeasureComboPropertyDescriptorProvider extends ComboPropertyDescrip
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IDescriptorProvider#save(java.lang.Object)
 	 */
+	@Override
 	public void save(Object value) throws SemanticException {
 
 		String stringValue = (String) value;
@@ -72,10 +85,11 @@ public class MeasureComboPropertyDescriptorProvider extends ComboPropertyDescrip
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IDescriptorProvider#setInput(java.lang.Object)
 	 */
+	@Override
 	public void setInput(Object input) {
 		// TODO Auto-generated method stub
 		super.setInput(input);
@@ -84,12 +98,8 @@ public class MeasureComboPropertyDescriptorProvider extends ComboPropertyDescrip
 
 	protected void initializeCrosstab() {
 		crosstabHandle = null;
-		if ((input == null)) {
-			return;
-		}
-
-		if ((!(input instanceof List && ((List) input).size() > 0
-				&& ((List) input).get(0) instanceof ExtendedItemHandle)) && (!(input instanceof ExtendedItemHandle))) {
+		if ((input == null) || ((!(input instanceof List && ((List) input).size() > 0
+				&& ((List) input).get(0) instanceof ExtendedItemHandle)) && (!(input instanceof ExtendedItemHandle)))) {
 			return;
 		}
 
@@ -104,7 +114,6 @@ public class MeasureComboPropertyDescriptorProvider extends ComboPropertyDescrip
 
 		try {
 			crosstabHandle = (CrosstabReportItemHandle) handle.getReportItem();
-			return;
 		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
 			logger.log(Level.SEVERE, e.getMessage(), e);

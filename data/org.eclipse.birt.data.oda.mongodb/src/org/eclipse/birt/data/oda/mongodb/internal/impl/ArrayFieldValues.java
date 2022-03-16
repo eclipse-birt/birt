@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -39,7 +42,7 @@ public class ArrayFieldValues {
 	private int m_maxSubRows = 0;
 
 	ArrayFieldValues(String containingDocName) {
-		m_fieldValues = new LinkedHashMap<String, Object>(5);
+		m_fieldValues = new LinkedHashMap<>(5);
 		m_containingDocName = containingDocName;
 	}
 
@@ -60,10 +63,12 @@ public class ArrayFieldValues {
 		m_fieldValues.put(fieldName, value);
 
 		int valueRowCount = 1;
-		if (iterateListElements && value instanceof List<?>)
+		if (iterateListElements && value instanceof List<?>) {
 			valueRowCount = ((List<?>) value).size();
-		if (m_maxSubRows < valueRowCount)
+		}
+		if (m_maxSubRows < valueRowCount) {
 			m_maxSubRows = valueRowCount;
+		}
 	}
 
 	boolean hasContainerDocs() {
@@ -77,25 +82,30 @@ public class ArrayFieldValues {
 	void clearContainerDocs() {
 		// defer clearing of top-level container cache till the end of
 		// iterating top-level row in ResultDataHandler#next()
-		if (ResultDataHandler.TOP_LEVEL_PARENT.equals(m_containingDocName))
+		if (ResultDataHandler.TOP_LEVEL_PARENT.equals(m_containingDocName)) {
 			return;
+		}
 
-		if (!m_fieldValues.isEmpty())
+		if (!m_fieldValues.isEmpty()) {
 			m_fieldValues.remove(m_containingDocName);
+		}
 		resetRowCount();
 	}
 
 	Object getCurrentValue(String fieldName) {
 		Object value = getFieldValue(fieldName);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
-		if (!(value instanceof List<?>))
+		if (!(value instanceof List<?>)) {
 			return value;
+		}
 
 		List<?> fieldValuesList = (List<?>) value;
-		if (m_subRowIndex < 0 || m_subRowIndex >= fieldValuesList.size())
+		if (m_subRowIndex < 0 || m_subRowIndex >= fieldValuesList.size()) {
 			return null;
+		}
 
 		return fieldValuesList.get(m_subRowIndex);
 	}
@@ -122,8 +132,9 @@ public class ArrayFieldValues {
 	}
 
 	void clear() {
-		if (!m_fieldValues.isEmpty())
+		if (!m_fieldValues.isEmpty()) {
 			m_fieldValues.clear();
+		}
 		resetRowCount();
 	}
 
@@ -137,8 +148,9 @@ public class ArrayFieldValues {
 		// reset count based on remaining field values
 		for (Object fieldValue : m_fieldValues.values()) {
 			int valueRowCount = fieldValue instanceof List<?> ? ((List<?>) fieldValue).size() : 1;
-			if (m_maxSubRows < valueRowCount)
+			if (m_maxSubRows < valueRowCount) {
 				m_maxSubRows = valueRowCount;
+			}
 		}
 	}
 

@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -56,11 +59,11 @@ public interface Label extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Caption</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * The string content displayed in the label.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Caption</em>' containment reference.
 	 * @see #setCaption(Text)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getLabel_Caption()
@@ -74,7 +77,7 @@ public interface Label extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.Label#getCaption
 	 * <em>Caption</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Caption</em>' containment reference.
 	 * @see #getCaption()
 	 * @generated
@@ -84,11 +87,11 @@ public interface Label extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Background</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the background for the label.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Background</em>' containment reference.
 	 * @see #setBackground(Fill)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getLabel_Background()
@@ -102,7 +105,7 @@ public interface Label extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.Label#getBackground
 	 * <em>Background</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Background</em>' containment
 	 *              reference.
 	 * @see #getBackground()
@@ -113,11 +116,11 @@ public interface Label extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Outline</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Defines the outline (border) for the label.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Outline</em>' containment reference.
 	 * @see #setOutline(LineAttributes)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getLabel_Outline()
@@ -131,7 +134,7 @@ public interface Label extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.Label#getOutline
 	 * <em>Outline</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Outline</em>' containment reference.
 	 * @see #getOutline()
 	 * @generated
@@ -142,11 +145,11 @@ public interface Label extends IChartObject {
 	 * Returns the value of the '<em><b>Shadow Color</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * Specifies the shadow color for the label.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Shadow Color</em>' containment reference.
 	 * @see #setShadowColor(ColorDefinition)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getLabel_ShadowColor()
@@ -160,7 +163,7 @@ public interface Label extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.Label#getShadowColor
 	 * <em>Shadow Color</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Shadow Color</em>' containment
 	 *              reference.
 	 * @see #getShadowColor()
@@ -171,11 +174,11 @@ public interface Label extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Insets</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Defines the insets for the label.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Insets</em>' containment reference.
 	 * @see #setInsets(Insets)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getLabel_Insets()
@@ -189,7 +192,7 @@ public interface Label extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.Label#getInsets
 	 * <em>Insets</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Insets</em>' containment reference.
 	 * @see #getInsets()
 	 * @generated
@@ -200,12 +203,12 @@ public interface Label extends IChartObject {
 	 * Returns the value of the '<em><b>Visible</b></em>' attribute. The default
 	 * value is <code>"true"</code>. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies whether or not the label is visible on the chart. By default it's
 	 * true;
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Visible</em>' attribute.
 	 * @see #isSetVisible()
 	 * @see #unsetVisible()
@@ -222,7 +225,7 @@ public interface Label extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.component.Label#isVisible
 	 * <em>Visible</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Visible</em>' attribute.
 	 * @see #isSetVisible()
 	 * @see #unsetVisible()
@@ -235,7 +238,7 @@ public interface Label extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.component.Label#isVisible
 	 * <em>Visible</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetVisible()
 	 * @see #isVisible()
 	 * @see #setVisible(boolean)
@@ -248,7 +251,7 @@ public interface Label extends IChartObject {
 	 * {@link org.eclipse.birt.chart.model.component.Label#isVisible
 	 * <em>Visible</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Visible</em>' attribute is set.
 	 * @see #unsetVisible()
 	 * @see #isVisible()
@@ -262,7 +265,7 @@ public interface Label extends IChartObject {
 	 * value is <code>"0"</code>. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
 	 * begin-model-doc --> Specifies the min count of characters before ellipsis. 0
 	 * means ellipsis won't be used. <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Ellipsis</em>' attribute.
 	 * @see #isSetEllipsis()
 	 * @see #unsetEllipsis()
@@ -279,7 +282,7 @@ public interface Label extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.component.Label#getEllipsis
 	 * <em>Ellipsis</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Ellipsis</em>' attribute.
 	 * @see #isSetEllipsis()
 	 * @see #unsetEllipsis()
@@ -292,7 +295,7 @@ public interface Label extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.component.Label#getEllipsis
 	 * <em>Ellipsis</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetEllipsis()
 	 * @see #getEllipsis()
 	 * @see #setEllipsis(int)
@@ -305,7 +308,7 @@ public interface Label extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.Label#getEllipsis
 	 * <em>Ellipsis</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Ellipsis</em>' attribute is set.
 	 * @see #unsetEllipsis()
 	 * @see #getEllipsis()
@@ -317,6 +320,7 @@ public interface Label extends IChartObject {
 	/**
 	 * @generated
 	 */
+	@Override
 	Label copyInstance();
 
 } // Label

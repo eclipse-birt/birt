@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,10 +43,11 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 
 	/**
 	 * Filter the event.
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
+	@Override
 	protected boolean includeEventType(int type) {
 		return type == NotificationEvent.CONTENT_EVENT || type == NotificationEvent.PROPERTY_EVENT
 				|| type == NotificationEvent.NAME_EVENT || type == NotificationEvent.STYLE_EVENT
@@ -79,12 +83,13 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 		 * . GraphicsViewModelEventProcessor.ModelEventInfo#canAcceptModelEvent(org
 		 * .eclipse.birt.report.model.api.DesignElementHandle,
 		 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
+		@Override
 		public boolean canAcceptModelEvent(IModelEventInfo info) {
 			if (getContentActionType() == ContentEvent.REMOVE && getChangeContents().contains(info.getTarget())) {
 				return true;
@@ -132,9 +137,10 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 
 	/**
 	 * Creat the factor to ctreat the report runnable.
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	protected IModelEventInfoFactory createModelEventInfoFactory() {
 		return new GraphicsModelEventInfoFactory();
 	}
@@ -146,11 +152,12 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 
 		/**
 		 * Creat the report runnable for the ReportEditorWithPalette.
-		 * 
+		 *
 		 * @param focus
 		 * @param ev
 		 * @return
 		 */
+		@Override
 		public IModelEventInfo createModelEventInfo(DesignElementHandle focus, NotificationEvent ev) {
 			switch (ev.getEventType()) {
 			case NotificationEvent.VIEWS_CONTENT_EVENT:
@@ -185,14 +192,16 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.event.
 	 * IFastConsumerProcessor#isOverdued()
 	 */
+	@Override
 	public boolean isOverdued() {
 		return getFactory().isDispose();
 	}
 
+	@Override
 	public void postElementEvent() {
 		try {
 			if (getFactory() instanceof IAdvanceModelEventFactory) {

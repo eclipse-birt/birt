@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,11 +24,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Date Format Type</b></em>', and utility methods for working with them.
  * <!-- end-user-doc --> <!-- begin-model-doc -->
- * 
+ *
  * This type defines predefined date format types.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDateFormatType()
  * @model
  * @generated
@@ -38,7 +41,7 @@ public enum DateFormatType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #LONG
 	 * @generated
 	 * @ordered
@@ -51,7 +54,7 @@ public enum DateFormatType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #SHORT
 	 * @generated
 	 * @ordered
@@ -64,7 +67,7 @@ public enum DateFormatType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #MEDIUM
 	 * @generated
 	 * @ordered
@@ -77,7 +80,7 @@ public enum DateFormatType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #FULL
 	 * @generated
 	 * @ordered
@@ -87,7 +90,7 @@ public enum DateFormatType implements Enumerator {
 	/**
 	 * The '<em><b>Long</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #LONG_LITERAL
 	 * @model name="Long"
 	 * @generated
@@ -98,7 +101,7 @@ public enum DateFormatType implements Enumerator {
 	/**
 	 * The '<em><b>Short</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #SHORT_LITERAL
 	 * @model name="Short"
 	 * @generated
@@ -109,7 +112,7 @@ public enum DateFormatType implements Enumerator {
 	/**
 	 * The '<em><b>Medium</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #MEDIUM_LITERAL
 	 * @model name="Medium"
 	 * @generated
@@ -120,7 +123,7 @@ public enum DateFormatType implements Enumerator {
 	/**
 	 * The '<em><b>Full</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #FULL_LITERAL
 	 * @model name="Full"
 	 * @generated
@@ -131,16 +134,15 @@ public enum DateFormatType implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Date Format Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final DateFormatType[] VALUES_ARRAY = new DateFormatType[] { LONG_LITERAL, SHORT_LITERAL,
-			MEDIUM_LITERAL, FULL_LITERAL, };
+	private static final DateFormatType[] VALUES_ARRAY = { LONG_LITERAL, SHORT_LITERAL, MEDIUM_LITERAL, FULL_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Date Format Type</b></em>'
 	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static final List<DateFormatType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -148,7 +150,7 @@ public enum DateFormatType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified
 	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static DateFormatType get(String literal) {
@@ -164,7 +166,7 @@ public enum DateFormatType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified
 	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static DateFormatType getByName(String name) {
@@ -180,7 +182,7 @@ public enum DateFormatType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified
 	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static DateFormatType get(int value) {
@@ -199,21 +201,21 @@ public enum DateFormatType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String literal;
@@ -221,10 +223,10 @@ public enum DateFormatType implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private DateFormatType(int value, String name, String literal) {
+	DateFormatType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -232,27 +234,30 @@ public enum DateFormatType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -260,7 +265,7 @@ public enum DateFormatType implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override

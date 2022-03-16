@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -24,9 +36,11 @@ public class TogglesSection extends Section {
 
 	protected TogglePropertyDescriptor[] toggles;
 
+	@Override
 	public void createSection() {
-		if (!getLabelText().trim().equals("")) //$NON-NLS-1$
+		if (!getLabelText().trim().equals("")) { //$NON-NLS-1$
 			getLabelControl(parent);
+		}
 		getTogglesControl(parent);
 		getGridPlaceholder(parent);
 	}
@@ -53,6 +67,7 @@ public class TogglesSection extends Section {
 				toggle.getControl().setLayoutData(gd);
 				toggle.getControl().addDisposeListener(new DisposeListener() {
 
+					@Override
 					public void widgetDisposed(DisposeEvent event) {
 						toggle = null;
 						boolean flag = true;
@@ -62,8 +77,9 @@ public class TogglesSection extends Section {
 								break;
 							}
 						}
-						if (flag)
+						if (flag) {
 							toggles = null;
+						}
 					}
 				});
 			}
@@ -73,33 +89,40 @@ public class TogglesSection extends Section {
 		return composite;
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) composite.getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
-		if (getLabelControl() != null)
+		}
+		if (getLabelControl() != null) {
 			gd.horizontalSpan = gd.horizontalSpan - 1;
+		}
 		gd.horizontalAlignment = GridData.FILL;
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillToggle;
+		}
 
 	}
 
+	@Override
 	public void load() {
 		for (int i = 0; i < toggles.length; i++) {
-			if (toggles[i] != null && !toggles[i].getControl().isDisposed())
+			if (toggles[i] != null && !toggles[i].getControl().isDisposed()) {
 				toggles[i].load();
+			}
 		}
 		if (!composite.isDisposed()) {
 			composite.layout();
 		}
 	}
 
+	@Override
 	public void reset() {
 		for (int i = 0; i < toggles.length; i++) {
 			if (toggles[i] != null && !toggles[i].getControl().isDisposed()) {
@@ -108,10 +131,12 @@ public class TogglesSection extends Section {
 		}
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
-		for (int i = 0; i < toggles.length; i++)
+		for (int i = 0; i < toggles.length; i++) {
 			toggles[i].setInput(input);
+		}
 	}
 
 	private int width = -1;
@@ -134,22 +159,30 @@ public class TogglesSection extends Section {
 		this.fillToggle = fillToggle;
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (composite != null)
+		}
+		if (composite != null) {
 			WidgetUtil.setExcludeGridData(composite, isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (composite != null)
+		}
+		if (composite != null) {
 			composite.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 
 	IToggleDescriptorProvider[] providers;

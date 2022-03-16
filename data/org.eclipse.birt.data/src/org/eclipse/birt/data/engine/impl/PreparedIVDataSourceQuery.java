@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -81,8 +84,9 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery {
 		this.queryDefn = queryDefn;
 		this.engine = dataEngine;
 
-		if (!PLSUtil.isPLSEnabled(queryDefn))
+		if (!PLSUtil.isPLSEnabled(queryDefn)) {
 			cleanUpOldRD();
+		}
 		logger.exiting(PreparedIVDataSourceQuery.class.getName(), "PreparedIVDataSourceQuery");
 	}
 
@@ -90,7 +94,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery {
 	 * Since this query is running based on the data set, the old things stored in
 	 * report document is no more use, and it will be safter if they are all
 	 * removed.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	private void cleanUpOldRD() throws DataException {
@@ -103,9 +107,10 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#newExecutor()
 	 */
+	@Override
 	protected QueryExecutor newExecutor() {
 		return new IVDataSourceExecutor(engine.getSession().getSharedScope(), queryDefn,
 				this.preparedQuery.getAggrTable());
@@ -114,36 +119,40 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery {
 	/**
 	 * Dummy implementation.
 	 */
+	@Override
 	public Collection getParameterMetaData() throws BirtException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#initializeExecution
 	 * (org.eclipse.birt.data.engine.api.IBaseQueryResults,
 	 * org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	protected void initializeExecution(IBaseQueryResults outerResults, Scriptable scope) throws DataException {
 		String basedID = queryDefn.getQueryResultsID();
 
 		String _1partID = QueryResultIDUtil.get1PartID(basedID);
-		if (_1partID == null)
+		if (_1partID == null) {
 			realBasedQueryID = basedID;
-		else
+		} else {
 			realBasedQueryID = _1partID;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#produceQueryResults
 	 * (org.eclipse.birt.data.engine.api.IBaseQueryResults,
 	 * org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	protected IQueryResults produceQueryResults(IBaseQueryResults outerResults, Scriptable scope) throws DataException {
 		QueryResults queryResults = preparedQuery.doPrepare(outerResults, scope, newExecutor(), this);
 		queryResults.setID(realBasedQueryID);
@@ -151,7 +160,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 */
 	private class IVDataSourceExecutor extends QueryExecutor {
@@ -175,15 +184,17 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery {
 		 * @seeorg.eclipse.birt.data.engine.impl.PreparedQuery.Executor#
 		 * createOdiDataSource()
 		 */
+		@Override
 		protected IDataSource createOdiDataSource() throws DataException {
 			return NewInstanceHelper.newDataSource();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.impl.QueryExecutor#findDataSource()
 		 */
+		@Override
 		protected DataSourceRuntime findDataSource() throws DataException {
 			return NewInstanceHelper.newDataSourceRuntime(queryScope);
 		}
@@ -192,11 +203,13 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery {
 		 * @seeorg.eclipse.birt.data.engine.impl.PreparedQuery.Executor#
 		 * newDataSetRuntime()
 		 */
+		@Override
 		protected DataSetRuntime newDataSetRuntime() throws DataException {
 			dsRuntime = new DataSetRuntime(NewInstanceHelper.newIVDataSetDesign(), this, this.getSession());
 			return dsRuntime;
 		}
 
+		@Override
 		protected String getDataSetName() {
 			return queryDefn.getDataSetName();
 		}
@@ -204,6 +217,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery {
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.QueryExecutor#getResultMetaData()
 		 */
+		@Override
 		public IResultMetaData getResultMetaData() throws DataException {
 			RDLoad rdLoad = RDUtil.newLoad(engine.getSession().getTempDir(), getEngineContext(),
 					new QueryResultInfo(realBasedQueryID, null, -1));
@@ -218,6 +232,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery {
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery
 		 * ()
 		 */
+		@Override
 		protected IQuery createOdiQuery() throws DataException {
 			query = NewInstanceHelper.newBaseQuery();
 			return query;
@@ -227,6 +242,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery {
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery
 		 * ()
 		 */
+		@Override
 		protected IResultIterator executeOdiQuery(IEventHandler eventHandler) throws DataException {
 			try {
 				RDLoad rdLoad = RDUtil.newLoad(engine.getSession().getTempDir(), getEngineContext(),
@@ -291,7 +307,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param eventHandler
 		 * @param stopSign
 		 * @param manager
@@ -355,7 +371,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param meta
 		 * @return
 		 * @throws DataException

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,19 +17,19 @@ package org.eclipse.birt.report.engine.ir;
 import junit.framework.TestCase;
 
 /**
- * 
+ *
  * Grid Item test
- * 
+ *
  * Colunm has repeat, so we need to test if the getColumnCount is right.
- * 
+ *
  */
 public class GridItemTest extends TestCase {
 
 	/**
 	 * test column add/getColumn methods
-	 * 
+	 *
 	 * add several columns into the grid
-	 * 
+	 *
 	 * then get the columns one by one to test if they work correctly
 	 */
 	public void testColumn() {
@@ -46,7 +49,7 @@ public class GridItemTest extends TestCase {
 
 	/**
 	 * create a column using name & repeat
-	 * 
+	 *
 	 * @param name   name
 	 * @param repeat repeat
 	 * @return column type
@@ -59,7 +62,7 @@ public class GridItemTest extends TestCase {
 
 	/**
 	 * test if the column is match the name an repeate
-	 * 
+	 *
 	 * @param column column
 	 * @param name   column name
 	 * @param repeat repeat

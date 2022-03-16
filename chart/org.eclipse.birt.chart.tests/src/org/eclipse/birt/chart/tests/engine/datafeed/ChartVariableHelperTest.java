@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,10 +17,10 @@ package org.eclipse.birt.chart.tests.engine.datafeed;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.eclipse.birt.chart.internal.datafeed.ChartVariableHelper;
+
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import org.eclipse.birt.chart.internal.datafeed.ChartVariableHelper;
 
 /**
  * ChartVariableHelperTest
@@ -36,9 +39,10 @@ public class ChartVariableHelperTest extends TestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		fParams[1] = fCategoryExpr;
 		fParams[2] = fSeriesExpr;
@@ -49,10 +53,10 @@ public class ChartVariableHelperTest extends TestCase {
 	/**
 	 * The method test
 	 * {@link org.eclipse.birt.chart.internal.datafeed.ChartVariableHelper#parseChartVariables(String, String, String, String )}
-	 * 
+	 *
 	 * @throws NoSuchMethodException
 	 * @throws SecurityException
-	 * 
+	 *
 	 * @throws SecurityException
 	 * @throws NoSuchMethodException
 	 * @throws IllegalArgumentException
@@ -113,13 +117,7 @@ public class ChartVariableHelperTest extends TestCase {
 			fParams[0] = v6Src;
 			result = m.invoke(fTestInstance, fParams);
 			assertEquals(v6Target, result);
-		} catch (IllegalArgumentException e) {
-			fail("Exception happened, failed to test."); //$NON-NLS-1$
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			fail("Exception happened, failed to test."); //$NON-NLS-1$
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
+		} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 			fail("Exception happened, failed to test."); //$NON-NLS-1$
 			e.printStackTrace();
 		}

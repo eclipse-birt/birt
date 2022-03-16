@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +32,7 @@ final class CompatibleBoundColumnState extends CompatibleListPropertyState {
 	 * Constructs the design parse state with the design file parser handler. This
 	 * constructor is used when this list property to parse is a property of one
 	 * element.
-	 * 
+	 *
 	 * @param theHandler the design file parser handler
 	 * @param element    the element which holds this property
 	 */
@@ -40,12 +43,13 @@ final class CompatibleBoundColumnState extends CompatibleListPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.parser.ListPropertyState#setName(java.lang.
 	 * String)
 	 */
 
+	@Override
 	protected void setName(String name) {
 		super.setName(name);
 
@@ -53,7 +57,8 @@ final class CompatibleBoundColumnState extends CompatibleListPropertyState {
 
 		List tmpList = (List) element.getLocalProperty(handler.getModule(), name);
 
-		if (tmpList != null)
+		if (tmpList != null) {
 			list = (ArrayList) tmpList;
+		}
 	}
 }

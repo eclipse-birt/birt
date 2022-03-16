@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - modification of Batik's ListValue.java to support BIRT's CSS rules
@@ -21,7 +21,7 @@ import org.w3c.dom.css.CSSValueList;
 
 /**
  * This class represents a list of values.
- * 
+ *
  */
 public class ListValue extends Value implements CSSValueList {
 
@@ -63,6 +63,7 @@ public class ListValue extends Value implements CSSValueList {
 	/**
 	 * Implements {@link Value#getCssValueType()}.
 	 */
+	@Override
 	public short getCssValueType() {
 		return CSSValue.CSS_VALUE_LIST;
 	}
@@ -70,8 +71,9 @@ public class ListValue extends Value implements CSSValueList {
 	/**
 	 * A string representation of the current value.
 	 */
+	@Override
 	public String getCssText() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < length; i++) {
 			Value value = (Value) items[i];
 			if (value == null) {
@@ -128,15 +130,17 @@ public class ListValue extends Value implements CSSValueList {
 				break;
 			}
 		}
-		if (needQuote)
+		if (needQuote) {
 			return '\"' + value + '\"';
-		else
+		} else {
 			return value;
+		}
 	}
 
 	/**
 	 * Implements {@link Value#getLength()}.
 	 */
+	@Override
 	public int getLength() throws DOMException {
 		return length;
 	}
@@ -144,6 +148,7 @@ public class ListValue extends Value implements CSSValueList {
 	/**
 	 * Implements {@link Value#item(int)}.
 	 */
+	@Override
 	public CSSValue item(int index) throws DOMException {
 		return items[index];
 	}
@@ -151,6 +156,7 @@ public class ListValue extends Value implements CSSValueList {
 	/**
 	 * Returns a printable representation of this value.
 	 */
+	@Override
 	public String toString() {
 		return getCssText();
 	}
@@ -169,6 +175,7 @@ public class ListValue extends Value implements CSSValueList {
 		items[length++] = v;
 	}
 
+	@Override
 	public boolean equals(Object value) {
 		if (value instanceof ListValue) {
 			ListValue l = (ListValue) value;

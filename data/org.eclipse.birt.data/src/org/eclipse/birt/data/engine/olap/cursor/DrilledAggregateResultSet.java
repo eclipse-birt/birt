@@ -1,9 +1,12 @@
 /**
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,9 +46,9 @@ import org.eclipse.birt.data.engine.olap.query.view.DrillOnDimensionHierarchy;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 /**
- * 
+ *
  * @author Administrator
- * 
+ *
  */
 public class DrilledAggregateResultSet implements IAggregationResultSet {
 
@@ -64,7 +67,7 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 		this.dimLevel = aggregationRsFromCube.getAllLevels();
 		this.aggregationRsFromCube = aggregationRsFromCube;
 
-		drillFilterTargetLevels = new HashMap<IEdgeDrillFilter, List<DimLevel>>();
+		drillFilterTargetLevels = new HashMap<>();
 		for (int i = 0; i < drillFilters.size(); i++) {
 			IEdgeDrillFilter[] filters = drillFilters.get(i).getDrillByDimension();
 			for (int t = 0; t < filters.length; t++) {
@@ -97,15 +100,18 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 
 			if (aggregationRsFromCube.getAggregationCount() == 0) {
 				removeDuplictedRow(tempBufferArray);
-			} else
+			} else {
 				recalculateAggregation(tempBufferArray, aggregationRsFromDrill);
+			}
 
-			if (!this.isResultForRunningAggregation(aggregationRsFromCube))
+			if (!this.isResultForRunningAggregation(aggregationRsFromCube)) {
 				sortAggregationRow(tempBufferArray);
+			}
 
 			Iterator<IAggregationResultRow> iter = tempBufferArray.iterator();
-			while (iter.hasNext())
+			while (iter.hasNext()) {
 				bufferedStructureArray.add(iter.next());
+			}
 			k = aggregationRsFromCube.getPosition();
 		}
 
@@ -117,29 +123,33 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 
 		final boolean[] sorts = new boolean[sortType.length];
 		for (int i = 0; i < sortType.length; i++) {
-			if (ISortDefinition.SORT_ASC == sortType[i])
+			if (ISortDefinition.SORT_ASC == sortType[i]) {
 				sorts[i] = true;
-			else if (ISortDefinition.SORT_DESC == sortType[i])
+			} else if (ISortDefinition.SORT_DESC == sortType[i]) {
 				sorts[i] = false;
-			else
+			} else {
 				sorts[i] = true;
+			}
 		}
 		Collections.sort(aggregationRows, new Comparator() {
 
+			@Override
 			public int compare(Object o1, Object o2) {
 				IAggregationResultRow row1 = (IAggregationResultRow) o1;
 				IAggregationResultRow row2 = (IAggregationResultRow) o2;
 				Object[] keyValues1 = new Object[row1.getLevelMembers().length];
 				Object[] keyValues2 = new Object[row2.getLevelMembers().length];
 				for (int i = 0; i < row1.getLevelMembers().length; i++) {
-					if (row1.getLevelMembers()[i] != null)
+					if (row1.getLevelMembers()[i] != null) {
 						keyValues1[i] = row1.getLevelMembers()[i].getKeyValues()[0];
-					else
+					} else {
 						keyValues1[i] = null;
-					if (row2.getLevelMembers()[i] != null)
+					}
+					if (row2.getLevelMembers()[i] != null) {
 						keyValues2[i] = row2.getLevelMembers()[i].getKeyValues()[0];
-					else
+					} else {
 						keyValues2[i] = null;
+					}
 				}
 				return CompareUtil.compare(keyValues1, keyValues2, sorts);
 			}
@@ -161,17 +171,18 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 
 	private void recalculateAggregation(List<IAggregationResultRow> aggregationRows,
 			IAggregationResultSet[] aggregationRsFromDrill) throws DataException, IOException {
-		Set<Integer> duplicatedIndex = new LinkedHashSet<Integer>();
+		Set<Integer> duplicatedIndex = new LinkedHashSet<>();
 		for (int i = 0; i < aggregationRows.size(); i++) {
 			List<Integer> positions = getRowsPositionInAggregationRows(i, aggregationRows);
 			Object[] aggregationValues = null;
 
 			for (int k = 0; k < positions.size(); k++) {
-				if (k == 0)
+				if (k == 0) {
 					aggregationValues = findAggregationValue(aggregationRows.get(positions.get(k)),
 							aggregationRsFromDrill);
-				else
+				} else {
 					duplicatedIndex.add(positions.get(k));
+				}
 			}
 			aggregationRows.get(i).setAggregationValues(aggregationValues);
 
@@ -188,8 +199,8 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 
 	private Object[] findAggregationValue(IAggregationResultRow iAggregationResultRow,
 			IAggregationResultSet[] aggregationRsFromDrill) throws IOException, DataException {
-		Map<DimLevel, Object> targetValueMap = new HashMap<DimLevel, Object>();
-		List<DimLevel> levels = new ArrayList<DimLevel>();
+		Map<DimLevel, Object> targetValueMap = new HashMap<>();
+		List<DimLevel> levels = new ArrayList<>();
 		for (int i = 0; i < this.dimLevel.length; i++) {
 			if (iAggregationResultRow.getLevelMembers()[i] != null
 					&& iAggregationResultRow.getLevelMembers()[i].getKeyValues() != null) {
@@ -199,22 +210,26 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 		}
 		IAggregationResultSet targetRs = null;
 		for (int i = 0; i < aggregationRsFromDrill.length; i++) {
-			if (aggregationRsFromDrill[i].getAllLevels().length != targetValueMap.keySet().size())
+			if (aggregationRsFromDrill[i].getAllLevels().length != targetValueMap.size()) {
 				continue;
+			}
 			DimLevel[] dimLevels = aggregationRsFromDrill[i].getAllLevels();
 			for (int j = 0; j < dimLevels.length; j++) {
-				if (!targetValueMap.keySet().contains(dimLevels[j]))
+				if (!targetValueMap.containsKey(dimLevels[j])) {
 					break;
+				}
 				if (j == dimLevels.length - 1) {
 					targetRs = aggregationRsFromDrill[i];
 					break;
 				}
 			}
-			if (targetRs != null)
+			if (targetRs != null) {
 				break;
+			}
 		}
-		if (targetRs == null)
+		if (targetRs == null) {
 			return iAggregationResultRow.getAggregationValues();
+		}
 
 		boolean find = false;
 		if (isResultForRunningAggregation(targetRs)) {
@@ -230,8 +245,9 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 				value[i] = targetRs.getAggregationValue(index);
 			}
 			return value;
-		} else
+		} else {
 			return null;
+		}
 	}
 
 	private static boolean isResultForRunningAggregation(IAggregationResultSet ars) throws DataException {
@@ -249,7 +265,7 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 
 	/**
 	 * The same lookup logic with AggregationAccessor
-	 * 
+	 *
 	 * @param targetRs
 	 * @param targetLevelValue
 	 * @param levels
@@ -257,8 +273,9 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 	 */
 	private boolean findValueMatcher(IAggregationResultSet targetRs, Map<DimLevel, Object> targetLevelValue,
 			List levels) {
-		if (targetLevelValue.isEmpty())
+		if (targetLevelValue.isEmpty()) {
 			return true;
+		}
 		int start = 0, state = 0;
 		boolean find = false;
 
@@ -270,8 +287,9 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 			Object value2 = null;
 			int index = targetRs.getLevelIndex(level);
 			Object[] keyValues = targetRs.getLevelKeyValue(index);
-			if (keyValues != null)
+			if (keyValues != null) {
 				value2 = keyValues[targetRs.getLevelKeyColCount(index) - 1];
+			}
 			int sortType = targetRs.getSortType(index) == IDimensionSortDefn.SORT_DESC ? -1 : 1;
 			int direction = sortType * compare(value1, value2) < 0 ? -1 : compare(value1, value2) == 0 ? 0 : 1;
 			if (direction < 0 && position > 0 && (state == 0 || state == direction)) {
@@ -302,8 +320,9 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 				}
 			} else if (position < 0 || position >= targetRs.length()) {
 				return false;
-			} else
+			} else {
 				return false;
+			}
 		}
 		return find;
 	}
@@ -311,8 +330,9 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 	private boolean findValueOneByOne(IAggregationResultSet targetRs, Map<DimLevel, Object> targetLevelValue,
 			List levels) throws IOException {
 		int position = 0;
-		if (targetRs.length() <= 0 || levels.isEmpty())
+		if (targetRs.length() <= 0 || levels.isEmpty()) {
 			return true;
+		}
 		while (position < targetRs.length()) {
 			targetRs.seek(position);
 			boolean match = true;
@@ -322,9 +342,10 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 				Object value2 = null;
 				int index = targetRs.getLevelIndex(level);
 				Object[] keyValues = targetRs.getLevelKeyValue(index);
-				if (keyValues != null)
+				if (keyValues != null) {
 					value2 = keyValues[targetRs.getLevelKeyColCount(index) - 1];
-				;
+				}
+
 				if (value1 == value2) {
 					continue;
 				}
@@ -360,12 +381,13 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 	}
 
 	private List<Integer> getRowsPositionInAggregationRows(int index, List<IAggregationResultRow> aggregationRows) {
-		List<Integer> position = new ArrayList<Integer>();
+		List<Integer> position = new ArrayList<>();
 		position.add(index);
 		IAggregationResultRow row = (IAggregationResultRow) aggregationRows.get(index);
 		for (int i = index + 1; i < aggregationRows.size(); i++) {
-			if (row.compareTo(aggregationRows.get(i)) == 0)
+			if (row.compareTo(aggregationRows.get(i)) == 0) {
 				position.add(i);
+			}
 		}
 		return position;
 	}
@@ -414,7 +436,7 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 
 	private List<IAggregationResultRow> populateResultSet(IAggregationResultSet aggregationRsFromCube,
 			IEdgeDrillFilter targetDrill) throws IOException {
-		List<IAggregationResultRow> drillResultSet = new ArrayList<IAggregationResultRow>();
+		List<IAggregationResultRow> drillResultSet = new ArrayList<>();
 		int k = aggregationRsFromCube.getPosition();
 		for (; k < aggregationRsFromCube.length(); k++) {
 			aggregationRsFromCube.seek(k);
@@ -453,8 +475,9 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 		List list = new ArrayList();
 		for (int i = 0; i < drillFilters.size(); i++) {
 			DrillOnDimensionHierarchy filters = drillFilters.get(i);
-			if (filters.contains(targetDrill))
+			if (filters.contains(targetDrill)) {
 				continue;
+			}
 			list.add(filters.getDrillByDimension());
 		}
 		return list;
@@ -466,8 +489,9 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 		boolean matched = true;
 		Object[] tuple = drill.getTuple().toArray();
 		for (int j = 0; j < tuple.length; j++) {
-			if (tuple[j] == null)
+			if (tuple[j] == null) {
 				continue;
+			}
 			int levelIndex = -1;
 			for (int t = 0; t < this.dimLevel.length; t++) {
 				if (this.dimLevel[t].equals(comparableLevels.get(j))) {
@@ -475,8 +499,9 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 					break;
 				}
 			}
-			if (levelIndex == -1)
+			if (levelIndex == -1) {
 				return false;
+			}
 			if (!containMember(row.getLevelMembers()[levelIndex].getKeyValues(), (Object[]) tuple[j])) {
 				matched = false;
 				break;
@@ -499,62 +524,77 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 		return false;
 	}
 
+	@Override
 	public void clear() throws IOException {
 		this.bufferedStructureArray.clear();
 	}
 
+	@Override
 	public void close() throws IOException {
 		this.bufferedStructureArray.close();
 	}
 
+	@Override
 	public int getAggregationCount() {
 		return this.aggregationRsFromCube.getAggregationCount();
 	}
 
+	@Override
 	public int getAggregationDataType(int aggregationIndex) throws IOException {
 		return this.aggregationRsFromCube.getAggregationDataType(aggregationIndex);
 	}
 
+	@Override
 	public int[] getAggregationDataType() {
 		return this.aggregationRsFromCube.getAggregationDataType();
 	}
 
+	@Override
 	public AggregationDefinition getAggregationDefinition() {
 		return this.aggregationRsFromCube.getAggregationDefinition();
 	}
 
+	@Override
 	public int getAggregationIndex(String name) throws IOException {
 		return this.aggregationRsFromCube.getAggregationIndex(name);
 	}
 
+	@Override
 	public String getAggregationName(int index) {
 		return this.aggregationRsFromCube.getAggregationName(index);
 	}
 
+	@Override
 	public Object getAggregationValue(int aggregationIndex) throws IOException {
 		return this.resultObject.getAggregationValues()[aggregationIndex];
 	}
 
+	@Override
 	public DimLevel[] getAllLevels() {
 		return this.dimLevel;
 	}
 
+	@Override
 	public String[][] getAttributeNames() {
 		return this.aggregationRsFromCube.getAttributeNames();
 	}
 
+	@Override
 	public IAggregationResultRow getCurrentRow() throws IOException {
 		return this.resultObject;
 	}
 
+	@Override
 	public String[][] getKeyNames() {
 		return this.aggregationRsFromCube.getKeyNames();
 	}
 
+	@Override
 	public DimLevel getLevel(int levelIndex) {
 		return this.aggregationRsFromCube.getLevel(levelIndex);
 	}
 
+	@Override
 	public Object getLevelAttribute(int levelIndex, int attributeIndex) {
 		if (resultObject.getLevelMembers() == null || levelIndex < 0
 				|| levelIndex > resultObject.getLevelMembers().length - 1
@@ -564,78 +604,97 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 		return resultObject.getLevelMembers()[levelIndex].getAttributes()[attributeIndex];
 	}
 
+	@Override
 	public int getLevelAttributeColCount(int levelIndex) {
 		return this.aggregationRsFromCube.getLevelAttributeColCount(levelIndex);
 	}
 
+	@Override
 	public int getLevelAttributeDataType(DimLevel level, String attributeName) {
 		return this.aggregationRsFromCube.getLevelAttributeDataType(level, attributeName);
 	}
 
+	@Override
 	public int getLevelAttributeDataType(int levelIndex, String attributeName) {
 		return this.aggregationRsFromCube.getLevelAttributeDataType(levelIndex, attributeName);
 	}
 
+	@Override
 	public int[][] getLevelAttributeDataType() {
 		return this.aggregationRsFromCube.getLevelAttributeDataType();
 	}
 
+	@Override
 	public int getLevelAttributeIndex(int levelIndex, String attributeName) {
 		return this.aggregationRsFromCube.getLevelAttributeIndex(levelIndex, attributeName);
 	}
 
+	@Override
 	public int getLevelAttributeIndex(DimLevel level, String attributeName) {
 		return this.aggregationRsFromCube.getLevelAttributeIndex(level, attributeName);
 	}
 
+	@Override
 	public String[] getLevelAttributes(int levelIndex) {
 		return this.aggregationRsFromCube.getLevelAttributes(levelIndex);
 	}
 
+	@Override
 	public String[][] getLevelAttributes() {
 		return this.aggregationRsFromCube.getLevelAttributes();
 	}
 
+	@Override
 	public Object[] getLevelAttributesValue(int levelIndex) {
 		return this.aggregationRsFromCube.getLevelAttributesValue(levelIndex);
 	}
 
+	@Override
 	public int getLevelCount() {
 		return this.aggregationRsFromCube.getLevelCount();
 	}
 
+	@Override
 	public int getLevelIndex(DimLevel level) {
 		return this.aggregationRsFromCube.getLevelIndex(level);
 	}
 
+	@Override
 	public int getLevelKeyColCount(int levelIndex) {
 		return this.aggregationRsFromCube.getLevelKeyColCount(levelIndex);
 	}
 
+	@Override
 	public int getLevelKeyDataType(DimLevel level, String keyName) {
 		return this.aggregationRsFromCube.getLevelKeyDataType(level, keyName);
 	}
 
+	@Override
 	public int getLevelKeyDataType(int levelIndex, String keyName) {
 		return this.aggregationRsFromCube.getLevelKeyDataType(levelIndex, keyName);
 	}
 
+	@Override
 	public int[][] getLevelKeyDataType() {
 		return this.aggregationRsFromCube.getLevelKeyDataType();
 	}
 
+	@Override
 	public int getLevelKeyIndex(int levelIndex, String keyName) {
 		return this.aggregationRsFromCube.getLevelKeyIndex(levelIndex, keyName);
 	}
 
+	@Override
 	public int getLevelKeyIndex(DimLevel level, String keyName) {
 		return this.aggregationRsFromCube.getLevelKeyIndex(level, keyName);
 	}
 
+	@Override
 	public String getLevelKeyName(int levelIndex, int keyIndex) {
 		return this.aggregationRsFromCube.getLevelKeyName(levelIndex, keyIndex);
 	}
 
+	@Override
 	public Object[] getLevelKeyValue(int levelIndex) {
 		if (resultObject.getLevelMembers()[levelIndex] == null || levelIndex < 0
 				|| levelIndex > resultObject.getLevelMembers().length - 1) {
@@ -644,26 +703,32 @@ public class DrilledAggregateResultSet implements IAggregationResultSet {
 		return resultObject.getLevelMembers()[levelIndex].getKeyValues();
 	}
 
+	@Override
 	public String[][] getLevelKeys() {
 		return this.aggregationRsFromCube.getLevelKeys();
 	}
 
+	@Override
 	public int getPosition() {
 		return this.currentPosition;
 	}
 
+	@Override
 	public int getSortType(int levelIndex) {
 		return this.aggregationRsFromCube.getSortType(levelIndex);
 	}
 
+	@Override
 	public int[] getSortType() {
 		return this.aggregationRsFromCube.getSortType();
 	}
 
+	@Override
 	public int length() {
 		return bufferedStructureArray.size();
 	}
 
+	@Override
 	public void seek(int index) throws IOException {
 		if (index >= bufferedStructureArray.size()) {
 			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + bufferedStructureArray.size());

@@ -1,11 +1,13 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -28,7 +30,7 @@ import org.eclipse.core.runtime.Status;
  * The Logger maintains a stack of characters as a prefix applied to any debug
  * log. This is used to track the start/end of items reported by BIRT.
  * </p>
- * 
+ *
  * @author Jim Talbut
  *
  */
@@ -42,7 +44,7 @@ public class Logger {
 
 	/**
 	 * Constructor used to initialise the JUL logger.
-	 * 
+	 *
 	 * @param pluginId The plugin ID used to identify the logger with JUL.
 	 */
 	public Logger(String pluginId) {
@@ -51,7 +53,7 @@ public class Logger {
 
 	/**
 	 * Constructor used to initialise the eclipse ILog.
-	 * 
+	 *
 	 * @param log      The eclipse ILog.
 	 * @param pluginId The plugin ID used in IStatus messages.
 	 */
@@ -62,7 +64,7 @@ public class Logger {
 
 	/**
 	 * Set the debug state of the logger.
-	 * 
+	 *
 	 * @param debug When true and run within Equinox debug statements are output to
 	 *              the console. When not true the prefix handling is turned off.
 	 */
@@ -72,7 +74,7 @@ public class Logger {
 
 	/**
 	 * Add a new character to the prefix stack.
-	 * 
+	 *
 	 * @param c Character to add to the prefix stack.
 	 */
 	public void addPrefix(char c) {
@@ -84,7 +86,7 @@ public class Logger {
 	/**
 	 * Remove a character from the prefix stack, if the appropriate character is at
 	 * the top of the stack.
-	 * 
+	 *
 	 * @param c Character to remove from the prefix stack.
 	 * @throws IllegalStateException If the prefix at the top of the prefix stack
 	 *                               does not match c.
@@ -103,7 +105,7 @@ public class Logger {
 
 	/**
 	 * Log a message with debug severity.
-	 * 
+	 *
 	 * @param message The message to log.
 	 */
 	public void debug(Object... message) {
@@ -135,7 +137,7 @@ public class Logger {
 
 	/**
 	 * Log a message with info severity.
-	 * 
+	 *
 	 * @param code      The message code.
 	 * @param message   The message to log.
 	 * @param exception Any exception associated with the log.
@@ -150,7 +152,7 @@ public class Logger {
 
 	/**
 	 * Log a message with warn severity.
-	 * 
+	 *
 	 * @param code      The message code.
 	 * @param message   The message to log.
 	 * @param exception Any exception associated with the log.
@@ -165,7 +167,7 @@ public class Logger {
 
 	/**
 	 * Log a message with error severity.
-	 * 
+	 *
 	 * @param code      The message code.
 	 * @param message   The message to log.
 	 * @param exception Any exception associated with the log.

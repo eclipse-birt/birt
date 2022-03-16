@@ -1,14 +1,16 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.excel.impl.util;
 
@@ -53,14 +55,15 @@ public final class DateUtil {
 
 	/**
 	 * Number -> Date new Date((long)Number) String -> Date toDate(String)
-	 * 
+	 *
 	 * @param source
 	 * @return
 	 * @throws OdaException
 	 */
 	public static Date toDate(Object source) throws OdaException {
-		if (source == null)
+		if (source == null) {
 			return null;
+		}
 
 		if (source instanceof Date) {
 			return new Date(((Date) source).getTime());
@@ -73,14 +76,15 @@ public final class DateUtil {
 
 	/**
 	 * Date -> Time String -> Time
-	 * 
+	 *
 	 * @param source
 	 * @return
 	 * @throws OdaException
 	 */
 	public static Time toSqlTime(Object source) throws OdaException {
-		if (source == null)
+		if (source == null) {
 			return null;
+		}
 
 		if (source instanceof Date) {
 			return toSqlTime((Date) source);
@@ -100,7 +104,7 @@ public final class DateUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param date
 	 * @return
 	 */
@@ -116,7 +120,7 @@ public final class DateUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 */
@@ -129,14 +133,16 @@ public final class DateUtil {
 		int secondColon;
 		int marker;
 
-		if (s == null)
+		if (s == null) {
 			throw new java.lang.IllegalArgumentException();
+		}
 
 		firstColon = s.indexOf(':');
 		secondColon = s.indexOf(':', firstColon + 1);
 		for (marker = secondColon + 1; marker < s.length(); marker++) {
-			if (!isDigitTen(s.charAt(marker)))
+			if (!isDigitTen(s.charAt(marker))) {
 				break;
+			}
 		}
 		addHour = 0;
 		String markerValue = null;
@@ -156,37 +162,43 @@ public final class DateUtil {
 			throw new java.lang.IllegalArgumentException();
 		}
 		hour = Integer.parseInt(s.substring(0, firstColon));
-		if (hour < 0 || (hour > 12 && markerValue != null && markerValue.length() > 0))
+		if (hour < 0 || (hour > 12 && markerValue != null && markerValue.length() > 0)) {
 			throw new java.lang.IllegalArgumentException();
+		}
 		hour += addHour;
-		if (hour > 24)
+		if (hour > 24) {
 			throw new java.lang.IllegalArgumentException();
+		}
 		minute = Integer.parseInt(s.substring(firstColon + 1, secondColon));
-		if (minute < 0 || minute > 60)
+		if (minute < 0 || minute > 60) {
 			throw new java.lang.IllegalArgumentException();
-		if (marker < s.length())
+		}
+		if (marker < s.length()) {
 			second = Integer.parseInt(s.substring(secondColon + 1, marker));
-		else
+		} else {
 			second = Integer.parseInt(s.substring(secondColon + 1));
-		if (second < 0 || second > 60)
+		}
+		if (second < 0 || second > 60) {
 			throw new java.lang.IllegalArgumentException();
+		}
 
 		return toSqlTime(hour, minute, second);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param c
 	 * @return
 	 */
 	private static boolean isDigitTen(char c) {
-		if (c <= '9' && c >= '0')
+		if (c <= '9' && c >= '0') {
 			return true;
+		}
 		return false;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param hour
 	 * @param minute
 	 * @param second
@@ -203,14 +215,15 @@ public final class DateUtil {
 
 	/**
 	 * Date -> Time String -> Time
-	 * 
+	 *
 	 * @param source
 	 * @return
 	 * @throws OdaException
 	 */
 	public static java.sql.Date toSqlDate(Object source) throws OdaException {
-		if (source == null)
+		if (source == null) {
 			return null;
+		}
 
 		if (source instanceof Date) {
 			return toSqlDate((Date) source);
@@ -230,7 +243,7 @@ public final class DateUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param date
 	 * @return
 	 */
@@ -248,7 +261,7 @@ public final class DateUtil {
 	/**
 	 * A temp solution to the adoption of ICU4J to BIRT. Simply delegate toDate(
 	 * String, Locale) method.
-	 * 
+	 *
 	 * @param source the String to be convert
 	 * @param locate the locate of the string
 	 * @return result Date
@@ -259,14 +272,15 @@ public final class DateUtil {
 
 	/**
 	 * convert String with the specified locale to java.util.Date
-	 * 
+	 *
 	 * @param source the String to be convert
 	 * @param locate the locate of the string
 	 * @return result Date
 	 */
 	public static Date toDate(String source, ULocale locale) throws OdaException {
-		if (source == null)
+		if (source == null) {
 			return null;
+		}
 
 		DateFormat dateFormat = null;
 		Date resultDate = null;
@@ -310,7 +324,7 @@ public final class DateUtil {
 	 * Convert String without specified locale to java.util.Date Try to format the
 	 * given String for JRE default Locale, if it fails, try to format the String
 	 * for Locale.US
-	 * 
+	 *
 	 * @param source the String to be convert
 	 * @param locate the locate of the string
 	 * @return result Date
@@ -343,7 +357,7 @@ public final class DateUtil {
 
 	/**
 	 * convert String with ISO8601 date format to java.util.Date
-	 * 
+	 *
 	 * @param source the String to be convert
 	 * @param locate the locate of the string
 	 * @return result Date

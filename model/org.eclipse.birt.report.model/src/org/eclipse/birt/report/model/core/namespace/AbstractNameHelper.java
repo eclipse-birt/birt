@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +39,7 @@ import org.eclipse.birt.report.model.metadata.NamePropertyType;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
- * 
+ *
  */
 abstract public class AbstractNameHelper implements INameHelper, IAccessControl {
 
@@ -56,16 +59,16 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl 
 	private HashMap<String, NameSpace> cachedNameSpaces;
 
 	/**
-	 * 
+	 *
 	 */
 	public AbstractNameHelper() {
-		cachedNameSpaces = new HashMap<String, NameSpace>();
-		nameContexts = new HashMap<String, INameContext>();
+		cachedNameSpaces = new HashMap<>();
+		nameContexts = new HashMap<>();
 	}
 
 	/**
 	 * Gets the name context with the given id.
-	 * 
+	 *
 	 * @param nameSpaceID
 	 * @return the name context for specified id
 	 */
@@ -82,17 +85,18 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.core.INameManager#flush()
 	 */
 
+	@Override
 	public void clear() {
 		cachedNameSpaces.clear();
 	}
 
 	/**
 	 * Gets the cached namespace with the given id.
-	 * 
+	 *
 	 * @param id the namespace id to get
 	 * @return the cached namespace with the given id
 	 */
@@ -108,52 +112,63 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl 
 
 	protected NameSpace createNameSpace(String id) {
 		// now name of the parameter and style is case-insensitive
-		if (Module.STYLE_NAME_SPACE.equals(id) || Module.PARAMETER_NAME_SPACE.equals(id))
+		if (Module.STYLE_NAME_SPACE.equals(id) || Module.PARAMETER_NAME_SPACE.equals(id)) {
 			return new CaseInsensitiveNameSpace();
-		else
+		} else {
 			return new NameSpace();
+		}
 	}
 
+	@Override
 	public final void dropElement(String namespaceId, DesignElement element) {
-		if (element == null)
+		if (element == null) {
 			return;
+		}
 
 		NameSpace ns = getCachedNameSpace(namespaceId);
 
 		String name = element.getName();
-		if (element instanceof StyleElement)
+		if (element instanceof StyleElement) {
 			name = name == null ? null : name.toLowerCase();
-		if (ns.getElement(name) == element)
+		}
+		if (ns.getElement(name) == element) {
 			ns.remove(element);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#getNameSpace
 	 * (int)
 	 */
+	@Override
 	public NameSpace getNameSpace(String nameSpaceID) {
 		return getNameContext(nameSpaceID).getNameSpace();
 	}
 
+	@Override
 	public void makeUniqueName(String namespaceId, DesignElement element) {
 		this.makeUniqueName(namespaceId, element, null);
 	}
 
+	@Override
 	public void makeUniqueName(String namespaceId, DesignElement element, String prefix) {
-		if (element == null)
+		if (element == null) {
 			return;
+		}
 
 		String name = getUniqueName(namespaceId, element, prefix);
-		if (name == null)
+		if (name == null) {
 			return;
+		}
 
 		// set the unique name and add the element to the name manager
 		NameSpace nameSpace = getCachedNameSpace(namespaceId);
 		String validName = name;
-		if (element instanceof StyleElement)
+		if (element instanceof StyleElement) {
 			validName = validName.toLowerCase();
+		}
 		DesignElement cachedElement = nameSpace.getElement(validName);
 		if (cachedElement == null) {
 			element.setName(name.trim());
@@ -163,21 +178,24 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#resolve(org.
 	 * eclipse.birt.report.model.core.DesignElement, java.lang.String,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
 	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
+	@Override
 	public ElementRefValue resolve(DesignElement focus, String elementName, PropertyDefn propDefn,
 			IElementDefn elementDefn) {
-		if (!isValidReferenceProperty(propDefn))
+		if (!isValidReferenceProperty(propDefn)) {
 			throw new IllegalArgumentException("Property should be element reference type or extends type"); //$NON-NLS-1$
+		}
 
 		ElementDefn targetDefn = propDefn == null ? null : (ElementDefn) propDefn.getTargetElementType();
 		if (targetDefn == null) {
-			if (elementDefn == null)
+			if (elementDefn == null) {
 				throw new IllegalArgumentException("The element definition should not be null"); //$NON-NLS-1$
+			}
 			targetDefn = (ElementDefn) elementDefn;
 		}
 
@@ -216,7 +234,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl 
 
 	/**
 	 * find name space from bottom to top.
-	 * 
+	 *
 	 * @param container
 	 * @param targetType
 	 * @return
@@ -243,25 +261,29 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#resolve(org.
 	 * eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
 	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
+	@Override
 	public ElementRefValue resolve(DesignElement focus, DesignElement element, PropertyDefn propDefn,
 			IElementDefn elementDefn) {
-		if (element == null)
+		if (element == null) {
 			return null;
+		}
 
-		if (!isValidReferenceProperty(propDefn))
+		if (!isValidReferenceProperty(propDefn)) {
 			throw new IllegalArgumentException("Property should be element reference type or extends type"); //$NON-NLS-1$
+		}
 
 		ElementDefn targetDefn = propDefn == null ? null : (ElementDefn) propDefn.getTargetElementType();
 		if (targetDefn == null) {
-			if (elementDefn == null)
+			if (elementDefn == null) {
 				throw new IllegalArgumentException("The element definition should not be null"); //$NON-NLS-1$
+			}
 			targetDefn = (ElementDefn) elementDefn;
 		}
 
@@ -297,28 +319,30 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#canContain(int,
 	 * java.lang.String)
 	 */
+	@Override
 	public boolean canContain(String nameSpaceID, String elementName) {
 		return getNameContext(nameSpaceID).canContain(elementName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getElements(int,
 	 * int)
 	 */
+	@Override
 	public List<DesignElement> getElements(String nameSpaceID, int level) {
 		return getNameContext(nameSpaceID).getElements(level);
 	}
 
 	/**
 	 * Gets the root resolve information elementName/elementDefn pair.
-	 * 
+	 *
 	 * @param elementName
 	 * @param targetDefn
 	 * @return the root resolve information elementName/elementDefn pair
@@ -345,7 +369,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl 
 
 	/**
 	 * Resolves the element.
-	 * 
+	 *
 	 * @param element
 	 * @param propDefn
 	 * @return the element reference value
@@ -392,7 +416,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl 
 
 	/**
 	 * Resolves the element name.
-	 * 
+	 *
 	 * @param elementName
 	 * @param propDefn
 	 * @return the element name.
@@ -428,14 +452,15 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl 
 
 	/**
 	 * Validates whether this property definition can refer other element.
-	 * 
+	 *
 	 * @param propDefn
 	 * @return <true> if this property definition can refer other element, otherwise
 	 *         return <false>.
 	 */
 	private boolean isValidReferenceProperty(PropertyDefn propDefn) {
-		if (propDefn == null)
+		if (propDefn == null) {
 			return true;
+		}
 		int typeCode = propDefn.getTypeCode();
 		switch (typeCode) {
 		case IPropertyType.ELEMENT_REF_TYPE:
@@ -457,18 +482,20 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl 
 
 	protected static boolean isValidInNameSpace(NameSpace namespace, DesignElement element, String name) {
 		DesignElement tmpElement = namespace.getElement(name);
-		if (tmpElement == null || tmpElement == element)
+		if (tmpElement == null || tmpElement == element) {
 			return true;
+		}
 
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#cacheValues()
 	 */
 
+	@Override
 	public void cacheValues() {
 
 	}
@@ -484,9 +511,11 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl 
 		}
 	}
 
+	@Override
 	public String getUniqueName(String namespaceId, DesignElement element, String namePrefix) {
-		if (element == null)
+		if (element == null) {
 			return null;
+		}
 
 		ElementDefn eDefn = (ElementDefn) element.getDefn();
 
@@ -501,19 +530,18 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl 
 		name = NamePropertyType.validateName(name);
 
 		// Some elements can have a blank name.
-		if (eDefn.getNameOption() == MetaDataConstants.NO_NAME)
+		if ((eDefn.getNameOption() == MetaDataConstants.NO_NAME) || (eDefn.getNameOption() == MetaDataConstants.OPTIONAL_NAME && name == null
+				&& getElement().getRoot() instanceof ReportDesign)) {
 			return null;
-
-		if (eDefn.getNameOption() == MetaDataConstants.OPTIONAL_NAME && name == null
-				&& getElement().getRoot() instanceof ReportDesign)
-			return null;
+		}
 
 		// If the element already has a unique name, return it.
 		NameSpace nameSpace = getCachedNameSpace(namespaceId);
 		NameSpace moduleNameSpace = getNameContext(namespaceId).getNameSpace();
 		if (name != null && isValidInNameSpace(nameSpace, element, name)
-				&& isValidInNameSpace(moduleNameSpace, element, name))
+				&& isValidInNameSpace(moduleNameSpace, element, name)) {
 			return name;
+		}
 
 		// If the element has no name, create it as "New<new name>" where
 		// "<new name>" is the new element display name for the element. Both
@@ -536,18 +564,19 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl 
 	}
 
 	/*
-	 * 
+	 *
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
 	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
+	@Override
 	public final String getUniqueName(String namespaceId, DesignElement element) {
 		return getUniqueName(namespaceId, element, null);
 	}
 
 	protected String getDefaultName(DesignElement element) {
-		String name = null;
+		String name;
 
 		name = ModelMessages.getMessage("New." //$NON-NLS-1$
 				+ element.getDefn().getName());

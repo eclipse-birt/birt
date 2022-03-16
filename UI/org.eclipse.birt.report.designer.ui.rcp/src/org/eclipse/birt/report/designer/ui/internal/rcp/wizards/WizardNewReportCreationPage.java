@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +30,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * Creation page for Report Wizard without Advanced control
- * 
+ *
  */
 public class WizardNewReportCreationPage extends WizardPage {
 
@@ -42,6 +45,7 @@ public class WizardNewReportCreationPage extends WizardPage {
 
 	private Listener locationModifyListener = new Listener() {
 
+		@Override
 		public void handleEvent(Event e) {
 			setPageComplete(validatePage());
 		}
@@ -51,7 +55,7 @@ public class WizardNewReportCreationPage extends WizardPage {
 
 	/**
 	 * The Constructor.
-	 * 
+	 *
 	 * @param pageName
 	 */
 	public WizardNewReportCreationPage(String pageName) {
@@ -63,7 +67,7 @@ public class WizardNewReportCreationPage extends WizardPage {
 	 * Sets the initial file name that this page will use when created. The name is
 	 * ignored if the createControl(Composite) method has already been called.
 	 * Leading and trailing spaces in the name are ignored.
-	 * 
+	 *
 	 * @param name initial file name for this page
 	 */
 	public void setInitialFileName(String name) {
@@ -74,6 +78,7 @@ public class WizardNewReportCreationPage extends WizardPage {
 		pageSupport.setInitialFileLocation(path);
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 		setControl(pageSupport.createComposite(parent));
@@ -100,6 +105,7 @@ public class WizardNewReportCreationPage extends WizardPage {
 		return pageSupport.getFileLocationFullPath();
 	}
 
+	@Override
 	public void setVisible(boolean visible) {
 		getControl().setVisible(visible);
 		if (visible) {
@@ -113,7 +119,7 @@ public class WizardNewReportCreationPage extends WizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#validatePage()
 	 */
 	public boolean validatePage(String suffix) {
@@ -141,12 +147,10 @@ public class WizardNewReportCreationPage extends WizardPage {
 			} else {
 				path = getFileLocationFullPath().append(getFileName());
 			}
+		} else if (!getFileName().toLowerCase().endsWith(suffix.toLowerCase())) {
+			path = getFileLocationFullPath().append(getFileName() + suffix);
 		} else {
-			if (!getFileName().toLowerCase().endsWith(suffix.toLowerCase())) {
-				path = getFileLocationFullPath().append(getFileName() + suffix);
-			} else {
-				path = getFileLocationFullPath().append(getFileName());
-			}
+			path = getFileLocationFullPath().append(getFileName());
 		}
 
 		if (path.lastSegment().equals(suffix)) {

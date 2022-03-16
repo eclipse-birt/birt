@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
@@ -126,6 +126,7 @@ public class ReportVMClient extends RMClient implements VMConstants {
 	private void startEventDispatch() {
 		eventDispatchThread = new Thread(new Runnable() {
 
+			@Override
 			public void run() {
 				logger.info(Messages.getString("ReportVMClient.EnterEventDispatching")); //$NON-NLS-1$
 
@@ -217,6 +218,7 @@ public class ReportVMClient extends RMClient implements VMConstants {
 		return NO_VARS;
 	}
 
+	@Override
 	protected VMVariable[] getMembers(long rid) throws VMException {
 		Object rt = sendRequest(OP_GET_MEMBERS, Long.valueOf(rid));
 

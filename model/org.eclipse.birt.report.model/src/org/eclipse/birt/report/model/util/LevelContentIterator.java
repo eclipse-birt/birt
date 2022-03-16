@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,9 +52,9 @@ public class LevelContentIterator implements Iterator<DesignElement> {
 	/**
 	 * Constructs a iterator that will visit all the content element within the
 	 * given <code>element</code>
-	 * 
+	 *
 	 * @param module
-	 * 
+	 *
 	 * @param element the element to visit.
 	 * @param level   the depth of elements to iterate
 	 */
@@ -59,16 +62,16 @@ public class LevelContentIterator implements Iterator<DesignElement> {
 	public LevelContentIterator(Module module, DesignElement element, int level) {
 		assert element != null;
 
-		elementContents = new ArrayList<DesignElement>();
+		elementContents = new ArrayList<>();
 		buildContentsList(module, element, level);
 	}
 
 	/**
 	 * Constructs a iterator that will visit all the content element within the
 	 * given slot id of the given <code>element</code>
-	 * 
+	 *
 	 * @param module
-	 * 
+	 *
 	 * @param containerInfor the container information to visit.
 	 * @param level          the depth of elements to iterate.
 	 */
@@ -76,7 +79,7 @@ public class LevelContentIterator implements Iterator<DesignElement> {
 	public LevelContentIterator(Module module, ContainerContext containerInfor, int level) {
 		assert containerInfor != null;
 
-		elementContents = new ArrayList<DesignElement>();
+		elementContents = new ArrayList<>();
 
 		buildContentsList(module, containerInfor, level);
 	}
@@ -84,13 +87,14 @@ public class LevelContentIterator implements Iterator<DesignElement> {
 	/**
 	 * Adds the content elements in the given container element into
 	 * <code>elementContents</code>
-	 * 
+	 *
 	 * @param element the next element to build.
 	 */
 
 	private void buildContentsList(Module module, DesignElement element, int level) {
-		if (level < 0 || !element.isContainer())
+		if (level < 0 || !element.isContainer()) {
 			return;
+		}
 
 		ElementDefn defn = (ElementDefn) element.getDefn();
 
@@ -112,14 +116,15 @@ public class LevelContentIterator implements Iterator<DesignElement> {
 	/**
 	 * Adds the content elements of the given slot in the given container element
 	 * into <code>elementContents</code>
-	 * 
+	 *
 	 * @param element the next element to build.
 	 * @param slotId  the slot id.
 	 */
 
 	private void buildContentsList(Module module, ContainerContext containerInfor, int level) {
-		if (level <= 0)
+		if (level <= 0) {
 			return;
+		}
 
 		List<DesignElement> contents = containerInfor.getContents(module);
 
@@ -135,26 +140,29 @@ public class LevelContentIterator implements Iterator<DesignElement> {
 	 * Not allowed.
 	 */
 
+	@Override
 	public void remove() {
 		assert false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.Iterator#hasNext()
 	 */
 
+	@Override
 	public boolean hasNext() {
 		return posn < elementContents.size();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.Iterator#next()
 	 */
 
+	@Override
 	public DesignElement next() {
 		return elementContents.get(posn++);
 	}

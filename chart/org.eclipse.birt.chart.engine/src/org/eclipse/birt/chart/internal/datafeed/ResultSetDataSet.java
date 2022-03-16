@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -68,7 +71,7 @@ public class ResultSetDataSet implements IResultSetDataSet {
 	/**
 	 * The constructor that creates an instance of a resultset subset by extracting
 	 * appropriate columns and a row range from a resultset
-	 * 
+	 *
 	 * @param liResultSet
 	 * @param iColumnIndex
 	 * @param lStartRow
@@ -91,7 +94,7 @@ public class ResultSetDataSet implements IResultSetDataSet {
 
 	/**
 	 * Creates the resultset using a given list.
-	 * 
+	 *
 	 * @param lst
 	 */
 	public ResultSetDataSet(List<?> lst, int dataType) {
@@ -111,18 +114,20 @@ public class ResultSetDataSet implements IResultSetDataSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.datafeed.IResultSetDataSet#hasNext()
 	 */
+	@Override
 	public boolean hasNext() {
 		return (lRow < lEndRow);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.datafeed.IResultSetDataSet#next()
 	 */
+	@Override
 	public Object[] next() {
 		lRow++;
 		if (lRow > lEndRow) {
@@ -145,9 +150,10 @@ public class ResultSetDataSet implements IResultSetDataSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.datafeed.IResultSetDataSet#getDataType()
 	 */
+	@Override
 	public int getDataType() {
 		if (listMode) {
 			return listDataType;
@@ -159,6 +165,7 @@ public class ResultSetDataSet implements IResultSetDataSet {
 		return IConstants.UNDEFINED;
 	}
 
+	@Override
 	public int getDataType(int columnIndex) {
 		if (listMode) {
 			return listDataType;
@@ -172,22 +179,25 @@ public class ResultSetDataSet implements IResultSetDataSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.datafeed.IResultSetDataSet#getColumnCount()
 	 */
+	@Override
 	public int getColumnCount() {
 		return iColumnCount;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.datafeed.IResultSetDataSet#getSize()
 	 */
+	@Override
 	public long getSize() {
 		return lEndRow - lStartRow;
 	}
 
+	@Override
 	public void reset() {
 		this.lRow = 0;
 		if (this.rsw != null) {

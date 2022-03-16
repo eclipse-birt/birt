@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +39,7 @@ public class ExtensionSlotDefn extends SlotDefn {
 
 	/**
 	 * Constructs the extension slot definition with <code>IMessages</code>.
-	 * 
+	 *
 	 * @param messages the message interface to do the I18n work for extension
 	 */
 
@@ -60,33 +63,38 @@ public class ExtensionSlotDefn extends SlotDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.SlotDefn#getDisplayName()
 	 */
 
+	@Override
 	public String getDisplayName() {
 		if (displayNameID != null && messages != null) {
 			String displayName = messages.getMessage(displayNameID, ThreadResources.getLocale());
-			if (!StringUtil.isBlank(displayName))
+			if (!StringUtil.isBlank(displayName)) {
 				return displayName;
+			}
 		}
 
-		if (defaultDisplayName != null)
+		if (defaultDisplayName != null) {
 			return defaultDisplayName;
+		}
 
 		return getName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.SlotDefn#build()
 	 */
 
+	@Override
 	protected void build() throws MetaDataException {
-		if (contentTypes.isEmpty())
+		if (contentTypes.isEmpty()) {
 			throw new MetaDataException(new String[] { this.name },
 					MetaDataException.DESIGN_EXCEPTION_MISSING_SLOT_TYPE);
+		}
 
 		// Translate the type names into element types.
 
@@ -96,11 +104,13 @@ public class ExtensionSlotDefn extends SlotDefn {
 		while (iter.hasNext()) {
 			String name = iter.next();
 			IElementDefn type = dd.getElement(name);
-			if (type == null)
+			if (type == null) {
 				type = dd.getExtension(name);
-			if (type == null)
+			}
+			if (type == null) {
 				throw new MetaDataException(new String[] { name, this.name },
 						MetaDataException.DESIGN_EXCEPTION_INVALID_SLOT_TYPE);
+			}
 			contentElements.add(type);
 		}
 	}

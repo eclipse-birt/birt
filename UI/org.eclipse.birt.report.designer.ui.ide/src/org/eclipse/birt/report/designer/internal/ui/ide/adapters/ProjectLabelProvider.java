@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,9 +30,10 @@ public class ProjectLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 	 */
+	@Override
 	public Image getImage(Object element) {
 		if (element instanceof IJavaElement) {
 			return getBaseImage((IJavaElement) element);
@@ -40,9 +44,10 @@ public class ProjectLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 	 */
+	@Override
 	public String getText(Object element) {
 		if (element instanceof IJavaElement) {
 			return ((IJavaElement) element).getElementName();
@@ -50,19 +55,23 @@ public class ProjectLabelProvider implements ILabelProvider {
 		return ""; //$NON-NLS-1$
 	}
 
+	@Override
 	public void addListener(ILabelProviderListener listener) {
 		// do nothing now
 	}
 
+	@Override
 	public void dispose() {
 		// do nothing now
 
 	}
 
+	@Override
 	public boolean isLabelProperty(Object element, String property) {
 		return true;
 	}
 
+	@Override
 	public void removeListener(ILabelProviderListener listener) {
 		// do nothing now
 	}

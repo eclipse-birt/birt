@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * AvailableOperation.java
  *
@@ -73,7 +85,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the saveView value for this AvailableOperation.
-	 * 
+	 *
 	 * @return saveView
 	 */
 	public java.lang.Boolean getSaveView() {
@@ -82,7 +94,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the saveView value for this AvailableOperation.
-	 * 
+	 *
 	 * @param saveView
 	 */
 	public void setSaveView(java.lang.Boolean saveView) {
@@ -91,7 +103,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the applyView value for this AvailableOperation.
-	 * 
+	 *
 	 * @return applyView
 	 */
 	public java.lang.Boolean getApplyView() {
@@ -100,7 +112,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the applyView value for this AvailableOperation.
-	 * 
+	 *
 	 * @param applyView
 	 */
 	public void setApplyView(java.lang.Boolean applyView) {
@@ -109,7 +121,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the print value for this AvailableOperation.
-	 * 
+	 *
 	 * @return print
 	 */
 	public java.lang.Boolean getPrint() {
@@ -118,7 +130,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the print value for this AvailableOperation.
-	 * 
+	 *
 	 * @param print
 	 */
 	public void setPrint(java.lang.Boolean print) {
@@ -127,7 +139,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the export value for this AvailableOperation.
-	 * 
+	 *
 	 * @return export
 	 */
 	public java.lang.Boolean getExport() {
@@ -136,7 +148,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the export value for this AvailableOperation.
-	 * 
+	 *
 	 * @param export
 	 */
 	public void setExport(java.lang.Boolean export) {
@@ -145,7 +157,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the toc value for this AvailableOperation.
-	 * 
+	 *
 	 * @return toc
 	 */
 	public java.lang.Boolean getToc() {
@@ -154,7 +166,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the toc value for this AvailableOperation.
-	 * 
+	 *
 	 * @param toc
 	 */
 	public void setToc(java.lang.Boolean toc) {
@@ -163,7 +175,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the undo value for this AvailableOperation.
-	 * 
+	 *
 	 * @return undo
 	 */
 	public java.lang.Boolean getUndo() {
@@ -172,7 +184,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the undo value for this AvailableOperation.
-	 * 
+	 *
 	 * @param undo
 	 */
 	public void setUndo(java.lang.Boolean undo) {
@@ -181,7 +193,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the redo value for this AvailableOperation.
-	 * 
+	 *
 	 * @return redo
 	 */
 	public java.lang.Boolean getRedo() {
@@ -190,7 +202,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the redo value for this AvailableOperation.
-	 * 
+	 *
 	 * @param redo
 	 */
 	public void setRedo(java.lang.Boolean redo) {
@@ -199,7 +211,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the sortAsc value for this AvailableOperation.
-	 * 
+	 *
 	 * @return sortAsc
 	 */
 	public java.lang.Boolean getSortAsc() {
@@ -208,7 +220,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the sortAsc value for this AvailableOperation.
-	 * 
+	 *
 	 * @param sortAsc
 	 */
 	public void setSortAsc(java.lang.Boolean sortAsc) {
@@ -217,7 +229,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the sortDsc value for this AvailableOperation.
-	 * 
+	 *
 	 * @return sortDsc
 	 */
 	public java.lang.Boolean getSortDsc() {
@@ -226,7 +238,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the sortDsc value for this AvailableOperation.
-	 * 
+	 *
 	 * @param sortDsc
 	 */
 	public void setSortDsc(java.lang.Boolean sortDsc) {
@@ -235,7 +247,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the advancedSort value for this AvailableOperation.
-	 * 
+	 *
 	 * @return advancedSort
 	 */
 	public java.lang.Boolean getAdvancedSort() {
@@ -244,7 +256,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the advancedSort value for this AvailableOperation.
-	 * 
+	 *
 	 * @param advancedSort
 	 */
 	public void setAdvancedSort(java.lang.Boolean advancedSort) {
@@ -253,7 +265,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the addGroup value for this AvailableOperation.
-	 * 
+	 *
 	 * @return addGroup
 	 */
 	public java.lang.Boolean getAddGroup() {
@@ -262,7 +274,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the addGroup value for this AvailableOperation.
-	 * 
+	 *
 	 * @param addGroup
 	 */
 	public void setAddGroup(java.lang.Boolean addGroup) {
@@ -271,7 +283,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the deleteGroup value for this AvailableOperation.
-	 * 
+	 *
 	 * @return deleteGroup
 	 */
 	public java.lang.Boolean getDeleteGroup() {
@@ -280,7 +292,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the deleteGroup value for this AvailableOperation.
-	 * 
+	 *
 	 * @param deleteGroup
 	 */
 	public void setDeleteGroup(java.lang.Boolean deleteGroup) {
@@ -289,7 +301,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the hideColumn value for this AvailableOperation.
-	 * 
+	 *
 	 * @return hideColumn
 	 */
 	public java.lang.Boolean getHideColumn() {
@@ -298,7 +310,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the hideColumn value for this AvailableOperation.
-	 * 
+	 *
 	 * @param hideColumn
 	 */
 	public void setHideColumn(java.lang.Boolean hideColumn) {
@@ -307,7 +319,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the showColumns value for this AvailableOperation.
-	 * 
+	 *
 	 * @return showColumns
 	 */
 	public java.lang.Boolean getShowColumns() {
@@ -316,7 +328,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the showColumns value for this AvailableOperation.
-	 * 
+	 *
 	 * @param showColumns
 	 */
 	public void setShowColumns(java.lang.Boolean showColumns) {
@@ -325,7 +337,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the reorderColumns value for this AvailableOperation.
-	 * 
+	 *
 	 * @return reorderColumns
 	 */
 	public java.lang.Boolean getReorderColumns() {
@@ -334,7 +346,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the reorderColumns value for this AvailableOperation.
-	 * 
+	 *
 	 * @param reorderColumns
 	 */
 	public void setReorderColumns(java.lang.Boolean reorderColumns) {
@@ -343,7 +355,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the filter value for this AvailableOperation.
-	 * 
+	 *
 	 * @return filter
 	 */
 	public java.lang.Boolean getFilter() {
@@ -352,7 +364,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the filter value for this AvailableOperation.
-	 * 
+	 *
 	 * @param filter
 	 */
 	public void setFilter(java.lang.Boolean filter) {
@@ -361,7 +373,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the calculation value for this AvailableOperation.
-	 * 
+	 *
 	 * @return calculation
 	 */
 	public java.lang.Boolean getCalculation() {
@@ -370,7 +382,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the calculation value for this AvailableOperation.
-	 * 
+	 *
 	 * @param calculation
 	 */
 	public void setCalculation(java.lang.Boolean calculation) {
@@ -379,7 +391,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the aggregation value for this AvailableOperation.
-	 * 
+	 *
 	 * @return aggregation
 	 */
 	public java.lang.Boolean getAggregation() {
@@ -388,7 +400,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the aggregation value for this AvailableOperation.
-	 * 
+	 *
 	 * @param aggregation
 	 */
 	public void setAggregation(java.lang.Boolean aggregation) {
@@ -397,7 +409,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the changeFont value for this AvailableOperation.
-	 * 
+	 *
 	 * @return changeFont
 	 */
 	public java.lang.Boolean getChangeFont() {
@@ -406,7 +418,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the changeFont value for this AvailableOperation.
-	 * 
+	 *
 	 * @param changeFont
 	 */
 	public void setChangeFont(java.lang.Boolean changeFont) {
@@ -415,7 +427,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the format value for this AvailableOperation.
-	 * 
+	 *
 	 * @return format
 	 */
 	public java.lang.Boolean getFormat() {
@@ -424,7 +436,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the format value for this AvailableOperation.
-	 * 
+	 *
 	 * @param format
 	 */
 	public void setFormat(java.lang.Boolean format) {
@@ -433,7 +445,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the text value for this AvailableOperation.
-	 * 
+	 *
 	 * @return text
 	 */
 	public java.lang.Boolean getText() {
@@ -442,7 +454,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the text value for this AvailableOperation.
-	 * 
+	 *
 	 * @param text
 	 */
 	public void setText(java.lang.Boolean text) {
@@ -451,7 +463,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the alignLeft value for this AvailableOperation.
-	 * 
+	 *
 	 * @return alignLeft
 	 */
 	public java.lang.Boolean getAlignLeft() {
@@ -460,7 +472,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the alignLeft value for this AvailableOperation.
-	 * 
+	 *
 	 * @param alignLeft
 	 */
 	public void setAlignLeft(java.lang.Boolean alignLeft) {
@@ -469,7 +481,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the alignCenter value for this AvailableOperation.
-	 * 
+	 *
 	 * @return alignCenter
 	 */
 	public java.lang.Boolean getAlignCenter() {
@@ -478,7 +490,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the alignCenter value for this AvailableOperation.
-	 * 
+	 *
 	 * @param alignCenter
 	 */
 	public void setAlignCenter(java.lang.Boolean alignCenter) {
@@ -487,7 +499,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Gets the alignRight value for this AvailableOperation.
-	 * 
+	 *
 	 * @return alignRight
 	 */
 	public java.lang.Boolean getAlignRight() {
@@ -496,7 +508,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	/**
 	 * Sets the alignRight value for this AvailableOperation.
-	 * 
+	 *
 	 * @param alignRight
 	 */
 	public void setAlignRight(java.lang.Boolean alignRight) {
@@ -505,14 +517,18 @@ public class AvailableOperation implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof AvailableOperation))
+		if (!(obj instanceof AvailableOperation)) {
 			return false;
+		}
 		AvailableOperation other = (AvailableOperation) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -573,6 +589,7 @@ public class AvailableOperation implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

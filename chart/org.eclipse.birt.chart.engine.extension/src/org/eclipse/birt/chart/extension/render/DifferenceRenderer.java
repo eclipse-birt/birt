@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,9 +57,9 @@ public final class DifferenceRenderer {
 	final static double kError = 0.5d;
 
 	/**
-	 * 
+	 *
 	 * Stands for a part of line with the start point and end point
-	 * 
+	 *
 	 */
 	static class CLine {
 
@@ -65,7 +68,7 @@ public final class DifferenceRenderer {
 
 		/**
 		 * Constructor
-		 * 
+		 *
 		 * @param start       start point of line
 		 * @param end         end point of line
 		 * @param bTransposed
@@ -89,7 +92,7 @@ public final class DifferenceRenderer {
 		/**
 		 * Checks the point is not out of bound. Needs to ensure the point is in the
 		 * Line, otherwise it's useless.
-		 * 
+		 *
 		 * @param point point, usually used as an intersection point
 		 * @return if the point is in the bound of line
 		 */
@@ -122,7 +125,7 @@ public final class DifferenceRenderer {
 
 		/**
 		 * Finds intersection point of two lines
-		 * 
+		 *
 		 * @param line other line to intersect
 		 * @return the intersection point or null
 		 */
@@ -184,8 +187,8 @@ public final class DifferenceRenderer {
 
 	static class CPointContainer {
 
-		private final HashSet<String> set = new HashSet<String>();
-		private final LinkedList<CPoint> list = new LinkedList<CPoint>();
+		private final HashSet<String> set = new HashSet<>();
+		private final LinkedList<CPoint> list = new LinkedList<>();
 
 		public int size() {
 			return list.size();
@@ -290,7 +293,7 @@ public final class DifferenceRenderer {
 
 		/**
 		 * Compares X coordinate of two points
-		 * 
+		 *
 		 * @param p other point
 		 * @return the positive number when current point is located right or above
 		 */
@@ -300,7 +303,7 @@ public final class DifferenceRenderer {
 
 		/**
 		 * Compares Y coordinate of two points
-		 * 
+		 *
 		 * @param p other point
 		 * @return the positive number when current point is located right or above
 		 */
@@ -311,7 +314,7 @@ public final class DifferenceRenderer {
 
 	/**
 	 * Creates fills for difference chart
-	 * 
+	 *
 	 * @param paletteEntry fill from palette
 	 * @param isColor      to determine output fill is ColorDefinition instance if
 	 *                     possible
@@ -507,7 +510,7 @@ public final class DifferenceRenderer {
 
 	/**
 	 * Return the index of first non-null value.
-	 * 
+	 *
 	 * @param dpha
 	 */
 	static int getFirstNonNullIndex(DataPointHints[] dpha) {
@@ -521,7 +524,7 @@ public final class DifferenceRenderer {
 
 	/**
 	 * Returns the index of last non-null value.
-	 * 
+	 *
 	 * @param dpha
 	 */
 	static int getLastNonNullIndex(DataPointHints[] dpha) {
@@ -649,7 +652,7 @@ public final class DifferenceRenderer {
 
 	/**
 	 * Check if specified locations are equal.
-	 * 
+	 *
 	 * @param loaP specified location array.
 	 * @param loaN specified location array.
 	 * @return <code>true</code> if specified location arrays are equal, then

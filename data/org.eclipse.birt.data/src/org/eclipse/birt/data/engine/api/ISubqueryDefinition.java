@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api;
@@ -23,10 +26,11 @@ public interface ISubqueryDefinition extends IBaseQueryDefinition {
 	/**
 	 * Gets the name of the subquery. Each Subquery must have a name that uniquely
 	 * identifies it within the main query that contains it.
-	 * 
+	 *
 	 * @return Name of the subquery
 	 */
-	public String getName();
+	@Override
+	String getName();
 
 	/**
 	 * Subquery can apply to the group in which the sub query is added, or to the
@@ -35,10 +39,10 @@ public interface ISubqueryDefinition extends IBaseQueryDefinition {
 	 * the current row of parent query will be the data source. A note is the false
 	 * value will be valid when it is added into the query definition, and it will
 	 * have no any effect if it is on group.
-	 * 
+	 *
 	 * @return true, sub query is applied on group, false, applied on current row of
 	 *         parent query
 	 */
-	public boolean applyOnGroup();
+	boolean applyOnGroup();
 
 }

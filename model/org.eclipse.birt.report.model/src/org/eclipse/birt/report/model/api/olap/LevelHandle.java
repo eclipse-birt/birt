@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ import org.eclipse.birt.report.model.util.impl.ActionHelper;
 
 /**
  * Represents a level element.
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.olap.Level
  */
 
@@ -38,7 +41,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	 * Constructs a handle for the given design and design element. The application
 	 * generally does not create handles directly. Instead, it uses one of the
 	 * navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -51,7 +54,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	 * Returns the iterator of attributes. The element in the iterator is a
 	 * <code>LevelAttributeHandle</code> for TabularLevel. To OdaLevel, each member
 	 * is <code>OdaLevelAttributeHandle</code>.
-	 * 
+	 *
 	 * @return the iterator of attribute string list
 	 */
 
@@ -66,7 +69,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	/**
 	 * Returns the iterator of static values. The element in the iterator is
 	 * instanceof <code>RuleHandle</code>.
-	 * 
+	 *
 	 * @return iterator of static values
 	 */
 	public Iterator staticValuesIterator() {
@@ -79,7 +82,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	 * Sets the base of the interval property of this level.IntervalBase, in
 	 * conjunction with Interval and IntervalRange, determines how data is divided
 	 * into levels.
-	 * 
+	 *
 	 * @param intervalBase interval base property value.
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -90,7 +93,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 
 	/**
 	 * Return the interval base property value of this level.
-	 * 
+	 *
 	 * @return interval baseF property value of this level.
 	 */
 
@@ -101,14 +104,14 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	/**
 	 * Returns the interval of this level. The return value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>INTERVAL_NONE</code>
 	 * <li><code>INTERVAL_PREFIX</code>
 	 * <li><code>INTERVAL_INTERVAL</code>
-	 * 
+	 *
 	 * </ul>
-	 * 
+	 *
 	 * @return the interval value as a string
 	 */
 
@@ -119,14 +122,14 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	/**
 	 * Returns the interval of this level. The input value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>INTERVAL_NONE</code>
 	 * <li><code>INTERVAL_PREFIX</code>
 	 * <li><code>INTERVAL_INTERVAL</code>
-	 * 
+	 *
 	 * </ul>
-	 * 
+	 *
 	 * @param interval the interval value as a string
 	 * @throws SemanticException if the property is locked or the input value is not
 	 *                           one of the above.
@@ -138,7 +141,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 
 	/**
 	 * Returns the interval range of this level.
-	 * 
+	 *
 	 * @return the interval range value as a double
 	 */
 
@@ -148,7 +151,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 
 	/**
 	 * Returns the interval range of this level.
-	 * 
+	 *
 	 * @param intervalRange the interval range value as a double
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -159,7 +162,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 
 	/**
 	 * Sets the interval range of this level.
-	 * 
+	 *
 	 * @param intervalRange the interval range value as a string.value is locale
 	 *                      dependent.
 	 * @throws SemanticException if the property is locked.
@@ -171,12 +174,12 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 
 	/**
 	 * Returns the level type of this level. The returned value is one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>LEVEL_TYPE_DYNAMIC</code>
 	 * <li><code>LEVEL_TYPE_MIRRORED</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the level type
 	 */
 
@@ -187,12 +190,12 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	/**
 	 * Sets the level type. The input value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>LEVEL_TYPE_DYNAMIC</code>
 	 * <li><code>LEVEL_TYPE_MIRRORED</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param levelType
 	 * @throws SemanticException
 	 */
@@ -214,7 +217,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 * 
+	 *
 	 * @return the data type of this level.
 	 */
 
@@ -236,7 +239,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 * 
+	 *
 	 * @param dataType the data type to set
 	 * @throws SemanticException if the dataType is not in the choice list.
 	 */
@@ -248,7 +251,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	/**
 	 * Returns an iterator for the value access controls. Each object returned is of
 	 * type <code>ValueAccessControlHandle</code>.
-	 * 
+	 *
 	 * @return the iterator for user accesses defined on this cube.
 	 */
 
@@ -271,7 +274,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	 * <li>DATE_TIME_LEVEL_TYPE_MINUTE
 	 * <li>DATE_TIME_LEVEL_TYPE_SECOND
 	 * </ul>
-	 * 
+	 *
 	 * @return the date-time type of this level.
 	 */
 
@@ -293,7 +296,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	 * <li>DATE_TIME_LEVEL_TYPE_MINUTE
 	 * <li>DATE_TIME_LEVEL_TYPE_SECOND
 	 * </ul>
-	 * 
+	 *
 	 * @param dateTimeType the date-time type to set
 	 * @throws SemanticException if the dateTimeType is not in the choice list.
 	 */
@@ -304,7 +307,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 
 	/**
 	 * Returns the date-time format of this level.
-	 * 
+	 *
 	 * @return the date-time format of this level.
 	 */
 
@@ -314,7 +317,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 
 	/**
 	 * Sets the date-time format of this level.
-	 * 
+	 *
 	 * @param dateTimeFormat the date-time format to set
 	 * @throws SemanticException if the date-time-format is locked
 	 */
@@ -325,7 +328,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 
 	/**
 	 * Sets the default value of this level.
-	 * 
+	 *
 	 * @param defaultValue the default value.
 	 * @throws SemanticException
 	 */
@@ -335,7 +338,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 
 	/**
 	 * Gets the default value of this level.
-	 * 
+	 *
 	 * @return the default value.
 	 */
 	public String getDefaultValue() {
@@ -344,7 +347,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 
 	/**
 	 * Gets the expression handle for the <code>ACLExpression</code> property.
-	 * 
+	 *
 	 * @return
 	 */
 	public ExpressionHandle getACLExpression() {
@@ -354,7 +357,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	/**
 	 * Gets the expression handle for the ACL expression for any member of this
 	 * level.
-	 * 
+	 *
 	 * @return
 	 */
 	public ExpressionHandle getMemberACLExpression() {
@@ -364,7 +367,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	/**
 	 * Returns a handle to work with the action property, action is a structure that
 	 * defines a hyperlink.
-	 * 
+	 *
 	 * @return a handle to the action property, return <code>null</code> if the
 	 *         action has not been set on the level.
 	 * @see ActionHandle
@@ -376,12 +379,12 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 
 	/**
 	 * Set an action on the level.
-	 * 
+	 *
 	 * @param action new action to be set on the level, it represents a bookmark
 	 *               link, hyper-link, and drill through etc.
 	 * @return a handle to the action property, return <code>null</code> if the
 	 *         action has not been set on the level.
-	 * 
+	 *
 	 * @throws SemanticException if member of the action is not valid.
 	 */
 
@@ -391,7 +394,7 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 
 	/**
 	 * Returns the iterator for action defined on this level.
-	 * 
+	 *
 	 * @return the iterator for <code>Action</code> structure list defined on this
 	 *         level
 	 */
@@ -402,21 +405,22 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 
 	/**
 	 * Gets the format of the level.
-	 * 
+	 *
 	 * @return the format, or null if not set.
 	 */
 	public FormatValueHandle getFormat() {
 		PropertyHandle propHandle = getPropertyHandle(FORMAT_PROP);
 		FormatValue format = (FormatValue) propHandle.getValue();
 
-		if (format == null)
+		if (format == null) {
 			return null;
+		}
 		return (FormatValueHandle) format.getHandle(propHandle);
 	}
 
 	/**
 	 * Sets the format of the level.
-	 * 
+	 *
 	 * @param format the format to set.
 	 * @throws SemanticException
 	 */
@@ -427,14 +431,14 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	/**
 	 * Gets the alignment of the level. The returned value may be one of the
 	 * following constants defined in <code>DesignChoiceConstants<code>:
-	 * 
+	 *
 	 * <ul>
 	 * <li>TEXT_ALIGN_LEFT
 	 * <li>TEXT_ALIGN_CENTER
 	 * <li>TEXT_ALIGN_RIGHT
 	 * <li>TEXT_ALIGN_JUSTIFY
 	 * </ul>
-	 * 
+	 *
 	 * @return the alignment of the level.
 	 */
 	public String getAlignment() {
@@ -444,14 +448,14 @@ public abstract class LevelHandle extends ReportElementHandle implements ILevelM
 	/**
 	 * Sets the alignment of the level. The value to set should be one of the
 	 * following constants defined in <code>DesignChoiceConstants<code>:
-	 * 
+	 *
 	 * <ul>
 	 * <li>TEXT_ALIGN_LEFT
 	 * <li>TEXT_ALIGN_CENTER
 	 * <li>TEXT_ALIGN_RIGHT
 	 * <li>TEXT_ALIGN_JUSTIFY
 	 * </ul>
-	 * 
+	 *
 	 * @param alignment the new alignment to set.
 	 * @throws SemanticException
 	 */

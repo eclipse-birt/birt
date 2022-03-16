@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.build.framework;
 
 import java.io.ByteArrayOutputStream;
@@ -35,13 +47,14 @@ abstract public class BundleEntry {
 		return null;
 	}
 
+	@Override
 	public String toString() {
 		return (getName());
 	}
 
 	public byte[] getBytes() throws IOException {
 		InputStream in = getInputStream();
-		try {
+		try (in) {
 
 			ByteArrayOutputStream out = new ByteArrayOutputStream(4096);
 			byte[] buffer = new byte[4096];
@@ -51,8 +64,6 @@ abstract public class BundleEntry {
 				size = in.read(buffer);
 			}
 			return out.toByteArray();
-		} finally {
-			in.close();
 		}
 	}
 }

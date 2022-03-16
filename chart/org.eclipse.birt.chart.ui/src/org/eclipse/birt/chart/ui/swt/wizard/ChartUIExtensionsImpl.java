@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -41,7 +44,7 @@ import com.ibm.icu.util.StringTokenizer;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class ChartUIExtensionsImpl {
 
@@ -53,7 +56,7 @@ public class ChartUIExtensionsImpl {
 
 	private Map<String, Collection<DefaultRegisteredEntry<ISeriesUIProvider>>> mSeriesUIs = null;
 
-	private static final String[] saSheets = new String[] {
+	private static final String[] saSheets = {
 			"20/Chart/Chart Area/org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartSheetImpl", //$NON-NLS-1$
 			"21/Chart.Axis/ /org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisSheetImpl", //$NON-NLS-1$
 			"22/Chart.Axis.X Axis/ /org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisXSheetImpl", //$NON-NLS-1$
@@ -69,7 +72,7 @@ public class ChartUIExtensionsImpl {
 			"34/Series.Value Series.Needle/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.NeedleSheetImpl", //$NON-NLS-1$
 	};
 
-	private static String[] saTypes = new String[] { "org.eclipse.birt.chart.ui.swt.type.BarChart", //$NON-NLS-1$
+	private static String[] saTypes = { "org.eclipse.birt.chart.ui.swt.type.BarChart", //$NON-NLS-1$
 			"org.eclipse.birt.chart.ui.swt.type.LineChart", //$NON-NLS-1$
 			"org.eclipse.birt.chart.ui.swt.type.AreaChart", "org.eclipse.birt.chart.ui.swt.type.PieChart", //$NON-NLS-1$ //$NON-NLS-2$
 			"org.eclipse.birt.chart.ui.swt.type.MeterChart", "org.eclipse.birt.chart.ui.swt.type.ScatterChart", //$NON-NLS-1$ //$NON-NLS-2$
@@ -79,10 +82,10 @@ public class ChartUIExtensionsImpl {
 			"org.eclipse.birt.chart.ui.swt.type.PyramidChart"//$NON-NLS-1$
 	};
 
-	private static final String[] saListeners = new String[] { "org.eclipse.birt.chart.ui.event.ChangeListenerImpl" //$NON-NLS-1$
+	private static final String[] saListeners = { "org.eclipse.birt.chart.ui.event.ChangeListenerImpl" //$NON-NLS-1$
 	};
 
-	private static String[] saSeriesUI = new String[] { "org.eclipse.birt.chart.ui.swt.series.SeriesUIProvider", //$NON-NLS-1$
+	private static String[] saSeriesUI = { "org.eclipse.birt.chart.ui.swt.series.SeriesUIProvider", //$NON-NLS-1$
 			"org.eclipse.birt.chart.ui.swt.series.AreaSeriesUIProvider", //$NON-NLS-1$
 			"org.eclipse.birt.chart.ui.swt.series.BarSeriesUIProvider", //$NON-NLS-1$
 			"org.eclipse.birt.chart.ui.swt.series.LineSeriesUIProvider", //$NON-NLS-1$
@@ -102,7 +105,7 @@ public class ChartUIExtensionsImpl {
 	private static final String NS_NATIVE_IMPL = "org.eclipse.birt.chart.ui.extension";//$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 */
 	private ChartUIExtensionsImpl() {
 		super();
@@ -116,7 +119,7 @@ public class ChartUIExtensionsImpl {
 	}
 
 	private void initUISheetExtensions(String defaultExtensionId) {
-		mSheets = new LinkedHashMap<String, Collection<IRegisteredSubtaskEntry>>();
+		mSheets = new LinkedHashMap<>();
 		if (UIHelper.isEclipseMode()) {
 			IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry();
 			IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint("org.eclipse.birt.chart.ui", //$NON-NLS-1$
@@ -130,7 +133,7 @@ public class ChartUIExtensionsImpl {
 				if (id == null) {
 					id = defaultExtensionId;
 				}
-				Set<IRegisteredSubtaskEntry> cSheets = new LinkedHashSet<IRegisteredSubtaskEntry>();
+				Set<IRegisteredSubtaskEntry> cSheets = new LinkedHashSet<>();
 				for (int i = 0; i < configElements.length; i++) {
 					IConfigurationElement currentTag = configElements[i];
 					if (currentTag.getName().equals("propertySheet")) //$NON-NLS-1$
@@ -148,7 +151,7 @@ public class ChartUIExtensionsImpl {
 					// Combine the entries of the same id extension
 					if (mSheets.containsKey(id)) {
 						Collection<IRegisteredSubtaskEntry> oldSheets = mSheets.get(id);
-						Map<Integer, IRegisteredSubtaskEntry> oldSheetsMap = new HashMap<Integer, IRegisteredSubtaskEntry>();
+						Map<Integer, IRegisteredSubtaskEntry> oldSheetsMap = new HashMap<>();
 						for (IRegisteredSubtaskEntry entry : oldSheets) {
 							oldSheetsMap.put(entry.getNodeIndex(), entry);
 						}
@@ -168,7 +171,7 @@ public class ChartUIExtensionsImpl {
 				}
 			}
 		} else {
-			List<IRegisteredSubtaskEntry> cSheets = new ArrayList<IRegisteredSubtaskEntry>();
+			List<IRegisteredSubtaskEntry> cSheets = new ArrayList<>();
 			for (int iC = 0; iC < saSheets.length; iC++) {
 				try {
 					StringTokenizer tokens = new StringTokenizer(saSheets[iC], "/"); //$NON-NLS-1$
@@ -179,11 +182,7 @@ public class ChartUIExtensionsImpl {
 					DefaultRegisteredSubtaskEntryImpl entry = new DefaultRegisteredSubtaskEntryImpl(sNodeIndex,
 							sNodePath, sDisplayName, (ISubtaskSheet) Class.forName(sSheetClass).newInstance());
 					cSheets.add(entry);
-				} catch (InstantiationException e) {
-					logger.log(e);
-				} catch (IllegalAccessException e) {
-					logger.log(e);
-				} catch (ClassNotFoundException e) {
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 					logger.log(e);
 				}
 			}
@@ -195,7 +194,7 @@ public class ChartUIExtensionsImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIExtensions#getUISheetExtensions
 	 * ()
@@ -212,7 +211,7 @@ public class ChartUIExtensionsImpl {
 	}
 
 	private void initUIChartTypeExtensions(String defaultExtensionId) {
-		mChartTypes = new HashMap<String, Collection<IChartType>>();
+		mChartTypes = new HashMap<>();
 		if (UIHelper.isEclipseMode()) {
 			IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry();
 			IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint("org.eclipse.birt.chart.ui", "types"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -225,7 +224,7 @@ public class ChartUIExtensionsImpl {
 				if (id == null) {
 					id = defaultExtensionId;
 				}
-				Vector<IChartType> cChartTypes = new Vector<IChartType>();
+				Vector<IChartType> cChartTypes = new Vector<>();
 				for (int i = 0; i < configElements.length; i++) {
 					IConfigurationElement currentTag = configElements[i];
 					if (currentTag.getName().equals("chartType")) //$NON-NLS-1$
@@ -253,15 +252,11 @@ public class ChartUIExtensionsImpl {
 				}
 			}
 		} else {
-			Vector<IChartType> cChartTypes = new Vector<IChartType>();
+			Vector<IChartType> cChartTypes = new Vector<>();
 			for (int iC = 0; iC < saTypes.length; iC++) {
 				try {
 					cChartTypes.add((IChartType) Class.forName(saTypes[iC]).newInstance());
-				} catch (InstantiationException e) {
-					logger.log(e);
-				} catch (IllegalAccessException e) {
-					logger.log(e);
-				} catch (ClassNotFoundException e) {
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 					logger.log(e);
 				}
 			}
@@ -282,7 +277,7 @@ public class ChartUIExtensionsImpl {
 
 	public Collection<IChangeListener> getUIListeners() {
 		if (cListeners == null) {
-			cListeners = new Vector<IChangeListener>();
+			cListeners = new Vector<>();
 			if (UIHelper.isEclipseMode()) {
 				IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry();
 				IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint("org.eclipse.birt.chart.ui", //$NON-NLS-1$
@@ -308,11 +303,7 @@ public class ChartUIExtensionsImpl {
 				for (int iC = 0; iC < saListeners.length; iC++) {
 					try {
 						cListeners.add((IChangeListener) Class.forName(saListeners[iC]).newInstance());
-					} catch (InstantiationException e) {
-						logger.log(e);
-					} catch (IllegalAccessException e) {
-						logger.log(e);
-					} catch (ClassNotFoundException e) {
+					} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 						logger.log(e);
 					}
 				}
@@ -333,7 +324,7 @@ public class ChartUIExtensionsImpl {
 	}
 
 	private void initSeriesUIComponents(String defaultExtensionId) {
-		mSeriesUIs = new HashMap<String, Collection<DefaultRegisteredEntry<ISeriesUIProvider>>>();
+		mSeriesUIs = new HashMap<>();
 		if (UIHelper.isEclipseMode()) {
 			IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry();
 			IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint("org.eclipse.birt.chart.ui", //$NON-NLS-1$
@@ -346,13 +337,13 @@ public class ChartUIExtensionsImpl {
 				if (id == null) {
 					id = defaultExtensionId;
 				}
-				Vector<DefaultRegisteredEntry<ISeriesUIProvider>> cSeriesUI = new Vector<DefaultRegisteredEntry<ISeriesUIProvider>>();
+				Vector<DefaultRegisteredEntry<ISeriesUIProvider>> cSeriesUI = new Vector<>();
 				for (int i = 0; i < configElements.length; i++) {
 					IConfigurationElement currentTag = configElements[i];
 					if (currentTag.getName().equals("seriescomposite")) //$NON-NLS-1$
 					{
 						try {
-							cSeriesUI.add(new DefaultRegisteredEntry<ISeriesUIProvider>(
+							cSeriesUI.add(new DefaultRegisteredEntry<>(
 									(ISeriesUIProvider) currentTag.createExecutableExtension("seriesUIProvider"), //$NON-NLS-1$
 									currentTag.getAttribute("seriesType"), //$NON-NLS-1$
 									currentTag.getAttribute("priority"))); //$NON-NLS-1$
@@ -365,7 +356,7 @@ public class ChartUIExtensionsImpl {
 					// Combine the entries of the same id extension
 					if (mSeriesUIs.containsKey(id)) {
 						Collection<DefaultRegisteredEntry<ISeriesUIProvider>> oldSheets = mSeriesUIs.get(id);
-						Map<String, DefaultRegisteredEntry<ISeriesUIProvider>> oldSheetsMap = new HashMap<String, DefaultRegisteredEntry<ISeriesUIProvider>>();
+						Map<String, DefaultRegisteredEntry<ISeriesUIProvider>> oldSheetsMap = new HashMap<>();
 						for (DefaultRegisteredEntry<ISeriesUIProvider> entry : oldSheets) {
 							oldSheetsMap.put(entry.getName(), entry);
 						}
@@ -384,16 +375,12 @@ public class ChartUIExtensionsImpl {
 				}
 			}
 		} else {
-			Vector<DefaultRegisteredEntry<ISeriesUIProvider>> cSeriesUI = new Vector<DefaultRegisteredEntry<ISeriesUIProvider>>();
+			Vector<DefaultRegisteredEntry<ISeriesUIProvider>> cSeriesUI = new Vector<>();
 			for (int iC = 0; iC < saSeriesUI.length; iC++) {
 				try {
-					cSeriesUI.add(new DefaultRegisteredEntry<ISeriesUIProvider>(
+					cSeriesUI.add(new DefaultRegisteredEntry<>(
 							(ISeriesUIProvider) Class.forName(saSeriesUI[iC]).newInstance(), null, null));
-				} catch (InstantiationException e) {
-					logger.log(e);
-				} catch (IllegalAccessException e) {
-					logger.log(e);
-				} catch (ClassNotFoundException e) {
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 					logger.log(e);
 				}
 			}

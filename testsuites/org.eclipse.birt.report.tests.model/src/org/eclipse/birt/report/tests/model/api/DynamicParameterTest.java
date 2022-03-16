@@ -1,15 +1,27 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.api;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * TestCases for dynamic parameters.
@@ -19,15 +31,15 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
- * 
+ *
+ *
  * <tr>
  * <td>{@link #testPropertiesOfDynamicParameter()}</td>
  * <td>Test set/get properties for dynamic parameter</td>
  * <td>Return setted properties value</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class DynamicParameterTest extends BaseTestCase {
 
@@ -46,6 +58,7 @@ public class DynamicParameterTest extends BaseTestCase {
 		return new TestSuite(DynamicParameterTest.class);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -61,7 +74,7 @@ public class DynamicParameterTest extends BaseTestCase {
 
 	/**
 	 * Test set/get properties for dynamic parameter
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testPropertiesOfDynamicParameter() throws Exception {

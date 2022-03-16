@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ public abstract class AbstractViewerAction extends AbstractViewAction {
 
 	/**
 	 * Creates an action on the specific viewer
-	 * 
+	 *
 	 * @param sourceViewer the source viewer
 	 */
 	public AbstractViewerAction(TreeViewer sourceViewer) {
@@ -32,7 +35,7 @@ public abstract class AbstractViewerAction extends AbstractViewAction {
 
 	/**
 	 * Creates an action on the specific viewer with given text
-	 * 
+	 *
 	 * @param sourceViewer the source viewer
 	 * @param text         the text for the action
 	 */
@@ -42,7 +45,7 @@ public abstract class AbstractViewerAction extends AbstractViewAction {
 
 	/**
 	 * Gets the source viewer
-	 * 
+	 *
 	 * @return Returns the source viewer
 	 */
 	public TreeViewer getSourceViewer() {
@@ -51,7 +54,7 @@ public abstract class AbstractViewerAction extends AbstractViewAction {
 
 	/**
 	 * Gets the list of the selected objects
-	 * 
+	 *
 	 * @return Returns the list of the selected objects
 	 */
 	public StructuredSelection getSelectedObjects() {
@@ -60,7 +63,7 @@ public abstract class AbstractViewerAction extends AbstractViewAction {
 
 	/**
 	 * Gets selected tree items
-	 * 
+	 *
 	 * @return Returns selected tree items
 	 */
 	public TreeItem[] getSelectedItems() {

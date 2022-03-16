@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2005 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -24,7 +27,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * 
+ *
  * This class implements supporting for Drop of selected table column header
  */
 public class DataTextDropListener extends DropTargetAdapter {
@@ -41,10 +44,11 @@ public class DataTextDropListener extends DropTargetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.dnd.DropTargetListener#dragEnter(org.eclipse.swt.dnd.
 	 * DropTargetEvent)
 	 */
+	@Override
 	public void dragEnter(DropTargetEvent event) {
 		// indicate a copy
 		event.detail = DND.DROP_COPY;
@@ -58,7 +62,7 @@ public class DataTextDropListener extends DropTargetAdapter {
 			Transfer[] transferAgents = ((DropTarget) event.widget).getTransfer();
 			for (int i = 0; i < transferAgents.length; i++) {
 				Transfer transfer = transferAgents[i];
-				if (transfer != null && transfer instanceof SimpleTextTransfer) {
+				if (transfer instanceof SimpleTextTransfer) {
 					object = SimpleTextTransfer.getInstance().nativeToJava(event.currentDataType);
 					break;
 				}
@@ -78,11 +82,12 @@ public class DataTextDropListener extends DropTargetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.dnd.DropTargetListener#dragOperationChanged(org.eclipse.swt.
 	 * dnd.DropTargetEvent)
 	 */
+	@Override
 	public void dragOperationChanged(DropTargetEvent event) {
 		// always indicate a copy
 		event.detail = DND.DROP_COPY;
@@ -90,10 +95,11 @@ public class DataTextDropListener extends DropTargetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.dnd.DropTargetListener#dragOver(org.eclipse.swt.dnd.
 	 * DropTargetEvent)
 	 */
+	@Override
 	public void dragOver(DropTargetEvent event) {
 		// TODO Auto-generated method stub
 		event.feedback = DND.FEEDBACK_SELECT | DND.FEEDBACK_SCROLL;
@@ -101,10 +107,11 @@ public class DataTextDropListener extends DropTargetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.dnd.DropTargetListener#drop(org.eclipse.swt.dnd.
 	 * DropTargetEvent)
 	 */
+	@Override
 	public void drop(DropTargetEvent event) {
 		String bindingName = (String) event.data;
 

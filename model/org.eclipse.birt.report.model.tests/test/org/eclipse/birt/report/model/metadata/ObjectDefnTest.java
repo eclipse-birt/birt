@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,34 +20,34 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
- * 
+ *
  * Unit test for Class ObjectDefn.
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testAddThreeProperty()}</td>
  * <td>Adds three properties, iterate them and find them.</td>
  * <td>Properties are set properly. And the value of a non-existed property can
  * not be found.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testAddSameProperty()}</td>
  * <td>Adds the property whose name exists in object definition</td>
  * <td>Throws a <code>MetaDataException</code>.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetterAndSetter()}</td>
  * <td>Test getting/setting name/display name.</td>
  * <td>Values are set and returned properly.</td>
  * </tr>
- * 
+ *
  * </table>
  */
 
@@ -55,6 +58,7 @@ public class ObjectDefnTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		ThreadResources.setLocale(TEST_LOCALE);
@@ -63,7 +67,7 @@ public class ObjectDefnTest extends BaseTestCase {
 
 	/**
 	 * test getters and setters.
-	 * 
+	 *
 	 */
 	public void testGetterAndSetter() {
 		assertEquals("TestObject", obj.getName()); //$NON-NLS-1$
@@ -76,7 +80,7 @@ public class ObjectDefnTest extends BaseTestCase {
 
 	/**
 	 * add three properties, iterate them and find them.
-	 * 
+	 *
 	 */
 	public void testAddThreeProperty() {
 		PropertyDefnFake propertyA = new PropertyDefnFake();
@@ -121,7 +125,7 @@ public class ObjectDefnTest extends BaseTestCase {
 
 	/**
 	 * add the property whose name exists in object definition.
-	 * 
+	 *
 	 */
 	public void testAddSameProperty() {
 		PropertyDefnFake propertyA = new PropertyDefnFake();

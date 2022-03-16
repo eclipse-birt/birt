@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -28,7 +31,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 
 /**
  * Provides a basic implementation for simulated data service. Used in launcher.
- * 
+ *
  */
 public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 
@@ -37,7 +40,7 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#getPreviewHeader(
 	 * java.lang.String)
@@ -52,7 +55,7 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#getPreviewData(java
 	 * .lang.String)
@@ -71,38 +74,43 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#getAllStyles()
 	 */
+	@Override
 	public String[] getAllStyles() {
 		return new String[] {};
 	}
 
+	@Override
 	public String[] getAllStyleDisplayNames() {
 		return getAllStyles();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#getCurrentStyle()
 	 */
+	@Override
 	public String getCurrentStyle() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#setStyle(java.lang.
 	 * String)
 	 */
+	@Override
 	public void setStyle(String styleName) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public Object[] getDataForColumns(String[] sExpressions, int iMaxRecords, boolean byRow) {
 		// Always provide data by column whatever the byRow is false/true.
 		Object[] array = new Object[sExpressions.length];
@@ -112,7 +120,7 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 			for (int j = 0; j < ROW_COUNT; j++) {
 				String str = sExpressions[i];
 				int intStart = str.lastIndexOf(' ') + 1;
-				int index = Integer.valueOf(str.substring(intStart, intStart + 1)).intValue() - 1;
+				int index = Integer.parseInt(str.substring(intStart, intStart + 1)) - 1;
 				innerArray[j] = new Integer(((String[]) getPreviewData().get(j))[index]);
 			}
 			array[i] = innerArray;
@@ -120,28 +128,31 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 		return array;
 	}
 
+	@Override
 	public boolean isLivePreviewEnabled() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getDataType(
 	 * java.lang.String)
 	 */
+	@Override
 	public DataType getDataType(String expression) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#
 	 * prepareRowExpressionEvaluator(org.eclipse.birt.chart.model.Chart,
 	 * java.util.List, int, boolean)
 	 */
+	@Override
 	public IDataRowExpressionEvaluator prepareRowExpressionEvaluator(Chart cm, List expressions, int maxRecords,
 			boolean byRow) throws ChartException {
 		final Object[] columnData;
@@ -156,6 +167,7 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 			private int i;
 			private Object[] column;
 
+			@Override
 			public Object evaluate(String expression) {
 				column = (Object[]) map.get(expression);
 				if (i >= column.length) {
@@ -165,6 +177,7 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 				return column[i];
 			}
 
+			@Override
 			public boolean first() {
 				i = 0;
 
@@ -179,6 +192,7 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 				return false;
 			}
 
+			@Override
 			public boolean next() {
 				if (column != null && i < column.length - 1) {
 					i++;
@@ -187,6 +201,7 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 				return false;
 			}
 
+			@Override
 			public void close() {
 				// no-op
 			}
@@ -197,11 +212,12 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#update(int,
 	 * java.lang.Object)
 	 */
+	@Override
 	public boolean update(String type, Object value) {
 		// TODO Auto-generated method stub
 		return false;
@@ -209,20 +225,22 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#
 	 * getStateInformation()
 	 */
+	@Override
 	public int getState() {
 		return 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#checkState(int)
 	 */
+	@Override
 	public boolean checkState(int state) {
 		// TODO Auto-generated method stub
 		return false;
@@ -230,11 +248,12 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#checkData(java.
 	 * lang.String, java.lang.Object)
 	 */
+	@Override
 	public Object checkData(String checkType, Object data) {
 		return null;
 	}
@@ -246,9 +265,10 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#dispose()
 	 */
+	@Override
 	public void dispose() {
 		// No code here.
 
@@ -256,10 +276,11 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#initialize()
 	 */
+	@Override
 	public void initialize() throws ChartException {
 		// No code here.
 	}

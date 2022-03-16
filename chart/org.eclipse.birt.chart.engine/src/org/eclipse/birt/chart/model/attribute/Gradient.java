@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -17,7 +20,7 @@ package org.eclipse.birt.chart.model.attribute;
  *
  * <!-- begin-model-doc --> Gradient extends type Fill specialized to represent
  * a two-color gradient.
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -46,11 +49,11 @@ public interface Gradient extends Fill {
 	 * Returns the value of the '<em><b>Start Color</b></em>' containment reference.
 	 * <!-- begin-user-doc --> Gets the start color of the gradient. <!--
 	 * end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the start color of the gradient.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Start Color</em>' containment reference.
 	 * @see #setStartColor(ColorDefinition)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getGradient_StartColor()
@@ -64,7 +67,7 @@ public interface Gradient extends Fill {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Gradient#getStartColor
 	 * <em>Start Color</em>}' containment reference. <!-- begin-user-doc --> Sets
 	 * the start color of the gradient. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Start Color</em>' containment
 	 *              reference.
 	 * @see #getStartColor()
@@ -76,11 +79,11 @@ public interface Gradient extends Fill {
 	 * Returns the value of the '<em><b>End Color</b></em>' containment reference.
 	 * <!-- begin-user-doc --> Gets the end color of the gradient. <!-- end-user-doc
 	 * --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the end color of the gradient.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>End Color</em>' containment reference.
 	 * @see #setEndColor(ColorDefinition)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getGradient_EndColor()
@@ -94,7 +97,7 @@ public interface Gradient extends Fill {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Gradient#getEndColor <em>End
 	 * Color</em>}' containment reference. <!-- begin-user-doc --> Sets the end
 	 * color of the gradient. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>End Color</em>' containment reference.
 	 * @see #getEndColor()
 	 * @generated
@@ -105,12 +108,12 @@ public interface Gradient extends Fill {
 	 * Returns the value of the '<em><b>Direction</b></em>' attribute. <!--
 	 * begin-user-doc --> Gets the angle of the gradient. <!-- end-user-doc --> <!--
 	 * begin-model-doc -->
-	 * 
+	 *
 	 * Defines the angle of the gradient. e.g. If Direction is 45, the Gradient is
 	 * at an angle of 45 degrees to vertical. With start color being on the left.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Direction</em>' attribute.
 	 * @see #isSetDirection()
 	 * @see #unsetDirection()
@@ -127,7 +130,7 @@ public interface Gradient extends Fill {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Gradient#getDirection
 	 * <em>Direction</em>}' attribute. <!-- begin-user-doc --> Sets the angle of the
 	 * gradient. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Direction</em>' attribute.
 	 * @see #isSetDirection()
 	 * @see #unsetDirection()
@@ -140,7 +143,7 @@ public interface Gradient extends Fill {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Gradient#getDirection
 	 * <em>Direction</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetDirection()
 	 * @see #getDirection()
 	 * @see #setDirection(double)
@@ -153,7 +156,7 @@ public interface Gradient extends Fill {
 	 * {@link org.eclipse.birt.chart.model.attribute.Gradient#getDirection
 	 * <em>Direction</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Direction</em>' attribute is set.
 	 * @see #unsetDirection()
 	 * @see #getDirection()
@@ -166,9 +169,9 @@ public interface Gradient extends Fill {
 	 * Returns the value of the '<em><b>Cyclic</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
 	 * "Cyclic" specifies whether the gradient is cyclic or linear.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Cyclic</em>' attribute.
 	 * @see #isSetCyclic()
 	 * @see #unsetCyclic()
@@ -184,7 +187,7 @@ public interface Gradient extends Fill {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Gradient#isCyclic
 	 * <em>Cyclic</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Cyclic</em>' attribute.
 	 * @see #isSetCyclic()
 	 * @see #unsetCyclic()
@@ -197,7 +200,7 @@ public interface Gradient extends Fill {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Gradient#isCyclic
 	 * <em>Cyclic</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetCyclic()
 	 * @see #isCyclic()
 	 * @see #setCyclic(boolean)
@@ -210,7 +213,7 @@ public interface Gradient extends Fill {
 	 * {@link org.eclipse.birt.chart.model.attribute.Gradient#isCyclic
 	 * <em>Cyclic</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Cyclic</em>' attribute is set.
 	 * @see #unsetCyclic()
 	 * @see #isCyclic()
@@ -223,11 +226,11 @@ public interface Gradient extends Fill {
 	 * Returns the value of the '<em><b>Transparency</b></em>' attribute. <!--
 	 * begin-user-doc --> Gets the transparency for the gradient colors. <!--
 	 * end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the transparency for the gradient.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Transparency</em>' attribute.
 	 * @see #isSetTransparency()
 	 * @see #unsetTransparency()
@@ -244,7 +247,7 @@ public interface Gradient extends Fill {
 	 * {@link org.eclipse.birt.chart.model.attribute.Gradient#getTransparency
 	 * <em>Transparency</em>}' attribute. <!-- begin-user-doc --> Sets the
 	 * transparency for the gradient. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Transparency</em>' attribute.
 	 * @see #isSetTransparency()
 	 * @see #unsetTransparency()
@@ -258,7 +261,7 @@ public interface Gradient extends Fill {
 	 * {@link org.eclipse.birt.chart.model.attribute.Gradient#getTransparency
 	 * <em>Transparency</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetTransparency()
 	 * @see #getTransparency()
 	 * @see #setTransparency(int)
@@ -271,7 +274,7 @@ public interface Gradient extends Fill {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Gradient#getTransparency
 	 * <em>Transparency</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Transparency</em>' attribute is set.
 	 * @see #unsetTransparency()
 	 * @see #getTransparency()
@@ -283,6 +286,7 @@ public interface Gradient extends Fill {
 	/**
 	 * @generated
 	 */
+	@Override
 	Gradient copyInstance();
 
 } // Gradient

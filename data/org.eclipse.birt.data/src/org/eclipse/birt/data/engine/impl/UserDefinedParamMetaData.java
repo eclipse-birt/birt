@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,54 +34,59 @@ public class UserDefinedParamMetaData implements IParameterMetaData {
 	private static Logger logger = Logger.getLogger(UserDefinedParamMetaData.class.getName());
 
 	/**
-	 * 
+	 *
 	 * @param parameterDefnList The collection of <code>ParameterDefinition</code>
 	 */
 	public UserDefinedParamMetaData(List parameterDefnList) {
 		logger.entering(UserDefinedParamMetaData.class.getName(), "UserDefinedParamMetaData", parameterDefnList);
-		if (parameterDefnList == null || parameterDefnList.size() == 0)
+		if (parameterDefnList == null || parameterDefnList.size() == 0) {
 			paraDefnList = new Object[0];
-		else
+		} else {
 			paraDefnList = parameterDefnList.toArray();
+		}
 		logger.exiting(UserDefinedParamMetaData.class.getName(), "UserDefinedParamMetaData");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterCount()
 	 */
+	@Override
 	public int getParameterCount() throws OdaException {
 		return paraDefnList.length;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterMode(
 	 * int)
 	 */
+	@Override
 	public int getParameterMode(int param) throws OdaException {
 		IParameterDefinition defn = (IParameterDefinition) paraDefnList[param - 1];
-		if (defn.isInputMode() && defn.isOutputMode())
+		if (defn.isInputMode() && defn.isOutputMode()) {
 			return IParameterMetaData.parameterModeInOut;
-		else if (defn.isInputMode())
+		} else if (defn.isInputMode()) {
 			return IParameterMetaData.parameterModeIn;
-		else if (defn.isOutputMode())
+		} else if (defn.isOutputMode()) {
 			return IParameterMetaData.parameterModeOut;
-		else
+		} else {
 			return IParameterMetaData.parameterModeUnknown;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterName(
 	 * int)
 	 */
+	@Override
 	public String getParameterName(int param) throws OdaException {
 		// TODO Auto-generated method stub
 		return ((IParameterDefinition) paraDefnList[param - 1]).getName();
@@ -86,11 +94,12 @@ public class UserDefinedParamMetaData implements IParameterMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterType(
 	 * int)
 	 */
+	@Override
 	public int getParameterType(int param) throws OdaException {
 		IParameterDefinition defn = (IParameterDefinition) paraDefnList[param - 1];
 		Class dataTypeClass = DataType.getClass(defn.getType());
@@ -99,39 +108,43 @@ public class UserDefinedParamMetaData implements IParameterMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#
 	 * getParameterTypeName(int)
 	 */
+	@Override
 	public String getParameterTypeName(int param) throws OdaException {
 		return "Unknown";
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getPrecision(int)
 	 */
+	@Override
 	public int getPrecision(int param) throws OdaException {
 		return 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getScale(int)
 	 */
+	@Override
 	public int getScale(int param) throws OdaException {
 		return 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#isNullable(int)
 	 */
+	@Override
 	public int isNullable(int param) throws OdaException {
 		return IParameterMetaData.parameterNullableUnknown;
 	}

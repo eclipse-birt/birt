@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,8 +54,8 @@ public class ExtensionPointManager implements IPreferenceChangeListener {
 
 	private Map<String, IProviderFactory> providerFactoryMap = null;
 
-	private Map<String, List<String>> prefereces = new HashMap<String, List<String>>();
-	private Map<String, List<IPreferenceChangeListener>> prefListeners = new HashMap<String, List<IPreferenceChangeListener>>();
+	private Map<String, List<String>> prefereces = new HashMap<>();
+	private Map<String, List<IPreferenceChangeListener>> prefListeners = new HashMap<>();
 
 	private volatile static ExtensionPointManager instance = null;
 
@@ -72,7 +75,7 @@ public class ExtensionPointManager implements IPreferenceChangeListener {
 
 	/**
 	 * Gets the list of all the extended element points.
-	 * 
+	 *
 	 * @return Returns the list of all the extended element point
 	 *         (ExtendedElementUIPoint).
 	 */
@@ -83,9 +86,9 @@ public class ExtensionPointManager implements IPreferenceChangeListener {
 
 	/**
 	 * Gets the extended element point with the specified extension name.
-	 * 
+	 *
 	 * @param extensionName the extension name of the extended element
-	 * 
+	 *
 	 * @return Returns the extended element point, or null if any problem exists
 	 */
 	public ExtendedElementUIPoint getExtendedElementPoint(String extensionName) {
@@ -95,7 +98,7 @@ public class ExtensionPointManager implements IPreferenceChangeListener {
 
 	/**
 	 * Returns the menu builder for the given element.
-	 * 
+	 *
 	 * @param elementName the name of the element
 	 * @return the menu builder, or null if there's no builder defined for the
 	 *         element
@@ -106,7 +109,7 @@ public class ExtensionPointManager implements IPreferenceChangeListener {
 
 	/**
 	 * Returns the provider factory for the given element.
-	 * 
+	 *
 	 * @param elementName the name of the element
 	 * @return the provider factory, or null if there's no factory defined for the
 	 *         element
@@ -118,7 +121,7 @@ public class ExtensionPointManager implements IPreferenceChangeListener {
 	private Map<String, ExtendedElementUIPoint> getReportItemUIMap() {
 		synchronized (this) {
 			if (reportItemUIMap == null) {
-				reportItemUIMap = new HashMap<String, ExtendedElementUIPoint>();
+				reportItemUIMap = new HashMap<>();
 
 				for (Iterator<IExtension> iter = getExtensionElements(IExtensionConstants.EXTENSION_REPORT_ITEM_UI)
 						.iterator(); iter.hasNext();) {
@@ -139,7 +142,7 @@ public class ExtensionPointManager implements IPreferenceChangeListener {
 	private Map<String, IMenuBuilder> getMenuBuilderMap() {
 		synchronized (this) {
 			if (menuBuilderMap == null) {
-				menuBuilderMap = new HashMap<String, IMenuBuilder>();
+				menuBuilderMap = new HashMap<>();
 
 				for (Iterator<IExtension> iter = getExtensionElements(IExtensionConstants.EXTENSION_MENU_BUILDERS)
 						.iterator(); iter.hasNext();) {
@@ -168,7 +171,7 @@ public class ExtensionPointManager implements IPreferenceChangeListener {
 	private Map<String, IProviderFactory> getProviderFactoryMap() {
 		synchronized (this) {
 			if (providerFactoryMap == null) {
-				providerFactoryMap = new HashMap<String, IProviderFactory>();
+				providerFactoryMap = new HashMap<>();
 
 				for (Iterator<IExtension> iter = getExtensionElements(IExtensionConstants.EXTENSION_PROVIDER_FACTORIES)
 						.iterator(); iter.hasNext();) {
@@ -344,6 +347,7 @@ public class ExtensionPointManager implements IPreferenceChangeListener {
 		}
 	}
 
+	@Override
 	public void preferenceChange(PreferenceChangeEvent event) {
 		Iterator<String> exntesions = prefereces.keySet().iterator();
 		while (exntesions.hasNext()) {
@@ -367,8 +371,9 @@ public class ExtensionPointManager implements IPreferenceChangeListener {
 			}
 
 			List<String> prefs = prefereces.get(extension);
-			if (!prefs.contains(preference))
+			if (!prefs.contains(preference)) {
 				prefs.add(preference);
+			}
 		}
 	}
 
@@ -379,8 +384,9 @@ public class ExtensionPointManager implements IPreferenceChangeListener {
 			}
 
 			List<String> prefs = prefereces.get(extension);
-			if (prefs.contains(preference))
+			if (prefs.contains(preference)) {
 				prefs.remove(preference);
+			}
 		}
 	}
 
@@ -391,8 +397,9 @@ public class ExtensionPointManager implements IPreferenceChangeListener {
 			}
 
 			List<IPreferenceChangeListener> lisnteners = prefListeners.get(extension);
-			if (!lisnteners.contains(listener))
+			if (!lisnteners.contains(listener)) {
 				lisnteners.add(listener);
+			}
 		}
 	}
 
@@ -403,8 +410,9 @@ public class ExtensionPointManager implements IPreferenceChangeListener {
 			}
 
 			List<IPreferenceChangeListener> listeners = prefListeners.get(extension);
-			if (listeners.contains(listener))
+			if (listeners.contains(listener)) {
 				listeners.remove(listener);
+			}
 		}
 	}
 

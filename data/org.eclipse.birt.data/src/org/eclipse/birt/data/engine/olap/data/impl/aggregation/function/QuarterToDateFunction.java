@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
 import java.util.ArrayList;
@@ -11,6 +23,7 @@ import com.ibm.icu.util.GregorianCalendar;
 
 public class QuarterToDateFunction extends AbstractMDX implements IPeriodsFunction {
 
+	@Override
 	public List<TimeMember> getResult(TimeMember member) {
 		String[] levels = member.getLevelType();
 		int[] values = member.getMemberValue();
@@ -30,7 +43,7 @@ public class QuarterToDateFunction extends AbstractMDX implements IPeriodsFuncti
 			}
 		}
 
-		List<TimeMember> list = new ArrayList<TimeMember>();
+		List<TimeMember> list = new ArrayList<>();
 
 		if (calculateUnit.equals(QUARTER)) {
 			TimeMember newMember = new TimeMember(values, levels);

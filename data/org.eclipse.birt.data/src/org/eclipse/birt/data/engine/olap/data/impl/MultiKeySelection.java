@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +20,7 @@ import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 
 /**
- * 
+ *
  */
 
 public class MultiKeySelection implements ISelection {
@@ -34,7 +37,7 @@ public class MultiKeySelection implements ISelection {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param keys
 	 */
 	public MultiKeySelection(Object[][] keys) {
@@ -56,29 +59,32 @@ public class MultiKeySelection implements ISelection {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.api.ISelection#getMax()
 	 */
+	@Override
 	public Object[] getMax() {
 		return maxKey;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.api.ISelection#getMin()
 	 */
+	@Override
 	public Object[] getMin() {
 		return minKey;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.api.ISelection#isSelected(java.lang.
 	 * Object[])
 	 */
+	@Override
 	public boolean isSelected(Object[] key) {
 		for (int i = 0; i < keyValues.length; i++) {
 			if (CompareUtil.compare(keyValues[i], key) == 0) {

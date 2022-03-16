@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +21,7 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 
 /**
  * validate cube query definition with edge, measure definition.
- * 
+ *
  */
 class CubeQueryValidator {
 
@@ -26,7 +29,7 @@ class CubeQueryValidator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param view
 	 * @param cube
 	 * @param calculatedMember
@@ -34,8 +37,9 @@ class CubeQueryValidator {
 	 */
 	static void validateCubeQueryDefinition(BirtCubeView view, ICube cube) throws DataException {
 		// for presentation mode, cube might be null.
-		if (cube == null)
+		if (cube == null) {
 			return;
+		}
 		if (view.getColumnEdgeView() == null && view.getRowEdgeView() == null) {
 			// A cube query definition can have no edge if it only contains grand total
 			// bindings
@@ -51,7 +55,7 @@ class CubeQueryValidator {
 
 	/**
 	 * validate on edge definition
-	 * 
+	 *
 	 * @param cube
 	 * @param edgeView
 	 * @throws DataException
@@ -73,7 +77,7 @@ class CubeQueryValidator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cube
 	 * @param dimensionName
 	 * @param levelName
@@ -83,8 +87,9 @@ class CubeQueryValidator {
 	static boolean validateWithRawCube(ICube cube, String levelName, String dimensionName, String hierarchyName) {
 		boolean validate = false;
 		for (int k = 0; k < cube.getDimesions().length; k++) {
-			if (cube.getDimesions()[k].isTime())
+			if (cube.getDimesions()[k].isTime()) {
 				return true;
+			}
 			if (dimensionName.equals(cube.getDimesions()[k].getName())) {
 				if (hierarchyName.equals(cube.getDimesions()[k].getHierarchy().getName())) {
 					for (int t = 0; t < cube.getDimesions()[k].getHierarchy().getLevels().length; t++) {

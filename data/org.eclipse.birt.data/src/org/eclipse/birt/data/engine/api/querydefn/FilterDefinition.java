@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.querydefn;
@@ -39,7 +42,7 @@ public class FilterDefinition implements IFilterDefinition {
 
 	/**
 	 * Constructs a new filter with filter expression and update option.
-	 * 
+	 *
 	 * @param filterExpr Filter evaluate expression
 	 * @param updateAggr While <code>true</code>, the aggregation values are updated
 	 *                   prior to apply this filter; Otherwise the aggregation
@@ -53,6 +56,7 @@ public class FilterDefinition implements IFilterDefinition {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IFilterDefinition#getExpression()
 	 */
+	@Override
 	public IBaseExpression getExpression() {
 		return expr;
 	}
@@ -66,9 +70,10 @@ public class FilterDefinition implements IFilterDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IFilterDefinition#updateAggregation()
 	 */
+	@Override
 	public boolean updateAggregation() {
 		return updateAggr;
 	}
@@ -78,18 +83,20 @@ public class FilterDefinition implements IFilterDefinition {
 	 * <p>
 	 * While the flag is <code>true</code>, the aggregation values are updated prior
 	 * to apply this filter; Otherwise the aggregation values are not updated.
-	 * 
+	 *
 	 * @param update
 	 */
+	@Override
 	public void setUpdateAggregation(boolean flag) {
 		this.updateAggr = flag;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IFilterDefinition#getFilterTarget()
 	 */
+	@Override
 	public FilterTarget getFilterTarget() {
 		return filterTarget;
 	}
@@ -98,6 +105,7 @@ public class FilterDefinition implements IFilterDefinition {
 	 * @see org.eclipse.birt.data.engine.api.IFilterDefinition#setFilterTarget(org.
 	 * eclipse.birt.data.engine.api.IFilterDefinition.FilterTarget)
 	 */
+	@Override
 	public void setFilterTarget(FilterTarget filterTarget) {
 		this.filterTarget = filterTarget;
 	}

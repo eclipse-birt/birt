@@ -1,4 +1,18 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.data.engine.regre;
+
+import static org.junit.Assert.fail;
 
 import org.eclipse.birt.data.engine.api.APITestCase;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -9,20 +23,19 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.junit.Test;
 
 import testutil.ConfigText;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 public class SortHintTest extends APITestCase {
-	public static final String[] COLS = new String[] { "CUSTOMERID", "DURATION", "CHARGE", "TONUMBER" };
+	public static final String[] COLS = { "CUSTOMERID", "DURATION", "CHARGE", "TONUMBER" };
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestSortHint.TableName"),
 				ConfigText.getString("Api.TestSortHint.TableSQL"), "testSortHint.txt");
@@ -60,8 +73,9 @@ public class SortHintTest extends APITestCase {
 		gd.setSortDirection(ISortDefinition.SORT_ASC);
 		gdArray[0] = gd;
 
-		for (int i = 0; i < gdArray.length; i++)
+		for (int i = 0; i < gdArray.length; i++) {
 			queryDefn.addGroup(gdArray[i]);
+		}
 
 		// Add table sort
 		// Table sorting:
@@ -84,8 +98,9 @@ public class SortHintTest extends APITestCase {
 		sd.setSortDirection(ISortDefinition.SORT_ASC);
 		sdArray[2] = sd;
 
-		for (int i = 0; i < sdArray.length; i++)
+		for (int i = 0; i < sdArray.length; i++) {
 			queryDefn.addSort(sdArray[i]);
+		}
 
 		// Add sort hints
 		// col1: asc
@@ -125,8 +140,9 @@ public class SortHintTest extends APITestCase {
 		sd.setSortDirection(ISortDefinition.SORT_ASC);
 		sdArray[1] = sd;
 
-		for (int i = 0; i < sdArray.length; i++)
+		for (int i = 0; i < sdArray.length; i++) {
 			queryDefn.addSort(sdArray[i]);
+		}
 
 		// Add sort hints
 		// col1: asc
@@ -166,8 +182,9 @@ public class SortHintTest extends APITestCase {
 		sd.setSortDirection(ISortDefinition.SORT_ASC);
 		sdArray[1] = sd;
 
-		for (int i = 0; i < sdArray.length; i++)
+		for (int i = 0; i < sdArray.length; i++) {
 			queryDefn.addSort(sdArray[i]);
+		}
 
 		// Add sort hints
 		// col1: asc
@@ -207,8 +224,9 @@ public class SortHintTest extends APITestCase {
 		sd.setSortDirection(ISortDefinition.SORT_DESC);
 		sdArray[1] = sd;
 
-		for (int i = 0; i < sdArray.length; i++)
+		for (int i = 0; i < sdArray.length; i++) {
 			queryDefn.addSort(sdArray[i]);
+		}
 
 		// Add sort hints
 		// col1: asc
@@ -246,8 +264,9 @@ public class SortHintTest extends APITestCase {
 		gd.setSortDirection(ISortDefinition.SORT_ASC);
 		gdArray[1] = gd;
 
-		for (int i = 0; i < gdArray.length; i++)
+		for (int i = 0; i < gdArray.length; i++) {
 			queryDefn.addGroup(gdArray[i]);
+		}
 
 		// Add table sort
 		// Table sorting:
@@ -263,8 +282,9 @@ public class SortHintTest extends APITestCase {
 		sd.setSortDirection(ISortDefinition.SORT_ASC);
 		sdArray[1] = sd;
 
-		for (int i = 0; i < sdArray.length; i++)
+		for (int i = 0; i < sdArray.length; i++) {
 			queryDefn.addSort(sdArray[i]);
+		}
 
 		// Add sort hints
 		// col1: asc
@@ -309,8 +329,9 @@ public class SortHintTest extends APITestCase {
 		gd.setSortDirection(ISortDefinition.SORT_ASC);
 		gdArray[2] = gd;
 
-		for (int i = 0; i < gdArray.length; i++)
+		for (int i = 0; i < gdArray.length; i++) {
 			queryDefn.addGroup(gdArray[i]);
+		}
 
 		// Add table sort
 		// Table sorting:
@@ -327,8 +348,9 @@ public class SortHintTest extends APITestCase {
 		sd.setSortDirection(ISortDefinition.SORT_ASC);
 		sdArray[1] = sd;
 
-		for (int i = 0; i < sdArray.length; i++)
+		for (int i = 0; i < sdArray.length; i++) {
 			queryDefn.addSort(sdArray[i]);
+		}
 
 		// Add sort hints
 		// col1: asc
@@ -371,8 +393,9 @@ public class SortHintTest extends APITestCase {
 		gd.setSortDirection(ISortDefinition.SORT_ASC);
 		gdArray[2] = gd;
 
-		for (int i = 0; i < gdArray.length; i++)
+		for (int i = 0; i < gdArray.length; i++) {
 			queryDefn.addGroup(gdArray[i]);
+		}
 
 		// Table sorting:
 		// col4: asc
@@ -382,8 +405,9 @@ public class SortHintTest extends APITestCase {
 		sd.setSortDirection(ISortDefinition.SORT_ASC);
 		sdArray[0] = sd;
 
-		for (int i = 0; i < sdArray.length; i++)
+		for (int i = 0; i < sdArray.length; i++) {
 			queryDefn.addSort(sdArray[i]);
+		}
 
 		// Add sort hints
 		// col1: asc
@@ -429,8 +453,9 @@ public class SortHintTest extends APITestCase {
 		gd.setSortDirection(ISortDefinition.SORT_ASC);
 		gdArray[2] = gd;
 
-		for (int i = 0; i < gdArray.length; i++)
+		for (int i = 0; i < gdArray.length; i++) {
 			queryDefn.addGroup(gdArray[i]);
+		}
 
 		// Add table sort
 		// Table sorting:
@@ -447,8 +472,9 @@ public class SortHintTest extends APITestCase {
 		sd.setSortDirection(ISortDefinition.SORT_ASC);
 		sdArray[1] = sd;
 
-		for (int i = 0; i < sdArray.length; i++)
+		for (int i = 0; i < sdArray.length; i++) {
 			queryDefn.addSort(sdArray[i]);
+		}
 
 		// Add sort hints
 		// col1: asc
@@ -483,8 +509,9 @@ public class SortHintTest extends APITestCase {
 		gd.setSortDirection(ISortDefinition.SORT_DESC);
 		gdArray[0] = gd;
 
-		for (int i = 0; i < gdArray.length; i++)
+		for (int i = 0; i < gdArray.length; i++) {
 			queryDefn.addGroup(gdArray[i]);
+		}
 
 		// Add table sort
 		// col1: desc
@@ -506,8 +533,9 @@ public class SortHintTest extends APITestCase {
 		sd.setSortDirection(ISortDefinition.SORT_ASC);
 		sdArray[2] = sd;
 
-		for (int i = 0; i < sdArray.length; i++)
+		for (int i = 0; i < sdArray.length; i++) {
 			queryDefn.addSort(sdArray[i]);
+		}
 
 		// Add sort hints
 		// col1: asc
@@ -557,8 +585,9 @@ public class SortHintTest extends APITestCase {
 		sd.setSortDirection(ISortDefinition.SORT_DESC);
 		sdArray[2] = sd;
 
-		for (int i = 0; i < sdArray.length; i++)
+		for (int i = 0; i < sdArray.length; i++) {
 			queryDefn.addSort(sdArray[i]);
+		}
 
 		// Add sort hint
 		// col1: desc
@@ -621,8 +650,9 @@ public class SortHintTest extends APITestCase {
 		gd.setSortDirection(ISortDefinition.SORT_DESC);
 		gdArray[2] = gd;
 
-		for (int i = 0; i < gdArray.length; i++)
+		for (int i = 0; i < gdArray.length; i++) {
 			queryDefn.addGroup(gdArray[i]);
+		}
 
 		// Add table sort
 		// col1: desc
@@ -644,8 +674,9 @@ public class SortHintTest extends APITestCase {
 		sd.setSortDirection(ISortDefinition.SORT_DESC);
 		sdArray[2] = sd;
 
-		for (int i = 0; i < sdArray.length; i++)
+		for (int i = 0; i < sdArray.length; i++) {
 			queryDefn.addSort(sdArray[i]);
+		}
 
 		// Add sort hint
 		// col1: desc
@@ -674,15 +705,17 @@ public class SortHintTest extends APITestCase {
 			while (ri.next()) {
 				for (int i = 0; i < COLS.length; i++) {
 					Object ob = ri.getValue(COLS[i]);
-					if (ob == null)
+					if (ob == null) {
 						testPrint("null");
-					else
+					} else {
 						testPrint(ob.toString());
+					}
 
-					if (i < COLS.length - 1)
+					if (i < COLS.length - 1) {
 						testPrint(",");
-					else
+					} else {
 						testPrintln("");
+					}
 				}
 			}
 			ri.close();

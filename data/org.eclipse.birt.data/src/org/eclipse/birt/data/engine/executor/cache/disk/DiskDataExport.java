@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +37,7 @@ abstract class DiskDataExport {
 	/**
 	 * According to the parameter of comparator to generate the instance, which is
 	 * disk-based direct output instance or disk-based merge instance.
-	 * 
+	 *
 	 * @param infoMap
 	 * @param comparator
 	 * @param rsMetaData
@@ -43,10 +46,11 @@ abstract class DiskDataExport {
 	static DiskDataExport newInstance(Map infoMap, Comparator comparator, IResultClass rsMetaData,
 			ResultObjectUtil resultObjectUtil, DataEngineSession session) {
 		DiskDataExport dbExport;
-		if (comparator != null)
+		if (comparator != null) {
 			dbExport = new DiskSortExport2(infoMap, comparator, resultObjectUtil);
-		else
+		} else {
 			dbExport = new DiskDirectExport(infoMap, resultObjectUtil);
+		}
 
 		dbExport.resultObjectUtil = resultObjectUtil;
 		dbExport.session = session;
@@ -56,7 +60,7 @@ abstract class DiskDataExport {
 	/**
 	 * Export data which is stored in the resultObjects array to disk, which is the
 	 * first step of export.
-	 * 
+	 *
 	 * @param rs
 	 * @param stopSign
 	 * @throws IOException, file writer exception
@@ -66,7 +70,7 @@ abstract class DiskDataExport {
 	/**
 	 * Export data which is fetched form RowResultSet, which is the second step of
 	 * export following the first step of exportStartDataToDisk.
-	 * 
+	 *
 	 * @param resultObject
 	 * @param rs
 	 * @param maxRows
@@ -79,20 +83,20 @@ abstract class DiskDataExport {
 
 	/**
 	 * get a ObjectFileWithCache object for goal file
-	 * 
+	 *
 	 * @return
 	 */
 	public abstract IRowIterator getRowIterator();
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public abstract void close();
 
 	/**
 	 * A util method for sub class
-	 * 
+	 *
 	 * @param resultObjects
 	 * @param stopSign
 	 * @return
@@ -105,7 +109,7 @@ abstract class DiskDataExport {
 
 	/**
 	 * A util method for sub class
-	 * 
+	 *
 	 * @param resultObject
 	 * @param rs
 	 * @param dataCountOfUnit
@@ -125,18 +129,21 @@ abstract class DiskDataExport {
 
 		IResultObject odaObject = null;
 		while ((odaObject = rs.next()) != null && !session.getStopSign().isStopped()) {
-			if (maxRows > 0 && currDataCount > maxRows)
+			if (maxRows > 0 && currDataCount > maxRows) {
 				throw new DataException(ResourceConstants.EXCEED_MAX_DATA_OBJECT_ROWS);
+			}
 
 			Object[] ob = new Object[columnCount];
-			for (int i = 0; i < columnCount; i++)
+			for (int i = 0; i < columnCount; i++) {
 				ob[i] = odaObject.getFieldValue(i + 1);
+			}
 
 			IResultObject rowData = resultObjectUtil.newResultObject(ob);
 			if (currDataCount % dataCountOfUnit == 0) {
 				int indexOfUnit = currDataCount / dataCountOfUnit - 1;
-				if (indexOfUnit >= 0)
+				if (indexOfUnit >= 0) {
 					outputResultObjects(rowDatas, indexOfUnit + 1);
+				}
 				dataIndex = 0;
 			}
 
@@ -161,7 +168,7 @@ abstract class DiskDataExport {
 	/**
 	 * Output fetched data to file. When sort is needed, the data will be first
 	 * sorted before it is exported.
-	 * 
+	 *
 	 * @param resultObjects
 	 * @param indexOfUnit
 	 * @param stopSign

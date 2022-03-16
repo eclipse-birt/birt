@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.build.framework;
 
 import java.io.File;
@@ -25,12 +37,14 @@ public class ZipBundleFile extends BundleFile {
 		ZipEntry entry = zipFile.getEntry(path);
 		if (entry != null && entry.getSize() == 0 && !entry.isDirectory()) {
 			ZipEntry dirEntry = zipFile.getEntry(path + '/');
-			if (dirEntry != null)
+			if (dirEntry != null) {
 				entry = dirEntry;
+			}
 		}
 		return entry;
 	}
 
+	@Override
 	public synchronized boolean isDirectory(String dir) {
 		dir = normalizeFolder(dir);
 
@@ -45,6 +59,7 @@ public class ZipBundleFile extends BundleFile {
 		return false;
 	}
 
+	@Override
 	public BundleEntry getEntry(String path) {
 		path = normalizeFile(path);
 
@@ -53,8 +68,9 @@ public class ZipBundleFile extends BundleFile {
 			if (path.charAt(path.length() - 1) == '/') {
 				// this is a directory request lets see if any entries exist in
 				// this directory
-				if (isDirectory(path))
+				if (isDirectory(path)) {
 					return new ZipDirBundleEntry(this, path);
+				}
 			}
 			return null;
 		}
@@ -62,6 +78,7 @@ public class ZipBundleFile extends BundleFile {
 		return new ZipBundleEntry(this, zipEntry);
 	}
 
+	@Override
 	public List<String> getEntryPaths(String path) {
 		if (zipFile == null) {
 			return null;
@@ -69,7 +86,7 @@ public class ZipBundleFile extends BundleFile {
 
 		path = normalizeFile(path);
 
-		ArrayList<String> entries = new ArrayList<String>();
+		ArrayList<String> entries = new ArrayList<>();
 		Enumeration<? extends ZipEntry> zipEntries = zipFile.entries();
 		while (zipEntries.hasMoreElements()) {
 			ZipEntry zipEntry = zipEntries.nextElement();
@@ -82,8 +99,9 @@ public class ZipBundleFile extends BundleFile {
 						entryPath = entryPath.substring(path.length());
 						int slash = entryPath.indexOf('/');
 						entryPath = path + entryPath.substring(0, slash + 1);
-						if (!entries.contains(entryPath))
+						if (!entries.contains(entryPath)) {
 							entries.add(entryPath);
+						}
 					}
 				}
 			}
@@ -91,6 +109,7 @@ public class ZipBundleFile extends BundleFile {
 		return entries;
 	}
 
+	@Override
 	public synchronized void close() throws IOException {
 		if (zipFile != null) {
 			zipFile.close();

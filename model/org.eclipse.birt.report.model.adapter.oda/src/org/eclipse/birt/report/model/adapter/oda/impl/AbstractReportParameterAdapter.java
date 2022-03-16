@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,29 +54,31 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Converts values between a report parameter and ODA Design Session Request.
- * 
+ *
  */
 
 abstract class AbstractReportParameterAdapter {
 
 	/**
 	 * Deprecated allowNull property.
-	 * 
+	 *
 	 * @deprecated
 	 */
 
+	@Deprecated
 	protected static final String ALLOW_NULL_PROP_NAME = IScalarParameterModel.ALLOW_NULL_PROP;
 
 	/**
 	 * Deprecated allowBlank property.
-	 * 
+	 *
 	 * @deprecated
 	 */
 
+	@Deprecated
 	protected static final String ALLOW_BLANK_PROP_NAME = IScalarParameterModel.ALLOW_BLANK_PROP;
 
 	/**
-	 * 
+	 *
 	 */
 
 	protected final IODADesignFactory designFactory;
@@ -88,7 +93,7 @@ abstract class AbstractReportParameterAdapter {
 
 	/**
 	 * Updates values in report parameter by given ROM data set parameter.
-	 * 
+	 *
 	 * @param reportParam        the report parameter
 	 * @param dataSetParam       the data set parameter
 	 * @param updateDefaultValue the flag which indicates if the default value need
@@ -100,8 +105,9 @@ abstract class AbstractReportParameterAdapter {
 			OdaDataSetParameterHandle dataSetParam, boolean updateDefaultValue) throws SemanticException {
 		assert reportParam != null;
 
-		if (dataSetParam == null)
+		if (dataSetParam == null) {
 			return;
+		}
 
 		// should not convert report parameter name here.
 
@@ -111,13 +117,14 @@ abstract class AbstractReportParameterAdapter {
 		if (StringUtil.isBlank(paramName)) {
 			dataSetParam.setParamName(reportParam.getName());
 		}
-		if (updateDefaultValue)
+		if (updateDefaultValue) {
 			setROMDefaultValue(reportParam, defaultValue);
+		}
 	}
 
 	/**
 	 * Sets the default value for ROM data set parameter.
-	 * 
+	 *
 	 * @param setParam     the ROM data set parameter
 	 * @param literalValue the value
 	 */
@@ -126,7 +133,7 @@ abstract class AbstractReportParameterAdapter {
 		List<Expression> newValues = null;
 		if (!AdapterUtil.isNullExpression(value)) {
 			assert value instanceof Expression;
-			newValues = new ArrayList<Expression>();
+			newValues = new ArrayList<>();
 			newValues.add(
 					new Expression(((Expression) value).getExpression(), ((Expression) value).getUserDefinedType()));
 		}
@@ -139,7 +146,7 @@ abstract class AbstractReportParameterAdapter {
 	 * parameter definition is null or values in cached parameter definition are not
 	 * equal to values in parameter defnition, update values in given report
 	 * parameter.
-	 * 
+	 *
 	 * @param reportParam     the report parameter
 	 * @param paramDefn       the ODA parameter definition
 	 * @param cachedParamDefn the cached ODA parameter definition in designerValues
@@ -151,8 +158,9 @@ abstract class AbstractReportParameterAdapter {
 
 	void updateLinkedReportParameter(AbstractScalarParameterHandle reportParam, ParameterDefinition paramDefn,
 			ParameterDefinition cachedParamDefn, OdaDataSetHandle setHandle) throws SemanticException {
-		if (paramDefn == null)
+		if (paramDefn == null) {
 			return;
+		}
 
 		CommandStack cmdStack = reportParam.getModuleHandle().getCommandStack();
 		try {
@@ -174,7 +182,7 @@ abstract class AbstractReportParameterAdapter {
 	 * parameter definition is null or values in cached parameter definition are not
 	 * equal to values in parameter defnition, update values in given report
 	 * parameter.
-	 * 
+	 *
 	 * @param reportParam     the report parameter
 	 * @param paramDefn       the ODA parameter definition
 	 * @param cachedParamDefn the cached ODA parameter definition in designerValues
@@ -195,7 +203,7 @@ abstract class AbstractReportParameterAdapter {
 	/**
 	 * Returns the matched ODA data set parameter by the given ROM data set
 	 * parameter and data set design.
-	 * 
+	 *
 	 * @param param         the ROM data set parameter
 	 * @param odaParams
 	 * @param dataSetDesign the oda data set design
@@ -204,11 +212,9 @@ abstract class AbstractReportParameterAdapter {
 
 	protected static ParameterDefinition getValidParameterDefinition(OdaDataSetParameterHandle param,
 			DataSetParameters odaParams) {
-		if (param == null || odaParams == null)
+		if (param == null || odaParams == null || odaParams.getParameterDefinitions().isEmpty()) {
 			return null;
-
-		if (odaParams.getParameterDefinitions().isEmpty())
-			return null;
+		}
 
 		ParameterDefinition matchedParam = DataSetParameterAdapter.findParameterDefinition(odaParams,
 				param.getNativeName(), param.getPosition());
@@ -217,7 +223,7 @@ abstract class AbstractReportParameterAdapter {
 
 	/**
 	 * Updates values in DataElementAttributes to the given report parameter.
-	 * 
+	 *
 	 * @param dataAttrs       the latest data element attributes
 	 * @param cachedDataAttrs the cached data element attributes
 	 * @param reportParam     the report parameter
@@ -227,12 +233,14 @@ abstract class AbstractReportParameterAdapter {
 	private void updateDataElementAttrsToReportParam(DataElementAttributes dataAttrs,
 			DataElementAttributes cachedDataAttrs, AbstractScalarParameterHandle reportParam) throws SemanticException {
 
-		if (dataAttrs == null)
+		if (dataAttrs == null) {
 			return;
+		}
 
 		boolean allowsNull = dataAttrs.allowsNull();
-		if (cachedDataAttrs == null || cachedDataAttrs.allowsNull() != allowsNull)
+		if (cachedDataAttrs == null || cachedDataAttrs.allowsNull() != allowsNull) {
 			setReportParamIsRequired(reportParam, ALLOW_NULL_PROP_NAME, dataAttrs.allowsNull());
+		}
 
 		// reportParam.setAllowNull( dataAttrs.allowsNull( ) );
 
@@ -273,7 +281,7 @@ abstract class AbstractReportParameterAdapter {
 
 	/**
 	 * Updates values in InputParameterAttributes to the given report parameter.
-	 * 
+	 *
 	 * @param dataAttrs       the latest input parameter attributes
 	 * @param cachedDataAttrs the cached input parameter attributes
 	 * @param reportParam     the report parameter
@@ -285,8 +293,9 @@ abstract class AbstractReportParameterAdapter {
 	private void updateInputParameterAttrsToReportParam(InputParameterAttributes inputParamAttrs,
 			InputParameterAttributes cachedInputParamAttrs, AbstractScalarParameterHandle reportParam,
 			OdaDataSetHandle setHandle) throws SemanticException {
-		if (inputParamAttrs == null)
+		if (inputParamAttrs == null) {
 			return;
+		}
 
 		InputParameterUIHints paramUiHints = inputParamAttrs.getUiHints();
 		if (paramUiHints != null && reportParam.getContainer() instanceof ParameterGroupHandle) {
@@ -314,7 +323,7 @@ abstract class AbstractReportParameterAdapter {
 
 	/**
 	 * Updates values in InputElementAttributes to the given report parameter.
-	 * 
+	 *
 	 * @param elementAttrs       the latest input element attributes
 	 * @param cachedElementAttrs the cached input element attributes
 	 * @param reportParam        the report parameter
@@ -326,18 +335,20 @@ abstract class AbstractReportParameterAdapter {
 	protected void updateInputElementAttrsToReportParam(InputElementAttributes elementAttrs,
 			InputElementAttributes cachedElementAttrs, AbstractScalarParameterHandle reportParam,
 			OdaDataSetHandle setHandle) throws SemanticException {
-		if (elementAttrs == null)
+		if (elementAttrs == null) {
 			return;
+		}
 
 		// update default values.
 
 		updateDefaultValueToReportParam(elementAttrs, cachedElementAttrs, reportParam);
 
 		// update isOptional value
-		Boolean isOptional = Boolean.valueOf(elementAttrs.isOptional());
-		Boolean cachedIsOptional = cachedElementAttrs == null ? null : Boolean.valueOf(cachedElementAttrs.isOptional());
-		if (!CompareUtil.isEquals(cachedIsOptional, isOptional))
+		Boolean isOptional = elementAttrs.isOptional();
+		Boolean cachedIsOptional = cachedElementAttrs == null ? null : cachedElementAttrs.isOptional();
+		if (!CompareUtil.isEquals(cachedIsOptional, isOptional)) {
 			setReportParamIsRequired(reportParam, ALLOW_BLANK_PROP_NAME, isOptional.booleanValue());
+		}
 
 		// update selection choices
 		updateROMSelectionList(elementAttrs.getStaticValueChoices(),
@@ -358,15 +369,16 @@ abstract class AbstractReportParameterAdapter {
 
 		boolean isEnabled = (valueQuery == null) ? false : valueQuery.isEnabled();
 
-		if (reportParam.getContainer() != null && reportParam.getContainer() instanceof CascadingParameterGroupHandle)
+		if (reportParam.getContainer() != null && reportParam.getContainer() instanceof CascadingParameterGroupHandle) {
 			isEnabled = true;
+		}
 
 		if (cachedValueQuery == null || cachedValueQuery.isEnabled() != isEnabled) {
-			if (isEnabled)
+			if (isEnabled) {
 				reportParam.setValueType(DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC);
-			else {
+			} else {
 				DataSetHandle dataSet = reportParam.getDataSet();
-				if (dataSet != null && dataSet instanceof OdaDataSetHandle) {
+				if (dataSet instanceof OdaDataSetHandle) {
 					reportParam.setValueType(DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC);
 				}
 			}
@@ -389,14 +401,14 @@ abstract class AbstractReportParameterAdapter {
 		StaticValues defaultValues = elementAttrs.getDefaultValues();
 		StaticValues cachedDefaultValues = cachedElementAttrs == null ? null : cachedElementAttrs.getDefaultValues();
 
-		if (new EcoreUtil.EqualityHelper().equals(cachedDefaultValues, defaultValues) == false) {
+		if (!new EcoreUtil.EqualityHelper().equals(cachedDefaultValues, defaultValues)) {
 			AdapterUtil.updateROMDefaultValues(defaultValues, reportParam);
 		}
 	}
 
 	/**
 	 * Updates values in ScalarValueChoices to the given report parameter.
-	 * 
+	 *
 	 * @param dataAttrs       the latest scalar values
 	 * @param cachedDataAttrs the cached scalar value
 	 * @param reportParam     the report parameter
@@ -405,21 +417,23 @@ abstract class AbstractReportParameterAdapter {
 
 	private void updateROMSelectionList(ScalarValueChoices staticChoices, ScalarValueChoices cachedStaticChoices,
 			AbstractScalarParameterHandle paramHandle) throws SemanticException {
-		if (staticChoices == null)
+		if (staticChoices == null) {
 			return;
+		}
 
 		String newChoiceStr = DesignObjectSerializer.toExternalForm(staticChoices);
 		String latestChoiceStr = DesignObjectSerializer.toExternalForm(cachedStaticChoices);
 
-		if (latestChoiceStr != null && latestChoiceStr.equals(newChoiceStr))
+		if (latestChoiceStr != null && latestChoiceStr.equals(newChoiceStr)) {
 			return;
+		}
 
 		AdapterUtil.updateROMSelectionList(staticChoices, cachedStaticChoices, paramHandle);
 	}
 
 	/**
 	 * Creates an ParameterDefinition with the given report parameter.
-	 * 
+	 *
 	 * @param paramDefn     the ROM report parameter.
 	 * @param paramHandle   the report parameter
 	 * @param dataSetDesign the data set design
@@ -430,8 +444,9 @@ abstract class AbstractReportParameterAdapter {
 			AbstractScalarParameterHandle paramHandle, DataSetDesign dataSetDesign) {
 
 		assert paramHandle != null;
-		if (paramDefn == null)
+		if (paramDefn == null) {
 			return null;
+		}
 
 		paramDefn.setAttributes(updateDataElementAttrs(paramDefn.getAttributes(), paramHandle));
 
@@ -442,7 +457,7 @@ abstract class AbstractReportParameterAdapter {
 
 	/**
 	 * Creates an DataElementAttributes with the given ROM report parameter.
-	 * 
+	 *
 	 * @param paramHandle the ROM report parameter.
 	 * @return the created DataElementAttributes
 	 */
@@ -451,8 +466,9 @@ abstract class AbstractReportParameterAdapter {
 			AbstractScalarParameterHandle paramHandle) {
 		DataElementAttributes retDataAttrs = dataAttrs;
 
-		if (retDataAttrs == null)
+		if (retDataAttrs == null) {
 			retDataAttrs = designFactory.createDataElementAttributes();
+		}
 
 		// retDataAttrs.setNullability( DataSetParameterAdapter
 		// .newElementNullability( paramHandle.allowNll( ) ) );
@@ -486,12 +502,12 @@ abstract class AbstractReportParameterAdapter {
 
 	/**
 	 * Creates a ODA InputParameterAttributes with the given ROM report parameter.
-	 * 
+	 *
 	 * @param inputParamAttrs
-	 * 
+	 *
 	 * @param paramHandle     the ROM report parameter.
 	 * @param dataSetDesign
-	 * 
+	 *
 	 * @return the created <code>InputParameterAttributes</code>.
 	 */
 
@@ -499,12 +515,14 @@ abstract class AbstractReportParameterAdapter {
 			AbstractScalarParameterHandle paramHandle, DataSetDesign dataSetDesign) {
 		InputParameterAttributes retInputParamAttrs = inputParamAttrs;
 
-		if (inputParamAttrs == null)
+		if (inputParamAttrs == null) {
 			retInputParamAttrs = designFactory.createInputParameterAttributes();
+		}
 
 		InputElementAttributes inputAttrs = retInputParamAttrs.getElementAttributes();
-		if (inputAttrs == null)
+		if (inputAttrs == null) {
 			inputAttrs = designFactory.createInputElementAttributes();
+		}
 
 		// update default values.
 
@@ -516,8 +534,9 @@ abstract class AbstractReportParameterAdapter {
 		ScalarValueChoices staticChoices = null;
 		Iterator selectionList = paramHandle.choiceIterator();
 		while (selectionList.hasNext()) {
-			if (staticChoices == null)
+			if (staticChoices == null) {
 				staticChoices = designFactory.createScalarValueChoices();
+			}
 			SelectionChoiceHandle choice = (SelectionChoiceHandle) selectionList.next();
 
 			ScalarValueDefinition valueDefn = designFactory.createScalarValueDefinition();
@@ -572,8 +591,9 @@ abstract class AbstractReportParameterAdapter {
 
 			if (dataSetDesign != null) {
 				DataSetDesign targetDataSetDesign = (DataSetDesign) EcoreUtil.copy(dataSetDesign);
-				if (!setHandle.getName().equals(dataSetDesign.getName()))
+				if (!setHandle.getName().equals(dataSetDesign.getName())) {
 					targetDataSetDesign = new ModelOdaAdapter().createDataSetDesign((OdaDataSetHandle) setHandle);
+				}
 				valueQuery.setDataSetDesign(targetDataSetDesign);
 			} else {
 				DataSetDesign targetDataSetDesign = new ModelOdaAdapter()
@@ -602,8 +622,9 @@ abstract class AbstractReportParameterAdapter {
 		List<Expression> tmpValues = paramHandle.getDefaultValueList();
 		if (tmpValues != null) {
 			for (int i = 0; i < tmpValues.size(); i++) {
-				if (newValues == null)
+				if (newValues == null) {
 					newValues = designFactory.createStaticValues();
+				}
 
 				Expression tmpExpr = tmpValues.get(i);
 				String odaValue = null;
@@ -627,7 +648,7 @@ abstract class AbstractReportParameterAdapter {
 	 * <p>
 	 * "allowMumble" properties has been removed ROM. However, to do conversion,
 	 * still need to know their values.
-	 * 
+	 *
 	 * @param param    the parameter
 	 * @param propName either "allowNull" or "allowBlank".
 	 * @return <code>true</code> if the parameter allows the value. Otherwise
@@ -635,8 +656,9 @@ abstract class AbstractReportParameterAdapter {
 	 */
 
 	protected boolean getReportParamAllowMumble(AbstractScalarParameterHandle param, String propName) {
-		if (ALLOW_NULL_PROP_NAME.equalsIgnoreCase(propName) || ALLOW_BLANK_PROP_NAME.equalsIgnoreCase(propName))
+		if (ALLOW_NULL_PROP_NAME.equalsIgnoreCase(propName) || ALLOW_BLANK_PROP_NAME.equalsIgnoreCase(propName)) {
 			return !param.isRequired();
+		}
 
 		assert false;
 		return false;
@@ -649,7 +671,7 @@ abstract class AbstractReportParameterAdapter {
 	 * <p>
 	 * "allowMumble" properties has been removed ROM. However, to do conversion,
 	 * still need to know their values.
-	 * 
+	 *
 	 * @param param            the parameter
 	 * @param obsoletePropName either "allowNull" or "allowBlank".
 	 * @param value
@@ -659,9 +681,10 @@ abstract class AbstractReportParameterAdapter {
 	protected void setReportParamIsRequired(AbstractScalarParameterHandle param, String obsoletePropName, boolean value)
 			throws SemanticException {
 		if (ALLOW_NULL_PROP_NAME.equalsIgnoreCase(obsoletePropName)
-				|| ALLOW_BLANK_PROP_NAME.equalsIgnoreCase(obsoletePropName))
+				|| ALLOW_BLANK_PROP_NAME.equalsIgnoreCase(obsoletePropName)) {
 			param.setIsRequired(!value);
-		else
+		} else {
 			assert false;
+		}
 	}
 }

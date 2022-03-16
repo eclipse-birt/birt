@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
@@ -52,10 +64,12 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 
 	class HighlightLabelProvider extends LabelProvider implements ITableLabelProvider {
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			return HighlightDescriptorProvider.this.getColumnText(element, 1);
 		}
@@ -70,6 +84,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 			this.listener = listener;
 		}
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			Object[] elements = HighlightDescriptorProvider.this.getElements(inputElement);
 
@@ -78,27 +93,32 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 			return elements;
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
+		@Override
 		public void dispose() {
 			deRegisterEventManager();
 		}
 
 		protected void deRegisterEventManager() {
-			if (UIUtil.getModelEventManager() != null)
+			if (UIUtil.getModelEventManager() != null) {
 				UIUtil.getModelEventManager().removeModelEventProcessor(listener);
+			}
 		}
 
 		/**
 		 * Registers model change listener to DE elements.
 		 */
 		protected void registerEventManager() {
-			if (UIUtil.getModelEventManager() != null)
+			if (UIUtil.getModelEventManager() != null) {
 				UIUtil.getModelEventManager().addModelEventProcessor(listener);
+			}
 		}
 	}
 
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		HighlightRuleHandle handle = (HighlightRuleHandle) element;
 
@@ -147,6 +167,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		return src;
 	}
 
+	@Override
 	public boolean doSwapItem(int pos, int direction) throws PropertyValueException {
 		PropertyHandle phandle = getDesignElementHandle().getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP);
 
@@ -155,7 +176,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		} else {
 			/**
 			 * Original code: phandle.moveItem( pos, pos + 1 );
-			 * 
+			 *
 			 * Changes due to model api changes. since property handle now treats moving
 			 * from 0-0, 0-1 as the same.
 			 */
@@ -165,16 +186,19 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		return true;
 	}
 
+	@Override
 	public IStructuredContentProvider getContentProvider(IModelEventProcessor listener) {
 		return new HighlightContentProvider(listener);
 	}
 
+	@Override
 	public LabelProvider getLabelProvider() {
 		return new HighlightLabelProvider();
 	}
 
-	private static final HighlightRuleHandle[] EMPTY = new HighlightRuleHandle[0];
+	private static final HighlightRuleHandle[] EMPTY = {};
 
+	@Override
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof List) {
 			if (((List) inputElement).size() > 0) {
@@ -215,21 +239,24 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 
 	/**
 	 * Returns the style handle for current design element.
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public StyleHandle getStyleHandle() {
 		return getDesignElementHandle().getStyle();
 	}
 
+	@Override
 	public boolean doDeleteItem(int pos) throws PropertyValueException {
 		PropertyHandle phandle = getDesignElementHandle().getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP);
 
 		phandle.removeItem(pos);
 
 		try {
-			if (phandle.getListValue() == null || phandle.getListValue().size() == 0)
+			if (phandle.getListValue() == null || phandle.getListValue().size() == 0) {
 				getDesignElementHandle().setProperty(StyleHandle.HIGHLIGHT_RULES_PROP, null);
+			}
 		} catch (SemanticException e) {
 			ExceptionHandler.handle(e);
 		}
@@ -237,6 +264,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		return true;
 	}
 
+	@Override
 	public HighlightRuleHandle doAddItem(HighlightRule rule, int pos) {
 		PropertyHandle phandle = getDesignElementHandle().getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP);
 
@@ -251,6 +279,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		return (HighlightRuleHandle) handle;
 	}
 
+	@Override
 	public boolean edit(Object input, int handleCount) {
 		boolean result = false;
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
@@ -279,8 +308,9 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 				} else {
 					reportElement = designElement;
 				}
-				if (reportElement == null)
+				if (reportElement == null) {
 					break;
+				}
 			}
 
 			if (reportElement instanceof ReportItemHandle) {
@@ -302,9 +332,10 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		return result;
 	}
 
+	@Override
 	public boolean add(int handleCount) {
 		boolean result = false;
-		;
+
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
 
 		try {
@@ -345,8 +376,9 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 			} else {
 				reportElement = designElement;
 			}
-			if (reportElement == null)
+			if (reportElement == null) {
 				break;
+			}
 		}
 		if (reportElement instanceof ReportItemHandle) {
 			builder.setReportElement((ReportItemHandle) reportElement);
@@ -356,6 +388,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		return builder;
 	}
 
+	@Override
 	public boolean delete(int index) {
 		boolean result = false;
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
@@ -377,6 +410,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		return result;
 	}
 
+	@Override
 	public boolean moveUp(int index) {
 		boolean result = false;
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
@@ -398,6 +432,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		return result;
 	}
 
+	@Override
 	public boolean moveDown(int index) {
 
 		boolean result = false;
@@ -421,20 +456,24 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 
 	protected Object input;
 
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 	}
 
+	@Override
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
 		return Messages.getString("HighlightsPage.Label.Highlights"); //$NON-NLS-1$
 	}
 
+	@Override
 	public Object load() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		// TODO Auto-generated method stub
 
@@ -496,6 +535,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		return ColorManager.getColor(((HighlightRuleHandle) object).getBackgroundColor().getRGB());
 	}
 
+	@Override
 	public String getText(int key) {
 		switch (key) {
 		case 0:
@@ -528,6 +568,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 
 	private boolean canReset = false;
 
+	@Override
 	public boolean canReset() {
 		return canReset;
 	}
@@ -536,14 +577,17 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		this.canReset = canReset;
 	}
 
+	@Override
 	public void reset() throws SemanticException {
-		if (canReset())
+		if (canReset()) {
 			save(null);
+		}
 	}
 
+	@Override
 	public boolean duplicate(int pos) {
 		boolean result = false;
-		;
+
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
 
 		try {

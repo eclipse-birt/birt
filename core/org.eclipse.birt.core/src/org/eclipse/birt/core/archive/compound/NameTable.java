@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ class NameTable implements ArchiveConstants {
 	private NameTable(ArchiveFileV2 af) throws IOException {
 		this.af = af;
 		BLOCK_SIZE = af.BLOCK_SIZE;
-		slots = new ArrayList<NameEntry>();
+		slots = new ArrayList<>();
 		index = af.allocTbl.loadEntry(ENTRY_TABLE_BLOCK);
 	}
 
@@ -95,7 +98,7 @@ class NameTable implements ArchiveConstants {
 
 	/**
 	 * create a stream item
-	 * 
+	 *
 	 * @param name stream name
 	 * @return the stream item created
 	 * @throws IOException
@@ -113,7 +116,7 @@ class NameTable implements ArchiveConstants {
 	}
 
 	synchronized Collection<NameEntry> listEntries() {
-		ArrayList<NameEntry> entries = new ArrayList<NameEntry>();
+		ArrayList<NameEntry> entries = new ArrayList<>();
 		for (NameEntry entry : slots) {
 			if (entry != null) {
 				if (entry.getUsedSlots() != 0) {

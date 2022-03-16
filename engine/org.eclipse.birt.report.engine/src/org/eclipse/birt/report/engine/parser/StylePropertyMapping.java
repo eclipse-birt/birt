@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Style is used to store the style properties.
- * 
+ *
  */
 public class StylePropertyMapping {
 
@@ -113,9 +113,9 @@ public class StylePropertyMapping {
 
 	/**
 	 * get the style element definition.
-	 * 
+	 *
 	 * @return style definition.
-	 * 
+	 *
 	 */
 	protected static IElementDefn getStyleDefn() {
 		if (styleDefn != null) {
@@ -128,7 +128,7 @@ public class StylePropertyMapping {
 
 	/**
 	 * if the property is inheritable.
-	 * 
+	 *
 	 * @param name property name
 	 * @return true: can inherit, false: can't inherit.
 	 */
@@ -158,8 +158,9 @@ public class StylePropertyMapping {
 		Object value = getDefaultValue(name);
 
 		if (value == null && handle != null && handle.isDirectionRTL()) {
-			if (IStyleModel.TEXT_DIRECTION_PROP.equals(name))
+			if (IStyleModel.TEXT_DIRECTION_PROP.equals(name)) {
 				return DesignChoiceConstants.BIDI_DIRECTION_RTL;
+			}
 		}
 		return value;
 	}

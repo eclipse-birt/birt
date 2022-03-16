@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Inetsoft Technology Corp.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Inetsoft Technology Corp  - initial API and implementation
@@ -23,7 +26,7 @@ import org.eclipse.birt.report.engine.odf.style.StyleManager;
 
 public class EmitterContext extends AbstractOdfEmitterContext {
 
-	private LinkedList<Double> widthList = new LinkedList<Double>();
+	private LinkedList<Double> widthList = new LinkedList<>();
 
 	private boolean isFirst = true;
 	private boolean inMasterPage = false;
@@ -85,7 +88,7 @@ public class EmitterContext extends AbstractOdfEmitterContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.odf.AbstractEmitterContext#getStyleManager()
 	 */
@@ -102,7 +105,7 @@ public class EmitterContext extends AbstractOdfEmitterContext {
 
 	/**
 	 * Returns a style instance for the given row height
-	 * 
+	 *
 	 * @param rowHeight
 	 * @return style instance
 	 */

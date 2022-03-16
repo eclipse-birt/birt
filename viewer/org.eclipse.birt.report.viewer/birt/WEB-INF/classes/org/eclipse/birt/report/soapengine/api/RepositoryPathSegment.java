@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * RepositoryPathSegment.java
  *
@@ -24,7 +36,7 @@ public class RepositoryPathSegment implements java.io.Serializable {
 
 	/**
 	 * Gets the index value for this RepositoryPathSegment.
-	 * 
+	 *
 	 * @return index
 	 */
 	public int getIndex() {
@@ -33,7 +45,7 @@ public class RepositoryPathSegment implements java.io.Serializable {
 
 	/**
 	 * Sets the index value for this RepositoryPathSegment.
-	 * 
+	 *
 	 * @param index
 	 */
 	public void setIndex(int index) {
@@ -42,7 +54,7 @@ public class RepositoryPathSegment implements java.io.Serializable {
 
 	/**
 	 * Gets the name value for this RepositoryPathSegment.
-	 * 
+	 *
 	 * @return name
 	 */
 	public java.lang.String getName() {
@@ -51,7 +63,7 @@ public class RepositoryPathSegment implements java.io.Serializable {
 
 	/**
 	 * Sets the name value for this RepositoryPathSegment.
-	 * 
+	 *
 	 * @param name
 	 */
 	public void setName(java.lang.String name) {
@@ -60,7 +72,7 @@ public class RepositoryPathSegment implements java.io.Serializable {
 
 	/**
 	 * Gets the RPath value for this RepositoryPathSegment.
-	 * 
+	 *
 	 * @return RPath
 	 */
 	public java.lang.String getRPath() {
@@ -69,7 +81,7 @@ public class RepositoryPathSegment implements java.io.Serializable {
 
 	/**
 	 * Sets the RPath value for this RepositoryPathSegment.
-	 * 
+	 *
 	 * @param RPath
 	 */
 	public void setRPath(java.lang.String RPath) {
@@ -78,14 +90,18 @@ public class RepositoryPathSegment implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof RepositoryPathSegment))
+		if (!(obj instanceof RepositoryPathSegment)) {
 			return false;
+		}
 		RepositoryPathSegment other = (RepositoryPathSegment) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -102,6 +118,7 @@ public class RepositoryPathSegment implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

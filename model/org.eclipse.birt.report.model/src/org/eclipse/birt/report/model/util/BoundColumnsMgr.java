@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -73,7 +76,7 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for report item.
-	 * 
+	 *
 	 * @param element the report item
 	 * @param module  the root of the report item
 	 */
@@ -82,16 +85,19 @@ public abstract class BoundColumnsMgr {
 		dealStyle(element, module);
 
 		TOC toc = (TOC) element.getLocalProperty(module, IReportItemModel.TOC_PROP);
-		if (toc != null)
+		if (toc != null) {
 			handleBoundsForValue(element, module, toc.getExpression());
+		}
 
 		String value = getLocalStringProperty(module, element, IReportItemModel.BOOKMARK_PROP);
-		if (value != null)
+		if (value != null) {
 			handleBoundsForValue(element, module, value);
+		}
 
 		value = (String) element.getLocalProperty(module, IReportItemModel.ON_CREATE_METHOD);
-		if (value != null)
+		if (value != null) {
 			handleBoundsForValue(element, module, value);
+		}
 
 		List paramBindings = (List) element.getLocalProperty(module, IReportItemModel.PARAM_BINDINGS_PROP);
 		if (paramBindings != null && paramBindings.size() > 0) {
@@ -112,22 +118,23 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for the given element.
-	 * 
+	 *
 	 * @param element the report item
 	 * @param module  the root of the report item
 	 */
 
 	protected void dealDataContainerReportItem(ListingElement element, Module module) {
-		if (element instanceof TableItem)
+		if (element instanceof TableItem) {
 			dealTable((TableItem) element, module);
-		else if (element instanceof ListItem)
+		} else if (element instanceof ListItem) {
 			dealList((ListItem) element, module);
+		}
 
 	}
 
 	/**
 	 * Creates bound columns for the given element.
-	 * 
+	 *
 	 * @param element the report item
 	 * @param module  the root of the report item
 	 */
@@ -155,7 +162,7 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for extended item.
-	 * 
+	 *
 	 * @param element the extended item
 	 * @param module  the root of the report item
 	 */
@@ -177,10 +184,11 @@ public abstract class BoundColumnsMgr {
 
 		Object reportItem = element.getExtendedElement();
 
-		if (reportItem != null && reportItem instanceof ICompatibleReportItem) {
+		if (reportItem instanceof ICompatibleReportItem) {
 			List<String> jsExprs = ((ICompatibleReportItem) reportItem).getRowExpressions();
-			for (int i = 0; i < jsExprs.size(); i++)
+			for (int i = 0; i < jsExprs.size(); i++) {
 				handleBoundsForValue(element, module, jsExprs.get(i));
+			}
 
 			Map<String, String> updatedExprs = BoundDataColumnUtil.handleJavaExpression(jsExprs, element, module, null);
 			((ICompatibleReportItem) reportItem).updateRowExpressions(updatedExprs);
@@ -189,19 +197,21 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for list/table group.
-	 * 
+	 *
 	 * @param element the list/table group
 	 * @param module  the root of the report item
 	 */
 
 	private void dealListingGroup(GroupElement element, Module module) {
 		String value = getLocalStringProperty(module, element, IGroupElementModel.KEY_EXPR_PROP);
-		if (value != null)
+		if (value != null) {
 			handleBoundsForValue(element, module, value);
+		}
 
 		TOC toc = (TOC) element.getLocalProperty(module, IGroupElementModel.TOC_PROP);
-		if (toc != null)
+		if (toc != null) {
 			handleBoundsForValue(element, module, toc.getExpression());
+		}
 
 		List values = (List) element.getLocalProperty(module, IGroupElementModel.FILTER_PROP);
 		if (!(values == null || values.size() < 1)) {
@@ -224,7 +234,7 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for list/table.
-	 * 
+	 *
 	 * @param element the list/table
 	 * @param module  the root of the report item
 	 */
@@ -252,7 +262,7 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for grid.
-	 * 
+	 *
 	 * @param element the grid
 	 * @param module  the root of grid
 	 */
@@ -269,10 +279,11 @@ public abstract class BoundColumnsMgr {
 				dealRow((TableRow) child, module);
 			}
 			if (child instanceof ReportItem) {
-				if (child instanceof ListingElement)
+				if (child instanceof ListingElement) {
 					dealListing((ListingElement) child, module);
-				else
+				} else {
 					dealNonDataContainerReportItem((ReportItem) child, module);
+				}
 			}
 			if (child instanceof Cell) {
 				dealCell((Cell) child, module);
@@ -282,7 +293,7 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for the list.
-	 * 
+	 *
 	 * @param element the list
 	 * @param module  the root of list
 	 */
@@ -297,24 +308,26 @@ public abstract class BoundColumnsMgr {
 				LevelContentIterator grandChildren = new LevelContentIterator(module, child, 1);
 				while (grandChildren.hasNext()) {
 					DesignElement grandChild = grandChildren.next();
-					if (grandChild instanceof ListingElement)
+					if (grandChild instanceof ListingElement) {
 						dealListing((ListingElement) grandChild, module);
-					else
+					} else {
 						dealNonDataContainerReportItem((ReportItem) grandChild, module);
+					}
 				}
 			}
 			if (child instanceof ReportItem) {
-				if (child instanceof ListingElement)
+				if (child instanceof ListingElement) {
 					dealListing((ListingElement) child, module);
-				else
+				} else {
 					dealNonDataContainerReportItem((ReportItem) child, module);
+				}
 			}
 		}
 	}
 
 	/**
 	 * Creates bound columns for the table.
-	 * 
+	 *
 	 * @param element the table
 	 * @param module  the root of table
 	 */
@@ -324,8 +337,9 @@ public abstract class BoundColumnsMgr {
 		for (int i = 0; i < element.getDefn().getSlotCount(); i++) {
 			int level = 3;
 
-			if (i == IListingElementModel.GROUP_SLOT)
+			if (i == IListingElementModel.GROUP_SLOT) {
 				level = 1;
+			}
 
 			LevelContentIterator contents = new LevelContentIterator(module, element, level);
 			while (contents.hasNext()) {
@@ -342,10 +356,11 @@ public abstract class BoundColumnsMgr {
 							dealCell((Cell) grandChild, module);
 						}
 						if (grandChild instanceof ReportItem) {
-							if (grandChild instanceof ListingElement)
+							if (grandChild instanceof ListingElement) {
 								dealListing((ListingElement) grandChild, module);
-							else
+							} else {
 								dealNonDataContainerReportItem((ReportItem) grandChild, module);
+							}
 						}
 					}
 				}
@@ -356,10 +371,11 @@ public abstract class BoundColumnsMgr {
 					dealRow((TableRow) child, module);
 				}
 				if (child instanceof ReportItem) {
-					if (child instanceof ListingElement)
+					if (child instanceof ListingElement) {
 						dealListing((ListingElement) child, module);
-					else
+					} else {
 						dealNonDataContainerReportItem((ReportItem) child, module);
+					}
 				}
 				if (child instanceof Cell) {
 					dealCell((Cell) child, module);
@@ -370,23 +386,26 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for the row.
-	 * 
+	 *
 	 * @param element the row
 	 * @param module  the root of row
 	 */
 
 	private void dealRow(TableRow element, Module module) {
 		String value = getLocalStringProperty(module, element, ITableRowModel.BOOKMARK_PROP);
-		if (value != null)
+		if (value != null) {
 			handleBoundsForValue(element, module, value);
+		}
 
 		value = (String) element.getLocalProperty(module, ITableRowModel.ON_CREATE_METHOD);
-		if (value != null)
+		if (value != null) {
 			handleBoundsForValue(element, module, value);
+		}
 
 		List hideRules = (List) element.getLocalProperty(module, ITableRowModel.VISIBILITY_PROP);
-		if (hideRules == null || hideRules.size() < 1)
+		if (hideRules == null || hideRules.size() < 1) {
 			return;
+		}
 
 		for (int i = 0; i < hideRules.size(); i++) {
 			HideRule paramValue = (HideRule) hideRules.get(i);
@@ -396,20 +415,21 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for the row.
-	 * 
+	 *
 	 * @param element the row
 	 * @param module  the root of row
 	 */
 
 	private void dealCell(Cell element, Module module) {
 		String value = (String) element.getLocalProperty(module, ICellModel.ON_CREATE_METHOD);
-		if (value != null)
+		if (value != null) {
 			handleBoundsForValue(element, module, value);
+		}
 	}
 
 	/**
 	 * Creates bound columns for the image.
-	 * 
+	 *
 	 * @param element the image
 	 * @param module  the root of image
 	 */
@@ -420,14 +440,17 @@ public abstract class BoundColumnsMgr {
 
 		String value = getLocalStringProperty(module, element, IImageItemModel.URI_PROP);
 
-		if (value != null)
+		if (value != null) {
 			handleBoundsForValue(element, module, value);
+		}
 		value = getLocalStringProperty(module, element, IImageItemModel.VALUE_EXPR_PROP);
-		if (value != null)
+		if (value != null) {
 			handleBoundsForValue(element, module, value);
+		}
 		value = getLocalStringProperty(module, element, IImageItemModel.TYPE_EXPR_PROP);
-		if (value != null)
+		if (value != null) {
 			handleBoundsForValue(element, module, value);
+		}
 
 		List actions = (List) element.getLocalProperty(module, IImageItemModel.ACTION_PROP);
 		dealAction(element, module, actions);
@@ -435,7 +458,7 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for the label.
-	 * 
+	 *
 	 * @param element the label
 	 * @param module  the root of label
 	 */
@@ -448,7 +471,7 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for the data item.
-	 * 
+	 *
 	 * @param element the data item
 	 * @param module  the root of the data item
 	 */
@@ -461,24 +484,27 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for the action.
-	 * 
+	 *
 	 * @param element the data item
 	 * @param module  the root of the data item
 	 * @param action  the action object
 	 */
 
 	private void dealAction(ReportItem element, Module module, List actions) {
-		if (actions == null || actions.isEmpty())
+		if (actions == null || actions.isEmpty()) {
 			return;
+		}
 
 		for (int i = 0; i < actions.size(); i++) {
 			Action action = (Action) actions.get(i);
 			String value = action.getStringProperty(module, Action.URI_MEMBER);
-			if (value != null)
+			if (value != null) {
 				handleBoundsForValue(element, module, value);
+			}
 			value = action.getStringProperty(module, Action.TARGET_BOOKMARK_MEMBER);
-			if (value != null)
+			if (value != null) {
 				handleBoundsForValue(element, module, value);
+			}
 
 			List paramBindings = (List) action.getLocalProperty(module, Action.PARAM_BINDINGS_MEMBER);
 			if (paramBindings != null && paramBindings.size() > 0) {
@@ -490,8 +516,9 @@ public abstract class BoundColumnsMgr {
 			}
 
 			List searchKeys = (List) action.getLocalProperty(module, Action.SEARCH_MEMBER);
-			if (searchKeys == null || searchKeys.size() < 1)
+			if (searchKeys == null || searchKeys.size() < 1) {
 				return;
+			}
 
 			for (int j = 0; j < searchKeys.size(); j++) {
 				SearchKey searchKey = (SearchKey) searchKeys.get(j);
@@ -502,34 +529,36 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for the private style.
-	 * 
+	 *
 	 * @param element the element
 	 * @param module  the root of the element
 	 */
 
 	private void dealStyle(ReportItem element, Module module) {
 		List values = (List) element.getLocalProperty(module, IStyleModel.MAP_RULES_PROP);
-		if (values != null)
+		if (values != null) {
 			for (int i = 0; i < values.size(); i++) {
 				MapRule struct = (MapRule) values.get(i);
 				handleBoundsForValue(element, module, struct.getTestExpression());
 				handleBoundsForValue(element, module, struct.getValue1());
 				handleBoundsForValue(element, module, struct.getValue2());
 			}
+		}
 
 		values = (List) element.getLocalProperty(module, IStyleModel.HIGHLIGHT_RULES_PROP);
-		if (values != null)
+		if (values != null) {
 			for (int i = 0; i < values.size(); i++) {
 				HighlightRule struct = (HighlightRule) values.get(i);
 				handleBoundsForValue(element, module, struct.getTestExpression());
 				handleBoundsForValue(element, module, struct.getValue1());
 				handleBoundsForValue(element, module, struct.getValue2());
 			}
+		}
 	}
 
 	/**
 	 * Creates bound columns for the text data.
-	 * 
+	 *
 	 * @param element the text data
 	 * @param module  the root of the text data
 	 */
@@ -537,13 +566,14 @@ public abstract class BoundColumnsMgr {
 	protected void dealTextData(TextDataItem element, Module module) {
 		dealReportItem(element, module);
 		String value = getLocalStringProperty(module, element, ITextDataItemModel.VALUE_EXPR_PROP);
-		if (value != null)
+		if (value != null) {
 			handleBoundsForValue(element, module, value);
+		}
 	}
 
 	/**
 	 * Creates bound columns for the text.
-	 * 
+	 *
 	 * @param element the text
 	 * @param module  the root of the text
 	 */
@@ -552,8 +582,9 @@ public abstract class BoundColumnsMgr {
 		dealReportItem(element, module);
 
 		String content = getLocalStringProperty(module, element, ITextItemModel.CONTENT_PROP);
-		if (StringUtil.isBlank(content))
+		if (StringUtil.isBlank(content)) {
 			return;
+		}
 
 		List jsExprs = BoundDataColumnUtil.getExpressions(content, element, module);
 		BoundDataColumnUtil.handleJavaExpression(jsExprs, element, module, null);
@@ -561,7 +592,7 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for the scalar parameter.
-	 * 
+	 *
 	 * @param element the scalar parameter
 	 * @param module  the root of the scalar parameter
 	 */
@@ -571,31 +602,36 @@ public abstract class BoundColumnsMgr {
 				IAbstractScalarParameterModel.VALUE_EXPR_PROP);
 		String value = null;
 
-		if (tmpValue != null)
+		if (tmpValue != null) {
 			value = tmpValue.getStringExpression();
-		if (value != null)
+		}
+		if (value != null) {
 			handleBoundsForValue(element, module, value);
+		}
 
 		tmpValue = (Expression) element.getLocalProperty(module, IAbstractScalarParameterModel.LABEL_EXPR_PROP);
 
 		value = null;
-		if (tmpValue != null)
+		if (tmpValue != null) {
 			value = tmpValue.getStringExpression();
-		if (value != null)
+		}
+		if (value != null) {
 			handleBoundsForValue(element, module, value);
+		}
 	}
 
 	/**
 	 * Creates bound columns for the scalar parameter.
-	 * 
+	 *
 	 * @param element the scalar parameter
 	 * @param module  the root of the scalar parameter
 	 */
 
 	protected void dealTemplateReportItem(TemplateReportItem element, Module module) {
 		List hideRules = (List) element.getLocalProperty(module, ITableRowModel.VISIBILITY_PROP);
-		if (hideRules == null || hideRules.size() < 1)
+		if (hideRules == null || hideRules.size() < 1) {
 			return;
+		}
 
 		for (int i = 0; i < hideRules.size(); i++) {
 			HideRule paramValue = (HideRule) hideRules.get(i);
@@ -605,15 +641,16 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for the column.
-	 * 
+	 *
 	 * @param element the column
 	 * @param module  the root of the column
 	 */
 
 	private void dealColumn(TableColumn element, Module module) {
 		List hideRules = (List) element.getLocalProperty(module, ITableColumnModel.VISIBILITY_PROP);
-		if (hideRules == null || hideRules.size() < 1)
+		if (hideRules == null || hideRules.size() < 1) {
 			return;
+		}
 
 		for (int i = 0; i < hideRules.size(); i++) {
 			HideRule paramValue = (HideRule) hideRules.get(i);
@@ -623,7 +660,7 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Creates bound columns for the given element.
-	 * 
+	 *
 	 * @param element   the element
 	 * @param module    the root of the element
 	 * @param propValue the value from which to create bound columns
@@ -634,22 +671,23 @@ public abstract class BoundColumnsMgr {
 	/**
 	 * Handles the expression that uses column. For different script type, we will
 	 * do different handling. By default, we handle javascript type.
-	 * 
+	 *
 	 * @param element
 	 * @param module
 	 * @param propValue
 	 */
 
 	protected void handleBoundsForExpression(DesignElement element, Module module, Expression propValue) {
-		if (propValue == null)
+		if (propValue == null) {
 			return;
+		}
 		String expr = propValue.getStringExpression();
 		handleBoundsForValue(element, module, expr);
 	}
 
 	/**
 	 * Creates bound columns for the given value of the given element.
-	 * 
+	 *
 	 * @param element   the element
 	 * @param module    the root of the element
 	 * @param propValue the value from which to create bound columns
@@ -659,7 +697,7 @@ public abstract class BoundColumnsMgr {
 
 	/**
 	 * Gets a property converted to a string value.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param propName The name of the property to get.
 	 * @return The property value as a string.
@@ -667,8 +705,9 @@ public abstract class BoundColumnsMgr {
 
 	protected static String getLocalStringProperty(Module module, DesignElement tmpElement, String propName) {
 		ElementPropertyDefn prop = tmpElement.getPropertyDefn(propName);
-		if (prop == null)
+		if (prop == null) {
 			return null;
+		}
 
 		Object value = tmpElement.getLocalProperty(module, prop);
 		return prop.getStringValue(module, value);

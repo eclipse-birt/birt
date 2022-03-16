@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,14 +43,14 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.StructureContextUtil;
 
 /**
- * 
+ *
  */
 
 class ContentElementCommand extends AbstractContentCommand {
 
 	/**
 	 * Constructs the content command with container element.
-	 * 
+	 *
 	 * @param module        the module
 	 * @param containerInfo the container infor
 	 */
@@ -58,7 +61,7 @@ class ContentElementCommand extends AbstractContentCommand {
 
 	/**
 	 * Constructs the content command with container element.
-	 * 
+	 *
 	 * @param module        the root
 	 * @param element       the element to set value
 	 * @param eventTarget   the container for the element
@@ -81,7 +84,7 @@ class ContentElementCommand extends AbstractContentCommand {
 	 * inherited as a whole, so when the value changed from a child element. This
 	 * method will be called to ensure that a local copy will be made, so change to
 	 * the child won't affect the original value in the parent.
-	 * 
+	 *
 	 * @param ref a reference to a list property or member.
 	 */
 
@@ -103,7 +106,7 @@ class ContentElementCommand extends AbstractContentCommand {
 	 * inherited as a whole, so when the value changed from a child element. This
 	 * method will be called to ensure that a local copy will be made, so change to
 	 * the child won't affect the original value in the parent.
-	 * 
+	 *
 	 * @param ref a reference to a list property or member.
 	 */
 
@@ -113,8 +116,9 @@ class ContentElementCommand extends AbstractContentCommand {
 
 		Object localValue = topElement.getLocalProperty(module, prop);
 
-		if (localValue != null)
+		if (localValue != null) {
 			return content;
+		}
 
 		// Make a local copy of the inherited list value.
 
@@ -122,13 +126,15 @@ class ContentElementCommand extends AbstractContentCommand {
 
 		// if the action is add, the inherited can be null.
 
-		if (inherited == null)
+		if (inherited == null) {
 			return null;
+		}
 
 		int index = -1;
 
-		if (content != null && inherited instanceof List)
+		if (content != null && inherited instanceof List) {
 			index = ((List) inherited).indexOf(content);
+		}
 
 		Object newValue = ModelUtil.copyValue(prop, inherited);
 		ActivityStack activityStack = module.getActivityStack();
@@ -151,12 +157,14 @@ class ContentElementCommand extends AbstractContentCommand {
 			activityStack.execute(propRecord);
 		}
 
-		if (index != -1)
+		if (index != -1) {
 			return (DesignElement) ((List) newValue).get(index);
+		}
 
 		return content;
 	}
 
+	@Override
 	protected void doAdd(int newPos, DesignElement content) throws ContentException, NameException {
 		ActivityStack stack = getActivityStack();
 		stack.startTrans(CommandLabelFactory.getCommandLabel(MessageConstants.ADD_ELEMENT_MESSAGE), getTransOption());
@@ -179,12 +187,13 @@ class ContentElementCommand extends AbstractContentCommand {
 
 	/**
 	 * Does some actions when the content is removed from the design tree.
-	 * 
+	 *
 	 * @param content            the content to remove
 	 * @param unresolveReference status whether to un-resolve the references
 	 * @throws SemanticException
 	 */
 
+	@Override
 	protected void doDelectAction(DesignElement content) throws SemanticException {
 		DesignElement toRemove = makeLocalCompositeValue(content);
 		super.doDelectAction(toRemove);
@@ -194,11 +203,12 @@ class ContentElementCommand extends AbstractContentCommand {
 
 	/**
 	 * Does some actions when the content is removed from the design tree.
-	 * 
+	 *
 	 * @param content            the content to remove
 	 * @param unresolveReference status whether to un-resolve the references
 	 */
 
+	@Override
 	protected void doMove(DesignElement content, ContainerContext toContainerInfor, int newPos) {
 		ActivityStack stack = getActivityStack();
 
@@ -213,16 +223,18 @@ class ContentElementCommand extends AbstractContentCommand {
 
 	/**
 	 * Does some actions when the content is removed from the design tree.
-	 * 
+	 *
 	 * @param content            the content to remove
 	 * @param unresolveReference status whether to un-resolve the references
 	 * @throws SemanticException
 	 */
 
+	@Override
 	protected void doMovePosition(DesignElement content, int newPosn) throws ContentException {
 		// Skip the step if the slotID/propName has only single content.
-		if (!focus.isContainerMultipleCardinality())
+		if (!focus.isContainerMultipleCardinality()) {
 			return;
+		}
 
 		ActivityStack stack = getActivityStack();
 
@@ -237,7 +249,7 @@ class ContentElementCommand extends AbstractContentCommand {
 
 	/**
 	 * The method to set property.
-	 * 
+	 *
 	 * @param prop  the definition of the property to set.
 	 * @param value the new property value.
 	 * @throws SemanticException if the element is a template element and users try
@@ -273,7 +285,7 @@ class ContentElementCommand extends AbstractContentCommand {
 	 * inherited as a whole, so when the value changed from a child element. This
 	 * method will be called to ensure that a local copy will be made, so change to
 	 * the child won't affect the original value in the parent.
-	 * 
+	 *
 	 * @param ref a reference to a list property or member.
 	 */
 
@@ -304,8 +316,9 @@ class ContentElementCommand extends AbstractContentCommand {
 
 			if (stepPropDefn.isListType()) {
 				tmpElement = (DesignElement) ((List) stepValue).get(index);
-			} else
+			} else {
 				tmpElement = (DesignElement) stepValue;
+			}
 		}
 
 		return tmpElement;
@@ -331,10 +344,11 @@ class ContentElementCommand extends AbstractContentCommand {
 		List list = context.getList(module);
 
 		PropertyListRecord record = null;
-		if (value instanceof Structure)
+		if (value instanceof Structure) {
 			assert false;
-		else
+		} else {
 			record = new PropertyListRecord(tmpElement, context.getElementProp(), list, value, list.size());
+		}
 
 		assert record != null;
 
@@ -363,16 +377,17 @@ class ContentElementCommand extends AbstractContentCommand {
 		List list = context.getList(module);
 
 		PropertyDefn propDefn = context.getElementProp();
-		if (context.getPropDefn() != null)
+		if (context.getPropDefn() != null) {
 			propDefn = context.getPropDefn();
+		}
 
 		Object value = list.get(posn);
 
 		PropertyListRecord record = null;
 
-		if (value instanceof Structure)
+		if (value instanceof Structure) {
 			assert false;
-		else {
+		} else {
 			record = new PropertyListRecord(tmpElement, context.getElementProp(), list, posn);
 		}
 		assert record != null;
@@ -395,7 +410,7 @@ class ContentElementCommand extends AbstractContentCommand {
 	/**
 	 * Returns the transaction option for the transaction in this command. ONLY ONE
 	 * property event should be sent out.
-	 * 
+	 *
 	 * @return
 	 */
 
@@ -418,13 +433,14 @@ class ContentElementCommand extends AbstractContentCommand {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.api.activity.IEventFilter#filter(java
 		 * .util.List)
 		 */
 
+		@Override
 		public List<RecordTask> filter(List<RecordTask> events) {
-			List<RecordTask> retList = new ArrayList<RecordTask>();
+			List<RecordTask> retList = new ArrayList<>();
 			retList.add(new NotificationRecordTask(ev.getTarget(), ev));
 			return retList;
 		}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ import org.eclipse.birt.report.engine.dataextraction.CommonDataExtractionOption;
 
 /**
  * Utility class to handle parameter related stuff...
- * 
+ *
  */
 public class DataExtractionParameterUtil {
 
@@ -76,32 +79,35 @@ public class DataExtractionParameterUtil {
 
 	/**
 	 * Get result set name.
-	 * 
+	 *
 	 * @param options
 	 * @return
 	 */
 	public static String getResultSetName(Map options) {
-		if (options != null)
+		if (options != null) {
 			return (String) options.get(PARAM_RESULTSETNAME);
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/**
 	 * Get selected column name list.
-	 * 
+	 *
 	 * @param options
 	 * @return
 	 */
 	public static String[] getSelectedColumns(Map options) {
-		if (options == null)
+		if (options == null) {
 			return null;
+		}
 
 		int columnCount = 0;
 		try {
 			String numStr = (String) options.get(PARAM_SELECTEDCOLUMNNUMBER);
-			if (numStr != null)
+			if (numStr != null) {
 				columnCount = Integer.parseInt(numStr);
+			}
 		} catch (Exception e) {
 			columnCount = 0;
 		}
@@ -120,85 +126,96 @@ public class DataExtractionParameterUtil {
 
 	/**
 	 * Returns the separator String
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
 	public static String getSep(Map options) {
-		if (options == null)
+		if (options == null) {
 			return DEFAULT_SEP;
+		}
 
 		String sepKey = (String) options.get(PARAM_SEP);
-		if (sepKey == null)
+		if (sepKey == null) {
 			return DEFAULT_SEP;
+		}
 
 		String key = "viewer.sep." + sepKey; //$NON-NLS-1$
 		String sep = ParameterAccessor.getInitProp(key);
-		if (sep == null || sep.length() <= 0)
+		if (sep == null || sep.length() <= 0) {
 			return DEFAULT_SEP;
+		}
 		return sep;
 	}
 
 	/**
 	 * Returns the encoding for export data.
-	 * 
+	 *
 	 * @param options
 	 * @return
 	 */
 	public static String getExportEncoding(Map options) {
-		if (options == null)
+		if (options == null) {
 			return CSVDataExtractionOption.UTF_8_ENCODE;
+		}
 
 		String encoding = (String) options.get(PARAM_EXPORT_ENCODING);
 
 		// use UTF-8 as the default encoding
-		if (encoding == null)
+		if (encoding == null) {
 			encoding = CSVDataExtractionOption.UTF_8_ENCODE;
+		}
 
 		return encoding;
 	}
 
 	/**
 	 * Returns whether exports column's data type
-	 * 
+	 *
 	 * @param options
 	 * @return
 	 */
 	public static boolean isExportDataType(Map options) {
-		if (options == null)
+		if (options == null) {
 			return false;
+		}
 
 		String flag = (String) options.get(PARAM_EXPORT_DATATYPE);
-		if ("true".equalsIgnoreCase(flag)) //$NON-NLS-1$
+		if ("true".equalsIgnoreCase(flag)) { //$NON-NLS-1$
 			return true;
+		}
 
 		return false;
 	}
 
 	/**
 	 * Returns whether exports locale neutral value
-	 * 
+	 *
 	 * @param options
 	 * @return
 	 */
 	public static boolean isLocaleNeutral(Map options) {
-		if (options == null)
+		if (options == null) {
 			return false;
+		}
 
 		String flag = (String) options.get(PARAM_LOCALENEUTRAL);
-		if ("true".equalsIgnoreCase(flag)) //$NON-NLS-1$
+		if ("true".equalsIgnoreCase(flag)) { //$NON-NLS-1$
 			return true;
+		}
 
 		return false;
 	}
 
 	public static boolean isWithCarriageReturn(Map options) {
-		if (options == null)
+		if (options == null) {
 			return false;
+		}
 
 		String flag = (String) options.get(PARAM_CARRIAGERETURN);
-		if ("true".equalsIgnoreCase(flag)) //$NON-NLS-1$
+		if ("true".equalsIgnoreCase(flag)) { //$NON-NLS-1$
 			return true;
+		}
 
 		return false;
 	}
@@ -206,7 +223,7 @@ public class DataExtractionParameterUtil {
 	/**
 	 * Create a CommonDataExtractionOption configured using the common-specific
 	 * parameters.
-	 * 
+	 *
 	 * @param extractOption common data extraction option
 	 * @param columns       columns to export
 	 * @param locale        locale
@@ -216,8 +233,9 @@ public class DataExtractionParameterUtil {
 	 */
 	public static DataExtractionOption createOptions(CommonDataExtractionOption extractOption, String[] columns,
 			Locale locale, TimeZone timeZone, Map options) {
-		if (extractOption == null)
+		if (extractOption == null) {
 			extractOption = new CommonDataExtractionOption();
+		}
 
 		extractOption.setEncoding(getExportEncoding(options));
 		extractOption.setExportDataType(isExportDataType(options));
@@ -231,7 +249,7 @@ public class DataExtractionParameterUtil {
 
 	/**
 	 * Create a specific data extraction option for CSV format
-	 * 
+	 *
 	 * @param columns
 	 * @param locale
 	 * @param options
@@ -250,7 +268,7 @@ public class DataExtractionParameterUtil {
 
 	/**
 	 * Returns an array of decoded columns names.
-	 * 
+	 *
 	 * @param columns Collection of column names, in HTML format
 	 * @return Returns an array of decoded columns names.
 	 */

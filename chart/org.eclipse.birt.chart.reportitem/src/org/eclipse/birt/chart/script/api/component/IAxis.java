@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,21 +24,21 @@ public interface IAxis extends IChartComponent {
 
 	/**
 	 * Gets theScale for axis scaling
-	 * 
+	 *
 	 * @return Scale
 	 */
 	IScale getScale();
 
 	/**
 	 * Gets all marker lines in Axis
-	 * 
+	 *
 	 * @return an array of marker lines
 	 */
 	IMarkerLine[] getMarkerLines();
 
 	/**
 	 * Gets all marker ranges in Axis
-	 * 
+	 *
 	 * @return an array of marker ranges
 	 */
 	IMarkerRange[] getMarkerRanges();
@@ -43,7 +46,7 @@ public interface IAxis extends IChartComponent {
 	/**
 	 * Gets the name of AxisType. Return values are an enumeration including "Text",
 	 * "Linear", "Logarithmic" and "DateTime". Default value is "Linear".
-	 * 
+	 *
 	 * @return the name of AxisType
 	 * @see org.eclipse.birt.chart.model.attribute.AxisType
 	 */
@@ -53,7 +56,7 @@ public interface IAxis extends IChartComponent {
 	 * Sets AxisType by name. Names are an enumeration including "Text", "Linear",
 	 * "Logarithmic" and "DateTime". Default value is "Linear". If the AxisType name
 	 * is invalid, will set the default value.
-	 * 
+	 *
 	 * @param type the name of AxisType
 	 * @see org.eclipse.birt.chart.model.attribute.AxisType
 	 */

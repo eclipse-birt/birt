@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -46,7 +58,7 @@ public interface DifferenceSeries extends AreaSeries {
 	 * --> <!-- end-user-doc --> <!-- begin-model-doc --> Specifies the marker to be
 	 * used for displaying the data point on the negative line in the chart. <!--
 	 * end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Negative Markers</em>' containment reference
 	 *         list.
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getDifferenceSeries_NegativeMarkers()
@@ -61,9 +73,9 @@ public interface DifferenceSeries extends AreaSeries {
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
 	 * begin-model-doc --> Specifies the attributes for the negative line used to
 	 * represent this series.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Negative Line Attributes</em>' containment
 	 *         reference.
 	 * @see #setNegativeLineAttributes(LineAttributes)
@@ -79,7 +91,7 @@ public interface DifferenceSeries extends AreaSeries {
 	 * '{@link org.eclipse.birt.chart.model.type.DifferenceSeries#getNegativeLineAttributes
 	 * <em>Negative Line Attributes</em>}' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Negative Line Attributes</em>'
 	 *              containment reference.
 	 * @see #getNegativeLineAttributes()
@@ -91,6 +103,7 @@ public interface DifferenceSeries extends AreaSeries {
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
+	@Override
 	DifferenceSeries copyInstance();
 
 } // DifferenceSeries

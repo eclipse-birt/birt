@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +29,7 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 /**
- * 
+ *
  */
 
 public abstract class AbstractSortingFormHandleProvider extends AbstractDescriptorProvider
@@ -36,6 +39,7 @@ public abstract class AbstractSortingFormHandleProvider extends AbstractDescript
 
 	protected Object input;
 
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 
@@ -45,13 +49,16 @@ public abstract class AbstractSortingFormHandleProvider extends AbstractDescript
 		return input;
 	}
 
+	@Override
 	public boolean isEnable() {
-		if (DEUtil.getInputSize(input) != 1)
+		if (DEUtil.getInputSize(input) != 1) {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	}
 
+	@Override
 	public boolean isEditable() {
 		return true;
 	}
@@ -104,10 +111,11 @@ public abstract class AbstractSortingFormHandleProvider extends AbstractDescript
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
 		 * java.lang.Object)
 		 */
+		@Override
 		public Object[] getElements(Object inputElement) {
 			assert provider instanceof AbstractSortingFormHandleProvider;
 			Object[] elements = ((AbstractSortingFormHandleProvider) provider).getElements(inputElement);
@@ -118,12 +126,14 @@ public abstract class AbstractSortingFormHandleProvider extends AbstractDescript
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
+		@Override
 		public void dispose() {
-			if (!(((ISortingFormProvider) provider) instanceof GroupHandleProvider))
+			if (!(((ISortingFormProvider) provider) instanceof GroupHandleProvider)) {
 				return;
+			}
 
 			Object[] elements = ((ISortingFormProvider) provider).getElements(input);
 
@@ -135,47 +145,56 @@ public abstract class AbstractSortingFormHandleProvider extends AbstractDescript
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
 		protected void deRegisterEventManager() {
-			if (UIUtil.getModelEventManager() != null)
+			if (UIUtil.getModelEventManager() != null) {
 				UIUtil.getModelEventManager().removeModelEventProcessor(listener);
+			}
 		}
 
 		/**
 		 * Registers model change listener to DE elements.
 		 */
 		protected void registerEventManager() {
-			if (UIUtil.getModelEventManager() != null)
+			if (UIUtil.getModelEventManager() != null) {
 				UIUtil.getModelEventManager().addModelEventProcessor(listener);
+			}
 		}
 	}
 
+	@Override
 	public Object load() {
 		return null;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 
 	}
 
+	@Override
 	public boolean isAddEnable() {
 		return true;
 	}
 
+	@Override
 	public boolean isEditEnable() {
 		return true;
 	}
 
+	@Override
 	public boolean isDeleteEnable() {
 		return true;
 	}
 
+	@Override
 	public boolean needRebuilded(NotificationEvent event) {
 		return false;
 	}

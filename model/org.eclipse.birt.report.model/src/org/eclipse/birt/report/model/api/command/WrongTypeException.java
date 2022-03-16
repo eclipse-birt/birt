@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +46,7 @@ public class WrongTypeException extends ExtendsException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param obj     the element being changed.
 	 * @param name    the value being set for the extends property.
 	 * @param errCode what went wrong.
@@ -55,7 +58,7 @@ public class WrongTypeException extends ExtendsException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param obj     the element being changed.
 	 * @param parent  the parent element.
 	 * @param errCode what went wrong.
@@ -67,10 +70,11 @@ public class WrongTypeException extends ExtendsException {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
+	@Override
 	public String getLocalizedMessage() {
 		if (sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE || sResourceKey == DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE) {
 			return ModelMessages.getMessage(sResourceKey,

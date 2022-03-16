@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,14 +42,14 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 /**
  * Abstract base class that represents a handle for the value to either a
  * property or a structure member.
- * 
+ *
  */
 
 public abstract class SimpleValueHandle extends ValueHandle {
 
 	/**
 	 * Constructs a handle with the given handle to an design element.
-	 * 
+	 *
 	 * @param element a handle to a report element
 	 */
 
@@ -57,7 +60,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	/**
 	 * Gets the generic property definition. Its a property definition for an
 	 * element or a member definition for a structure.
-	 * 
+	 *
 	 * @return the value definition.
 	 */
 
@@ -66,7 +69,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	/**
 	 * Gets the value stored in the memory directly. The returned value won't be
 	 * done any conversion.
-	 * 
+	 *
 	 * @return the value stored in the memory
 	 */
 
@@ -75,7 +78,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	/**
 	 * Gets the value of the property as a generic object. Use the specialized
 	 * methods to get the value as a particular type.
-	 * 
+	 *
 	 * @return The value of the property as a generic object.
 	 * @see #getStringValue()
 	 * @see #getIntValue()
@@ -90,7 +93,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 
 	/**
 	 * Gets the value as an integer.
-	 * 
+	 *
 	 * @return The value as an integer. Returns 0 if the value cannot be converted
 	 *         to an integer.
 	 */
@@ -101,7 +104,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 
 	/**
 	 * Gets the value as a string.
-	 * 
+	 *
 	 * @return The value as a string.
 	 */
 
@@ -111,7 +114,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 
 	/**
 	 * Gets the value as a double.
-	 * 
+	 *
 	 * @return The value as a double. Returns 0 if the value cannot be converted to
 	 *         a double.
 	 */
@@ -122,7 +125,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 
 	/**
 	 * Gets the value as a number (BigDecimal).
-	 * 
+	 *
 	 * @return The value as a number. Returns null if the value cannot be converted
 	 *         to a number.
 	 */
@@ -133,7 +136,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 
 	/**
 	 * Gets the value as a list.
-	 * 
+	 *
 	 * @return The value as a list. Returns null if the value cannot be converted to
 	 *         a list.
 	 */
@@ -141,8 +144,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	public ArrayList getListValue() {
 		Object value = getValue();
 		if (value instanceof ArrayList) {
-			ArrayList retValue = new ArrayList();
-			retValue.addAll((ArrayList) value);
+			ArrayList retValue = new ArrayList((ArrayList) value);
 			return retValue;
 		}
 		return null;
@@ -150,7 +152,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 
 	/**
 	 * gets the localized value of the property.
-	 * 
+	 *
 	 * @return the localized value
 	 */
 	public String getDisplayValue() {
@@ -161,14 +163,15 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	 * Returns the the nth entry in a list property or member. Use this method for
 	 * properties that contain a list of structures. The index must be valid for the
 	 * list.
-	 * 
+	 *
 	 * @param n The list index.
 	 * @return A handle to the structure at the given index.
 	 */
 
 	public StructureHandle getAt(int n) {
-		if (isList())
+		if (isList()) {
 			return (StructureHandle) get(n);
+		}
 		return null;
 	}
 
@@ -187,7 +190,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	 * Float, Double, BigDecimal, Date, String).</li>
 	 * <li>If this property or member is not a list value or the index is out of
 	 * range, then return <code>null</code>.</li>
-	 * 
+	 *
 	 * @param n The list index.
 	 * @return A handle to the structure, a handle to the referred element, or some
 	 *         simple value(int, float, decimal, data-time, string) at the given
@@ -196,16 +199,18 @@ public abstract class SimpleValueHandle extends ValueHandle {
 
 	public Object get(int n) {
 		List values = getListValue();
-		if (n < 0 || values == null || values.isEmpty() || n >= values.size())
+		if (n < 0 || values == null || values.isEmpty() || n >= values.size()) {
 			return null;
+		}
 
 		Object item = values.get(n);
 		if (item instanceof Structure) {
 			return ((Structure) item).getHandle(this, n);
 		} else if (item instanceof ElementRefValue) {
 			ElementRefValue refValue = (ElementRefValue) item;
-			if (refValue.isResolved())
+			if (refValue.isResolved()) {
 				return refValue.getElement().getHandle(refValue.getElement().getRoot());
+			}
 			return refValue.getQualifiedReference();
 		}
 		return item;
@@ -217,21 +222,24 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	 * returns the lowest index <tt>i</tt> such that
 	 * <tt>(o==null ? get(i)==null : o.equals(get(i)))</tt>, or -1 if there is no
 	 * such index.
-	 * 
+	 *
 	 * @param o element to search for.
 	 * @return the index in this list of the first occurrence of the specified
 	 *         element, or -1 if this list does not contain this element.
 	 */
 	public int indexOf(Object o) {
 		Object rawValue = getRawValue();
-		if (!(rawValue instanceof List))
+		if (!(rawValue instanceof List)) {
 			return -1;
+		}
 		List values = (List) rawValue;
-		if (values == null || values.isEmpty())
+		if (values == null || values.isEmpty()) {
 			return -1;
+		}
 		if (getTypeCode() == IPropertyType.STRUCT_TYPE) {
-			if (o instanceof StructureHandle)
+			if (o instanceof StructureHandle) {
 				return values.indexOf(((StructureHandle) o).getStructure());
+			}
 			return values.indexOf(o);
 		} else if (getTypeCode() == IPropertyType.LIST_TYPE) {
 			PropertyDefn defn = (PropertyDefn) getDefn();
@@ -264,7 +272,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	/**
 	 * Returns the numeric code for the type of this property or member. The types
 	 * are defined in the <code>PropertyType</code> class.
-	 * 
+	 *
 	 * @return The property type code.
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType
 	 */
@@ -278,7 +286,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	 * if the property is not a list property. The iterator returns a
 	 * <code>StructureHandle</code> for each entry in the list. For highlight rules,
 	 * the iterator returns a list of <code>HighlightRuleHandle</code>s.
-	 * 
+	 *
 	 * @return An iterator over the values in a list property.
 	 * @see StructureHandle
 	 * @see StructureIterator
@@ -302,7 +310,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	/**
 	 * Sets the value of the property or member to the given integer. It can also be
 	 * used to set dimensions but dimensions are better set using a double.
-	 * 
+	 *
 	 * @param value The value to set.
 	 * @throws SemanticException If the property value cannot be converted from an
 	 *                           integer, or if the value of a choice is incorrect.
@@ -317,7 +325,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	 * properties such as expressions, labels, HTML, or XML. Also use it to set the
 	 * value of a choice using the internal string name of the choice. Use it to set
 	 * the value of a dimension when using specified units, such as "10pt".
-	 * 
+	 *
 	 * @param value The value to set.
 	 * @throws SemanticException If the value of a choice or other property is
 	 *                           incorrect.
@@ -331,7 +339,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	 * Sets the value of the property or member to the given double. Used primarily
 	 * for dimension properties. The units of the dimension are assumed to be
 	 * application units.
-	 * 
+	 *
 	 * @param value The value to set.
 	 * @throws SemanticException If the property value cannot be converted from a
 	 *                           double.
@@ -343,7 +351,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 
 	/**
 	 * Sets the value of the property or member to the given number.
-	 * 
+	 *
 	 * @param value The value to set.
 	 * @throws SemanticException If the property value cannot be converted from a
 	 *                           number.
@@ -355,7 +363,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 
 	/**
 	 * Clears the value of the property or member.
-	 * 
+	 *
 	 * @throws SemanticException If the value cannot be cleared.
 	 */
 
@@ -366,7 +374,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	/**
 	 * Sets the value of a property or member to the object given. If the object is
 	 * <code>null</code>, then the value is cleared.
-	 * 
+	 *
 	 * @param value The new value.
 	 * @throws SemanticException If the value is not valid for the property or
 	 *                           member.
@@ -382,7 +390,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	/**
 	 * Removes an item from a list property or member. The handle must be working on
 	 * a list property or member.
-	 * 
+	 *
 	 * @param posn The position of the item to remove.
 	 * @throws PropertyValueException    If the property is not a list property.
 	 * @throws IndexOutOfBoundsException if the given <code>posn</code> is out of
@@ -405,7 +413,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	 * <li>If this property or member is a list of simeple value(int, float,
 	 * decimal, date-time, string), then return the atomice Java Object(Integer,
 	 * Float, Double, BigDecimal, Date, String).</li>
-	 * 
+	 *
 	 * @param item the item to remove
 	 * @throws PropertyValueException If the property is not a list property, or if
 	 *                                the given item is not contained in the list.
@@ -420,15 +428,16 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	 * Removes all the items in the list from a list property or member. The handle
 	 * must be working on a list property or member. Each one in the list is
 	 * instance of <code>StructureHandle</code>
-	 * 
+	 *
 	 * @param items the item list to remove
 	 * @throws PropertyValueException If the property or the member is not a list
 	 *                                type, or if any item in the list is not found
 	 */
 
 	public void removeItems(List items) throws PropertyValueException {
-		if (items == null || items.isEmpty())
+		if (items == null || items.isEmpty()) {
 			return;
+		}
 		ActivityStack stack = getModule().getActivityStack();
 		stack.startTrans(CommandLabelFactory.getCommandLabel(MessageConstants.REMOVE_ITEM_MESSAGE));
 		try {
@@ -446,10 +455,10 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	/**
 	 * Replaces an old structure with a new one for the this property or member. The
 	 * handle must be working on a list property or member.
-	 * 
+	 *
 	 * @param oldItem the old item to be replaced.
 	 * @param newItem the new item.
-	 * 
+	 *
 	 * @throws SemanticException if the property/member does not contain the list
 	 *                           value or the new structure is invalid or the old
 	 *                           structure is not contained in the list.
@@ -463,7 +472,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	/**
 	 * Adds an item to the end of a list property or member. The handle must be
 	 * working on a list property or member.
-	 * 
+	 *
 	 * @param item The new item to add.
 	 * @return a handle to the newly added structure; return null if the item is
 	 *         null.
@@ -472,8 +481,9 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	 */
 
 	public StructureHandle addItem(IStructure item) throws SemanticException {
-		if (item == null)
+		if (item == null) {
 			return null;
+		}
 
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand(getModule(), getElement());
 		Object struct = cmd.addItem(getContext(), item);
@@ -484,7 +494,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	/**
 	 * Adds an item to the end of a list property. The handle must be working on a
 	 * list property.
-	 * 
+	 *
 	 * @param item The new item to add.
 	 * @throws SemanticException If the property is not a list property, or if the
 	 *                           the value of the item is incorrect.
@@ -495,7 +505,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	/**
 	 * Inserts a new item into a list property or member at the given position. The
 	 * handle must be working on a list property or member.
-	 * 
+	 *
 	 * @param item The new item to insert.
 	 * @param posn The insert position.
 	 * @return a handle to the newly inserted structure, return null if the item is
@@ -508,8 +518,9 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	 */
 
 	public StructureHandle insertItem(IStructure item, int posn) throws SemanticException {
-		if (item == null)
+		if (item == null) {
 			return null;
+		}
 
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand(getModule(), getElement());
 		IStructure struct = cmd.insertItem(getContext(), item, posn);
@@ -520,7 +531,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	/**
 	 * Moves an item within a list property or member. The handle must be working on
 	 * a list property or member.
-	 * 
+	 *
 	 * @param from The current position of the item to move
 	 * @param to   The new position of the item to move.
 	 * @throws PropertyValueException    If the property is not a list property.
@@ -536,10 +547,10 @@ public abstract class SimpleValueHandle extends ValueHandle {
 
 	/**
 	 * Returns the array of choices that are defined for this property or member.
-	 * 
+	 *
 	 * @return an array containing choices of this property. Return
 	 *         <code>null</code>, if this property has no choice.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.Choice
 	 */
 
@@ -551,7 +562,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 
 	/**
 	 * Indicate if this handle is working on a list property.
-	 * 
+	 *
 	 * @return <code>true</code> if the handle is working on a list property,
 	 *         otherwise return <code>false</code>
 	 */
@@ -562,7 +573,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 
 	/**
 	 * Gets the default unit of the property.
-	 * 
+	 *
 	 * @return the default unit if the property is dimension type, otherwise empty
 	 *         string
 	 */
@@ -571,20 +582,23 @@ public abstract class SimpleValueHandle extends ValueHandle {
 		if (getTypeCode() == IPropertyType.DIMENSION_TYPE) {
 			PropertyDefn defn = (PropertyDefn) getDefn();
 			String unit = defn.getDefaultUnit();
-			if (!StringUtil.isBlank(unit))
+			if (!StringUtil.isBlank(unit)) {
 				return unit;
+			}
 			unit = getModule().getUnits();
-			if (!StringUtil.isBlank(unit))
+			if (!StringUtil.isBlank(unit)) {
 				return unit;
-			if (getModule().getSession() != null)
+			}
+			if (getModule().getSession() != null) {
 				return getModule().getSession().getUnits();
+			}
 		}
 		return DimensionValue.DEFAULT_UNIT;
 	}
 
 	/**
 	 * Checks whether a value is visible in the property sheet.
-	 * 
+	 *
 	 * @return <code>true</code> if it is visible. Otherwise <code>false</code>.
 	 */
 
@@ -592,7 +606,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 
 	/**
 	 * Checks whether a value is read-only in the property sheet.
-	 * 
+	 *
 	 * @return <code>true</code> if it is read-only. Otherwise <code>false</code>.
 	 */
 
@@ -601,7 +615,7 @@ public abstract class SimpleValueHandle extends ValueHandle {
 	/**
 	 * Gets the items of the list property. The handle must be working on a list
 	 * property or member.
-	 * 
+	 *
 	 * @return the list of items, or null if the property is not a list property.
 	 */
 	public List getItems() {

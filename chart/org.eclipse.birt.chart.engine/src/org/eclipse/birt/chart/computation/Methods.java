@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -43,7 +46,7 @@ public class Methods implements IConstants {
 
 	/**
 	 * Converts given object to a DateTime object.
-	 * 
+	 *
 	 * @param o
 	 * @return CDateTime
 	 */
@@ -64,7 +67,7 @@ public class Methods implements IConstants {
 
 	/**
 	 * Converts the given object to a Double object.
-	 * 
+	 *
 	 * @param o
 	 * @return Double
 	 */
@@ -78,12 +81,12 @@ public class Methods implements IConstants {
 		} else if (o instanceof Number) {
 			return new Double(((Number) o).doubleValue());
 		}
-		return Double.valueOf(0);
+		return (double) 0;
 	}
 
 	/**
 	 * Converts the given object to an Integer object.
-	 * 
+	 *
 	 * @param o
 	 * @return int
 	 */
@@ -93,10 +96,10 @@ public class Methods implements IConstants {
 
 	/**
 	 * Returns location
-	 * 
+	 *
 	 * @param sc
 	 * @param dValue
-	 * 
+	 *
 	 * @return location
 	 */
 	static final double getLocation(AutoScale sc, IntersectionValue iv) {
@@ -142,11 +145,7 @@ public class Methods implements IConstants {
 			return da.getEnd();
 		} else if ((sc.getType() & LOGARITHMIC) == LOGARITHMIC) {
 			double dValue = iv.getValueAsDouble(sc);
-			if (dValue == 0) // CANNOT GO TO '0'
-			{
-				return sc.getStart();
-			}
-			if (dValue < 0) {
+			if ((dValue == 0) || (dValue < 0)) {
 				return sc.getStart();
 			}
 			double dMinimumLog = Math.log(asDouble(sc.getMinimum()).doubleValue()) / LOG_10;
@@ -228,7 +227,7 @@ public class Methods implements IConstants {
 
 	/**
 	 * Computes and returns the location based on specified value and scale info.
-	 * 
+	 *
 	 * @param sc      scale info instance.
 	 * @param bdValue specified value.
 	 * @return
@@ -242,10 +241,10 @@ public class Methods implements IConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sc
 	 * @param dValue
-	 * 
+	 *
 	 * @return location coordinate
 	 */
 	public static final double getLocation(AutoScale sc, double dValue) throws IllegalArgumentException {
@@ -288,7 +287,7 @@ public class Methods implements IConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sc
 	 * @param cdt
 	 * @return
@@ -309,7 +308,7 @@ public class Methods implements IConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param g2d
 	 * @param fm
 	 * @param sText
@@ -335,7 +334,7 @@ public class Methods implements IConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param g2d
 	 * @param fm
 	 * @param sText
@@ -361,7 +360,7 @@ public class Methods implements IConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param iLabelLocation
 	 * @param g2d
 	 * @param fm
@@ -379,7 +378,7 @@ public class Methods implements IConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param xs
 	 * @param iLabelLocation
 	 * @param la
@@ -400,7 +399,7 @@ public class Methods implements IConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param xs
 	 * @param iLabelLocation
 	 * @param la
@@ -643,7 +642,7 @@ public class Methods implements IConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param xs
 	 * @param iLabelLocation
 	 * @param la
@@ -659,7 +658,7 @@ public class Methods implements IConstants {
 
 	/**
 	 * Compute the size of a label.
-	 * 
+	 *
 	 * @param xs
 	 * @param la
 	 * @param dWrapping
@@ -677,7 +676,7 @@ public class Methods implements IConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param xs
 	 * @param iLabelLocation
 	 * @param la
@@ -828,7 +827,7 @@ public class Methods implements IConstants {
 
 	/**
 	 * Converts to internal (non public-model) data structures
-	 * 
+	 *
 	 * @param lp
 	 * @return position state
 	 */
@@ -862,7 +861,7 @@ public class Methods implements IConstants {
 	 * is costly, but in most case we do not change the font of a label, we just
 	 * change the string value, so the font height will not changed. The purpose of
 	 * the method is to get the font height overhead for reusing.
-	 * 
+	 *
 	 * @param xs
 	 * @param la
 	 * @return font height

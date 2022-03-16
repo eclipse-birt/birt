@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +41,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * command and record are invoked and the record will eventually send out a kind
  * of NotificationEvent, when calling the {@link #getEventType()}of the event,
  * the return value will be one of the constants defined here.
- * 
+ *
  */
 
 public abstract class NotificationEvent {
@@ -65,10 +68,11 @@ public abstract class NotificationEvent {
 
 	/**
 	 * The event type of NameSpaceEvent.
-	 * 
+	 *
 	 * @deprecated since BIRT 2.1
 	 */
 
+	@Deprecated
 	public static final int NAME_SPACE_EVENT = 4;
 
 	/**
@@ -273,7 +277,7 @@ public abstract class NotificationEvent {
 
 	/**
 	 * Convenience constructor that specifies the target element.
-	 * 
+	 *
 	 * @param obj the target element.
 	 */
 
@@ -283,9 +287,9 @@ public abstract class NotificationEvent {
 
 	/**
 	 * Returns the delivery path by which the event was sent to the listener.
-	 * 
+	 *
 	 * @return the Delivery path. One of:
-	 * 
+	 *
 	 *         <ul>
 	 *         <li>DIRECT</li>
 	 *         <li>DESCENDENT</li>
@@ -300,7 +304,7 @@ public abstract class NotificationEvent {
 
 	/**
 	 * Sets the delivery path. Called by the sender to indicate the context.
-	 * 
+	 *
 	 * @param path the delivery path to set.
 	 */
 
@@ -312,7 +316,7 @@ public abstract class NotificationEvent {
 	 * Returns the sender: the UI or other application object that caused the event
 	 * to be sent. The UI component can use this to avoid responding to changes that
 	 * the UI component itself caused.
-	 * 
+	 *
 	 * @return the sender.
 	 */
 
@@ -322,7 +326,7 @@ public abstract class NotificationEvent {
 
 	/**
 	 * Sets the sender based on the information provided to the command.
-	 * 
+	 *
 	 * @param sender the sender to set.
 	 */
 
@@ -332,7 +336,7 @@ public abstract class NotificationEvent {
 
 	/**
 	 * Returns the target element: the part of the design that actually changed.
-	 * 
+	 *
 	 * @return the target.
 	 */
 
@@ -342,7 +346,7 @@ public abstract class NotificationEvent {
 
 	/**
 	 * Sets the target element.
-	 * 
+	 *
 	 * @param target the target element to set.
 	 */
 
@@ -371,7 +375,7 @@ public abstract class NotificationEvent {
 	 * <li>CONTENT_REPLACE_EVENT</li>
 	 * <li>TEMPLATE_TRANSFORM_EVENT</li>
 	 * </ul>
-	 * 
+	 *
 	 * @return the event type.
 	 */
 
@@ -379,17 +383,16 @@ public abstract class NotificationEvent {
 
 	/**
 	 * Compares and justifies whether this event and the given event is the same.
-	 * 
+	 *
 	 * @param event the event to compare
 	 * @return true if the two events are the same, otherwise false
-	 * 
+	 *
 	 */
 
 	public boolean isSame(NotificationEvent event) {
-		if (event == null)
+		if ((event == null) || event.getEventType() != getEventType() || target != event.getTarget()) {
 			return false;
-		if (event.getEventType() != getEventType() || target != event.getTarget())
-			return false;
+		}
 		return true;
 	}
 

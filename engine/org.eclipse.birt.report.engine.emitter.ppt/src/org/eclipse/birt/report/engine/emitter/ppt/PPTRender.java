@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
@@ -42,6 +45,7 @@ public class PPTRender extends PageDeviceRender {
 		initialize(services);
 	}
 
+	@Override
 	public IPageDevice createPageDevice(String title, String author, String subject, String description,
 			IReportContext context, IReportContent report) throws Exception {
 		try {
@@ -54,16 +58,17 @@ public class PPTRender extends PageDeviceRender {
 
 	/**
 	 * Returns the output format, always is "ppt".
-	 * 
+	 *
 	 * @return the output format
 	 */
+	@Override
 	public String getOutputFormat() {
 		return "ppt";
 	}
 
 	/**
 	 * Initializes the PPTEmitter.
-	 * 
+	 *
 	 * @param services the emitter services object.
 	 * @throws EngineException
 	 */
@@ -78,6 +83,7 @@ public class PPTRender extends PageDeviceRender {
 		this.pptOutput = EmitterUtil.getOuputStream(services, REPORT_FILE);
 	}
 
+	@Override
 	public void visitImage(IImageArea imageArea) {
 		PPTPage pptPage = (PPTPage) pageGraphic;
 		pptPage.setLink(PPTUtil.getHyperlink(imageArea, services, reportRunnable, context));
@@ -93,6 +99,7 @@ public class PPTRender extends PageDeviceRender {
 		pptPage.setLink(null);
 	}
 
+	@Override
 	protected void drawTextAt(ITextArea text, int x, int y, int width, int height, TextStyle textStyle) {
 		pageGraphic.drawText(text.getLogicalOrderText(), x, y, width, height, textStyle);
 	}

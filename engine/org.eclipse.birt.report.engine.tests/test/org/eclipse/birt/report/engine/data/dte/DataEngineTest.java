@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,8 +21,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.archive.FileArchiveReader;
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
@@ -33,6 +34,8 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.model.api.DesignFileException;
+
+import junit.framework.TestCase;
 
 public class DataEngineTest extends TestCase {
 
@@ -103,6 +106,7 @@ public class DataEngineTest extends TestCase {
 
 	}
 
+	@Override
 	public void tearDown() {
 		File file = new File(ARCHIVE_PATH);
 		if (file.exists()) {
@@ -198,7 +202,7 @@ public class DataEngineTest extends TestCase {
 		// the children will first be stored then the parent.
 		IQueryDefinition childQuery = (IQueryDefinition) iter.next();
 		IQueryDefinition parentQuery = (IQueryDefinition) iter.next();
-		IQueryResultSet parentRSet = null;
+		IQueryResultSet parentRSet;
 		IQueryResultSet childRSet = null;
 
 		parentRSet = (IQueryResultSet) dataEngine.execute(parentQuery);
@@ -250,7 +254,7 @@ public class DataEngineTest extends TestCase {
 		String resultStr = "";
 		IQueryDefinition childQuery = (IQueryDefinition) iter.next();
 		IQueryDefinition parentQuery = (IQueryDefinition) iter.next();
-		IQueryResultSet parentRSet = null;
+		IQueryResultSet parentRSet;
 		IQueryResultSet childRSet = null;
 
 		parentRSet = (IQueryResultSet) dataEngine.execute(parentQuery);

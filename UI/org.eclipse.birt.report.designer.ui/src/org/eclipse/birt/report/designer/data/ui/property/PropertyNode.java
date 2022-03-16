@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -20,7 +23,7 @@ import org.eclipse.swt.widgets.Control;
 
 /**
  * TODO: Please document
- * 
+ *
  * @version $Revision: 1.2 $ $Date: 2006/06/15 07:40:09 $
  */
 
@@ -89,7 +92,7 @@ public class PropertyNode {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.PropertyNode#getId()
 	 */
 	public final String getId() {
@@ -98,7 +101,7 @@ public class PropertyNode {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.PropertyNode#getLabelText()
 	 */
 	public final String getNodeLabel() {
@@ -110,7 +113,7 @@ public class PropertyNode {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.PropertyNode#getLabelImage()
 	 */
 	public final Image getNodeImage() {
@@ -122,7 +125,7 @@ public class PropertyNode {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.PropertyNode#getPage()
 	 */
 	public final IPropertyPage getPage() {
@@ -131,7 +134,7 @@ public class PropertyNode {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.PropertyNode#add(org.eclipse.birt.report.
 	 * designer.ui.PropertyNode)
@@ -146,7 +149,7 @@ public class PropertyNode {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.PropertyNode#remove(java.lang.String)
 	 */
@@ -170,7 +173,7 @@ public class PropertyNode {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.PropertyNode#getSubNode(java.lang.String)
 	 */
@@ -191,7 +194,7 @@ public class PropertyNode {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.PropertyNode#getSubNodes()
 	 */
 	public final PropertyNode[] getSubNodes() {

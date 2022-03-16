@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,11 +24,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Date Format Detail</b></em>', and utility methods for working with
  * them. <!-- end-user-doc --> <!-- begin-model-doc -->
- * 
+ *
  * This type defines the form of Date.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDateFormatDetail()
  * @model
  * @generated
@@ -38,7 +41,7 @@ public enum DateFormatDetail implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #DATE
 	 * @generated
 	 * @ordered
@@ -51,7 +54,7 @@ public enum DateFormatDetail implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #DATE_TIME
 	 * @generated
 	 * @ordered
@@ -61,7 +64,7 @@ public enum DateFormatDetail implements Enumerator {
 	/**
 	 * The '<em><b>Date</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #DATE_LITERAL
 	 * @model name="Date"
 	 * @generated
@@ -72,7 +75,7 @@ public enum DateFormatDetail implements Enumerator {
 	/**
 	 * The '<em><b>Date Time</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #DATE_TIME_LITERAL
 	 * @model name="DateTime" literal="Date_Time"
 	 * @generated
@@ -83,15 +86,15 @@ public enum DateFormatDetail implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Date Format Detail</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final DateFormatDetail[] VALUES_ARRAY = new DateFormatDetail[] { DATE_LITERAL, DATE_TIME_LITERAL, };
+	private static final DateFormatDetail[] VALUES_ARRAY = { DATE_LITERAL, DATE_TIME_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Date Format Detail</b></em>'
 	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static final List<DateFormatDetail> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -99,7 +102,7 @@ public enum DateFormatDetail implements Enumerator {
 	/**
 	 * Returns the '<em><b>Date Format Detail</b></em>' literal with the specified
 	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static DateFormatDetail get(String literal) {
@@ -115,7 +118,7 @@ public enum DateFormatDetail implements Enumerator {
 	/**
 	 * Returns the '<em><b>Date Format Detail</b></em>' literal with the specified
 	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static DateFormatDetail getByName(String name) {
@@ -131,7 +134,7 @@ public enum DateFormatDetail implements Enumerator {
 	/**
 	 * Returns the '<em><b>Date Format Detail</b></em>' literal with the specified
 	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static DateFormatDetail get(int value) {
@@ -146,21 +149,21 @@ public enum DateFormatDetail implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String literal;
@@ -168,10 +171,10 @@ public enum DateFormatDetail implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private DateFormatDetail(int value, String name, String literal) {
+	DateFormatDetail(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -179,27 +182,30 @@ public enum DateFormatDetail implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -207,7 +213,7 @@ public enum DateFormatDetail implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override

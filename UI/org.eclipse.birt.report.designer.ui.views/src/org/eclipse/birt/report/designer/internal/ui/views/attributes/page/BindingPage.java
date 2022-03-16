@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,6 +58,7 @@ public class BindingPage extends AttributePage {
 		return composite;
 	}
 
+	@Override
 	public void buildUI(Composite parent) {
 		container = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -62,6 +66,7 @@ public class BindingPage extends AttributePage {
 		((ScrolledComposite) container).setExpandVertical(true);
 		container.addControlListener(new ControlAdapter() {
 
+			@Override
 			public void controlResized(ControlEvent e) {
 				computeSize();
 			}
@@ -69,6 +74,7 @@ public class BindingPage extends AttributePage {
 
 		container.addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				deRegisterEventManager();
 			}
@@ -77,8 +83,9 @@ public class BindingPage extends AttributePage {
 		composite = new Composite(container, SWT.NONE);
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		if (sections == null)
+		if (sections == null) {
 			sections = new SortMap();
+		}
 
 		composite.setLayout(WidgetUtil.createGridLayout(6));
 
@@ -121,23 +128,30 @@ public class BindingPage extends AttributePage {
 
 	}
 
+	@Override
 	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
-		if (checkControl(dataSetFormSection))
+		if (checkControl(dataSetFormSection)) {
 			dataSetFormSection.getFormControl().addElementEvent(focus, ev);
+		}
 	}
 
+	@Override
 	public void clear() {
-		if (checkControl(dataSetFormSection))
+		if (checkControl(dataSetFormSection)) {
 			dataSetFormSection.getFormControl().clear();
+		}
 	}
 
+	@Override
 	public void postElementEvent() {
 
-		if (checkControl(dataSetFormSection))
+		if (checkControl(dataSetFormSection)) {
 			dataSetFormSection.getFormControl().postElementEvent();
+		}
 
 	}
 
+	@Override
 	public void setInput(Object input) {
 		super.setInput(input);
 	}

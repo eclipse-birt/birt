@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,30 +42,37 @@ public class Part extends PartContainer implements IPart {
 		pkg.addContentType(contentType);
 	}
 
+	@Override
 	public String getRelativeUri() {
 		return uri.toString();
 	}
 
+	@Override
 	public Package getPackage() {
 		return pkg;
 	}
 
+	@Override
 	public ContentType getContentType() {
 		return contentType;
 	}
 
+	@Override
 	public OutputStream getCacheOutputStream() throws IOException {
 		return pkg.getOutputStream(getAbsoluteUri());
 	}
 
+	@Override
 	public String getAbsoluteUri() {
 		return parent.getAbsolutUriOfChild(uri);
 	}
 
+	@Override
 	public String getRelationshipId() {
 		return OOXmlUtil.getRelationShipId(relationshipId);
 	}
 
+	@Override
 	public String getRelationshipUri() {
 		String partUri = getAbsoluteUri();
 		int lastIndex = partUri.lastIndexOf('/');
@@ -70,14 +80,17 @@ public class Part extends PartContainer implements IPart {
 		return uri;
 	}
 
+	@Override
 	public String getRelationshipType() {
 		return relationshipType;
 	}
 
+	@Override
 	public boolean isCached() {
 		return cacheWriterUsed;
 	}
 
+	@Override
 	public boolean isReference() {
 		return false;
 	}

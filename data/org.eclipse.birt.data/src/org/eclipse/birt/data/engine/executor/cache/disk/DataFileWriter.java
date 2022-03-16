@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +39,7 @@ class DataFileWriter {
 
 	/**
 	 * A util method to new instance of DataFileWriter
-	 * 
+	 *
 	 * @param file
 	 * @return DataFileWriter instance
 	 */
@@ -46,7 +49,7 @@ class DataFileWriter {
 
 	/**
 	 * Construction
-	 * 
+	 *
 	 * @param file
 	 */
 	private DataFileWriter(File file, ResultObjectUtil resultObjectUtil) {
@@ -57,12 +60,13 @@ class DataFileWriter {
 	/**
 	 * Set which file to be written. This method is mainly used to new less
 	 * instance.
-	 * 
+	 *
 	 * @param file
 	 */
 	void setWriteFile(File file) {
-		if (isOpen)
+		if (isOpen) {
 			close();
+		}
 
 		this.file = file;
 		this.isOpen = false;
@@ -72,7 +76,7 @@ class DataFileWriter {
 	 * Write the specified length of objects from file. Notice to improve the
 	 * efficienly of reading, the order of writing only can be sequencial. The
 	 * caller has responsibility to design a good algorithm to achive this goal.
-	 * 
+	 *
 	 * @param resultObjects
 	 * @param count
 	 * @param stopSign
@@ -80,7 +84,7 @@ class DataFileWriter {
 	 * @throws DataException
 	 */
 	void write(IResultObject[] resultObjects, int count) throws IOException, DataException {
-		if (isOpen == false) {
+		if (!isOpen) {
 			try {
 				fos = FileSecurity.createFileOutputStream(file);
 			} catch (Exception e) {
@@ -96,7 +100,7 @@ class DataFileWriter {
 
 	/**
 	 * Close current output file
-	 * 
+	 *
 	 * @throws IOException, file close exception
 	 */
 	void close() {

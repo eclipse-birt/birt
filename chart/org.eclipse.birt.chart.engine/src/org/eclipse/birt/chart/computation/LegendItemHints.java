@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,9 +22,9 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
  */
 public final class LegendItemHints {
 
-	public static enum Type {
+	public enum Type {
 		LG_GROUPNAME, LG_ENTRY, LG_MINSLICE, LG_SEPERATOR
-	};
+	}
 
 	private final Type type;
 	private int index = -1;
@@ -150,7 +153,7 @@ public final class LegendItemHints {
 
 	/**
 	 * Set the item text.
-	 * 
+	 *
 	 * @param itemText
 	 */
 	public void setItemText(String itemText) {
@@ -174,49 +177,49 @@ public final class LegendItemHints {
 	/**
 	 * @return Returns the left.
 	 */
-	public final double getLeft() {
+	public double getLeft() {
 		return left;
 	}
 
 	/**
 	 * @return Returns the top.
 	 */
-	public final double getTop() {
+	public double getTop() {
 		return top;
 	}
 
 	/**
 	 * @return Returns the width.
 	 */
-	public final double getWidth() {
+	public double getWidth() {
 		return width;
 	}
 
 	/**
 	 * @return Returns the itemHeight.
 	 */
-	public final double getItemHeight() {
+	public double getItemHeight() {
 		return itemHeight;
 	}
 
 	/**
 	 * @return Returns the valueHeight.
 	 */
-	public final double getValueHeight() {
+	public double getValueHeight() {
 		return valueHeight;
 	}
 
 	/**
 	 * @return Returns the validItemLen.
 	 */
-	public final int getValidItemLen() {
+	public int getValidItemLen() {
 		return validItemLen;
 	}
 
 	/**
 	 * @return Returns the validValueLen.
 	 */
-	public final int getValidValueLen() {
+	public int getValidValueLen() {
 		return validValueLen;
 	}
 

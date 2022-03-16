@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,14 +29,16 @@ import org.eclipse.birt.core.framework.Platform;
 public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor {
 	protected Map initParams = null;
 	protected Locale locale;
-	protected Map<String, RenderOptionDefn> renderOptionDefns = new HashMap<String, RenderOptionDefn>();
+	protected Map<String, RenderOptionDefn> renderOptionDefns = new HashMap<>();
 	protected IConfigurableOption[] options;
 	private boolean enabled = true;
 
+	@Override
 	public void setInitParameters(Map params) {
 		this.initParams = params;
 	}
 
+	@Override
 	public void setLocale(Locale locale) {
 		if (this.locale != locale) {
 			this.locale = locale;
@@ -43,22 +48,27 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor {
 
 	protected abstract void initOptions();
 
+	@Override
 	public boolean isEnabled() {
 		return enabled;
 	}
 
+	@Override
 	public IConfigurableOptionObserver createOptionObserver() {
 		return null;
 	}
 
+	@Override
 	public String getDescription() {
 		return null;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return null;
 	}
 
+	@Override
 	public String getID() {
 		return null;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -75,14 +78,14 @@ import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
 /**
  * This class defines chart element instances with default values, the 'isSet'
  * flag of chart element is initialized.
- * 
+ *
  * @since 3.7
  */
 
 public class DefaultValueProvider {
 
 	/**
-	 * 
+	 *
 	 * @return default instance of chart with axes.
 	 */
 	public static ChartWithAxes defChartWithAxes() {
@@ -90,7 +93,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of chart without axes.
 	 */
 	public static ChartWithoutAxes defChartWithoutAxes() {
@@ -98,7 +101,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of dial chart.
 	 */
 	public static DialChart defDialChart() {
@@ -106,7 +109,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of title
 	 */
 	public static TitleBlock defTitleBlock() {
@@ -114,7 +117,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of plot.
 	 */
 	public static Plot defPlot() {
@@ -122,7 +125,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of legend.
 	 */
 	public static Legend defLegend() {
@@ -130,7 +133,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of series definition.
 	 */
 	public static SeriesDefinition defSeriesDefinition(int id) {
@@ -138,7 +141,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of series.
 	 */
 	public static Series defSeries() {
@@ -146,7 +149,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of x/category axis.
 	 */
 	public static Axis defBaseAxis() {
@@ -154,7 +157,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of y axis or value axis.
 	 */
 	public static Axis defOrthogonalAxis() {
@@ -162,7 +165,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of z axis.
 	 */
 	public static Axis defAncillaryAxis() {
@@ -170,7 +173,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of gantt series.
 	 */
 	public static GanttSeries defGanttSeries() {
@@ -178,7 +181,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of scatter series.
 	 */
 	public static ScatterSeries defScatterSeries() {
@@ -186,7 +189,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of dial series.
 	 */
 	public static DialSeries defDialSeries() {
@@ -194,7 +197,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of pie series.
 	 */
 	public static PieSeries defPieSeries() {
@@ -202,7 +205,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of different series.
 	 */
 	public static DifferenceSeries defDifferenceSeries() {
@@ -210,7 +213,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of stock series.
 	 */
 	public static StockSeries defStockSeries() {
@@ -218,7 +221,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of line series.
 	 */
 	public static LineSeries defLineSeries() {
@@ -226,7 +229,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of area series.
 	 */
 	public static AreaSeries defAreaSeries() {
@@ -234,7 +237,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of bar series.
 	 */
 	public static BarSeries defBarSeries() {
@@ -242,7 +245,7 @@ public class DefaultValueProvider {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of bubble series.
 	 */
 	public static BubbleSeries defBubbleSeries() {

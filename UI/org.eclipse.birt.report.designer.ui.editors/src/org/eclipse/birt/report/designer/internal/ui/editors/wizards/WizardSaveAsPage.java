@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +35,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPathEditorInput;
 
 /**
- * 
+ *
  */
 
 public class WizardSaveAsPage extends WizardPage {
@@ -46,6 +49,7 @@ public class WizardSaveAsPage extends WizardPage {
 
 	private Listener locationModifyListener = new Listener() {
 
+		@Override
 		public void handleEvent(Event e) {
 			validatePage();
 			getContainer().updateButtons();
@@ -57,6 +61,7 @@ public class WizardSaveAsPage extends WizardPage {
 		support = new NewReportPageSupport();
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 
 		Composite composite = support.createComposite(parent);
@@ -116,8 +121,7 @@ public class WizardSaveAsPage extends WizardPage {
 		// If the path already exists then confirm overwrite.
 		File file = path.toFile();
 		if (file.exists()) {
-			String[] buttons = new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL,
-					IDialogConstants.CANCEL_LABEL };
+			String[] buttons = { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.CANCEL_LABEL };
 
 			String question = Messages.getFormattedString("SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
 					new Object[] { path.toOSString() });

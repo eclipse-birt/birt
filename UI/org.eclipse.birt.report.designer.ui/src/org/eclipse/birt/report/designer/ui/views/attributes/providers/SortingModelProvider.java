@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,13 +59,13 @@ public class SortingModelProvider {
 	/**
 	 * Constant, represents empty String array.
 	 */
-	protected static final String[] EMPTY = new String[0];
+	protected static final String[] EMPTY = {};
 
 	private List columnList;
 
 	/**
 	 * Gets the display names of the given property keys.
-	 * 
+	 *
 	 * @param keys Property keys
 	 * @return String array contains display names
 	 */
@@ -78,43 +81,49 @@ public class SortingModelProvider {
 
 	/**
 	 * Gets all elements of the given input.
-	 * 
+	 *
 	 * @param input The input object.
 	 * @return Sorts array.
 	 */
 	public Object[] getElements(List input) {
 		Object obj = input.get(0);
-		if (!(obj instanceof DesignElementHandle))
+		if (!(obj instanceof DesignElementHandle)) {
 			return EMPTY;
+		}
 		DesignElementHandle element = (DesignElementHandle) obj;
 		PropertyHandle propertyHandle = element.getPropertyHandle(ListingHandle.SORT_PROP);
 		Iterator iterator = propertyHandle.iterator();
-		if (iterator == null)
+		if (iterator == null) {
 			return EMPTY;
+		}
 		List list = new ArrayList();
-		while (iterator.hasNext())
+		while (iterator.hasNext()) {
 			list.add(iterator.next());
+		}
 		return list.toArray();
 	}
 
 	/**
 	 * Gets property display name of a given element.
-	 * 
+	 *
 	 * @param element Sort object
 	 * @param key     Property key
 	 * @return
 	 */
 	public String getText(Object element, String key) {
-		if (!(element instanceof StructureHandle))
+		if (!(element instanceof StructureHandle)) {
 			return "";//$NON-NLS-1$
+		}
 
 		String value = ((StructureHandle) element).getMember(key).getStringValue();
-		if (value == null)
+		if (value == null) {
 			value = "";//$NON-NLS-1$
+		}
 		if (key.equals(SortKey.DIRECTION_MEMBER)) {
 			IChoice choice = choiceSetDirection.findChoice(value);
-			if (choice != null)
+			if (choice != null) {
 				return choice.getDisplayName();
+			}
 		} else if (key.equals(SortKey.LOCALE_MEMBER) && element instanceof SortKeyHandle) {
 			SortKeyHandle sortKey = (SortKeyHandle) element;
 			if (sortKey.getLocale() != null) {
@@ -132,15 +141,16 @@ public class SortingModelProvider {
 					return entry.getKey();
 				}
 			}
-		} else
+		} else {
 			return value;
+		}
 
 		return "";//$NON-NLS-1$
 	}
 
 	/**
 	 * Saves new property value to sort
-	 * 
+	 *
 	 * @param element  DesignElementHandle object.
 	 * @param element  Sort object
 	 * @param key      Property key
@@ -152,18 +162,20 @@ public class SortingModelProvider {
 	public boolean setStringValue(Object item, Object element, String key, String newValue) throws SemanticException {
 		if (key.equals(SortKey.KEY_MEMBER)) {
 			String value = DEUtil.getExpression(getResultSetColumn(newValue));
-			if (value != null)
+			if (value != null) {
 				newValue = value;
+			}
 		}
 
 		String saveValue = newValue;
 		StructureHandle handle = (StructureHandle) element;
 		if (key.equals(SortKey.DIRECTION_MEMBER)) {
 			IChoice choice = choiceSetDirection.findChoiceByDisplayName(newValue);
-			if (choice == null)
+			if (choice == null) {
 				saveValue = null;
-			else
+			} else {
 				saveValue = choice.getName();
+			}
 		}
 		handle.getMember(key).setStringValue(saveValue);
 		return true;
@@ -171,7 +183,7 @@ public class SortingModelProvider {
 
 	/**
 	 * Gets the choice set of one property
-	 * 
+	 *
 	 * @param item ReportItem object
 	 * @param key  Property key
 	 * @return Choice set
@@ -188,7 +200,7 @@ public class SortingModelProvider {
 
 	/**
 	 * Gets all columns in a dataSet.
-	 * 
+	 *
 	 * @param item ReportItem object
 	 * @return Columns array.
 	 */
@@ -219,7 +231,7 @@ public class SortingModelProvider {
 
 	/**
 	 * Moves one item from a position to another.
-	 * 
+	 *
 	 * @param item   DesignElement object
 	 * @param oldPos The item's current position
 	 * @param newPos The item's new position
@@ -236,7 +248,7 @@ public class SortingModelProvider {
 
 	/**
 	 * Deletes an item.
-	 * 
+	 *
 	 * @param item DesignElement object
 	 * @param pos  The item's current position
 	 * @return True if success, otherwise false.
@@ -245,12 +257,14 @@ public class SortingModelProvider {
 	public boolean deleteItem(Object item, int pos) throws PropertyValueException {
 		DesignElementHandle element = (DesignElementHandle) item;
 		PropertyHandle propertyHandle = element.getPropertyHandle(ListingHandle.SORT_PROP);
-		if (propertyHandle.getAt(pos) != null)
+		if (propertyHandle.getAt(pos) != null) {
 			propertyHandle.removeItem(pos);
+		}
 
 		try {
-			if (propertyHandle.getListValue() == null || propertyHandle.getListValue().size() == 0)
+			if (propertyHandle.getListValue() == null || propertyHandle.getListValue().size() == 0) {
 				element.setProperty(ListingHandle.SORT_PROP, null);
+			}
 		} catch (SemanticException e) {
 			ExceptionHandler.handle(e);
 		}
@@ -260,7 +274,7 @@ public class SortingModelProvider {
 
 	/**
 	 * Inserts one item into the given position.
-	 * 
+	 *
 	 * @param item DesignElement object
 	 * @param pos  The position.
 	 * @return True if success, otherwise false.
@@ -282,7 +296,7 @@ public class SortingModelProvider {
 
 	/**
 	 * Edit one item into the given position.
-	 * 
+	 *
 	 * @param item DesignElement object
 	 * @param pos  The position.
 	 * @return True if success, otherwise false.

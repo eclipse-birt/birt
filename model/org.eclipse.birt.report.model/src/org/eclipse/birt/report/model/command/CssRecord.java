@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,9 +28,9 @@ import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 
 /**
- * 
+ *
  * Records to add/drop css.
- * 
+ *
  */
 
 public class CssRecord extends SimpleRecord {
@@ -64,7 +67,7 @@ public class CssRecord extends SimpleRecord {
 
 	/**
 	 * Constructors the css record.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element design element
 	 * @param css     the css style sheet to add/drop
@@ -80,7 +83,7 @@ public class CssRecord extends SimpleRecord {
 
 	/**
 	 * Constructors the css record.
-	 * 
+	 *
 	 * @param module
 	 * @param element
 	 * @param css
@@ -98,10 +101,11 @@ public class CssRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 
+	@Override
 	protected void perform(boolean undo) {
 		assert element instanceof ICssStyleSheetOperation;
 
@@ -133,14 +137,15 @@ public class CssRecord extends SimpleRecord {
 
 	/**
 	 * Sets container of CssStyleSheet. container must be report design / theme.
-	 * 
+	 *
 	 * @param element
 	 * @param sheet
 	 */
 
 	private void setContainer(DesignElement element, CssStyleSheet sheet) {
-		if (sheet == null)
+		if (sheet == null) {
 			return;
+		}
 		sheet.setContainer(element);
 		List<CssStyle> styles = sheet.getStyles();
 		Iterator<CssStyle> iter = styles.iterator();
@@ -152,23 +157,26 @@ public class CssRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
+	@Override
 	public NotificationEvent getEvent() {
-		if (add && state != UNDONE_STATE || !add && state == UNDONE_STATE)
+		if (add && state != UNDONE_STATE || !add && state == UNDONE_STATE) {
 			return new CssEvent(css, CssEvent.ADD);
+		}
 
 		return new CssEvent(css, CssEvent.DROP);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
+	@Override
 	public DesignElement getTarget() {
 		return element;
 	}

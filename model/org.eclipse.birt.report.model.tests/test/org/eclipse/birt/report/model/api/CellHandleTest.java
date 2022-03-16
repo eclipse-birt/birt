@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test cases for property search algorithm of cell elements.
- * 
+ *
  */
 
 public class CellHandleTest extends BaseTestCase {
@@ -34,13 +37,14 @@ public class CellHandleTest extends BaseTestCase {
 	 * @see TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Tests to get a style property of a cell element in the table.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -186,7 +190,7 @@ public class CellHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the partly inheritable property "vertical-align" for cells.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -215,7 +219,7 @@ public class CellHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests to get a style property of a cell element in the grid.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -292,13 +296,13 @@ public class CellHandleTest extends BaseTestCase {
 
 	/**
 	 * Returns a cell handle for a cell in TableItem.GROUP_SLOT.
-	 * 
+	 *
 	 * @param group     the table group
 	 * @param slotID    <code>TableGroup.FOOTER_SLOT</code> or
 	 *                  <code>HEADER_SLOT</code>.
 	 * @param rowIndex  the number of row in the slot
 	 * @param cellIndex the index of cell in the row.
-	 * 
+	 *
 	 * @return a cell handle with the given information.
 	 */
 
@@ -310,14 +314,14 @@ public class CellHandleTest extends BaseTestCase {
 
 	/**
 	 * Returns a cell handle for a cell in the slot of the table.
-	 * 
+	 *
 	 * @param table     the table element
 	 * @param slotID    <code>TableItem.FOOTER_SLOT</code> or
 	 *                  <code>TableItem.HEADER_SLOT</code> or
 	 *                  <code>TableItem.DETAIL_SLOT</code>.
 	 * @param rowIndex  the number of row in the slot
 	 * @param cellIndex the index of cell in the row.
-	 * 
+	 *
 	 * @return a cell handle with the given information.
 	 */
 
@@ -333,7 +337,7 @@ public class CellHandleTest extends BaseTestCase {
 	 * getFactoryProperty will return center rather than null or other value.
 	 * However, the table-header-cell and label in the cell will return null for
 	 * getFactoryProperty and it return center for getProperty.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testTextAlign() throws Exception {

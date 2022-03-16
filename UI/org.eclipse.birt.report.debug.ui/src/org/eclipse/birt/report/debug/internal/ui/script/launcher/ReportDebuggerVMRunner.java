@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,6 +37,7 @@ class ReportDebuggerVMRunner implements IVMRunner {
 		this.config = config;
 	}
 
+	@Override
 	public void run(VMRunnerConfiguration configuration, ILaunch launch, IProgressMonitor monitor)
 			throws CoreException {
 		delegate.run(configuration, launch, monitor);

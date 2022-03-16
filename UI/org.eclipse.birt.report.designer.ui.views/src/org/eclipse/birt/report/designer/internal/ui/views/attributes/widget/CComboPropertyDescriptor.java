@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,6 +43,7 @@ public class CComboPropertyDescriptor extends PropertyDescriptor {
 		setFormStyle(formStyle);
 	}
 
+	@Override
 	public void setInput(Object handle) {
 		this.input = handle;
 		getDescriptorProvider().setInput(input);
@@ -49,20 +53,22 @@ public class CComboPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
+	@Override
 	public Control getControl() {
 		return combo;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Control createControl(Composite parent) {
 		if (isFormStyle()) {
 			combo = FormWidgetFactory.getInstance().createBirtCCombo(parent);
@@ -71,10 +77,12 @@ public class CComboPropertyDescriptor extends PropertyDescriptor {
 		}
 		combo.addControlListener(new ControlListener() {
 
+			@Override
 			public void controlMoved(ControlEvent e) {
 				combo.clearSelection();
 			}
 
+			@Override
 			public void controlResized(ControlEvent e) {
 				combo.clearSelection();
 			}
@@ -83,10 +91,12 @@ public class CComboPropertyDescriptor extends PropertyDescriptor {
 		if (comboSelectList.isEmpty()) {
 			SelectionListener listener = new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					handleComboSelectEvent();
 				}
 
+				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					handleComboSelectEvent();
 				}
@@ -108,6 +118,7 @@ public class CComboPropertyDescriptor extends PropertyDescriptor {
 		}
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		descriptorProvider.save(value);
 	}
@@ -130,6 +141,7 @@ public class CComboPropertyDescriptor extends PropertyDescriptor {
 
 	protected String oldValue;
 
+	@Override
 	public void load() {
 		if (getDescriptorProvider() instanceof DataSetDescriptorProvider) {
 			DataSetDescriptorProvider provider = (DataSetDescriptorProvider) getDescriptorProvider();
@@ -166,19 +178,22 @@ public class CComboPropertyDescriptor extends PropertyDescriptor {
 
 	public void addComboSelectionListener(SelectionListener listener) {
 		if (!comboSelectList.contains(listener)) {
-			if (!comboSelectList.isEmpty())
+			if (!comboSelectList.isEmpty()) {
 				removeComboSelectionListener((SelectionListener) comboSelectList.get(0));
+			}
 			comboSelectList.add(listener);
-			if (combo != null)
+			if (combo != null) {
 				combo.addSelectionListener(listener);
+			}
 		}
 	}
 
 	public void removeComboSelectionListener(SelectionListener listener) {
 		if (comboSelectList.contains(listener)) {
 			comboSelectList.remove(listener);
-			if (combo != null)
+			if (combo != null) {
 				combo.removeSelectionListener(listener);
+			}
 		}
 	}
 }

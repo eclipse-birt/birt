@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,6 +36,7 @@ public class DataContent extends TextContent implements IDataContent {
 
 	protected String helpKey;
 
+	@Override
 	public int getContentType() {
 		return DATA_CONTENT;
 	}
@@ -57,30 +58,37 @@ public class DataContent extends TextContent implements IDataContent {
 		this.helpText = data.getHelpText();
 	}
 
+	@Override
 	public Object getValue() {
 		return value;
 	}
 
+	@Override
 	public void setValue(Object value) {
 		this.value = value;
 	}
 
+	@Override
 	public String getLabelText() {
 		return labelText;
 	}
 
+	@Override
 	public void setLabelText(String text) {
 		this.labelText = text;
 	}
 
+	@Override
 	public String getLabelKey() {
 		return this.labelKey;
 	}
 
+	@Override
 	public void setLabelKey(String key) {
 		this.labelKey = key;
 	}
 
+	@Override
 	public String getHelpText() {
 		if (helpText == null) {
 			if (generateBy instanceof DataItemDesign) {
@@ -90,6 +98,7 @@ public class DataContent extends TextContent implements IDataContent {
 		return helpText;
 	}
 
+	@Override
 	public String getHelpKey() {
 		if (helpKey == null) {
 			if (generateBy instanceof DataItemDesign) {
@@ -101,10 +110,11 @@ public class DataContent extends TextContent implements IDataContent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.
 	 * eclipse.birt.report.engine.content.IContentVisitor)
 	 */
+	@Override
 	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
 		return visitor.visitData(this, value);
 	}
@@ -114,6 +124,7 @@ public class DataContent extends TextContent implements IDataContent {
 	static final protected short FIELD_LABELKEY = 302;
 	static final protected short FIELD_HELPKEY = 303;
 
+	@Override
 	protected void writeFields(DataOutputStream out) throws IOException {
 		super.writeFields(out);
 		if (value != null) {
@@ -143,6 +154,7 @@ public class DataContent extends TextContent implements IDataContent {
 		}
 	}
 
+	@Override
 	public boolean needSave() {
 		if (value != null) {
 			if (this.generateBy instanceof DataItemDesign) {
@@ -153,15 +165,13 @@ public class DataContent extends TextContent implements IDataContent {
 				}
 			}
 		}
-		if (labelText != null || labelKey != null) {
-			return true;
-		}
-		if (helpKey != null) {
+		if (labelText != null || labelKey != null || (helpKey != null)) {
 			return true;
 		}
 		return super.needSave();
 	}
 
+	@Override
 	protected void readField(int version, int filedId, DataInputStream in, ClassLoader loader) throws IOException {
 		switch (filedId) {
 		case FIELD_VALUE:
@@ -181,6 +191,7 @@ public class DataContent extends TextContent implements IDataContent {
 		}
 	}
 
+	@Override
 	protected IContent cloneContent() {
 		return new DataContent(this);
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,6 +50,7 @@ public abstract class PreviewPainterBase<CX extends IChartWizardContext<?>> impl
 		this.wizardContext = wizardContext;
 	}
 
+	@Override
 	public void dispose() {
 		activateLivePreview(false);
 		if (fPaintTimer != null) {
@@ -62,6 +66,7 @@ public abstract class PreviewPainterBase<CX extends IChartWizardContext<?>> impl
 		}
 	}
 
+	@Override
 	public void renderModel(IChartObject cm) {
 		if (cm == null) {
 			return;
@@ -71,14 +76,17 @@ public abstract class PreviewPainterBase<CX extends IChartWizardContext<?>> impl
 		doRenderModel(chart);
 	}
 
+	@Override
 	public void setPreview(Canvas previewCanvas) {
 		this.preview = previewCanvas;
 	}
 
+	@Override
 	public void controlMoved(ControlEvent e) {
 
 	}
 
+	@Override
 	public void controlResized(ControlEvent e) {
 		repaintChartInTimer();
 	}
@@ -92,6 +100,7 @@ public abstract class PreviewPainterBase<CX extends IChartWizardContext<?>> impl
 
 		TimerTask task = new TimerTask() {
 
+			@Override
 			public void run() {
 				paintChart();
 			}
@@ -134,7 +143,7 @@ public abstract class PreviewPainterBase<CX extends IChartWizardContext<?>> impl
 	/**
 	 * Activates Live Preview when the data bindings are complete. The final result
 	 * depends on whether Live Preview is enabled.
-	 * 
+	 *
 	 * @param canLive activate Live Preview or not
 	 */
 	public static void activateLivePreview(boolean canLive) {

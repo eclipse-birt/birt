@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,10 +33,11 @@ public final class RDUtil {
 			QueryResultInfo queryResultInfo) throws DataException {
 		QueryResultInfo newQueryResultInfo = getRealQueryResultInfo(queryResultInfo);
 
-		if (newQueryResultInfo.getRootQueryResultID() == null)
+		if (newQueryResultInfo.getRootQueryResultID() == null) {
 			return new RDSave(context, queryDefn, rowCount, newQueryResultInfo);
-		else
+		} else {
 			return new RDSave2(context, queryDefn, newQueryResultInfo);
+		}
 	}
 
 	/**
@@ -42,13 +46,14 @@ public final class RDUtil {
 	 */
 	public static QueryResultInfo getRealQueryResultInfo(QueryResultInfo queryResultInfo) {
 		String rootQueryResultID = null;
-		String selfQueryResultID = null;
+		String selfQueryResultID;
 
 		selfQueryResultID = QueryResultIDUtil.get2PartID(queryResultInfo.getSelfQueryResultID());
-		if (selfQueryResultID == null)
+		if (selfQueryResultID == null) {
 			selfQueryResultID = queryResultInfo.getSelfQueryResultID();
-		else
+		} else {
 			rootQueryResultID = QueryResultIDUtil.get1PartID(queryResultInfo.getSelfQueryResultID());
+		}
 
 		return new QueryResultInfo(rootQueryResultID, null, selfQueryResultID, queryResultInfo.getSubQueryName(),
 				queryResultInfo.getIndex());

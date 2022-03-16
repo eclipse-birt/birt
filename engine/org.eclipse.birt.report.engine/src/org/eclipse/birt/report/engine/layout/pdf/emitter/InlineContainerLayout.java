@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -35,10 +35,12 @@ public class InlineContainerLayout extends InlineStackingLayout implements IInli
 		lineParent = (IInlineStackingLayout) parent;
 	}
 
+	@Override
 	public void setTextIndent(ITextContent content) {
 		lineParent.setTextIndent(content);
 	}
 
+	@Override
 	protected void closeLayout(ContainerContext currentContext, int index, boolean finished) {
 		// TODO support specified height/width/alignment
 		if (currentContext.root != null) {
@@ -66,16 +68,19 @@ public class InlineContainerLayout extends InlineStackingLayout implements IInli
 
 	}
 
+	@Override
 	public void addToRoot(AbstractArea area) {
 		currentContext.root.addChild(area);
 		area.setAllocatedPosition(currentContext.currentIP, currentContext.currentBP);
 		currentContext.currentIP += area.getAllocatedWidth();
 	}
 
+	@Override
 	protected void createRoot() {
 		currentContext.root = (ContainerArea) AreaFactory.createInlineContainer(content);
 	}
 
+	@Override
 	protected void initialize() {
 		currentContext = new ContainerContext();
 		contextList.add(currentContext);
@@ -86,6 +91,7 @@ public class InlineContainerLayout extends InlineStackingLayout implements IInli
 		currentContext.currentIP = currentContext.root.getContentX();
 	}
 
+	@Override
 	public boolean endLine() throws BirtException {
 		lineCount++;
 		boolean ret = true;
@@ -99,10 +105,12 @@ public class InlineContainerLayout extends InlineStackingLayout implements IInli
 		return ret;
 	}
 
+	@Override
 	public int getMaxLineWidth() {
 		return lineParent.getMaxLineWidth();
 	}
 
+	@Override
 	public boolean isEmptyLine() {
 		if (currentContext.root != null && currentContext.root.getChildrenCount() > 0) {
 			return false;

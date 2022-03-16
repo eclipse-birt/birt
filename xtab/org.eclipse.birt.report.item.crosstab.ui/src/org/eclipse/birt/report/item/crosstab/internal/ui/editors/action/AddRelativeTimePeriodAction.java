@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,14 +50,12 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * 
+ *
  */
 
 public class AddRelativeTimePeriodAction extends AbstractViewAction {
 
 	public static final String ID = "com.actuate.birt.report.designer.internal.ui.croostab.AddRelativeTimePeriodAction"; //$NON-NLS-1$
-	private static final double DEFAULT_COLUMN_WIDTH = 1.0;
-	private static final String ICON = "/icons/obj16/relativetime.gif"; //$NON-NLS-1$
 	private MeasureViewHandle measureViewHandle;
 	private CrosstabReportItemHandle reportHandle;
 
@@ -66,6 +67,7 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction {
 		setImageDescriptor(ImageDescriptor.createFromImage(image));
 	}
 
+	@Override
 	public void run() {
 		if (measureViewHandle != null) {
 			reportHandle = measureViewHandle.getCrosstab();
@@ -157,10 +159,7 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction {
 		}
 
 		CubeHandle cube = reportHandle.getCube();
-		if (cube == null) {
-			return false;
-		}
-		if (cube.getPropertyHandle(ICubeModel.DIMENSIONS_PROP) == null) {
+		if ((cube == null) || (cube.getPropertyHandle(ICubeModel.DIMENSIONS_PROP) == null)) {
 			return false;
 		}
 		List list = cube.getContents(ICubeModel.DIMENSIONS_PROP);

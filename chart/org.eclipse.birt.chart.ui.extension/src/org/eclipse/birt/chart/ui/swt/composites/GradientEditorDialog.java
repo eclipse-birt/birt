@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -37,7 +40,7 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class GradientEditorDialog extends TrayDialog implements SelectionListener, Listener, IAngleChangeListener {
 
@@ -64,7 +67,7 @@ public class GradientEditorDialog extends TrayDialog implements SelectionListene
 	private final boolean bSupportAngle;
 
 	/**
-	 * 
+	 *
 	 */
 	public GradientEditorDialog(Shell shellParent, ChartWizardContext wizardContext, Gradient gSelected,
 			boolean bSupportAngle) {
@@ -198,30 +201,33 @@ public class GradientEditorDialog extends TrayDialog implements SelectionListene
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
 	 * Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		if (event.widget.equals(fccStartColor)) {
 			gCurrent.setStartColor((ColorDefinition) event.data);
@@ -237,11 +243,12 @@ public class GradientEditorDialog extends TrayDialog implements SelectionListene
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.composites.IAngleChangeListener#angleChanged
 	 * (int)
 	 */
+	@Override
 	public void angleChanged(int iNewAngle) {
 		iscRotation.setValue(iNewAngle);
 		gCurrent.setDirection(iNewAngle);

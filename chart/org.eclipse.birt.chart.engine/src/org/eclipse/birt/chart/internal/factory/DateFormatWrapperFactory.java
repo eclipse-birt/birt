@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,9 +40,9 @@ public class DateFormatWrapperFactory {
 	/**
 	 * Returns a preferred format specifier for tick labels that represent axis
 	 * values that will be computed based on the difference between cdt1 and cdt2
-	 * 
+	 *
 	 * @param iUnit The unit for which a preferred pattern is being requested
-	 * 
+	 *
 	 * @return A preferred datetime format for the given unit
 	 */
 	public static final IDateFormatWrapper getPreferredDateFormat(int iUnit) {
@@ -49,10 +52,10 @@ public class DateFormatWrapperFactory {
 	/**
 	 * Returns a preferred format specifier for tick labels that represent axis
 	 * values that will be computed based on the difference between cdt1 and cdt2
-	 * 
+	 *
 	 * @param iUnit  The unit for which a preferred pattern is being requested
 	 * @param locale The locale for format style
-	 * 
+	 *
 	 * @return A preferred datetime format for the given unit
 	 */
 	public static final IDateFormatWrapper getPreferredDateFormat(int iUnit, ULocale locale) {
@@ -62,16 +65,16 @@ public class DateFormatWrapperFactory {
 	/**
 	 * Returns a preferred format specifier for tick labels that represent axis
 	 * values that will be computed based on the difference between cdt1 and cdt2
-	 * 
+	 *
 	 * @param iUnit         The unit for which a preferred pattern is being
 	 *                      requested
 	 * @param locale        The locale for format style
 	 * @param keepHierarchy indicates if the format should keep hierarchy
-	 * 
+	 *
 	 * @return A preferred datetime format for the given unit
 	 */
 	public static final IDateFormatWrapper getPreferredDateFormat(int iUnit, ULocale locale, boolean keepHierarchy) {
-		IDateFormatWrapper df = null;
+		IDateFormatWrapper df;
 		String pattern = ChartUtil.createDefaultFormatPattern(iUnit, keepHierarchy);
 		df = new CommonDateFormatWrapper(new SimpleDateFormat(pattern, locale));
 		// Special cases for dynamic patterns
@@ -98,10 +101,12 @@ public class DateFormatWrapperFactory {
 			this.formater = formater;
 		}
 
+		@Override
 		public String format(Date date) {
 			return formater.format(date);
 		}
 
+		@Override
 		public String format(CDateTime calendar) {
 			if (calendar.isFullDateTime()) {
 				formater.setTimeZone(calendar.getTimeZone());
@@ -111,11 +116,12 @@ public class DateFormatWrapperFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.chart.internal.factory.IDateFormatWrapper#toLocalizedPattern
 		 * ()
 		 */
+		@Override
 		public String toLocalizedPattern() {
 			if (formater instanceof SimpleDateFormat) {
 				return ((SimpleDateFormat) formater).toLocalizedPattern();
@@ -135,8 +141,9 @@ public class DateFormatWrapperFactory {
 			this.locale = locale;
 		}
 
+		@Override
 		public String format(Date date) {
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, locale);
 			if (tz != null) {
 				df.setTimeZone(tz);
@@ -151,6 +158,7 @@ public class DateFormatWrapperFactory {
 			return sb.toString();
 		}
 
+		@Override
 		public String format(CDateTime calendar) {
 			if (calendar.isFullDateTime()) {
 				tz = calendar.getTimeZone();
@@ -160,11 +168,12 @@ public class DateFormatWrapperFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.chart.internal.factory.IDateFormatWrapper#toLocalizedPattern
 		 * ()
 		 */
+		@Override
 		public String toLocalizedPattern() {
 			DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, locale);
 			if (df instanceof SimpleDateFormat) {
@@ -186,6 +195,7 @@ public class DateFormatWrapperFactory {
 			this.locale = locale;
 		}
 
+		@Override
 		public String format(Date date) {
 			StringBuffer str = new StringBuffer();
 			FieldPosition pos = new FieldPosition(DateFormat.DATE_FIELD);
@@ -217,6 +227,7 @@ public class DateFormatWrapperFactory {
 			return str.substring(0, pos.getBeginIndex()) + str.substring(endIndex);
 		}
 
+		@Override
 		public String format(CDateTime calendar) {
 			if (calendar.isFullDateTime()) {
 				tz = calendar.getTimeZone();
@@ -226,11 +237,12 @@ public class DateFormatWrapperFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.chart.internal.factory.IDateFormatWrapper#toLocalizedPattern
 		 * ()
 		 */
+		@Override
 		public String toLocalizedPattern() {
 			DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
 			if (df instanceof SimpleDateFormat) {

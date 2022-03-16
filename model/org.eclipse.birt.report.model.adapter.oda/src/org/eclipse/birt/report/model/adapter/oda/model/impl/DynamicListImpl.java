@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -8,11 +20,8 @@ package org.eclipse.birt.report.model.adapter.oda.model.impl;
 
 import org.eclipse.birt.report.model.adapter.oda.model.DynamicList;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelPackage;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -39,7 +48,7 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 	/**
 	 * The default value of the '{@link #getDataSetName() <em>Data Set Name</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getDataSetName()
 	 * @generated
 	 * @ordered
@@ -49,7 +58,7 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 	/**
 	 * The cached value of the '{@link #getDataSetName() <em>Data Set Name</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getDataSetName()
 	 * @generated
 	 * @ordered
@@ -59,7 +68,7 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 	/**
 	 * The default value of the '{@link #getEnabled() <em>Enabled</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getEnabled()
 	 * @generated
 	 * @ordered
@@ -69,7 +78,7 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 	/**
 	 * The cached value of the '{@link #getEnabled() <em>Enabled</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getEnabled()
 	 * @generated
 	 * @ordered
@@ -79,7 +88,7 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 	/**
 	 * The default value of the '{@link #getLabelColumn() <em>Label Column</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getLabelColumn()
 	 * @generated
 	 * @ordered
@@ -89,7 +98,7 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 	/**
 	 * The cached value of the '{@link #getLabelColumn() <em>Label Column</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getLabelColumn()
 	 * @generated
 	 * @ordered
@@ -99,7 +108,7 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 	/**
 	 * The default value of the '{@link #getValueColumn() <em>Value Column</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getValueColumn()
 	 * @generated
 	 * @ordered
@@ -109,7 +118,7 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 	/**
 	 * The cached value of the '{@link #getValueColumn() <em>Value Column</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getValueColumn()
 	 * @generated
 	 * @ordered
@@ -118,7 +127,7 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected DynamicListImpl() {
@@ -127,7 +136,7 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -137,95 +146,107 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getDataSetName() {
 		return dataSetName;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setDataSetName(String newDataSetName) {
 		String oldDataSetName = dataSetName;
 		dataSetName = newDataSetName;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DYNAMIC_LIST__DATA_SET_NAME,
 					oldDataSetName, dataSetName));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getEnabled() {
 		return enabled;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setEnabled(String newEnabled) {
 		String oldEnabled = enabled;
 		enabled = newEnabled;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DYNAMIC_LIST__ENABLED, oldEnabled,
 					enabled));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getLabelColumn() {
 		return labelColumn;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setLabelColumn(String newLabelColumn) {
 		String oldLabelColumn = labelColumn;
 		labelColumn = newLabelColumn;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DYNAMIC_LIST__LABEL_COLUMN,
 					oldLabelColumn, labelColumn));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getValueColumn() {
 		return valueColumn;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setValueColumn(String newValueColumn) {
 		String oldValueColumn = valueColumn;
 		valueColumn = newValueColumn;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DYNAMIC_LIST__VALUE_COLUMN,
 					oldValueColumn, valueColumn));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -245,7 +266,7 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -269,7 +290,7 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -293,7 +314,7 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -313,15 +334,16 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (dataSetName: ");
 		result.append(dataSetName);
 		result.append(", enabled: ");

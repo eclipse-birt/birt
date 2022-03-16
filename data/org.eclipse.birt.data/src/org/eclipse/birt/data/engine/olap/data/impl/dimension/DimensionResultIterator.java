@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
 /**
- * 
+ *
  */
 
 public class DimensionResultIterator implements IDimensionResultIterator {
@@ -69,23 +72,27 @@ public class DimensionResultIterator implements IDimensionResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#close()
 	 */
+	@Override
 	public void close() throws BirtException, IOException {
-		if (dimensionPosition != null)
+		if (dimensionPosition != null) {
 			dimensionPosition.close();
-		if (dimensionRows != null)
+		}
+		if (dimensionRows != null) {
 			dimensionRows.close();
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#filter(org.eclipse.
 	 * birt.data.olap.data.api.IDimensionSortDefinition)
 	 */
+	@Override
 	public IDimensionResultIterator filter(IDimensionFilterDefn filterDef) throws BirtException {
 		// TODO Auto-generated method stub
 		return null;
@@ -93,19 +100,21 @@ public class DimensionResultIterator implements IDimensionResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#getDimesion()
 	 */
+	@Override
 	public IDimension getDimesion() {
 		return dimension;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#getDimesionPosition()
 	 */
+	@Override
 	public int getDimesionPosition() throws BirtException, IOException {
 		initDimensionRows();
 		return ((Integer) (dimensionPosition.get(currentPosition))).intValue();
@@ -113,11 +122,12 @@ public class DimensionResultIterator implements IDimensionResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#getLevelAttribute(
 	 * int, int)
 	 */
+	@Override
 	public Object getLevelAttribute(int levelIndex, int attributeIndex) throws IOException {
 		if (dimension.isTime()) {
 			return null;
@@ -129,10 +139,11 @@ public class DimensionResultIterator implements IDimensionResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#
 	 * getLevelAttributeDataType(java.lang.String, java.lang.String)
 	 */
+	@Override
 	public int getLevelAttributeDataType(String levelName, String attributeName) {
 		if (dimension.isTime()) {
 			return -1;
@@ -142,10 +153,11 @@ public class DimensionResultIterator implements IDimensionResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#
 	 * getLevelAttributeIndex(java.lang.String, java.lang.String)
 	 */
+	@Override
 	public int getLevelAttributeIndex(String levelName, String attributeName) {
 		if (dimension.isTime()) {
 			return -1;
@@ -161,11 +173,12 @@ public class DimensionResultIterator implements IDimensionResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#getLevelIndex(java.
 	 * lang.String)
 	 */
+	@Override
 	public int getLevelIndex(String levelName) {
 		if (dimension.isTime()) {
 			return TimeDimensionUtil.getFieldIndex(levelName);
@@ -180,11 +193,12 @@ public class DimensionResultIterator implements IDimensionResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#getLevelKeyDataType(
 	 * java.lang.String)
 	 */
+	@Override
 	public int[] getLevelKeyDataType(String levelName) {
 		if (dimension.isTime()) {
 			return new int[] { DataType.INTEGER_TYPE };
@@ -203,10 +217,11 @@ public class DimensionResultIterator implements IDimensionResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#getLevelKeyValue(int)
 	 */
+	@Override
 	public Object[] getLevelKeyValue(int levelIndex) throws IOException {
 		initDimensionRows();
 		if (dimension.isTime()) {
@@ -219,18 +234,20 @@ public class DimensionResultIterator implements IDimensionResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#getLevels()
 	 */
+	@Override
 	public ILevel[] getLevels() {
 		return levels;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#length()
 	 */
+	@Override
 	public int length() {
 		if (dimensionPosition == null) {
 			return dimension.length();
@@ -241,20 +258,22 @@ public class DimensionResultIterator implements IDimensionResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#seek(int)
 	 */
+	@Override
 	public void seek(int index) {
 		currentPosition = index;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#sort(org.eclipse.birt
 	 * .data.olap.data.api.IDimensionSortDefinition)
 	 */
+	@Override
 	public void sort(IDimensionSortDefn sortDef) throws BirtException {
 		// TODO Auto-generated method stub
 
@@ -262,10 +281,11 @@ public class DimensionResultIterator implements IDimensionResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#getLevelMember(int)
 	 */
+	@Override
 	public Member getLevelMember(int levelIndex) throws IOException {
 		initDimensionRows();
 		if (dimension.isTime()) {
@@ -290,21 +310,23 @@ public class DimensionResultIterator implements IDimensionResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.api.IDimensionResultIterator#locate(
 	 * int)
 	 */
+	@Override
 	public boolean locate(int dimPosition) throws BirtException, IOException {
 		int curDimPosition = getDimesionPosition();
-		if (curDimPosition == dimPosition)
+		if (curDimPosition == dimPosition) {
 			return true;
+		}
 
 		if (memoryDimensionPosition != null) {
 			int pos = Arrays.binarySearch(memoryDimensionPosition, dimPosition);
-			if (pos < 0)
+			if (pos < 0) {
 				return false;
-			else {
+			} else {
 				seek(pos);
 				return true;
 			}

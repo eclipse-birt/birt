@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -90,11 +93,11 @@ public class DataColumnBindingDialog extends BaseDialog {
 	private boolean bindSelf = false;
 
 	public DataColumnBindingDialog(boolean isCreateNew) {
-		super(isCreateNew == true ? NEW_DATAITEM_TITLE : EDIT_DATAITEM_TITLE);
+		super(isCreateNew ? NEW_DATAITEM_TITLE : EDIT_DATAITEM_TITLE);
 	}
 
 	public DataColumnBindingDialog(boolean isCreateNew, boolean bindSelf) {
-		super(isCreateNew == true ? NEW_DATAITEM_TITLE : EDIT_DATAITEM_TITLE);
+		super(isCreateNew ? NEW_DATAITEM_TITLE : EDIT_DATAITEM_TITLE);
 		this.bindSelf = bindSelf;
 	}
 
@@ -162,10 +165,11 @@ public class DataColumnBindingDialog extends BaseDialog {
 
 		dialogHelper.setEditModal(isEditModal());
 
-		if (!bindSelf)
+		if (!bindSelf) {
 			dialogHelper.setBindingHolder(DEUtil.getBindingHolder(bindingObject));
-		else
+		} else {
 			dialogHelper.setBindingHolder(bindingObject);
+		}
 		dialogHelper.setBinding(bindingColumn);
 		dialogHelper.setContainer(container);
 		dialogHelper.setDialog(this);
@@ -251,6 +255,7 @@ public class DataColumnBindingDialog extends BaseDialog {
 		return true;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 
 		Composite composite = (Composite) super.createDialogArea(parent);
@@ -277,6 +282,7 @@ public class DataColumnBindingDialog extends BaseDialog {
 		return content;
 	}
 
+	@Override
 	protected void okPressed() {
 		try {
 			ComputedColumnHandle newBindingColumn = null;
@@ -299,6 +305,7 @@ public class DataColumnBindingDialog extends BaseDialog {
 									"", //$NON-NLS-1$
 									new IInputValidator() {
 
+										@Override
 										public String isValid(String newText) {
 
 											for (Iterator iterator = DEUtil.getBindingHolder(bindingObject)
@@ -326,17 +333,20 @@ public class DataColumnBindingDialog extends BaseDialog {
 							return;
 						}
 					}
-					if (!dialogHelper.canProcessWithWarning())
+					if (!dialogHelper.canProcessWithWarning()) {
 						return;
+					}
 					bindingColumn = dialogHelper.editBinding(bindingColumn);
 				}
 			} else {
-				if (!dialogHelper.canProcessWithWarning())
+				if (!dialogHelper.canProcessWithWarning()) {
 					return;
-				if (bindSelf)
+				}
+				if (bindSelf) {
 					bindingColumn = dialogHelper.newBinding(bindingObject, null);
-				else
+				} else {
 					bindingColumn = dialogHelper.newBinding(DEUtil.getBindingHolder(bindingObject), null);
+				}
 				newBindingColumn = bindingColumn;
 			}
 			if (ExtendedDataModelUIAdapterHelper.isBoundToExtendedData(DEUtil.getBindingHolder(bindingObject))) {
@@ -383,35 +393,41 @@ public class DataColumnBindingDialog extends BaseDialog {
 		if (obj instanceof DataItemHandle && !obj.equals(excepted)) {
 			for (Iterator iterator = bindings.iterator(); iterator.hasNext();) {
 				ComputedColumnHandle binding = (ComputedColumnHandle) iterator.next();
-				if (binding.getName().equals(((DataItemHandle) obj).getResultSetColumn()))
+				if (binding.getName().equals(((DataItemHandle) obj).getResultSetColumn())) {
 					return true;
+				}
 			}
 		}
 
 		Object[] children = ProviderFactory.createProvider(obj).getChildren(obj);
 		for (int i = 0; i < children.length; i++) {
 			if (children[i] instanceof ReportItemHandle && (((ReportItemHandle) children[i]).getDataSet() != null
-					|| ((ReportItemHandle) children[i]).getDataBindingReference() != null))
+					|| ((ReportItemHandle) children[i]).getDataBindingReference() != null)) {
 				continue;
-			if (isBindingUsed(children[i], bindings, excepted))
+			}
+			if (isBindingUsed(children[i], bindings, excepted)) {
 				return true;
+			}
 		}
 		return false;
 	}
 
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
 		dialogHelper.validate();
 	}
 
+	@Override
 	protected boolean initDialog() {
 		dialogHelper.initDialog();
 		return super.initDialog();
 	}
 
 	public void setCanFinish(boolean canFinish) {
-		if (getOkButton() != null)
+		if (getOkButton() != null) {
 			getOkButton().setEnabled(canFinish);
+		}
 	}
 
 	private boolean isEditModal = false;

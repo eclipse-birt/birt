@@ -1,9 +1,12 @@
 /**
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,7 +47,7 @@ public class ColumnBandData implements Cloneable {
 
 	/**
 	 * Returns the copied column.
-	 * 
+	 *
 	 * @return the copied column.
 	 */
 
@@ -54,7 +57,7 @@ public class ColumnBandData implements Cloneable {
 
 	/**
 	 * Saves the copied column.
-	 * 
+	 *
 	 * @param column the copied column object
 	 */
 
@@ -64,7 +67,7 @@ public class ColumnBandData implements Cloneable {
 
 	/**
 	 * Returns cells after the copy operation.
-	 * 
+	 *
 	 * @return a list containing cells. Each element in the list is a
 	 *         <code>CellContextInfo</code>.
 	 */
@@ -75,7 +78,7 @@ public class ColumnBandData implements Cloneable {
 
 	/**
 	 * Saves the copied cells.
-	 * 
+	 *
 	 * @param cells a list containing cells. Each element in the list is a
 	 *              <code>CellContextInfo</code>.
 	 */
@@ -86,10 +89,11 @@ public class ColumnBandData implements Cloneable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#clone()
 	 */
 
+	@Override
 	protected Object clone() throws CloneNotSupportedException {
 		ColumnBandData clonedData = (ColumnBandData) super.clone();
 
@@ -108,7 +112,7 @@ public class ColumnBandData implements Cloneable {
 
 	/**
 	 * Deeply clones the column band data.
-	 * 
+	 *
 	 * @return the copy of the column band data
 	 */
 

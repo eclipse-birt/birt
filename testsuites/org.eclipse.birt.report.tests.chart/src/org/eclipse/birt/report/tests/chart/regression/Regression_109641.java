@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
@@ -70,7 +73,7 @@ public class Regression_109641 extends ChartTestCase {
 
 	/**
 	 * execute application
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -122,7 +125,7 @@ public class Regression_109641 extends ChartTestCase {
 
 		// Data Set
 
-		final Object[][] data = new Object[][] { { "Chicago", new Integer(1980), new Double(2783726) },
+		final Object[][] data = { { "Chicago", new Integer(1980), new Double(2783726) },
 				{ "New York", new Integer(1980), new Double(7322564) },
 				{ "Los Angeles", new Integer(1990), new Double(4694820) },
 				{ "Chicago", new Integer(1990), new Double(3196016) },
@@ -136,9 +139,11 @@ public class Regression_109641 extends ChartTestCase {
 
 				int idx = 0;
 
+				@Override
 				public void close() {
 				}
 
+				@Override
 				public Object evaluate(String expression) {
 					if ("X".equals(expression)) {
 						return data[idx][1];
@@ -150,15 +155,18 @@ public class Regression_109641 extends ChartTestCase {
 					return null;
 				}
 
+				@Override
 				public Object evaluateGlobal(String expression) {
 					return evaluate(expression);
 				}
 
+				@Override
 				public boolean first() {
 					idx = 0;
 					return true;
 				}
 
+				@Override
 				public boolean next() {
 					idx++;
 					return (idx < 7);

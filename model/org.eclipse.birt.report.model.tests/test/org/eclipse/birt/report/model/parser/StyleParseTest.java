@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -230,7 +233,7 @@ import com.ibm.icu.util.ULocale;
  * </tr>
  * </table>
  * >>>> ORIGINAL StyleParseTest.java#7 ==== THEIRS StyleParseTest.java#8
- * 
+ *
  * @see org.eclipse.birt.report.model.core.StyledElement ==== YOURS
  *      StyleParseTest.java < < < <
  */
@@ -242,7 +245,7 @@ public class StyleParseTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Override
@@ -252,7 +255,7 @@ public class StyleParseTest extends BaseTestCase {
 
 	/**
 	 * Test parser and getting property.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -397,7 +400,7 @@ public class StyleParseTest extends BaseTestCase {
 
 	/**
 	 * Gets the <code>ULocale<code> according to the input property name.
-	 * 
+	 *
 	 * @param handle   the style handle.
 	 * @param propName the property name
 	 * @return the ulocale
@@ -413,7 +416,7 @@ public class StyleParseTest extends BaseTestCase {
 	 * Test property searching algorithm. At the same time, test the
 	 * {@link org.eclipse.birt.report.model.core.StyledElement #getFactoryProperty }
 	 * method in StyledElement.
-	 * 
+	 *
 	 * @throws Exception any exception caught
 	 */
 
@@ -585,7 +588,7 @@ public class StyleParseTest extends BaseTestCase {
 
 	/**
 	 * Test writer.
-	 * 
+	 *
 	 * @throws Exception any exception caught
 	 */
 	public void testWriter() throws Exception {
@@ -623,7 +626,7 @@ public class StyleParseTest extends BaseTestCase {
 
 	/**
 	 * Sets the <code>ULocale</code>.
-	 * 
+	 *
 	 * @param handle   the style handle.
 	 * @param propName the property name.
 	 * @param locale   the locale.
@@ -638,7 +641,7 @@ public class StyleParseTest extends BaseTestCase {
 
 	/**
 	 * Test highlight writer.
-	 * 
+	 *
 	 * @throws Exception any exception during reading/writting the design file.
 	 */
 
@@ -778,7 +781,7 @@ public class StyleParseTest extends BaseTestCase {
 
 	/**
 	 * Test predefined style defined in rom.def.
-	 * 
+	 *
 	 * @throws Exception any exception caught
 	 */
 	public void testPredefinedStyle() throws Exception {
@@ -827,7 +830,7 @@ public class StyleParseTest extends BaseTestCase {
 
 	/**
 	 * Test getting style property with different level.
-	 * 
+	 *
 	 * @throws Exception any exception caught
 	 */
 
@@ -872,7 +875,7 @@ public class StyleParseTest extends BaseTestCase {
 	/**
 	 * Get the member value of highlight rule to see if they are identical to those
 	 * specified in the input file.
-	 * 
+	 *
 	 * @throws Exception any exception during writing the design file.
 	 */
 
@@ -1011,7 +1014,7 @@ public class StyleParseTest extends BaseTestCase {
 
 	/**
 	 * Test property search with Session Default.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws PropertyValueException
 	 */
@@ -1038,7 +1041,7 @@ public class StyleParseTest extends BaseTestCase {
 
 	/**
 	 * Tests getting property from selector.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -1052,7 +1055,7 @@ public class StyleParseTest extends BaseTestCase {
 
 	/**
 	 * Tests to open and save the old design file.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1065,7 +1068,7 @@ public class StyleParseTest extends BaseTestCase {
 
 	/**
 	 * Tests the validation for font-family.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testFontFamily() throws Exception {
@@ -1091,7 +1094,7 @@ public class StyleParseTest extends BaseTestCase {
 
 	/**
 	 * Tests the 'style' in toc or highlight rule.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testTOC() throws Exception {

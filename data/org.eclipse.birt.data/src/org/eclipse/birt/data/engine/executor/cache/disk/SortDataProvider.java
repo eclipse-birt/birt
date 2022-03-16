@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +57,7 @@ class SortDataProvider {
 
 	/**
 	 * Construction
-	 * 
+	 *
 	 * @param dataCountOfUnit
 	 * @param tempDirStr
 	 * @param goalFileStr
@@ -64,8 +67,9 @@ class SortDataProvider {
 		this.resultObjectUtil = resultObjectUtil;
 
 		tempDir = new File(tempDirStr);
-		if (FileSecurity.fileExist(tempDir) == false)
+		if (!FileSecurity.fileExist(tempDir)) {
 			FileSecurity.fileMakeDirs(tempDir);
+		}
 		this.tempDirStr = tempDirStr;
 
 		goalFile = new File(goalFileStr);
@@ -73,20 +77,22 @@ class SortDataProvider {
 
 	/**
 	 * Initialize class members value, this function must be called
-	 * 
+	 *
 	 * @param countOfUnit
 	 */
 	void initForMerge(int dataCountOfTotal) {
 		int countOfUnit = dataCountOfTotal / dataCountOfUnit;
-		if (dataCountOfTotal % dataCountOfUnit != 0)
+		if (dataCountOfTotal % dataCountOfUnit != 0) {
 			countOfUnit++;
+		}
 
 		dfrArray = new DataFileReader[countOfUnit];
 
 		cachedResultObjects = new IResultObject[countOfUnit][];
 		indexOfCachedRowData = new int[countOfUnit];
-		for (int i = 0; i < countOfUnit; i++)
+		for (int i = 0; i < countOfUnit; i++) {
 			indexOfCachedRowData[i] = -1;
+		}
 	}
 
 	/**
@@ -94,7 +100,7 @@ class SortDataProvider {
 	 * current algorithm implemenation, the data is read sequentially and then next
 	 * begin will only have two possible values, 1:in the scope of last [begin, end)
 	 * 2:(last end) +1.
-	 * 
+	 *
 	 * @param begin
 	 * @param end
 	 * @param stopSign
@@ -103,17 +109,19 @@ class SortDataProvider {
 	 * @throws DataException
 	 */
 	IResultObject[] readData(int begin, int end) throws IOException, DataException {
-		if (begin == end)
+		if (begin == end) {
 			return new IResultObject[0];
+		}
 
 		// get file reader
 		int readerIndex = begin / dataCountOfUnit;
 		if (indexOfCachedRowData[readerIndex] == -1) {
 			File file = getTempFile(readerIndex);
-			if (dfrArray[readerIndex] == null)
+			if (dfrArray[readerIndex] == null) {
 				dfrArray[readerIndex] = DataFileReader.newInstance(file, resultObjectUtil);
-			else
+			} else {
 				dfrArray[readerIndex].setReadFile(file);
+			}
 		}
 
 		int length = end - begin;
@@ -132,13 +140,15 @@ class SortDataProvider {
 				// some data is loaded, but others is not
 				IResultObject[] tempCachedData = new IResultObject[length];
 				int fromBeginCachedLength = indexOfCachedRowData[readerIndex] + cacheLength - begin;
-				for (int i = 0; i < fromBeginCachedLength; i++)
+				for (int i = 0; i < fromBeginCachedLength; i++) {
 					tempCachedData[i] = cachedResultObjects[readerIndex][offsetOfBegin + i];
+				}
 
 				int nextReadLength = offsetOfEnd - cacheLength;
 				IResultObject[] nextSortData = dfrArray[readerIndex].read(nextReadLength);
-				for (int i = 0; i < nextReadLength; i++)
+				for (int i = 0; i < nextReadLength; i++) {
 					tempCachedData[fromBeginCachedLength + i] = nextSortData[i];
+				}
 
 				cachedResultObjects[readerIndex] = tempCachedData;
 				indexOfCachedRowData[readerIndex] = begin;
@@ -147,8 +157,9 @@ class SortDataProvider {
 
 			// get data from cache
 			sortedData = new IResultObject[length];
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < length; i++) {
 				sortedData[i] = cachedResultObjects[readerIndex][offsetOfBegin + i];
+			}
 		}
 
 		return sortedData;
@@ -159,7 +170,7 @@ class SortDataProvider {
 	 * current algorithm implemenation, the data is written sequentially and then
 	 * currPos value only has one possible values, that is the (currPos+length) of
 	 * latest calling..
-	 * 
+	 *
 	 * @param hint,          soring itself/merge sorting
 	 * @param currPos,       current result object position
 	 * @param resultObjects, the result objects array needs to be written
@@ -172,16 +183,18 @@ class SortDataProvider {
 		if (hint == SortDataProvider.SORT_ITSELF) {
 			int writerIndex = currPos / dataCountOfUnit;
 			File outputFile = getTempFile(writerIndex);
-			if (dfw == null)
+			if (dfw == null) {
 				dfw = DataFileWriter.newInstance(outputFile, resultObjectUtil);
-			else if (currPos % dataCountOfUnit == 0)
+			} else if (currPos % dataCountOfUnit == 0) {
 				dfw.setWriteFile(outputFile);
+			}
 
 			dfw.write(resultObjects, count);
 			dfw.close();
 		} else {
-			if (currPos == 0)
+			if (currPos == 0) {
 				dfw.setWriteFile(goalFile);
+			}
 
 			dfw.write(resultObjects, count);
 		}
@@ -216,7 +229,7 @@ class SortDataProvider {
 	/**
 	 * Get temp file for external sorting, template file is automatic generated
 	 * according to passed result object index value.
-	 * 
+	 *
 	 * @param index
 	 * @return temp file
 	 * @throws IOException

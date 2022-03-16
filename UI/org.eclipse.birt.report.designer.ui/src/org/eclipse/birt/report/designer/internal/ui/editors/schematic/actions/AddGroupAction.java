@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +49,7 @@ public class AddGroupAction extends SelectionAction {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param part
 	 */
 	public AddGroupAction(IWorkbenchPart part) {
@@ -57,9 +60,10 @@ public class AddGroupAction extends SelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
+	@Override
 	protected boolean calculateEnabled() {
 		// return getTableEditPart( ) != null ^ getListEditPart( ) != null;
 		action = getAction();
@@ -71,8 +75,9 @@ public class AddGroupAction extends SelectionAction {
 
 	/**
 	 * Runs action.
-	 * 
+	 *
 	 */
+	@Override
 	public void run() {
 		if (action != null) {
 			action.run();
@@ -81,7 +86,7 @@ public class AddGroupAction extends SelectionAction {
 
 	/**
 	 * Gets table edit part.
-	 * 
+	 *
 	 * @return The current selected table edit part, null if no table edit part is
 	 *         selected.
 	 */
@@ -91,7 +96,7 @@ public class AddGroupAction extends SelectionAction {
 
 	/**
 	 * Gets list edit part.
-	 * 
+	 *
 	 * @return The current selected list edit part, null if no list edit part is
 	 *         selected.
 	 */
@@ -101,7 +106,7 @@ public class AddGroupAction extends SelectionAction {
 
 	/**
 	 * Gets the first selected object.
-	 * 
+	 *
 	 * @return The first selected object
 	 */
 	protected Object getFirstElement() {
@@ -114,7 +119,7 @@ public class AddGroupAction extends SelectionAction {
 
 	/**
 	 * Gets element handles.
-	 * 
+	 *
 	 * @return element handles
 	 */
 	protected List getElements() {

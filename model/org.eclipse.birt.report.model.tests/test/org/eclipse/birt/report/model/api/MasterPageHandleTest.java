@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +25,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test case for MasterPageHandle.
- * 
+ *
  */
 public class MasterPageHandleTest extends BaseTestCase {
 
@@ -51,9 +54,9 @@ public class MasterPageHandleTest extends BaseTestCase {
 	 * <p>
 	 * 1. type is not provided. Default value of "USLetter" should be returned, in
 	 * session unit.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testDefaultPage() throws Exception {
@@ -113,7 +116,7 @@ public class MasterPageHandleTest extends BaseTestCase {
 	 * <p>
 	 * 1. type is "Custom", width="8.3cm", height="13.3cm" , application unit is in.
 	 * Return value should be the converted value in inch unit.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -151,9 +154,9 @@ public class MasterPageHandleTest extends BaseTestCase {
 
 	/**
 	 * Test the overridden setProperty().
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	public void testSetProperty() throws Exception {
 		openDesign(fileName);
@@ -198,7 +201,7 @@ public class MasterPageHandleTest extends BaseTestCase {
 	 * Tests masterpage will be rotated if orientation type is landscape and page
 	 * type is not custom, and will NOT be rotated if orientation type is landscape
 	 * and page type is custom.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -267,10 +270,10 @@ public class MasterPageHandleTest extends BaseTestCase {
 	/**
 	 * Tests that height and width are not allowed to be set if masterpage size type
 	 * is a pre-defined type.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 	public void testPredefinedType() throws DesignFileException, SemanticException {
 		openDesign(fileName);

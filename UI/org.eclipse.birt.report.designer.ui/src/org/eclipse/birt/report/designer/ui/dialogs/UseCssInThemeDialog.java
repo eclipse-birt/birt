@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -89,11 +92,11 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog {
 
 	private Combo themeCombo;
 
-	private Map<String, SharedStyleHandle> styleMap = new HashMap<String, SharedStyleHandle>();
+	private Map<String, SharedStyleHandle> styleMap = new HashMap<>();
 
-	private List<String> styleNames = new ArrayList<String>();
+	private List<String> styleNames = new ArrayList<>();
 
-	private List<String> unSupportedStyleNames = new ArrayList<String>();
+	private List<String> unSupportedStyleNames = new ArrayList<>();
 
 	private int themeIndex;
 
@@ -110,6 +113,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog {
 		this.dialogTitle = dlgTitle;
 	}
 
+	@Override
 	public void setTitle(String title) {
 		this.areaTitle = title;
 		super.setTitle(areaTitle);
@@ -124,6 +128,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog {
 		themeIndex = -1;
 	}
 
+	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(dialogTitle);
@@ -138,10 +143,9 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog {
 	}
 
 	public String getFileName() {
-		if (fileName == null)
+		if ((fileName == null) || (fileName.trim().length() == 0)) {
 			return null;
-		if (fileName.trim().length() == 0)
-			return null;
+		}
 		return fileName;
 	}
 
@@ -166,6 +170,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog {
 	 * Subclasses may override.
 	 * </p>
 	 */
+	@Override
 	protected void okPressed() {
 		themeIndex = themeCombo.getSelectionIndex();
 		if (uriText.isEnabled()) {
@@ -178,11 +183,12 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite topComposite = (Composite) super.createDialogArea(parent);
 		topComposite.setLayout(new GridLayout());
@@ -278,6 +284,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog {
 
 		fileNameField.addListener(SWT.Modify, new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
 				fileName = fileNameField.getText().trim();
 				try {
@@ -297,6 +304,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog {
 
 		selectButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 
 				ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog(true,
@@ -325,6 +333,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog {
 		themeCombo.setVisibleItemCount(30);
 		themeCombo.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				refresh();
 			}
@@ -339,6 +348,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog {
 		viewTimeBtn.setLayoutData(gd);
 		viewTimeBtn.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				boolean selected = viewTimeBtn.getSelection();
 				uriText.setEnabled(selected);
@@ -360,6 +370,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog {
 		uriText.setLayoutData(gd);
 		uriText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				refresh();
 			}
@@ -382,7 +393,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog {
 		styleNames.clear();
 		unSupportedStyleNames.clear();
 
-		String fileName = null;
+		String fileName;
 
 		TableItem[] ch = stylesTable.getItems();
 		for (int i = 0; i < ch.length; i++) {
@@ -422,9 +433,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog {
 
 		List availableStyles = null;
 		if (getTheme() instanceof ReportItemThemeHandle) {
-			availableStyles = new ArrayList();
-			availableStyles
-					.addAll(Arrays.asList(getPredefinedStyleNames(((ReportItemThemeHandle) getTheme()).getType())));
+			availableStyles = new ArrayList(Arrays.asList(getPredefinedStyleNames(((ReportItemThemeHandle) getTheme()).getType())));
 		}
 
 		Iterator styleIter = cssHandle.getStyleIterator();
@@ -536,23 +545,26 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog {
 		}
 		LibraryHandle libraryHandle = (LibraryHandle) module;
 		SlotHandle slotHandle = libraryHandle.getThemes();
-		List<AbstractThemeHandle> list = new ArrayList<AbstractThemeHandle>();
+		List<AbstractThemeHandle> list = new ArrayList<>();
 		for (Iterator iter = slotHandle.iterator(); iter.hasNext();) {
 			list.add((AbstractThemeHandle) iter.next());
 		}
 		return list;
 	}
 
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
 		updateOKButton();
 	}
 
 	public String getURI() {
-		if (uri == null)
+		if (uri == null) {
 			return uri;
-		if (uri.trim().length() == 0)
+		}
+		if (uri.trim().length() == 0) {
 			return null;
+		}
 		return uri;
 	}
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +42,7 @@ class AdvancedDataSetAdapter extends DataSetAdapter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param setDesign
 	 * @param setHandle
 	 * @param parameterList
@@ -50,14 +53,15 @@ class AdvancedDataSetAdapter extends DataSetAdapter {
 	void updateDataSetHandle(DataSetDesign setDesign, OdaDataSetHandle setHandle,
 			List<OdaDataSetParameter> parameterList, List<OdaResultSetColumn> resultSetList, boolean isSourceChanged)
 			throws SemanticException {
-		if (setDesign == null || setHandle == null)
+		if (setDesign == null || setHandle == null) {
 			return;
+		}
 
 		updateDataSetHandle(setDesign, setHandle, isSourceChanged, parameterList, resultSetList);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param setHandle
 	 * @param completedSession
 	 * @param parameterList
@@ -66,8 +70,9 @@ class AdvancedDataSetAdapter extends DataSetAdapter {
 	 */
 	void updateDataSetHandle(OdaDataSetHandle setHandle, OdaDesignSession completedSession,
 			List<OdaDataSetParameter> parameterList, List<OdaResultSetColumn> resultSetList) throws SemanticException {
-		if (completedSession == null || setHandle == null)
+		if (completedSession == null || setHandle == null) {
 			return;
+		}
 
 		DataSetDesign responseDesign = completedSession.getResponseDataSetDesign();
 
@@ -80,15 +85,16 @@ class AdvancedDataSetAdapter extends DataSetAdapter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param setDesign
 	 * @param setHandle
 	 * @return
 	 */
 	IAmbiguousOption getAmbiguousOption(DataSetDesign setDesign, OdaDataSetHandle setHandle) {
 		AmbiguousOption option = new AmbiguousOption();
-		if (setDesign == null || setHandle == null)
+		if (setDesign == null || setHandle == null) {
 			return option;
+		}
 
 		// check parameters
 		DataSetParametersChecker paramsChecker = new DataSetParametersChecker(setDesign, setHandle);
@@ -102,7 +108,7 @@ class AdvancedDataSetAdapter extends DataSetAdapter {
 
 	/**
 	 * Updates the data set handle with specified values.
-	 * 
+	 *
 	 * @param setDesign         the data set design
 	 * @param setHandle         the data set handle
 	 * @param isSourceChanged
@@ -113,8 +119,9 @@ class AdvancedDataSetAdapter extends DataSetAdapter {
 
 	private void updateDataSetHandle(DataSetDesign setDesign, OdaDataSetHandle setHandle, boolean isSourceChanged,
 			List<OdaDataSetParameter> parameterList, List<OdaResultSetColumn> resultSetList) throws SemanticException {
-		if (setDesign == null || setHandle == null)
+		if (setDesign == null || setHandle == null) {
 			return;
+		}
 
 		// validate the set design first
 		DesignUtil.validateObject(setDesign);
@@ -191,8 +198,9 @@ class AdvancedDataSetAdapter extends DataSetAdapter {
 								dataSourceAdapter.createDataSourceDesign(sourceHandle), sourceDesign))) {
 					dataSourceAdapter.updateDataSourceHandle(sourceDesign, sourceHandle);
 				}
-			} else
+			} else {
 				setHandle.setDataSource(null);
+			}
 
 			// updateDesignerValue( setDesign, setHandle, requestParameters,
 			// dataParamAdapter.getUserDefinedParams( ), requestResultSets );

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +44,7 @@ import org.eclipse.emf.common.util.EList;
 /**
  * The class defines basic functions and sub-class must override evaluate
  * method.
- * 
+ *
  * @since BIRT 2.3
  */
 public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowExpressionEvaluator {
@@ -75,7 +78,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param resultIterator
 	 * @param hasSummaryAggregation
 	 * @param cm
@@ -95,7 +98,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 
 			faGroupBreaks = new List[fGroupDefinitions.size()];
 			for (int i = 0; i < faGroupBreaks.length; i++) {
-				faGroupBreaks[i] = new ArrayList<Integer>();
+				faGroupBreaks[i] = new ArrayList<>();
 			}
 
 			updateEnabledGroupIndexes(cm, fGroupDefinitions);
@@ -104,7 +107,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param resultIterator
 	 * @param hasAggregation
 	 * @param isSubQuery
@@ -159,7 +162,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			fGroupCount = fGroupDefinitions.size();
 			faGroupBreaks = new List[fGroupDefinitions.size()];
 			for (int i = 0; i < faGroupBreaks.length; i++) {
-				faGroupBreaks[i] = new ArrayList<Integer>();
+				faGroupBreaks[i] = new ArrayList<>();
 			}
 
 			updateEnabledGroupIndexes(cm, fGroupDefinitions);
@@ -169,13 +172,13 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	/**
 	 * Get list of group breaks, the group level is base on 0th index, 0 index means
 	 * outermost group.
-	 * 
+	 *
 	 * @param groupLevel
 	 * @return
 	 */
 	protected List<Integer> getGroupBreaksList(int groupLevel) {
 		if (faGroupBreaks == null || groupLevel < 0 || groupLevel > (faGroupBreaks.length - 1)) {
-			return new ArrayList<Integer>();
+			return new ArrayList<>();
 		}
 
 		return faGroupBreaks[groupLevel];
@@ -183,9 +186,10 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.factory.IGroupedDataResultSet#getGroupBreaks(int)
 	 */
+	@Override
 	public int[] getGroupBreaks(int groupLevel) {
 		Object[] breaksArray = getGroupBreaksList(groupLevel).toArray();
 		int[] breaks = new int[breaksArray.length];
@@ -197,9 +201,10 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#close()
 	 */
+	@Override
 	public void close() {
 		try {
 			fResultIterator.close();
@@ -210,11 +215,12 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang
 	 * .String)
 	 */
+	@Override
 	public Object evaluate(String expression) {
 
 		try {
@@ -232,11 +238,12 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal(
 	 * java.lang.String)
 	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	public Object evaluateGlobal(String expression) {
 		return evaluate(expression);
@@ -244,9 +251,10 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
 	 */
+	@Override
 	public boolean first() {
 		try {
 			fCountOfAvaiableRows = 0;
@@ -255,10 +263,8 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 				if (fResultIterator.next()) {
 					return true;
 				}
-			} else {
-				if (findFirst()) {
-					return true;
-				}
+			} else if (findFirst()) {
+				return true;
 			}
 		} catch (BirtException e) {
 			sLogger.log(e);
@@ -268,7 +274,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 
 	/**
 	 * Find the first row position.
-	 * 
+	 *
 	 * @return
 	 * @throws BirtException
 	 */
@@ -288,15 +294,16 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 
 	/**
 	 * Check if the group between start index and end index is used by chart.
-	 * 
+	 *
 	 * @param startIndex
 	 * @param endIndex
 	 * @return
 	 */
 	private boolean usedByChart(int startIndex, int endIndex) {
 		for (int i = startIndex; i <= endIndex; i++) {
-			if (faEnabledGroups[i])
+			if (faEnabledGroups[i]) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -304,7 +311,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	/**
 	 * Find next available row position. If it has grouped-enabled, should ignore
 	 * non-grouped/non-aggregation row.
-	 * 
+	 *
 	 * @return
 	 * @throws BirtException
 	 */
@@ -317,11 +324,11 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 				{
 					fCountOfAvaiableRows++;
 					// Add break point to current grouping.
-					getGroupBreaksList(startIndex - 1).add(Integer.valueOf(fCountOfAvaiableRows));
+					getGroupBreaksList(startIndex - 1).add(fCountOfAvaiableRows);
 					// Also the sub-groupings of current grouping should be
 					// added the break point.
 					for (int i = startIndex; i < fGroupCount; i++) {
-						getGroupBreaksList(i).add(Integer.valueOf(fCountOfAvaiableRows));
+						getGroupBreaksList(i).add(fCountOfAvaiableRows);
 					}
 
 					return true;
@@ -340,9 +347,10 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#next()
 	 */
+	@Override
 	public boolean next() {
 		try {
 			if (!fIsGrouped) {
@@ -363,7 +371,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	 * Updates using state of groups, if category expression and Y optional
 	 * expression have related group on specified GroupDefinition, set
 	 * <code>true</code> value to that item of group indexes array.
-	 * 
+	 *
 	 * @param cm               current chart model.
 	 * @param groupDefinitions grouping definition.
 	 * @throws ChartException
@@ -428,7 +436,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 
 	/**
 	 * Returns the index of specified expression on GroupDefinition.
-	 * 
+	 *
 	 * @param expr             specified expression.
 	 * @param groupDefinitions list of <code>GroupDefinition</code>
 	 * @param isCategory
@@ -512,6 +520,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	/*
 	 * Returns if group is enabled in each group-level.
 	 */
+	@Override
 	public boolean[] getGroupStatus() {
 		return faEnabledGroups;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,9 +28,9 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
  * recorded as an <em>activity record</em>. The set of activity records is
  * grouped into a <em>transaction</em>. The transaction represents the overall
  * application action.
- * 
+ *
  * <h3>Nested Transactions</h3>
- * 
+ *
  * The application can create <em>transactions</em> to group a collection of
  * operations that should be undone and redone as a unit. When performing a
  * series of such operations, the application must consider the case where one
@@ -76,14 +79,14 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
  * is committed, it will never be undone with all calls to rollback( ) or
  * rollbackAll( ) and the only way to make the transaction undone is just to
  * call undo( ).
- * 
+ *
  */
 
 public interface CommandStack {
 
 	/**
 	 * Reports whether a command is available to undo.
-	 * 
+	 *
 	 * @return <code>true</code> if a command is available to undo,
 	 *         <code>false</code> if not.
 	 */
@@ -94,7 +97,7 @@ public interface CommandStack {
 	 * Returns an optional label for the next command to undo. The UI can display
 	 * this label as part of the "Undo" menu command. The label should have been
 	 * localized when set.
-	 * 
+	 *
 	 * @return The command label. Returns <code>null</code> if either the command
 	 *         has no label, of if there is no command to undo.
 	 */
@@ -109,7 +112,7 @@ public interface CommandStack {
 
 	/**
 	 * Reports whether a command is available to redo.
-	 * 
+	 *
 	 * @return <code>true</code> if a command is available to redo,
 	 *         <code>false</code> if not.
 	 */
@@ -120,7 +123,7 @@ public interface CommandStack {
 	 * Returns an optional label for the next command to redo. The UI can display
 	 * this label as part of the "Redo" menu command. The label should have been
 	 * localized when set.
-	 * 
+	 *
 	 * @return The command label. Returns null if either the command has no label,
 	 *         of if there is no command to redo.
 	 */
@@ -142,7 +145,7 @@ public interface CommandStack {
 	 * If the new size is smaller than the existing size, then the method will
 	 * remove any commands above the new limit. If the limit is set to zero, then no
 	 * undo history is kept.
-	 * 
+	 *
 	 * @param limit the new undo stack size
 	 */
 
@@ -150,7 +153,7 @@ public interface CommandStack {
 
 	/**
 	 * Starts an application-level transaction.
-	 * 
+	 *
 	 * @param string the localized label of the transaction
 	 */
 
@@ -184,7 +187,7 @@ public interface CommandStack {
 
 	/**
 	 * Peeks at the top of the redo stack.
-	 * 
+	 *
 	 * @return The record at the top of the redo stack, or null if there is no such
 	 *         record.
 	 */
@@ -193,7 +196,7 @@ public interface CommandStack {
 
 	/**
 	 * Peeks at the top of the undo stack.
-	 * 
+	 *
 	 * @return The record at the top of the undo stack, or null if there is no such
 	 *         record.
 	 */
@@ -202,7 +205,7 @@ public interface CommandStack {
 
 	/**
 	 * Executes the specified record and flushes the redo stack.
-	 * 
+	 *
 	 * @param record the ActivityRecord to execute
 	 */
 
@@ -212,34 +215,34 @@ public interface CommandStack {
 	 * Executes the specified extended element command. The command must be ready to
 	 * execute. As noted above, any required checks must have already been done.
 	 * Flushes the redo stack.
-	 * 
+	 *
 	 * @param command the ActivityRecord to execute
 	 */
 
-	public void execute(IElementCommand command);
+	void execute(IElementCommand command);
 
 	/**
 	 * Registers a listener. A listener can be registered any number of times, but
 	 * will receive each event only once.
-	 * 
+	 *
 	 * @param obj the activity stack listener to register
 	 */
 
-	public void addListener(ActivityStackListener obj);
+	void addListener(ActivityStackListener obj);
 
 	/**
 	 * Removes a listener. The listener is removed from the list of listeners. If
 	 * the item is not in the list, then the request is silently ignored.
-	 * 
+	 *
 	 * @param obj the activity stack listener to remove
 	 */
 
-	public void removeListener(ActivityStackListener obj);
+	void removeListener(ActivityStackListener obj);
 
 	/**
 	 * Starts one persistent transaction, which will never be rollbacked once the
 	 * parent transaction is rollbacked.
-	 * 
+	 *
 	 * @param label the localized label of the transaction
 	 */
 
@@ -249,5 +252,5 @@ public interface CommandStack {
 	 * Removes all listeners on the ActivityStack.
 	 */
 
-	public void clearListeners();
+	void clearListeners();
 }

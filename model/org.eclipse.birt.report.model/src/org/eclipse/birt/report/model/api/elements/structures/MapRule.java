@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * into user-visible strings (Open, Shipped, Paid). The mapping is driven of of
  * a mapping test expression defined on the style. This class extends the
  * <code>StyleRule</code> class, see that class for additional details.
- * 
+ *
  */
 
 public class MapRule extends StyleRule {
@@ -71,7 +74,7 @@ public class MapRule extends StyleRule {
 	 * Constructs the map rule with an operator and arguments, message id if the
 	 * display value is to be localized and display text if the display value is not
 	 * to be localized.
-	 * 
+	 *
 	 * @param op        operator. One of the internal choice values identified in
 	 *                  the meta-data dictionary
 	 * @param v1        the comparison value expressions for operators that take one
@@ -92,51 +95,56 @@ public class MapRule extends StyleRule {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return STRUCTURE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.PropertyStructure#getIntrinsicProperty(
 	 * java.lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (DISPLAY_MEMBER.equals(propName))
+		if (DISPLAY_MEMBER.equals(propName)) {
 			return display;
-		else if (DISPLAY_ID_MEMBER.equals(propName))
+		} else if (DISPLAY_ID_MEMBER.equals(propName)) {
 			return displayKey;
+		}
 
 		return super.getIntrinsicProperty(propName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.PropertyStructure#setIntrinsicProperty(
 	 * java.lang.String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (DISPLAY_MEMBER.equals(propName))
+		if (DISPLAY_MEMBER.equals(propName)) {
 			display = (String) value;
-		else if (DISPLAY_ID_MEMBER.equals(propName))
+		} else if (DISPLAY_ID_MEMBER.equals(propName)) {
 			displayKey = (String) value;
-		else
+		} else {
 			super.setIntrinsicProperty(propName, value);
+		}
 	}
 
 	/**
 	 * Returns the message ID for the text.
-	 * 
+	 *
 	 * @return the message ID for the display text
 	 */
 
@@ -147,7 +155,7 @@ public class MapRule extends StyleRule {
 	/**
 	 * Set the message ID for the text, the text is to be displayed when this rule
 	 * applies.
-	 * 
+	 *
 	 * @param displayKey the message ID for the text.
 	 */
 
@@ -157,7 +165,7 @@ public class MapRule extends StyleRule {
 
 	/**
 	 * Returns the non-localized display text.
-	 * 
+	 *
 	 * @return the non-localized display text
 	 */
 
@@ -168,7 +176,7 @@ public class MapRule extends StyleRule {
 	/**
 	 * Set the non-localized display text, the text is to be displayed when this
 	 * rule applies.
-	 * 
+	 *
 	 * @param text the non-localized display text
 	 */
 
@@ -178,21 +186,23 @@ public class MapRule extends StyleRule {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getDefn()
 	 */
 
+	@Override
 	public IStructureDefn getDefn() {
 		return MetaDataDictionary.getInstance().getStructure(STRUCTURE_NAME);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.
 	 * model.api.SimpleValueHandle, int)
 	 */
+	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new MapRuleHandle(valueHandle, index);
 	}

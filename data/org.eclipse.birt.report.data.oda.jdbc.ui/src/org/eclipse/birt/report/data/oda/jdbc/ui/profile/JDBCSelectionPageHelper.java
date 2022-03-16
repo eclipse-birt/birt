@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -83,7 +86,7 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * Helper class for jdbc selection page and property page
- * 
+ *
  */
 abstract class GetSyncResultRunnable<T> implements Runnable {
 	T result;
@@ -127,6 +130,7 @@ public class JDBCSelectionPageHelper {
 			return container;
 		}
 
+		@Override
 		protected boolean isResizable() {
 			return true;
 		}
@@ -161,6 +165,7 @@ public class JDBCSelectionPageHelper {
 
 				// Eclipse UI can only be changed by UI thread
 				Display.getDefault().asyncExec(new Runnable() {
+					@Override
 					public void run() {
 						// do something in the user interface
 						// e.g. set a text field
@@ -217,7 +222,7 @@ public class JDBCSelectionPageHelper {
 
 	private String DEFAULT_MESSAGE;
 
-	private Map<String, String> databaseProperties = new HashMap<String, String>();
+	private Map<String, String> databaseProperties = new HashMap<>();
 
 	private Properties profileProperties = null;
 	// constant string
@@ -231,15 +236,17 @@ public class JDBCSelectionPageHelper {
 	JDBCSelectionPageHelper(WizardPage page) {
 		DEFAULT_MESSAGE = JdbcPlugin.getResourceString("wizard.message.createDataSource"); //$NON-NLS-1$
 		m_wizardPage = page;
-		if (page instanceof JDBCSelectionWizardPage) // bidi_hcg
+		if (page instanceof JDBCSelectionWizardPage) { // bidi_hcg
 			bidiSupportObj = ((JDBCSelectionWizardPage) page).getBidiSupport();
+		}
 	}
 
 	JDBCSelectionPageHelper(PreferencePage page) {
 		DEFAULT_MESSAGE = JdbcPlugin.getResourceString("wizard.message.editDataSource"); //$NON-NLS-1$
 		m_propertyPage = page;
-		if (page instanceof JDBCPropertyPage) // bidi_hcg
+		if (page instanceof JDBCPropertyPage) { // bidi_hcg
 			bidiSupportObj = ((JDBCPropertyPage) page).getBidiSupport();
+		}
 	}
 
 	Composite createCustomControl(Composite parent) {
@@ -281,6 +288,7 @@ public class JDBCSelectionPageHelper {
 		}
 		driverChooserCombo.setContentProvider(new IStructuredContentProvider() {
 
+			@Override
 			public Object[] getElements(Object inputElement) {
 				if (inputElement != null) {
 					return ((ArrayList) inputElement).toArray();
@@ -288,11 +296,13 @@ public class JDBCSelectionPageHelper {
 				return new JDBCDriverInformation[] {};
 			}
 
+			@Override
 			public void dispose() {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 				// TODO Auto-generated method stub
 
@@ -302,6 +312,7 @@ public class JDBCSelectionPageHelper {
 
 		driverChooserCombo.setLabelProvider(new LabelProvider() {
 
+			@Override
 			public String getText(Object inputElement) {
 				JDBCDriverInformation info = (JDBCDriverInformation) inputElement;
 				return info.getDisplayString();
@@ -316,13 +327,15 @@ public class JDBCSelectionPageHelper {
 			// store latest driver class name
 			private String driverClassName;
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				StructuredSelection selection = (StructuredSelection) event.getSelection();
 				final JDBCDriverInformation info = (JDBCDriverInformation) selection.getFirstElement();
 
 				String className = (info != null) ? info.getDriverClassName() : EMPTY_STRING;
-				if (className.equalsIgnoreCase(driverClassName) == true)
+				if (className.equalsIgnoreCase(driverClassName)) {
 					return;
+				}
 				driverClassName = className;
 
 				if (info != null) {
@@ -392,12 +405,11 @@ public class JDBCSelectionPageHelper {
 						if (DriverInfoConstants.DRIVER_INFO_PROPERTY_TYPE_BOOLEN.equalsIgnoreCase(
 								propertyList.get(i).getAttribute(DriverInfoConstants.DRIVER_INFO_PROPERTY_TYPE))) {
 							drawPropertyCombo(propertyGroup, propertyName, propertyContent);
+						} else if (Boolean.parseBoolean(
+								propertyList.get(i).getAttribute(DriverInfoConstants.DRIVER_INFO_PROPERTY_ENCRYPT))) {
+							drawPropertyText(propertyGroup, propertyName, propertyContent, true);
 						} else {
-							if (Boolean.valueOf(propertyList.get(i)
-									.getAttribute(DriverInfoConstants.DRIVER_INFO_PROPERTY_ENCRYPT))) {
-								drawPropertyText(propertyGroup, propertyName, propertyContent, true);
-							} else
-								drawPropertyText(propertyGroup, propertyName, propertyContent, false);
+							drawPropertyText(propertyGroup, propertyName, propertyContent, false);
 						}
 					}
 					propertyGroup.getParent().layout();
@@ -443,6 +455,7 @@ public class JDBCSelectionPageHelper {
 
 				propertyText.addModifyListener(new ModifyListener() {
 
+					@Override
 					public void modifyText(ModifyEvent e) {
 						databaseProperties.put(propertyName, propertyText.getText());
 					}
@@ -457,10 +470,12 @@ public class JDBCSelectionPageHelper {
 				if (propertyContent != null) {
 					propertyField.setText(propertyContent);
 					databaseProperties.put(propertyName, propertyContent);
-				} else
+				} else {
 					propertyField.setText(EMPTY_STRING);
+				}
 
 				propertyField.addSelectionListener(new SelectionListener() {
+					@Override
 					public void widgetSelected(SelectionEvent arg0) {
 						if (propertyField.getSelectionIndex() == 1) {
 							databaseProperties.put(propertyName, "True");
@@ -471,6 +486,7 @@ public class JDBCSelectionPageHelper {
 						}
 					}
 
+					@Override
 					public void widgetDefaultSelected(SelectionEvent arg0) {
 						databaseProperties.put(propertyName, EMPTY_STRING);
 					}
@@ -498,8 +514,9 @@ public class JDBCSelectionPageHelper {
 				layout.numColumns = 5;
 
 				Layout parentLayout = porpertyGroupComposite.getParent().getLayout();
-				if (parentLayout instanceof GridLayout)
+				if (parentLayout instanceof GridLayout) {
 					layout.horizontalSpacing = ((GridLayout) parentLayout).horizontalSpacing;
+				}
 				propertyGroup.setLayout(layout);
 				return propertyGroup;
 			}
@@ -587,44 +604,51 @@ public class JDBCSelectionPageHelper {
 		layout.marginWidth = layout.marginHeight = 0;
 		layout.numColumns = 5;
 		Layout parentLayout = porpertyGroupComposite.getParent().getLayout();
-		if (parentLayout instanceof GridLayout)
+		if (parentLayout instanceof GridLayout) {
 			layout.horizontalSpacing = ((GridLayout) parentLayout).horizontalSpacing;
+		}
 		porpertyGroupComposite.setLayout(layout);
 	}
 
 	/**
 	 * populate properties
-	 * 
+	 *
 	 * @param profileProps
 	 */
 	void initCustomControl(Properties profileProps) {
-		if (profileProps == null || profileProps.isEmpty())
+		if (profileProps == null || profileProps.isEmpty()) {
 			return; // nothing to initialize
+		}
 
 		profileProperties = profileProps;
 		String driverClass = profileProps.getProperty(Constants.ODADriverClass);
-		if (driverClass == null)
+		if (driverClass == null) {
 			driverClass = EMPTY_STRING;
+		}
 		setDriverSelection(driverClass);
 
 		String odaUrl = profileProps.getProperty(Constants.ODAURL);
-		if (odaUrl == null)
+		if (odaUrl == null) {
 			odaUrl = EMPTY_STRING;
+		}
 		jdbcUrl.setText(odaUrl);
 
 		String odaUser = profileProps.getProperty(Constants.ODAUser);
-		if (odaUser == null)
+		if (odaUser == null) {
 			odaUser = EMPTY_STRING;
+		}
 		userName.setText(odaUser);
 
 		String odaPassword = profileProps.getProperty(Constants.ODAPassword);
-		if (odaPassword == null)
+		if (odaPassword == null) {
 			odaPassword = EMPTY_STRING;
+		}
 		password.setText(odaPassword);
 
 		String odaJndiName = profileProps.getProperty(Constants.ODAJndiName);
-		if (odaJndiName == null)
+		if (odaJndiName == null) {
 			odaJndiName = EMPTY_STRING;
+		}
 		jndiName.setText(odaJndiName);
 
 		updateTestButton();
@@ -643,7 +667,7 @@ public class JDBCSelectionPageHelper {
 
 	/**
 	 * give a certain class name , set the combo selection.
-	 * 
+	 *
 	 * @param originalDriverClassName
 	 */
 	private void setDriverSelection(String originalDriverClassName) {
@@ -666,13 +690,14 @@ public class JDBCSelectionPageHelper {
 
 	/**
 	 * collection all custom properties
-	 * 
+	 *
 	 * @param props
 	 * @return
 	 */
 	Properties collectCustomProperties(Properties props) {
-		if (props == null)
+		if (props == null) {
 			props = new Properties();
+		}
 
 		// set custom driver specific properties
 		props.setProperty(Constants.ODADriverClass, getDriverClass());
@@ -689,68 +714,74 @@ public class JDBCSelectionPageHelper {
 
 	/**
 	 * get user name
-	 * 
+	 *
 	 * @return
 	 */
 	private String getODAUser() {
-		if (userName == null)
+		if (userName == null) {
 			return EMPTY_STRING;
+		}
 		return getTrimedString(userName.getText());
 	}
 
 	/**
 	 * get password
-	 * 
+	 *
 	 * @return
 	 */
 	private String getODAPassword() {
-		if (password == null)
+		if (password == null) {
 			return EMPTY_STRING;
+		}
 		return getTrimedString(password.getText());
 	}
 
 	private String getODAJndiName() {
-		if (jndiName == null)
+		if (jndiName == null) {
 			return EMPTY_STRING;
+		}
 		return getTrimedString(jndiName.getText());
 	}
 
 	/**
 	 * get driver url
-	 * 
+	 *
 	 * @return
 	 */
 	private String getDriverURL() {
-		if (jdbcUrl == null)
+		if (jdbcUrl == null) {
 			return EMPTY_STRING;
+		}
 		return getTrimedString(jdbcUrl.getText());
 	}
 
 	/**
 	 * get driver class
-	 * 
+	 *
 	 * @return
 	 */
 	private String getDriverClass() {
-		if (driverChooserCombo == null)
+		if (driverChooserCombo == null) {
 			return EMPTY_STRING;
+		}
 		return getTrimedString(getSelectedDriverClassName());
 	}
 
 	/**
-	 * 
+	 *
 	 * @param tobeTrimed
 	 * @return
 	 */
 	private String getTrimedString(String tobeTrimed) {
-		if (tobeTrimed != null)
+		if (tobeTrimed != null) {
 			tobeTrimed = tobeTrimed.trim();
+		}
 		return tobeTrimed;
 	}
 
 	/**
 	 * sort the driver list with ascending order
-	 * 
+	 *
 	 * @param driverObj
 	 * @return
 	 */
@@ -758,10 +789,11 @@ public class JDBCSelectionPageHelper {
 		Object[] driverObj = driverObjList.toArray();
 		Arrays.sort(driverObj, new Comparator() {
 
+			@Override
 			public int compare(Object o1, Object o2) {
 				JDBCDriverInformation it1 = (JDBCDriverInformation) o1;
 				JDBCDriverInformation it2 = (JDBCDriverInformation) o2;
-				int result = 0;
+				int result;
 				result = it1.getDriverClassName().compareTo(it2.getDriverClassName());
 				return result;
 			}
@@ -775,7 +807,7 @@ public class JDBCSelectionPageHelper {
 
 	/**
 	 * Set selected driver in driverChooserViewer combo box
-	 * 
+	 *
 	 * @param driverChooserViewer
 	 * @param driverList
 	 */
@@ -803,7 +835,7 @@ public class JDBCSelectionPageHelper {
 
 	/**
 	 * Find specified driver name in driverChooserViewer ComboViewer
-	 * 
+	 *
 	 * @param driverChooserViewer
 	 * @param driverName
 	 * @return
@@ -832,6 +864,7 @@ public class JDBCSelectionPageHelper {
 	private void addControlListeners() {
 		driverChooserCombo.getCombo().addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				if (!driverChooserCombo.getCombo().isFocusControl()
 						&& driverChooserCombo.getCombo().getText().trim().length() == 0) {
@@ -844,6 +877,7 @@ public class JDBCSelectionPageHelper {
 
 		jdbcUrl.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				if (!jdbcUrl.isFocusControl() && jdbcUrl.getText().trim().length() == 0) {
 					return;
@@ -855,6 +889,7 @@ public class JDBCSelectionPageHelper {
 
 		jndiName.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				if (!jndiName.isFocusControl() && jndiName.getText().trim().length() == 0) {
 					return;
@@ -866,6 +901,7 @@ public class JDBCSelectionPageHelper {
 
 		testButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				testButton.setEnabled(false);
 				TestInProcessDialog testDialog = new TestInProcessDialog(getShell());
@@ -876,6 +912,7 @@ public class JDBCSelectionPageHelper {
 
 		manageButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				JdbcDriverManagerDialog dlg = new JdbcDriverManagerDialog(getShell());
 
@@ -885,6 +922,7 @@ public class JDBCSelectionPageHelper {
 				if (dlg.open() == Window.OK) {
 					BusyIndicator.showWhile(getShell() == null ? null : getShell().getDisplay(), new Runnable() {
 
+						@Override
 						public void run() {
 							okPressedProcess();
 						}
@@ -900,7 +938,7 @@ public class JDBCSelectionPageHelper {
 
 	/**
 	 * processes after pressing ok button
-	 * 
+	 *
 	 */
 	private void okPressedProcess() {
 		String driverClassName = getSelectedDriverClassName();
@@ -912,10 +950,10 @@ public class JDBCSelectionPageHelper {
 	/**
 	 * Attempts to connect to the Jdbc Data Source using the properties ( username,
 	 * password, driver class ) specified.
-	 * 
+	 *
 	 * @param: showErrorMessage is set to true , and error dialog box will be
 	 *                          displayed if the connection fails.
-	 * 
+	 *
 	 * @return Returns true if the connection is OK,and false otherwise
 	 * @throws OdaException
 	 */
@@ -930,8 +968,9 @@ public class JDBCSelectionPageHelper {
 		String driverName = getDriverName();
 		String jndiNameValue = getJNDIName();
 
-		if (jndiNameValue.length() == 0)
+		if (jndiNameValue.length() == 0) {
 			jndiNameValue = null;
+		}
 
 		// bidi_hcg: if we are running with Bidi settings, then testConnection
 		// method should perform required Bidi treatment before actually trying
@@ -973,7 +1012,7 @@ public class JDBCSelectionPageHelper {
 	/**
 	 * Return selected driver class name of DriverChooserCombo, the info of version
 	 * and vendor is trimmed.
-	 * 
+	 *
 	 * @return selected driver class name
 	 */
 	private String getSelectedDriverClassName() {
@@ -1001,7 +1040,8 @@ public class JDBCSelectionPageHelper {
 	// Used inside TestConnection, which is executed by a separate thread
 	// To avoid invalid thread access, get value with UI thread
 	private String getJDBCUrl() {
-		GetSyncResultRunnable<String> getJDBCUrl = new GetSyncResultRunnable<String>() {
+		GetSyncResultRunnable<String> getJDBCUrl = new GetSyncResultRunnable<>() {
+			@Override
 			public void run() {
 				result = jdbcUrl == null ? null : jdbcUrl.getText();
 			}
@@ -1011,7 +1051,8 @@ public class JDBCSelectionPageHelper {
 	}
 
 	private String getUserID() {
-		GetSyncResultRunnable<String> getUserName = new GetSyncResultRunnable<String>() {
+		GetSyncResultRunnable<String> getUserName = new GetSyncResultRunnable<>() {
+			@Override
 			public void run() {
 				result = userName == null ? null : userName.getText();
 			}
@@ -1021,7 +1062,8 @@ public class JDBCSelectionPageHelper {
 	}
 
 	private String getPassWD() {
-		GetSyncResultRunnable<String> getPassWD = new GetSyncResultRunnable<String>() {
+		GetSyncResultRunnable<String> getPassWD = new GetSyncResultRunnable<>() {
+			@Override
 			public void run() {
 				result = password == null ? null : password.getText();
 			}
@@ -1031,7 +1073,8 @@ public class JDBCSelectionPageHelper {
 	}
 
 	private String getDriverName() {
-		GetSyncResultRunnable<String> getDriverName = new GetSyncResultRunnable<String>() {
+		GetSyncResultRunnable<String> getDriverName = new GetSyncResultRunnable<>() {
+			@Override
 			public void run() {
 				result = getSelectedDriverClassName();
 			}
@@ -1041,7 +1084,8 @@ public class JDBCSelectionPageHelper {
 	}
 
 	private String getJNDIName() {
-		GetSyncResultRunnable<String> getJNDINameValue = new GetSyncResultRunnable<String>() {
+		GetSyncResultRunnable<String> getJNDINameValue = new GetSyncResultRunnable<>() {
+			@Override
 			public void run() {
 				result = getODAJndiName();
 			}
@@ -1052,7 +1096,7 @@ public class JDBCSelectionPageHelper {
 
 	/**
 	 * Validates the data source and updates the window message accordingly
-	 * 
+	 *
 	 * @return
 	 */
 	private boolean isValidDataSource() {
@@ -1061,7 +1105,7 @@ public class JDBCSelectionPageHelper {
 
 	/**
 	 * Test if the input URL is blank
-	 * 
+	 *
 	 * @return true url is blank
 	 */
 	private boolean isURLBlank() {
@@ -1070,7 +1114,7 @@ public class JDBCSelectionPageHelper {
 
 	/**
 	 * Test if the input JNDI is blank
-	 * 
+	 *
 	 * @return true JNDI is blank
 	 */
 	private boolean isJNDIBlank() {
@@ -1079,7 +1123,7 @@ public class JDBCSelectionPageHelper {
 
 	/**
 	 * Check if the driver class is blank
-	 * 
+	 *
 	 * @return true driver class is blank
 	 */
 	private boolean isDriverClassBlank() {
@@ -1099,13 +1143,15 @@ public class JDBCSelectionPageHelper {
 				testButton.setEnabled(false);
 			} else {
 				setMessage(DEFAULT_MESSAGE);
-				if (!testButton.isEnabled())
+				if (!testButton.isEnabled()) {
 					testButton.setEnabled(true);
+				}
 			}
 		} else {
 			setMessage(DEFAULT_MESSAGE);
-			if (!testButton.isEnabled())
+			if (!testButton.isEnabled()) {
 				testButton.setEnabled(true);
+			}
 		}
 	}
 
@@ -1146,53 +1192,57 @@ public class JDBCSelectionPageHelper {
 
 	/**
 	 * get the Shell from DialogPage
-	 * 
+	 *
 	 * @return
 	 */
 	private Shell getShell() {
-		if (m_wizardPage != null)
+		if (m_wizardPage != null) {
 			return m_wizardPage.getShell();
-		else if (m_propertyPage != null)
+		} else if (m_propertyPage != null) {
 			return m_propertyPage.getShell();
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/**
 	 * set page complete
-	 * 
+	 *
 	 * @param complete
 	 */
 	private void setPageComplete(boolean complete) {
-		if (m_wizardPage != null)
+		if (m_wizardPage != null) {
 			m_wizardPage.setPageComplete(complete);
-		else if (m_propertyPage != null)
+		} else if (m_propertyPage != null) {
 			m_propertyPage.setValid(complete);
+		}
 	}
 
 	/**
 	 * set message
-	 * 
+	 *
 	 * @param message
 	 */
 	private void setMessage(String message) {
-		if (m_wizardPage != null)
+		if (m_wizardPage != null) {
 			m_wizardPage.setMessage(message);
-		else if (m_propertyPage != null)
+		} else if (m_propertyPage != null) {
 			m_propertyPage.setMessage(message);
+		}
 	}
 
 	/**
 	 * set message
-	 * 
+	 *
 	 * @param message
 	 * @param type
 	 */
 	private void setMessage(String message, int type) {
-		if (m_wizardPage != null)
+		if (m_wizardPage != null) {
 			m_wizardPage.setMessage(message, type);
-		else if (m_propertyPage != null)
+		} else if (m_propertyPage != null) {
 			m_propertyPage.setMessage(message, type);
+		}
 	}
 
 	public void setDefaultMessage(String message) {
@@ -1200,8 +1250,9 @@ public class JDBCSelectionPageHelper {
 	}
 
 	private Control getControl() {
-		if (m_wizardPage != null)
+		if (m_wizardPage != null) {
 			return m_wizardPage.getControl();
+		}
 		assert (m_propertyPage != null);
 		return m_propertyPage.getControl();
 	}

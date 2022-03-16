@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +39,7 @@ import org.eclipse.birt.report.model.elements.Library;
  * <dd>a custom color has an optional display name ID to localize the display
  * name.
  * </dl>
- * 
+ *
  * <p>
  * The color value can contain any of the valid color representations:
  * <ul>
@@ -54,7 +57,7 @@ import org.eclipse.birt.report.model.elements.Library;
  * Use {@link ColorUtil#format(int, int)}and
  * {@link ColorUtil#format(String, int)}to do the formatting work on a color
  * value.
- * 
+ *
  * @see ColorUtil
  */
 
@@ -62,7 +65,7 @@ public class CustomColorHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of custom color.
-	 * 
+	 *
 	 * @param valueHandle the value handle for custom color list of one property
 	 * @param index       the position of this custom color in the list
 	 */
@@ -73,7 +76,7 @@ public class CustomColorHandle extends StructureHandle {
 
 	/**
 	 * Returns the internal display name.
-	 * 
+	 *
 	 * @return the internal display name
 	 */
 
@@ -83,7 +86,7 @@ public class CustomColorHandle extends StructureHandle {
 
 	/**
 	 * Sets the display name.
-	 * 
+	 *
 	 * @param displayName the display name to set
 	 */
 
@@ -93,7 +96,7 @@ public class CustomColorHandle extends StructureHandle {
 
 	/**
 	 * Returns the resource key for display name.
-	 * 
+	 *
 	 * @return the resource key for display name.
 	 */
 
@@ -103,7 +106,7 @@ public class CustomColorHandle extends StructureHandle {
 
 	/**
 	 * Sets the resource key for display name.
-	 * 
+	 *
 	 * @param displayNameID the resource key for display name
 	 */
 
@@ -113,7 +116,7 @@ public class CustomColorHandle extends StructureHandle {
 
 	/**
 	 * Returns the custom color name.
-	 * 
+	 *
 	 * @return the custom color name
 	 */
 
@@ -123,7 +126,7 @@ public class CustomColorHandle extends StructureHandle {
 
 	/**
 	 * Returns the color value as what the user has input.
-	 * 
+	 *
 	 * @return the color value as what the user has input.
 	 */
 
@@ -133,10 +136,10 @@ public class CustomColorHandle extends StructureHandle {
 
 	/**
 	 * Sets the color value.
-	 * 
+	 *
 	 * @param colorValue the color value to be set.
 	 * @throws SemanticException value required exception
-	 * 
+	 *
 	 */
 
 	public void setColor(String colorValue) throws SemanticException {
@@ -145,7 +148,7 @@ public class CustomColorHandle extends StructureHandle {
 
 	/**
 	 * Sets the custom color name.
-	 * 
+	 *
 	 * @param name the custom color name to set
 	 * @throws SemanticException value required exception
 	 */
@@ -167,8 +170,8 @@ public class CustomColorHandle extends StructureHandle {
 	 * <li>CSS_ABSOLUTE_FORMAT: ( RGB(r,g,b) )</li>
 	 * <li>CSS_RELATIVE_FORMAT: ( RGB(r%,g%,b%) )</li>
 	 * </ul>
-	 * 
-	 * 
+	 *
+	 *
 	 * @return the color value as an integer RGB value. Return <code>-1</code> if
 	 *         the color value is not valid or the color value is <code>null</code>.
 	 */
@@ -180,14 +183,15 @@ public class CustomColorHandle extends StructureHandle {
 	/**
 	 * Returns the qualified name of this element. The qualified name is the name of
 	 * this element if this element is in module user is editing.
-	 * 
+	 *
 	 * @return the qualified name of thie element.
 	 */
 
 	public String getQualifiedName() {
 
-		if (getName() == null)
+		if (getName() == null) {
 			return null;
+		}
 
 		Module module = getModule();
 		if (module instanceof Library) {

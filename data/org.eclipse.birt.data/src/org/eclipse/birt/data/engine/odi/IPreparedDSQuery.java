@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -31,11 +34,11 @@ public interface IPreparedDSQuery {
 	 * if it is ambiguous on which result iterator to reference. In such case, one
 	 * should proceed with execute, and gets the result class of a specific
 	 * IResultIterator.
-	 * 
+	 *
 	 * @return The IResultClass instance that represents the expected metadata of
 	 *         the query result objects.
 	 */
-	public IResultClass getResultClass() throws DataException;
+	IResultClass getResultClass() throws DataException;
 
 	/**
 	 * Returns a collection of <code>IParameterMetaData</code> that describes the
@@ -43,38 +46,38 @@ public interface IPreparedDSQuery {
 	 * sequence in the collection has no implied meaning. A parameter's position
 	 * value, if defined, is specified in a IParameterMetaData. Each parameter can
 	 * be of input and/or output mode.
-	 * 
+	 *
 	 * @return The collection of IParameterMetaData to describe the meta-data of all
 	 *         parameters defined in this prepared query. Returns null if no
 	 *         parameters are defined, or no parameter metadata is available.
 	 */
-	public Collection getParameterMetaData() throws DataException;
+	Collection getParameterMetaData() throws DataException;
 
 	/**
 	 * Retrieve utput parameters value.This method corresponds to the IAdvancedQuery
 	 * of ODA, which might produce the output parameters when it is executed.
-	 * 
+	 *
 	 * @param index, parameter index, 1-based
 	 * @return value of parameter
 	 * @throws DataException
 	 */
-	public Object getOutputParameterValue(int index) throws DataException;
+	Object getOutputParameterValue(int index) throws DataException;
 
 	/**
 	 * Retrieve utput parameters value.This method corresponds to the IAdvancedQuery
 	 * of ODA, which might produce the output parameters when it is executed.
-	 * 
+	 *
 	 * @param name, parameter name
 	 * @return value of parameter
 	 * @throws DataException
 	 */
-	public Object getOutputParameterValue(String name) throws DataException;
+	Object getOutputParameterValue(String name) throws DataException;
 
 	/**
 	 * Binds an input value to the query's input parameter. <br>
 	 * These parameter values are used by the execute() method to execute the
 	 * associated query in the data source.
-	 * 
+	 *
 	 * @param inputParamName The name of an input parameter. It can be either the
 	 *                       name of the underlying data source parameter, or the
 	 *                       name defined in IInputParamDefn, mapping to the
@@ -85,12 +88,12 @@ public interface IPreparedDSQuery {
 	/*
 	 * public void setInputParamValue( String inputParamName, Object paramValue )
 	 * throws DataException;
-	 * 
+	 *
 	 *//**
 		 * Binds an input value to the query's input parameter. <br>
 		 * These parameter values are used by the execute() method to execute the
 		 * associated query in the data source.
-		 * 
+		 *
 		 * @param inputParamPos The Position of an input parameter.
 		 * @param paramValue    The input value to the parameter.
 		 * @throws DataException if given input parameter name or value is invalid.
@@ -103,14 +106,14 @@ public interface IPreparedDSQuery {
 	 * Executes this prepared query applying the specified transforms, and returns
 	 * an iterator of the result set.
 	 * <p>
-	 * 
+	 *
 	 * @param eventHandler
 	 * @param stopSign
 	 * @return An IResultIterator of query result instances which the user can
 	 *         iterate to get results.
 	 * @throws DataException if query execution error(s) occur.
 	 */
-	public IResultIterator execute(IEventHandler eventHandler) throws DataException;
+	IResultIterator execute(IEventHandler eventHandler) throws DataException;
 
 	/**
 	 * Closes this query, if executed, and any associated resources, providing a
@@ -118,7 +121,7 @@ public interface IPreparedDSQuery {
 	 * safely released as appropriate. This instance can no longer be executed after
 	 * it is closed.
 	 */
-	public void close();
+	void close();
 
-	public void setQuerySpecification(QuerySpecification spec);
+	void setQuerySpecification(QuerySpecification spec);
 }

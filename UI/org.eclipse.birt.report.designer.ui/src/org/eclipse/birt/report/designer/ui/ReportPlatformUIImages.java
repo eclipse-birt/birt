@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,8 +48,8 @@ import org.eclipse.ui.ISharedImages;
 
 /**
  * This class provides the UI images for JRP platform.
- * 
- * 
+ *
+ *
  */
 public class ReportPlatformUIImages {
 
@@ -81,7 +84,7 @@ public class ReportPlatformUIImages {
 	 * Declares a workbench image given the path of the image file (relative to the
 	 * workbench plug-in). This is a helper method that creates the image descriptor
 	 * and passes it to the main <code>declareImage</code> method.
-	 * 
+	 *
 	 * @param key  the symbolic name of the image
 	 * @param path the path of the image file relative to the base of the workbench
 	 *             plug-ins install directory
@@ -620,7 +623,7 @@ public class ReportPlatformUIImages {
 	 * the image objects they create from it. (This is made confusing by the
 	 * historical fact that the API interface is called "ISharedImages".)
 	 * </p>
-	 * 
+	 *
 	 * @param symbolicName the symbolic name of the image
 	 * @param descriptor   the image descriptor
 	 */
@@ -632,10 +635,10 @@ public class ReportPlatformUIImages {
 	 * Returns the image stored in the workbench plugin's image registry under the
 	 * given symbolic name. If there isn't any value associated with the name then
 	 * <code>null</code> is returned.
-	 * 
+	 *
 	 * The returned Image is managed by the workbench plugin's image registry.
 	 * Callers of this method must not dispose the returned image.
-	 * 
+	 *
 	 * This method is essentially a convenient short form of
 	 * WorkbenchImages.getImageRegistry.get(symbolicName).
 	 */
@@ -647,7 +650,7 @@ public class ReportPlatformUIImages {
 	 * Returns the image descriptor stored under the given symbolic name. If there
 	 * isn't any value associated with the name then <code>null
 	 * </code> is returned.
-	 * 
+	 *
 	 * The class also "caches" commonly used images in the image registry. If you
 	 * are looking for one of these common images it is recommended you use the
 	 * getImage() method instead.
@@ -658,7 +661,7 @@ public class ReportPlatformUIImages {
 
 	/**
 	 * Gets the proper icon image for the given model
-	 * 
+	 *
 	 * @param model the given model
 	 * @return Returns the proper icon image for the given model, or null if no
 	 *         proper one exists
@@ -694,7 +697,7 @@ public class ReportPlatformUIImages {
 				image = getImage(((DesignElementHandle) model).getElement().getDefn().getName());
 			}
 		} else if (model instanceof CssStyleSheetHandle) {
-			if (isCSSLinkImg((CssStyleSheetHandle) model) == true) {
+			if (isCSSLinkImg((CssStyleSheetHandle) model)) {
 				image = getImage(IReportGraphicConstants.ICON_ELEMENT_CSS_STYLE_SHEET + "_" //$NON-NLS-1$
 						+ IReportGraphicConstants.LINK);
 			} else {
@@ -734,7 +737,7 @@ public class ReportPlatformUIImages {
 
 	/**
 	 * Gets the proper icon image descriptor for the given model
-	 * 
+	 *
 	 * @param model the given model
 	 * @return Returns the proper icon image descriptor for the given model, or null
 	 *         if no proper one exists
@@ -758,7 +761,7 @@ public class ReportPlatformUIImages {
 				imageDescriptor = getImageDescriptor(((DesignElementHandle) model).getElement().getDefn().getName());
 			}
 		} else if (model instanceof CssStyleSheetHandle) {
-			if (isCSSLinkImg((CssStyleSheetHandle) model) == true) {
+			if (isCSSLinkImg((CssStyleSheetHandle) model)) {
 				imageDescriptor = getImageDescriptor(IReportGraphicConstants.ICON_ELEMENT_CSS_STYLE_SHEET + "_" //$NON-NLS-1$
 						+ IReportGraphicConstants.LINK);
 			} else {
@@ -780,17 +783,17 @@ public class ReportPlatformUIImages {
 	 * involves creating JFace image descriptors describing how to create/find the
 	 * image should it be needed. The image is not actually allocated until
 	 * requested.
-	 * 
+	 *
 	 * Prefix conventions Wizard Banners WIZBAN_ Preference Banners PREF_BAN_
 	 * Property Page Banners PROPBAN_ Enable toolbar ETOOL_ Disable toolbar DTOOL_
 	 * Local enabled toolbar ELCL_ Local Disable toolbar DLCL_ Object large OBJL_
 	 * Object small OBJS_ View VIEW_ Product images PROD_ Misc images MISC_
-	 * 
+	 *
 	 * Where are the images? The images (typically gifs) are found in the same
 	 * location as this plug-in class. This may mean the same package directory as
 	 * the package holding this class. The images are declared using this.getClass()
 	 * to ensure they are looked up via this plug-in class.
-	 * 
+	 *
 	 */
 	public static ImageRegistry initializeImageRegistry() {
 		imageRegistry = ReportPlugin.getDefault().getImageRegistry();
@@ -800,10 +803,10 @@ public class ReportPlatformUIImages {
 
 	/**
 	 * Gets the proper symbol name for the specified icon of the extended element
-	 * 
+	 *
 	 * @param extensionName the extension name of the element
 	 * @param attrbuteName  the name of the attribute which defines an icon
-	 * 
+	 *
 	 * @return Returns the symbol name generated
 	 */
 	public static String getIconSymbolName(String extensionName, String attrbuteName) {

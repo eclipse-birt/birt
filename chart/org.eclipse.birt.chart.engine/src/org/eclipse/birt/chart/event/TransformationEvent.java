@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -66,12 +69,12 @@ public final class TransformationEvent extends PrimitiveRenderEvent {
 	 * <li>{@link #ROTATE}
 	 * </ul>
 	 */
-	public final void setTransform(int iTransform) {
+	public void setTransform(int iTransform) {
 		_iTransform = iTransform;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Returns the transformation type of this event. The value could be one
 	 *         of these defined in this class:
 	 *         <ul>
@@ -81,28 +84,28 @@ public final class TransformationEvent extends PrimitiveRenderEvent {
 	 *         <li>{@link #UNDEFINED}
 	 *         </ul>
 	 */
-	public final int getTransform() {
+	public int getTransform() {
 		return _iTransform;
 	}
 
 	/**
 	 * Sets the scale of current event.
 	 */
-	public final void setScale(double dScale) {
+	public void setScale(double dScale) {
 		_dScale = dScale;
 	}
 
 	/**
 	 * @return Returns the scale of current event.
 	 */
-	public final double getScale() {
+	public double getScale() {
 		return _dScale;
 	}
 
 	/**
 	 * Sets the translation of current event.
 	 */
-	public final void setTranslation(double dTranslateX, double dTranslateY) {
+	public void setTranslation(double dTranslateX, double dTranslateY) {
 		_dTranslateX = dTranslateX;
 		_dTranslateY = dTranslateY;
 	}
@@ -110,36 +113,37 @@ public final class TransformationEvent extends PrimitiveRenderEvent {
 	/**
 	 * @return Returns the X translation of current event.
 	 */
-	public final double getTranslateX() {
+	public double getTranslateX() {
 		return _dTranslateX;
 	}
 
 	/**
 	 * @return Returns the Y tranlation of current event.
 	 */
-	public final double getTranslateY() {
+	public double getTranslateY() {
 		return _dTranslateY;
 	}
 
 	/**
 	 * Sets the rotation of current event.
 	 */
-	public final void setRotation(double dAngleInDegrees) {
+	public void setRotation(double dAngleInDegrees) {
 		_dRotationInDegrees = dAngleInDegrees;
 	}
 
 	/**
 	 * @return Returns the rotation of current event.
 	 */
-	public final double getRotation() {
+	public double getRotation() {
 		return _dRotationInDegrees;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
 	 */
+	@Override
 	public void reset() {
 		// no-op
 	}

@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -31,44 +34,53 @@ class TestResultSetMetaDataImpl implements IResultSetMetaData {
 		init(includeLOBs);
 	}
 
+	@Override
 	public int getColumnCount() throws OdaException {
 		return m_columns.size();
 	}
 
+	@Override
 	public int getColumnDisplayLength(int index) throws OdaException {
 		return getCol(index).getDisplayLength();
 	}
 
+	@Override
 	public String getColumnLabel(int index) throws OdaException {
 		return getCol(index).getLabel();
 	}
 
+	@Override
 	public String getColumnName(int index) throws OdaException {
 		return getCol(index).getName();
 	}
 
+	@Override
 	public int getColumnType(int index) throws OdaException {
 		return getCol(index).getType();
 	}
 
+	@Override
 	public String getColumnTypeName(int index) throws OdaException {
 		return getCol(index).getTypeName();
 	}
 
+	@Override
 	public int getPrecision(int index) throws OdaException {
 		return getCol(index).getPrecision();
 	}
 
+	@Override
 	public int getScale(int index) throws OdaException {
 		return getCol(index).getScale();
 	}
 
+	@Override
 	public int isNullable(int index) throws OdaException {
 		return getCol(index).isNullable();
 	}
 
 	private void init(boolean includeLOBs) {
-		m_columns = new ArrayList<TestColumnMetaData>();
+		m_columns = new ArrayList<>();
 
 		m_columns.add(new TestColumnMetaData(13, "BigDecimalLabel", "BigDecimalCol", 3, "BCD", 10, 2, columnNoNulls)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
@@ -91,8 +103,9 @@ class TestResultSetMetaDataImpl implements IResultSetMetaData {
 	}
 
 	private TestColumnMetaData getCol(int index) throws OdaException {
-		if (index < 1 || index > m_columns.size())
+		if (index < 1 || index > m_columns.size()) {
 			throw new OdaException("Invalid column index : " + index); //$NON-NLS-1$
+		}
 
 		return (TestColumnMetaData) m_columns.get(index - 1);
 	}

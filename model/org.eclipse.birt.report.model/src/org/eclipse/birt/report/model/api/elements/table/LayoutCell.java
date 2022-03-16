@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -82,7 +85,7 @@ public class LayoutCell {
 	private int rowSpanOffset;
 
 	/**
-	 * 
+	 *
 	 */
 
 	private int rowSpanForDrop;
@@ -95,7 +98,7 @@ public class LayoutCell {
 
 	/**
 	 * Constructs a USED <code>LayoutCell</code> with the given information.
-	 * 
+	 *
 	 * @param container       the layout row
 	 * @param cellId          the unique cell id
 	 * @param content         the cell element
@@ -117,7 +120,7 @@ public class LayoutCell {
 
 	/**
 	 * Constructs a DROP_SPANNED <code>LayoutCell</code> with the given information.
-	 * 
+	 *
 	 * @param container     the layout row
 	 * @param cellId        the unique cell id
 	 * @param content       the cell element
@@ -136,7 +139,7 @@ public class LayoutCell {
 
 	/**
 	 * Constructs a <code>LayoutCell</code> with the given status.
-	 * 
+	 *
 	 * @param cellId the unique cell id
 	 * @param status the status can be <code>{@link #CELL_EMPTY}</code> or
 	 *               <code>{@link #CELL_USED}</code>.
@@ -149,7 +152,7 @@ public class LayoutCell {
 
 	/**
 	 * Constructs a <code>LayoutCell</code> with the given status.
-	 * 
+	 *
 	 * @param status the status can be <code>{@link #CELL_EMPTY}</code> or
 	 *               <code>{@link #CELL_USED}</code>.
 	 */
@@ -160,7 +163,7 @@ public class LayoutCell {
 
 	/**
 	 * Tests whether the atomic cell is occupied by any cell.
-	 * 
+	 *
 	 * @return <code>true</code> if the atomic cell is occupied by any cell.
 	 *         Otherwise <code>false</code>.
 	 */
@@ -172,7 +175,7 @@ public class LayoutCell {
 	/**
 	 * Tests whether the atomic cell is occupied because of "drop" properties of
 	 * cells.
-	 * 
+	 *
 	 * @return <code>true</code> if the atomic cell is occupied. Otherwise
 	 *         <code>false</code>.
 	 */
@@ -183,7 +186,7 @@ public class LayoutCell {
 
 	/**
 	 * Returns the corresponding cell element.
-	 * 
+	 *
 	 * @return the corresponding cell element
 	 */
 
@@ -193,7 +196,7 @@ public class LayoutCell {
 
 	/**
 	 * Returns the 0-based offset of the column span.
-	 * 
+	 *
 	 * @return the 0-based offset of the column span
 	 */
 
@@ -203,7 +206,7 @@ public class LayoutCell {
 
 	/**
 	 * Returns the 0-based offset of the row span.
-	 * 
+	 *
 	 * @return the 0-based offset of the row span
 	 */
 
@@ -213,12 +216,12 @@ public class LayoutCell {
 
 	/**
 	 * Returns the string that shows the layout. Mainly for the debug.
-	 * 
+	 *
 	 * @return the string that shows the layout
 	 */
 
 	public String getLayoutString() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		switch (status) {
 		case CELL_USED:
 			sb.append(cellId);
@@ -237,7 +240,7 @@ public class LayoutCell {
 
 	/**
 	 * Checks whether the drop is effectual.
-	 * 
+	 *
 	 * @return <code>true</code> if the drop is effectual. Otherwise
 	 *         <code>false</code>.
 	 */
@@ -248,7 +251,7 @@ public class LayoutCell {
 
 	/**
 	 * Checks whether the current position is where the cell element begins to span.
-	 * 
+	 *
 	 * @return <code>true</code> if it is. Otherwise <code>false</code>.
 	 */
 
@@ -258,7 +261,7 @@ public class LayoutCell {
 
 	/**
 	 * Return the corresponding handle of the cell element.
-	 * 
+	 *
 	 * @return the corresponding handle of the cell element.
 	 */
 
@@ -269,17 +272,19 @@ public class LayoutCell {
 	/**
 	 * Return the corresponding handle of the cell element regardless of the
 	 * position where the cell starts.
-	 * 
+	 *
 	 * @return the corresponding handle of the cell element.
 	 */
 
 	protected CellHandle getCellRegardlessStartPosition() {
-		if (!isUsed())
+		if (!isUsed()) {
 			return null;
+		}
 
 		LayoutTable table = container.getContainer().tableContainer;
-		if (table.getModule() != null)
+		if (table.getModule() != null) {
 			return (CellHandle) content.getHandle(table.getModule());
+		}
 
 		assert false;
 		return null;
@@ -287,7 +292,7 @@ public class LayoutCell {
 
 	/**
 	 * Returns the unique index of the cell element.
-	 * 
+	 *
 	 * @return the unique index
 	 */
 
@@ -297,7 +302,7 @@ public class LayoutCell {
 
 	/**
 	 * Checks whether there is any element in the cell element.
-	 * 
+	 *
 	 * @return <code>true</code> if there is one or more element in the cell.
 	 *         Otherwise <code>false</code>.
 	 */
@@ -308,25 +313,27 @@ public class LayoutCell {
 
 	/**
 	 * Checks whether "drop" value is "all" or "detail".
-	 * 
+	 *
 	 * @return <code>true</code> if "drop" value is "all" or "detail". Otherwise
 	 *         <code>false</code>.
 	 */
 
 	protected boolean isDropSet() {
-		if (content == null)
+		if (content == null) {
 			return false;
+		}
 
 		String drop = (String) content.getLocalProperty(null, ICellModel.DROP_PROP);
-		if (drop == null || DesignChoiceConstants.DROP_TYPE_NONE.equalsIgnoreCase(drop))
+		if (drop == null || DesignChoiceConstants.DROP_TYPE_NONE.equalsIgnoreCase(drop)) {
 			return false;
+		}
 
 		return true;
 	}
 
 	/**
 	 * Returns the row number for the drop span.
-	 * 
+	 *
 	 * @return the row number
 	 */
 
@@ -336,7 +343,7 @@ public class LayoutCell {
 
 	/**
 	 * Sets the row number for the drop span.
-	 * 
+	 *
 	 * @param rowSpanForDrop the row number
 	 */
 
@@ -346,7 +353,7 @@ public class LayoutCell {
 
 	/**
 	 * Sets whether the drop is effectual.
-	 * 
+	 *
 	 * @param isEffectualDrop <code>true</code> if the drop is effectual. Otherwise
 	 *                        <code>false</code>.
 	 */
@@ -357,14 +364,15 @@ public class LayoutCell {
 
 	/**
 	 * Returns the column position of the current layout cell.
-	 * 
+	 *
 	 * @return 1-based column position
 	 */
 
 	protected int getColumnPosn() {
 		for (int i = 0; i < container.getColumnCount(); i++) {
-			if (container.getLayoutCell(i) == this)
+			if (container.getLayoutCell(i) == this) {
 				return i + 1;
+			}
 		}
 
 		assert false;
@@ -373,7 +381,7 @@ public class LayoutCell {
 
 	/**
 	 * Returns the layout row that this layout cell resides.
-	 * 
+	 *
 	 * @return the layout row
 	 */
 

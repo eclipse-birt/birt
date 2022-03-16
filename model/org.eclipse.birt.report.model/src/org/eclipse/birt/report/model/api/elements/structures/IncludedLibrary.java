@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,16 +30,16 @@ import org.eclipse.birt.report.model.core.Structure;
  * This is a managed object, meaning that all changes should be made though the
  * command layer so that they can be undone and redone. Each column hint has the
  * following properties:
- * 
+ *
  * <p>
  * <dl>
  * <dt><strong>File Name </strong></dt>
  * <dd>File name is required for a include library.</dd>
- * 
+ *
  * <dt><strong>Namespace </strong></dt>
  * <dd>Namespace of the library, which is used to identify one library.</dd>
  * </dl>
- * 
+ *
  */
 
 public class IncludedLibrary extends Structure {
@@ -73,26 +76,29 @@ public class IncludedLibrary extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return INCLUDED_LIBRARY_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (FILE_NAME_MEMBER.equals(propName))
+		if (FILE_NAME_MEMBER.equals(propName)) {
 			return fileName;
-		else if (NAMESPACE_MEMEBR.equals(propName))
+		} else if (NAMESPACE_MEMEBR.equals(propName)) {
 			return namespace;
+		}
 
 		assert false;
 		return null;
@@ -100,28 +106,31 @@ public class IncludedLibrary extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (FILE_NAME_MEMBER.equals(propName))
+		if (FILE_NAME_MEMBER.equals(propName)) {
 			fileName = (String) value;
-		else if (NAMESPACE_MEMEBR.equals(propName))
+		} else if (NAMESPACE_MEMEBR.equals(propName)) {
 			namespace = (String) value;
-		else
+		} else {
 			assert false;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
 	 * .report.model.elements.ReportDesign,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public List validate(Module module, DesignElement element) {
 		ArrayList list = new ArrayList();
 
@@ -133,7 +142,7 @@ public class IncludedLibrary extends Structure {
 
 	/**
 	 * Gets the file name of the include library.
-	 * 
+	 *
 	 * @return the file name of the include library
 	 */
 
@@ -143,7 +152,7 @@ public class IncludedLibrary extends Structure {
 
 	/**
 	 * Sets the file name of the include library.
-	 * 
+	 *
 	 * @param theFileName the new file name to set
 	 */
 
@@ -154,7 +163,7 @@ public class IncludedLibrary extends Structure {
 	/**
 	 * Returns the namespace of the included library. The namespace identify one
 	 * library uniquely in design file.
-	 * 
+	 *
 	 * @return the namespace of the included library.
 	 */
 
@@ -164,7 +173,7 @@ public class IncludedLibrary extends Structure {
 
 	/**
 	 * Sets the namespace for library.
-	 * 
+	 *
 	 * @param namespace the namespace to set.
 	 */
 
@@ -174,10 +183,11 @@ public class IncludedLibrary extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
+	@Override
 	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new IncludedLibraryHandle(valueHandle, index);
 	}

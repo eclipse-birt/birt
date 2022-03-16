@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -72,7 +75,7 @@ public class CDateTime extends GregorianCalendar {
 	 * <code>java.sql.Date</code>, it's Date only data. If it's an instance of
 	 * <code>java.sql.Time</code>, it's Time only data. Otherwise, it means full
 	 * date time value.
-	 * 
+	 *
 	 * @param d A previously defined Date instance
 	 */
 	public CDateTime(Date d) {
@@ -84,7 +87,7 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * A constructor that creates an instance from a given <code>Calendar</code>
 	 * value
-	 * 
+	 *
 	 * @param c A previously defined Calendar instance
 	 */
 	public CDateTime(Calendar c) {
@@ -102,7 +105,7 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * A constructor that creates an instance from a given <code>long</code> value
-	 * 
+	 *
 	 * @param lTimeInMillis The time defined in milliseconds
 	 */
 	public CDateTime(long lTimeInMillis) {
@@ -112,7 +115,7 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * A constructor that creates an instance for a specified year, month and date
-	 * 
+	 *
 	 * @param year  The year associated with this instance
 	 * @param month The month index (1-12) of the year (1-based)
 	 * @param date  The day of the month associated with this instance
@@ -124,7 +127,7 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * A constructor that creates an instance for a specified year, month, date,
 	 * hour and minute
-	 * 
+	 *
 	 * @param year   The year associated with this instance
 	 * @param month  The month index (1-12) of the year (1-based)
 	 * @param date   The day of the month associated with this instance
@@ -139,7 +142,7 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * A constructor that creates an instance for a specified year, month, date,
 	 * hour and minute
-	 * 
+	 *
 	 * @param year   The year associated with this instance
 	 * @param month  The month index (1-12) of the year (1-based)
 	 * @param date   The day of the month associated with this instance
@@ -154,17 +157,18 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * A constructor that creates a default instance for a given locale
-	 * 
+	 *
 	 * @param locale The locale for which the instance is being created
 	 * @deprecated use {@link #CDateTime(ULocale)} instead.
 	 */
+	@Deprecated
 	public CDateTime(Locale aLocale) {
 		super(aLocale);
 	}
 
 	/**
 	 * A constructor that creates a default instance for a given locale
-	 * 
+	 *
 	 * @param locale The locale for which the instance is being created
 	 * @since 2.1
 	 */
@@ -174,7 +178,7 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * A constructor that creates a default instance for a given timezone
-	 * 
+	 *
 	 * @param tz The timezone for which the instance is being created
 	 */
 	public CDateTime(TimeZone tz) {
@@ -183,18 +187,19 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * A constructor that creates a default instance for a given timezone and locale
-	 * 
+	 *
 	 * @param tz     The timezone for which the instance is being created
 	 * @param locale The locale for which the instance is being created
 	 * @deprecated use {@link #CDateTime(TimeZone, ULocale)} instead.
 	 */
+	@Deprecated
 	public CDateTime(TimeZone tz, Locale locale) {
 		super(tz, locale);
 	}
 
 	/**
 	 * A constructor that creates a default instance for a given timezone and locale
-	 * 
+	 *
 	 * @param tz     The timezone for which the instance is being created
 	 * @param locale The locale for which the instance is being created
 	 */
@@ -206,10 +211,10 @@ public class CDateTime extends GregorianCalendar {
 	 * A convenient method used in building the ticks for a datetime scale. Computes
 	 * a new datetime object relative to the existing one moving back by 'step'
 	 * units.
-	 * 
+	 *
 	 * @param iUnit
 	 * @param iStep
-	 * 
+	 *
 	 * @return new instance
 	 */
 	public CDateTime backward(int iUnit, int iStep) {
@@ -226,7 +231,7 @@ public class CDateTime extends GregorianCalendar {
 	 * A convenient method used in building the ticks for a datetime scale. Computes
 	 * a new datetime object relative to the existing one moving forward by 'step'
 	 * units.
-	 * 
+	 *
 	 * @param iUnit
 	 * @param iStep
 	 * @return new instance
@@ -243,7 +248,7 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * Returns the year associated with this instance
-	 * 
+	 *
 	 * @return The year associated with this instance
 	 */
 	public final int getYear() {
@@ -252,7 +257,7 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * Returns the month (0-based) associated with this instance
-	 * 
+	 *
 	 * @return The month associated with this instance
 	 */
 	public final int getMonth() {
@@ -261,7 +266,7 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * Returns the day of the month associated with this instance
-	 * 
+	 *
 	 * @return The day of the month associated with this instance
 	 */
 	public final int getDay() {
@@ -270,7 +275,7 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * Returns the hour (military) associated with this instance
-	 * 
+	 *
 	 * @return The hour associated with this instance
 	 */
 	public final int getHour() {
@@ -279,7 +284,7 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * Returns the minute associated with this instance
-	 * 
+	 *
 	 * @return The minute associated with this instance
 	 */
 	public final int getMinute() {
@@ -288,7 +293,7 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * Returns the second associated with this instance
-	 * 
+	 *
 	 * @return The second associated with this instance
 	 */
 	public final int getSecond() {
@@ -298,7 +303,7 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * Returns the most significant datetime unit in which there's a difference or 0
 	 * if there is no difference.
-	 * 
+	 *
 	 * @return The least significant 'Calendar' unit in which a difference occurred
 	 */
 	public static final int getDifference(CDateTime cdt1, CDateTime cdt2) {
@@ -322,9 +327,9 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * Returns a preferred format specifier for tick labels that represent axis
 	 * values that will be computed based on the difference between cdt1 and cdt2
-	 * 
+	 *
 	 * @param iUnit The unit for which a preferred pattern is being requested
-	 * 
+	 *
 	 * @return A preferred datetime format pattern for the given unit
 	 */
 	public static final String getPreferredFormat(int iUnit) {
@@ -347,7 +352,7 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * Returns a preferred format specifier for given data-time values will be
 	 * computed based on the difference between minDateTime and maxDateTime
-	 * 
+	 *
 	 * @param minDateTime The minimum data-time value
 	 * @param maxDateTime The maximum data-time value
 	 * @return A preferred datetime unit for the given values
@@ -375,12 +380,12 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * Computes the difference between two given datetime values as a fraction for
 	 * the requested field.
-	 * 
+	 *
 	 * @param cdt1  The first datetime value
 	 * @param cdt2  The second datetime value
 	 * @param iUnit The field with respect to which the difference is being computed
 	 *              as a fraction
-	 * 
+	 *
 	 * @return The fractional difference between the two specified datetime values
 	 */
 	public static final double computeDifference(CDateTime cdt1, CDateTime cdt2, int iUnit) {
@@ -390,13 +395,13 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * Computes the difference between two given datetime values as a fraction for
 	 * the requested field.
-	 * 
+	 *
 	 * @param cdt1      The first datetime value
 	 * @param cdt2      The second datetime value
 	 * @param iUnit     The field with respect to which the difference is being
 	 *                  computed as a fraction
 	 * @param trimBelow Specifies if trim the unit below the given unit.
-	 * 
+	 *
 	 * @return The fractional difference between the two specified datetime values
 	 */
 	public static final double computeDifference(CDateTime cdt1, CDateTime cdt2, int iUnit, boolean trimBelow) {
@@ -468,14 +473,15 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * Quarter number (1 to 4) of date/time value d The method is merged from DtE's
 	 * API.
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 * @since 2.3
 	 */
 	private static int numberOfQuarter(CDateTime d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException("date value is null!"); //$NON-NLS-1$
+		}
 
 		int month = d.getMonth();
 		switch (month) {
@@ -513,9 +519,9 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * Walks through all values in a dataset and computes the least significant unit
 	 * for which a difference was noted.
-	 * 
+	 *
 	 * @param dsi The dataset iterator that facilitates visiting individual values
-	 * 
+	 *
 	 * @return The least significant unit for which a difference in datetime values
 	 *         was noted
 	 */
@@ -553,10 +559,10 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * Walks through all values in a datetime array and computes the least
 	 * significant unit for which a difference was noted.
-	 * 
+	 *
 	 * @param cdta A datetime array for which the least significant unit difference
 	 *             is to be computed
-	 * 
+	 *
 	 * @return The least significant unit for which a difference in datetime values
 	 *         was noted
 	 */
@@ -592,7 +598,7 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * Returns the number of days for a particular (month,year) combination
-	 * 
+	 *
 	 * @param iMonth The month (0-11) for which the day count is to be retrieved
 	 * @param iYear  The year for which the day count is to be retrieved
 	 * @return number of days
@@ -606,9 +612,9 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * Returns the number of days for a particular year
-	 * 
+	 *
 	 * @param iYear The year for which the day count is to be retrieved
-	 * 
+	 *
 	 * @return The number of days in the specified year
 	 */
 	public static final int getMaximumDaysIn(int iYear) {
@@ -620,9 +626,9 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * A convenience method provided to return the number of milliseconds available
 	 * in a given unit
-	 * 
+	 *
 	 * @param iUnit The unit for which the number of milliseconds are to be computed
-	 * 
+	 *
 	 * @return The number of milliseconds for the specified unit
 	 */
 	public static final double inMillis(int iUnit) {
@@ -646,7 +652,7 @@ public class CDateTime extends GregorianCalendar {
 	 * Zeroes out all units for this datetime instance below a specified unit. If
 	 * it's full date time, no trim because original value should be used to format
 	 * using time zone.
-	 * 
+	 *
 	 * @param iUnit The unit below which all values are to be zeroed out
 	 */
 	public final void clearBelow(int iUnit) {
@@ -655,7 +661,7 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * Zeroes out all units for this datetime instance below a specified unit.
-	 * 
+	 *
 	 * @param iUnit  The unit below which all values are to be zeroed out
 	 * @param always indicates if it's always trimmed no matter if it's full date
 	 *               time
@@ -723,7 +729,7 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * Reset all units for this datetime instance above a specified unit.
-	 * 
+	 *
 	 * @param iUnit The unit above which year values are to be reset
 	 */
 	public final void clearAbove(int iUnit) {
@@ -732,7 +738,7 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * Reset all units for this datetime instance above a specified unit.
-	 * 
+	 *
 	 * @param iUnit  The unit above which year values are to be reset
 	 * @param always indicates if it's always trimmed no matter if it's full date
 	 *               time
@@ -770,14 +776,12 @@ public class CDateTime extends GregorianCalendar {
 			set(Calendar.HOUR, 0);
 			set(Calendar.MINUTE, 0);
 		}
-
-		return;
 	}
 
 	/**
 	 * returns a CDateTime, whose value equals to the unit start of the current
 	 * instance
-	 * 
+	 *
 	 * @param iUnit
 	 * @return new instance
 	 */
@@ -790,7 +794,7 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * Parses a value formatted as MM-dd-yyyy HH:mm:ss and attempts to create an
 	 * instance of this object
-	 * 
+	 *
 	 * @param sDateTimeValue The value to be parsed
 	 * @return An instance of the datetime value created
 	 */
@@ -804,13 +808,15 @@ public class CDateTime extends GregorianCalendar {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public final String toString() {
 		return _sdf.format(getTime());
 	}
 
+	@Override
 	public boolean after(Object when) {
 		if (when == null) {
 			return false;
@@ -818,6 +824,7 @@ public class CDateTime extends GregorianCalendar {
 		return super.after(when);
 	}
 
+	@Override
 	public boolean before(Object when) {
 		if (when == null) {
 			return false;
@@ -828,7 +835,7 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * The property timeOnly indicates that this instance of CDateTime only
 	 * represents a Time value, the Date value will be ignored.
-	 * 
+	 *
 	 * @return true if time only.
 	 */
 	public boolean isTimeOnly() {
@@ -838,7 +845,7 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * Represents if current value has both Date and Time. If yes, Timezone will be
 	 * considered during formatting.
-	 * 
+	 *
 	 * @return true if current value has both Date and Time
 	 */
 	public boolean isFullDateTime() {
@@ -848,7 +855,7 @@ public class CDateTime extends GregorianCalendar {
 	/**
 	 * The property timeOnly indicates that this instance of CDateTime only
 	 * represents a Time value, the Date value will be ignored.
-	 * 
+	 *
 	 * @param timeOnly The bTimeOnly to set.
 	 */
 	public void setTimeOnly(boolean timeOnly) {
@@ -857,9 +864,10 @@ public class CDateTime extends GregorianCalendar {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.ibm.icu.util.Calendar#add(int, int)
 	 */
+	@Override
 	public void add(int unit, int step) {
 		if (unit == QUARTER) {
 			super.add(Calendar.MONTH, (step == 0 ? 1 : step) * 3);
@@ -870,7 +878,7 @@ public class CDateTime extends GregorianCalendar {
 
 	/**
 	 * Checks if specified is instance of java.sql.Date.
-	 * 
+	 *
 	 * @param d
 	 */
 	private void checkDateType(Date d) {

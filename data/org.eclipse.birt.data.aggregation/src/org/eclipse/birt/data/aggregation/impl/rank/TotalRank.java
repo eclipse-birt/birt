@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -38,36 +41,40 @@ public class TotalRank extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getName()
 	 */
+	@Override
 	public String getName() {
 		return IBuildInAggregation.TOTAL_RANK_FUNC;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getType()
 	 */
+	@Override
 	public int getType() {
 		return RUNNING_AGGR;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
 	 */
+	@Override
 	public int getDataType() {
 		return DataType.INTEGER_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getParameterDefn()
 	 */
+	@Override
 	public IParameterDefn[] getParameterDefn() {
 		return new IParameterDefn[] {
 				new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME, false, true,
@@ -78,17 +85,19 @@ public class TotalRank extends AggrFunction {
 	}
 
 	/*
-	 * 
+	 *
 	 */
+	@Override
 	public int getNumberOfPasses() {
 		return 2;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#newAccumulator()
 	 */
+	@Override
 	public Accumulator newAccumulator() {
 		return new MyAccumulator();
 	}
@@ -102,10 +111,11 @@ public class TotalRank extends AggrFunction {
 		private int passCount = 0;
 		private RankObjComparator comparator;
 
+		@Override
 		public void start() {
 			if (passCount == 0) {
 				cachedValues = new ArrayList();
-				sum = Integer.valueOf(0);
+				sum = 0;
 				asc = true;
 				hasInitialized = false;
 				comparator = new RankObjComparator();
@@ -115,11 +125,12 @@ public class TotalRank extends AggrFunction {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang.Object[]
 		 * )
 		 */
+		@Override
 		public void onRow(Object[] args) throws DataException {
 			assert (args.length > 0);
 			if (passCount == 1) {
@@ -130,12 +141,13 @@ public class TotalRank extends AggrFunction {
 				}
 				if ((!hasInitialized) && args[1] != null) {
 					hasInitialized = true;
-					if (args[1].toString().equals("false")) //$NON-NLS-1$
+					if (args[1].toString().equals("false")) { //$NON-NLS-1$
 						asc = false;
-					else if (args[1] instanceof Double && ((Double) args[1]).equals(new Double(0))) {
+					} else if (args[1] instanceof Double && ((Double) args[1]).equals(new Double(0))) {
 						asc = false;
-					} else
+					} else {
 						asc = true;
+					}
 				}
 			} else {
 				Object compareValue;
@@ -144,10 +156,11 @@ public class TotalRank extends AggrFunction {
 				} else {
 					compareValue = RankAggregationUtil.getNullObject();
 				}
-				sum = Integer.valueOf(getRank(compareValue));
+				sum = getRank(compareValue);
 			}
 		}
 
+		@Override
 		public void finish() throws DataException {
 			if (this.passCount == 1) {
 				Collections.sort(cachedValues, comparator);
@@ -159,13 +172,13 @@ public class TotalRank extends AggrFunction {
 		 * previously. Note: rank is 1-based. ex.
 		 * <code>The following table give details:
 		 *	Value   |    Rank
-		 *	20      |     4 
+		 *	20      |     4
 		 *	10      |     5
 		 *	30      |     2
 		 *	30      |     2
 		 *	40      |     1
 		 * </code>
-		 * 
+		 *
 		 * @param key
 		 * @return rank
 		 */
@@ -179,13 +192,13 @@ public class TotalRank extends AggrFunction {
 			// Note:index is 0-based, but rank is 1-based
 			if (asc) {// caculate the rank in ascending order
 				for (int i = index - 1; i >= 0; i--) {
-					if (cachedValues.get(i).equals(key) == false) {
+					if (!cachedValues.get(i).equals(key)) {
 						return i + 2;
 					}
 				}
 			} else {// caculate the rank in descending order
 				for (int i = index + 1; i < cachedValues.size(); i++) {
-					if (cachedValues.get(i).equals(key) == false) {
+					if (!cachedValues.get(i).equals(key)) {
 						return cachedValues.size() - i + 1;
 					}
 				}
@@ -195,19 +208,21 @@ public class TotalRank extends AggrFunction {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.api.aggregation.Accumulator#getValue()
 		 */
+		@Override
 		public Object getValue() throws DataException {
 			return sum;
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 */
 	static class RankObjComparator implements Comparator {
 
+		@Override
 		public int compare(Object o1, Object o2) {// for efficiency, we assure o1 and o2 can be just Comparable or
 													// NullObject
 			if (o1 instanceof Comparable) {
@@ -218,32 +233,32 @@ public class TotalRank extends AggrFunction {
 				} else {// Comparable > NullObject
 					return 1;
 				}
-			} else {
-				if (o2 instanceof Comparable) {// NullObject < Comparable
-					return -1;
-				} else {// NullObject == NullObject
-					return 0;
-				}
+			} else if (o2 instanceof Comparable) {// NullObject < Comparable
+				return -1;
+			} else {// NullObject == NullObject
+				return 0;
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
+	@Override
 	public String getDescription() {
 		return Messages.getString("TotalRank.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return Messages.getString("TotalRank.displayName"); //$NON-NLS-1$
 	}

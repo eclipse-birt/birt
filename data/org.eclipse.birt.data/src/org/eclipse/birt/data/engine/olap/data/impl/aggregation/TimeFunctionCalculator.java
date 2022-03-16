@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 
 import java.io.IOException;
@@ -12,12 +24,12 @@ import org.eclipse.birt.data.engine.aggregation.AggregationUtil;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
-import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
-import org.eclipse.birt.data.engine.api.timefunction.ReferenceDate;
-import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.data.engine.api.timefunction.IParallelPeriod;
 import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
+import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
+import org.eclipse.birt.data.engine.api.timefunction.ReferenceDate;
 import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
+import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.SizeOfUtil;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
@@ -96,7 +108,7 @@ public class TimeFunctionCalculator {
 		periodFunction = createTimeFunction(timeFunction);
 		periodFunctionResultCache = new Map[periodFunction.length];
 		for (int i = 0; i < periodFunctionResultCache.length; i++) {
-			periodFunctionResultCache[i] = new HashMap<TimeMember, List<TimeMember>>();
+			periodFunctionResultCache[i] = new HashMap<>();
 		}
 		timeDimensionIndex = cubeDimensionReader.getDimensionIndex(tDimName);
 		lowestTimeLevel = getLowestTimeLevel(aggr);
@@ -105,8 +117,9 @@ public class TimeFunctionCalculator {
 		existLastDate = false;
 		referenceDate = new Date[timeFunction.length];
 		for (int i = 0; i < timeFunction.length; i++) {
-			if (timeFunction[i].getTimeFunction().getReferenceDate() != null)
+			if (timeFunction[i].getTimeFunction().getReferenceDate() != null) {
 				referenceDate[i] = timeFunction[i].getTimeFunction().getReferenceDate().getDate();
+			}
 			if (referenceDate[i] != null) {
 				existReferenceDate = true;
 
@@ -121,10 +134,11 @@ public class TimeFunctionCalculator {
 			}
 		}
 		if (existReferenceDate) {
-			if (cubeDimensionReader.getlowestLevelIndex(tDimName) == 0)
+			if (cubeDimensionReader.getlowestLevelIndex(tDimName) == 0) {
 				endLevelIndex = 0;
-			else
+			} else {
 				endLevelIndex = cubeDimensionReader.getlowestLevelIndex(tDimName) - 1;
+			}
 		} else {
 			endLevelIndex = cubeDimensionReader.getLevelIndex(tDimName,
 					aggr.getLevels()[lowestTimeLevel].getLevelName());
@@ -136,10 +150,11 @@ public class TimeFunctionCalculator {
 		Comparator comparator = new Row4AggregationComparator(sortType);
 
 		int levelCount = 0;
-		if (aggr.getLevels() == null)
+		if (aggr.getLevels() == null) {
 			levelCount = 0;
-		else
+		} else {
 			levelCount = aggr.getLevels().length;
+		}
 		int levelSize = 0;
 		if (levelCount != 0) {
 			levelSize = getLevelSize(metaInfo, aggr.getLevels());
@@ -150,8 +165,9 @@ public class TimeFunctionCalculator {
 		}
 		int rowSize = 16 + (4 + (levelSize + measureSize) - 1) / 8 * 8;
 		int bufferSize = (int) (memoryCacheSize / rowSize);
-		if (bufferSize < 100)
+		if (bufferSize < 100) {
 			bufferSize = 100;
+		}
 		if (this.existReferenceDate) {
 			if (!this.avoidExtraSort) {
 				sortedFactRows = new DiskSortedStack(bufferSize, false, comparator, Row4Aggregation.getCreator());
@@ -220,12 +236,13 @@ public class TimeFunctionCalculator {
 		int[] dataType = new int[dimLevel.length];
 		for (int i = 0; i < dimLevel.length; i++) {
 			DimColumn dimColumn = null;
-			if (dimLevel[i].getAttrName() == null)
+			if (dimLevel[i].getAttrName() == null) {
 				dimColumn = new DimColumn(dimLevel[i].getDimensionName(), dimLevel[i].getLevelName(),
 						dimLevel[i].getLevelName());
-			else
+			} else {
 				dimColumn = new DimColumn(dimLevel[i].getDimensionName(), dimLevel[i].getLevelName(),
 						dimLevel[i].getAttrName());
+			}
 			ColumnInfo columnInfo = metaInfo.getColumnInfo(dimColumn);
 			dataType[i] = columnInfo.getDataType();
 		}
@@ -309,7 +326,7 @@ public class TimeFunctionCalculator {
 	}
 
 	private int[] getSortType(AggregationDefinition aggregationDef, ICubeDimensionReader cubeDimensionReader) {
-		ArrayList<DimLevel> list = new ArrayList<DimLevel>();
+		ArrayList<DimLevel> list = new ArrayList<>();
 		DimLevel[] aggrDimLevel = aggregationDef.getLevels();
 
 		ILevel[] levels = timeDimension.getHierarchy().getLevels();
@@ -356,8 +373,9 @@ public class TimeFunctionCalculator {
 		DimLevel[] levels = aggregationDef.getLevels();
 		int[] sortTypes = aggregationDef.getSortTypes();
 		for (int i = 0; i < levels.length; i++) {
-			if (levels[i].equals(level))
+			if (levels[i].equals(level)) {
 				return sortTypes[i];
+			}
 		}
 		return IDimensionSortDefn.SORT_ASC;
 	}
@@ -396,8 +414,9 @@ public class TimeFunctionCalculator {
 	}
 
 	private Row4Aggregation retrieveOneFactRow() throws IOException {
-		if (factRowPostion >= this.factRows.size())
+		if (factRowPostion >= this.factRows.size()) {
 			return null;
+		}
 		Row4Aggregation row = (Row4Aggregation) this.factRows.get(this.factRowPostion);
 		this.factRowPostion++;
 		return row;
@@ -436,28 +455,29 @@ public class TimeFunctionCalculator {
 		currentFilterList = new List[timeMemberFilters.length];
 		currentFilter = new MemberCellIndex[timeMemberFilters.length];
 		for (int i = 0; i < timeMemberFilters.length; i++) {
-			if (referenceDate[i] == null)
+			if (referenceDate[i] == null) {
 				continue;
-			currentFilterList[i] = new ArrayList<MemberCellIndex>();
+			}
+			currentFilterList[i] = new ArrayList<>();
 			currentFilter[i] = (MemberCellIndex) this.timeMemberFilters[i].pop();
 			retrieveFilter(i);
 		}
-		currentRowList = new ArrayList<Row4Aggregation>();
+		currentRowList = new ArrayList<>();
 		if (this.existReferenceDate) {
 			currentRow = retrieveOneDetailRow();
 			retrieveGroupRows(true);
 
 			while (currentRowList.size() > 0) {
 				for (int i = 0; i < timeMemberFilters.length; i++) {
-					if (referenceDate[i] == null)
+					if ((referenceDate[i] == null) || (currentFilterList[i].size() == 0)) {
 						continue;
-					if (currentFilterList[i].size() == 0)
-						continue;
+					}
 					int compareResult = compare(currentRowList.get(0), currentFilterList[i].get(0));
 					while (compareResult > 0) {
 						retrieveFilter(i);
-						if (currentFilterList[i].size() == 0)
+						if (currentFilterList[i].size() == 0) {
 							break;
+						}
 						compareResult = compare(currentRowList.get(0), currentFilterList[i].get(0));
 					}
 					if (compareResult == 0) {
@@ -469,28 +489,29 @@ public class TimeFunctionCalculator {
 		}
 
 		for (int i = 0; i < timeMemberFilters.length; i++) {
-			if (referenceDate[i] != null)
+			if (referenceDate[i] != null) {
 				continue;
-			currentFilterList[i] = new ArrayList<MemberCellIndex>();
+			}
+			currentFilterList[i] = new ArrayList<>();
 			currentFilter[i] = (MemberCellIndex) this.timeMemberFilters[i].pop();
 			retrieveFilter(i);
 		}
-		currentRowList = new ArrayList<Row4Aggregation>();
+		currentRowList = new ArrayList<>();
 		if (this.existLastDate) {
 			currentRow = retrieveOneFactRow();
 			retrieveGroupRows(false);
 
 			while (currentRowList.size() > 0) {
 				for (int i = 0; i < timeMemberFilters.length; i++) {
-					if (referenceDate[i] != null)
+					if ((referenceDate[i] != null) || (currentFilterList[i].size() == 0)) {
 						continue;
-					if (currentFilterList[i].size() == 0)
-						continue;
+					}
 					int compareResult = compare(currentRowList.get(0), currentFilterList[i].get(0));
 					while (compareResult > 0) {
 						retrieveFilter(i);
-						if (currentFilterList[i].size() == 0)
+						if (currentFilterList[i].size() == 0) {
 							break;
+						}
 						compareResult = compare(currentRowList.get(0), currentFilterList[i].get(0));
 					}
 					if (compareResult == 0) {
@@ -501,7 +522,7 @@ public class TimeFunctionCalculator {
 			}
 		}
 
-		List<TimeResultRow> result = new ArrayList<TimeResultRow>();
+		List<TimeResultRow> result = new ArrayList<>();
 		for (int i = 0; i < accumulators.length; i++) {
 			Object[] value = new Object[accumulators[i].length];
 			for (int j = 0; j < accumulators[i].length; j++) {
@@ -515,8 +536,9 @@ public class TimeFunctionCalculator {
 
 	private void doCalculate(int functionIndex) throws DataException {
 		for (int i = 0; i < currentRowList.size(); i++) {
-			if (!getFilterResult(currentRowList.get(i), functionIndex))
+			if (!getFilterResult(currentRowList.get(i), functionIndex)) {
 				continue;
+			}
 			while (currentRowList.get(i).nextMeasures()) {
 				Object[] para = getAccumulatorParameter(currentRowList.get(i), functionIndex);
 				for (int j = 0; j < currentFilterList[functionIndex].size(); j++) {
@@ -582,16 +604,18 @@ public class TimeFunctionCalculator {
 			return;
 		}
 		currentRowList.add(currentRow);
-		if (isDetailRow)
+		if (isDetailRow) {
 			row = retrieveOneDetailRow();
-		else
+		} else {
 			row = retrieveOneFactRow();
+		}
 		while (row != null && compare(currentRow, row) == 0) {
 			currentRowList.add(row);
-			if (isDetailRow)
+			if (isDetailRow) {
 				row = retrieveOneDetailRow();
-			else
+			} else {
 				row = retrieveOneFactRow();
+			}
 		}
 		currentRow = row;
 	}
@@ -616,15 +640,17 @@ public class TimeFunctionCalculator {
 	private int compare(Row4Aggregation r, MemberCellIndex m) {
 		int result = 0;
 		for (int i = 0; i < r.getLevelMembers().length; i++) {
-			if (m.member[i] == null)
+			if (m.member[i] == null) {
 				continue;
+			}
 			result = r.getLevelMembers()[i].compareTo(m.member[i]);
 			// if it is DESC, we should make it reversed
 			if (sortType[i] == IDimensionSortDefn.SORT_DESC) {
 				result *= -1;
 			}
-			if (result != 0)
+			if (result != 0) {
 				return result;
+			}
 		}
 		return 0;
 	}
@@ -633,8 +659,9 @@ public class TimeFunctionCalculator {
 		int result = 0;
 		for (int i = 0; i < r1.getLevelMembers().length; i++) {
 			result = r1.getLevelMembers()[i].compareTo(r2.getLevelMembers()[i]);
-			if (result != 0)
+			if (result != 0) {
 				return result;
+			}
 		}
 		return 0;
 	}
@@ -642,15 +669,19 @@ public class TimeFunctionCalculator {
 	private static int compare(MemberCellIndex m1, MemberCellIndex m2) {
 		int result = 0;
 		for (int i = 0; i < m1.member.length; i++) {
-			if (m1.member[i] == null && m2.member[i] == null)
+			if (m1.member[i] == null && m2.member[i] == null) {
 				continue;
-			if (m1.member[i] == null)
+			}
+			if (m1.member[i] == null) {
 				return -1;
-			if (m2.member[i] == null)
+			}
+			if (m2.member[i] == null) {
 				return 1;
+			}
 			result = m1.member[i].compareTo(m2.member[i]);
-			if (result != 0)
+			if (result != 0) {
 				return result;
+			}
 		}
 		return 0;
 	}
@@ -675,10 +706,11 @@ public class TimeFunctionCalculator {
 
 	private TimeMember getCurrentMember(IDimension timeDimension, Date referenceDate, Member[] member) {
 		TimeMember cellTimeMember = getCellTimeMember(member);
-		if (referenceDate == null)
+		if (referenceDate == null) {
 			return TimeMemberUtil.getCurrentMember(timeDimension, cellTimeMember);
-		else
+		} else {
 			return TimeMemberUtil.toMember(timeDimension, referenceDate, cellTimeMember);
+		}
 	}
 
 	private void createCalculator(int size) throws DataException {
@@ -708,6 +740,7 @@ class MemberCellIndex implements IComparableStructure {
 	 * 
 	 * @see org.eclipse.birt.data.engine.olap.data.util.IStructure#getFieldValues()
 	 */
+	@Override
 	public Object[] getFieldValues() {
 		Object[][] objects = new Object[member.length + 1][];
 		for (int i = 0; i < member.length; i++) {
@@ -723,14 +756,16 @@ class MemberCellIndex implements IComparableStructure {
 	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	@Override
 	public int compareTo(Object o) {
 		int result;
 		int oCellPosition = ((MemberCellIndex) o).cellPosition;
 		Member[] oMember = ((MemberCellIndex) o).member;
 		for (int i = 0; i < member.length; i++) {
 			result = member[i].compareTo(oMember[i]);
-			if (result != 0)
+			if (result != 0) {
 				return result;
+			}
 		}
 		if (cellPosition > oCellPosition) {
 			return 1;
@@ -764,14 +799,16 @@ class MemberCellIndexCreator implements IStructureCreator {
 	 * org.eclipse.birt.data.olap.data.util.IStructureCreator#createInstance(java.
 	 * lang.Object[])
 	 */
+	@Override
 	public IStructure createInstance(Object[] fields) {
 		Object[][] objectArrays = ObjectArrayUtil.convert(fields);
 		Member[] member = new Member[objectArrays.length - 1];
 		for (int i = 0; i < member.length; i++) {
-			if (objectArrays[i] == null)
+			if (objectArrays[i] == null) {
 				member[i] = null;
-			else
+			} else {
 				member[i] = (Member) levelMemberCreator.createInstance(objectArrays[i]);
+			}
 		}
 		int cellIndex = ((Integer) objectArrays[objectArrays.length - 1][0]);
 
@@ -801,6 +838,7 @@ class MemberCellIndexComparator implements Comparator {
 	 * 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
+	@Override
 	public int compare(Object o1, Object o2) {
 		MemberCellIndex m1 = (MemberCellIndex) o1;
 		MemberCellIndex m2 = (MemberCellIndex) o2;
@@ -810,16 +848,18 @@ class MemberCellIndexComparator implements Comparator {
 		for (int i = 0; i < m1.member.length; i++) {
 			if (sortType == null || sortType.length <= i || sortType[i] == IDimensionSortDefn.SORT_UNDEFINED
 					|| sortType[i] == IDimensionSortDefn.SORT_ASC) {
-				if (m1.member[i] == null && m2.member[i] == null)
+				if (m1.member[i] == null && m2.member[i] == null) {
 					continue;
+				}
 				if (m1.member[i].compareTo(m2.member[i]) < 0) {
 					return -1;
 				} else if (m1.member[i].compareTo(m2.member[i]) > 0) {
 					return 1;
 				}
 			} else {
-				if (m1.member[i] == null && m2.member[i] == null)
+				if (m1.member[i] == null && m2.member[i] == null) {
 					continue;
+				}
 				if (m1.member[i].compareTo(m2.member[i]) < 0) {
 					return 1;
 				} else if (m1.member[i].compareTo(m2.member[i]) > 0) {
@@ -848,6 +888,7 @@ class PeriodsToDateWithParallel implements IPeriodsFunction {
 	 * IPeriodsFunction#getResult(org.eclipse.birt.data.engine.olap.data.impl.
 	 * aggregation.function.TimeMember)
 	 */
+	@Override
 	public List<TimeMember> getResult(TimeMember member) {
 		TimeMember timeMember = parallelFunc.getResult(member);
 		((AbstractMDX) periodsToDateFunc).setReferenceDate(((AbstractMDX) parallelFunc).getReferenceDate());

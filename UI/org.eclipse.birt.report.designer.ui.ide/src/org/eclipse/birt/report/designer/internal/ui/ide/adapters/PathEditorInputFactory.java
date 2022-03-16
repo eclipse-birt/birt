@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,10 +33,11 @@ public class PathEditorInputFactory implements IAdapterFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.core.runtime.IAdapterFactory#getAdapter(java.lang.Object,
 	 * java.lang.Class)
 	 */
+	@Override
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		if (IPathEditorInputFactory.class.equals(adapterType)) {
 
@@ -41,10 +45,11 @@ public class PathEditorInputFactory implements IAdapterFactory {
 
 				/*
 				 * (non-Javadoc)
-				 * 
+				 *
 				 * @seeorg.eclipse.birt.report.designer.ui.editors. IPathEditorInputFactory
 				 * #create(org.eclipse.core.runtime.IPath)
 				 */
+				@Override
 				public IEditorInput create(IPath path) {
 					final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
 
@@ -61,9 +66,10 @@ public class PathEditorInputFactory implements IAdapterFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.core.runtime.IAdapterFactory#getAdapterList()
 	 */
+	@Override
 	public Class[] getAdapterList() {
 		return new Class[] { IPathEditorInputFactory.class };
 	}
@@ -80,7 +86,7 @@ public class PathEditorInputFactory implements IAdapterFactory {
 
 		/**
 		 * Creates a new adapter for the given path.
-		 * 
+		 *
 		 * @param path A path to a file store within the scheme of this file system.
 		 */
 		public PathEditorInput(IPath path) {
@@ -90,9 +96,10 @@ public class PathEditorInputFactory implements IAdapterFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.ui.IPathEditorInput#getPath()
 		 */
+		@Override
 		public IPath getPath() {
 			return path;
 		}

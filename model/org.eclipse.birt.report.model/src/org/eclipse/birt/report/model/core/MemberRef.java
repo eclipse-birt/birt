@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,26 +30,27 @@ import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
  * <p>
  * <ul>
  * <li>property</li>
- * 
+ *
  * <li>property.member</li>
  * <li>property.member.member</li>
  * <li>property.member.list[n]</li>
  * <li>property.member.list[n].member</li>
- * 
+ *
  * <li>property.list[n]</li>
  * <li>property.list[n].member</li>
  * <li>property.list[n].member.list[n]</li>
  * <li>property.list[n].member.list[n].member</li>
  * <li>property.list[n].member.member</li>
- * 
+ *
  * </ul>
  * <p>
  * The reference supports up to two level of list.member identification. This is
  * the most used by the element definitions.
- * 
+ *
  * @deprecated since 2.5
  */
 
+@Deprecated
 public class MemberRef {
 
 	public final static int PROPERTY = 0;
@@ -96,7 +100,7 @@ public class MemberRef {
 
 	/**
 	 * Constructs one member reference as same as the given one.
-	 * 
+	 *
 	 * @param memberRef the member reference to copy
 	 */
 
@@ -112,10 +116,10 @@ public class MemberRef {
 
 	/**
 	 * Property (list, structure)
-	 * 
+	 *
 	 * Reference to the top-level property list. Points to the first index within
 	 * that list.
-	 * 
+	 *
 	 * @param prop the property definition
 	 */
 
@@ -133,7 +137,7 @@ public class MemberRef {
 	 * Reference to the nth item within the top-level property list.
 	 * <p>
 	 * property.list[n]
-	 * 
+	 *
 	 * @param prop the property definition
 	 * @param n    the list index
 	 */
@@ -154,7 +158,7 @@ public class MemberRef {
 	 * Reference to a member of a top-level structure.
 	 * <p>
 	 * property.member
-	 * 
+	 *
 	 * @param prop       the element property definition which is structure or
 	 *                   structure list type
 	 * @param memberName the structure member name of the element property
@@ -181,7 +185,7 @@ public class MemberRef {
 	 * Reference to a member of a top-level structure.
 	 * <p>
 	 * property.member
-	 * 
+	 *
 	 * @param prop      the element property definition which is structure or
 	 *                  structure list type
 	 * @param memberDef the structure member definition of the element property
@@ -205,7 +209,7 @@ public class MemberRef {
 	 * Reference to the the named member in the nth structure in the top-level list.
 	 * <p>
 	 * property.list[n].member
-	 * 
+	 *
 	 * @param prop       the property definition
 	 * @param n          the list index
 	 * @param memberName the name of a member
@@ -233,7 +237,7 @@ public class MemberRef {
 	 * within the top-level list.
 	 * <p>
 	 * property.list[n].member
-	 * 
+	 *
 	 * @param prop      the property definition
 	 * @param n         the list index
 	 * @param memberDef the definition of the member
@@ -258,10 +262,10 @@ public class MemberRef {
 	 * Reference to the nth item in a first or second level list.
 	 * <p>
 	 * property.member.list[n] <br>
-	 * 
+	 *
 	 * property.list[n] <br>
 	 * property.list[n].member.list[n]
-	 * 
+	 *
 	 * @param ref reference to a property or member
 	 * @param n   the list index
 	 */
@@ -311,10 +315,10 @@ public class MemberRef {
 	 * list item is given by the member ref.
 	 * <p>
 	 * property.member.list[n].member <br>
-	 * 
+	 *
 	 * property.list[n].member <br>
 	 * property.list[n].member.list[n].member
-	 * 
+	 *
 	 * @param ref        reference to a property or member
 	 * @param n          the list index
 	 * @param memberDefn the definition of the member
@@ -374,12 +378,12 @@ public class MemberRef {
 	 * <p>
 	 * property.member <br>
 	 * property.member.member <br>
-	 * 
+	 *
 	 * property.list[n].member <br>
 	 * property.list[n].member.list[n].member <br>
-	 * 
+	 *
 	 * property.list[n].member.member
-	 * 
+	 *
 	 * @param ref        reference a structure
 	 * @param memberName the name of a member
 	 */
@@ -395,12 +399,12 @@ public class MemberRef {
 	 * property.member <br>
 	 * property.member.member <br>
 	 * property.member.list[n].member
-	 * 
+	 *
 	 * property.list[n].member <br>
 	 * property.list[n].member.list[n].member <br>
-	 * 
+	 *
 	 * property.list[n].member.member
-	 * 
+	 *
 	 * @param ref        reference a structure
 	 * @param memberDefn the definition of the member
 	 */
@@ -449,48 +453,46 @@ public class MemberRef {
 					depth = 1;
 				}
 			}
+		} else if (ref.refType == PROPERTY) {
+			// property.member
+
+			refType = PROPERTY_MEMBER;
+
+			member[0] = memberDefn;
+			index[0] = -1;
+
+			depth = 1;
+		} else if (ref.refType == PROPERTY_MEMBER) {
+			// property.member.member
+
+			assert !ref.member[0].isList();
+
+			refType = PROPERTY_MEMBER_MEMBER;
+
+			member[0] = ref.member[0];
+			index[0] = -1;
+
+			member[1] = memberDefn;
+			depth = 1;
 		} else {
-			if (ref.refType == PROPERTY) {
-				// property.member
+			// property.member.list[n].member
 
-				refType = PROPERTY_MEMBER;
+			assert ref.refType == PROPERTY_MEMBER_LISTn;
 
-				member[0] = memberDefn;
-				index[0] = -1;
+			refType = PROPERTY_MEMBER_LISTn_MEMBER;
 
-				depth = 1;
-			} else if (ref.refType == PROPERTY_MEMBER) {
-				// property.member.member
+			member[0] = ref.member[0];
+			index[0] = ref.index[0];
 
-				assert !ref.member[0].isList();
-
-				refType = PROPERTY_MEMBER_MEMBER;
-
-				member[0] = ref.member[0];
-				index[0] = -1;
-
-				member[1] = memberDefn;
-				depth = 1;
-			} else {
-				// property.member.list[n].member
-
-				assert ref.refType == PROPERTY_MEMBER_LISTn;
-
-				refType = PROPERTY_MEMBER_LISTn_MEMBER;
-
-				member[0] = ref.member[0];
-				index[0] = ref.index[0];
-
-				member[1] = memberDefn;
-				depth = 1;
-			}
+			member[1] = memberDefn;
+			depth = 1;
 		}
 
 	}
 
 	/**
 	 * Constructs the member reference with the context.
-	 * 
+	 *
 	 * @param context
 	 */
 	public MemberRef(StructureContext context) {
@@ -506,28 +508,30 @@ public class MemberRef {
 	 * Returns a reference to the parent.
 	 * <p>
 	 * <strong>property.list[n].member.list[n][member] </strong>
-	 * 
+	 *
 	 * @return a reference to the parent member
 	 */
 
 	public MemberRef getParentRef() {
-		if (depth == 1)
+		if (depth == 1) {
 			return null;
+		}
 		return new MemberRef(propDefn, index[0], member[0]);
 	}
 
 	/**
 	 * Gets the value of the referenced property, structure, or member.
-	 * 
+	 *
 	 * @param module  the module
-	 * 
+	 *
 	 * @param element the element for which to retrieve the value
 	 * @return the retrieved value, which may be null
 	 */
 
 	public Object getValue(Module module, DesignElement element) {
-		if (context != null)
+		if (context != null) {
 			return context.getValue(module);
+		}
 		if (propDefn.isListType()) {
 			// property
 			// property.list[n]
@@ -546,15 +550,17 @@ public class MemberRef {
 			case PROPERTY_LISTn_MEMBER: // reference the list itself.
 			{
 				Structure struct = getStructure(module, element);
-				if (struct == null)
+				if (struct == null) {
 					return null;
+				}
 				return struct.getProperty(module, member[0]);
 			}
 			case PROPERTY_LISTn_MEMBER_MEMBER:
 			case PROPERTY_LISTn_MEMBER_LISTn_MEMBER: {
 				Structure struct = getStructure(module, element);
-				if (struct == null)
+				if (struct == null) {
 					return null;
+				}
 				return struct.getProperty(module, member[1]);
 			}
 			default: {
@@ -572,8 +578,9 @@ public class MemberRef {
 		// property.member.list[n].member
 
 		Structure struct = getStructure(module, element);
-		if (struct == null)
+		if (struct == null) {
 			return null;
+		}
 
 		switch (refType) {
 		case PROPERTY:
@@ -593,19 +600,21 @@ public class MemberRef {
 
 	/**
 	 * Gets the local value of the referenced property, structure, or member.
-	 * 
+	 *
 	 * @param module  the module
-	 * 
+	 *
 	 * @param element the element for which to retrieve the value
 	 * @return the retrieved value, which may be null
 	 */
 
 	public Object getLocalValue(Module module, DesignElement element) {
-		if (context != null)
+		if (context != null) {
 			return context.getLocalValue(module);
+		}
 		Structure struct = getStructure(module, element);
-		if (struct == null)
+		if (struct == null) {
 			return null;
+		}
 		if (propDefn.isListType()) {
 			// property
 			// property.list[n]
@@ -657,13 +666,14 @@ public class MemberRef {
 
 	/**
 	 * Returns the definition of the property portion of the reference.
-	 * 
+	 *
 	 * @return the property definition
 	 */
 
 	public ElementPropertyDefn getPropDefn() {
-		if (context != null)
+		if (context != null) {
 			return context.getElementProp();
+		}
 		return propDefn;
 	}
 
@@ -673,16 +683,17 @@ public class MemberRef {
 	 * property. <strong>member </strong> <br>
 	 * property.member. <strong>member </strong> <br>
 	 * property.member.list[n]. <strong>member </strong> <br>
-	 * 
+	 *
 	 * property.list[n]. <strong>member </strong> <br>
 	 * property.list[n].member.list[n]. <strong>member </strong> <br>
-	 * 
+	 *
 	 * @return the definition of the target member
 	 */
 
 	public PropertyDefn getMemberDefn() {
-		if (context != null)
+		if (context != null) {
 			return context.getPropDefn();
+		}
 		return member[1] == null ? member[0] : member[1];
 	}
 
@@ -692,32 +703,35 @@ public class MemberRef {
 	 * <strong>property </strong>[.member] <br>
 	 * property. <strong>member </strong>.member <br>
 	 * property.member. <strong>list[n] </strong>[.member] <br>
-	 * 
+	 *
 	 * property. <strong>list[n] </strong>[.member] <br>
 	 * property.list[n].member. <strong>list[n] </strong>[.member] <br>
 	 * property.list[n]. <strong>member </strong>.member
-	 * 
+	 *
 	 * @param module  the module
-	 * 
+	 *
 	 * @param element the element from which to retrieve the structure
 	 * @return the value of the referenced structure
 	 */
 
 	public Structure getStructure(Module module, DesignElement element) {
-		if (context != null)
+		if (context != null) {
 			return context.getStructure();
+		}
 		if (propDefn.isListType()) {
 			ArrayList list = (ArrayList) element.getProperty(module, propDefn);
-			if (list == null)
+			if (list == null) {
 				return null;
+			}
 
 			Object tmpValue = null;
 			switch (refType) {
 			case PROPERTY_LISTn:
 			case PROPERTY_LISTn_MEMBER:
 				tmpValue = getValue(list, 0);
-				if (!(tmpValue instanceof Structure))
+				if (!(tmpValue instanceof Structure)) {
 					return null;
+				}
 
 				return (Structure) tmpValue;
 			case PROPERTY_LISTn_MEMBER_LISTn:
@@ -727,8 +741,9 @@ public class MemberRef {
 				// is no value.
 
 				tmpValue = getValue(list, 0);
-				if (!(tmpValue instanceof Structure))
+				if (!(tmpValue instanceof Structure)) {
 					return null;
+				}
 
 				Structure struct = (Structure) tmpValue;
 
@@ -738,8 +753,9 @@ public class MemberRef {
 				list = (ArrayList) struct.getProperty(module, member[0]);
 
 				tmpValue = getValue(list, 1);
-				if (!(tmpValue instanceof Structure))
+				if (!(tmpValue instanceof Structure)) {
 					return null;
+				}
 
 				return (Structure) tmpValue;
 
@@ -749,8 +765,9 @@ public class MemberRef {
 				// is no value.
 
 				tmpValue = getValue(list, 0);
-				if (!(tmpValue instanceof Structure))
+				if (!(tmpValue instanceof Structure)) {
 					return null;
+				}
 
 				struct = (Structure) tmpValue;
 
@@ -766,8 +783,9 @@ public class MemberRef {
 		}
 
 		Structure struct = (Structure) element.getProperty(module, propDefn);
-		if (struct == null)
+		if (struct == null) {
 			return null;
+		}
 
 		if (index[0] >= 0) {
 			// property.member.list[n]
@@ -777,8 +795,9 @@ public class MemberRef {
 			ArrayList list = (ArrayList) struct.getProperty(module, member[0]);
 
 			Object tmpValue = getValue(list, 0);
-			if (!(tmpValue instanceof Structure))
+			if (!(tmpValue instanceof Structure)) {
 				return null;
+			}
 
 			return (Structure) tmpValue;
 		}
@@ -801,21 +820,22 @@ public class MemberRef {
 	 * <p>
 	 * <strong>property </strong> <br>
 	 * <strong>property </strong>.member <br>
-	 * 
+	 *
 	 * property. <strong>member </strong>.member <br>
 	 * property.member. <strong>list[n] </strong> <br>
 	 * property.member. <strong>list[n] </strong>.member <br>
-	 * 
+	 *
 	 * property. <strong>list[n] </strong>[.member] <br>
 	 * property.list[n].member. <strong>list[n] </strong>[.member] <br>
 	 * property.list[n]. <strong>member </strong>.member
-	 * 
+	 *
 	 * @return the definition of the structure pointed to by the reference
 	 */
 
 	public IStructureDefn getStructDefn() {
-		if (context != null)
+		if (context != null) {
 			return context.getStructDefn();
+		}
 		switch (refType) {
 		case PROPERTY:
 		case PROPERTY_LISTn:
@@ -840,18 +860,20 @@ public class MemberRef {
 	 * Returns the list index pointed to by this reference.
 	 * <p>
 	 * property.member.list[ <strong>n </strong> ][.member] <br>
-	 * 
+	 *
 	 * property.list[ <strong>n </strong>][.member] <br>
 	 * property.list[n].member.list[ <strong>n </strong>][.member]
-	 * 
+	 *
 	 * @return the list index pointed to by this reference
 	 */
 
 	public int getIndex() {
-		if (context != null)
+		if (context != null) {
 			return context.getIndex(null);
-		if (propDefn.isListType())
+		}
+		if (propDefn.isListType()) {
 			return index[depth - 1];
+		}
 
 		return index[0];
 	}
@@ -861,10 +883,10 @@ public class MemberRef {
 	 * <p>
 	 * property.list[n][.member] --&gt 1 <br>
 	 * property.member[.list[n]]
-	 * 
+	 *
 	 * property.list[n].member.list[n][.member] --&gt 2
 	 * property.member.list[n].member property.member.member
-	 * 
+	 *
 	 * @return the depth of the reference
 	 */
 
@@ -879,25 +901,27 @@ public class MemberRef {
 	 * property. <strong>list </strong>[n][.member] <br>
 	 * property.list[n].member. <strong>list </strong>[n][.member] property.list[n]
 	 * <strong>.member.member </strong> <br>
-	 * 
+	 *
 	 * property.member. <strong>list </strong>[n][.member] <br>
-	 * 
+	 *
 	 * @param module  the module
-	 * 
+	 *
 	 * @param element the element for which to retrieve the list
 	 * @return the list of structures
 	 */
 
 	public List getList(Module module, DesignElement element) {
-		if (context != null)
+		if (context != null) {
 			return context.getList(module);
+		}
 		if (propDefn.isListType()) {
 			// Get the property list. If the list is null, there
 			// is no value.
 
 			List list = (ArrayList) element.getProperty(module, propDefn);
-			if (list == null)
+			if (list == null) {
 				return null;
+			}
 
 			switch (refType) {
 			case PROPERTY:
@@ -907,8 +931,9 @@ public class MemberRef {
 			case PROPERTY_LISTn_MEMBER:
 			case PROPERTY_LISTn_MEMBER_LISTn:
 
-				if (!member[0].isListType())
+				if (!member[0].isListType()) {
 					return list;
+				}
 
 				// If the top-level index is out of range, then there
 				// is no value.
@@ -940,21 +965,23 @@ public class MemberRef {
 		// not a list property
 
 		Structure struct = (Structure) element.getProperty(module, propDefn);
-		if (struct != null && member[0] != null && member[0].isList())
+		if (struct != null && member[0] != null && member[0].isList()) {
 			return (ArrayList) struct.getProperty(module, member[0]);
+		}
 
 		return null;
 	}
 
 	/**
 	 * Indicates whether this member reference points to a list.
-	 * 
+	 *
 	 * @return true if points to a list.
 	 */
 
 	public boolean isListRef() {
-		if (context != null)
+		if (context != null) {
 			return context.isListRef();
+		}
 		switch (refType) {
 		case PROPERTY:
 			return propDefn.isListType();
@@ -974,7 +1001,7 @@ public class MemberRef {
 
 	/**
 	 * Returns the structure at the given position in structure list.
-	 * 
+	 *
 	 * @param list  structure list
 	 * @param level the structure position in first index or second index
 	 * @return structure if the position is in list range, otherwise, return null.
@@ -983,10 +1010,9 @@ public class MemberRef {
 	protected Object getValue(List list, int level) {
 		assert level == 0 || level == 1;
 
-		if (list == null)
+		if ((list == null) || index[level] < 0 || index[level] >= list.size()) {
 			return null;
-		if (index[level] < 0 || index[level] >= list.size())
-			return null;
+		}
 
 		Object retValue = list.get(index[level]);
 
@@ -995,15 +1021,18 @@ public class MemberRef {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 
+	@Override
 	public boolean equals(Object obj) {
-		if (obj == this)
+		if (obj == this) {
 			return true;
-		if (!(obj instanceof MemberRef))
+		}
+		if (!(obj instanceof MemberRef)) {
 			return false;
+		}
 
 		MemberRef temp = (MemberRef) obj;
 
@@ -1013,10 +1042,11 @@ public class MemberRef {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 
+	@Override
 	public int hashCode() {
 		int hash = 1;
 
@@ -1030,57 +1060,57 @@ public class MemberRef {
 
 	/**
 	 * Compare two int arary value.
-	 * 
+	 *
 	 * @param arrayOne
 	 * @param arrayTwo
 	 * @return
 	 */
 	protected boolean equalsIntArray(int[] arrayOne, int[] arrayTwo) {
-		if (arrayOne == arrayTwo)
+		if (arrayOne == arrayTwo) {
 			return true;
+		}
 
-		if (arrayOne == null || arrayTwo == null)
+		if (arrayOne == null || arrayTwo == null || (arrayOne.length != arrayTwo.length)) {
 			return false;
-
-		if (arrayOne.length != arrayTwo.length)
-			return false;
+		}
 		for (int i = 0; i < arrayOne.length; ++i) {
 			int one = arrayOne[i];
 			int two = arrayTwo[i];
-			if (one != two)
+			if (one != two) {
 				return false;
+			}
 		}
 		return true;
 	}
 
 	/**
 	 * Compare two object array value.
-	 * 
+	 *
 	 * @param arrayOne
 	 * @param arrayTwo
 	 * @return
 	 */
 	protected boolean equalArray(Object[] arrayOne, Object[] arrayTwo) {
-		if (arrayOne == arrayTwo)
+		if (arrayOne == arrayTwo) {
 			return true;
+		}
 
-		if (arrayOne == null || arrayTwo == null)
+		if (arrayOne == null || arrayTwo == null || (arrayOne.length != arrayTwo.length)) {
 			return false;
-
-		if (arrayOne.length != arrayTwo.length)
-			return false;
+		}
 		for (int i = 0; i < arrayOne.length; ++i) {
 			Object one = arrayOne[i];
 			Object two = arrayTwo[i];
-			if ((one != null && !one.equals(two)) || (two != null && !two.equals(one)))
+			if ((one != null && !one.equals(two)) || (two != null && !two.equals(one))) {
 				return false;
+			}
 		}
 		return true;
 	}
 
 	/**
 	 * Add int array's hash code.
-	 * 
+	 *
 	 * @param hash
 	 * @param array
 	 * @return
@@ -1096,7 +1126,7 @@ public class MemberRef {
 
 	/**
 	 * Add object array's hash code
-	 * 
+	 *
 	 * @param hash
 	 * @param array
 	 * @return
@@ -1105,8 +1135,9 @@ public class MemberRef {
 		assert array != null;
 		hash = 7 * hash;
 		for (int i = 0; i < array.length; ++i) {
-			if (array[i] == null)
+			if (array[i] == null) {
 				continue;
+			}
 			hash += array[i].hashCode();
 		}
 		return hash;
@@ -1114,7 +1145,7 @@ public class MemberRef {
 
 	/**
 	 * Gets the context of this reference.
-	 * 
+	 *
 	 * @return
 	 */
 	public StructureContext getContext() {

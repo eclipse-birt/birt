@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -74,7 +77,7 @@ public final class ResultSetWrapper {
 	/**
 	 * A reusable instance that indicates no group breaks
 	 */
-	private static final int[] NO_GROUP_BREAKS = new int[0];
+	private static final int[] NO_GROUP_BREAKS = {};
 
 	/**
 	 * The group breaks associated with all rows of data
@@ -92,7 +95,7 @@ public final class ResultSetWrapper {
 	/**
 	 * The start interval value is used as an benchmark to compute numeric interval
 	 * on specified interval range.
-	 * 
+	 *
 	 * @since BIRT 2.3
 	 */
 	private static final double BASE_START_INTERVAL_VALUE = 0;
@@ -101,7 +104,7 @@ public final class ResultSetWrapper {
 
 	/**
 	 * The default constructor that allows creation of a resultset wrapper
-	 * 
+	 *
 	 * @param hmLookup    The map of expressions associated with each column in the
 	 *                    resultset
 	 * @param liResultSet A list of rows that represent the actual resultset data
@@ -139,7 +142,7 @@ public final class ResultSetWrapper {
 
 	/**
 	 * Apply sorting and Grouping of chart.
-	 * 
+	 *
 	 * @param sdBase           base series definition.
 	 * @param sdValue          value series definition.
 	 * @param aggregationExp
@@ -156,7 +159,7 @@ public final class ResultSetWrapper {
 	 * Apply value series grouping and sorting, it only do grouping/sorting, don't
 	 * do aggregation, aggregation will be done in doing base series
 	 * grouping/sorting.
-	 * 
+	 *
 	 * @param sdValue        value series definition.
 	 * @param aggregationExp
 	 * @throws ChartException
@@ -170,7 +173,7 @@ public final class ResultSetWrapper {
 
 	/**
 	 * Generate group breaks with current row data.
-	 * 
+	 *
 	 * @param sdValue the value series definition.
 	 * @since 2.3
 	 */
@@ -185,7 +188,7 @@ public final class ResultSetWrapper {
 
 	/**
 	 * The class is used to sort data by Y grouping sort key.
-	 * 
+	 *
 	 * @since BIRT 2.3
 	 */
 	private static class YGroupingSorter implements Comparator {
@@ -206,9 +209,10 @@ public final class ResultSetWrapper {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
+		@Override
 		public final int compare(Object o1, Object o2) {
 			Object obj1 = ((Object[]) o1)[2];
 			Object obj2 = ((Object[]) o2)[2];
@@ -241,7 +245,7 @@ public final class ResultSetWrapper {
 	/**
 	 * Sort Y grouping if the sort key of Y grouping doesn't equal the Y grouping
 	 * expression.
-	 * 
+	 *
 	 * @param sdValue
 	 * @param aggregationExp
 	 * @param saExpressionKeys
@@ -286,7 +290,7 @@ public final class ResultSetWrapper {
 		try {
 			iafa = PluginSettings.instance().getAggregateFunction(aggregationExp[relativeIndex]);
 		} catch (Exception e) {
-			;
+
 		}
 
 		if (iafa == null) {
@@ -422,7 +426,7 @@ public final class ResultSetWrapper {
 	/**
 	 * Groups rows of data as specified in the grouping criteria for the series
 	 * definition
-	 * 
+	 *
 	 * @throws ChartException
 	 */
 	public void applyBaseSeriesSortingAndGrouping(SeriesDefinition sdBase, String[] aggregationExp,
@@ -434,7 +438,7 @@ public final class ResultSetWrapper {
 		final SeriesGrouping sg = sdBase.getGrouping();
 		if (sg == null || !sg.isEnabled()) {
 			needBaseGrouping = false;
-			;
+
 		}
 
 		if (htLookup.getBaseSortExprIndex() < 0) {
@@ -919,7 +923,7 @@ public final class ResultSetWrapper {
 	/**
 	 * Returns a pre-computed group count associated with the resultset wrapper
 	 * instance
-	 * 
+	 *
 	 * @return A pre-computed group count associated with the resultset wrapper
 	 *         instance
 	 */
@@ -933,7 +937,7 @@ public final class ResultSetWrapper {
 
 	/**
 	 * Returns the row count in specified group.
-	 * 
+	 *
 	 * @param iGroupIndex
 	 * @return
 	 */
@@ -947,7 +951,7 @@ public final class ResultSetWrapper {
 	/**
 	 * Returns a pre-computed column count associated with the resultset wrapper
 	 * instance
-	 * 
+	 *
 	 * @return A pre-computed column count associated with the resultset wrapper
 	 *         instance
 	 */
@@ -958,7 +962,7 @@ public final class ResultSetWrapper {
 	/**
 	 * Returns the number of rows of data associated with the resultset wrapper
 	 * instance
-	 * 
+	 *
 	 * @return The number of rows of data associated with the resultset wrapper
 	 *         instance
 	 */
@@ -968,10 +972,10 @@ public final class ResultSetWrapper {
 
 	/**
 	 * Extracts the group's key value that remains unchanged for a given group
-	 * 
+	 *
 	 * @param iGroupIndex    The group index for which the key is requested
 	 * @param sExpressionKey The expression column that holds the group key value
-	 * 
+	 *
 	 * @return The group key value associated with the requested group index
 	 */
 	public Object getGroupKey(int iGroupIndex, String sExpressionKey, String aggExp) {
@@ -990,11 +994,11 @@ public final class ResultSetWrapper {
 
 	/**
 	 * Extracts the group's key value that remains unchanged for a given group
-	 * 
+	 *
 	 * @param iGroupIndex  The group index for which the key is requested
 	 * @param iColumnIndex The column index from which the group key value is to be
 	 *                     extracted
-	 * 
+	 *
 	 * @return The group key value associated with the requested group index
 	 */
 	public Object getGroupKey(int iGroupIndex, int iColumnIndex) {
@@ -1010,11 +1014,11 @@ public final class ResultSetWrapper {
 	 * Creates an instance of a resultset subset that uses references to dynamically
 	 * compute a subset of the original resultset instance rather than duplicate a
 	 * copy of the original resultset data content
-	 * 
+	 *
 	 * @param iGroupIndex    The group number for which a subset is requested
 	 * @param sExpressionKey A single expression column for which a subset is
 	 *                       requested
-	 * 
+	 *
 	 * @return An instance of the resultset subset
 	 */
 	public ResultSetDataSet getSubset(int iGroupIndex, String sExpressionKey, String aggExp) {
@@ -1027,11 +1031,11 @@ public final class ResultSetWrapper {
 	 * Creates an instance of a resultset subset that uses references to dynamically
 	 * compute a subset of the original resultset instance rather than duplicate a
 	 * copy of the original resultset data content
-	 * 
+	 *
 	 * @param iGroupIndex      The group number for which a subset is requested
 	 * @param elExpressionKeys The expression columns for which a subset is
 	 *                         requested
-	 * 
+	 *
 	 * @return An instance of the resultset subset
 	 */
 	public ResultSetDataSet getSubset(int iGroupIndex, EList elExpressionKeys, String aggExp) {
@@ -1050,13 +1054,13 @@ public final class ResultSetWrapper {
 	 * Creates an instance of a resultset subset that uses references to dynamically
 	 * compute a subset of the original resultset instance rather than duplicate a
 	 * copy of the original resultset data content
-	 * 
+	 *
 	 * @param iGroupIndex     The group number for which a subset is requested
 	 * @param sExpressionKeys The expression columns for which a subset is requested
 	 * @param aggExp          The aggregation function name.
 	 * @param isValueSeries   indicates if the sub-dataset is retrieved for value
 	 *                        series.
-	 * 
+	 *
 	 * @return An instance of the resultset subset
 	 */
 	public ResultSetDataSet getSubset(int iGroupIndex, String[] sExpressionKeys, String aggExp, boolean isValueSeries) {
@@ -1078,11 +1082,11 @@ public final class ResultSetWrapper {
 	 * Creates an instance of a resultset subset that uses references to dynamically
 	 * compute a subset of the original resultset instance rather than duplicate a
 	 * copy of the original resultset data content
-	 * 
+	 *
 	 * @param iGroupIndex  The group number for which a subset is requested
 	 * @param iColumnIndex A single column (defined by the index) for which the
 	 *                     subset is requested
-	 * 
+	 *
 	 * @return An instance of the resultset subset
 	 */
 	public ResultSetDataSet getSubset(int iGroupIndex, int iColumnIndex) {
@@ -1095,10 +1099,10 @@ public final class ResultSetWrapper {
 	 * Creates an instance of a resultset subset that uses references to dynamically
 	 * compute a subset of the original resultset instance rather than duplicate a
 	 * copy of the original resultset data content
-	 * 
+	 *
 	 * @param elExpressions The expression columns for which a resultset subset is
 	 *                      being requested
-	 * 
+	 *
 	 * @return The resultset subset containing the requested columns and all rows of
 	 *         the resultset
 	 */
@@ -1116,10 +1120,10 @@ public final class ResultSetWrapper {
 	 * Creates an instance of a resultset subset that uses references to dynamically
 	 * compute a subset of the original resultset instance rather than duplicate a
 	 * copy of the original resultset data content
-	 * 
+	 *
 	 * @param sExpressionKey A single expression column for which a resultset subset
 	 *                       is being requested
-	 * 
+	 *
 	 * @return The resultset subset containing the requested column and all rows of
 	 *         the resultset
 	 */
@@ -1131,16 +1135,16 @@ public final class ResultSetWrapper {
 	 * Creates an instance of a resultset subset that uses references to dynamically
 	 * compute a subset of the original resultset instance rather than duplicate a
 	 * copy of the original resultset data content
-	 * 
+	 *
 	 * @param sExpressionKeys The expression columns for which a resultset subset is
 	 *                        being requested
 	 * @param aggExp          The aggregation function name.
 	 * @param isValueSeries   indicates if the sub-dataset is retrieved for value
 	 *                        series.
-	 * 
+	 *
 	 * @return The resultset subset containing the requested columns and all rows of
 	 *         the resultset
-	 * 
+	 *
 	 */
 	public ResultSetDataSet getSubset(String[] sExpressionKeys, String aggExp, boolean isValueSeries)
 			throws ChartException {
@@ -1159,10 +1163,10 @@ public final class ResultSetWrapper {
 	 * Creates an instance of a resultset subset that uses references to dynamically
 	 * compute a subset of the original resultset instance rather than duplicate a
 	 * copy of the original resultset data content
-	 * 
+	 *
 	 * @param iColumnIndex A single column for which a resultset subset is being
 	 *                     requested
-	 * 
+	 *
 	 * @return The resultset subset containing the requested column (specified by
 	 *         index) and all rows of the resultset
 	 */
@@ -1172,7 +1176,7 @@ public final class ResultSetWrapper {
 
 	/**
 	 * Returns the values for given column and compute index arrays.
-	 * 
+	 *
 	 * @param iColumnIndex
 	 * @param sorting
 	 * @param isCategory
@@ -1193,7 +1197,7 @@ public final class ResultSetWrapper {
 		for (int k = 0; k < groupCount; k++) {
 			rsd = getSubset(k, iColumnIndex);
 
-			idx = new ArrayList<Integer>();
+			idx = new ArrayList<>();
 
 			if (k == 0) {
 				// if it's the first group, just add all values.
@@ -1202,7 +1206,7 @@ public final class ResultSetWrapper {
 					oValue = rsd.next()[0];
 
 					baseValue.add(oValue);
-					idx.add(Integer.valueOf(i++));
+					idx.add(i++);
 				}
 			} else {
 				while (rsd.hasNext()) {
@@ -1223,7 +1227,7 @@ public final class ResultSetWrapper {
 						int cprt = compareObjects(oValue, ov);
 						if (cprt == 0) {
 							if (!idx.contains(Integer.valueOf(j))) {
-								idx.add(Integer.valueOf(j));
+								idx.add(j);
 								matched = true;
 								break;
 							} else if (sorting != null) {
@@ -1252,7 +1256,7 @@ public final class ResultSetWrapper {
 							// if no existing position available, append to the
 							// end.
 							baseValue.add(oValue);
-							idx.add(Integer.valueOf(baseValue.size() - 1));
+							idx.add(baseValue.size() - 1);
 						} else {
 							// insert and adjust existing indices.
 							baseValue.add(insertPoint, oValue);
@@ -1262,10 +1266,10 @@ public final class ResultSetWrapper {
 								int x = idx.get(i);
 
 								if (x >= insertPoint) {
-									idx.set(i, Integer.valueOf(x + 1));
+									idx.set(i, x + 1);
 								}
 							}
-							idx.add(Integer.valueOf(insertPoint));
+							idx.add(insertPoint);
 
 							// adjust computed group indices.
 							for (Iterator itr = idxList.iterator(); itr.hasNext();) {
@@ -1302,7 +1306,7 @@ public final class ResultSetWrapper {
 
 	/**
 	 * Returns the data type of specified column.
-	 * 
+	 *
 	 * @param iColumnIndex
 	 * @return
 	 */
@@ -1312,7 +1316,7 @@ public final class ResultSetWrapper {
 
 	/**
 	 * Returns the iterator of associated resultset.
-	 * 
+	 *
 	 * @return
 	 */
 	public Iterator iterator() {
@@ -1325,9 +1329,9 @@ public final class ResultSetWrapper {
 	/**
 	 * Internally walks through the resultset and computes the group breaks cached
 	 * for subsequent use
-	 * 
+	 *
 	 * @param bGrouped Indicates if the resultset contains the group key
-	 * 
+	 *
 	 * @return Row indexes containing changing group key values
 	 */
 	private int[] findGroupBreaks(List resultSet, GroupKey groupKey, Query query) {
@@ -1352,7 +1356,7 @@ public final class ResultSetWrapper {
 
 		final int iColumnIndex = newGroupKey.getKeyIndex();
 
-		final List<Integer> alBreaks = new ArrayList<Integer>(8);
+		final List<Integer> alBreaks = new ArrayList<>(8);
 		boolean bFirst = true;
 		Object oValue, oPreviousValue = null;
 		int iRowIndex = 0;
@@ -1388,13 +1392,13 @@ public final class ResultSetWrapper {
 					if (seriesGrouping.getGroupType() == DataType.NUMERIC_LITERAL) {
 						// Calculate interval range for numeric case, it may be decimal interval.
 						if (groupInterval == 0) {
-							alBreaks.add(Integer.valueOf(iRowIndex - 1));
+							alBreaks.add(iRowIndex - 1);
 						} else {
 							int groupIndex = (int) Math.floor(Math.abs(
 									(((Number) oValue).doubleValue() - BASE_START_INTERVAL_VALUE) / groupInterval));
 
 							if (lastGroupIndex != groupIndex) {
-								alBreaks.add(Integer.valueOf(iRowIndex - 1));
+								alBreaks.add(iRowIndex - 1);
 
 							}
 
@@ -1407,23 +1411,21 @@ public final class ResultSetWrapper {
 						if (diff != 0) {
 							int groupingInterval = (int) seriesGrouping.getGroupingInterval();
 							if (groupingInterval == 0) {
-								alBreaks.add(Integer.valueOf(iRowIndex - 1));
+								alBreaks.add(iRowIndex - 1);
 							} else {
 								if ((int) Math.floor(Math.abs(diff / groupingInterval)) > 0) {
-									alBreaks.add(Integer.valueOf(iRowIndex - 1));
+									alBreaks.add(iRowIndex - 1);
 								}
 							}
 						}
+					} else if (seriesGrouping.getGroupingUnit() == GroupingUnitType.STRING_PREFIX_LITERAL) {
+						alBreaks.add(iRowIndex - 1);
 					} else {
-						if (seriesGrouping.getGroupingUnit() == GroupingUnitType.STRING_PREFIX_LITERAL) {
-							alBreaks.add(Integer.valueOf(iRowIndex - 1));
+						if (intervalCount == (int) seriesGrouping.getGroupingInterval()) {
+							alBreaks.add(iRowIndex - 1);
+							intervalCount = 0;
 						} else {
-							if (intervalCount == (int) seriesGrouping.getGroupingInterval()) {
-								alBreaks.add(Integer.valueOf(iRowIndex - 1));
-								intervalCount = 0;
-							} else {
-								intervalCount++;
-							}
+							intervalCount++;
 						}
 					}
 				}
@@ -1440,7 +1442,7 @@ public final class ResultSetWrapper {
 					continue;
 				}
 				if (compareObjects(oPreviousValue, oValue) != 0) {
-					alBreaks.add(Integer.valueOf(iRowIndex - 1));
+					alBreaks.add(iRowIndex - 1);
 				}
 				oPreviousValue = oValue;
 			}
@@ -1455,7 +1457,7 @@ public final class ResultSetWrapper {
 
 	/**
 	 * Reset value of grouped column by grouping setting.
-	 * 
+	 *
 	 * @param resultSet      row data list.
 	 * @param columnIndex    grouped column index.
 	 * @param seriesGrouping series grouping setting.
@@ -1484,10 +1486,10 @@ public final class ResultSetWrapper {
 
 	/**
 	 * Compares two objects of the same data type
-	 * 
+	 *
 	 * @param a Object one
 	 * @param b Object two
-	 * 
+	 *
 	 * @return The result of the comparison
 	 * @since BIRT 2.3
 	 */
@@ -1517,8 +1519,9 @@ public final class ResultSetWrapper {
 
 		if (a instanceof String) {
 			int iC = a.toString().compareTo(b.toString());
-			if (iC != 0)
+			if (iC != 0) {
 				iC = ((iC < 0) ? -1 : 1);
+			}
 			return iC;
 		} else if (a instanceof Number) {
 			final double d1 = ((Number) a).doubleValue();
@@ -1541,10 +1544,10 @@ public final class ResultSetWrapper {
 
 	/**
 	 * Compares two objects of the same data type
-	 * 
+	 *
 	 * @param a Object one
 	 * @param b Object two
-	 * 
+	 *
 	 * @return The result of the comparison
 	 */
 	public static int compareObjects(Object a, Object b) {
@@ -1565,8 +1568,9 @@ public final class ResultSetWrapper {
 
 		if (a instanceof String) {
 			int iC = a.toString().compareTo(b.toString());
-			if (iC != 0)
+			if (iC != 0) {
 				iC = ((iC < 0) ? -1 : 1);
+			}
 			return iC;
 		} else if (a instanceof Number) {
 			final double d1 = ((Number) a).doubleValue();
@@ -1642,10 +1646,11 @@ public final class ResultSetWrapper {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
-		public final int compare(Object o1, Object o2) {
+		@Override
+		public int compare(Object o1, Object o2) {
 			final Object[] oaTuple1 = (Object[]) o1;
 			final Object[] oaTuple2 = (Object[]) o2;
 			final Object oC1 = oaTuple1[iSortIndex];

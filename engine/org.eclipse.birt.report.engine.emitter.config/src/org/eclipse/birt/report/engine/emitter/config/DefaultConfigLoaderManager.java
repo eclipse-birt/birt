@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.config;
 
@@ -22,7 +34,7 @@ public class DefaultConfigLoaderManager {
 
 	private static final DefaultConfigLoaderManager instance = new DefaultConfigLoaderManager();
 
-	private List<IDefaultConfigLoader> loaders = new ArrayList<IDefaultConfigLoader>();
+	private List<IDefaultConfigLoader> loaders = new ArrayList<>();
 
 	private DefaultConfigLoaderManager() {
 		try {
@@ -36,7 +48,7 @@ public class DefaultConfigLoaderManager {
 	}
 
 	public Map<String, RenderOptionDefn> loadConfigFor(String bundleName, IEmitterDescriptor descriptor) {
-		Map<String, RenderOptionDefn> renderOptions = new HashMap<String, RenderOptionDefn>();
+		Map<String, RenderOptionDefn> renderOptions = new HashMap<>();
 		for (IDefaultConfigLoader loader : getSortedConfigLoaders()) {
 			Map<String, RenderOptionDefn> options = loader.loadConfigFor(bundleName, descriptor);
 			for (Entry<String, RenderOptionDefn> option : options.entrySet()) {
@@ -52,7 +64,7 @@ public class DefaultConfigLoaderManager {
 
 	/**
 	 * Returns all extension elements.
-	 * 
+	 *
 	 * @return all extension elements.
 	 * @throws FrameworkException
 	 */
@@ -88,6 +100,7 @@ public class DefaultConfigLoaderManager {
 
 		Collections.sort(loaders, new Comparator<IDefaultConfigLoader>() {
 
+			@Override
 			public int compare(IDefaultConfigLoader arg0, IDefaultConfigLoader arg1) {
 				return arg0.getPriority() - arg1.getPriority();
 			}

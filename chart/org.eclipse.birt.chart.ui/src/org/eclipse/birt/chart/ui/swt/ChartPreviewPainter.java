@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,11 +57,13 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements Pain
 	/**
 	 * Generate whole chart and paint it.
 	 */
+	@Override
 	protected void paintChart() {
 		if (!isDisposedPreviewCanvas()) {
 			// Invoke it later and prevent freezing UI .
 			Display.getDefault().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					updateBuffer();
 					if (!isDisposedPreviewCanvas()) {
@@ -70,14 +75,7 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements Pain
 	}
 
 	private void updateBuffer() {
-		if (bIsPainting) {
-			return;
-		}
-		if (chart == null) {
-			return;
-		}
-
-		if (isDisposedPreviewCanvas()) {
+		if (bIsPainting || (chart == null) || isDisposedPreviewCanvas()) {
 			return;
 		}
 		Rectangle re = preview.getClientArea();
@@ -171,10 +169,11 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements Pain
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events
 	 * .PaintEvent)
 	 */
+	@Override
 	public void paintControl(PaintEvent pev) {
 		GC gc = pev.gc;
 		if (buffer != null) {
@@ -182,6 +181,7 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements Pain
 		}
 	}
 
+	@Override
 	public void dispose() {
 		super.dispose();
 
@@ -191,10 +191,12 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements Pain
 		}
 	}
 
+	@Override
 	public Chart getDesignTimeModel() {
 		return wizardContext.getModel();
 	}
 
+	@Override
 	public Chart getRunTimeModel() {
 		if (gcs != null) {
 			return gcs.getChartModel();
@@ -202,20 +204,23 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements Pain
 		return null;
 	}
 
+	@Override
 	public Object peerInstance() {
 		// Preview canvas is used for receiving interactivity events
 		return preview;
 	}
 
+	@Override
 	public void regenerateChart() {
 		paintChart();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#repaintChart()
 	 */
+	@Override
 	public void repaintChart() {
 		repaintChartInTimer();
 	}
@@ -223,6 +228,7 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements Pain
 	/**
 	 * Clear preview canvas area with white color.
 	 */
+	@Override
 	protected void clearPreviewCanvas() {
 		if (isDisposedPreviewCanvas()) {
 			return;
@@ -268,6 +274,7 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements Pain
 		preview.redraw();
 	}
 
+	@Override
 	protected boolean isLivePreviewEnabled() {
 		return wizardContext.getDataServiceProvider().isLivePreviewEnabled();
 	}

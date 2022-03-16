@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004-2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -130,6 +133,7 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 		public void sort(final Viewer viewer, Object[] elements) {
 			Arrays.sort(elements, new Comparator<Object>() {
 
+				@Override
 				public int compare(Object a, Object b) {
 					if (a instanceof FragmentResourceEntry) {
 						if (b instanceof FragmentResourceEntry) {
@@ -176,7 +180,7 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 	/**
 	 * Constructs a resource folder selection dialog with the specified content
 	 * provider.
-	 * 
+	 *
 	 * @param showFiles        the flag if show files
 	 * @param includeFragments the flag if include fragments
 	 * @param fileNamePattern  the file name pattern to show
@@ -221,6 +225,7 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 		}
 	}
 
+	@Override
 	public void setInput(Object input) {
 		rootFile = new File(input.toString());
 		this.input = input;
@@ -229,7 +234,7 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 
 	/**
 	 * Get the relative path to BIRT resource folder.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getPath() {
@@ -246,7 +251,7 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 
 	/**
 	 * Get the relative path to BIRT resource folder.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getPath(int index) {
@@ -262,6 +267,7 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 	/*
 	 * @see Dialog#createDialogArea(Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.RESOURCE_SELECT_DIALOG_ID);
 		Control control = super.createDialogArea(parent);
@@ -274,17 +280,21 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 
 		TreeListener treeListener = new TreeListener() {
 
+			@Override
 			public void treeCollapsed(TreeEvent e) {
 				Item item = (Item) e.item;
-				if (treeViewerBackup != null)
+				if (treeViewerBackup != null) {
 					treeViewerBackup.updateCollapsedStatus(getTreeViewer(), item.getData());
+				}
 
 			}
 
+			@Override
 			public void treeExpanded(TreeEvent e) {
 				Item item = (Item) e.item;
-				if (treeViewerBackup != null)
+				if (treeViewerBackup != null) {
 					treeViewerBackup.updateExpandedStatus(getTreeViewer(), item.getData());
+				}
 			}
 
 		};
@@ -294,6 +304,7 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 
 	}
 
+	@Override
 	protected Label createMessageArea(Composite composite) {
 		Composite infoContent = new Composite(composite, SWT.NONE);
 
@@ -335,6 +346,7 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 		importButton.setText(Messages.getString("ResourceFileFolderSelectionDialog.button.importFile")); //$NON-NLS-1$
 		importButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				FileDialog dialog = new FileDialog(getShell());
 				dialog.setFilterExtensions(fileNamePattern == null ? DEFAULT_FILTER : fileNamePattern);
@@ -376,7 +388,7 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 						getTreeViewer().expandToLevel(entry, 1);
 					}
 				}
-			};
+			}
 		});
 
 	}
@@ -385,6 +397,7 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 		try {
 			new ProgressMonitorDialog(getShell()).run(true, false, new IRunnableWithProgress() {
 
+				@Override
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 					monitor.beginTask(Messages.getString("ResourceFileFolderSelectionDialog.import.msg"), //$NON-NLS-1$
 							1);
@@ -480,6 +493,7 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 
 		toolBar.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDown(MouseEvent e) {
 				showViewMenu();
 			}
@@ -489,6 +503,7 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 		toolItem.setToolTipText(Messages.getString("ResourceFileFolderSelectionDialog.Text.Menu")); //$NON-NLS-1$
 		toolItem.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				showViewMenu();
 			}
@@ -500,7 +515,7 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 
 	/**
 	 * Fills the menu of the dialog.
-	 * 
+	 *
 	 * @param menuManager the menu manager
 	 */
 	protected void fillViewMenu(IMenuManager menuManager) {
@@ -524,6 +539,7 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 		final Tree tree = getTreeViewer().getTree();
 		tree.addMouseTrackListener(new MouseTrackAdapter() {
 
+			@Override
 			public void mouseHover(MouseEvent event) {
 				Widget widget = event.widget;
 				if (widget == tree) {
@@ -532,13 +548,11 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 
 					if (item == null) {
 						tree.setToolTipText(null);
+					} else if (getTreeViewer().getLabelProvider() instanceof ResourceFileLabelProvider) {
+						tree.setToolTipText(((ResourceFileLabelProvider) getTreeViewer().getLabelProvider())
+								.getToolTip(item.getData()));
 					} else {
-						if (getTreeViewer().getLabelProvider() instanceof ResourceFileLabelProvider) {
-							tree.setToolTipText(((ResourceFileLabelProvider) getTreeViewer().getLabelProvider())
-									.getToolTip(item.getData()));
-						} else {
-							tree.setToolTipText(null);
-						}
+						tree.setToolTipText(null);
 					}
 				}
 			}
@@ -557,10 +571,11 @@ public class ResourceFileFolderSelectionDialog extends BaseElementTreeSelectionD
 	public void setEmptyFolderShowStatus(int showStatus) {
 		provider.setEmptyFolderShowStatus(showStatus);
 		if (showStatus == IResourceContentProvider.ALWAYS_SHOW_EMPTYFOLDER
-				|| showStatus == IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER)
+				|| showStatus == IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER) {
 			isShowEmptyFolderFilter = false;
-		else
+		} else {
 			isShowEmptyFolderFilter = true;
+		}
 	}
 
 }

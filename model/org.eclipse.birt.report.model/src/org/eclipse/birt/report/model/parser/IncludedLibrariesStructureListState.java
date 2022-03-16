@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +46,7 @@ public class IncludedLibrariesStructureListState extends CompatibleListPropertyS
 
 	/**
 	 * Default constructor.
-	 * 
+	 *
 	 * @param theHandler the parser handler
 	 * @param element    the element
 	 */
@@ -54,14 +57,16 @@ public class IncludedLibrariesStructureListState extends CompatibleListPropertyS
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
+	@Override
 	public AbstractParseState startElement(String tagName) {
 		int tagValue = tagName.toLowerCase().hashCode();
-		if (ParserSchemaConstants.STRUCTURE_TAG == tagValue)
+		if (ParserSchemaConstants.STRUCTURE_TAG == tagValue) {
 			return new IncludedLibraryStructureState(handler, element, propDefn);
+		}
 
 		return super.startElement(tagName);
 	}
@@ -74,10 +79,11 @@ public class IncludedLibrariesStructureListState extends CompatibleListPropertyS
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
+		@Override
 		public void end() throws SAXException {
 			super.end();
 
@@ -99,14 +105,15 @@ public class IncludedLibrariesStructureListState extends CompatibleListPropertyS
 
 			Module outermostModule = handler.module.findOutermostModule();
 
-			Library foundLib = null;
+			Library foundLib;
 			try {
 				foundLib = LibraryUtil.checkIncludeLibrary(handler.module, namespace, url, outermostModule);
 			} catch (LibraryException ex) {
-				if (LibraryException.DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED.equalsIgnoreCase(ex.getErrorCode()))
+				if (LibraryException.DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED.equalsIgnoreCase(ex.getErrorCode())) {
 					handler.getErrorHandler().semanticWarning(ex);
-				else
+				} else {
 					handler.getErrorHandler().semanticError(ex);
+				}
 				logger.log(Level.WARNING, ex.getMessage(), ex);
 
 				return;

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,7 +61,7 @@ public class ChartXTabUIUtil extends ChartCubeUtil {
 
 	/**
 	 * Check if the expressions of category and Y optional have same dimension.
-	 * 
+	 *
 	 * @param checkType
 	 * @param data
 	 * @param cm
@@ -82,13 +85,13 @@ public class ChartXTabUIUtil extends ChartCubeUtil {
 
 	/**
 	 * Check if the expressions of category and Y optional have same dimension.
-	 * 
+	 *
 	 * @param checkType
 	 * @param data
 	 * @param queryDefinitionsMap
 	 * @param itemHandle
 	 * @param provider
-	 * 
+	 *
 	 * @since 2.5.1
 	 */
 	@SuppressWarnings("unchecked")
@@ -180,7 +183,7 @@ public class ChartXTabUIUtil extends ChartCubeUtil {
 	/**
 	 * Returns level names in a dimension which is relevant to specified cube
 	 * binding expression.
-	 * 
+	 *
 	 * @param cubeBinding specified cube binding expressions.
 	 * @param cube        cube handle.
 	 * @param includeSelf indicates if the level names should include the level name
@@ -216,7 +219,7 @@ public class ChartXTabUIUtil extends ChartCubeUtil {
 			return Collections.emptyList();
 		}
 
-		List<String> levelNames = new ArrayList<String>();
+		List<String> levelNames = new ArrayList<>();
 		Iterator<DimensionHandle> dimensions = cube.getContents(ICubeModel.DIMENSIONS_PROP).iterator();
 		while (dimensions.hasNext()) {
 			DimensionHandle dimensionHandle = dimensions.next();
@@ -245,7 +248,7 @@ public class ChartXTabUIUtil extends ChartCubeUtil {
 
 	/**
 	 * This method corrects binding name to avoid duplicate.
-	 * 
+	 *
 	 * @param column
 	 * @param nameSet
 	 */
@@ -254,7 +257,7 @@ public class ChartXTabUIUtil extends ChartCubeUtil {
 		if (nameSet.contains(name)) {
 			String newName = name;
 			try {
-				int num = Integer.valueOf(name.substring(name.length() - 1, name.length())).intValue();
+				int num = Integer.parseInt(name.substring(name.length() - 1));
 				newName = name.substring(0, name.length() - 1) + String.valueOf(num + 1);
 			} catch (Exception e) {
 				// Do nothing.
@@ -269,9 +272,9 @@ public class ChartXTabUIUtil extends ChartCubeUtil {
 
 	public static List<ComputedColumn> generateComputedColumns(ExtendedItemHandle itemHandle, CubeHandle cubeHandle) {
 		if (cubeHandle != null) {
-			Set<String> bindingNameSet = new HashSet<String>();
+			Set<String> bindingNameSet = new HashSet<>();
 
-			List<ComputedColumn> columnList = new ArrayList<ComputedColumn>();
+			List<ComputedColumn> columnList = new ArrayList<>();
 
 			String exprType = UIUtil.getDefaultScriptType();
 			IExpressionConverter exprConverter = ExpressionUtility.getExpressionConverter(exprType);

@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -46,8 +49,8 @@ import com.ibm.icu.util.ULocale;
 /**
  * This is a demo usage of Model, this class generate a sample design file using
  * pure Model APIs.
- * 
- * 
+ *
+ *
  */
 
 public class ProjectAnalysis {
@@ -95,13 +98,13 @@ public class ProjectAnalysis {
 		 * String className = this.getClass( ).getName( ); int lastDotIndex =
 		 * className.lastIndexOf( "." ); //$NON-NLS-1$ className = className.substring(
 		 * 0, lastDotIndex );
-		 * 
+		 *
 		 * String outputPath = "src/" + className.replace( '.', '/' ) ; //$NON-NLS-1$
 		 * //$NON-NLS-2$ File outputFolder = new File( "sample.rptdesign" ); if (
 		 * !outputFolder.exists( ) && !outputFolder.mkdir( ) ) { throw new IOException(
 		 * "Can not create the output folder" ); //$NON-NLS-1$ } }
 		 */
-		designHandle.saveAs("projectAnalysis.rptdesign"); //$NON-NLS-1$ //$NON-NLS-2$
+		designHandle.saveAs("projectAnalysis.rptdesign"); //$NON-NLS-1$
 	}
 
 	void buildImages() throws IOException, SemanticException {
@@ -117,7 +120,7 @@ public class ProjectAnalysis {
 	 */
 
 	public byte[] load(String fileName) throws IOException {
-		InputStream is = null;
+		InputStream is;
 
 		is = new BufferedInputStream(this.getClass().getResourceAsStream(fileName));
 		byte data[] = null;

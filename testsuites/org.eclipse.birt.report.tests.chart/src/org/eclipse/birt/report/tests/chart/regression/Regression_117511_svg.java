@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
@@ -11,12 +14,10 @@ package org.eclipse.birt.report.tests.chart.regression;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ibm.icu.util.ULocale;
-
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.device.EmptyUpdateNotifier;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
@@ -47,7 +48,6 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.SelectionEvent;
@@ -61,6 +61,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Regression description:
@@ -131,18 +133,20 @@ public class Regression_117511_svg extends Composite implements IUpdateNotifier,
 
 		shell.open();
 		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
+			if (!display.readAndDispatch()) {
 				display.sleep();
+			}
 		}
 		display.dispose();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.widget == btn) {
 			int i = cbType.getSelectionIndex();
@@ -159,7 +163,7 @@ public class Regression_117511_svg extends Composite implements IUpdateNotifier,
 
 				idr = PluginSettings.instance().getDevice("dv.SVG"); //$NON-NLS-1$
 				Generator gr = Generator.instance();
-				GeneratedChartState gcs = null;
+				GeneratedChartState gcs;
 				Bounds bo = BoundsImpl.create(0, 0, 450, 300);
 				gcs = gr.build(idr.getDisplayServer(), cm, bo, null, rtc, null);
 
@@ -186,11 +190,12 @@ public class Regression_117511_svg extends Composite implements IUpdateNotifier,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 
@@ -198,7 +203,7 @@ public class Regression_117511_svg extends Composite implements IUpdateNotifier,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
 	 */
@@ -208,34 +213,37 @@ public class Regression_117511_svg extends Composite implements IUpdateNotifier,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getDesignTimeModel()
 	 */
+	@Override
 	public Chart getDesignTimeModel() {
 		return cm;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getRunTimeModel()
 	 */
+	@Override
 	public Chart getRunTimeModel() {
 		return gcs.getChartModel();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#peerInstance()
 	 */
+	@Override
 	public Object peerInstance() {
 		return this;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
 	 * java.lang.Object)
@@ -246,9 +254,10 @@ public class Regression_117511_svg extends Composite implements IUpdateNotifier,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#regenerateChart()
 	 */
+	@Override
 	public void regenerateChart() {
 		// TODO Auto-generated method stub
 
@@ -256,7 +265,7 @@ public class Regression_117511_svg extends Composite implements IUpdateNotifier,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
 	 */
@@ -266,9 +275,10 @@ public class Regression_117511_svg extends Composite implements IUpdateNotifier,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#repaintChart()
 	 */
+	@Override
 	public void repaintChart() {
 		// TODO Auto-generated method stub
 
@@ -276,7 +286,7 @@ public class Regression_117511_svg extends Composite implements IUpdateNotifier,
 
 	/**
 	 * Creates a bar chart model as a reference implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */

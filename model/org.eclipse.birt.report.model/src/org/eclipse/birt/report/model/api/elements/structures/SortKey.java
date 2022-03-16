@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,16 +33,16 @@ import com.ibm.icu.util.ULocale;
 /**
  * This class represents a sort entry for a table or list item, it defines the
  * column and sort direction pair. Each sort key has the following properties:
- * 
+ *
  * <p>
  * <dl>
  * <dt><strong>Column Name </strong></dt>
  * <dd>the name of the column that is sorted.</dd>
- * 
+ *
  * <dt><strong>Direction </strong></dt>
  * <dd>the sort direction:asc or desc.</dd>
  * </dl>
- * 
+ *
  */
 
 public class SortKey extends Structure {
@@ -99,7 +102,7 @@ public class SortKey extends Structure {
 
 	/**
 	 * Constructs the sort key with the key to sort and the direction.
-	 * 
+	 *
 	 * @param key       the key of the sort entry
 	 * @param direction sort direction: Ascending or descending order
 	 */
@@ -111,7 +114,7 @@ public class SortKey extends Structure {
 
 	/**
 	 * Default constructor.
-	 * 
+	 *
 	 */
 
 	public SortKey() {
@@ -119,30 +122,33 @@ public class SortKey extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return SORT_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (KEY_MEMBER.equals(propName))
+		if (KEY_MEMBER.equals(propName)) {
 			return key;
-		else if (DIRECTION_MEMBER.equals(propName))
+		} else if (DIRECTION_MEMBER.equals(propName)) {
 			return direction;
-		else if (STRENGTH_MEMBER.equals(propName))
+		} else if (STRENGTH_MEMBER.equals(propName)) {
 			return strength;
-		else if (LOCALE_MEMBER.equals(propName))
+		} else if (LOCALE_MEMBER.equals(propName)) {
 			return locale;
+		}
 
 		assert false;
 		return null;
@@ -150,27 +156,29 @@ public class SortKey extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (KEY_MEMBER.equals(propName))
+		if (KEY_MEMBER.equals(propName)) {
 			key = (Expression) value;
-		else if (DIRECTION_MEMBER.equals(propName))
+		} else if (DIRECTION_MEMBER.equals(propName)) {
 			direction = (String) value;
-		else if (STRENGTH_MEMBER.equals(propName))
+		} else if (STRENGTH_MEMBER.equals(propName)) {
 			strength = (Integer) value;
-		else if (LOCALE_MEMBER.equals(propName))
+		} else if (LOCALE_MEMBER.equals(propName)) {
 			locale = (ULocale) value;
-		else
+		} else {
 			assert false;
+		}
 	}
 
 	/**
 	 * Returns the expression that gives the sort key on which to sort.
-	 * 
+	 *
 	 * @return the sort key on which to sort
 	 */
 
@@ -180,7 +188,7 @@ public class SortKey extends Structure {
 
 	/**
 	 * Sets the expression that gives the sort key on which to sort.
-	 * 
+	 *
 	 * @param key the sort key to set
 	 */
 
@@ -196,7 +204,7 @@ public class SortKey extends Structure {
 	 * <li>SORT_DIRECTION_ASC
 	 * <li>SORT_DIRECTION_DESC
 	 * </ul>
-	 * 
+	 *
 	 * @return the sort direction
 	 */
 
@@ -213,7 +221,7 @@ public class SortKey extends Structure {
 	 * <li>SORT_DIRECTION_ASC
 	 * <li>SORT_DIRECTION_DESC
 	 * </ul>
-	 * 
+	 *
 	 * @param direction the direction to set
 	 */
 
@@ -223,7 +231,7 @@ public class SortKey extends Structure {
 
 	/**
 	 * Gets the strength of the sort collation. By default it is -1.
-	 * 
+	 *
 	 * @return the strength of the sort
 	 */
 
@@ -237,7 +245,7 @@ public class SortKey extends Structure {
 
 	/**
 	 * Sets the strength of this sort collation.
-	 * 
+	 *
 	 * @param strength
 	 */
 	public void setStrength(int strength) {
@@ -246,7 +254,7 @@ public class SortKey extends Structure {
 
 	/**
 	 * Gets the locale of this sort.
-	 * 
+	 *
 	 * @return locale of this sort
 	 */
 	public ULocale getLocale() {
@@ -255,7 +263,7 @@ public class SortKey extends Structure {
 
 	/**
 	 * Sets the locale of this sort.
-	 * 
+	 *
 	 * @param locale the locale to set
 	 */
 	public void setLocale(ULocale locale) {
@@ -264,47 +272,51 @@ public class SortKey extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
+	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new SortKeyHandle(valueHandle, index);
 	}
 
 	/**
 	 * Returns the name of the column that needs sort.
-	 * 
+	 *
 	 * @return the column name.
-	 * 
+	 *
 	 * @deprecated This property has been removed. See the method {@link #getKey()}.
 	 */
 
+	@Deprecated
 	public String getColumnName() {
 		return getKey();
 	}
 
 	/**
 	 * Sets the name of the column that needs sort.
-	 * 
+	 *
 	 * @param columnName the column name to set
-	 * 
+	 *
 	 * @deprecated This property has been removed. See the method
 	 *             {@link #setKey(String)}.
 	 */
 
+	@Deprecated
 	public void setColumnName(String columnName) {
 		setKey(columnName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
 	 * .report.model.elements.ReportDesign,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
+	@Override
 	public List validate(Module module, DesignElement element) {
 		ArrayList list = new ArrayList();
 

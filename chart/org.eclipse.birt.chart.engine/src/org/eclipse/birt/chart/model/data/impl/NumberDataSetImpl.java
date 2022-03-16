@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -28,7 +31,7 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected NumberDataSetImpl() {
@@ -37,7 +40,7 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -47,10 +50,10 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet {
 
 	/**
 	 * A convenience method to create an initialized 'NumberDataSet' instance
-	 * 
+	 *
 	 * @param oValues The Collection (of Double(s)), Double[] or double[] of values
 	 *                associated with this dataset
-	 * 
+	 *
 	 * @return
 	 */
 	public static final NumberDataSet create(Object oValues) {
@@ -62,7 +65,7 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet {
 
 	/**
 	 * This method performs any initialization of the instance when created
-	 * 
+	 *
 	 * Note: Manually written
 	 */
 	protected void initialize() {
@@ -71,6 +74,7 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet {
 	/**
 	 * @generated
 	 */
+	@Override
 	public NumberDataSet copyInstance() {
 		NumberDataSetImpl dest = new NumberDataSetImpl();
 		dest.set(this);

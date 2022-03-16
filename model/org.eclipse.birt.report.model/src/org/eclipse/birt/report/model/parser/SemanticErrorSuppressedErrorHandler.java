@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2012 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,9 +32,10 @@ public class SemanticErrorSuppressedErrorHandler extends ErrorHandler {
 	/**
 	 * Adds an error to the warning list inherited from XMLParserHandler during
 	 * parsing the design file, and logs the error.
-	 * 
+	 *
 	 * @param e the exception to log
 	 */
+	@Override
 	public XMLParserException semanticError(XMLParserException e) {
 		assert locator != null;
 		e.setLineNumber(locator.getLineNumber());
@@ -44,9 +48,10 @@ public class SemanticErrorSuppressedErrorHandler extends ErrorHandler {
 	/**
 	 * Adds a warning to the warning list inherited from XMLParserHandler during
 	 * parsing the design file, and logs the warning.
-	 * 
+	 *
 	 * @param e the exception to log
 	 */
+	@Override
 	public void semanticWarning(Exception e) {
 		super.semanticWarning(e);
 		logger.log(Level.SEVERE, e.getMessage());

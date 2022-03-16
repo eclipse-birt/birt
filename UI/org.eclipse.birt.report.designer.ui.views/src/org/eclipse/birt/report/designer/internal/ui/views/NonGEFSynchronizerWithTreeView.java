@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -146,6 +149,7 @@ public class NonGEFSynchronizerWithTreeView implements IMediatorColleague {
 		this.viewer = viewer;
 		getTreeViewer().addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				treeSelect(event);
 			}
@@ -162,6 +166,7 @@ public class NonGEFSynchronizerWithTreeView implements IMediatorColleague {
 		viewer = null;
 	}
 
+	@Override
 	public boolean isInterested(IMediatorRequest request) {
 		return request instanceof ReportRequest;
 	}
@@ -173,6 +178,7 @@ public class NonGEFSynchronizerWithTreeView implements IMediatorColleague {
 	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
 	 * ( org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest )
 	 */
+	@Override
 	public void performRequest(IMediatorRequest request) {
 		if (ReportRequest.SELECTION.equals(request.getType())) {
 			handleSelectionChange((ReportRequest) request);
@@ -186,6 +192,7 @@ public class NonGEFSynchronizerWithTreeView implements IMediatorColleague {
 		if (list.size() == 1) {
 			Display.getCurrent().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 
 					if (viewer.getControl().isDisposed()) {

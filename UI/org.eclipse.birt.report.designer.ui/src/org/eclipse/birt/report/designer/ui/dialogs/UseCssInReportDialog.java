@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -66,10 +69,7 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog {
 	private final static String DIALOG_BROWSE_TITLE = Messages.getString("UseCssInReportDialog.Dialog.Browse.Title"); //$NON-NLS-1$
 	private final static String DIALOG_LABEL_NOFILE = Messages.getString("UseCssInReportDialog.Label.No.File"); //$NON-NLS-1$
 
-	private String dialogTitle = DIALOG_TITLE;
 	private String areaTitle = TITLE_AREA_TITLE;
-	private String areaMsg = TITLE_AREA_MESSAGE;
-
 	private Text fileNameField;
 
 	private Button selectButton;
@@ -80,11 +80,11 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog {
 
 	private Table notificationsTable;
 
-	private Map<String, SharedStyleHandle> styleMap = new HashMap<String, SharedStyleHandle>();
+	private Map<String, SharedStyleHandle> styleMap = new HashMap<>();
 
-	private List<String> styleNames = new ArrayList<String>();
+	private List<String> styleNames = new ArrayList<>();
 
-	private List<String> unSupportedStyleNames = new ArrayList<String>();
+	private List<String> unSupportedStyleNames = new ArrayList<>();
 
 	private IncludedCssStyleSheetHandle includedCssHandle;
 
@@ -99,16 +99,15 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog {
 	private boolean useUri = false;
 
 	public void setDialogTitle(String dlgTitle) {
-		this.dialogTitle = dlgTitle;
 	}
 
+	@Override
 	public void setTitle(String title) {
 		this.areaTitle = title;
 		super.setTitle(areaTitle);
 	}
 
 	public void setMsg(String msg) {
-		this.areaMsg = msg;
 	}
 
 	public void setIncludedCssStyleSheetHandle(IncludedCssStyleSheetHandle handle) {
@@ -151,6 +150,7 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog {
 		super(UIUtil.getDefaultShell());
 	}
 
+	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(DIALOG_TITLE);
@@ -161,20 +161,20 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog {
 	}
 
 	public String getFileName() {
-		if (fileName == null)
+		if ((fileName == null) || (fileName.trim().length() == 0)) {
 			return null;
-		if (fileName.trim().length() == 0)
-			return null;
+		}
 		return fileName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite topComposite = (Composite) super.createDialogArea(parent);
 		topComposite.setLayout(new GridLayout());
@@ -233,6 +233,7 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog {
 		fileNameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		fileNameField.addListener(SWT.Modify, new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
 				fileName = fileNameField.getText();
 				try {
@@ -251,6 +252,7 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog {
 
 		selectButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// FileDialog fileSelector = new FileDialog(
 				// PlatformUI.getWorkbench( )
@@ -309,6 +311,7 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog {
 		viewTimeBtn.setLayoutData(gd);
 		viewTimeBtn.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				boolean selected = viewTimeBtn.getSelection();
 				uriText.setEnabled(selected);
@@ -330,6 +333,7 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog {
 		uriText.setLayoutData(gd);
 		uriText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				refresh();
 			}
@@ -350,7 +354,7 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog {
 		styleMap.clear();
 		styleNames.clear();
 		unSupportedStyleNames.clear();
-		String fileName = null;
+		String fileName;
 
 		TableItem[] ch = stylesTable.getItems();
 		for (int i = 0; i < ch.length; i++) {
@@ -469,16 +473,19 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog {
 	// return false;
 	// }
 
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
 		updateOKbuttons();
 	}
 
 	public String getURI() {
-		if (uri == null)
+		if (uri == null) {
 			return uri;
-		if (uri.trim().length() == 0)
+		}
+		if (uri.trim().length() == 0) {
 			return null;
+		}
 		return uri;
 	}
 
@@ -486,6 +493,7 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog {
 		return useUri;
 	}
 
+	@Override
 	protected void okPressed() {
 		if (uriText.isEnabled()) {
 			uri = uriText.getText().trim();

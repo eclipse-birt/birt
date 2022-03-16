@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,14 +37,14 @@ import org.eclipse.birt.report.model.core.Structure;
  * In this case, the target must be derived from
  * <code>ReferencableStructure</code> so that the referenced class can cache a
  * back-pointer to the referencing element.
- * 
+ *
  */
 
 public class StructRefValue extends ReferenceValue {
 
 	/**
 	 * Constructor of an unresolved reference.
-	 * 
+	 *
 	 * @param namespace the library name space
 	 * @param theName   the unresolved name
 	 */
@@ -52,7 +55,7 @@ public class StructRefValue extends ReferenceValue {
 
 	/**
 	 * Constructor of a resolved reference.
-	 * 
+	 *
 	 * @param namespace the library name space
 	 * @param structure the resolved structure
 	 */
@@ -64,23 +67,26 @@ public class StructRefValue extends ReferenceValue {
 	/**
 	 * Gets the reference name. The name is either the unresolved name, or the name
 	 * of the resolved element.
-	 * 
+	 *
 	 * @return the name of the referenced element, or null if this reference is not
 	 *         set
 	 */
 
+	@Override
 	public String getName() {
-		if (name != null)
+		if (name != null) {
 			return name;
-		if (resolved != null)
+		}
+		if (resolved != null) {
 			return ((Structure) resolved).getReferencableProperty();
+		}
 		assert false;
 		return null;
 	}
 
 	/**
 	 * Returns the referenced structure, if the structure is resolved.
-	 * 
+	 *
 	 * @return the referenced structure, or null if this reference is not set, or is
 	 *         unresolved
 	 */
@@ -92,7 +98,7 @@ public class StructRefValue extends ReferenceValue {
 	/**
 	 * Returns the target structure as a referenceable structure. This form is used
 	 * when caching references.
-	 * 
+	 *
 	 * @return the target structure as a referencable structure
 	 */
 
@@ -102,10 +108,11 @@ public class StructRefValue extends ReferenceValue {
 
 	/**
 	 * Sets the resolved structure.
-	 * 
+	 *
 	 * @param structure the resolved structure
 	 */
 
+	@Override
 	public void resolve(Object structure) {
 		assert structure instanceof Structure;
 		name = null;
@@ -114,10 +121,11 @@ public class StructRefValue extends ReferenceValue {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#clone()
 	 */
 
+	@Override
 	public Object copy() {
 		return new StructRefValue(getLibraryNamespace(), getName());
 	}

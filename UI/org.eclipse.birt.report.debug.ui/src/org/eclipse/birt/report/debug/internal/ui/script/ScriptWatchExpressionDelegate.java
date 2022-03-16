@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,12 +34,13 @@ public class ScriptWatchExpressionDelegate implements IWatchExpressionDelegate {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.core.model.IWatchExpressionDelegate#evaluateExpression(java
 	 * .lang.String, org.eclipse.debug.core.model.IDebugElement,
 	 * org.eclipse.debug.core.model.IWatchExpressionListener)
 	 */
+	@Override
 	public void evaluateExpression(String expression, IDebugElement context, IWatchExpressionListener listener) {
 		fListener = listener;
 		// find a stack frame context if possible.
@@ -54,6 +58,7 @@ public class ScriptWatchExpressionDelegate implements IWatchExpressionDelegate {
 		final String tempStr = expression;
 		IWatchExpressionResult watchResult = new IWatchExpressionResult() {
 
+			@Override
 			public IValue getValue() {
 				if (tempFrame != null) {
 					return ((ScriptDebugTarget) tempFrame.getDebugTarget()).evaluate((ScriptStackFrame) tempFrame,
@@ -62,19 +67,23 @@ public class ScriptWatchExpressionDelegate implements IWatchExpressionDelegate {
 				return null;
 			}
 
+			@Override
 			public boolean hasErrors() {
 				return getValue() == null;
 			}
 
+			@Override
 			public String[] getErrorMessages() {
 				return new String[] { "(Watch expressions not supported)" //$NON-NLS-1$
 				};
 			}
 
+			@Override
 			public String getExpressionText() {
 				return tempStr;
 			}
 
+			@Override
 			public DebugException getException() {
 				return null;
 			}

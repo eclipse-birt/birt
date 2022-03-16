@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,6 +45,7 @@ public class BIRTChartXtabResultSetEvaluator extends BIRTCubeResultSetEvaluator 
 		this.handle = handle;
 	}
 
+	@Override
 	protected void initCubeCursor() throws OLAPException, BirtException {
 		ICubeCursor parent = getCubeCursor();
 		cubeCursor = parent;
@@ -97,14 +101,16 @@ public class BIRTChartXtabResultSetEvaluator extends BIRTCubeResultSetEvaluator 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator#getCubeCursor()
 	 */
+	@Override
 	protected ICubeCursor getCubeCursor() throws BirtException {
 		return (ICubeCursor) rs.getCubeCursor();
 	}
 
+	@Override
 	public boolean first() {
 		try {
 			initCubeCursor();
@@ -116,14 +122,13 @@ public class BIRTChartXtabResultSetEvaluator extends BIRTCubeResultSetEvaluator 
 			mainEdgeCursor.first();
 
 			return subEdgeCursor.first();
-		} catch (OLAPException e) {
-			logger.log(e);
 		} catch (BirtException e) {
 			logger.log(e);
 		}
 		return false;
 	}
 
+	@Override
 	public boolean next() {
 		try {
 			if (!bSubCursor) {

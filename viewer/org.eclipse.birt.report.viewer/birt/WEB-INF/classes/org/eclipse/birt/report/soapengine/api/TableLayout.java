@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * TableLayout.java
  *
@@ -40,7 +52,7 @@ public class TableLayout implements java.io.Serializable {
 
 	/**
 	 * Gets the id value for this TableLayout.
-	 * 
+	 *
 	 * @return id Design id of table
 	 */
 	public long getId() {
@@ -49,7 +61,7 @@ public class TableLayout implements java.io.Serializable {
 
 	/**
 	 * Sets the id value for this TableLayout.
-	 * 
+	 *
 	 * @param id Design id of table
 	 */
 	public void setId(long id) {
@@ -58,7 +70,7 @@ public class TableLayout implements java.io.Serializable {
 
 	/**
 	 * Gets the s_Count value for this TableLayout.
-	 * 
+	 *
 	 * @return s_Count Number of sections
 	 */
 	public int getS_Count() {
@@ -67,7 +79,7 @@ public class TableLayout implements java.io.Serializable {
 
 	/**
 	 * Sets the s_Count value for this TableLayout.
-	 * 
+	 *
 	 * @param s_Count Number of sections
 	 */
 	public void setS_Count(int s_Count) {
@@ -76,7 +88,7 @@ public class TableLayout implements java.io.Serializable {
 
 	/**
 	 * Gets the g_Count value for this TableLayout.
-	 * 
+	 *
 	 * @return g_Count Number of ERNI groups
 	 */
 	public int getG_Count() {
@@ -85,7 +97,7 @@ public class TableLayout implements java.io.Serializable {
 
 	/**
 	 * Sets the g_Count value for this TableLayout.
-	 * 
+	 *
 	 * @param g_Count Number of ERNI groups
 	 */
 	public void setG_Count(int g_Count) {
@@ -94,7 +106,7 @@ public class TableLayout implements java.io.Serializable {
 
 	/**
 	 * Gets the CH_Row value for this TableLayout.
-	 * 
+	 *
 	 * @return CH_Row The information of column header row
 	 */
 	public org.eclipse.birt.report.soapengine.api.TableRowInfo getCH_Row() {
@@ -103,7 +115,7 @@ public class TableLayout implements java.io.Serializable {
 
 	/**
 	 * Sets the CH_Row value for this TableLayout.
-	 * 
+	 *
 	 * @param CH_Row The information of column header row
 	 */
 	public void setCH_Row(org.eclipse.birt.report.soapengine.api.TableRowInfo CH_Row) {
@@ -112,7 +124,7 @@ public class TableLayout implements java.io.Serializable {
 
 	/**
 	 * Gets the TC_Row value for this TableLayout.
-	 * 
+	 *
 	 * @return TC_Row The information of the table level chart row
 	 */
 	public org.eclipse.birt.report.soapengine.api.TableRowInfo getTC_Row() {
@@ -121,7 +133,7 @@ public class TableLayout implements java.io.Serializable {
 
 	/**
 	 * Sets the TC_Row value for this TableLayout.
-	 * 
+	 *
 	 * @param TC_Row The information of the table level chart row
 	 */
 	public void setTC_Row(org.eclipse.birt.report.soapengine.api.TableRowInfo TC_Row) {
@@ -130,7 +142,7 @@ public class TableLayout implements java.io.Serializable {
 
 	/**
 	 * Gets the sections value for this TableLayout.
-	 * 
+	 *
 	 * @return sections
 	 */
 	public org.eclipse.birt.report.soapengine.api.TableSections getSections() {
@@ -139,7 +151,7 @@ public class TableLayout implements java.io.Serializable {
 
 	/**
 	 * Sets the sections value for this TableLayout.
-	 * 
+	 *
 	 * @param sections
 	 */
 	public void setSections(org.eclipse.birt.report.soapengine.api.TableSections sections) {
@@ -148,7 +160,7 @@ public class TableLayout implements java.io.Serializable {
 
 	/**
 	 * Gets the groups value for this TableLayout.
-	 * 
+	 *
 	 * @return groups
 	 */
 	public org.eclipse.birt.report.soapengine.api.TableGroups getGroups() {
@@ -157,7 +169,7 @@ public class TableLayout implements java.io.Serializable {
 
 	/**
 	 * Sets the groups value for this TableLayout.
-	 * 
+	 *
 	 * @param groups
 	 */
 	public void setGroups(org.eclipse.birt.report.soapengine.api.TableGroups groups) {
@@ -166,14 +178,18 @@ public class TableLayout implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof TableLayout))
+		if (!(obj instanceof TableLayout)) {
 			return false;
+		}
 		TableLayout other = (TableLayout) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -195,6 +211,7 @@ public class TableLayout implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

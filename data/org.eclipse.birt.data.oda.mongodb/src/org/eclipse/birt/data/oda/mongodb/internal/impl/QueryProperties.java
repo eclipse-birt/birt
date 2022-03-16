@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -73,32 +76,41 @@ public class QueryProperties {
 	public enum CommandOperationType {
 		DYNAMIC_QUERY, AGGREGATE, MAP_REDUCE, RUN_DB_COMMAND;
 
-		private CommandOperationType() {
+		CommandOperationType() {
 		}
 
 		public static CommandOperationType getType(String operationTypeLiteral) {
-			if (operationTypeLiteral == null || operationTypeLiteral.isEmpty())
+			if (operationTypeLiteral == null || operationTypeLiteral.isEmpty()) {
 				return DYNAMIC_QUERY;
-			if (operationTypeLiteral.equals(AGGREGATE.displayName()) || operationTypeLiteral.equals(AGGREGATE.name()))
+			}
+			if (operationTypeLiteral.equals(AGGREGATE.displayName()) || operationTypeLiteral.equals(AGGREGATE.name())) {
 				return AGGREGATE;
-			if (operationTypeLiteral.equals(MAP_REDUCE.displayName()) || operationTypeLiteral.equals(MAP_REDUCE.name()))
+			}
+			if (operationTypeLiteral.equals(MAP_REDUCE.displayName())
+					|| operationTypeLiteral.equals(MAP_REDUCE.name())) {
 				return MAP_REDUCE;
+			}
 			if (operationTypeLiteral.equals(RUN_DB_COMMAND.displayName())
-					|| operationTypeLiteral.equals(RUN_DB_COMMAND.name()))
+					|| operationTypeLiteral.equals(RUN_DB_COMMAND.name())) {
 				return RUN_DB_COMMAND;
+			}
 
 			return DYNAMIC_QUERY; // default
 		}
 
 		public String displayName() {
-			if (this == DYNAMIC_QUERY)
+			if (this == DYNAMIC_QUERY) {
 				return DriverUtil.EMPTY_STRING;
-			if (this == AGGREGATE)
+			}
+			if (this == AGGREGATE) {
 				return Messages.queryProperties_aggrCmdName;
-			if (this == MAP_REDUCE)
+			}
+			if (this == MAP_REDUCE) {
 				return Messages.queryProperties_mapReduceCmdName;
-			if (this == RUN_DB_COMMAND)
+			}
+			if (this == RUN_DB_COMMAND) {
 				return Messages.queryProperties_dbCmdName;
+			}
 			return DriverUtil.EMPTY_STRING;
 		}
 	}
@@ -124,21 +136,24 @@ public class QueryProperties {
 	}
 
 	static QueryProperties copy(QueryProperties fromProps) {
-		if (fromProps == null)
+		if (fromProps == null) {
 			return null; // done; nothing to copy
+		}
 		return new QueryProperties(fromProps.getPropertiesMap());
 	}
 
 	@SuppressWarnings("unchecked")
 	public static QueryProperties deserialize(String serializedContent) throws OdaException {
-		if (serializedContent == null || serializedContent.trim().isEmpty())
+		if (serializedContent == null || serializedContent.trim().isEmpty()) {
 			return new QueryProperties((Map<String, Object>) null);
+		}
 
 		Exception caughtEx = null;
 		try {
 			DBObject parsedObj = parseExprToDBObject(serializedContent);
-			if (parsedObj instanceof Map<?, ?>)
+			if (parsedObj instanceof Map<?, ?>) {
 				return new QueryProperties((Map<String, Object>) parsedObj);
+			}
 		} catch (Exception ex) {
 			caughtEx = ex;
 		}
@@ -146,8 +161,9 @@ public class QueryProperties {
 		// not able to de-serialize
 		OdaException odaEx = new OdaException(
 				Messages.bind(Messages.queryProperties_errDeSerializeDBObject, serializedContent));
-		if (caughtEx != null)
+		if (caughtEx != null) {
 			odaEx.initCause(caughtEx);
+		}
 		throw odaEx;
 	}
 
@@ -176,8 +192,9 @@ public class QueryProperties {
 	}
 
 	private void setValues(Map<String, Object> propertiesMap) {
-		if (propertiesMap == null || propertiesMap.isEmpty())
+		if (propertiesMap == null || propertiesMap.isEmpty()) {
 			return; // done; nothing to put
+		}
 
 		// override existing values with the specified Map entries
 		setInternalProperties(propertiesMap);
@@ -198,64 +215,75 @@ public class QueryProperties {
 		// convert prop value to internal format (to minimize conversion for internal
 		// processing)
 		Object propValue = getPropertiesMap().get(QUERY_READ_PREF_PROP);
-		if (propValue instanceof String)
+		if (propValue instanceof String) {
 			setQueryReadPreference((String) propValue);
+		}
 
 		propValue = getPropertiesMap().get(QUERY_OPERATION_TYPE_PROP);
-		if (propValue instanceof String)
+		if (propValue instanceof String) {
 			setOperationType((String) propValue);
+		}
 	}
 
 	private static void externalizePropValues(Map<String, Object> propertiesMap) {
 		// convert property value object not serializable by BSON serializer
 		// to its string representation
 		Object propValue = propertiesMap.get(QUERY_READ_PREF_PROP);
-		if (propValue instanceof ReadPreference)
+		if (propValue instanceof ReadPreference) {
 			propertiesMap.put(QUERY_READ_PREF_PROP, ((ReadPreference) propValue).getName());
+		}
 
 		propValue = propertiesMap.get(QUERY_OPERATION_TYPE_PROP);
-		if (propValue instanceof CommandOperationType)
+		if (propValue instanceof CommandOperationType) {
 			propertiesMap.put(QUERY_OPERATION_TYPE_PROP, propValue.toString());
+		}
 	}
 
 	private static Map<String, Object> copyNonNullProperties(Map<String, Object> propertiesMap) {
-		if (propertiesMap == null || propertiesMap.isEmpty())
+		if (propertiesMap == null || propertiesMap.isEmpty()) {
 			return Collections.emptyMap(); // done; nothing to copy
+		}
 
-		Map<String, Object> propsCopy = new HashMap<String, Object>(propertiesMap.size());
+		Map<String, Object> propsCopy = new HashMap<>(propertiesMap.size());
 		for (Entry<String, Object> propEntry : propertiesMap.entrySet()) {
 			Object propValue = propEntry.getValue();
 			// copy the specified Map entry value if value is not null
-			if (propValue != null)
+			if (propValue != null) {
 				propsCopy.put(propEntry.getKey(), propValue);
+			}
 		}
 		return propsCopy;
 	}
 
 	private static Map<String, Object> copyNonDefaultProperties(Map<String, Object> propertiesMap) {
-		if (propertiesMap == null || propertiesMap.isEmpty())
+		if (propertiesMap == null || propertiesMap.isEmpty()) {
 			return Collections.emptyMap(); // done; nothing to copy
+		}
 
 		// copy map entries that contains non-null and non-default values
-		Map<String, Object> propsCopy = new HashMap<String, Object>(propertiesMap.size());
+		Map<String, Object> propsCopy = new HashMap<>(propertiesMap.size());
 		for (Entry<String, Object> propEntry : propertiesMap.entrySet()) {
 			Object propValue = propEntry.getValue();
-			if (propValue == null)
+			if (propValue == null) {
 				continue; // skip null value in entry
+			}
 
 			// check if entry is of the default value
 			String propKey = propEntry.getKey();
 			Object defaultValue = getDefaultPropValue(propKey);
 			if (propValue instanceof String) {
-				if (((String) propValue).isEmpty())
+				if (((String) propValue).isEmpty()) {
 					continue; // skip empty value in entry
+				}
 
 				if (defaultValue instanceof Boolean || defaultValue instanceof Integer
-						|| defaultValue instanceof ReadPreference)
+						|| defaultValue instanceof ReadPreference) {
 					defaultValue = defaultValue.toString();
+				}
 			}
-			if (propValue.equals(defaultValue))
+			if (propValue.equals(defaultValue)) {
 				continue; // skip default value in entry
+			}
 
 			// copy the specified Map entry value
 			propsCopy.put(propKey, propValue);
@@ -265,8 +293,9 @@ public class QueryProperties {
 	}
 
 	Map<String, Object> getPropertiesMap() {
-		if (m_propertiesMap == null)
-			m_propertiesMap = new HashMap<String, Object>();
+		if (m_propertiesMap == null) {
+			m_propertiesMap = new HashMap<>();
+		}
 		return m_propertiesMap;
 	}
 
@@ -288,17 +317,20 @@ public class QueryProperties {
 
 	public CommandOperationType getOperationType() {
 		CommandOperationType value = getOperationTypeImpl(getPropertiesMap());
-		if (value == null)
+		if (value == null) {
 			value = getOperationTypeImpl(sm_defaultPropsMap); // get default value instead
+		}
 		return value;
 	}
 
 	private static CommandOperationType getOperationTypeImpl(Map<String, Object> propMap) {
 		Object propValue = propMap.get(QUERY_OPERATION_TYPE_PROP);
-		if (propValue instanceof CommandOperationType)
+		if (propValue instanceof CommandOperationType) {
 			return (CommandOperationType) propValue;
-		if (propValue instanceof String)
+		}
+		if (propValue instanceof String) {
 			return CommandOperationType.getType(((String) propValue).trim());
+		}
 		return null; // non-recognized data type
 	}
 
@@ -319,8 +351,9 @@ public class QueryProperties {
 	}
 
 	private boolean hasValidCommand(CommandOperationType opType) {
-		if (getOperationType() != opType)
+		if (getOperationType() != opType) {
 			return false;
+		}
 		return !getOperationExpression().isEmpty();
 	}
 
@@ -334,12 +367,14 @@ public class QueryProperties {
 
 	DBObject getOperationExprAsParsedObject(boolean addArrayMarkers) throws OdaException {
 		String cmdOpExprText = getOperationExpression();
-		if (cmdOpExprText.isEmpty())
+		if (cmdOpExprText.isEmpty()) {
 			return null;
+		}
 
 		// add array markers for operation pipeline
-		if (addArrayMarkers)
+		if (addArrayMarkers) {
 			cmdOpExprText = addArrayMarkers(cmdOpExprText);
+		}
 
 		return parseExprToDBObject(cmdOpExprText);
 	}
@@ -359,9 +394,10 @@ public class QueryProperties {
 	}
 
 	static List<Document> getObjectsAsDocumentList(DBObject exprObj) {
-		if (exprObj == null)
+		if (exprObj == null) {
 			return null;
-		List<Document> documentList = new ArrayList<Document>();
+		}
+		List<Document> documentList = new ArrayList<>();
 		if (exprObj instanceof BasicDBList) {
 			BasicDBList dbList = (BasicDBList) exprObj;
 			for (Object obj : dbList) {
@@ -381,45 +417,52 @@ public class QueryProperties {
 	}
 
 	static DBObject getFirstObjectSet(DBObject exprObj) {
-		if (exprObj == null)
+		if (exprObj == null) {
 			return null;
+		}
 
 		DBObject firstObj = null;
 		if (exprObj instanceof BasicDBList) {
 			BasicDBList objList = (BasicDBList) exprObj;
 			if (objList.size() >= 1) {
 				Object value = objList.get(0);
-				if (value instanceof DBObject)
+				if (value instanceof DBObject) {
 					firstObj = (DBObject) value;
-				else // log and ignore
+				} else {
 					logInvalidTagValue(value);
+				}
 			}
-		} else
+		} else {
 			firstObj = exprObj;
+		}
 
 		return firstObj;
 	}
 
 	static DBObject[] getSecondaryObjectSets(DBObject exprObj) {
-		if (!(exprObj instanceof BasicDBList))
+		if (!(exprObj instanceof BasicDBList)) {
 			return null; // no secondary element(s)
-
-		BasicDBList objList = (BasicDBList) exprObj;
-		if (objList.size() <= 1)
-			return null;
-
-		// return the second and remaining DBObject(s) from the list
-		List<DBObject> secondaryObjList = new ArrayList<DBObject>(objList.size() - 1);
-		for (int i = 1; i < objList.size(); i++) {
-			Object value = objList.get(i);
-			if (value instanceof DBObject)
-				secondaryObjList.add((DBObject) value);
-			else // ignore elements that are not DBObject
-				logInvalidTagValue(value);
 		}
 
-		if (secondaryObjList.isEmpty())
+		BasicDBList objList = (BasicDBList) exprObj;
+		if (objList.size() <= 1) {
 			return null;
+		}
+
+		// return the second and remaining DBObject(s) from the list
+		List<DBObject> secondaryObjList = new ArrayList<>(objList.size() - 1);
+		for (int i = 1; i < objList.size(); i++) {
+			Object value = objList.get(i);
+			if (value instanceof DBObject) {
+				secondaryObjList.add((DBObject) value);
+			} else {
+				logInvalidTagValue(value);
+			}
+		}
+
+		if (secondaryObjList.isEmpty()) {
+			return null;
+		}
 		return (DBObject[]) secondaryObjList.toArray(new DBObject[secondaryObjList.size()]);
 	}
 
@@ -429,7 +472,7 @@ public class QueryProperties {
 	}
 
 	public void setSelectedFields(List<FieldMetaData> selectedFields) {
-		List<String> fieldNames = new ArrayList<String>(selectedFields.size());
+		List<String> fieldNames = new ArrayList<>(selectedFields.size());
 		for (FieldMetaData fieldMd : selectedFields) {
 			fieldNames.add(fieldMd.getFullName());
 		}
@@ -447,8 +490,9 @@ public class QueryProperties {
 	@SuppressWarnings("unchecked")
 	public List<String> getSelectedFieldNames() {
 		Object propValue = getPropertiesMap().get(SELECTED_FIELDS_PROP);
-		if (propValue instanceof List<?>)
+		if (propValue instanceof List<?>) {
 			return (List<String>) propValue;
+		}
 
 		if (propValue instanceof String) {
 			DBObject projectionKeys = null;
@@ -462,14 +506,16 @@ public class QueryProperties {
 			}
 
 			// extract the included fields to a list of selected fields
-			List<String> selectedFieldNames = new ArrayList<String>(projectionKeys.keySet().size());
+			List<String> selectedFieldNames = new ArrayList<>(projectionKeys.keySet().size());
 			for (String key : projectionKeys.keySet()) {
 				Object value = projectionKeys.get(key);
 				if (value instanceof Integer) {
-					if ((Integer) value == 0) // field is being excluded
+					if ((Integer) value == 0) { // field is being excluded
 						continue;
-				} else if (value instanceof Boolean && (Boolean) value == Boolean.FALSE) // field is being excluded
+					}
+				} else if (value instanceof Boolean && (Boolean) value == Boolean.FALSE) { // field is being excluded
 					continue;
+				}
 
 				selectedFieldNames.add(key);
 			}
@@ -490,8 +536,9 @@ public class QueryProperties {
 			}
 
 			// explicitly exclude docId field if not in projected list
-			if (!keys.containsField(DOC_ID_FIELD_NAME))
+			if (!keys.containsField(DOC_ID_FIELD_NAME)) {
 				keys.append(DOC_ID_FIELD_NAME, 0);
+			}
 			return keys;
 		}
 
@@ -506,9 +553,10 @@ public class QueryProperties {
 		}
 
 		// non-recognized data type; log and ignore
-		if (propValue != null)
+		if (propValue != null) {
 			getLogger().log(Level.INFO, Messages.bind("Unexpected data type ({0}) in Selected Fields property value.", //$NON-NLS-1$
 					propValue.getClass().getName()));
+		}
 
 		return new BasicDBObject();
 	}
@@ -524,8 +572,9 @@ public class QueryProperties {
 
 	public ReadPreference getQueryReadPreference() {
 		Object propValue = getPropertiesMap().get(QUERY_READ_PREF_PROP);
-		if (propValue instanceof String)
+		if (propValue instanceof String) {
 			propValue = toReadPreference(((String) propValue));
+		}
 		if (propValue instanceof ReadPreference) {
 			// return explicit read preference mode to prevent confusion
 			return (ReadPreference) propValue;
@@ -547,8 +596,9 @@ public class QueryProperties {
 
 	DBObject getReadPreferenceTagsAsParsedObject() {
 		String tagsExpr = getQueryReadPreferenceTags();
-		if (tagsExpr.isEmpty())
+		if (tagsExpr.isEmpty()) {
 			return null;
+		}
 		try {
 			return parseExprToDBObject(tagsExpr);
 		} catch (OdaException ex) {
@@ -560,7 +610,7 @@ public class QueryProperties {
 	}
 
 	private static TagSet toTags(DBObject tagsDocument) {
-		List<Tag> tagList = new ArrayList<Tag>();
+		List<Tag> tagList = new ArrayList<>();
 		for (String key : tagsDocument.keySet()) {
 			tagList.add(new Tag(key, tagsDocument.get(key).toString()));
 		}
@@ -569,15 +619,17 @@ public class QueryProperties {
 
 	ReadPreference getTaggableReadPreference() {
 		ReadPreference readPref = getQueryReadPreference();
-		if (readPref == ReadPreference.primary())
+		if (readPref == ReadPreference.primary()) {
 			return readPref; // primary read preference mode does not apply tags
+		}
 
 		DBObject tagObjects = getReadPreferenceTagsAsParsedObject();
 
-		if (tagObjects == null)
+		if (tagObjects == null) {
 			return readPref; // no tags in read preference
+		}
 
-		List<TagSet> tagsList = new ArrayList<TagSet>();
+		List<TagSet> tagsList = new ArrayList<>();
 		if (tagObjects instanceof BasicDBList) {
 			BasicDBList tagObjectList = (BasicDBList) tagObjects;
 			for (Object obj : tagObjectList) {
@@ -657,8 +709,9 @@ public class QueryProperties {
 
 	DBObject getIndexHintsAsParsedObject() {
 		String hintValue = getIndexHints();
-		if (hintValue.isEmpty())
+		if (hintValue.isEmpty()) {
 			return null;
+		}
 		try {
 			return parseExprToDBObject(hintValue);
 		} catch (OdaException ex) {
@@ -694,8 +747,9 @@ public class QueryProperties {
 
 	BasicDBObject getFindQueryExprAsParsedObject() throws OdaException {
 		String queryExprText = getFindQueryExpr();
-		if (queryExprText.isEmpty())
+		if (queryExprText.isEmpty()) {
 			return null;
+		}
 
 		DBObject queryObj = parseExprToDBObject(queryExprText);
 		if (!(queryObj instanceof BasicDBObject)) {
@@ -717,8 +771,9 @@ public class QueryProperties {
 
 	BasicDBObject getSortExprAsParsedObject() throws OdaException {
 		String sortExprText = getSortExpr();
-		if (sortExprText.isEmpty())
+		if (sortExprText.isEmpty()) {
 			return null;
+		}
 
 		DBObject sortObj = parseExprToDBObject(sortExprText);
 		if (!(sortObj instanceof BasicDBObject)) {
@@ -744,34 +799,40 @@ public class QueryProperties {
 
 	private Boolean getBooleanPropOrDefaultValue(String propName) {
 		Boolean value = getBooleanPropertyValue(getPropertiesMap(), propName);
-		if (value == null) // no property value defined, get default value instead
+		if (value == null) { // no property value defined, get default value instead
 			value = getBooleanPropertyValue(sm_defaultPropsMap, propName);
+		}
 		return value;
 	}
 
 	private static Boolean getBooleanPropertyValue(Map<String, Object> propertiesMap, String propertyName) {
 		Object propValue = propertiesMap.get(propertyName);
-		if (propValue instanceof Boolean)
+		if (propValue instanceof Boolean) {
 			return (Boolean) propValue;
-		if (propValue instanceof String && !((String) propValue).isEmpty())
+		}
+		if (propValue instanceof String && !((String) propValue).isEmpty()) {
 			return Boolean.valueOf((String) propValue);
+		}
 		return null;
 	}
 
 	private Integer getIntPropOrDefaultValue(String propName) {
 		Integer value = getIntPropertyValue(getPropertiesMap(), propName);
-		if (value == null) // no property value defined, get default value instead
+		if (value == null) { // no property value defined, get default value instead
 			value = getIntPropertyValue(sm_defaultPropsMap, propName);
+		}
 		return value;
 	}
 
 	private static Integer getIntPropertyValue(Map<String, Object> propertiesMap, String propertyName) {
 		Object propValue = propertiesMap.get(propertyName);
 		try {
-			if (propValue instanceof Integer)
+			if (propValue instanceof Integer) {
 				return (Integer) propValue;
-			if (propValue instanceof String && !((String) propValue).isEmpty())
+			}
+			if (propValue instanceof String && !((String) propValue).isEmpty()) {
 				return Integer.valueOf((String) propValue);
+			}
 		} catch (NumberFormatException ex) {
 			// log and ignore
 			getLogger().log(Level.INFO,

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,10 +61,11 @@ public class MarignPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Control createControl(Composite parent) {
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -73,10 +77,12 @@ public class MarignPropertyDescriptor extends PropertyDescriptor {
 
 		SelectionListener listener = new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleSelectedEvent();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				handleSelectedEvent();
 			}
@@ -87,6 +93,7 @@ public class MarignPropertyDescriptor extends PropertyDescriptor {
 		valueCombo.addSelectionListener(listener);
 		valueCombo.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				unitCombo.setEnabled(valueCombo.indexOf(valueCombo.getText()) == -1);
 				if (unitCombo.isEnabled() && unitCombo.getItemCount() > 0
@@ -104,14 +111,17 @@ public class MarignPropertyDescriptor extends PropertyDescriptor {
 		});
 		valueCombo.addFocusListener(new FocusListener() {
 
+			@Override
 			public void focusGained(FocusEvent e) {
 				dirty = false;
 			}
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				if (!hasError) {
-					if (dirty)
+					if (dirty) {
 						handleSelectedEvent();
+					}
 				}
 			}
 		});
@@ -133,8 +143,9 @@ public class MarignPropertyDescriptor extends PropertyDescriptor {
 		GridData data = new GridData();
 		data.widthHint = (int) (unitCombo.computeSize(SWT.DEFAULT, SWT.DEFAULT).x * 1.5);
 		data.widthHint = data.widthHint < 126 ? 126 : data.widthHint;
-		if (valueCombo.computeSize(SWT.DEFAULT, SWT.DEFAULT).y < unitCombo.computeSize(SWT.DEFAULT, SWT.DEFAULT).y)
+		if (valueCombo.computeSize(SWT.DEFAULT, SWT.DEFAULT).y < unitCombo.computeSize(SWT.DEFAULT, SWT.DEFAULT).y) {
 			data.heightHint = unitCombo.computeSize(SWT.DEFAULT, SWT.DEFAULT).y - 2;
+		}
 		valueCombo.setLayoutData(data);
 		unitCombo.setVisibleItemCount(30);
 		data = new GridData(GridData.FILL_HORIZONTAL);
@@ -170,8 +181,9 @@ public class MarignPropertyDescriptor extends PropertyDescriptor {
 			String valueName = marignProvider.getValueDisplayName(value);
 			if (valueName == null) {
 				value = value + marignProvider.getUnitDisplayName(unitCombo.getText());
-			} else
+			} else {
 				value = valueName;
+			}
 		}
 
 		try {
@@ -184,21 +196,23 @@ public class MarignPropertyDescriptor extends PropertyDescriptor {
 		dirty = false;
 	} /*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 		 * PropertyDescriptor#getControl()
 		 */
 
+	@Override
 	public Control getControl() {
 		return container;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * resetUIData()
 	 */
+	@Override
 	public void load() {
 		if (marignProvider != null) {
 			String value = marignProvider.load().toString();
@@ -254,28 +268,34 @@ public class MarignPropertyDescriptor extends PropertyDescriptor {
 		hasError = false;
 	}
 
+	@Override
 	public void save(Object obj) throws SemanticException {
 		getDescriptorProvider().save(obj);
 	}
 
 	private MarignPropertyDescriptorProvider marignProvider;
 
+	@Override
 	public void setDescriptorProvider(IDescriptorProvider provider) {
 		super.setDescriptorProvider(provider);
-		if (provider instanceof MarignPropertyDescriptorProvider)
+		if (provider instanceof MarignPropertyDescriptorProvider) {
 			this.marignProvider = (MarignPropertyDescriptorProvider) provider;
+		}
 	}
 
 	public void setHidden(boolean isHidden) {
-		if (container != null)
+		if (container != null) {
 			WidgetUtil.setExcludeGridData(container, isHidden);
+		}
 	}
 
 	public void setVisible(boolean isVisible) {
-		if (container != null)
+		if (container != null) {
 			container.setVisible(isVisible);
+		}
 	}
 
+	@Override
 	public void setInput(Object handle) {
 		this.input = handle;
 		getDescriptorProvider().setInput(input);

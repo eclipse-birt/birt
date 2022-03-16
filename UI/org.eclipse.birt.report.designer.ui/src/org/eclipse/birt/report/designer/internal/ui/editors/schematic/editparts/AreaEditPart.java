@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -34,7 +37,7 @@ public class AreaEditPart extends ReportElementEditPart {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
 	public AreaEditPart(Object model) {
@@ -43,9 +46,10 @@ public class AreaEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		AreaFigure figure = new AreaFigure();
 		figure.setLayoutManager(new ReportFlowLayout());
@@ -55,9 +59,10 @@ public class AreaEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, null);
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ReportFlowLayoutEditPolicy());
@@ -66,9 +71,10 @@ public class AreaEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
+	@Override
 	protected List getModelChildren() {
 		List list = new ArrayList();
 		insertIteratorToList(((SlotHandle) getModel()).iterator(), list);
@@ -85,18 +91,19 @@ public class AreaEditPart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#refreshFigure()
 	 */
+	@Override
 	public void refreshFigure() {
 		((MasterPageEditPart) getParent()).setLayoutConstraint(this, figure, getConstraint());
 	}
 
 	/**
 	 * Get the default constraint of area figure.
-	 * 
+	 *
 	 * @return
 	 */
 	private Rectangle getConstraint() {
@@ -118,13 +125,11 @@ public class AreaEditPart extends ReportElementEditPart {
 
 				rect.height = getHeight(handle);
 			}
-		} else {
-			if (mphandle.getPropertyHandle(SimpleMasterPageHandle.FOOTER_HEIGHT_PROP).isSet()
-					|| DEUtil.isFixLayout(getParent().getModel())) {
-				DimensionHandle handle = mphandle.getFooterHeight();
+		} else if (mphandle.getPropertyHandle(SimpleMasterPageHandle.FOOTER_HEIGHT_PROP).isSet()
+				|| DEUtil.isFixLayout(getParent().getModel())) {
+			DimensionHandle handle = mphandle.getFooterHeight();
 
-				rect.height = getHeight(handle);
-			}
+			rect.height = getHeight(handle);
 		}
 
 		if (((SlotHandle) getModel()).getSlotID() == SimpleMasterPageHandle.PAGE_HEADER_SLOT) {

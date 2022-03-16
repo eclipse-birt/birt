@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -12,6 +15,7 @@
 package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
 import java.io.File;
+
 import org.eclipse.birt.report.designer.internal.ui.extension.IEditputProvider;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileInfo;
@@ -26,17 +30,18 @@ import org.eclipse.ui.ide.FileStoreEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
- * 
+ *
  */
 
 public class IDEEditputProvider implements IEditputProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.actuate.birt.report.designer.ui.datamart.wizards.IEditputProvider#
 	 * createEditorInput(java.lang.Object)
 	 */
+	@Override
 	public IEditorInput createEditorInput(Object file) {
 		if (file instanceof File) {
 			File handle = (File) file;

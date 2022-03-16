@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -44,6 +46,7 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 	/**
 	 * @see IPresentationRepairer#setDocument(IDocument)
 	 */
+	@Override
 	public void setDocument(IDocument document) {
 		fDocument = document;
 	}
@@ -51,7 +54,7 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 	/**
 	 * Returns the end offset of the line that contains the specified offset or if
 	 * the offset is inside a line delimiter, the end offset of the next line.
-	 * 
+	 *
 	 * @param offset the offset whose line end offset must be computed
 	 * @return the line end offset for the given offset
 	 * @exception BadLocationException if offset is invalid in the current document
@@ -59,8 +62,9 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 	protected int endOfLineOf(int offset) throws BadLocationException {
 
 		IRegion info = fDocument.getLineInformationOfOffset(offset);
-		if (offset <= info.getOffset() + info.getLength())
+		if (offset <= info.getOffset() + info.getLength()) {
 			return info.getOffset() + info.getLength();
+		}
 
 		int line = fDocument.getLineOfOffset(offset);
 		try {
@@ -75,6 +79,7 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 	 * @see IPresentationDamager#getDamageRegion(ITypedRegion, DocumentEvent,
 	 *      boolean)
 	 */
+	@Override
 	public IRegion getDamageRegion(ITypedRegion partition, DocumentEvent event, boolean documentPartitioningChanged) {
 		if (!documentPartitioningChanged) {
 			try {
@@ -87,8 +92,9 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 				if (info.getOffset() <= end && end <= info.getOffset() + info.getLength()) {
 					// optimize the case of the same line
 					end = info.getOffset() + info.getLength();
-				} else
+				} else {
 					end = endOfLineOf(end);
+				}
 
 				end = Math.min(partition.getOffset() + partition.getLength(), end);
 				return new Region(start, end - start);
@@ -103,13 +109,14 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 	/**
 	 * @see IPresentationRepairer#createPresentation(TextPresentation, ITypedRegion)
 	 */
+	@Override
 	public void createPresentation(TextPresentation presentation, ITypedRegion region) {
 		addRange(presentation, region.getOffset(), region.getLength(), fDefaultTextAttribute);
 	}
 
 	/**
 	 * Adds style information to the given text presentation.
-	 * 
+	 *
 	 * @param presentation the text presentation to be extended
 	 * @param offset       the offset of the range to be styled
 	 * @param length       the length of the range to be styled
@@ -117,8 +124,9 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 	 *                     styled
 	 */
 	protected void addRange(TextPresentation presentation, int offset, int length, TextAttribute attr) {
-		if (attr != null)
+		if (attr != null) {
 			presentation.addStyleRange(
 					new StyleRange(offset, length, attr.getForeground(), attr.getBackground(), attr.getStyle()));
+		}
 	}
 }

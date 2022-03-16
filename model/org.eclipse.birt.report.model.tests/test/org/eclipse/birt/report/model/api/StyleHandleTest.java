@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,10 +52,11 @@ public class StyleHandleTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign("StyleHandleTest.xml"); //$NON-NLS-1$
@@ -60,7 +64,7 @@ public class StyleHandleTest extends BaseTestCase {
 
 	/**
 	 * Reads and sets values of properties of a style.
-	 * 
+	 *
 	 * @throws SemanticException if the value cannot be set properly
 	 */
 
@@ -296,7 +300,7 @@ public class StyleHandleTest extends BaseTestCase {
 
 	/**
 	 * set operator to eq and make sure value2 element is not exist in xml file
-	 * 
+	 *
 	 * @throws SemanticException   if the value cannot be set properly
 	 * @throws DesignFileException if there is something wrong with opening xml file
 	 */
@@ -323,7 +327,7 @@ public class StyleHandleTest extends BaseTestCase {
 
 	/**
 	 * Reads and sets values of properties of a highlight.
-	 * 
+	 *
 	 * @throws SemanticException if the value cannot be set properly
 	 */
 
@@ -433,7 +437,7 @@ public class StyleHandleTest extends BaseTestCase {
 
 	/**
 	 * Reads and sets values of properties of a map rule.
-	 * 
+	 *
 	 * @throws SemanticException if the value cannot be set properly
 	 */
 
@@ -470,7 +474,7 @@ public class StyleHandleTest extends BaseTestCase {
 
 	/**
 	 * Test set format of style
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -508,7 +512,7 @@ public class StyleHandleTest extends BaseTestCase {
 
 	/**
 	 * Test style is predefined or not.
-	 * 
+	 *
 	 */
 
 	public void testIsPredefinedStyle() {
@@ -529,7 +533,7 @@ public class StyleHandleTest extends BaseTestCase {
 
 	/**
 	 * Test PropertyMark method.
-	 * 
+	 *
 	 */
 
 	public void testPropertyMask() {
@@ -549,9 +553,9 @@ public class StyleHandleTest extends BaseTestCase {
 
 	/**
 	 * Highlight should be:
-	 * 
+	 *
 	 * 1. no cascading. 2. effect for all elements.
-	 * 
+	 *
 	 */
 
 	public void testHightlightRules() {
@@ -576,7 +580,7 @@ public class StyleHandleTest extends BaseTestCase {
 	 * Test null style. 1.Create new style. 2.Let Label binds with this style
 	 * 3.Delete style. 4.Set style in label to null 5.Test if style information
 	 * exists in design file or not. The expected result is no information exists.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -593,7 +597,7 @@ public class StyleHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests get properties from cell selector.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -610,7 +614,7 @@ public class StyleHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests set background size property value.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testBackgroundSize() throws Exception {
@@ -802,40 +806,37 @@ public class StyleHandleTest extends BaseTestCase {
 
 			assertEquals(oldWidth, width.getStringValue());
 			assertEquals(oldHeight, height.getStringValue());
+		} else if ("style3".equals(styleHandle.getName()) //$NON-NLS-1$
+				&& IStyleModel.BACKGROUND_SIZE_WIDTH.equals(propName)
+				&& DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(value)) {
+			assert true;
+
+		} else if ("style4".equals(styleHandle.getName()) //$NON-NLS-1$
+				&& IStyleModel.BACKGROUND_SIZE_WIDTH.equals(propName)
+				&& DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(value)) {
+			assert true;
+		} else if ("style4".equals(styleHandle.getName()) //$NON-NLS-1$
+				&& IStyleModel.BACKGROUND_SIZE_HEIGHT.equals(propName)
+				&& DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(value)) {
+			assert true;
+		} else if ("style5".equals(styleHandle.getName()) //$NON-NLS-1$
+				&& IStyleModel.BACKGROUND_SIZE_HEIGHT.equals(propName)
+				&& DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(value)) {
+			assert true;
+		} else if ("style5".equals(styleHandle.getName()) //$NON-NLS-1$
+				&& IStyleModel.BACKGROUND_SIZE_WIDTH.equals(propName)
+				&& DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(value)) {
+			assert true;
+		} else if ("style6".equals(styleHandle.getName()) //$NON-NLS-1$
+				&& IStyleModel.BACKGROUND_SIZE_HEIGHT.equals(propName)
+				&& DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(value)) {
+			assert true;
+		} else if ("style6".equals(styleHandle.getName()) //$NON-NLS-1$
+				&& IStyleModel.BACKGROUND_SIZE_WIDTH.equals(propName)
+				&& DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(value)) {
+			assert true;
 		} else {
-			if ("style3".equals(styleHandle.getName()) //$NON-NLS-1$
-					&& IStyleModel.BACKGROUND_SIZE_WIDTH.equals(propName)
-					&& DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(value)) {
-				assert true;
-
-			} else if ("style4".equals(styleHandle.getName()) //$NON-NLS-1$
-					&& IStyleModel.BACKGROUND_SIZE_WIDTH.equals(propName)
-					&& DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(value))
-				assert true;
-			else if ("style4".equals(styleHandle.getName()) //$NON-NLS-1$
-					&& IStyleModel.BACKGROUND_SIZE_HEIGHT.equals(propName)
-					&& DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(value))
-				assert true;
-			else if ("style5".equals(styleHandle.getName()) //$NON-NLS-1$
-					&& IStyleModel.BACKGROUND_SIZE_HEIGHT.equals(propName)
-					&& DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(value))
-				assert true;
-			else if ("style5".equals(styleHandle.getName()) //$NON-NLS-1$
-					&& IStyleModel.BACKGROUND_SIZE_WIDTH.equals(propName)
-					&& DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(value))
-				assert true;
-			else if ("style6".equals(styleHandle.getName()) //$NON-NLS-1$
-					&& IStyleModel.BACKGROUND_SIZE_HEIGHT.equals(propName)
-					&& DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(value))
-				assert true;
-			else if ("style6".equals(styleHandle.getName()) //$NON-NLS-1$
-					&& IStyleModel.BACKGROUND_SIZE_WIDTH.equals(propName)
-					&& DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(value))
-				assert true;
-
-			else
-				assert false;
-
+			assert false;
 		}
 	}
 }

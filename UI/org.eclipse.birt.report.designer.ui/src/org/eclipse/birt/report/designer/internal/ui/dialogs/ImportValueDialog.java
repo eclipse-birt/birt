@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -102,7 +105,7 @@ public class ImportValueDialog extends BaseDialog {
 
 	private String currentDataSetName;
 
-	private ArrayList resultList = new ArrayList();;
+	private ArrayList resultList = new ArrayList();
 
 	private java.util.List columnList;
 
@@ -119,8 +122,8 @@ public class ImportValueDialog extends BaseDialog {
 	private int[] compatibleDataTypes;
 
 	// used for sort selectedValue
-	private Map<Object, Object> displayObjectMaps = new HashMap<Object, Object>();
-	private Map<Object, Object> objectDisplayMaps = new HashMap<Object, Object>();
+	private Map<Object, Object> displayObjectMaps = new HashMap<>();
+	private Map<Object, Object> objectDisplayMaps = new HashMap<>();
 
 	/**
 	 * Constructs a new instance of the dialog
@@ -143,10 +146,11 @@ public class ImportValueDialog extends BaseDialog {
 
 	private String beforeValidateString(String value) {
 		if (value.equals(nullValue) && hasNullValue) {
-			if (isRequired)
+			if (isRequired) {
 				return ""; //$NON-NLS-1$
-			else
+			} else {
 				return null;
+			}
 		} else {
 			return value;
 		}
@@ -160,7 +164,7 @@ public class ImportValueDialog extends BaseDialog {
 		this.isRequired = required;
 	}
 
-	public static interface IAddChoiceValidator {
+	public interface IAddChoiceValidator {
 
 		String validateString(String value);
 	}
@@ -171,6 +175,7 @@ public class ImportValueDialog extends BaseDialog {
 		this.validator = validator;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		createColumnSelectionArea(composite);
@@ -190,6 +195,7 @@ public class ImportValueDialog extends BaseDialog {
 		dataSetChooser.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		dataSetChooser.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String newSelection = dataSetChooser.getText();
 				if (!currentDataSetName.equals(newSelection)) {
@@ -206,6 +212,7 @@ public class ImportValueDialog extends BaseDialog {
 		columnChooser.setVisibleItemCount(30);
 		columnChooser.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int newSelectedIndex = columnChooser.getSelectionIndex();
 				if (selectedColumnIndex != newSelectedIndex) {
@@ -232,6 +239,7 @@ public class ImportValueDialog extends BaseDialog {
 		valueEditor.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		valueEditor.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				filteValues();
 			}
@@ -245,10 +253,12 @@ public class ImportValueDialog extends BaseDialog {
 		setListLayoutData(valueList);
 		valueList.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				addSelected();
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateButtons();
 			}
@@ -267,6 +277,7 @@ public class ImportValueDialog extends BaseDialog {
 
 		addAll.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				addAll();
 			}
@@ -279,6 +290,7 @@ public class ImportValueDialog extends BaseDialog {
 		add.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		add.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				addSelected();
 			}
@@ -291,6 +303,7 @@ public class ImportValueDialog extends BaseDialog {
 		remove.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		remove.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				removeSelected();
 			}
@@ -304,6 +317,7 @@ public class ImportValueDialog extends BaseDialog {
 				new GridData(GridData.FILL_VERTICAL | GridData.VERTICAL_ALIGN_BEGINNING | GridData.FILL_HORIZONTAL));
 		removeAll.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				removeAll();
 			}
@@ -314,10 +328,12 @@ public class ImportValueDialog extends BaseDialog {
 		setListLayoutData(selectedList);
 		selectedList.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				removeSelected();
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateButtons();
 			}
@@ -393,6 +409,7 @@ public class ImportValueDialog extends BaseDialog {
 		filteValues();
 	}
 
+	@Override
 	protected boolean initDialog() {
 		try {
 			engine = DataEngine.newDataEngine(
@@ -572,7 +589,7 @@ public class ImportValueDialog extends BaseDialog {
 
 	private String[] sortSelectedList(java.util.List<String> itemList) {
 		// sort original data
-		java.util.List<String> tempResult = new ArrayList<String>();
+		java.util.List<String> tempResult = new ArrayList<>();
 		java.util.List datas = new ArrayList();
 		for (String item : itemList) {
 			if (displayObjectMaps.get(item) != null) {
@@ -627,18 +644,19 @@ public class ImportValueDialog extends BaseDialog {
 		getOkButton().setEnabled(selectedList.getItemCount() != 0);
 	}
 
+	@Override
 	protected void okPressed() {
-		ArrayList<String> list = new ArrayList<String>();
-		list.addAll(Arrays.asList(selectedList.getItems()));
+		ArrayList<String> list = new ArrayList<>(Arrays.asList(selectedList.getItems()));
 		if (hasNullValue) {
 			for (int i = 0; i < list.size(); i++) {
 				String item = list.get(i);
 				if (nullValue.equals(item)) {
 					list.remove(i);
-					if (isRequired)
+					if (isRequired) {
 						list.add(i, ""); //$NON-NLS-1$
-					else
+					} else {
 						list.add(i, null);
+					}
 				}
 			}
 		}
@@ -650,6 +668,7 @@ public class ImportValueDialog extends BaseDialog {
 		return DataUtil.findDataSet(currentDataSetName);
 	}
 
+	@Override
 	public boolean close() {
 		if (engine != null) {
 			engine.shutdown();
@@ -709,8 +728,9 @@ public class ImportValueDialog extends BaseDialog {
 				return DataTypeUtil.toBoolean(null);
 			}
 			return DataTypeUtil.toBoolean(tempdefaultValue);
-		} else
+		} else {
 			return tempdefaultValue;
+		}
 	}
 
 }

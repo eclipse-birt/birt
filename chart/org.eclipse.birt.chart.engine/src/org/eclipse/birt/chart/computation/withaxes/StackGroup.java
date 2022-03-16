@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,7 +24,7 @@ import org.eclipse.birt.chart.model.type.LineSeries;
  */
 public class StackGroup {
 
-	ArrayList<Series> alSeries = new ArrayList<Series>();
+	ArrayList<Series> alSeries = new ArrayList<>();
 
 	ArrayList<AxisSubUnit> alUnitPositions = null;
 
@@ -40,7 +43,7 @@ public class StackGroup {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param iSharedUnitCount
 	 */
 	final void updateCount(int iSharedUnitCount) {
@@ -48,7 +51,7 @@ public class StackGroup {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param se
 	 */
 	final void addSeries(Series se) {
@@ -61,7 +64,7 @@ public class StackGroup {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public final ArrayList<Series> getSeries() {
@@ -78,7 +81,7 @@ public class StackGroup {
 
 	/**
 	 * Returns current series is stacked together
-	 * 
+	 *
 	 * @TODO need to add api in Series to return the result
 	 * @param series
 	 * @return

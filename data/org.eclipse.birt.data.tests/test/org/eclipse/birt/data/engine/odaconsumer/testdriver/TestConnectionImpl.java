@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -42,89 +45,99 @@ public class TestConnectionImpl implements IConnection {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#close()
 	 */
+	@Override
 	public void close() throws OdaException {
 		m_isOpen = false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#commit()
 	 */
+	@Override
 	public void commit() throws OdaException {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#getMaxQueries()
 	 */
+	@Override
 	public int getMaxQueries() throws OdaException {
 		return 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#getMetaData(java.lang.
 	 * String)
 	 */
+	@Override
 	public IDataSetMetaData getMetaData(String dataSetType) throws OdaException {
 		return new TestDataSetMetaDataImpl(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
 	 */
+	@Override
 	public boolean isOpen() throws OdaException {
 		return m_isOpen;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#newQuery(java.lang.String)
 	 */
+	@Override
 	public IQuery newQuery(String dataSetType) throws OdaException {
-		m_currentTestCase = (new Integer(dataSetType)).intValue();
-		if (m_currentTestCase <= 0)
+		m_currentTestCase = Integer.parseInt(dataSetType);
+		if (m_currentTestCase <= 0) {
 			throw new OdaException("invalid test case id: " + dataSetType);
+		}
 
 		return new TestAdvQueryImpl(m_currentTestCase);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#open(java.util.Properties)
 	 */
+	@Override
 	public void open(Properties connProperties) throws OdaException {
 		m_isOpen = true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#rollback()
 	 */
+	@Override
 	public void rollback() throws OdaException {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#setAppContext(java.lang.
 	 * Object)
 	 */
+	@Override
 	public void setAppContext(Object context) throws OdaException {
 		m_appContext = context;
 	}
@@ -137,6 +150,7 @@ public class TestConnectionImpl implements IConnection {
 		return m_currentTestCase;
 	}
 
+	@Override
 	public void setLocale(ULocale locale) throws OdaException {
 		// TODO Auto-generated method stub
 

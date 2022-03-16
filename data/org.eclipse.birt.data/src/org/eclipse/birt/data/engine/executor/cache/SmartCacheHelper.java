@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,8 +22,8 @@ import java.util.logging.Logger;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.executor.cache.disk.DiskCache;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.expression.CompareHints;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
@@ -48,7 +51,7 @@ class SmartCacheHelper {
 
 	/**
 	 * Retrieve data from ODA, used in normal query
-	 * 
+	 *
 	 * @param odaResultSet
 	 * @param query
 	 * @param rsMeta
@@ -62,7 +65,7 @@ class SmartCacheHelper {
 		assert odaResultSet != null;
 		assert rsMeta != null;
 
-		if (cacheRequest.getDistinctValueFlag() == true) {
+		if (cacheRequest.getDistinctValueFlag()) {
 			SmartCacheHelper smartCacheHelper = new SmartCacheHelper(session);
 			ResultSetCache smartCache = smartCacheHelper.getDistinctResultSetCache(cacheRequest,
 					new OdiAdapter(odaResultSet, rsMeta), rsMeta);
@@ -140,7 +143,7 @@ class SmartCacheHelper {
 
 	/**
 	 * Retrieve data from ODI, used in sub query
-	 * 
+	 *
 	 * @param query
 	 * @param resultCache, parent resultSetCache
 	 * @param startIndex,  included
@@ -164,7 +167,7 @@ class SmartCacheHelper {
 
 	/**
 	 * Especially used for sub query
-	 * 
+	 *
 	 * @param resultCache
 	 * @param odiAdpater
 	 * @param query
@@ -178,16 +181,18 @@ class SmartCacheHelper {
 	private void initSubResult(CacheRequest cacheRequest, ResultSetCache resultCache, OdiAdapter odiAdpater,
 			int startIndex, int endIndex, IResultClass rsMeta) throws DataException {
 		int length = endIndex - startIndex;
-		if (cacheRequest.getMaxRow() <= 0 || length <= cacheRequest.getMaxRow())
+		if (cacheRequest.getMaxRow() <= 0 || length <= cacheRequest.getMaxRow()) {
 			cacheRequest.setMaxRow(length);
+		}
 
 		int oldIndex = resultCache.getCurrentIndex();
 
 		// In OdiAdapter, it fetches the next row, not current row.
-		if (startIndex == 0)
+		if (startIndex == 0) {
 			resultCache.reset();
-		else
+		} else {
 			resultCache.moveTo(startIndex - 1);
+		}
 		initInstance(cacheRequest, odiAdpater, rsMeta);
 
 		resultCache.moveTo(oldIndex);
@@ -201,7 +206,7 @@ class SmartCacheHelper {
 	 */
 	ResultSetCache getResultSetCache(CacheRequest cacheRequest, OdiAdapter odiAdapter, IResultClass rsMeta)
 			throws DataException {
-		if (cacheRequest.getDistinctValueFlag() == true) {
+		if (cacheRequest.getDistinctValueFlag()) {
 			SmartCacheHelper smartCacheHelper = new SmartCacheHelper(session);
 			ResultSetCache smartCache = smartCacheHelper.getDistinctResultSetCache(cacheRequest, odiAdapter, rsMeta);
 
@@ -228,7 +233,7 @@ class SmartCacheHelper {
 
 	/**
 	 * Init resultSetCache
-	 * 
+	 *
 	 * @param odiAdpater
 	 * @param query
 	 * @param rsMeta
@@ -246,7 +251,7 @@ class SmartCacheHelper {
 
 	/**
 	 * Populate the smartCache.
-	 * 
+	 *
 	 * @param rsMeta
 	 * @param rowResultSet
 	 * @param sortSpec
@@ -287,12 +292,14 @@ class SmartCacheHelper {
 					}
 					ResultObject temp = new ResultObject(rsMeta, obs);
 					resultObjectsList.add(temp);
-					if (memoryCacheSize != 0)
+					if (memoryCacheSize != 0) {
 						usedMemorySize += sizeOfUtil.sizeOf(temp);
+					}
 				} else {
 					resultObjectsList.add(odaObject);
-					if (memoryCacheSize != 0)
+					if (memoryCacheSize != 0) {
 						usedMemorySize += sizeOfUtil.sizeOf(odaObject);
+					}
 				}
 
 			} else {
@@ -329,14 +336,16 @@ class SmartCacheHelper {
 	 *         need to do sorting
 	 */
 	private static Comparator getComparator(SortSpec sortSpec, final IEventHandler eventHandler) {
-		if (sortSpec == null)
+		if (sortSpec == null) {
 			return null;
+		}
 
 		final int[] sortKeyIndexes = sortSpec.getSortKeyIndexes();
 		final String[] sortKeyColumns = sortSpec.getSortKeyColumns();
 
-		if (sortKeyIndexes == null || sortKeyIndexes.length == 0)
+		if (sortKeyIndexes == null || sortKeyIndexes.length == 0) {
 			return null;
+		}
 
 		final int[] sortAscending = sortSpec.getSortAscending();
 		final CompareHints[] comparators = sortSpec.getComparator();
@@ -346,6 +355,7 @@ class SmartCacheHelper {
 			 * compares two row indexes, actually compares two rows pointed by the two row
 			 * indexes
 			 */
+			@Override
 			public int compare(Object obj1, Object obj2) {
 				IResultObject row1 = (IResultObject) obj1;
 				IResultObject row2 = (IResultObject) obj2;

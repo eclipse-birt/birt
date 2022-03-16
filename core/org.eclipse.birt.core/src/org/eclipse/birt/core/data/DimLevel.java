@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -11,9 +14,11 @@
 
 package org.eclipse.birt.core.data;
 
+import java.util.Objects;
+
 /**
  * This class is an Implementation of IDimLevel.
- * 
+ *
  */
 class DimLevel implements IDimLevel {
 
@@ -49,6 +54,7 @@ class DimLevel implements IDimLevel {
 	/**
 	 * @return the dimensionName
 	 */
+	@Override
 	public String getDimensionName() {
 		return dimensionName;
 	}
@@ -56,70 +62,67 @@ class DimLevel implements IDimLevel {
 	/**
 	 * @return the levelName
 	 */
+	@Override
 	public String getLevelName() {
 		return levelName;
 	}
 
 	/**
 	 * Return the attribute name.
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public String getAttrName() {
 		return this.attrName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((dimensionName == null) ? 0 : dimensionName.hashCode());
-		result = prime * result + ((levelName == null) ? 0 : levelName.hashCode());
-		return result;
+		return Objects.hash(dimensionName, levelName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || !(obj instanceof DimLevel)) {
 			return false;
-		if (!(obj instanceof DimLevel))
-			return false;
+		}
 		final DimLevel other = (DimLevel) obj;
-		if (dimensionName == null) {
-			if (other.dimensionName != null)
-				return false;
-		} else if (!dimensionName.equals(other.dimensionName))
+		if (!Objects.equals(dimensionName, other.dimensionName)) {
 			return false;
-		if (levelName == null) {
-			if (other.levelName != null)
-				return false;
-		} else if (!levelName.equals(other.levelName))
+		}
+		if (!Objects.equals(levelName, other.levelName)) {
 			return false;
+		}
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		return qualifiedName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(T)
 	 */
 	public int compareTo(Object obj) {

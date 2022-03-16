@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -38,7 +50,7 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 	/**
 	 * The cached value of the '{@link #getFills() <em>Fills</em>}' containment
 	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getFills()
 	 * @generated
 	 * @ordered
@@ -47,7 +59,7 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected MultipleFillImpl() {
@@ -56,7 +68,7 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -66,19 +78,20 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public EList<Fill> getFills() {
 		if (fills == null) {
-			fills = new EObjectContainmentEList<Fill>(Fill.class, this, AttributePackage.MULTIPLE_FILL__FILLS);
+			fills = new EObjectContainmentEList<>(Fill.class, this, AttributePackage.MULTIPLE_FILL__FILLS);
 		}
 		return fills;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -92,7 +105,7 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -106,7 +119,7 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -123,7 +136,7 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -138,7 +151,7 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -168,7 +181,7 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
 	 * Manually written.
-	 * 
+	 *
 	 * @return
 	 */
 	public static MultipleFill create() {
@@ -179,6 +192,7 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
+	@Override
 	public MultipleFill copyInstance() {
 		MultipleFillImpl dest = new MultipleFillImpl();
 

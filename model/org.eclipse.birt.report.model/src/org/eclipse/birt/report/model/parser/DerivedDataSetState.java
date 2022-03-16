@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +23,7 @@ import org.xml.sax.Attributes;
 
 /**
  * Parser of the derived data set element.
- * 
+ *
  */
 
 public class DerivedDataSetState extends ReportElementState {
@@ -34,7 +37,7 @@ public class DerivedDataSetState extends ReportElementState {
 	/**
 	 * Constructs the joint data set state with design parser handler, container
 	 * element and container slot of the data source.
-	 * 
+	 *
 	 * @param handler the design file parser handler
 	 */
 
@@ -45,21 +48,23 @@ public class DerivedDataSetState extends ReportElementState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
+	@Override
 	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		initElement(attrs, true);
 		String extensionID = getAttrib(attrs, DesignSchemaConstants.EXTENSION_ID_ATTRIB);

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -33,23 +45,27 @@ public class LabelSection extends Section {
 
 	private int width = -1;
 
+	@Override
 	public void createSection() {
 		getLabelControl(parent);
 		getGridPlaceholder(parent);
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) label.getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
+		}
 		gd.horizontalAlignment = SWT.FILL;
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillLabel;
+		}
 
 		if (height > -1) {
 			gd.heightHint = width;
@@ -80,20 +96,24 @@ public class LabelSection extends Section {
 		return null;
 	}
 
+	@Override
 	public Label getLabelControl() {
 		return label;
 	}
 
+	@Override
 	protected Label getLabelControl(Composite parent) {
 		if (label == null) {
-			if (style != -1)
+			if (style != -1) {
 				label = FormWidgetFactory.getInstance().createLabel(parent, style, isFormStyle);
-			else
+			} else {
 				label = FormWidgetFactory.getInstance().createLabel(parent, SWT.NONE | SWT.WRAP, isFormStyle);
+			}
 			label.setText(getLabelText());
 			label.setLayoutData(new GridData());
 			label.addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					label = null;
 				}
@@ -148,22 +168,30 @@ public class LabelSection extends Section {
 		this.height = height;
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (label != null)
+		}
+		if (label != null) {
 			WidgetUtil.setExcludeGridData(label, isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (label != null)
+		}
+		if (label != null) {
 			label.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 
 	public int getStyle() {
@@ -174,11 +202,13 @@ public class LabelSection extends Section {
 		this.style = style;
 	}
 
+	@Override
 	public void load() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setInput(Object input) {
 		// TODO Auto-generated method stub
 

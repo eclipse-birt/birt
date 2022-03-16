@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -39,8 +42,9 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime {
 		super(dataSource, sharedScope, cx);
 		Object[] params = { dataSource, sharedScope };
 		logger.entering(ScriptDataSourceRuntime.class.getName(), "ScriptDataSourceRuntime", params);
-		if (getEventHandler() instanceof IScriptDataSourceEventHandler)
+		if (getEventHandler() instanceof IScriptDataSourceEventHandler) {
 			scriptEventHandler = (IScriptDataSourceEventHandler) getEventHandler();
+		}
 
 		logger.exiting(ScriptDataSourceRuntime.class.getName(), "ScriptDataSourceRuntime");
 		logger.log(Level.FINER, "ScriptDataSourceRuntime starts up");
@@ -51,6 +55,7 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime {
 	 * org.eclipse.birt.data.engine.impl.DataSourceRuntime#openOdiDataSource(org.
 	 * eclipse.birt.data.engine.odi.IDataSource)
 	 */
+	@Override
 	public void openOdiDataSource(IDataSource odiDataSource) throws DataException {
 		// This is when we should run the Open script associated with the script
 		// data source
@@ -61,6 +66,7 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime {
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.DataSourceRuntime#closeOdiDataSource()
 	 */
+	@Override
 	public void closeOdiDataSource() throws DataException {
 		// This is when we should run the Open script associated with the script
 		// data source
@@ -92,29 +98,32 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime {
 
 	/*
 	 * This is not ODA data source; it has no extension ID Return a fixed string
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.DataSourceRuntime#getExtensionID()
 	 */
+	@Override
 	public String getExtensionID() {
 		return "SCRIPT";
 	}
 
 	/*
 	 * Script data source has no extension property
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#
 	 * getAllExtensionProperties()
 	 */
+	@Override
 	public Map getAllExtensionProperties() {
 		return null;
 	}
 
 	/*
 	 * Script data source has no extension property
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#
 	 * getExtensionProperty(java.lang.String)
 	 */
+	@Override
 	public String getExtensionProperty(String name) {
 		return null;
 	}
@@ -123,6 +132,7 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime {
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#
 	 * setExtensionProperty(java.lang.String, java.lang.String)
 	 */
+	@Override
 	public void setExtensionProperty(String name, String value) {
 		// Script data source has no extension property
 	}

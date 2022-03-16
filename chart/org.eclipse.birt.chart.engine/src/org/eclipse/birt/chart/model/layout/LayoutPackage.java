@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -27,11 +30,11 @@ import org.eclipse.emf.ecore.EReference;
  * <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc --> <!-- begin-model-doc -->
- * 
+ *
  * Schema file for the chart.model package.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.layout.LayoutFactory
  * @generated
  */
@@ -39,21 +42,21 @@ public interface LayoutPackage extends EPackage {
 
 	/**
 	 * The package name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	String eNAME = "layout"; //$NON-NLS-1$
 
 	/**
 	 * The package namespace URI. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	String eNS_URI = "http://www.birt.eclipse.org/ChartModelLayout"; //$NON-NLS-1$
 
 	/**
 	 * The package namespace name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	String eNS_PREFIX = "layout"; //$NON-NLS-1$
@@ -61,7 +64,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The singleton instance of the package. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	LayoutPackage eINSTANCE = org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl.init();
@@ -70,7 +73,7 @@ public interface LayoutPackage extends EPackage {
 	 * The meta object id for the
 	 * '{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl <em>Block</em>}'
 	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.layout.impl.BlockImpl
 	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getBlock()
 	 * @generated
@@ -80,7 +83,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -89,7 +92,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Bounds</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -98,7 +101,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Anchor</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -107,7 +110,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Stretch</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -116,7 +119,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Insets</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -125,7 +128,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Row</b></em>' attribute. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -134,7 +137,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Column</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -143,7 +146,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Rowspan</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -152,7 +155,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Columnspan</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -161,7 +164,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Min Size</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -170,7 +173,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Outline</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -179,7 +182,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Background</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -188,7 +191,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -197,7 +200,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -206,7 +209,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Width Hint</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -215,7 +218,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Height Hint</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -224,7 +227,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Cursor</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -233,7 +236,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The number of structural features of the '<em>Block</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -243,7 +246,7 @@ public interface LayoutPackage extends EPackage {
 	 * The meta object id for the
 	 * '{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl <em>Client
 	 * Area</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl
 	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getClientArea()
 	 * @generated
@@ -253,7 +256,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Background</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -262,7 +265,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Outline</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -271,7 +274,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Shadow Color</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -280,7 +283,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Insets</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -289,7 +292,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -298,7 +301,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The number of structural features of the '<em>Client Area</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -308,7 +311,7 @@ public interface LayoutPackage extends EPackage {
 	 * The meta object id for the
 	 * '{@link org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl <em>Label
 	 * Block</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl
 	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getLabelBlock()
 	 * @generated
@@ -318,7 +321,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -327,7 +330,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Bounds</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -336,7 +339,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Anchor</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -345,7 +348,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Stretch</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -354,7 +357,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Insets</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -363,7 +366,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Row</b></em>' attribute. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -372,7 +375,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Column</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -381,7 +384,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Rowspan</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -390,7 +393,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Columnspan</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -399,7 +402,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Min Size</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -408,7 +411,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Outline</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -417,7 +420,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Background</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -426,7 +429,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -435,7 +438,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -444,7 +447,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Width Hint</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -453,7 +456,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Height Hint</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -462,7 +465,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Cursor</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -471,7 +474,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -480,7 +483,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The number of structural features of the '<em>Label Block</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -490,7 +493,7 @@ public interface LayoutPackage extends EPackage {
 	 * The meta object id for the
 	 * '{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl <em>Legend</em>}'
 	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.layout.impl.LegendImpl
 	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getLegend()
 	 * @generated
@@ -500,7 +503,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -509,7 +512,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Bounds</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -518,7 +521,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Anchor</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -527,7 +530,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Stretch</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -536,7 +539,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Insets</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -545,7 +548,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Row</b></em>' attribute. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -554,7 +557,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Column</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -563,7 +566,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Rowspan</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -572,7 +575,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Columnspan</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -581,7 +584,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Min Size</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -590,7 +593,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Outline</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -599,7 +602,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Background</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -608,7 +611,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -617,7 +620,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -626,7 +629,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Width Hint</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -635,7 +638,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Height Hint</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -644,7 +647,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Cursor</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -653,7 +656,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Horizontal Spacing</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -662,7 +665,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Vertical Spacing</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -671,7 +674,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Client Area</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -680,7 +683,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Text</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -689,7 +692,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Orientation</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -698,7 +701,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Direction</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -707,7 +710,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Separator</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -716,7 +719,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Position</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -725,7 +728,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Item Type</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -734,7 +737,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Title</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -743,7 +746,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Title Position</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -752,7 +755,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Show Value</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -761,7 +764,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Show Percent</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -770,7 +773,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Show Total</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -779,7 +782,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Wrapping Size</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -788,7 +791,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Max Percent</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -797,7 +800,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Title Percent</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -806,7 +809,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Ellipsis</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -815,7 +818,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Format Specifier</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -824,7 +827,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The number of structural features of the '<em>Legend</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -834,7 +837,7 @@ public interface LayoutPackage extends EPackage {
 	 * The meta object id for the
 	 * '{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl <em>Plot</em>}'
 	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.layout.impl.PlotImpl
 	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getPlot()
 	 * @generated
@@ -844,7 +847,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -853,7 +856,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Bounds</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -862,7 +865,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Anchor</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -871,7 +874,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Stretch</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -880,7 +883,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Insets</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -889,7 +892,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Row</b></em>' attribute. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -898,7 +901,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Column</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -907,7 +910,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Rowspan</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -916,7 +919,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Columnspan</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -925,7 +928,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Min Size</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -934,7 +937,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Outline</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -943,7 +946,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Background</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -952,7 +955,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -961,7 +964,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -970,7 +973,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Width Hint</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -979,7 +982,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Height Hint</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -988,7 +991,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Cursor</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -997,7 +1000,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Horizontal Spacing</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1006,7 +1009,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Vertical Spacing</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1015,7 +1018,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Client Area</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1024,7 +1027,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The number of structural features of the '<em>Plot</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1034,7 +1037,7 @@ public interface LayoutPackage extends EPackage {
 	 * The meta object id for the
 	 * '{@link org.eclipse.birt.chart.model.layout.impl.TitleBlockImpl <em>Title
 	 * Block</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.layout.impl.TitleBlockImpl
 	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitleBlock()
 	 * @generated
@@ -1044,7 +1047,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1053,7 +1056,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Bounds</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1062,7 +1065,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Anchor</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1071,7 +1074,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Stretch</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1080,7 +1083,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Insets</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1089,7 +1092,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Row</b></em>' attribute. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1098,7 +1101,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Column</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1107,7 +1110,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Rowspan</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1116,7 +1119,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Columnspan</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1125,7 +1128,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Min Size</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1134,7 +1137,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Outline</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1143,7 +1146,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Background</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1152,7 +1155,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1161,7 +1164,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1170,7 +1173,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Width Hint</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1179,7 +1182,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Height Hint</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1188,7 +1191,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Cursor</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1197,7 +1200,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1206,7 +1209,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The feature id for the '<em><b>Auto</b></em>' attribute. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1215,7 +1218,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The number of structural features of the '<em>Title Block</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -1224,7 +1227,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The meta object id for the '<em>Ellipsis Type</em>' data type. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getEllipsisType()
 	 * @generated
 	 */
@@ -1233,7 +1236,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The meta object id for the '<em>Ellipsis Type Object</em>' data type. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see java.lang.Integer
 	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getEllipsisTypeObject()
 	 * @generated
@@ -1243,7 +1246,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The meta object id for the '<em>Title Percent Type</em>' data type. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitlePercentType()
 	 * @generated
 	 */
@@ -1252,7 +1255,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * The meta object id for the '<em>Title Percent Type Object</em>' data type.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see java.lang.Double
 	 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitlePercentTypeObject()
 	 * @generated
@@ -1263,7 +1266,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for class '
 	 * {@link org.eclipse.birt.chart.model.layout.Block <em>Block</em>}'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for class '<em>Block</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block
 	 * @generated
@@ -1274,7 +1277,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference list
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getChildren
 	 * <em>Children</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference list
 	 *         '<em>Children</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getChildren()
@@ -1287,7 +1290,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getBounds
 	 * <em>Bounds</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Bounds</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getBounds()
 	 * @see #getBlock()
@@ -1299,7 +1302,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getAnchor
 	 * <em>Anchor</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Anchor</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getAnchor()
 	 * @see #getBlock()
@@ -1311,7 +1314,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getStretch
 	 * <em>Stretch</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Stretch</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getStretch()
 	 * @see #getBlock()
@@ -1323,7 +1326,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getInsets
 	 * <em>Insets</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Insets</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getInsets()
 	 * @see #getBlock()
@@ -1335,7 +1338,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getRow <em>Row</em>}'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Row</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getRow()
 	 * @see #getBlock()
@@ -1347,7 +1350,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getColumn
 	 * <em>Column</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Column</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getColumn()
 	 * @see #getBlock()
@@ -1359,7 +1362,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getRowspan
 	 * <em>Rowspan</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Rowspan</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getRowspan()
 	 * @see #getBlock()
@@ -1371,7 +1374,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getColumnspan
 	 * <em>Columnspan</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Columnspan</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getColumnspan()
 	 * @see #getBlock()
@@ -1383,7 +1386,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getMinSize <em>Min
 	 * Size</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Min Size</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getMinSize()
 	 * @see #getBlock()
@@ -1395,7 +1398,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getOutline
 	 * <em>Outline</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Outline</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getOutline()
 	 * @see #getBlock()
@@ -1407,7 +1410,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getBackground
 	 * <em>Background</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Background</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getBackground()
 	 * @see #getBlock()
@@ -1419,7 +1422,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#isVisible
 	 * <em>Visible</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Visible</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#isVisible()
 	 * @see #getBlock()
@@ -1431,7 +1434,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference list
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getTriggers
 	 * <em>Triggers</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference list
 	 *         '<em>Triggers</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getTriggers()
@@ -1444,7 +1447,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getWidthHint <em>Width
 	 * Hint</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Width Hint</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getWidthHint()
 	 * @see #getBlock()
@@ -1456,7 +1459,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getHeightHint <em>Height
 	 * Hint</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Height Hint</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getHeightHint()
 	 * @see #getBlock()
@@ -1468,7 +1471,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.Block#getCursor
 	 * <em>Cursor</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Cursor</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Block#getCursor()
 	 * @see #getBlock()
@@ -1480,7 +1483,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for class
 	 * '{@link org.eclipse.birt.chart.model.layout.ClientArea <em>Client
 	 * Area</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for class '<em>Client Area</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.ClientArea
 	 * @generated
@@ -1491,7 +1494,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.ClientArea#getBackground
 	 * <em>Background</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Background</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.ClientArea#getBackground()
 	 * @see #getClientArea()
@@ -1503,7 +1506,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.ClientArea#getOutline
 	 * <em>Outline</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Outline</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.ClientArea#getOutline()
 	 * @see #getClientArea()
@@ -1515,7 +1518,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.ClientArea#getShadowColor
 	 * <em>Shadow Color</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Shadow
 	 *         Color</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.ClientArea#getShadowColor()
@@ -1528,7 +1531,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.ClientArea#getInsets
 	 * <em>Insets</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Insets</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.ClientArea#getInsets()
 	 * @see #getClientArea()
@@ -1540,7 +1543,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.ClientArea#isVisible
 	 * <em>Visible</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Visible</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.ClientArea#isVisible()
 	 * @see #getClientArea()
@@ -1552,7 +1555,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for class
 	 * '{@link org.eclipse.birt.chart.model.layout.LabelBlock <em>Label
 	 * Block</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for class '<em>Label Block</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.LabelBlock
 	 * @generated
@@ -1563,7 +1566,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.LabelBlock#getLabel
 	 * <em>Label</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Label</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.LabelBlock#getLabel()
 	 * @see #getLabelBlock()
@@ -1575,7 +1578,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for class
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend <em>Legend</em>}'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for class '<em>Legend</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend
 	 * @generated
@@ -1586,7 +1589,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getHorizontalSpacing
 	 * <em>Horizontal Spacing</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Horizontal Spacing</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getHorizontalSpacing()
 	 * @see #getLegend()
@@ -1598,7 +1601,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getVerticalSpacing
 	 * <em>Vertical Spacing</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Vertical Spacing</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getVerticalSpacing()
 	 * @see #getLegend()
@@ -1610,7 +1613,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getClientArea <em>Client
 	 * Area</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Client Area</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getClientArea()
 	 * @see #getLegend()
@@ -1622,7 +1625,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getText <em>Text</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Text</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getText()
 	 * @see #getLegend()
@@ -1634,7 +1637,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getOrientation
 	 * <em>Orientation</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Orientation</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getOrientation()
 	 * @see #getLegend()
@@ -1646,7 +1649,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getDirection
 	 * <em>Direction</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Direction</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getDirection()
 	 * @see #getLegend()
@@ -1658,7 +1661,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getSeparator
 	 * <em>Separator</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Separator</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getSeparator()
 	 * @see #getLegend()
@@ -1670,7 +1673,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getPosition
 	 * <em>Position</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Position</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getPosition()
 	 * @see #getLegend()
@@ -1682,7 +1685,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getItemType <em>Item
 	 * Type</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Item Type</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getItemType()
 	 * @see #getLegend()
@@ -1694,7 +1697,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getTitle <em>Title</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Title</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getTitle()
 	 * @see #getLegend()
@@ -1706,7 +1709,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getTitlePosition <em>Title
 	 * Position</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Title Position</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getTitlePosition()
 	 * @see #getLegend()
@@ -1718,7 +1721,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#isShowValue <em>Show
 	 * Value</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Show Value</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#isShowValue()
 	 * @see #getLegend()
@@ -1730,7 +1733,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#isShowPercent <em>Show
 	 * Percent</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Show Percent</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#isShowPercent()
 	 * @see #getLegend()
@@ -1742,7 +1745,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#isShowTotal <em>Show
 	 * Total</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Show Total</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#isShowTotal()
 	 * @see #getLegend()
@@ -1754,7 +1757,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getWrappingSize
 	 * <em>Wrapping Size</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Wrapping Size</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getWrappingSize()
 	 * @see #getLegend()
@@ -1766,7 +1769,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getMaxPercent <em>Max
 	 * Percent</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Max Percent</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getMaxPercent()
 	 * @see #getLegend()
@@ -1778,7 +1781,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getTitlePercent <em>Title
 	 * Percent</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Title Percent</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getTitlePercent()
 	 * @see #getLegend()
@@ -1790,7 +1793,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getEllipsis
 	 * <em>Ellipsis</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Ellipsis</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getEllipsis()
 	 * @see #getLegend()
@@ -1802,7 +1805,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.Legend#getFormatSpecifier
 	 * <em>Format Specifier</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Format
 	 *         Specifier</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Legend#getFormatSpecifier()
@@ -1815,7 +1818,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for class '
 	 * {@link org.eclipse.birt.chart.model.layout.Plot <em>Plot</em>}'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for class '<em>Plot</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Plot
 	 * @generated
@@ -1826,7 +1829,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing
 	 * <em>Horizontal Spacing</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Horizontal Spacing</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing()
 	 * @see #getPlot()
@@ -1838,7 +1841,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing
 	 * <em>Vertical Spacing</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Vertical Spacing</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing()
 	 * @see #getPlot()
@@ -1850,7 +1853,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the containment reference
 	 * '{@link org.eclipse.birt.chart.model.layout.Plot#getClientArea <em>Client
 	 * Area</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the containment reference '<em>Client Area</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.Plot#getClientArea()
 	 * @see #getPlot()
@@ -1862,7 +1865,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for class
 	 * '{@link org.eclipse.birt.chart.model.layout.TitleBlock <em>Title
 	 * Block</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for class '<em>Title Block</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.TitleBlock
 	 * @generated
@@ -1873,7 +1876,7 @@ public interface LayoutPackage extends EPackage {
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.birt.chart.model.layout.TitleBlock#isAuto
 	 * <em>Auto</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for the attribute '<em>Auto</em>'.
 	 * @see org.eclipse.birt.chart.model.layout.TitleBlock#isAuto()
 	 * @see #getTitleBlock()
@@ -1884,7 +1887,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * Returns the meta object for data type '<em>Ellipsis Type</em>'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for data type '<em>Ellipsis Type</em>'.
 	 * @model instanceClass="int" extendedMetaData="name='Ellipsis_._type'
 	 *        baseType='http://www.eclipse.org/emf/2003/XMLType#int'
@@ -1896,7 +1899,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * Returns the meta object for data type '{@link java.lang.Integer <em>Ellipsis
 	 * Type Object</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for data type '<em>Ellipsis Type Object</em>'.
 	 * @see java.lang.Integer
 	 * @model instanceClass="java.lang.Integer"
@@ -1909,7 +1912,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * Returns the meta object for data type '<em>Title Percent Type</em>'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for data type '<em>Title Percent Type</em>'.
 	 * @model instanceClass="double" extendedMetaData="name='TitlePercent_._type'
 	 *        baseType='http://www.eclipse.org/emf/2003/XMLType#double'
@@ -1921,7 +1924,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * Returns the meta object for data type '{@link java.lang.Double <em>Title
 	 * Percent Type Object</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the meta object for data type '<em>Title Percent Type Object</em>'.
 	 * @see java.lang.Double
 	 * @model instanceClass="java.lang.Double"
@@ -1934,7 +1937,7 @@ public interface LayoutPackage extends EPackage {
 	/**
 	 * Returns the factory that creates the instances of the model. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the factory that creates the instances of the model.
 	 * @generated
 	 */
@@ -1949,7 +1952,7 @@ public interface LayoutPackage extends EPackage {
 	 * <li>and each data type</li>
 	 * </ul>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	interface Literals {
@@ -1958,7 +1961,7 @@ public interface LayoutPackage extends EPackage {
 		 * The meta object literal for the
 		 * '{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl <em>Block</em>}'
 		 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @see org.eclipse.birt.chart.model.layout.impl.BlockImpl
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getBlock()
 		 * @generated
@@ -1968,7 +1971,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Children</b></em>' containment
 		 * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference BLOCK__CHILDREN = eINSTANCE.getBlock_Children();
@@ -1976,7 +1979,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Bounds</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference BLOCK__BOUNDS = eINSTANCE.getBlock_Bounds();
@@ -1984,7 +1987,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Anchor</b></em>' attribute feature.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute BLOCK__ANCHOR = eINSTANCE.getBlock_Anchor();
@@ -1992,7 +1995,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Stretch</b></em>' attribute feature.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute BLOCK__STRETCH = eINSTANCE.getBlock_Stretch();
@@ -2000,7 +2003,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Insets</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference BLOCK__INSETS = eINSTANCE.getBlock_Insets();
@@ -2008,7 +2011,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Row</b></em>' attribute feature. <!--
 		 * begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute BLOCK__ROW = eINSTANCE.getBlock_Row();
@@ -2016,7 +2019,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Column</b></em>' attribute feature.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute BLOCK__COLUMN = eINSTANCE.getBlock_Column();
@@ -2024,7 +2027,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Rowspan</b></em>' attribute feature.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute BLOCK__ROWSPAN = eINSTANCE.getBlock_Rowspan();
@@ -2032,7 +2035,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Columnspan</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute BLOCK__COLUMNSPAN = eINSTANCE.getBlock_Columnspan();
@@ -2040,7 +2043,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Min Size</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference BLOCK__MIN_SIZE = eINSTANCE.getBlock_MinSize();
@@ -2048,7 +2051,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Outline</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference BLOCK__OUTLINE = eINSTANCE.getBlock_Outline();
@@ -2056,7 +2059,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Background</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference BLOCK__BACKGROUND = eINSTANCE.getBlock_Background();
@@ -2064,7 +2067,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Visible</b></em>' attribute feature.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute BLOCK__VISIBLE = eINSTANCE.getBlock_Visible();
@@ -2072,7 +2075,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Triggers</b></em>' containment
 		 * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference BLOCK__TRIGGERS = eINSTANCE.getBlock_Triggers();
@@ -2080,7 +2083,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Width Hint</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute BLOCK__WIDTH_HINT = eINSTANCE.getBlock_WidthHint();
@@ -2088,7 +2091,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Height Hint</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute BLOCK__HEIGHT_HINT = eINSTANCE.getBlock_HeightHint();
@@ -2096,7 +2099,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Cursor</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference BLOCK__CURSOR = eINSTANCE.getBlock_Cursor();
@@ -2105,7 +2108,7 @@ public interface LayoutPackage extends EPackage {
 		 * The meta object literal for the
 		 * '{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl <em>Client
 		 * Area</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @see org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getClientArea()
 		 * @generated
@@ -2115,7 +2118,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Background</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference CLIENT_AREA__BACKGROUND = eINSTANCE.getClientArea_Background();
@@ -2123,7 +2126,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Outline</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference CLIENT_AREA__OUTLINE = eINSTANCE.getClientArea_Outline();
@@ -2131,7 +2134,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Shadow Color</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference CLIENT_AREA__SHADOW_COLOR = eINSTANCE.getClientArea_ShadowColor();
@@ -2139,7 +2142,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Insets</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference CLIENT_AREA__INSETS = eINSTANCE.getClientArea_Insets();
@@ -2147,7 +2150,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Visible</b></em>' attribute feature.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute CLIENT_AREA__VISIBLE = eINSTANCE.getClientArea_Visible();
@@ -2156,7 +2159,7 @@ public interface LayoutPackage extends EPackage {
 		 * The meta object literal for the
 		 * '{@link org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl <em>Label
 		 * Block</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @see org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getLabelBlock()
 		 * @generated
@@ -2166,7 +2169,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Label</b></em>' containment reference
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference LABEL_BLOCK__LABEL = eINSTANCE.getLabelBlock_Label();
@@ -2175,7 +2178,7 @@ public interface LayoutPackage extends EPackage {
 		 * The meta object literal for the
 		 * '{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl <em>Legend</em>}'
 		 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @see org.eclipse.birt.chart.model.layout.impl.LegendImpl
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getLegend()
 		 * @generated
@@ -2185,7 +2188,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Horizontal Spacing</b></em>'
 		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute LEGEND__HORIZONTAL_SPACING = eINSTANCE.getLegend_HorizontalSpacing();
@@ -2193,7 +2196,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Vertical Spacing</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute LEGEND__VERTICAL_SPACING = eINSTANCE.getLegend_VerticalSpacing();
@@ -2201,7 +2204,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Client Area</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference LEGEND__CLIENT_AREA = eINSTANCE.getLegend_ClientArea();
@@ -2209,7 +2212,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Text</b></em>' containment reference
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference LEGEND__TEXT = eINSTANCE.getLegend_Text();
@@ -2217,7 +2220,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Orientation</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute LEGEND__ORIENTATION = eINSTANCE.getLegend_Orientation();
@@ -2225,7 +2228,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Direction</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute LEGEND__DIRECTION = eINSTANCE.getLegend_Direction();
@@ -2233,7 +2236,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Separator</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference LEGEND__SEPARATOR = eINSTANCE.getLegend_Separator();
@@ -2241,7 +2244,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Position</b></em>' attribute feature.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute LEGEND__POSITION = eINSTANCE.getLegend_Position();
@@ -2249,7 +2252,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Item Type</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute LEGEND__ITEM_TYPE = eINSTANCE.getLegend_ItemType();
@@ -2257,7 +2260,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Title</b></em>' containment reference
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference LEGEND__TITLE = eINSTANCE.getLegend_Title();
@@ -2265,7 +2268,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Title Position</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute LEGEND__TITLE_POSITION = eINSTANCE.getLegend_TitlePosition();
@@ -2273,7 +2276,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Show Value</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute LEGEND__SHOW_VALUE = eINSTANCE.getLegend_ShowValue();
@@ -2281,7 +2284,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Show Percent</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute LEGEND__SHOW_PERCENT = eINSTANCE.getLegend_ShowPercent();
@@ -2289,7 +2292,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Show Total</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute LEGEND__SHOW_TOTAL = eINSTANCE.getLegend_ShowTotal();
@@ -2297,7 +2300,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Wrapping Size</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute LEGEND__WRAPPING_SIZE = eINSTANCE.getLegend_WrappingSize();
@@ -2305,7 +2308,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Max Percent</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute LEGEND__MAX_PERCENT = eINSTANCE.getLegend_MaxPercent();
@@ -2313,7 +2316,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Title Percent</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute LEGEND__TITLE_PERCENT = eINSTANCE.getLegend_TitlePercent();
@@ -2321,7 +2324,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Ellipsis</b></em>' attribute feature.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute LEGEND__ELLIPSIS = eINSTANCE.getLegend_Ellipsis();
@@ -2329,7 +2332,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Format Specifier</b></em>'
 		 * containment reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference LEGEND__FORMAT_SPECIFIER = eINSTANCE.getLegend_FormatSpecifier();
@@ -2338,7 +2341,7 @@ public interface LayoutPackage extends EPackage {
 		 * The meta object literal for the
 		 * '{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl <em>Plot</em>}'
 		 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @see org.eclipse.birt.chart.model.layout.impl.PlotImpl
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getPlot()
 		 * @generated
@@ -2348,7 +2351,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Horizontal Spacing</b></em>'
 		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute PLOT__HORIZONTAL_SPACING = eINSTANCE.getPlot_HorizontalSpacing();
@@ -2356,7 +2359,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Vertical Spacing</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute PLOT__VERTICAL_SPACING = eINSTANCE.getPlot_VerticalSpacing();
@@ -2364,7 +2367,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Client Area</b></em>' containment
 		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EReference PLOT__CLIENT_AREA = eINSTANCE.getPlot_ClientArea();
@@ -2373,7 +2376,7 @@ public interface LayoutPackage extends EPackage {
 		 * The meta object literal for the
 		 * '{@link org.eclipse.birt.chart.model.layout.impl.TitleBlockImpl <em>Title
 		 * Block</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @see org.eclipse.birt.chart.model.layout.impl.TitleBlockImpl
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitleBlock()
 		 * @generated
@@ -2383,7 +2386,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em><b>Auto</b></em>' attribute feature.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @generated
 		 */
 		EAttribute TITLE_BLOCK__AUTO = eINSTANCE.getTitleBlock_Auto();
@@ -2391,7 +2394,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em>Ellipsis Type</em>' data type. <!--
 		 * begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getEllipsisType()
 		 * @generated
 		 */
@@ -2400,7 +2403,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em>Ellipsis Type Object</em>' data type.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @see java.lang.Integer
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getEllipsisTypeObject()
 		 * @generated
@@ -2410,7 +2413,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em>Title Percent Type</em>' data type. <!--
 		 * begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitlePercentType()
 		 * @generated
 		 */
@@ -2419,7 +2422,7 @@ public interface LayoutPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em>Title Percent Type Object</em>' data
 		 * type. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 *
 		 * @see java.lang.Double
 		 * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitlePercentTypeObject()
 		 * @generated

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,14 +27,14 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 
 /**
  * Abstact of Radio-button, list-box, combo-box.
- * 
+ *
  */
 
 public abstract class ListingParam extends ScalarParam {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle
 	 * @param engineTask
 	 */
@@ -41,13 +44,14 @@ public abstract class ListingParam extends ScalarParam {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.preview.parameter.ScalarParam#
 	 * getValueList()
-	 * 
+	 *
 	 * each item is <code>IParameterSelectionChoice</code>
 	 */
 
+	@Override
 	public List getValueList() {
 		List values = new ArrayList();
 
@@ -76,7 +80,7 @@ public abstract class ListingParam extends ScalarParam {
 
 	/**
 	 * Gets cascading parameter values.
-	 * 
+	 *
 	 * @param values
 	 * @param task
 	 * @return cascading parameter values. each item is
@@ -92,8 +96,9 @@ public abstract class ListingParam extends ScalarParam {
 		while (iterator.hasNext()) {
 			IParameter param = (IParameter) iterator.next();
 
-			if (param == this)
+			if (param == this) {
 				break;
+			}
 			String value = param.getSelectionValue();
 			// groupList.add( value );
 			try {
@@ -119,14 +124,14 @@ public abstract class ListingParam extends ScalarParam {
 
 	/**
 	 * Check container of parameter handle is cascading parameter group.
-	 * 
+	 *
 	 * @return <code>true</code> if is cascading parameter; else return
 	 *         <code>false</code>.
 	 */
 
 	private boolean isCascadingParameter() {
 		DesignElementHandle container = handle.getContainer();
-		if (container != null && container instanceof CascadingParameterGroupHandle) {
+		if (container instanceof CascadingParameterGroupHandle) {
 			return true;
 		}
 		return false;

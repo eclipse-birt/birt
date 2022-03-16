@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Records a change to the back reference of an element.
- * 
+ *
  * @see org.eclipse.birt.report.model.core.ReferenceableElement
  */
 
@@ -40,7 +43,7 @@ public class ElementBackRefRecord extends BackRefRecord {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param module    the module
 	 * @param referred  the element to change
 	 * @param reference the element that refers to another element.
@@ -62,7 +65,7 @@ public class ElementBackRefRecord extends BackRefRecord {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param module    the module
 	 * @param referred  the element to change
 	 * @param reference the element that refers to another element.
@@ -84,10 +87,11 @@ public class ElementBackRefRecord extends BackRefRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 
+	@Override
 	protected void perform(boolean undo) {
 		if (undo) {
 			if (reference instanceof DesignElement) {
@@ -99,8 +103,9 @@ public class ElementBackRefRecord extends BackRefRecord {
 					tmpElement.getStyle(module);
 				} else if (IModuleModel.THEME_PROP.equals(propName)) {
 					((Module) tmpElement).getTheme(module);
-				} else
+				} else {
 					tmpElement.getLocalProperty(module, propDefn);
+				}
 			} else {
 				// try to resolve the element reference for the structure
 				// member.
@@ -156,12 +161,13 @@ public class ElementBackRefRecord extends BackRefRecord {
 		}
 	}
 
+	@Override
 	public DesignElement getTarget() {
 		return target;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param module
 	 * @param reference
 	 * @param referred

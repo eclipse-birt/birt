@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +50,6 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -114,7 +116,7 @@ public class ParameterBindingPage extends Composite implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * AttributePage#buildUI()
 	 */
@@ -143,6 +145,7 @@ public class ParameterBindingPage extends Composite implements Listener {
 				SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION,
 				new IBaseTableAreaModifier() {
 
+					@Override
 					public boolean editItem(Object element) {
 						return doEdit(element);
 					}
@@ -172,7 +175,7 @@ public class ParameterBindingPage extends Composite implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * AttributePage#refreshValues(java.util.Set)
 	 */
@@ -202,7 +205,7 @@ public class ParameterBindingPage extends Composite implements Listener {
 
 	/**
 	 * Creates a new ParamBinding Handle.
-	 * 
+	 *
 	 * @return ParamBinding Handle.
 	 * @throws SemanticException
 	 */
@@ -216,7 +219,7 @@ public class ParameterBindingPage extends Composite implements Listener {
 
 	/**
 	 * Gets the PropertyHandle of PARAM_BINDINGS_PROP property.
-	 * 
+	 *
 	 * @return PropertyHandle
 	 */
 	private PropertyHandle getPropertyHandle() {
@@ -226,11 +229,12 @@ public class ParameterBindingPage extends Composite implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.
 	 * model.api.DesignElementHandle,
 	 * org.eclipse.birt.model.activity.NotificationEvent)
 	 */
+	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 		if (ev.getEventType() == NotificationEvent.PROPERTY_EVENT) {
 			PropertyEvent event = (PropertyEvent) ev;
@@ -256,21 +260,23 @@ public class ParameterBindingPage extends Composite implements Listener {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
 		 * .lang.Object, int)
 		 */
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
 		 * lang.Object, int)
 		 */
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			String text = ""; //$NON-NLS-1$
 			DataSetParameterHandle parameter = (DataSetParameterHandle) ((Object[]) element)[0];
@@ -304,10 +310,11 @@ public class ParameterBindingPage extends Composite implements Listener {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
 		 * java.lang.Object)
 		 */
+		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement == null) {
 				return new Object[0];
@@ -328,7 +335,7 @@ public class ParameterBindingPage extends Composite implements Listener {
 			for (Iterator iterator = dataHandle.parametersIterator(); iterator.hasNext();) {
 				DataSetParameterHandle handle = (DataSetParameterHandle) iterator.next();
 				if (handle.isInput()) {
-					Object[] result = new Object[] { handle, null };
+					Object[] result = { handle, null };
 					int index = bindingParametersNameList.indexOf(handle.getName());
 					if (index != -1) {
 						result[1] = bindingParametersList.get(index);
@@ -341,25 +348,27 @@ public class ParameterBindingPage extends Composite implements Listener {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
+		@Override
 		public void dispose() {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 	}
 
 	/**
 	 * Gets the DE CommandStack instance
-	 * 
+	 *
 	 * @return CommandStack instance
 	 */
 	private CommandStack getActionStack() {
@@ -398,17 +407,6 @@ public class ParameterBindingPage extends Composite implements Listener {
 		this.enableAutoCommit = enableAutoCommit;
 	}
 
-	private boolean canChangeDataSet(String newName) {
-		String currentDataSetName = getDataSetName();
-		if (NONE.equals(currentDataSetName)) {
-			return true;
-		} else if (!currentDataSetName.equals(newName)) {
-			return MessageDialog.openQuestion(null, Messages.getString("dataBinding.title.changeDataSet"), //$NON-NLS-1$
-					Messages.getString("dataBinding.message.changeDataSet")); //$NON-NLS-1$
-		}
-		return false;
-	}
-
 	private void enableUI(boolean enabled) {
 		if (tableViewer != null) {
 			table.setEnabled(enabled);
@@ -430,8 +428,9 @@ public class ParameterBindingPage extends Composite implements Listener {
 	}
 
 	protected void registerListeners() {
-		if (input == null)
+		if (input == null) {
 			return;
+		}
 		for (int i = 0; i < input.size(); i++) {
 			Object obj = input.get(i);
 			if (obj instanceof DesignElementHandle) {
@@ -443,8 +442,9 @@ public class ParameterBindingPage extends Composite implements Listener {
 	}
 
 	protected void deRegisterListeners() {
-		if (input == null)
+		if (input == null) {
 			return;
+		}
 		for (int i = 0; i < input.size(); i++) {
 			Object obj = input.get(i);
 			if (obj instanceof DesignElementHandle) {
@@ -493,7 +493,7 @@ public class ParameterBindingPage extends Composite implements Listener {
 						bindingParameter = createBindingHandle(parameter.getName());
 					}
 
-					List<Expression> expressions = new ArrayList<Expression>();
+					List<Expression> expressions = new ArrayList<>();
 					expressions.add(result);
 					bindingParameter.getExpressionListHandle().setListValue(expressions);
 
@@ -511,8 +511,9 @@ public class ParameterBindingPage extends Composite implements Listener {
 
 	public Expression getParamBindingExpression(ParamBindingHandle param) {
 		List<Expression> expressions = param.getExpressionListHandle().getListValue();
-		if (expressions == null || expressions.isEmpty())
+		if (expressions == null || expressions.isEmpty()) {
 			return null;
+		}
 		return expressions.get(0);
 	}
 }

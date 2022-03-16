@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +38,7 @@ public class GraphicMasterPageHandle extends MasterPageHandle implements IGraphi
 	 * Constructs a handle with the given design and the design element. The
 	 * application generally does not create handles directly. Instead, it uses one
 	 * of the navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -47,7 +50,7 @@ public class GraphicMasterPageHandle extends MasterPageHandle implements IGraphi
 	/**
 	 * Returns the slot handle for the content. The items in this slot appear on the
 	 * page itself, usually as headers, footers, margins, watermarks, etc.
-	 * 
+	 *
 	 * @return a handle to the content slot
 	 * @see SlotHandle
 	 */

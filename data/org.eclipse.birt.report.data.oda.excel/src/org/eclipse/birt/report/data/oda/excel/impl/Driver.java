@@ -1,9 +1,9 @@
 /*******************************************************************************
   * Copyright (c) 2012 Megha Nidhi Dahal and others.
   * All rights reserved. This program and the accompanying materials
-  * are made available under the terms of the Eclipse Public License v1.0
+  * are made available under the terms of the Eclipse Public License v2.0
   * which accompanies this distribution, and is available at
-  * http://www.eclipse.org/legal/epl-v10.html
+  * http://www.eclipse.org/legal/epl-2.0.html
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
@@ -27,6 +27,7 @@ public class Driver implements IDriver {
 	 * @see org.eclipse.datatools.connectivity.oda.IDriver#getConnection(java.lang.
 	 * String)
 	 */
+	@Override
 	public IConnection getConnection(String dataSourceType) throws OdaException {
 		// assumes that this driver supports only one type of data source,
 		// ignores the specified dataSourceType
@@ -37,6 +38,7 @@ public class Driver implements IDriver {
 	 * @see org.eclipse.datatools.connectivity.oda.IDriver#setLogConfiguration(org.
 	 * eclipse.datatools.connectivity.oda.LogConfiguration)
 	 */
+	@Override
 	public void setLogConfiguration(LogConfiguration logConfig) throws OdaException {
 		// do nothing; assumes simple driver has no logging
 	}
@@ -44,6 +46,7 @@ public class Driver implements IDriver {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IDriver#getMaxConnections()
 	 */
+	@Override
 	public int getMaxConnections() throws OdaException {
 		return 0; // no limit
 	}
@@ -52,6 +55,7 @@ public class Driver implements IDriver {
 	 * @see org.eclipse.datatools.connectivity.oda.IDriver#setAppContext(java.lang.
 	 * Object)
 	 */
+	@Override
 	public void setAppContext(Object context) throws OdaException {
 		// do nothing; assumes no support for pass-through context
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,14 +54,14 @@ import org.eclipse.emf.common.util.EList;
 
 /**
  * This class provides methods to set default value into chart elements.
- * 
+ *
  */
 
 public class ChartDefaultValueUtil extends ChartElementUtil {
 
 	/**
 	 * Check if current chart use auto series palette.
-	 * 
+	 *
 	 * @param chart
 	 * @return true if series palette is not set.
 	 */
@@ -69,7 +72,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 
 	/**
 	 * Removes all series palettes.
-	 * 
+	 *
 	 * @param chart
 	 */
 	public static void removeSerlesPalettes(Chart chart) {
@@ -81,7 +84,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 
 	/**
 	 * Updates series palettes to default values.
-	 * 
+	 *
 	 * @param chart
 	 */
 	public static void updateSeriesPalettes(Chart chart) {
@@ -90,7 +93,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 
 	/**
 	 * Updates series palettes to default values.
-	 * 
+	 *
 	 * @param chart
 	 * @param adapters
 	 */
@@ -131,7 +134,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 
 	/**
 	 * Returns default values of specified series object.
-	 * 
+	 *
 	 * @param runtimeSeries specified series object.
 	 * @return series object with default value.
 	 */
@@ -166,7 +169,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 
 	/**
 	 * Returns default value chart instance according to specified chart instance.
-	 * 
+	 *
 	 * @param cm
 	 * @return default value chart instance according to specified chart instance.
 	 */
@@ -185,7 +188,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 
 	/**
 	 * Returns default chart orientation according to specified chart instance.
-	 * 
+	 *
 	 * @param cm
 	 * @return default orientation of chart according to specified chart instance.
 	 */
@@ -199,7 +202,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 
 	/**
 	 * Returns default chart block according specified chart instance.
-	 * 
+	 *
 	 * @param cm
 	 * @return default chart block according specified chart instance.
 	 */
@@ -209,7 +212,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 
 	/**
 	 * Returns default chart legend according specified chart instance.
-	 * 
+	 *
 	 * @param cm
 	 * @return default chart legend according specified chart instance.
 	 */
@@ -219,7 +222,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 
 	/**
 	 * Returns default chart plot according specified chart instance.
-	 * 
+	 *
 	 * @param cm
 	 * @return default chart plot according specified chart instance.
 	 */
@@ -229,7 +232,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 
 	/**
 	 * Returns default chart title block according to specified chart instance.
-	 * 
+	 *
 	 * @param cm
 	 * @return default chart title block according to specified chart instance.
 	 */
@@ -239,7 +242,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 
 	/**
 	 * Creates instance of default value chart according to specified chart type.
-	 * 
+	 *
 	 * @param cm
 	 * @return chart instance with default values.
 	 */
@@ -265,11 +268,11 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 		}
 
 		// Get remaining default series objects.
-		Set<String> seriesNameSet = new HashSet<String>();
+		Set<String> seriesNameSet = new HashSet<>();
 		for (Series s : seriesList) {
 			seriesNameSet.add(s.getClass().getName());
 		}
-		Set<Series> dtSeries = new HashSet<Series>();
+		Set<Series> dtSeries = new HashSet<>();
 		for (SeriesDefinition sdef : ChartUtil.getAllOrthogonalSeriesDefinitions(cm)) {
 			for (Series s : sdef.getSeries()) {
 				dtSeries.add(s);
@@ -289,9 +292,9 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * Shifts the colors in palette with the offset.
-	 * 
+	 *
 	 * @param offset moving offset to rotate the color. If the offset is zero or the
 	 *               absolute value is greater than the size of list, do nothing.
 	 *               Negative value means moving to the left side, and positive
@@ -312,8 +315,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 			return;
 		}
 
-		List<Fill> colorList = new ArrayList<Fill>();
-		colorList.addAll(el);
+		List<Fill> colorList = new ArrayList<>(el);
 		el.clear();
 		if (offset < 0) {
 			// Move to the left side
@@ -329,12 +331,11 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 		for (int i = 0; i < offset; i++) {
 			el.add((colorList.get(i)));
 		}
-		return;
 	}
 
 	/**
 	 * Returns default units value of chart.
-	 * 
+	 *
 	 * @param cm reference chart model.
 	 * @return default units value of chart.
 	 */
@@ -353,7 +354,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil {
 	/**
 	 * Returns the default DataPointComponent of Percentile Value Literal with
 	 * according formatter.
-	 * 
+	 *
 	 * @param eObj
 	 * @param eDefObj
 	 * @return default DataPointComponent of Percentile Value Literal

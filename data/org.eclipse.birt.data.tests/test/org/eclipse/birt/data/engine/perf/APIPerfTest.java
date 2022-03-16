@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,15 +25,14 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import testutil.ConfigText;
 
-import org.junit.Test;
-import org.junit.Ignore;
-
 /**
  * Test bench mark of DtE by using DtE API.
- * 
+ *
  * The test data is input from text file, and then can be done independently.
  */
 @Ignore("Ignore performance test")
@@ -49,6 +51,7 @@ public class APIPerfTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestData2.TableName"),
 				ConfigText.getString("Api.TestData2.TableSQL"), ConfigText.getString("Api.TestData2.TestDataFileName"));
@@ -56,7 +59,7 @@ public class APIPerfTest extends APITestCase {
 
 	/**
 	 * Test simple query without any procession
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -68,18 +71,22 @@ public class APIPerfTest extends APITestCase {
 		 */
 		QueryInfo queryInfo = new QueryInfo() {
 
+			@Override
 			public IBaseDataSourceDesign getDataSource() {
 				return dataSource;
 			}
 
+			@Override
 			public IBaseDataSetDesign getDataSet() {
 				return dataSet;
 			}
 
+			@Override
 			public QueryDefinition getQueryDefn() {
 				return getQueryDefintion(false, false, false, false);
 			}
 
+			@Override
 			public String[] getExprNames() {
 				return getExpressionArray();
 			}
@@ -92,7 +99,7 @@ public class APIPerfTest extends APITestCase {
 
 	/**
 	 * Test simple query with filter
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -100,18 +107,22 @@ public class APIPerfTest extends APITestCase {
 		// Define queryInfo needs to be tested
 		QueryInfo queryInfo = new QueryInfo() {
 
+			@Override
 			public IBaseDataSourceDesign getDataSource() {
 				return dataSource;
 			}
 
+			@Override
 			public IBaseDataSetDesign getDataSet() {
 				return dataSet;
 			}
 
+			@Override
 			public QueryDefinition getQueryDefn() {
 				return getQueryDefintion(false, false, false, true);
 			}
 
+			@Override
 			public String[] getExprNames() {
 				return getExpressionArray();
 			}
@@ -131,8 +142,9 @@ public class APIPerfTest extends APITestCase {
 	 */
 	private QueryDefinition getQueryDefintion(boolean withGroup, boolean withSort, boolean withFilter,
 			boolean withComputedColumn) {
-		if (queryDefn != null)
+		if (queryDefn != null) {
 			return queryDefn;
+		}
 
 		queryDefn = newReportQuery();
 
@@ -152,8 +164,9 @@ public class APIPerfTest extends APITestCase {
 		exprArray[2] = expr;
 		exprNames[2] = "AMOUNT2";
 
-		for (int i = 0; i < exprArray.length; i++)
+		for (int i = 0; i < exprArray.length; i++) {
 			queryDefn.addResultSetExpression(exprNames[i], exprArray[i]);
+		}
 
 		// add group
 		if (withGroup) {
@@ -163,8 +176,9 @@ public class APIPerfTest extends APITestCase {
 			gd.setKeyExpression("dataSetRow[1]");
 			gdArray[0] = gd;
 
-			for (int i = 0; i < gdArray.length; i++)
+			for (int i = 0; i < gdArray.length; i++) {
 				queryDefn.addGroup(gdArray[i]);
+			}
 		}
 
 		// add sort
@@ -176,8 +190,9 @@ public class APIPerfTest extends APITestCase {
 			sd.setSortDirection(ISortDefinition.SORT_DESC);
 			sdArray[0] = sd;
 
-			for (int i = 0; i < sdArray.length; i++)
+			for (int i = 0; i < sdArray.length; i++) {
 				queryDefn.addSort(sdArray[i]);
+			}
 		}
 
 		// add filter

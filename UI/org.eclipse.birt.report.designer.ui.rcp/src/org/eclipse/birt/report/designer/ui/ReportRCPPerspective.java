@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,8 +25,8 @@ import org.eclipse.ui.IPerspectiveFactory;
 /**
  * JRPPerspective generates the initial page layout and visible action set for
  * birt.
- * 
- * 
+ *
+ *
  */
 public class ReportRCPPerspective implements IPerspectiveFactory {
 
@@ -39,18 +42,19 @@ public class ReportRCPPerspective implements IPerspectiveFactory {
 
 	/**
 	 * Defines the initial layout for a perspective.
-	 * 
+	 *
 	 * Implementors of this method may add additional views to a perspective. The
 	 * perspective already contains an editor folder with
 	 * <code>ID = ILayoutFactory.ID_EDITORS</code>. Add additional views to the
 	 * perspective in reference to the editor folder.
-	 * 
+	 *
 	 * This method is only called when a new perspective is created. If an old
 	 * perspective is restored from a persistence file then this method is not
 	 * called.
-	 * 
+	 *
 	 * @param layout the factory used to add views to the perspective
 	 */
+	@Override
 	public void createInitialLayout(IPageLayout layout) {
 		defineLayout(layout);
 		defineActions(layout);

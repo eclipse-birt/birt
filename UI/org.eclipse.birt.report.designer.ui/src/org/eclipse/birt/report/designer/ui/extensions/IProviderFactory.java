@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,10 +25,10 @@ public interface IProviderFactory {
 	/**
 	 * Create a new node provider for the given object. Returns the node provider,
 	 * or null if it is unnecessary.
-	 * 
+	 *
 	 * @param selectedObject the object selected in the view
-	 * 
+	 *
 	 * @return the node provider, or null if it is unnecessary.
 	 */
-	public INodeProvider createProvider(Object selectedObject);
+	INodeProvider createProvider(Object selectedObject);
 }

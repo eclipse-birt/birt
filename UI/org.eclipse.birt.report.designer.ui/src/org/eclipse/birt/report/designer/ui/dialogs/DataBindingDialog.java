@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,11 +48,12 @@ public class DataBindingDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		Label label = new Label(composite, SWT.NONE);
@@ -59,8 +63,9 @@ public class DataBindingDialog extends BaseDialog {
 
 		IBindingDialogHelper dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter(items.get(0),
 				IBindingDialogHelper.class);
-		if (dialogHelper != null)
+		if (dialogHelper != null) {
 			dialogHelper.setBindingHolder(DEUtil.getBindingHolder((DesignElementHandle) items.get(0)));
+		}
 		BindingPage page = new BindingPage(composite, SWT.NONE,
 				dialogHelper == null ? false : dialogHelper.canProcessAggregation());
 		page.setEnableAutoCommit(false);

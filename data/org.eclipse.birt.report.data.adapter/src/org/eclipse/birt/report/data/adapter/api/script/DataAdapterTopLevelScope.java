@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.report.data.adapter.api.script;
@@ -53,7 +56,7 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel {
 
 	/**
 	 * Constructor; initializes standard objects in scope
-	 * 
+	 *
 	 * @param cx     Context used to initialze scope
 	 * @param module Module associated with this scope; can be null
 	 */
@@ -65,43 +68,45 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel {
 		designModule = module;
 	}
 
+	@Override
 	public boolean has(String name, Scriptable start) {
-		if (super.has(name, start))
-			return true;
+		
 		// "params" is available only if we have a module
-		if (designModule != null && PROP_PARAMS.equals(name))
+		if (super.has(name, start) || (designModule != null && PROP_PARAMS.equals(name)) || PROP_REPORTCONTEXT.equals(name)) {
 			return true;
-
-		if (PROP_REPORTCONTEXT.equals(name))
-			return true;
+		}
 		return false;
 	}
 
+	@Override
 	public Object get(String name, Scriptable start) {
 		Object result = super.get(name, start);
-		if (result != NOT_FOUND)
+		if (result != NOT_FOUND) {
 			return result;
+		}
 
 		if (designModule != null && PROP_PARAMS.equals(name)) {
 			return getParamsScriptable();
 		}
 
-		if (PROP_REPORTCONTEXT.equals(name))
+		if (PROP_REPORTCONTEXT.equals(name)) {
 			return getReportContext();
+		}
 
 		return NOT_FOUND;
 	}
 
 	/**
 	 * Gets a object which implements the "reportContext" property
-	 * 
+	 *
 	 * @throws InvocationTargetException
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
 	private Object getReportContext() {
-		if (reportContextProp != null)
+		if (reportContextProp != null) {
 			return reportContextProp;
+		}
 
 		assert designModule != null;
 
@@ -114,8 +119,9 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel {
 	 * Gets a scriptable object which implements the "params" property
 	 */
 	private Scriptable getParamsScriptable() {
-		if (paramsProp != null)
+		if (paramsProp != null) {
 			return paramsProp;
+		}
 
 		assert designModule != null;
 
@@ -131,12 +137,13 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel {
 					Object values = getParamDefaultValue(parameterHandle);
 					if (values != null) {
 						Object[] obj = (Object[]) values;
-						if (obj.length == 1)
+						if (obj.length == 1) {
 							parameters.put(((ScalarParameterHandle) parameterObject).getQualifiedName(),
 									new DummyParameterAttribute(obj[0], ""));
-						else
+						} else {
 							parameters.put(((ScalarParameterHandle) parameterObject).getQualifiedName(),
 									new DummyParameterAttribute(obj, ""));
+						}
 					}
 				} else {
 					parameters.put(((ScalarParameterHandle) parameterObject).getQualifiedName(),
@@ -160,18 +167,18 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel {
 
 	/**
 	 * Get the parameter value from the static report parameter
-	 * 
+	 *
 	 * @return Object[] the static parameter values
 	 */
 	/*
 	 * private Object[] getStaticParamValue( ScalarParameterHandle handle ) {
 	 * Iterator it = handle.choiceIterator( ); if ( it == null ) { return null; }
-	 * 
+	 *
 	 * List values = new ArrayList( );
-	 * 
+	 *
 	 * while ( it.hasNext( ) ) { SelectionChoiceHandle choice =
 	 * (SelectionChoiceHandle) it.next( ); values.add( choice.getValue( ) ); }
-	 * 
+	 *
 	 * return values.toArray( ); }
 	 */
 
@@ -180,8 +187,9 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel {
 	 * use it; otherwise use a default value appropriate for the data type
 	 */
 	private Object getParamDefaultValue(Object params) {
-		if (!(params instanceof ScalarParameterHandle))
+		if (!(params instanceof ScalarParameterHandle)) {
 			return null;
+		}
 
 		ScalarParameterHandle sp = (ScalarParameterHandle) params;
 		Object[] defaultValues = null;
@@ -209,28 +217,36 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel {
 				if (defaultValue == null) {
 					// No default value; if param allows null value, null is
 					// used
-					if (sp.allowNull())
+					if (sp.allowNull()) {
 						defaultValues[i] = null;
+					}
 
 					// Return a fixed default value appropriate for the data
 					// type
 					if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(type)) {
 						defaultValues[i] = "";
 					}
-					if (DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(type))
+					if (DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(type)) {
 						defaultValues[i] = new Double(0);
-					if (DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(type))
+					}
+					if (DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(type)) {
 						defaultValues[i] = new BigDecimal((double) 0);
-					if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(type))
+					}
+					if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(type)) {
 						defaultValues[i] = new Date(0);
-					if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(type))
+					}
+					if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(type)) {
 						defaultValues[i] = new java.sql.Date(0);
-					if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(type))
+					}
+					if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(type)) {
 						defaultValues[i] = new java.sql.Time(0);
-					if (DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(type))
+					}
+					if (DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(type)) {
 						defaultValues[i] = Boolean.FALSE;
-					if (DesignChoiceConstants.PARAM_TYPE_INTEGER.equals(type))
+					}
+					if (DesignChoiceConstants.PARAM_TYPE_INTEGER.equals(type)) {
 						defaultValues[i] = Integer.valueOf(0);
+					}
 
 					// unknown parameter type; unexpected
 					assert false;
@@ -247,19 +263,6 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel {
 		}
 
 		return defaultValues;
-	}
-
-	/**
-	 * To check whether the object with the specific type should be converted
-	 * 
-	 * @param type
-	 * @return true if should be converted
-	 */
-	private static boolean isToBeConverted(String type) {
-		return type.equals(DesignChoiceConstants.PARAM_TYPE_STRING)
-				|| type.equals(DesignChoiceConstants.PARAM_TYPE_DATETIME)
-				|| type.equals(DesignChoiceConstants.PARAM_TYPE_TIME)
-				|| type.equals(DesignChoiceConstants.PARAM_TYPE_DATE);
 	}
 
 }

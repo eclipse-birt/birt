@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -13,8 +16,6 @@ package org.eclipse.birt.report.engine.emitter;
 
 import java.util.HashMap;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.report.engine.api.HTMLActionHandler;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.IAction;
@@ -22,16 +23,19 @@ import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
 
+import junit.framework.TestCase;
+
 /**
  * Test case
- * 
- * 
+ *
+ *
  */
 public class EmbeddedHyperlinkProcessorTest extends TestCase {
 
 	HTMLActionHandler processor;
 	HTMLRenderContext context;
 
+	@Override
 	protected void setUp() {
 		processor = new HTMLActionHandler();
 		context = new HTMLRenderContext();

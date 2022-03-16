@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -46,6 +49,7 @@ public class Regression_161179 extends BaseTestCase {
 	private final static String REPORT = "regression_161179.xml"; //$NON-NLS-1$
 	private final static String REPORT1 = "regression_161179_1.xml"; //$NON-NLS-1$
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -55,13 +59,14 @@ public class Regression_161179 extends BaseTestCase {
 		copyGoldenToFile(INPUT_FOLDER + "/" + REPORT1);
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}
 
 	/**
 	 * test set/get border properties on table row
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 	public void test_regression_161179() throws SemanticException {
@@ -87,7 +92,7 @@ public class Regression_161179 extends BaseTestCase {
 
 	/**
 	 * Set border to style Set border to container
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws StyleException
 	 */
@@ -118,7 +123,7 @@ public class Regression_161179 extends BaseTestCase {
 
 	/**
 	 * Set/Get border to table row in library Set border to style in library
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */

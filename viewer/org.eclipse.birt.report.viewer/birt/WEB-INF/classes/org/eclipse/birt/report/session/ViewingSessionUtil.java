@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2008 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -29,7 +31,7 @@ public class ViewingSessionUtil {
 	/**
 	 * Returns the BIRT viewing session manager for the current HTTP session. If
 	 * none is available, creates one.
-	 * 
+	 *
 	 * @param request request
 	 * @param create  create flag, if true and no BIRT viewing session manager
 	 *                exists in the session, then create one.
@@ -66,7 +68,7 @@ public class ViewingSessionUtil {
 	 * Returns an existing BIRT viewing session. The BIRT viewing session is first
 	 * searched inside the ATTR_VIEWING_SESSION request. If it is not found,
 	 * retrieves it from the ViewingSessionManager.
-	 * 
+	 *
 	 * @param request request
 	 * @return BIRT viewing session
 	 * @throws IllegalStateException if the session expired
@@ -89,7 +91,7 @@ public class ViewingSessionUtil {
 	/**
 	 * Creates a new BIRT viewing session. The session is automatically cached in
 	 * the ATTR_VIEWING_SESSION request attribute for the duration of this request
-	 * 
+	 *
 	 * @param request request
 	 * @param create  create flag, if true, creates a new session
 	 * @return BIRT viewing session
@@ -106,7 +108,7 @@ public class ViewingSessionUtil {
 
 	/**
 	 * Returns the sub-session id appended, if available.
-	 * 
+	 *
 	 * @param request request
 	 * @return sub session id
 	 */

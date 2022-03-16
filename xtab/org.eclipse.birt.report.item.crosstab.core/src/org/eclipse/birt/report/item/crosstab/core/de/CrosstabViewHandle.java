@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +41,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 		implements ICrosstabViewConstants, ICrosstabConstants {
 
 	/**
-	 * 
+	 *
 	 * @param element
 	 */
 	protected CrosstabViewHandle(DesignElementHandle element) {
@@ -47,7 +50,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Returns the mirrored starting level for current view.
-	 * 
+	 *
 	 * @return
 	 */
 	public LevelHandle getMirroredStartingLevel() {
@@ -62,7 +65,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Sets mirrrored starting level property for current view.
-	 * 
+	 *
 	 * @param value
 	 * @throws SemanticException
 	 */
@@ -72,7 +75,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the property handle for grand total.
-	 * 
+	 *
 	 * @return grand total property handle
 	 */
 	public PropertyHandle getGrandTotalProperty() {
@@ -81,7 +84,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the property handle for dimension views.
-	 * 
+	 *
 	 * @return dimension views property handle.
 	 */
 	public PropertyHandle getViewsProperty() {
@@ -91,7 +94,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Returns the member list defined on this crosstab view. Each element in the
 	 * returned list is a <code>MemberValueHandle</code> object.
-	 * 
+	 *
 	 * @return the member value list
 	 */
 	public List getMembers() {
@@ -100,7 +103,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Adds a member value to current crosstab view.
-	 * 
+	 *
 	 * @param value
 	 * @throws SemanticException
 	 */
@@ -111,7 +114,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Finds a dimension view that refers a cube dimension element with the given
 	 * name.
-	 * 
+	 *
 	 * @param name name of the cube dimension element to find
 	 * @return dimension view if found, otherwise null
 	 */
@@ -121,8 +124,9 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 			if (dimensionView != null) {
 				String cubeDimensionName = dimensionView.getCubeDimensionName();
 				if ((cubeDimensionName != null && cubeDimensionName.equals(name))
-						|| (cubeDimensionName == null && name == null))
+						|| (cubeDimensionName == null && name == null)) {
 					return dimensionView;
+				}
 			}
 		}
 		return null;
@@ -130,7 +134,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the dimension view with the given index.Index is 0-based integer.
-	 * 
+	 *
 	 * @param index a 0-based integer of the dimension position
 	 * @return the dimension view handle if found, otherwise null
 	 */
@@ -143,7 +147,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the dimension view count.
-	 * 
+	 *
 	 * @return count of dimension views
 	 */
 	public int getDimensionCount() {
@@ -152,7 +156,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Inserts a dimension into the given position. Index is 0-based integer.
-	 * 
+	 *
 	 * @param dimensionHandle the OLAP dimension handle to use
 	 * @param index           insert position, a 0-based integer
 	 * @return
@@ -161,8 +165,9 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 	public DimensionViewHandle insertDimension(DimensionHandle dimensionHandle, int index) throws SemanticException {
 		ExtendedItemHandle extendedItem = CrosstabExtendedItemFactory.createDimensionView(moduleHandle,
 				dimensionHandle);
-		if (extendedItem == null)
+		if (extendedItem == null) {
 			return null;
+		}
 		// if this dimension handle has referred by an existing dimension view,
 		// then log error and do nothing
 		if (dimensionHandle != null && getDimension(dimensionHandle.getQualifiedName()) != null) {
@@ -178,7 +183,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Removes a dimension view that refers a cube dimension name with the given
 	 * name from the design tree.
-	 * 
+	 *
 	 * @param name name of the dimension view to remove
 	 * @throws SemanticException
 	 */
@@ -188,7 +193,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Removes a dimension view in the given position. Index is 0-based integer.
-	 * 
+	 *
 	 * @param index the position index of the dimension to remove, 0-based integer
 	 * @throws SemanticException
 	 */
@@ -198,7 +203,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Gets the grand total cell of this crosstab view.
-	 * 
+	 *
 	 * @return row/column grand total cell if set, otherwise null
 	 */
 	public CrosstabCellHandle getGrandTotal() {
@@ -211,12 +216,12 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Returns the location of the grandtotal. The return value is defined in
 	 * <code>ICrosstabConstants</code> and can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>GRAND_TOTAL_LOCATION_BEFORE</code>
 	 * <li><code>GRAND_TOTAL_LOCATION_AFTER</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the location
 	 */
 	public String getGrandTotalLocation() {
@@ -225,12 +230,12 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Sets the location of the grand total. The input value can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>GRAND_TOTAL_LOCATION_BEFORE</code>
 	 * <li><code>GRAND_TOTAL_LOCATION_AFTER</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the location to set
 	 * @throws SemanticException
 	 */
@@ -240,7 +245,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Adds grand-total for this crosstab view.
-	 * 
+	 *
 	 * @param measureList
 	 * @param functionList
 	 * @return
@@ -270,19 +275,22 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. Otherwise return
 	 * <code>ICrosstabConstants.NO_AXIS_TYPE</code>.
-	 * 
+	 *
 	 * @return the axis type if this crosstab view resides in design tree, otherwise
 	 *         -1;
 	 */
 	public int getAxisType() {
 		PropertyHandle propHandle = handle.getContainerPropertyHandle();
-		if (propHandle == null)
+		if (propHandle == null) {
 			return NO_AXIS_TYPE;
+		}
 		String propName = propHandle.getPropertyDefn().getName();
-		if (ICrosstabReportItemConstants.ROWS_PROP.equals(propName))
+		if (ICrosstabReportItemConstants.ROWS_PROP.equals(propName)) {
 			return ROW_AXIS_TYPE;
-		if (ICrosstabReportItemConstants.COLUMNS_PROP.equals(propName))
+		}
+		if (ICrosstabReportItemConstants.COLUMNS_PROP.equals(propName)) {
 			return COLUMN_AXIS_TYPE;
+		}
 		return NO_AXIS_TYPE;
 
 	}

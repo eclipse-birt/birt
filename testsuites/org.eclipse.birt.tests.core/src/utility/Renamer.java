@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package utility;
@@ -32,9 +35,11 @@ public class Renamer {
 		File packDir = new File(path);
 		File[] regressionClasses = packDir.listFiles(new FileFilter() {
 
+			@Override
 			public boolean accept(File pathname) {
-				if (pathname.isFile() && pathname.getName().startsWith("Regression_"))
+				if (pathname.isFile() && pathname.getName().startsWith("Regression_")) {
 					return true;
+				}
 				return false;
 			}
 		});
@@ -58,10 +63,12 @@ public class Renamer {
 				URL url = source.getLocation();
 				pathBase = url.getPath();
 
-				if (pathBase.endsWith("bin/")) //$NON-NLS-1$
+				if (pathBase.endsWith("bin/")) { //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 4);
-				if (pathBase.endsWith("bin")) //$NON-NLS-1$
+				}
+				if (pathBase.endsWith("bin")) { //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 3);
+				}
 			}
 		}
 
@@ -77,7 +84,7 @@ public class Renamer {
 	boolean rename(File javaFile) throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(javaFile));
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		Pattern pattern = Pattern.compile(".*test_Regression_[\\d]+.*"); //$NON-NLS-1$
 
 		String line = null;

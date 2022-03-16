@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +49,7 @@ abstract public class LevelState extends ReportElementState {
 	/**
 	 * Constructs level state with the design parser handler, the container element
 	 * and the container property name of the report element.
-	 * 
+	 *
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param prop         the slot in which this element appears
@@ -58,9 +61,10 @@ abstract public class LevelState extends ReportElementState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.ReportElementState#end()
 	 */
+	@Override
 	public void end() throws SAXException {
 		super.end();
 
@@ -112,7 +116,7 @@ abstract public class LevelState extends ReportElementState {
 
 	/**
 	 * Gets the data type of the level
-	 * 
+	 *
 	 * @return the data type
 	 */
 	private String getDataType(TabularLevel level) {
@@ -120,15 +124,18 @@ abstract public class LevelState extends ReportElementState {
 		if (!StringUtil.isBlank(columnName)) {
 			DesignElement container = getElement().getContainer();
 			DataSet dataSet = null;
-			if (container instanceof TabularHierarchy)
+			if (container instanceof TabularHierarchy) {
 				dataSet = (DataSet) container.getReferenceProperty(handler.module,
 						ITabularHierarchyModel.DATA_SET_PROP);
+			}
 			if (dataSet == null && container != null) {
 				container = container.getContainer();
-				if (container instanceof Dimension)
+				if (container instanceof Dimension) {
 					container = container.getContainer();
-				if (container instanceof TabularCube)
+				}
+				if (container instanceof TabularCube) {
 					dataSet = (DataSet) container.getReferenceProperty(handler.module, ITabularCubeModel.DATA_SET_PROP);
+				}
 			}
 			if (dataSet != null) {
 				CachedMetaData metaData = (CachedMetaData) dataSet.getProperty(handler.module,
@@ -142,8 +149,9 @@ abstract public class LevelState extends ReportElementState {
 									.equals(column.getStringProperty(handler.module, ResultSetColumn.NAME_MEMBER))) {
 								String dataType = column.getStringProperty(handler.module,
 										ResultSetColumn.DATA_TYPE_MEMBER);
-								if (dataType != null)
+								if (dataType != null) {
 									return dataType;
+								}
 								break;
 							}
 						}

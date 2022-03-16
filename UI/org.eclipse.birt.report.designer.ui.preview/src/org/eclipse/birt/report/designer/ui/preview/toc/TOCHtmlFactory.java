@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.ui.preview.toc;
 
@@ -16,7 +28,7 @@ public abstract class TOCHtmlFactory {
 
 	/**
 	 * Gets TOC html value.
-	 * 
+	 *
 	 * @param document
 	 * @param locale
 	 * @return toc html value.
@@ -37,7 +49,7 @@ public abstract class TOCHtmlFactory {
 
 	/**
 	 * Gets toc html value.
-	 * 
+	 *
 	 * @param document
 	 * @return toc html value.
 	 */
@@ -49,7 +61,7 @@ public abstract class TOCHtmlFactory {
 
 	/**
 	 * Gets toc script html value.
-	 * 
+	 *
 	 * @return toc script html value.
 	 */
 
@@ -57,7 +69,7 @@ public abstract class TOCHtmlFactory {
 
 	/**
 	 * Gets toc style html value.
-	 * 
+	 *
 	 * @return toc style html value
 	 */
 
@@ -65,7 +77,7 @@ public abstract class TOCHtmlFactory {
 
 	/**
 	 * Build TOC structure tree to TOC html.
-	 * 
+	 *
 	 * @param node
 	 * @return toc html.
 	 */
@@ -73,7 +85,7 @@ public abstract class TOCHtmlFactory {
 	private String buildTOCHtml(TOCNode node, int level) {
 		assert node != null;
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append("<tr><td "); //$NON-NLS-1$
 
 		String id = node.getNodeID();
@@ -145,13 +157,13 @@ public abstract class TOCHtmlFactory {
 
 	/**
 	 * Prints blank value.
-	 * 
+	 *
 	 * @param level
 	 * @return blank value.
 	 */
 
 	private String printBlank(int level) {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < level; ++i) {
 			buffer.append("&nbsp;"); //$NON-NLS-1$
 		}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -65,7 +68,7 @@ public class ResultObjectUtil {
 	 * any actual read/write action is taken. Since multi thread might call DtE at
 	 * the same time, an instance needs to be new to correspond to different
 	 * metadata.
-	 * 
+	 *
 	 * @param rsMetaData
 	 * @throws DataException
 	 */
@@ -96,7 +99,7 @@ public class ResultObjectUtil {
 	/**
 	 * New a instance of ResultObject according to the parameter of object array
 	 * plus the metadata stored before.
-	 * 
+	 *
 	 * @param ob
 	 * @return RowData
 	 */
@@ -107,9 +110,9 @@ public class ResultObjectUtil {
 	/**
 	 * Deserialze result object array from input stream. The reading procedure is
 	 * strictly sequential, that means there is no random access.
-	 * 
+	 *
 	 * Datatype Corresponds to executor#setDataType
-	 * 
+	 *
 	 * @param br       input stream
 	 * @param length   how many objects needs to be read
 	 * @param stopSign
@@ -128,8 +131,9 @@ public class ResultObjectUtil {
 		DataInputStream dis;
 
 		for (int i = 0; i < length; i++) {
-			if (session.getStopSign().isStopped())
+			if (session.getStopSign().isStopped()) {
 				break;
+			}
 			rowLen = IOUtil.readInt(bis);
 			rowDataBytes = new byte[rowLen];
 			int readSize = bis.read(rowDataBytes);
@@ -166,31 +170,31 @@ public class ResultObjectUtil {
 			return obj;
 		}
 
-		if (fieldType.equals(Integer.class))
+		if (fieldType.equals(Integer.class)) {
 			obj = Integer.valueOf(dis.readInt());
-		else if (fieldType.equals(Double.class))
+		} else if (fieldType.equals(Double.class)) {
 			obj = new Double(dis.readDouble());
-		else if (fieldType.equals(BigDecimal.class))
+		} else if (fieldType.equals(BigDecimal.class)) {
 			obj = new BigDecimal(dis.readUTF());
-		else if (fieldType.equals(Time.class))
+		} else if (fieldType.equals(Time.class)) {
 			obj = new Time(dis.readLong());
-		else if (fieldType.equals(Timestamp.class))
+		} else if (fieldType.equals(Timestamp.class)) {
 			obj = new Timestamp(dis.readLong());
-		else if (fieldType.equals(java.sql.Date.class)) {
+		} else if (fieldType.equals(java.sql.Date.class)) {
 			try {
 				obj = DataTypeUtil.toSqlDate(new java.sql.Date(dis.readLong()));
 			} catch (BirtException e) {
 				throw DataException.wrap(e);
 			}
-		} else if (Date.class.isAssignableFrom(fieldType))
+		} else if (Date.class.isAssignableFrom(fieldType)) {
 			obj = new Date(dis.readLong());
-		else if (fieldType.equals(Boolean.class))
+		} else if (fieldType.equals(Boolean.class)) {
 			obj = Boolean.valueOf(dis.readBoolean());
-		else if (fieldType.equals(String.class))
+		} else if (fieldType.equals(String.class)) {
 			obj = IOUtil.readString(dis);
-		else if (fieldType.equals(IClob.class) || fieldType.equals(Clob.class))
+		} else if (fieldType.equals(IClob.class) || fieldType.equals(Clob.class)) {
 			obj = IOUtil.readString(dis);
-		else if (fieldType.equals(IBlob.class) || fieldType.equals(Blob.class)) {
+		} else if (fieldType.equals(IBlob.class) || fieldType.equals(Blob.class)) {
 			if (version < VersionManager.VERSION_4_2_2) {
 				int len = IOUtil.readInt(dis);
 				if (len == 0) {
@@ -228,7 +232,7 @@ public class ResultObjectUtil {
 	/**
 	 * Serialze result object array to file. The serialize procedure is conversed
 	 * with de-serialize(read) procedure.
-	 * 
+	 *
 	 * @param bos           output stream
 	 * @param resultObjects result objects needs to be deserialized
 	 * @param length        how many objects to be deserialized
@@ -240,13 +244,14 @@ public class ResultObjectUtil {
 			throws IOException, DataException {
 		for (int i = 0; i < length; i++) {
 			writeData(bos, resultObjects[i]);
-			if (session.getStopSign().isStopped())
+			if (session.getStopSign().isStopped()) {
 				return;
+			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param bos
 	 * @param resultObject
 	 * @throws IOException
@@ -359,8 +364,9 @@ public class ResultObjectUtil {
 				dos.write((byte[]) fieldValue);
 			}
 		} else if (fieldType.equals(Object.class) || fieldType.equals(DataType.getClass(DataType.ANY_TYPE))) {
-			if (!(fieldValue instanceof Serializable))
+			if (!(fieldValue instanceof Serializable)) {
 				throw new DataException(ResourceConstants.NOT_SERIALIZABLE_CLASS, fieldValue.getClass().getName());
+			}
 			dos.write(leadingChar);
 			IOUtil.writeObject(dos, fieldValue);
 		} else {

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,6 +47,7 @@ public class LevelImpl implements ILevel {
 		}
 	}
 
+	@Override
 	public String getDimensionName() {
 		if (lh != null && lh.getContainer() != null) {
 			DimensionHandle dh = (DimensionHandle) lh.getContainer().getContainer();
@@ -54,6 +58,7 @@ public class LevelImpl implements ILevel {
 		return null;
 	}
 
+	@Override
 	public String getName() {
 		if (lh != null) {
 			return lh.getName();
@@ -61,6 +66,7 @@ public class LevelImpl implements ILevel {
 		return null;
 	}
 
+	@Override
 	public void addFilterCondition(IFilterConditionElement filter) throws SemanticException {
 		FilterConditionElementHandle fceh = lv.getModelHandle().getElementFactory().newFilterConditionElement();
 
@@ -74,8 +80,9 @@ public class LevelImpl implements ILevel {
 		lv.getModelHandle().add(ILevelViewConstants.FILTER_PROP, fceh);
 	}
 
+	@Override
 	public List<IFilterConditionElement> getFilterConditions() {
-		List<IFilterConditionElement> filters = new ArrayList<IFilterConditionElement>();
+		List<IFilterConditionElement> filters = new ArrayList<>();
 		ISimpleElementFactory factory = SimpleElementFactory.getInstance();
 
 		for (Iterator itr = lv.filtersIterator(); itr.hasNext();) {
@@ -91,10 +98,12 @@ public class LevelImpl implements ILevel {
 		return Collections.EMPTY_LIST;
 	}
 
+	@Override
 	public void removeAllFilterConditions() throws SemanticException {
 		lv.getModelHandle().setProperty(ILevelViewConstants.FILTER_PROP, null);
 	}
 
+	@Override
 	public void removeFilterCondition(IFilterConditionElement filter) throws SemanticException {
 		if (filter == null) {
 			return;
@@ -116,6 +125,7 @@ public class LevelImpl implements ILevel {
 		}
 	}
 
+	@Override
 	public void addSortCondition(ISortElement sort) throws SemanticException {
 		SortElementHandle seh = lv.getModelHandle().getElementFactory().newSortElement();
 
@@ -125,8 +135,9 @@ public class LevelImpl implements ILevel {
 		lv.getModelHandle().add(ILevelViewConstants.SORT_PROP, seh);
 	}
 
+	@Override
 	public List<ISortElement> getSortConditions() {
-		List<ISortElement> sorts = new ArrayList<ISortElement>();
+		List<ISortElement> sorts = new ArrayList<>();
 		ISimpleElementFactory factory = SimpleElementFactory.getInstance();
 
 		for (Iterator itr = lv.sortsIterator(); itr.hasNext();) {
@@ -142,10 +153,12 @@ public class LevelImpl implements ILevel {
 		return Collections.EMPTY_LIST;
 	}
 
+	@Override
 	public void removeAllSortConditions() throws SemanticException {
 		lv.getModelHandle().setProperty(ILevelViewConstants.SORT_PROP, null);
 	}
 
+	@Override
 	public void removeSortCondition(ISortElement sort) throws SemanticException {
 		if (sort == null) {
 			return;
@@ -178,10 +191,8 @@ public class LevelImpl implements ILevel {
 			if (val2 != null && !val2.isEmpty()) {
 				return false;
 			}
-		} else {
-			if (!val1.equals(val2)) {
-				return false;
-			}
+		} else if (!val1.equals(val2)) {
+			return false;
 		}
 
 		return (fceh.isOptional() == ifce.isOptional()) && equalString(fceh.getExpr(), ifce.getExpr())
@@ -197,34 +208,42 @@ public class LevelImpl implements ILevel {
 		return s1.equals(s2);
 	}
 
+	@Override
 	public String getPageBreakAfter() {
 		return lv.getPageBreakAfter();
 	}
 
+	@Override
 	public String getPageBreakBefore() {
 		return lv.getPageBreakBefore();
 	}
 
+	@Override
 	public String getPageBreakInside() {
 		return lv.getPageBreakInside();
 	}
 
+	@Override
 	public int getPageBreakInterval() {
 		return lv.getPageBreakInterval();
 	}
 
+	@Override
 	public void setPageBreakAfter(String value) throws SemanticException {
 		lv.setPageBreakAfter(value);
 	}
 
+	@Override
 	public void setPageBreakBefore(String value) throws SemanticException {
 		lv.setPageBreakBefore(value);
 	}
 
+	@Override
 	public void setPageBreakInside(String value) throws SemanticException {
 		lv.setPageBreakInside(value);
 	}
 
+	@Override
 	public void setPageBreakInterval(int value) throws SemanticException {
 		lv.setPageBreakInterval(value);
 	}

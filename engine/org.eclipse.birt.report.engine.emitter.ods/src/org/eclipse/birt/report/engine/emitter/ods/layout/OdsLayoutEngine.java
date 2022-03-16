@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,6 +33,7 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.ods.BlankData;
+import org.eclipse.birt.report.engine.emitter.ods.BlankData.Type;
 import org.eclipse.birt.report.engine.emitter.ods.BookmarkDef;
 import org.eclipse.birt.report.engine.emitter.ods.Data;
 import org.eclipse.birt.report.engine.emitter.ods.DataCache;
@@ -40,7 +44,6 @@ import org.eclipse.birt.report.engine.emitter.ods.OdsUtil;
 import org.eclipse.birt.report.engine.emitter.ods.RowData;
 import org.eclipse.birt.report.engine.emitter.ods.SheetData;
 import org.eclipse.birt.report.engine.emitter.ods.StyleEngine;
-import org.eclipse.birt.report.engine.emitter.ods.BlankData.Type;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
@@ -71,7 +74,7 @@ public class OdsLayoutEngine {
 
 	private int maxCol = 255;
 
-	private HashMap<String, String> cachedBookmarks = new HashMap<String, String>();
+	private HashMap<String, String> cachedBookmarks = new HashMap<>();
 
 	protected DataCache cache;
 
@@ -81,9 +84,9 @@ public class OdsLayoutEngine {
 
 	private OdsEmitter emitter;
 
-	private Stack<OdsContainer> containers = new Stack<OdsContainer>();
+	private Stack<OdsContainer> containers = new Stack<>();
 
-	private Stack<OdsTable> tables = new Stack<OdsTable>();
+	private Stack<OdsTable> tables = new Stack<>();
 
 	private OdsContext context = null;
 
@@ -91,11 +94,11 @@ public class OdsLayoutEngine {
 
 	private ULocale locale;
 
-	private HashMap<String, BookmarkDef> bookmarkList = new HashMap<String, BookmarkDef>();
+	private HashMap<String, BookmarkDef> bookmarkList = new HashMap<>();
 
 	protected int reportDpi;
 
-	protected Stack<Boolean> rowVisibilities = new Stack<Boolean>();
+	protected Stack<Boolean> rowVisibilities = new Stack<>();
 
 	public OdsLayoutEngine(OdsContext context, OdsEmitter emitter) {
 		this.context = context;
@@ -192,8 +195,9 @@ public class OdsLayoutEngine {
 		for (int i = 1; i <= columnCount; i++) {
 			if ((columnStartCoordinates[i - 1] + table.getColumnWidth(i - 1)) > endCoordinate) {
 				columnStartCoordinates[i] = endCoordinate;
-			} else
+			} else {
 				columnStartCoordinates[i] = columnStartCoordinates[i - 1] + table.getColumnWidth(i - 1);
+			}
 		}
 		return columnStartCoordinates;
 	}
@@ -399,8 +403,9 @@ public class OdsLayoutEngine {
 
 	private boolean canSpan(SheetData upstair, OdsContainer rowContainer, int currentColumn) {
 		SheetData realData = getRealData(upstair);
-		if (realData == null)
+		if (realData == null) {
 			return false;
+		}
 		if (isInContainer(realData, rowContainer)) {
 			return true;
 		}
@@ -497,8 +502,9 @@ public class OdsLayoutEngine {
 	private void setParentContainerIndex() {
 		OdsContainer container = getCurrentContainer();
 		OdsContainer parent = container.getParent();
-		if (parent != null)
+		if (parent != null) {
 			parent.setRowIndex(container.getRowIndex());
+		}
 	}
 
 	public void endNormalContainer() {
@@ -711,11 +717,13 @@ public class OdsLayoutEngine {
 	protected void addData(SheetData data) {
 		OdsContainer container = getCurrentContainer();
 		container.setEmpty(false);
-		if (data.getStartX() == data.getEndX())
+		if (data.getStartX() == data.getEndX()) {
 			return;
+		}
 		int col = axis.getColumnIndexByCoordinate(data.getStartX());
-		if (col == -1 || col >= cache.getColumnCount())
+		if (col == -1 || col >= cache.getColumnCount()) {
 			return;
+		}
 		int span = axis.getColumnIndexByCoordinate(data.getEndX()) - col;
 		// FIXME: there is a bug when this data is in middle of a row.
 		outputDataIfBufferIsFull();
@@ -906,9 +914,9 @@ public class OdsLayoutEngine {
 			data.setLinkedBookmark(linkedBookmark);
 		} else {
 			BookmarkDef newBookmark;
-			if (OdsUtil.isValidBookmarkName(bookmarkName))
+			if (OdsUtil.isValidBookmarkName(bookmarkName)) {
 				newBookmark = new BookmarkDef(bookmarkName);
-			else {
+			} else {
 				String generateBookmarkName = getGenerateBookmark(bookmarkName);
 				newBookmark = new BookmarkDef(generateBookmarkName);
 				cachedBookmarks.put(bookmarkName, generateBookmarkName);
@@ -951,13 +959,15 @@ public class OdsLayoutEngine {
 			rowIterator = cache.getRowIterator();
 		}
 
+		@Override
 		public boolean hasNext() {
 			return rowIterator.hasNext();
 		}
 
+		@Override
 		public RowData next() {
 			SheetData[] row = rowIterator.next();
-			List<SheetData> data = new ArrayList<SheetData>();
+			List<SheetData> data = new ArrayList<>();
 			int width = Math.min(row.length, maxCol - 1);
 			int rowIndex = 0;
 			for (int i = 0; i < width; i++) {
@@ -974,6 +984,7 @@ public class OdsLayoutEngine {
 			return new RowData(rowdata, rowHeight);
 		}
 
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}

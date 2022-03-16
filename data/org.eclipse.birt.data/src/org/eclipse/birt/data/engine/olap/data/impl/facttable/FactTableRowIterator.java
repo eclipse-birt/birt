@@ -1,11 +1,14 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ *
+ * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
@@ -88,7 +91,7 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 	private boolean isDuplicatedRow;
 
 	/**
-	 * 
+	 *
 	 * @param factTable
 	 * @param dimensionName
 	 * @param dimensionPos
@@ -101,7 +104,7 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param factTable
 	 * @param dimensionName
 	 * @param dimensionPos
@@ -120,8 +123,9 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 		this.stopSign = stopSign;
 		this.measureFilters = new ArrayList();
 		this.cubePosFilters = new ArrayList();
-		if (allCubeDimensions != null)
+		if (allCubeDimensions != null) {
 			this.allCubeDimensionResultIterators = new IDimensionResultIterator[allCubeDimensions.length];
+		}
 		this.allCubeDimensions = allCubeDimensions;
 		this.computedMeasureHelper = computedMeasureHelper;
 		assert dimensionName.length == dimensionPos.length;
@@ -130,9 +134,7 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 			this.selectedSubDim[i] = new ArrayList();
 		}
 		dimensionIndex = new int[factTable.getDimensionInfo().length];
-		for (int i = 0; i < dimensionIndex.length; i++) {
-			dimensionIndex[i] = -1;
-		}
+		Arrays.fill(dimensionIndex, -1);
 		for (int i = 0; i < dimensionName.length; i++) {
 			dimensionIndex[factTable.getDimensionIndex(dimensionName[i])] = i;
 
@@ -157,7 +159,7 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 	/**
 	 * Filter sub dimensions by dimension position array. The filter result is saved
 	 * in the variable selectedSubDim.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	private void filterSubDimension() throws IOException {
@@ -206,11 +208,12 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#
 	 * next()
 	 */
+	@Override
 	public boolean next() throws IOException, DataException {
 		while (!stopSign.isStopped()) {
 			try {
@@ -224,28 +227,28 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 							combinedDimensionPosition.bytesValue());
 					this.lastCurrentPos = currentPos;
 					this.isDuplicatedRow = false;
+				} else if (this.lastCombinedDimensionPosition.equals(combinedDimensionPosition)) {
+					currentPos = this.lastCurrentPos;
+					this.isDuplicatedRow = true;
 				} else {
-					if (this.lastCombinedDimensionPosition.equals(combinedDimensionPosition)) {
-						currentPos = this.lastCurrentPos;
-						this.isDuplicatedRow = true;
-					} else {
-						this.lastCombinedDimensionPosition = combinedDimensionPosition;
-						currentPos = factTable.getCombinedPositionCalculator()
-								.calculateDimensionPosition(subDimensionIndex, combinedDimensionPosition.bytesValue());
-						this.lastCurrentPos = currentPos;
-						this.isDuplicatedRow = false;
-					}
+					this.lastCombinedDimensionPosition = combinedDimensionPosition;
+					currentPos = factTable.getCombinedPositionCalculator().calculateDimensionPosition(subDimensionIndex,
+							combinedDimensionPosition.bytesValue());
+					this.lastCurrentPos = currentPos;
+					this.isDuplicatedRow = false;
 				}
 				readMeasure = false;
 				if (!isSelectedRow()) {
 					if (!readMeasure) {
-						if (!skipMeasure())
+						if (!skipMeasure()) {
 							break;
+						}
 					}
 					continue;
 				} else {
-					if (!readMeasure)
+					if (!readMeasure) {
 						readMeasure();
+					}
 					return true;
 				}
 			} catch (EOFException e) {
@@ -260,11 +263,12 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#
 	 * isDuplicatedRow()
 	 */
+	@Override
 	public boolean isDuplicatedRow() {
 		return this.isDuplicatedRow;
 	}
@@ -281,7 +285,7 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param iteratorIndex
 	 * @param levelIndex
 	 * @param dimensionPosition
@@ -297,28 +301,33 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws DataException
 	 * @throws IOException
 	 */
+	@Override
 	public void close() throws DataException, IOException {
-		if (this.computedMeasureHelper != null)
+		if (this.computedMeasureHelper != null) {
 			this.computedMeasureHelper.cleanUp();
+		}
 		if (allCubeDimensionResultIterators != null) {
-			for (int i = 0; i < allCubeDimensionResultIterators.length; i++)
+			for (int i = 0; i < allCubeDimensionResultIterators.length; i++) {
 				try {
-					if (allCubeDimensionResultIterators[i] != null)
+					if (allCubeDimensionResultIterators[i] != null) {
 						allCubeDimensionResultIterators[i].close();
+					}
 				} catch (BirtException e) {
 					throw DataException.wrap(e);
 				}
+			}
 		}
-		if (this.currentSegment != null)
+		if (this.currentSegment != null) {
 			this.currentSegment.close();
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private int[] getSubDimensionIndex() {
@@ -330,7 +339,7 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 * @throws DataException
@@ -352,16 +361,16 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 				}
 			}
 			lastFilterResult = true;
-		} else {
-			if (!lastFilterResult)
-				return false;
+		} else if (!lastFilterResult) {
+			return false;
 		}
 		if (existMeasureFilter) {
 			readMeasure();
 			for (int i = 0; i < measureFilters.size(); i++) {
 				IJSFacttableFilterEvalHelper measureFilter = (IJSFacttableFilterEvalHelper) measureFilters.get(i);
-				if (!measureFilter.evaluateFilter(currentMeasureMap))
+				if (!measureFilter.evaluateFilter(currentMeasureMap)) {
 					return false;
+				}
 			}
 		}
 
@@ -369,23 +378,24 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private void caculateMeasuerSize() {
 		this.measureSize = new int[factTable.getMeasureInfo().length];
 		for (int i = 0; i < factTable.getMeasureInfo().length; i++) {
-			if (factTable.getMeasureInfo()[i].getDataType() == DataType.DOUBLE_TYPE)
+			if (factTable.getMeasureInfo()[i].getDataType() == DataType.DOUBLE_TYPE) {
 				measureSize[i] = 8;
-			else if (factTable.getMeasureInfo()[i].getDataType() == DataType.INTEGER_TYPE)
+			} else if (factTable.getMeasureInfo()[i].getDataType() == DataType.INTEGER_TYPE) {
 				measureSize[i] = 4;
-			else
+			} else {
 				measureSize[i] = -1;
+			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws DataException
 	 */
@@ -412,8 +422,9 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 			} else {
 				byte nullSign = currentSegment.readByte();
 				if (nullSign != 0) {
-					if (currentSegment.skipBytes(measureSize[i]) == -1)
+					if (currentSegment.skipBytes(measureSize[i]) == -1) {
 						return false;
+					}
 				}
 			}
 		}
@@ -422,16 +433,13 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 
 	/**
 	 * Moves down one segment from its current segment of the iterator.
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
 	private boolean nextSegment() throws IOException {
 		while (true) {
-			if (stopSign.isStopped()) {
-				return false;
-			}
-			if (!traversalor.next()) {
+			if (stopSign.isStopped() || !traversalor.next()) {
 				return false;
 			}
 			currentSubDim = traversalor.getIntArray();
@@ -442,8 +450,9 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 				continue;
 			}
 
-			if (currentSegment != null)
+			if (currentSegment != null) {
 				currentSegment.close();
+			}
 
 			currentSegment = factTable.getDocumentManager().openDocumentObject(FTSUDocName);
 
@@ -465,33 +474,36 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#
 	 * getDimensionCount()
 	 */
+	@Override
 	public int getDimensionCount() {
 		return factTable.getDimensionInfo().length;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#
 	 * getDimensionIndex(java.lang.String)
 	 */
+	@Override
 	public int getDimensionIndex(String dimensionName) {
 		return factTable.getDimensionIndex(dimensionName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#
 	 * getMeasureIndex(java.lang.String)
 	 */
+	@Override
 	public int getMeasureIndex(String measureName) {
 		int reValue = factTable.getMeasureIndex(measureName);
 		if (reValue < 0 && computedMeasureInfo != null) {
@@ -507,33 +519,36 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#
 	 * getDimensionPosition(int)
 	 */
+	@Override
 	public int getDimensionPosition(int dimensionIndex) {
 		return currentPos[dimensionIndex];
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#
 	 * getDimensionPosition()
 	 */
+	@Override
 	public int[] getDimensionPosition() {
 		return currentPos;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#
 	 * getMeasureCount()
 	 */
+	@Override
 	public int getMeasureCount() {
 		if (computedMeasureInfo != null) {
 			return factTable.getMeasureInfo().length + computedMeasureInfo.length;
@@ -544,37 +559,37 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#
 	 * getMeasure(int)
 	 */
+	@Override
 	public Object getMeasure(int measureIndex) {
 		if (measureIndex < currentMeasureValues.length) {
 			return currentMeasureValues[measureIndex];
+		} else if (currentComputedMeasureValues != null
+				&& (measureIndex - currentMeasureValues.length) < currentComputedMeasureValues.length) {
+			return currentComputedMeasureValues[measureIndex - currentMeasureValues.length];
 		} else {
-			if (currentComputedMeasureValues != null
-					&& (measureIndex - currentMeasureValues.length) < currentComputedMeasureValues.length) {
-				return currentComputedMeasureValues[measureIndex - currentMeasureValues.length];
-			} else {
-				return null;
-			}
+			return null;
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#
 	 * getMeasureInfo()
 	 */
+	@Override
 	public MeasureInfo[] getMeasureInfos() {
 		return allMeasureInfo;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param measureList
 	 */
 	public void addMeasureFilter(IJSFacttableFilterEvalHelper measureFilter) {
@@ -583,7 +598,7 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cubePosFilter
 	 */
 	public void addCubePosFilter(ICubePosFilter cubePosFilter) {
@@ -591,7 +606,7 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void computeAllMeasureInfo() {
 		int len = factTable.getMeasureInfo().length;
@@ -607,13 +622,14 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 * @throws IOException
 	 */
 	void checkAndInitDimIterator(int index) throws IOException {
-		if (allCubeDimensionResultIterators[index] != null)
+		if (allCubeDimensionResultIterators[index] != null) {
 			return;
+		}
 		allCubeDimensionResultIterators[index] = new DimensionResultIterator((Dimension) allCubeDimensions[index],
 				allCubeDimensions[index].findAll(), stopSign);
 	}
@@ -623,7 +639,7 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 		private Object[] measureValues = null;
 
 		/**
-		 * 
+		 *
 		 * @param measureInfo
 		 */
 		MeasureMap(MeasureInfo[] measureInfo) {
@@ -631,7 +647,7 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param measureValues
 		 */
 		void setMeasureValue(Object[] measureValues) {
@@ -640,11 +656,12 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.data.engine.olap.data.api.IMeasureList#getMeasureValue(java.
 		 * lang.String)
 		 */
+		@Override
 		public Object getMeasureValue(String measureName) {
 			for (int i = 0; i < measureInfos.length; i++) {
 				if (measureInfos[i].getMeasureName().equals(measureName)) {
@@ -654,6 +671,7 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 			return null;
 		}
 
+		@Override
 		public Object getLevelAttributeValue(String dimensionName, String levelName, String attributeName)
 				throws DataException, IOException {
 			int dimensionIndex = getDimensionIndex(dimensionName);
@@ -669,11 +687,13 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 			checkAndInitDimIterator(dimensionIndex);
 			int attributeIndex = allCubeDimensionResultIterators[dimensionIndex].getLevelAttributeIndex(levelName,
 					attributeName);
-			if (member != null && attributeIndex >= 0)
+			if (member != null && attributeIndex >= 0) {
 				return member.getAttributes()[attributeIndex];
+			}
 			return null;
 		}
 
+		@Override
 		public Object[] getLevelKeyValue(String dimensionName, String levelName) throws DataException, IOException {
 			Member member;
 			try {
@@ -681,8 +701,9 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 			} catch (BirtException e) {
 				throw DataException.wrap(e);
 			}
-			if (member != null)
+			if (member != null) {
 				return member.getKeyValues();
+			}
 			return null;
 		}
 
@@ -697,8 +718,9 @@ public class FactTableRowIterator implements IFactTableRowIterator {
 				checkAndInitDimIterator(dimIndex);
 				IDimensionResultIterator itr = allCubeDimensionResultIterators[dimIndex];
 				levelIndex = itr.getLevelIndex(levelName);
-				if (levelIndex >= 0)
+				if (levelIndex >= 0) {
 					return getMember(dimIndex, levelIndex);
+				}
 			}
 
 			return null;

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,7 +17,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.outline.dnd;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
- * 
+ *
  */
 
 public class DropTypeConstraint implements IDropConstraint {
@@ -29,6 +32,7 @@ public class DropTypeConstraint implements IDropConstraint {
 		this.canDrop = canDrop;
 	}
 
+	@Override
 	public int validate(Object transfer, Object target) {
 		if (transfer instanceof Object[]) {
 			if (((Object[]) transfer).length > 0) {
@@ -37,7 +41,8 @@ public class DropTypeConstraint implements IDropConstraint {
 				return RESULT_UNKNOW;
 			}
 		} else if (transfer instanceof StructuredSelection) {
-			if ((transfer = ((StructuredSelection) transfer).getFirstElement()) == null) {
+			transfer = ((StructuredSelection) transfer).getFirstElement();
+			if (transfer == null) {
 				return RESULT_UNKNOW;
 			}
 		}
@@ -50,8 +55,9 @@ public class DropTypeConstraint implements IDropConstraint {
 	}
 
 	private boolean isSubClass(Class subClazz, Class clazz) {
-		if (subClazz == clazz)
+		if (subClazz == clazz) {
 			return true;
+		}
 		if (subClazz == Object.class) {
 			return false;
 		} else {

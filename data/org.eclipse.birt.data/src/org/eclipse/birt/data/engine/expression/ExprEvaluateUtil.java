@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,8 +64,9 @@ public class ExprEvaluateUtil {
 		// TODO here the dataExpr should not be null.
 		// This is only a temporary solution.
 
-		if (dataExpr == null)
+		if (dataExpr == null) {
 			throw new DataException(ResourceConstants.BAD_DATA_EXPRESSION);
+		}
 
 		Object handle = dataExpr.getHandle();
 		if (handle instanceof ICompiledScript) {
@@ -72,8 +76,9 @@ public class ExprEvaluateUtil {
 			Object value = evaluateCompiledExpression(expr, odiResult, scope, cx);
 
 			try {
-				if (value instanceof BirtException)
+				if (value instanceof BirtException) {
 					throw (BirtException) value;
+				}
 				exprValue = DataTypeUtil.convert(value, dataExpr.getDataType());
 			} catch (BirtException e) {
 				throw DataException.wrap(e);
@@ -81,7 +86,7 @@ public class ExprEvaluateUtil {
 		} else if (handle instanceof ConditionalExpression) {
 			ConditionalExpression ce = (ConditionalExpression) handle;
 			Object resultExpr = evaluateExpression(ce.getExpression(), odiResult, scope, cx);
-			Object[] op1Value = new Object[0], op2Value = new Object[0];
+			Object[] op1Value = {}, op2Value = {};
 			boolean isCombined = false;
 
 			if (ce.getOperand1() != null) {
@@ -105,11 +110,12 @@ public class ExprEvaluateUtil {
 					op2Value[0] = evaluateExpression(ce.getOperand2(), odiResult, scope, cx);
 				}
 			}
-			if (isCombined)
+			if (isCombined) {
 				exprValue = ScriptEvalUtil.evalConditionalExpr(resultExpr, ce.getOperator(), op1Value);
-			else
+			} else {
 				exprValue = ScriptEvalUtil.evalConditionalExpr(resultExpr, ce.getOperator(),
 						op1Value.length > 0 ? op1Value[0] : null, op2Value.length > 0 ? op2Value[0] : null);
+			}
 		} else if (BaseExpression.constantId.equals(dataExpr.getScriptId())) {
 			// if expression is constant
 			Object value = ((IScriptExpression) dataExpr).getHandle();
@@ -136,29 +142,31 @@ public class ExprEvaluateUtil {
 			if (colref.isIndexed()) {
 				int idx = colref.getColumnindex();
 				// Special case: row[0] refers to internal rowID
-				if (idx == 0)
+				if (idx == 0) {
 					return Integer.valueOf(currentIndex);
-				else if (ro != null) {
+				} else if (ro != null) {
 					try {
 						return DataTypeUtil.convert(ro.getFieldValue(idx), colref.getDataType());
 					} catch (BirtException e) {
 						throw DataException.wrap(e);
 					}
-				} else
+				} else {
 					return null;
+				}
 			} else {
 				String name = colref.getColumnName();
 				// Special case: row._rowPosition refers to internal rowID
-				if (JSRowObject.ROW_POSITION.equals(name))
+				if (JSRowObject.ROW_POSITION.equals(name)) {
 					return Integer.valueOf(currentIndex);
-				else if (ro != null) {
+				} else if (ro != null) {
 					try {
 						return DataTypeUtil.convert(ro.getFieldValue(name), colref.getDataType());
 					} catch (BirtException e) {
 						throw DataException.wrap(e);
 					}
-				} else
+				} else {
 					return null;
+				}
 			}
 		} else {
 			return expr.evaluate(cx, scope);
@@ -180,7 +188,7 @@ public class ExprEvaluateUtil {
 
 	/**
 	 * Evaluate non-compiled expression
-	 * 
+	 *
 	 * @param dataExpr
 	 * @param scope
 	 * @return the value of raw data type, Java or Java Script
@@ -210,13 +218,15 @@ public class ExprEvaluateUtil {
 	 */
 	protected static Object doEvaluateRawExpression(IBaseExpression dataExpr, Scriptable scope, boolean javaType,
 			ScriptContext cx) throws BirtException {
-		if (dataExpr == null)
+		if (dataExpr == null) {
 			return null;
+		}
 
 		if (dataExpr instanceof IScriptExpression) {
 			if (((IScriptExpression) dataExpr).getText() == null
-					&& !(BaseExpression.constantId.equals(dataExpr.getScriptId())))
+					&& !(BaseExpression.constantId.equals(dataExpr.getScriptId()))) {
 				throw new DataException(ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK);
+			}
 			Object value = null;
 			if (BaseExpression.constantId.equals(dataExpr.getScriptId())) {
 				value = ((IScriptExpression) dataExpr).getHandle();
@@ -229,8 +239,9 @@ public class ExprEvaluateUtil {
 						ScriptExpression.defaultID, 0);
 			}
 
-			if (javaType == true)
+			if (javaType) {
 				value = JavascriptEvalUtil.convertJavascriptValue(value);
+			}
 
 			value = DataTypeUtil.convert(value, dataExpr.getDataType());
 
@@ -244,7 +255,7 @@ public class ExprEvaluateUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataExpr
 	 * @param cx
 	 * @param isRow    true:row["xxx"]; false:dataSetRow["xxx"]
@@ -302,13 +313,11 @@ public class ExprEvaluateUtil {
 						}
 					}
 				}
-			} else {
-				// row["xxx"] is added on data set level
-				if (dataSet.getCurrentRow() != null
-						&& dataSet.getCurrentRow().getResultClass().getFieldIndex(rowName) >= 0) {
-					Object value = dataSet.getCurrentRow().getFieldValue(rowName);
-					return DataTypeUtil.convert(value, dataExpr.getDataType());
-				}
+			} else // row["xxx"] is added on data set level
+			if (dataSet.getCurrentRow() != null
+					&& dataSet.getCurrentRow().getResultClass().getFieldIndex(rowName) >= 0) {
+				Object value = dataSet.getCurrentRow().getFieldValue(rowName);
+				return DataTypeUtil.convert(value, dataExpr.getDataType());
 			}
 		}
 
@@ -316,7 +325,7 @@ public class ExprEvaluateUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataExpr
 	 * @param scope
 	 * @param javaType
@@ -327,8 +336,9 @@ public class ExprEvaluateUtil {
 	 */
 	public static Object evaluateConditionExpression(IConditionalExpression dataExpr, Scriptable scope,
 			boolean javaType, ScriptContext cx, CompareHints filterHints) throws DataException, BirtException {
-		if (dataExpr.getHandle() != null)
+		if (dataExpr.getHandle() != null) {
 			return Boolean.valueOf(((NEvaluator) dataExpr.getHandle()).evaluate(cx, scope, null));
+		}
 
 		IScriptExpression opr = ((IConditionalExpression) dataExpr).getExpression();
 		int oper = ((IConditionalExpression) dataExpr).getOperator();
@@ -353,8 +363,9 @@ public class ExprEvaluateUtil {
 	public static Object evaluateConditionExpression(IConditionalExpression dataExpr, Scriptable scope,
 			boolean javaType, ScriptContext cx, CompareHints filterHints, DataSetRuntime dataSet)
 			throws DataException, BirtException {
-		if (dataExpr.getHandle() != null)
+		if (dataExpr.getHandle() != null) {
 			return Boolean.valueOf(((NEvaluator) dataExpr.getHandle()).evaluate(cx, scope, dataSet));
+		}
 
 		IScriptExpression opr = ((IConditionalExpression) dataExpr).getExpression();
 		int oper = ((IConditionalExpression) dataExpr).getOperator();
@@ -380,7 +391,7 @@ public class ExprEvaluateUtil {
 
 	/**
 	 * TODO: need refactoring
-	 * 
+	 *
 	 * @param dataExpr
 	 * @return
 	 * @throws BirtException
@@ -406,7 +417,7 @@ public class ExprEvaluateUtil {
 		} else if (dataExpr instanceof ConditionalExpression) {
 			ConditionalExpression ce = (ConditionalExpression) dataExpr;
 			Object resultExpr = evaluateValue(ce.getExpression(), index, roObject, scope, cx);
-			Object[] op1Value = new Object[0], op2Value = new Object[0];
+			Object[] op1Value = {}, op2Value = {};
 			boolean isCombined = false;
 
 			if (ce.getOperand1() != null) {
@@ -438,11 +449,12 @@ public class ExprEvaluateUtil {
 					op2Value = flatternMultipleValues(result);
 				}
 			}
-			if (isCombined)
+			if (isCombined) {
 				exprValue = ScriptEvalUtil.evalConditionalExpr(resultExpr, ce.getOperator(), op1Value);
-			else
+			} else {
 				exprValue = ScriptEvalUtil.evalConditionalExpr(resultExpr, ce.getOperator(),
 						op1Value.length > 0 ? op1Value[0] : null, op2Value.length > 0 ? op2Value[0] : null);
+			}
 		} else {
 			DataException e = new DataException(ResourceConstants.INVALID_EXPR_HANDLE);
 			throw e;
@@ -476,31 +488,34 @@ public class ExprEvaluateUtil {
 		if (colref.isIndexed()) {
 			int idx = colref.getColumnindex();
 			// Special case: row[0] refers to internal rowID
-			if (idx == 0)
+			if (idx == 0) {
 				return Integer.valueOf(index);
-			else if (roObject != null)
+			} else if (roObject != null) {
 				return roObject.getFieldValue(idx);
-			else
+			} else {
 				return null;
+			}
 		} else {
 			String name = colref.getColumnName();
 			// Special case: row._rowPosition refers to internal rowID
-			if (JSRowObject.ROW_POSITION.equals(name))
+			if (JSRowObject.ROW_POSITION.equals(name)) {
 				return Integer.valueOf(index);
-			else if (roObject != null)
+			} else if (roObject != null) {
 				return roObject.getFieldValue(name);
-			else
+			} else {
 				return null;
+			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public static Object[] flatternMultipleValues(Object[] values) {
-		if (values == null || values.length == 0)
+		if (values == null || values.length == 0) {
 			return new Object[0];
+		}
 		List flattern = new ArrayList();
 		for (int i = 0; i < values.length; i++) {
 			if (values[i] instanceof Object[]) {

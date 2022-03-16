@@ -1,11 +1,13 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -58,9 +60,11 @@ public class AbstractHandler implements IHandler {
 		this.element = element;
 	}
 
+	@Override
 	public void notifyHandler(HandlerState state) {
 	}
 
+	@Override
 	public String getPath() {
 		if (parent != null) {
 			return this.getClass().getSimpleName() + "/" + parent.getPath();
@@ -69,10 +73,12 @@ public class AbstractHandler implements IHandler {
 		}
 	}
 
+	@Override
 	public IHandler getParent() {
 		return parent;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T extends IHandler> T getAncestor(Class<T> clazz) {
 		if (parent != null) {
@@ -85,6 +91,7 @@ public class AbstractHandler implements IHandler {
 		return null;
 	}
 
+	@Override
 	public CSSValue getBackgroundColour() {
 		if (backgroundColour != null) {
 			return backgroundColour;
@@ -164,6 +171,7 @@ public class AbstractHandler implements IHandler {
 		}
 	}
 
+	@Override
 	public void startPage(HandlerState state, IPageContent page) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".startPage");
@@ -171,6 +179,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void endPage(HandlerState state, IPageContent page) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".endPage");
@@ -178,6 +187,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void startTable(HandlerState state, ITableContent table) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".startTable");
@@ -185,6 +195,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void endTable(HandlerState state, ITableContent table) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".endTable");
@@ -192,6 +203,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void startTableBand(HandlerState state, ITableBandContent band) throws BirtException {
 		// NoSuchMethodError ex = new NoSuchMethodError( "Method not implemented: " +
 		// this.getClass().getSimpleName() + ".startTableBand" );
@@ -199,6 +211,7 @@ public class AbstractHandler implements IHandler {
 		// throw ex;
 	}
 
+	@Override
 	public void endTableBand(HandlerState state, ITableBandContent band) throws BirtException {
 		// NoSuchMethodError ex = new NoSuchMethodError( "Method not implemented: " +
 		// this.getClass().getSimpleName() + ".endTableBand" );
@@ -206,6 +219,7 @@ public class AbstractHandler implements IHandler {
 		// throw ex;
 	}
 
+	@Override
 	public void startRow(HandlerState state, IRowContent row) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".startRow");
@@ -213,6 +227,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void endRow(HandlerState state, IRowContent row) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".endRow");
@@ -220,6 +235,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void startCell(HandlerState state, ICellContent cell) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".startCell");
@@ -227,6 +243,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void endCell(HandlerState state, ICellContent cell) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".endCell");
@@ -234,6 +251,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void startList(HandlerState state, IListContent list) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".startList");
@@ -241,6 +259,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void endList(HandlerState state, IListContent list) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".endList");
@@ -248,6 +267,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void startListBand(HandlerState state, IListBandContent listBand) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".startListBand");
@@ -255,6 +275,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void endListBand(HandlerState state, IListBandContent listBand) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".endListBand");
@@ -262,6 +283,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void startContainer(HandlerState state, IContainerContent container) throws BirtException {
 		// NoSuchMethodError ex = new NoSuchMethodError( "Method not implemented: " +
 		// this.getClass().getSimpleName() + ".startContainer" );
@@ -269,6 +291,7 @@ public class AbstractHandler implements IHandler {
 		// throw ex;
 	}
 
+	@Override
 	public void endContainer(HandlerState state, IContainerContent container) throws BirtException {
 		// NoSuchMethodError ex = new NoSuchMethodError( "Method not implemented: " +
 		// this.getClass().getSimpleName() + ".endContainer" );
@@ -276,6 +299,7 @@ public class AbstractHandler implements IHandler {
 		// throw ex;
 	}
 
+	@Override
 	public void startContent(HandlerState state, IContent content) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".startContent");
@@ -283,6 +307,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void endContent(HandlerState state, IContent content) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".endContent");
@@ -290,6 +315,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void startGroup(HandlerState state, IGroupContent group) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".startGroup");
@@ -297,6 +323,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void endGroup(HandlerState state, IGroupContent group) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".endGroup");
@@ -304,6 +331,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void startTableGroup(HandlerState state, ITableGroupContent group) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".startTableGroup");
@@ -311,6 +339,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void endTableGroup(HandlerState state, ITableGroupContent group) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".endTableGroup");
@@ -318,6 +347,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void startListGroup(HandlerState state, IListGroupContent group) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".startListGroup");
@@ -325,6 +355,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void endListGroup(HandlerState state, IListGroupContent group) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".endListGroup");
@@ -332,6 +363,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void emitText(HandlerState state, ITextContent text) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".emitText");
@@ -339,6 +371,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void emitData(HandlerState state, IDataContent data) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".emitData");
@@ -346,6 +379,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void emitLabel(HandlerState state, ILabelContent label) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".emitLabel");
@@ -353,6 +387,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void emitAutoText(HandlerState state, IAutoTextContent autoText) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".emitAutoText");
@@ -360,6 +395,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void emitForeign(HandlerState state, IForeignContent foreign) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".emitForeign");
@@ -367,6 +403,7 @@ public class AbstractHandler implements IHandler {
 		throw ex;
 	}
 
+	@Override
 	public void emitImage(HandlerState state, IImageContent image) throws BirtException {
 		NoSuchMethodError ex = new NoSuchMethodError(
 				"Method not implemented: " + this.getClass().getSimpleName() + ".emitImage");

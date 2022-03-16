@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.report.data.adapter.internal.adapter;
@@ -110,7 +113,7 @@ public class DataAdapterUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param modelDataSet
 	 * @param dteDataSet
 	 * @throws AdapterException
@@ -156,9 +159,10 @@ public class DataAdapterUtil {
 			while (elmtIter.hasNext()) {
 				ParamBindingHandle modelParamBinding = (ParamBindingHandle) elmtIter.next();
 				// replace default value of the same parameter, if defined
-				if (modelParamBinding.getExpression() != null)
+				if (modelParamBinding.getExpression() != null) {
 					paramBindingCandidates.put(modelParamBinding.getParamName(),
 							adapter.adaptExpression(modelParamBinding.getExpressionListHandle().getListValue().get(0)));
+				}
 			}
 		}
 
@@ -167,7 +171,7 @@ public class DataAdapterUtil {
 			elmtIter = paramBindingCandidates.keySet().iterator();
 			while (elmtIter.hasNext()) {
 				Object paramName = elmtIter.next();
-				assert (paramName != null && paramName instanceof String);
+				assert (paramName instanceof String);
 				IScriptExpression expression = (IScriptExpression) paramBindingCandidates.get(paramName);
 				dteDataSet.addInputParamBinding(new InputParameterBinding((String) paramName, expression));
 			}
@@ -175,7 +179,7 @@ public class DataAdapterUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param modelDataSet
 	 * @param dteDataSet
 	 * @throws AdapterException
@@ -193,7 +197,7 @@ public class DataAdapterUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param modelDataSet
 	 * @param dteDataSet
 	 * @throws AdapterException
@@ -211,7 +215,7 @@ public class DataAdapterUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param modelDataSet
 	 * @param dteDataSet
 	 */
@@ -231,8 +235,9 @@ public class DataAdapterUtil {
 			if (elmtIter != null) {
 				while (elmtIter.hasNext()) {
 					OdaResultSetColumnHandle modelColumn = (OdaResultSetColumnHandle) elmtIter.next();
-					if (!modelColumn.getColumnName().equals(modelColumn.getNativeName()))
+					if (!modelColumn.getColumnName().equals(modelColumn.getNativeName())) {
 						dteDataSet.addResultSetHint(new ColumnAdapter((ResultSetColumnHandle) modelColumn));
+					}
 				}
 			}
 		}
@@ -253,10 +258,11 @@ public class DataAdapterUtil {
 			while (elmtIter.hasNext()) {
 				ColumnHintHandle modelColumnHint = (ColumnHintHandle) elmtIter.next();
 				ColumnDefinition existDefn = findColumnDefn(columnDefns, modelColumnHint.getColumnName());
-				if (existDefn != null)
+				if (existDefn != null) {
 					updateColumnDefn(existDefn, modelColumnHint);
-				else
+				} else {
 					dteDataSet.addResultSetHint(new ColumnAdapter(modelColumnHint));
+				}
 			}
 		}
 
@@ -305,12 +311,13 @@ public class DataAdapterUtil {
 		String exportConstant = modelColumnHint.getExport();
 		if (exportConstant != null) {
 			int exportHint = IColumnDefinition.DONOT_EXPORT; // default value
-			if (exportConstant.equals(DesignChoiceConstants.EXPORT_TYPE_IF_REALIZED))
+			if (exportConstant.equals(DesignChoiceConstants.EXPORT_TYPE_IF_REALIZED)) {
 				exportHint = IColumnDefinition.EXPORT_IF_REALIZED;
-			else if (exportConstant.equals(DesignChoiceConstants.EXPORT_TYPE_ALWAYS))
+			} else if (exportConstant.equals(DesignChoiceConstants.EXPORT_TYPE_ALWAYS)) {
 				exportHint = IColumnDefinition.ALWAYS_EXPORT;
-			else
+			} else {
 				assert exportConstant.equals(DesignChoiceConstants.EXPORT_TYPE_NONE);
+			}
 
 			dteColumn.setExportHint(exportHint);
 		}
@@ -318,12 +325,13 @@ public class DataAdapterUtil {
 		String searchConstant = modelColumnHint.getSearching();
 		if (searchConstant != null) {
 			int searchHint = IColumnDefinition.NOT_SEARCHABLE;
-			if (searchConstant.equals(DesignChoiceConstants.SEARCH_TYPE_INDEXED))
+			if (searchConstant.equals(DesignChoiceConstants.SEARCH_TYPE_INDEXED)) {
 				searchHint = IColumnDefinition.SEARCHABLE_IF_INDEXED;
-			else if (searchConstant.equals(DesignChoiceConstants.SEARCH_TYPE_ANY))
+			} else if (searchConstant.equals(DesignChoiceConstants.SEARCH_TYPE_ANY)) {
 				searchHint = IColumnDefinition.ALWAYS_SEARCHABLE;
-			else
+			} else {
 				assert searchConstant.equals(DesignChoiceConstants.SEARCH_TYPE_NONE);
+			}
 
 			dteColumn.setSearchHint(searchHint);
 		}
@@ -336,18 +344,21 @@ public class DataAdapterUtil {
 	 */
 	private static ColumnDefinition findColumnDefn(List columnDefns, String columnName) {
 		assert columnName != null;
-		if (columnDefns == null)
+		if (columnDefns == null) {
 			return null; // no list to find from
+		}
 		Iterator iter = columnDefns.iterator();
-		if (iter == null)
+		if (iter == null) {
 			return null;
+		}
 
 		// iterate thru each columnDefn, and looks for a match of
 		// specified column name
 		while (iter.hasNext()) {
 			ColumnDefinition column = (ColumnDefinition) iter.next();
-			if (columnName.equals(column.getColumnName()))
+			if (columnName.equals(column.getColumnName())) {
 				return column;
+			}
 		}
 		return null;
 	}
@@ -357,8 +368,9 @@ public class DataAdapterUtil {
 	 * in String values and returns them in a Map
 	 */
 	public static Map getExtensionProperties(ReportElementHandle dataHandle, List driverPropList) {
-		if (driverPropList == null || driverPropList.isEmpty())
+		if (driverPropList == null || driverPropList.isEmpty()) {
 			return null; // nothing to add
+		}
 
 		Map properties = new HashMap();
 		Iterator elmtIter = driverPropList.iterator();
@@ -385,8 +397,9 @@ public class DataAdapterUtil {
 	}
 
 	public static Expression getExpression(ExpressionHandle handle) {
-		if (handle == null || handle.getValue() == null)
+		if (handle == null || handle.getValue() == null) {
 			return null;
+		}
 		return (Expression) handle.getValue();
 	}
 }

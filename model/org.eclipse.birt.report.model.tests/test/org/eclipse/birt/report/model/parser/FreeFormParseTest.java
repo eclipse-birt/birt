@@ -1,9 +1,9 @@
 /*******************************************************************************
 * Copyright (c) 2004 Actuate Corporation.
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
@@ -75,9 +75,9 @@ import org.eclipse.birt.report.model.util.XMLParserException;
  * <td width="34%" height="16"></td>
  * </tr>
  * </table>
- * 
- * 
- * 
+ *
+ *
+ *
  */
 public class FreeFormParseTest extends ParserTestCase {
 	String fileName = "FreeFormParseTest.xml"; //$NON-NLS-1$
@@ -88,13 +88,14 @@ public class FreeFormParseTest extends ParserTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * test parser.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -106,14 +107,14 @@ public class FreeFormParseTest extends ParserTestCase {
 	 * Style"> <font size="14"/> </style> <text>Customer Name </text> </label>
 	 * <free-form name="freeFrom1" extends="freeForm2"> <comments>Inner freeform
 	 * </comments> <report-items>
-	 * 
+	 *
 	 * <label x="6" y=".5" height=".25" width="1"> <text>Today's Date </text>
 	 * </label> <free-form name="level3FreeForm"/> </report-items> </free-from>
 	 * <free-form name="freeForm2"/> <data distinct="repeat" distinct-reset="foo">
 	 * <value-expr>[price] * [quan] </value-expr> <help-text>This is a data item.
 	 * </help-text> </data> <text> <value-expr>[foo.bar] </value-expr> </text> <grid
 	 * name="grid"/>
-	 * 
+	 *
 	 * </report-items> </free-form>
 	 */
 
@@ -154,7 +155,7 @@ public class FreeFormParseTest extends ParserTestCase {
 
 	/**
 	 * test write().
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testWritter() throws Exception {
@@ -181,7 +182,7 @@ public class FreeFormParseTest extends ParserTestCase {
 
 	/**
 	 * Test semantic errors.
-	 * 
+	 *
 	 */
 	public void testSemanticCheck() {
 

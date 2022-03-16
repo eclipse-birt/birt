@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,14 +17,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 
+import org.eclipse.birt.data.oda.pojo.ui.impl.models.TreeData;
+import org.eclipse.birt.data.oda.pojo.util.ClassParser;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import org.eclipse.birt.data.oda.pojo.ui.impl.models.TreeData;
-import org.eclipse.birt.data.oda.pojo.util.ClassParser;
-
 /**
- * 
+ *
  */
 
 public class ClassTreeContentProvider implements ITreeContentProvider {
@@ -36,10 +38,11 @@ public class ClassTreeContentProvider implements ITreeContentProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
 	 */
+	@Override
 	public Object[] getChildren(Object arg0) {
 		if (arg0 instanceof TreeData) {
 			TreeData td = (TreeData) arg0;
@@ -76,20 +79,22 @@ public class ClassTreeContentProvider implements ITreeContentProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
 	 */
+	@Override
 	public Object getParent(Object arg0) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
 	 */
+	@Override
 	public boolean hasChildren(Object arg0) {
 		if (arg0 instanceof TreeData) {
 			Object obj = ((TreeData) arg0).getWrappedObject();
@@ -109,11 +114,12 @@ public class ClassTreeContentProvider implements ITreeContentProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.
 	 * Object)
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public Object[] getElements(Object arg0) {
 		if (arg0 instanceof TreeData) {
@@ -129,9 +135,10 @@ public class ClassTreeContentProvider implements ITreeContentProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 	 */
+	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 
@@ -139,11 +146,12 @@ public class ClassTreeContentProvider implements ITreeContentProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.
 	 * viewers.Viewer, java.lang.Object, java.lang.Object)
 	 */
+	@Override
 	public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
 
 	}

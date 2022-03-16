@@ -1,9 +1,12 @@
 /*******************************************************************************
 * Copyright (c) 2004,2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,12 +26,12 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * DateFormatter.
- * 
+ *
  * Design for Class DateFormatter.This version is for open source, so we only
  * apply the function which Java has provided. Beside these basic function, in
  * this version, we also provide some new API for further implementation in the
  * future
- * 
+ *
  */
 public class DateFormatter implements IFormatter {
 
@@ -76,7 +79,7 @@ public class DateFormatter implements IFormatter {
 
 	/**
 	 * constuctor method with String parameter
-	 * 
+	 *
 	 * @param pattern
 	 */
 	public DateFormatter(String pattern) {
@@ -85,7 +88,7 @@ public class DateFormatter implements IFormatter {
 
 	/**
 	 * constuctor method with Locale parameters
-	 * 
+	 *
 	 * @param localeLoc
 	 */
 	public DateFormatter(ULocale localeLoc) {
@@ -100,6 +103,7 @@ public class DateFormatter implements IFormatter {
 	 * @deprecated since 2.1
 	 * @return
 	 */
+	@Deprecated
 	public DateFormatter(Locale localeLoc) {
 		this(null, ULocale.forLocale(localeLoc), null);
 	}
@@ -107,7 +111,7 @@ public class DateFormatter implements IFormatter {
 	/**
 	 * constuctor method with two parameters, one is String type while the other is
 	 * Locale type
-	 * 
+	 *
 	 * @param pattern
 	 * @param localeLoc
 	 */
@@ -116,10 +120,12 @@ public class DateFormatter implements IFormatter {
 	}
 
 	public DateFormatter(String pattern, ULocale localeLoc, TimeZone timeZone) {
-		if (localeLoc != null)
+		if (localeLoc != null) {
 			locale = localeLoc;
-		if (timeZone != null)
+		}
+		if (timeZone != null) {
 			this.timeZone = timeZone;
+		}
 		applyPattern(pattern);
 	}
 
@@ -127,13 +133,14 @@ public class DateFormatter implements IFormatter {
 	 * @deprecated since 2.1
 	 * @return
 	 */
+	@Deprecated
 	public DateFormatter(String pattern, Locale localeLoc) {
 		this(pattern, ULocale.forLocale(localeLoc));
 	}
 
 	/**
 	 * get the string pattern
-	 * 
+	 *
 	 * @return
 	 */
 	public String getPattern() {
@@ -157,7 +164,7 @@ public class DateFormatter implements IFormatter {
 	/**
 	 * Convert into predefine pattern, when format is null, the case cover english.
 	 * It will add if other language is require
-	 * 
+	 *
 	 * @param dateformat
 	 * @param locale
 	 * @return
@@ -173,7 +180,7 @@ public class DateFormatter implements IFormatter {
 
 	/**
 	 * define pattern and locale here
-	 * 
+	 *
 	 * @param formatString
 	 */
 	@SuppressWarnings("nls")
@@ -393,7 +400,7 @@ public class DateFormatter implements IFormatter {
 			if (pattern.indexOf("yyyy") == -1) {
 				int idx = pattern.indexOf("yy");
 				if (idx >= 0) {
-					StringBuffer strBuf = new StringBuffer(pattern);
+					StringBuilder strBuf = new StringBuilder(pattern);
 					strBuf.insert(idx, 'y');
 					pattern = strBuf.toString();
 				}
@@ -411,7 +418,7 @@ public class DateFormatter implements IFormatter {
 			if (pattern.indexOf("SSS") == -1) {
 				int idx = pattern.indexOf("ss");
 				if (idx >= 0) {
-					StringBuffer strBuf = new StringBuffer(pattern);
+					StringBuilder strBuf = new StringBuilder(pattern);
 
 					strBuf.insert(idx + 2, ".SSS");
 					pattern = strBuf.toString();
@@ -515,7 +522,7 @@ public class DateFormatter implements IFormatter {
 
 	/**
 	 * Parses the input string into a formatted date type.
-	 * 
+	 *
 	 * @param date the input string to parse
 	 * @return the formatted date
 	 * @throws ParseException if the beginning of the specified string cannot be
@@ -545,6 +552,7 @@ public class DateFormatter implements IFormatter {
 		}
 	}
 
+	@Override
 	public String formatValue(Object value) {
 		assert value instanceof Date;
 		return format((Date) value);

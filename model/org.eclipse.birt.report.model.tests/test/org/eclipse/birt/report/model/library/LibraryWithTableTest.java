@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,23 +30,23 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * The test case of the method 'canDoAction' of table row/column.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>update table row/column operation.</td>
  * <td>Test canDo method which table has parent.</td>
  * <td>canDo method return false.</td>
  * </tr>
- * 
- * 
+ *
+ *
  * </table>
- * 
+ *
  */
 
 public class LibraryWithTableTest extends BaseTestCase {
@@ -54,13 +57,14 @@ public class LibraryWithTableTest extends BaseTestCase {
 	 * @see TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Test update table row or table column.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testRowAndColumnUpdateAction() throws Exception {
@@ -130,7 +134,7 @@ public class LibraryWithTableTest extends BaseTestCase {
 
 	/**
 	 * Test extends a grid that contains table. see bugzilla 187761
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -144,7 +148,7 @@ public class LibraryWithTableTest extends BaseTestCase {
 
 	/**
 	 * Test extends a multiple view in the table element.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -75,11 +75,13 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		isInBlockStacking = false;
 	}
 
+	@Override
 	protected void createRoot() {
 		currentContext.root = AreaFactory.createLineArea(context.getReport());
 		lineCount++;
 	}
 
+	@Override
 	protected void initialize() {
 		int currentIP = 0;
 		if (contextList.size() > 0) {
@@ -96,11 +98,13 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 
 		// Derive the baseLevel from the parent content direction.
 		if (parent.content != null) {
-			if (CSSConstants.CSS_RTL_VALUE.equals(parent.content.getComputedStyle().getDirection()))
+			if (CSSConstants.CSS_RTL_VALUE.equals(parent.content.getComputedStyle().getDirection())) {
 				baseLevel = Bidi.DIRECTION_RIGHT_TO_LEFT;
+			}
 		}
 	}
 
+	@Override
 	public void setTextIndent(ITextContent content) {
 		if (isEmpty) {
 			if (content != null) {
@@ -111,6 +115,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		}
 	}
 
+	@Override
 	public boolean endLine() throws BirtException {
 		closeLayout(false);
 		initialize();
@@ -120,7 +125,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 
 	/**
 	 * submit current line to parent true if succeed
-	 * 
+	 *
 	 * @return
 	 */
 	/*
@@ -140,6 +145,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 	 * ); parent.addArea( currentContext.root, index ); }
 	 */
 
+	@Override
 	protected void closeLayout() throws BirtException {
 		closeLayout(true);
 	}
@@ -153,7 +159,6 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 				align(currentContext, isLastLine);
 				boolean succeed = parent.addArea(currentContext.root, parent.contextList.size() - 1);
 				if (succeed) {
-					return;
 				} else {
 					parent.autoPageBreak();
 					parent.addToRoot(currentContext.root, parent.contextList.size() - 1);
@@ -177,6 +182,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		}
 	}
 
+	@Override
 	public void addToRoot(AbstractArea area) {
 		area.setAllocatedPosition(currentContext.currentIP, currentContext.currentBP);
 		currentContext.currentIP += area.getAllocatedWidth();
@@ -221,8 +227,9 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		} else if (CSSConstants.CSS_JUSTIFY_VALUE.equalsIgnoreCase(align) && !lastLine) {
 			justify(currentContext);
 		}
-		if (context.getBidiProcessing())
+		if (context.getBidiProcessing()) {
 			reorderVisually(currentContext.root);
+		}
 		verticalAlign();
 	}
 
@@ -336,10 +343,12 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 
 	}
 
+	@Override
 	public int getMaxLineWidth() {
 		return currentContext.maxAvaWidth;
 	}
 
+	@Override
 	public boolean isEmptyLine() {
 		return isRootEmpty();
 	}
@@ -347,13 +356,14 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 	/**
 	 * Puts container's child areas into the visual (display) order and repositions
 	 * them following that order horizontally.
-	 * 
+	 *
 	 * @author Lina Kemmel
 	 */
 	private void reorderVisually(ContainerArea parent) {
 		int n = parent.getChildrenCount();
-		if (n == 0)
+		if (n == 0) {
 			return;
+		}
 
 		int i = 0;
 		AbstractArea[] children = new AbstractArea[n];
@@ -363,9 +373,9 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		for (; i < n && iter.hasNext(); i++) {
 			children[i] = (AbstractArea) iter.next();
 
-			if (children[i] instanceof TextArea)
+			if (children[i] instanceof TextArea) {
 				levels[i] = (byte) ((TextArea) children[i]).getRunLevel();
-			else {
+			} else {
 				levels[i] = baseLevel;
 				if (children[i] instanceof ContainerArea) {
 					// We assume that each inline container area should be

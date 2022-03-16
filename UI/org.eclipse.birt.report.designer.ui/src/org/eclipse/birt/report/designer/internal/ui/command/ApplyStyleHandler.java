@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +30,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.expressions.IEvaluationContext;
 
 /**
- * 
+ *
  */
 
 public class ApplyStyleHandler extends SelectionHandler {
@@ -36,11 +39,12 @@ public class ApplyStyleHandler extends SelectionHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
 	 * ExecutionEvent)
 	 */
+	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		super.execute(event);
 		if (Policy.TRACING_ACTIONS) {
@@ -54,12 +58,12 @@ public class ApplyStyleHandler extends SelectionHandler {
 
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext();
 		Object obj = UIUtil.getVariableFromContext(context, ICommandParameterNameContants.STYLE_HANDLE_NAME);
-		if (obj != null && obj instanceof SharedStyleHandle) {
+		if (obj instanceof SharedStyleHandle) {
 			handle = (SharedStyleHandle) obj;
 		}
 
 		obj = UIUtil.getVariableFromContext(context, ICommandParameterNameContants.APPLAY_STYLE_ACTION_STYLE_CHECKED);
-		if (obj != null && obj instanceof Boolean) {
+		if (obj instanceof Boolean) {
 			isChecked = ((Boolean) obj).booleanValue();
 		}
 

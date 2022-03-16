@@ -1,10 +1,13 @@
 /**
  *************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +41,7 @@ import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 public class QueryValidator {
 
 	/**
-	 * 
+	 *
 	 * @param query
 	 * @param cubeHandle
 	 * @throws DataException
@@ -46,10 +49,11 @@ public class QueryValidator {
 	 */
 	public static void validateTimeFunctionInCubeQuery(ICubeQueryDefinition query, CubeHandle cubeHandle)
 			throws DataException, AdapterException {
-		if (cubeHandle == null)
+		if (cubeHandle == null) {
 			return;
+		}
 
-		Map<String, IDimensionDefinition> dimensionMap = new HashMap<String, IDimensionDefinition>();
+		Map<String, IDimensionDefinition> dimensionMap = new HashMap<>();
 		IEdgeDefinition columnEdge = query.getEdge(ICubeQueryDefinition.COLUMN_EDGE);
 		if (columnEdge != null) {
 			List<IDimensionDefinition> dimensions = columnEdge.getDimensions();
@@ -90,7 +94,7 @@ public class QueryValidator {
 
 	/**
 	 * time dimension used in time function is not in xTab
-	 * 
+	 *
 	 * @param cube
 	 * @param function
 	 * @return
@@ -111,7 +115,7 @@ public class QueryValidator {
 			}
 			TabularHierarchyHandle hierhandle = (TabularHierarchyHandle) handle.getDefaultHierarchy();
 			List levels = hierhandle.getContents(TabularHierarchyHandle.LEVELS_PROP);
-			List<String> levelTypes = new ArrayList<String>();
+			List<String> levelTypes = new ArrayList<>();
 
 			for (int i = 0; i < levels.size(); i++) {
 				TabularLevelHandle level = (TabularLevelHandle) levels.get(i);
@@ -137,7 +141,7 @@ public class QueryValidator {
 
 	/**
 	 * time dimension used in time function is in xTab
-	 * 
+	 *
 	 * @param cube
 	 * @param function
 	 * @return
@@ -146,7 +150,7 @@ public class QueryValidator {
 	 */
 	private static void validateTimeFunction(IDimensionDefinition timeDimension, CubeHandle cubeHandle,
 			ITimeFunction function) throws AdapterException, DataException {
-		List<String> levelTypes = new ArrayList<String>();
+		List<String> levelTypes = new ArrayList<>();
 
 		if (cubeHandle != null) {
 			String dimensionName = function.getTimeDimension();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -25,7 +25,7 @@ public interface ITable extends IListing {
 	 * Returns the number of columns in the table. The number is defined as 1) the
 	 * sum of columns described in the "column" slot, or 2) the widest row defined
 	 * in the detail, header or footer slots if column slot is empty.
-	 * 
+	 *
 	 * @return the number of columns in the table
 	 */
 
@@ -33,7 +33,7 @@ public interface ITable extends IListing {
 
 	/**
 	 * Tests whether to repeat the headings at the top of each page.
-	 * 
+	 *
 	 * @return <code>true</code> if repeat the headings, otherwise
 	 *         <code>false</code>.
 	 */
@@ -42,7 +42,7 @@ public interface ITable extends IListing {
 
 	/**
 	 * Sets whether to repeat the headings at the top of each page.
-	 * 
+	 *
 	 * @param value <code>true</code> if repeat the headings, otherwise
 	 *              <code>false</code>.
 	 * @throws ScriptException if the property is locked.
@@ -52,14 +52,14 @@ public interface ITable extends IListing {
 
 	/**
 	 * Gets the summary of this table.
-	 * 
+	 *
 	 * @return the summary.
 	 */
 	String getSummary();
 
 	/**
 	 * Sets the summary of this table.
-	 * 
+	 *
 	 * @param summary the summary
 	 * @throws SemanticException if this property is locked.
 	 */
@@ -67,13 +67,13 @@ public interface ITable extends IListing {
 
 	/**
 	 * Returns the caption text of this table.
-	 * 
+	 *
 	 * @return the caption text
 	 */
 
 	/**
 	 * Returns the caption text of this table.
-	 * 
+	 *
 	 * @return the caption text
 	 */
 
@@ -81,7 +81,7 @@ public interface ITable extends IListing {
 
 	/**
 	 * Sets the caption text of this table.
-	 * 
+	 *
 	 * @param caption the caption text
 	 * @throws ScriptException if the property is locked.
 	 */
@@ -90,7 +90,7 @@ public interface ITable extends IListing {
 
 	/**
 	 * Returns the resource key of the caption.
-	 * 
+	 *
 	 * @return the resource key of the caption
 	 */
 
@@ -98,7 +98,7 @@ public interface ITable extends IListing {
 
 	/**
 	 * Sets the resource key of the caption.
-	 * 
+	 *
 	 * @param captionKey the resource key of the caption
 	 * @throws ScriptException if the caption resource-key property is locked.
 	 */
@@ -107,7 +107,7 @@ public interface ITable extends IListing {
 
 	/**
 	 * Gets column.
-	 * 
+	 *
 	 * @param index
 	 * @return column wrapper
 	 */

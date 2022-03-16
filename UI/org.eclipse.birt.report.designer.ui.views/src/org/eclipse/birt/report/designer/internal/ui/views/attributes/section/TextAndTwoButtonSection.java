@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -24,37 +36,43 @@ public class TextAndTwoButtonSection extends TextAndButtonSection {
 		super(labelText, parent, isFormStyle);
 	}
 
+	@Override
 	public void createSection() {
 		super.createSection();
 		getSecondButtonControl(parent);
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) textField.getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - 3 - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 3 - placeholder;
+		}
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillText;
+		}
 
 		gd = (GridData) button.getLayoutData();
 		if (buttonWidth > -1) {
-			if (!isComputeSize)
+			if (!isComputeSize) {
 				gd.widthHint = Math.max(button.computeSize(-1, -1).x, buttonWidth);
-			else
+			} else {
 				gd.widthHint = button.computeSize(-1, -1).x;
+			}
 		}
 
 		gd = (GridData) secondButton.getLayoutData();
 		if (secondButtonWidth > -1) {
-			if (!isComputeSize)
+			if (!isComputeSize) {
 				gd.widthHint = Math.max(secondButton.computeSize(-1, -1).x, secondButtonWidth);
-			else
+			} else {
 				gd.widthHint = secondButton.computeSize(-1, -1).x;
+			}
 		}
 	}
 
@@ -76,6 +94,7 @@ public class TextAndTwoButtonSection extends TextAndButtonSection {
 
 			secondButton.addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					secondButton = null;
 				}
@@ -84,6 +103,7 @@ public class TextAndTwoButtonSection extends TextAndButtonSection {
 			if (secondButtonListener == null) {
 				secondButtonListener = new SelectionAdapter() {
 
+					@Override
 					public void widgetSelected(SelectionEvent e) {
 						onClickSecondButton();
 					}
@@ -125,14 +145,14 @@ public class TextAndTwoButtonSection extends TextAndButtonSection {
 	}
 
 	protected void onClickSecondButton() {
-	};
+	}
 
 	public void setSecondButtonWidth(int buttonWidth) {
 		this.secondButtonWidth = buttonWidth;
 		if (secondButton != null) {
 			GridData data = new GridData();
 			data.widthHint = Math.max(secondButton.computeSize(-1, -1).x, buttonWidth);
-			;
+
 			data.grabExcessHorizontalSpace = false;
 			secondButton.setLayoutData(data);
 		}
@@ -140,14 +160,16 @@ public class TextAndTwoButtonSection extends TextAndButtonSection {
 
 	public void setSecondButtonTooltipText(String string) {
 		this.secondButtonTooltipText = string;
-		if (secondButton != null)
+		if (secondButton != null) {
 			secondButton.setToolTipText(secondButtonTooltipText);
+		}
 
 	}
 
 	public void setSecondButtonText(String buttonText) {
 		this.secondButtonText = buttonText;
-		if (secondButton != null)
+		if (secondButton != null) {
 			secondButton.setText(buttonText);
+		}
 	}
 }

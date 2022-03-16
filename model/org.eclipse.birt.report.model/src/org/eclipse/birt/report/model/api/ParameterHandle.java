@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IParameterModel;
 /**
  * Represents the various parameter types. This abstract base parameter element
  * defines properties common to all types of parameters.
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.Parameter
  */
 
@@ -29,7 +32,7 @@ public abstract class ParameterHandle extends ReportElementHandle implements IPa
 	 * Constructs the handle for a parameter with the given design and element. The
 	 * application generally does not create handles directly. Instead, it uses one
 	 * of the navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -41,7 +44,7 @@ public abstract class ParameterHandle extends ReportElementHandle implements IPa
 	/**
 	 * Returns the additional text to display for the parameter to explain how to
 	 * use the parameter.
-	 * 
+	 *
 	 * @return the help text
 	 */
 
@@ -52,9 +55,9 @@ public abstract class ParameterHandle extends ReportElementHandle implements IPa
 	/**
 	 * Returns the additional text to display for the parameter to explain how to
 	 * use the parameter.
-	 * 
+	 *
 	 * @param helpText the help text
-	 * 
+	 *
 	 * @throws SemanticException if the property is locked.
 	 */
 
@@ -65,7 +68,7 @@ public abstract class ParameterHandle extends ReportElementHandle implements IPa
 	/**
 	 * Returns the resource key of the additional text to display for the parameter
 	 * to explain how to use the parameter.
-	 * 
+	 *
 	 * @return the resource key of the help text
 	 */
 
@@ -76,9 +79,9 @@ public abstract class ParameterHandle extends ReportElementHandle implements IPa
 	/**
 	 * Sets the resource key of the additional text to display for the parameter to
 	 * explain how to use the parameter.
-	 * 
+	 *
 	 * @param resourceKey the resource key of the help text
-	 * 
+	 *
 	 * @throws SemanticException if the property is locked.
 	 */
 
@@ -89,7 +92,7 @@ public abstract class ParameterHandle extends ReportElementHandle implements IPa
 	/**
 	 * Tests whether the parameter will appear in the Requester page. Parameter is
 	 * visible by default.
-	 * 
+	 *
 	 * @return <code>true</code> means the parameter will not be visible.
 	 *         <code>false</code> means the invisibility of the parameter.
 	 */
@@ -102,7 +105,7 @@ public abstract class ParameterHandle extends ReportElementHandle implements IPa
 	 * Sets the hidden property of this parameter. If <code>true</code>, the
 	 * parameter will not appear in the Requester page. Parameter is visible by
 	 * default.
-	 * 
+	 *
 	 * @param hidden <code>true</code> if the parameter is visible. Otherwise
 	 *               <code>false</code>.
 	 * @throws SemanticException if the property is locked.
@@ -114,7 +117,7 @@ public abstract class ParameterHandle extends ReportElementHandle implements IPa
 
 	/**
 	 * Gets the custom validation code for the parameter.
-	 * 
+	 *
 	 * @return the custom validation code for the parameter
 	 */
 
@@ -124,7 +127,7 @@ public abstract class ParameterHandle extends ReportElementHandle implements IPa
 
 	/**
 	 * Sets the custom validation code for the parameter.
-	 * 
+	 *
 	 * @param validation the custom validation code to set
 	 * @throws SemanticException if the property is locked
 	 */
@@ -135,11 +138,11 @@ public abstract class ParameterHandle extends ReportElementHandle implements IPa
 
 	/**
 	 * Set the value for the display prompt context.
-	 * 
+	 *
 	 * @param promptValue The display prompt context.
-	 * 
+	 *
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 
 	public void setPromptText(String promptValue) throws SemanticException {
@@ -148,9 +151,9 @@ public abstract class ParameterHandle extends ReportElementHandle implements IPa
 
 	/**
 	 * get the display prompt text.
-	 * 
+	 *
 	 * @return the display prompt.
-	 * 
+	 *
 	 */
 
 	public String getPromptText() {
@@ -159,11 +162,11 @@ public abstract class ParameterHandle extends ReportElementHandle implements IPa
 
 	/**
 	 * Set the value for the prompt text ID.
-	 * 
+	 *
 	 * @param promptIDValue The prompt text ID.
-	 * 
+	 *
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 
 	public void setPromptTextID(String promptIDValue) throws SemanticException {
@@ -172,9 +175,9 @@ public abstract class ParameterHandle extends ReportElementHandle implements IPa
 
 	/**
 	 * Returns the prompt text ID.
-	 * 
+	 *
 	 * @return the prompt text ID.
-	 * 
+	 *
 	 */
 
 	public String getPromptTextID() {
@@ -185,7 +188,7 @@ public abstract class ParameterHandle extends ReportElementHandle implements IPa
 	 * Returns the localized text for prompt text. If the localized text for the
 	 * text resource key is found, it will be returned. Otherwise, the static text
 	 * will be returned.
-	 * 
+	 *
 	 * @return the localized text for the prompt text
 	 */
 

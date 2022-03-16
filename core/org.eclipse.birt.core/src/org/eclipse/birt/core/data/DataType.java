@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.core.data;
@@ -57,7 +60,7 @@ public abstract class DataType {
 
 	/**
 	 * Gets the description of a data type.
-	 * 
+	 *
 	 * @param typeCode Data type enumeration value
 	 * @return Textual description of data type. "Unknown" if an undefined data type
 	 *         is passed in.
@@ -71,7 +74,7 @@ public abstract class DataType {
 
 	/**
 	 * Gets the Java class used to represent the specified data type.
-	 * 
+	 *
 	 * @return Class for the specified data type. If data type is unknown or ANY,
 	 *         returns null.
 	 */
@@ -83,7 +86,7 @@ public abstract class DataType {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param objClass
 	 * @return
 	 */
@@ -101,6 +104,6 @@ public abstract class DataType {
 	 * to be manually created to make it correspond to "Any" name.
 	 */
 	public static final class AnyType {
-	};
+	}
 
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +43,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * 
+ *
  */
 
 public class AxisLabelSheet extends AbstractPopupSheet implements Listener {
@@ -71,6 +74,7 @@ public class AxisLabelSheet extends AbstractPopupSheet implements Listener {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_TEXT_FORMAT);
 	}
 
+	@Override
 	protected Composite getComponent(Composite parent) {
 		cmpContent = new Composite(parent, SWT.NONE);
 		{
@@ -188,10 +192,11 @@ public class AxisLabelSheet extends AbstractPopupSheet implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
 	 * Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		if (event.widget.equals(lacLabel)) {
 			boolean isUnset = (event.detail == ChartUIExtensionUtil.PROPERTY_UNSET);
@@ -238,7 +243,7 @@ public class AxisLabelSheet extends AbstractPopupSheet implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
@@ -248,7 +253,7 @@ public class AxisLabelSheet extends AbstractPopupSheet implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,17 +45,19 @@ public class OpenDocAction extends Action implements ICheatSheetAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.cheatsheets.ICheatSheetAction#run(java.lang.String[],
 	 * org.eclipse.ui.cheatsheets.ICheatSheetManager)
 	 */
+	@Override
 	public void run(String[] params, ICheatSheetManager manager) {
 		if (this.helper != null) {
 			this.helper.run(params, manager);
 			return;
 		}
-		if (params.length < 1)
+		if (params.length < 1) {
 			throw new IllegalArgumentException();
+		}
 		PlatformUI.getWorkbench().getHelpSystem().displayHelpResource(params[0]);
 	}
 

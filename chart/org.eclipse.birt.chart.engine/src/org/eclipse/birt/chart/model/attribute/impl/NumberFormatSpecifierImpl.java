@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -49,7 +52,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 	/**
 	 * The default value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getPrefix()
 	 * @generated
 	 * @ordered
@@ -59,7 +62,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 	/**
 	 * The cached value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getPrefix()
 	 * @generated
 	 * @ordered
@@ -69,7 +72,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 	/**
 	 * The default value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSuffix()
 	 * @generated
 	 * @ordered
@@ -79,7 +82,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 	/**
 	 * The cached value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSuffix()
 	 * @generated
 	 * @ordered
@@ -89,7 +92,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 	/**
 	 * The default value of the '{@link #getMultiplier() <em>Multiplier</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getMultiplier()
 	 * @generated
 	 * @ordered
@@ -99,7 +102,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 	/**
 	 * The cached value of the '{@link #getMultiplier() <em>Multiplier</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getMultiplier()
 	 * @generated
 	 * @ordered
@@ -109,7 +112,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 	/**
 	 * This is true if the Multiplier attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -118,7 +121,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 	/**
 	 * The default value of the ' {@link #getFractionDigits() <em>Fraction
 	 * Digits</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getFractionDigits()
 	 * @generated
 	 * @ordered
@@ -128,7 +131,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 	/**
 	 * The cached value of the ' {@link #getFractionDigits() <em>Fraction
 	 * Digits</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getFractionDigits()
 	 * @generated
 	 * @ordered
@@ -138,7 +141,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 	/**
 	 * This is true if the Fraction Digits attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -146,7 +149,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected NumberFormatSpecifierImpl() {
@@ -155,7 +158,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -165,150 +168,168 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getPrefix() {
 		return prefix;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setPrefix(String newPrefix) {
 		String oldPrefix = prefix;
 		prefix = newPrefix;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.NUMBER_FORMAT_SPECIFIER__PREFIX,
 					oldPrefix, prefix));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getSuffix() {
 		return suffix;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setSuffix(String newSuffix) {
 		String oldSuffix = suffix;
 		suffix = newSuffix;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.NUMBER_FORMAT_SPECIFIER__SUFFIX,
 					oldSuffix, suffix));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public double getMultiplier() {
 		return multiplier;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setMultiplier(double newMultiplier) {
 		double oldMultiplier = multiplier;
 		multiplier = newMultiplier;
 		boolean oldMultiplierESet = multiplierESet;
 		multiplierESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.NUMBER_FORMAT_SPECIFIER__MULTIPLIER,
 					oldMultiplier, multiplier, !oldMultiplierESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetMultiplier() {
 		double oldMultiplier = multiplier;
 		boolean oldMultiplierESet = multiplierESet;
 		multiplier = MULTIPLIER_EDEFAULT;
 		multiplierESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET,
 					AttributePackage.NUMBER_FORMAT_SPECIFIER__MULTIPLIER, oldMultiplier, MULTIPLIER_EDEFAULT,
 					oldMultiplierESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetMultiplier() {
 		return multiplierESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getFractionDigits() {
 		return fractionDigits;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setFractionDigits(int newFractionDigits) {
 		int oldFractionDigits = fractionDigits;
 		fractionDigits = newFractionDigits;
 		boolean oldFractionDigitsESet = fractionDigitsESet;
 		fractionDigitsESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS, oldFractionDigits, fractionDigits,
 					!oldFractionDigitsESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetFractionDigits() {
 		int oldFractionDigits = fractionDigits;
 		boolean oldFractionDigitsESet = fractionDigitsESet;
 		fractionDigits = FRACTION_DIGITS_EDEFAULT;
 		fractionDigitsESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET,
 					AttributePackage.NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS, oldFractionDigits,
 					FRACTION_DIGITS_EDEFAULT, oldFractionDigitsESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetFractionDigits() {
 		return fractionDigitsESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -328,7 +349,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -352,7 +373,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -376,7 +397,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -396,29 +417,32 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (prefix: "); //$NON-NLS-1$
 		result.append(prefix);
 		result.append(", suffix: "); //$NON-NLS-1$
 		result.append(suffix);
 		result.append(", multiplier: "); //$NON-NLS-1$
-		if (multiplierESet)
+		if (multiplierESet) {
 			result.append(multiplier);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", fractionDigits: "); //$NON-NLS-1$
-		if (fractionDigitsESet)
+		if (fractionDigitsESet) {
 			result.append(fractionDigits);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
@@ -426,9 +450,9 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 	/**
 	 * A convenience methods provided to create an initialized NumberFormatSpecifier
 	 * instance
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @return this instance
 	 */
 	public static NumberFormatSpecifier create() {
@@ -438,10 +462,12 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 		return nfs;
 	}
 
+	@Override
 	public String format(double dValue, Locale lo) {
 		return format(dValue, ULocale.forLocale(lo));
 	}
 
+	@Override
 	public String format(double dValue, ULocale lo) {
 		final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance(lo);
 		if (isSetFractionDigits()) {
@@ -451,7 +477,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
 		df.applyLocalizedPattern(df.toLocalizedPattern());
 
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		if (getPrefix() != null) {
 			sb.append(getPrefix());
 		}
@@ -463,6 +489,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 		return sb.toString();
 	}
 
+	@Override
 	public String format(Number number, ULocale lo) {
 		Number n = NumberUtil.transformNumber(number);
 		if (n instanceof Double) {
@@ -483,7 +510,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
 		df.applyLocalizedPattern(pattern);
 
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		if (getPrefix() != null) {
 			sb.append(getPrefix());
 		}
@@ -500,6 +527,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 	/**
 	 * @generated
 	 */
+	@Override
 	public NumberFormatSpecifier copyInstance() {
 		NumberFormatSpecifierImpl dest = new NumberFormatSpecifierImpl();
 		dest.set(this);

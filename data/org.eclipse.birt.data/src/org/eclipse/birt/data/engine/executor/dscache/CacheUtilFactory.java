@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,12 +59,12 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
- * 
+ *
  */
 
 class CacheUtilFactory {
 	/**
-	 * 
+	 *
 	 * @param cacheObject
 	 * @param rs
 	 * @return
@@ -80,7 +83,7 @@ class CacheUtilFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cacheObject
 	 * @return
 	 * @throws DataException
@@ -100,20 +103,21 @@ class CacheUtilFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param metaMap
 	 * @throws DataException
 	 */
 	private static List<IBinding> populateDataSetRowMapping(IResultClass rsClass) throws DataException {
-		List<IBinding> result = new ArrayList<IBinding>();
+		List<IBinding> result = new ArrayList<>();
 		for (int i = 0; i < rsClass.getFieldCount(); i++) {
 			IBinding binding = new Binding(rsClass.getFieldName(i + 1));
-			if (rsClass.getFieldAlias(i + 1) != null)
+			if (rsClass.getFieldAlias(i + 1) != null) {
 				binding.setExpression(new ScriptExpression(
 						ExpressionUtil.createJSDataSetRowExpression(rsClass.getFieldAlias(i + 1))));
-			else
+			} else {
 				binding.setExpression(
 						new ScriptExpression(ExpressionUtil.createJSDataSetRowExpression(rsClass.getFieldName(i + 1))));
+			}
 			result.add(binding);
 		}
 		return result;
@@ -157,6 +161,7 @@ class CacheUtilFactory {
 		 * @param resultObject
 		 * @throws DataException
 		 */
+		@Override
 		public void saveObject(IResultObject resultObject) throws DataException {
 			assert resultObject != null;
 
@@ -181,6 +186,7 @@ class CacheUtilFactory {
 		/**
 		 * @throws DataException
 		 */
+		@Override
 		public void close() throws DataException {
 			try {
 				if (bos != null) {
@@ -228,6 +234,7 @@ class CacheUtilFactory {
 		 * @param resultObject
 		 * @throws DataException
 		 */
+		@Override
 		public void saveObject(IResultObject resultObject) throws DataException {
 			assert resultObject != null;
 
@@ -238,6 +245,7 @@ class CacheUtilFactory {
 		/**
 		 * @throws DataException
 		 */
+		@Override
 		public void close() throws DataException {
 		}
 	}
@@ -272,6 +280,7 @@ class CacheUtilFactory {
 		 * @param resultObject
 		 * @throws DataException
 		 */
+		@Override
 		public void saveObject(IResultObject resultObject) throws DataException {
 			assert resultObject != null;
 
@@ -295,6 +304,7 @@ class CacheUtilFactory {
 		/**
 		 * @throws DataException
 		 */
+		@Override
 		public void close() throws DataException {
 			try {
 				if (bos != null) {
@@ -360,13 +370,16 @@ class CacheUtilFactory {
 		 * @param resultObject
 		 * @throws DataException
 		 */
+		@Override
 		public IResultObject loadObject() throws DataException {
-			if (roUtil == null)
+			if (roUtil == null) {
 				init();
+			}
 
 			try {
-				if (currIndex == rowCount - 1)
+				if (currIndex == rowCount - 1) {
 					return null;
+				}
 				currIndex++;
 				return roUtil.readData(bis, null, 1)[0];
 			} catch (IOException e) {
@@ -378,9 +391,11 @@ class CacheUtilFactory {
 		 * @return
 		 * @throws DataException
 		 */
+		@Override
 		public IResultClass loadResultClass() throws DataException {
-			if (roUtil == null)
+			if (roUtil == null) {
 				init();
+			}
 
 			return this.rsClass;
 		}
@@ -404,8 +419,6 @@ class CacheUtilFactory {
 					fis = FileSecurity.createFileInputStream(file);
 					bis = new BufferedInputStream(fis);
 				}
-			} catch (FileNotFoundException e) {
-				throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
 			} catch (IOException e) {
 				throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
 			}
@@ -414,6 +427,7 @@ class CacheUtilFactory {
 		/**
 		 * @throws DataException
 		 */
+		@Override
 		public void close() throws DataException {
 			if (bis != null) {
 				try {
@@ -469,13 +483,16 @@ class CacheUtilFactory {
 		 * @param resultObject
 		 * @throws DataException
 		 */
+		@Override
 		public IResultObject loadObject() throws DataException {
-			if (roUtil == null)
+			if (roUtil == null) {
 				init();
+			}
 
 			try {
-				if (currIndex == rowCount - 1)
+				if (currIndex == rowCount - 1) {
 					return null;
+				}
 
 				currIndex++;
 				return roUtil.readData(bis, this.session.getEngineContext().getClassLoader(), 1)[0];
@@ -488,9 +505,11 @@ class CacheUtilFactory {
 		 * @return
 		 * @throws DataException
 		 */
+		@Override
 		public IResultClass loadResultClass() throws DataException {
-			if (roUtil == null)
+			if (roUtil == null) {
 				init();
+			}
 
 			return this.rsClass;
 		}
@@ -514,8 +533,6 @@ class CacheUtilFactory {
 					fis = FileSecurity.createFileInputStream(file);
 					bis = new BufferedInputStream(fis);
 				}
-			} catch (FileNotFoundException e) {
-				throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
 			} catch (IOException e) {
 				throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
 			}
@@ -524,6 +541,7 @@ class CacheUtilFactory {
 		/**
 		 * @throws DataException
 		 */
+		@Override
 		public void close() throws DataException {
 			if (bis != null) {
 				try {
@@ -538,7 +556,7 @@ class CacheUtilFactory {
 		/**
 		 * Do the action "merging" when the user provide a specific and valid configure
 		 * file
-		 * 
+		 *
 		 * @throws BirtException
 		 * @throws IOException
 		 * @throws ClassNotFoundException
@@ -556,8 +574,9 @@ class CacheUtilFactory {
 						File config = new File(configFile);
 						FileReader fileReader = null;
 
-						if (FileSecurity.fileExist(config))
+						if (FileSecurity.fileExist(config)) {
 							fileReader = FileSecurity.createFileReader(config);
+						}
 
 						BufferedReader reader = new BufferedReader(fileReader);
 						ArrayList list = readConfigFile(configFile, reader);
@@ -573,20 +592,21 @@ class CacheUtilFactory {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param appContext2
 		 * @return
 		 */
 		private String getCacheConfig(Map context) {
-			if (context == null)
+			if (context == null) {
 				return null;
+			}
 
 			return context.get(DataEngine.DATA_SET_CACHE_DELTA_FILE) == null ? null
 					: String.valueOf(context.get(DataEngine.DATA_SET_CACHE_DELTA_FILE));
 		}
 
 		/**
-		 * 
+		 *
 		 * @param dataFile
 		 * @param list
 		 * @param metaFile
@@ -614,14 +634,14 @@ class CacheUtilFactory {
 
 		/**
 		 * A private method to read all the query blocks to an arraylist one by one
-		 * 
+		 *
 		 * @return an ArrayList that record each query block assigned by the user
 		 * @throws IOException
 		 */
 		private ArrayList readConfigFile(String file, BufferedReader reader) throws IOException {
 			ArrayList list = new ArrayList();
 			String line;
-			StringBuffer block = new StringBuffer("");
+			StringBuilder block = new StringBuilder("");
 			/* to mark the begining and the end of single query block */
 			boolean begin = false;
 
@@ -635,7 +655,7 @@ class CacheUtilFactory {
 					line = line.substring(0, line.length() - 5);
 					block.append(line);
 					list.add(this.parseQueryItem(block.toString()));
-					block = new StringBuffer("");
+					block = new StringBuilder("");
 					begin = false;
 				} else if (begin) {
 					block.append(line);
@@ -647,7 +667,7 @@ class CacheUtilFactory {
 
 		/**
 		 * A private method to parse a single query string to an ArrayList
-		 * 
+		 *
 		 * @return an ArrayList that record each small unit of information about a
 		 *         single query
 		 * @throws IOException
@@ -674,7 +694,7 @@ class CacheUtilFactory {
 
 		/**
 		 * To get the ResultIterator from the configure file after executing query
-		 * 
+		 *
 		 * @param list
 		 * @param index
 		 * @return the obtained ResultIterator
@@ -687,13 +707,13 @@ class CacheUtilFactory {
 			String sql = null;
 			for (int i = 0; i < list.size(); i++) {
 				sql = getQualifiedSql(list, i, sql);
-				if (sql != null)
+				if (sql != null) {
 					break;
+				}
 			}
-			if (sql == null)
+			if ((sql == null) || !(this.session.getDataSetCacheManager().getCurrentDataSetDesign() instanceof OdaDataSetDesign)) {
 				return null;
-			if (!(this.session.getDataSetCacheManager().getCurrentDataSetDesign() instanceof OdaDataSetDesign))
-				return null;
+			}
 
 			sql = this.resetQueryText(sql);
 			if (sql == null || "".equals(sql)) {
@@ -750,8 +770,9 @@ class CacheUtilFactory {
 
 					if (count == table.size()) {
 						sql = (String) item.get(2);
-					} else
+					} else {
 						sql = null;
+					}
 
 				}
 			}
@@ -760,7 +781,7 @@ class CacheUtilFactory {
 
 		/**
 		 * Reset the QueryText content
-		 * 
+		 *
 		 * @param text
 		 * @return the new String containing timestamp information
 		 * @throws IOException
@@ -799,10 +820,12 @@ class CacheUtilFactory {
 		 * @param resultObject
 		 * @throws DataException
 		 */
+		@Override
 		public IResultObject loadObject() throws DataException {
 			currIndex++;
-			if (currIndex >= this.cacheObject.getSize())
+			if (currIndex >= this.cacheObject.getSize()) {
 				return null;
+			}
 			return this.cacheObject.getResultObject(currIndex);
 		}
 
@@ -810,6 +833,7 @@ class CacheUtilFactory {
 		 * @return
 		 * @throws DataException
 		 */
+		@Override
 		public IResultClass loadResultClass() throws DataException {
 			return this.cacheObject.getResultClass();
 		}
@@ -817,6 +841,7 @@ class CacheUtilFactory {
 		/**
 		 * @throws DataException
 		 */
+		@Override
 		public void close() throws DataException {
 		}
 	}
@@ -841,7 +866,7 @@ class CacheUtilFactory {
 
 		/**
 		 * constructor of class MergeUtil
-		 * 
+		 *
 		 * @param file
 		 * @param rsMeta
 		 * @throws DataException
@@ -859,7 +884,7 @@ class CacheUtilFactory {
 
 		/**
 		 * Initialize the properties of a MergeUtil instance
-		 * 
+		 *
 		 * @throws DataException
 		 */
 		private void init() throws DataException {
@@ -872,8 +897,6 @@ class CacheUtilFactory {
 
 				bis.close();
 				fis.close();
-			} catch (FileNotFoundException e) {
-				throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
 			} catch (IOException e) {
 				throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
 			}
@@ -881,7 +904,7 @@ class CacheUtilFactory {
 
 		/**
 		 * To save each ResultObject
-		 * 
+		 *
 		 * @param resultObject
 		 * @throws DataException
 		 */
@@ -908,7 +931,7 @@ class CacheUtilFactory {
 
 		/**
 		 * Write the new data to the local file and close the I/O operation
-		 * 
+		 *
 		 * @throws DataException
 		 */
 		private void close() throws DataException {

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -75,12 +78,14 @@ public class ImageCanvas extends Canvas {
 		super(parent, style);
 		addControlListener(new ControlAdapter() {
 
+			@Override
 			public void controlResized(ControlEvent event) {
 				syncScrollBars();
 			}
 		});
 		addPaintListener(new PaintListener() {
 
+			@Override
 			public void paintControl(final PaintEvent event) {
 				paint(event.gc);
 			}
@@ -92,6 +97,7 @@ public class ImageCanvas extends Canvas {
 	void initAccessible() {
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
+			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point testPoint = toControl(e.x, e.y);
 				if (getBounds().contains(testPoint)) {
@@ -99,6 +105,7 @@ public class ImageCanvas extends Canvas {
 				}
 			}
 
+			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(location.x, location.y);
@@ -108,18 +115,22 @@ public class ImageCanvas extends Canvas {
 				e.height = location.height;
 			}
 
+			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
+			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_LABEL;
 			}
 
+			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
 
+			@Override
 			public void getValue(AccessibleControlEvent e) {
 				e.result = "Preview Image"; //$NON-NLS-1$
 			}
@@ -128,10 +139,12 @@ public class ImageCanvas extends Canvas {
 
 		AccessibleAdapter accessibleAdapter = new AccessibleAdapter() {
 
+			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = "Preview Image"; //$NON-NLS-1$
 			}
 
+			@Override
 			public void getName(AccessibleEvent e) {
 				e.result = "Preview Image"; //$NON-NLS-1$
 			}
@@ -139,6 +152,7 @@ public class ImageCanvas extends Canvas {
 		getAccessible().addAccessibleListener(accessibleAdapter);
 	}
 
+	@Override
 	public void dispose() {
 		if (sourceImage != null && !sourceImage.isDisposed()) {
 			sourceImage.dispose();
@@ -165,8 +179,9 @@ public class ImageCanvas extends Canvas {
 			imageRect = imageRect.intersection(imageBound);
 			Rectangle destRect = TransformUtil.transformRect(transform, imageRect);
 
-			if (screenImage != null)
+			if (screenImage != null) {
 				screenImage.dispose();
+			}
 			screenImage = new Image(getDisplay(), clientRect.width, clientRect.height);
 			addDisposeListener(e -> UIUtil.dispose(screenImage));
 			GC newGC = new GC(screenImage);
@@ -190,6 +205,7 @@ public class ImageCanvas extends Canvas {
 			horizontal.setEnabled(false);
 			horizontal.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent event) {
 					scrollHorizontally((ScrollBar) event.widget);
 				}
@@ -200,6 +216,7 @@ public class ImageCanvas extends Canvas {
 			vertical.setEnabled(false);
 			vertical.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent event) {
 					scrollVertically((ScrollBar) event.widget);
 				}
@@ -209,8 +226,9 @@ public class ImageCanvas extends Canvas {
 	}
 
 	private void scrollHorizontally(ScrollBar scrollBar) {
-		if (sourceImage == null)
+		if (sourceImage == null) {
 			return;
+		}
 
 		AffineTransform af = transform;
 		double tx = af.getTranslateX();
@@ -221,8 +239,9 @@ public class ImageCanvas extends Canvas {
 	}
 
 	private void scrollVertically(ScrollBar scrollBar) {
-		if (sourceImage == null)
+		if (sourceImage == null) {
 			return;
+		}
 
 		AffineTransform af = transform;
 		double ty = af.getTranslateY();
@@ -253,10 +272,12 @@ public class ImageCanvas extends Canvas {
 		AffineTransform af = transform;
 		double sx = af.getScaleX(), sy = af.getScaleY();
 		double tx = af.getTranslateX(), ty = af.getTranslateY();
-		if (tx > 0)
+		if (tx > 0) {
 			tx = 0;
-		if (ty > 0)
+		}
+		if (ty > 0) {
 			ty = 0;
+		}
 
 		Rectangle imageBound = sourceImage.getBounds();
 		int cw = getClientArea().width, ch = getClientArea().height;
@@ -270,8 +291,9 @@ public class ImageCanvas extends Canvas {
 			if (imageBound.width * sx > cw) {
 				horizontal.setMaximum((int) (imageBound.width * sx));
 				horizontal.setEnabled(true);
-				if (((int) -tx) > horizontal.getMaximum() - cw)
+				if (((int) -tx) > horizontal.getMaximum() - cw) {
 					tx = -horizontal.getMaximum() + cw;
+				}
 			} else {
 				horizontal.setEnabled(false);
 				tx = (cw - imageBound.width * sx) / 2;
@@ -286,8 +308,9 @@ public class ImageCanvas extends Canvas {
 			if (imageBound.height * sy > ch) {
 				vertical.setMaximum((int) (imageBound.height * sy));
 				vertical.setEnabled(true);
-				if (((int) -ty) > vertical.getMaximum() - ch)
+				if (((int) -ty) > vertical.getMaximum() - ch) {
 					ty = -vertical.getMaximum() + ch;
+				}
 			} else {
 				vertical.setEnabled(false);
 				ty = (ch - imageBound.height * sy) / 2;
@@ -421,8 +444,9 @@ public class ImageCanvas extends Canvas {
 			sourceImage.dispose();
 			sourceImage = null;
 		}
-		if (data != null)
+		if (data != null) {
 			sourceImage = new Image(getDisplay(), data);
+		}
 		syncScrollBars();
 	}
 
@@ -430,8 +454,9 @@ public class ImageCanvas extends Canvas {
 	 * Adjust the image onto the canvas
 	 */
 	public void fitCanvas() {
-		if (sourceImage == null)
+		if (sourceImage == null) {
 			return;
+		}
 		Rectangle imageBound = sourceImage.getBounds();
 		Rectangle destRect = getClientArea();
 		double sx = (double) destRect.width / (double) imageBound.width;
@@ -446,8 +471,9 @@ public class ImageCanvas extends Canvas {
 	 * Show the image with the original size
 	 */
 	public void showOriginal() {
-		if (sourceImage == null)
+		if (sourceImage == null) {
 			return;
+		}
 		transform = new AffineTransform();
 		syncScrollBars();
 	}
@@ -485,8 +511,9 @@ public class ImageCanvas extends Canvas {
 	 * Zoom in the image.
 	 */
 	public void zoomIn() {
-		if (sourceImage == null)
+		if (sourceImage == null) {
 			return;
+		}
 		Rectangle rect = getClientArea();
 		int w = rect.width, h = rect.height;
 		double dx = ((double) w) / 2;
@@ -498,8 +525,9 @@ public class ImageCanvas extends Canvas {
 	 * Zoom out the image.
 	 */
 	public void zoomOut() {
-		if (sourceImage == null)
+		if (sourceImage == null) {
 			return;
+		}
 		Rectangle rect = getClientArea();
 		int w = rect.width, h = rect.height;
 		double dx = ((double) w) / 2;

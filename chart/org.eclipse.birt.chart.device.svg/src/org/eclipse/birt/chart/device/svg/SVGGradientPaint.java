@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005 IBM Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * IBM Corporation - initial API and implementation
@@ -46,12 +49,14 @@ public class SVGGradientPaint extends GradientPaint {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object object) {
-		if (object == null)
+		if (object == null) {
 			return false;
+		}
 		if (object instanceof GradientPaint) {
 			GradientPaint gp = (GradientPaint) object;
 			return (gp.getColor1().equals(getColor1()) && gp.getColor2().equals(getColor2())
@@ -65,30 +70,36 @@ public class SVGGradientPaint extends GradientPaint {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		int result = 17;
-		if (getColor1() != null)
+		if (getColor1() != null) {
 			result = 37 * result + getColor1().hashCode();
-		if (getColor2() != null)
+		}
+		if (getColor2() != null) {
 			result = 37 * result + getColor2().hashCode();
+		}
 		result = 37 * result + ((isCyclic()) ? 0 : 1);
-		if (getPoint1() != null)
+		if (getPoint1() != null) {
 			result = 37 * result + getPoint1().hashCode();
-		if (getPoint2() != null)
+		}
+		if (getPoint2() != null) {
 			result = 37 * result + getPoint2().hashCode();
+		}
 		return result;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.GradientPaint#createContext(java.awt.image.ColorModel,
 	 * java.awt.Rectangle, java.awt.geom.Rectangle2D, java.awt.geom.AffineTransform,
 	 * java.awt.RenderingHints)
 	 */
+	@Override
 	public PaintContext createContext(ColorModel arg0, Rectangle arg1, Rectangle2D arg2, AffineTransform arg3,
 			RenderingHints arg4) {
 		return gradientPaint.createContext(arg0, arg1, arg2, arg3, arg4);
@@ -96,54 +107,60 @@ public class SVGGradientPaint extends GradientPaint {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.GradientPaint#getColor1()
 	 */
+	@Override
 	public Color getColor1() {
 		return gradientPaint.getColor1();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.GradientPaint#getColor2()
 	 */
+	@Override
 	public Color getColor2() {
 		return gradientPaint.getColor2();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.GradientPaint#getPoint1()
 	 */
+	@Override
 	public Point2D getPoint1() {
 		return gradientPaint.getPoint1();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.GradientPaint#getPoint2()
 	 */
+	@Override
 	public Point2D getPoint2() {
 		return gradientPaint.getPoint2();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.GradientPaint#getTransparency()
 	 */
+	@Override
 	public int getTransparency() {
 		return gradientPaint.getTransparency();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.GradientPaint#isCyclic()
 	 */
+	@Override
 	public boolean isCyclic() {
 		return gradientPaint.isCyclic();
 	}

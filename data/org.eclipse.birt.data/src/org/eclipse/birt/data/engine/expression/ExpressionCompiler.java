@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ import org.mozilla.javascript.Token;
 import org.mozilla.javascript.ast.AstRoot;
 
 /**
- * 
+ *
  * This class handles the compilation of ROM JavaScript expressions to be
  * evaluated by the DtE at report query preparation time. Each expression is
  * compiled to generate a handle, which is an instance of CompiledExpression or
@@ -45,7 +48,7 @@ public class ExpressionCompiler extends AbstractExpressionCompiler {
 	 * <p>
 	 * Aggregate registry can be null, in which case the provided expression is
 	 * expected NOT to contain aggregates. If it does, a DteException is thrown.
-	 * 
+	 *
 	 * @param expression Text of expression to compile
 	 * @param registry   Registry for aggregate expressions. Can be null if
 	 *                   expression is not expected to contain aggregates
@@ -54,8 +57,9 @@ public class ExpressionCompiler extends AbstractExpressionCompiler {
 	 */
 	public CompiledExpression compile(String expression, AggregateRegistry registry, ScriptContext context) {
 		try {
-			if (expression == null || expression.trim().length() == 0)
+			if (expression == null || expression.trim().length() == 0) {
 				throw new DataException(ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK);
+			}
 
 			this.registry = registry;
 			return super.compileExpression(expression, context);
@@ -113,8 +117,9 @@ public class ExpressionCompiler extends AbstractExpressionCompiler {
 	 */
 	private void replaceAggregateNode(AggregateExpression aggregateExpression, Node parent, Node aggregateCallNode)
 			throws DataException {
-		if (registry == null)
+		if (registry == null) {
 			throw new DataException(ResourceConstants.INVALID_CALL_AGGR);
+		}
 
 		// replace the aggregate CALL node with _aggr_value[<aggregateId>]
 		int aggregateId = registry.register(aggregateExpression);
@@ -126,11 +131,12 @@ public class ExpressionCompiler extends AbstractExpressionCompiler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.expression.AbstractExpressionParser#
 	 * compileAggregateExpr(org.mozilla.javascript.Context,
 	 * org.mozilla.javascript.Node, org.mozilla.javascript.Node)
 	 */
+	@Override
 	protected AggregateExpression compileAggregateExpr(Context context, Node parent, Node callNode)
 			throws DataException {
 		assert (callNode.getType() == Token.CALL);
@@ -138,8 +144,9 @@ public class ExpressionCompiler extends AbstractExpressionCompiler {
 		IAggrFunction aggregation = getAggregationFunction(callNode);
 		// not an aggregation function being called, then it's considered
 		// a complex expression
-		if (aggregation == null)
+		if (aggregation == null) {
 			return null;
+		}
 
 		AggregateExpression aggregateExpression = new AggregateExpression(aggregation);
 
@@ -151,11 +158,12 @@ public class ExpressionCompiler extends AbstractExpressionCompiler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.expression.AbstractExpressionParser#
 	 * compileDirectColRefExpr(org.mozilla.javascript.Node,
 	 * org.mozilla.javascript.Node, boolean)
 	 */
+	@Override
 	protected CompiledExpression compileDirectColRefExpr(Node parent, Node refNode, Node grandFather,
 			boolean customerChecked, Context context) throws DataException {
 		// if it's a GETPROP or GETELEM with row on the left side,
@@ -165,13 +173,15 @@ public class ExpressionCompiler extends AbstractExpressionCompiler {
 
 		Node rowName = refNode.getFirstChild();
 		assert (rowName != null);
-		if (rowName.getType() != Token.NAME)
+		if (rowName.getType() != Token.NAME) {
 			return null;
+		}
 
 		String str = rowName.getString();
 		assert (str != null);
-		if (!str.equals(rowIndicator))
+		if (!str.equals(rowIndicator)) {
 			return null;
+		}
 
 		Node rowColumn = rowName.getNext();
 		assert (rowColumn != null);
@@ -179,21 +189,24 @@ public class ExpressionCompiler extends AbstractExpressionCompiler {
 		if (refNode.getType() == Token.GETPROP && rowColumn.getType() == Token.STRING) {
 			if (ScriptConstants.OUTER_RESULT_KEYWORD.equals(rowColumn.getString())
 					|| ScriptConstants.ROW_NUM_KEYWORD.equals(rowColumn.getString())
-					|| "0".equals(rowColumn.getString()))
+					|| "0".equals(rowColumn.getString())) {
 				return null;
+			}
 
 			return new ColumnReferenceExpression(getDataSetMode() ? STRING_ROW : STRING_DATASETROW,
 					rowColumn.getString());
 		}
 		if (refNode.getType() == Token.GETELEM) {
 			if (rowColumn.getType() == Token.NUMBER) {
-				if (0 == rowColumn.getDouble())
+				if (0 == rowColumn.getDouble()) {
 					return null;
+				}
 				return new ColumnReferenceExpression(getDataSetMode() ? STRING_ROW : STRING_DATASETROW,
 						(int) rowColumn.getDouble());
 			} else if (rowColumn.getType() == Token.STRING) {
-				if ("_rownum".equals(rowColumn.getString()))
+				if ("_rownum".equals(rowColumn.getString())) {
 					return null;
+				}
 				return new ColumnReferenceExpression(getDataSetMode() ? STRING_ROW : STRING_DATASETROW,
 						rowColumn.getString());
 			}

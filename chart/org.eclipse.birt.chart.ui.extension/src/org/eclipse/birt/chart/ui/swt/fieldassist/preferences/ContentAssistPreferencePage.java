@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +35,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  * This page is used to modify preferences only. They are stored in the
  * preference store that belongs to the main plug-in class. That way,
  * preferences can be accessed directly via the preference store.
- * 
+ *
  * @since 2.5
  */
 
@@ -49,11 +52,12 @@ public class ContentAssistPreferencePage extends FieldEditorPreferencePage imple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.preference.PreferencePage#createControl(org.eclipse.swt.
 	 * widgets.Composite)
 	 */
+	@Override
 	public void createControl(Composite parent) {
 		super.createControl(parent);
 		ChartUIUtil.bindHelp(getControl(), ChartHelpContextIds.PREFERENCE_CHART_CONTENT_ASSIST);
@@ -63,9 +67,10 @@ public class ContentAssistPreferencePage extends FieldEditorPreferencePage imple
 	 * Creates the field editors. Field editors are abstractions of the common GUI
 	 * blocks needed to manipulate various types of preferences. Each field editor
 	 * knows how to save and
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
 	 */
+	@Override
 	protected void createFieldEditors() {
 		CustomKeyRadioGroupFieldEditor rgfe = new CustomKeyRadioGroupFieldEditor(
 				PreferenceConstants.PREF_CONTENTASSISTKEY, PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOMKEY,
@@ -113,9 +118,10 @@ public class ContentAssistPreferencePage extends FieldEditorPreferencePage imple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
+	@Override
 	public void init(IWorkbench workbench) {
 	}
 

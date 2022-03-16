@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -70,6 +73,7 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage {
 		this.builder = builder;
 	}
 
+	@Override
 	public Control createContents(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -82,16 +86,18 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage {
 		nameText = new Text(container, SWT.BORDER);
 		nameText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				try {
 					input.setName(nameText.getText());
 					builder.setErrorMessage(null);
 					builder.setTitleMessage(Messages.getString("DatasetPage.Title.Message")); //$NON-NLS-1$
 				} catch (NameException e1) {
-					if (nameText.getText().trim().length() == 0)
+					if (nameText.getText().trim().length() == 0) {
 						builder.setErrorMessage(Messages.getString("DatasePage.EmptyName.ErrorMessage")); //$NON-NLS-1$
-					else
+					} else {
 						builder.setErrorMessage(e1.getLocalizedMessage());
+					}
 				}
 			}
 
@@ -110,6 +116,7 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage {
 		dataSetCombo.setVisibleItemCount(30);
 		dataSetCombo.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleDatasetComboSelectedEvent();
 			}
@@ -123,21 +130,24 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage {
 		filterButton.setLayoutData(data);
 		filterButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
 				stack.startTrans(""); //$NON-NLS-1$
 
 				FilterHandleProvider provider = (FilterHandleProvider) ElementAdapterManager.getAdapter(builder,
 						FilterHandleProvider.class);
-				if (provider == null)
+				if (provider == null) {
 					provider = new FilterHandleProvider();
+				}
 
 				FilterListDialog dialog = new FilterListDialog(provider);
 				dialog.setInput(input);
 				if (dialog.open() == Window.OK) {
 					stack.commit();
-				} else
+				} else {
 					stack.rollback();
+				}
 			}
 
 		});
@@ -149,6 +159,7 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage {
 		primaryKeyButton = new Button(container, SWT.CHECK);
 		primaryKeyButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					((TabularCubeHandle) input).setAutoPrimaryKey(primaryKeyButton.getSelection());
@@ -168,6 +179,7 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage {
 
 		primaryKeyLabel.addTraverseListener(new TraverseListener() {
 
+			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
 					e.detail = SWT.TRAVERSE_NONE;
@@ -193,6 +205,7 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage {
 		return container;
 	}
 
+	@Override
 	public void pageActivated() {
 		UIUtil.bindHelp(builder.getShell(), IHelpContextIds.CUBE_BUILDER_DATASET_SELECTION_PAGE);
 		getContainer().setMessage(Messages.getString("DatasetPage.Container.Title.Message"), //$NON-NLS-1$
@@ -237,8 +250,9 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage {
 
 	private void load() {
 		if (input != null) {
-			if (input.getName() != null)
+			if (input.getName() != null) {
 				nameText.setText(input.getName());
+			}
 			refresh();
 		}
 	}
@@ -271,17 +285,20 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage {
 	}
 
 	private void handleDatasetComboSelectedEvent() {
-		if (dataSetCombo.getItemCount() == 0)
+		if (dataSetCombo.getItemCount() == 0) {
 			return;
+		}
 		String datasetName = dataSetCombo.getItem(dataSetCombo.getSelectionIndex());
 		if (NEW_DATA_SET.equals(datasetName)) {
 
 			IMediatorColleague colleague = new IMediatorColleague() {
 
+				@Override
 				public boolean isInterested(IMediatorRequest request) {
 					return request instanceof ReportRequest;
 				}
 
+				@Override
 				public void performRequest(IMediatorRequest request) {
 					handleRequest((ReportRequest) request);
 				}

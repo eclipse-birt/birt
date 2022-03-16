@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -64,6 +67,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog {
 		this.context = context;
 	}
 
+	@Override
 	protected void handleAddEvent() {
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog(true, true);
 		dialog.setInput(inputElement);
@@ -77,6 +81,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog {
 
 	}
 
+	@Override
 	protected void handleEditEvent() {
 		ComputedColumnHandle bindingHandle = null;
 		int pos = getColumnBindingIndexFromTableSelection();
@@ -84,22 +89,25 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog {
 			bindingHandle = (ComputedColumnHandle) (DEUtil.getBindingHolder(inputElement)).getColumnBindings()
 					.getAt(pos);
 		}
-		if (bindingHandle == null)
+		if (bindingHandle == null) {
 			return;
+		}
 
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog(false);
 		dialog.setInput(inputElement, bindingHandle, context);
 		dialog.setExpressionProvider(expressionProvider);
 		if (dialog.open() == Dialog.OK) {
-			if (bindingTable != null)
+			if (bindingTable != null) {
 				bindingTable.getTable().setSelection(pos);
+			}
 		}
 	}
 
 	@Override
 	protected void handleDelEvent() {
-		if (!btnDel.isEnabled())
+		if (!btnDel.isEnabled()) {
 			return;
+		}
 		int pos = getColumnBindingIndexFromTableSelection();
 		if (pos > -1) {
 			try {
@@ -114,7 +122,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog {
 
 	/**
 	 * Disable/enable button to make all items in the dialog read-only.
-	 * 
+	 *
 	 * @since 2.3
 	 */
 	private void updateButtonStatusForReadOnly() {
@@ -127,6 +135,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog {
 		}
 	}
 
+	@Override
 	protected int addButtons(Composite cmp, final Table table) {
 		Listener[] listeners = getAggregationButton().getListeners(SWT.Selection);
 		if (listeners.length > 0) {
@@ -134,6 +143,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog {
 		}
 		getAggregationButton().addListener(SWT.Selection, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				DataColumnBindingDialog dialog = new DataColumnBindingDialog(true);
 				dialog.setInput(inputElement, null, context);
@@ -147,8 +157,9 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog {
 				}
 
 				refreshBindingTable();
-				if (table.getItemCount() > 0)
+				if (table.getItemCount() > 0) {
 					setSelectionInTable(table.getItemCount() - 1);
+				}
 				updateButtons();
 			}
 
@@ -162,9 +173,10 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog {
 		btnRefresh.setLayoutData(data);
 		btnRefresh.addListener(SWT.Selection, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				try {
-					List<ComputedColumn> columnList = new ArrayList<ComputedColumn>();
+					List<ComputedColumn> columnList = new ArrayList<>();
 
 					CubeHandle cubeHandle = ChartReportItemHelper.instance().getBindingCubeHandle(inputElement);
 					if (cubeHandle != null) {
@@ -233,6 +245,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog {
 		return 2;
 	}
 
+	@Override
 	protected void updateButtons() {
 		super.updateButtons();
 		getAggregationButton().setEnabled(btnAdd.isEnabled());
@@ -253,12 +266,14 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog {
 		int selection = bindingTable.getTable().getSelectionIndex();
 		int index = -1;
 		for (int i = 0; i <= selection; i++) {
-			if (isOwnColumnBinding(i))
+			if (isOwnColumnBinding(i)) {
 				index++;
+			}
 		}
 		return index;
 	}
 
+	@Override
 	protected void addBinding(ComputedColumn column) {
 		try {
 			DEUtil.addColumn(inputElement, column, true);
@@ -268,22 +283,24 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog {
 		}
 	}
 
+	@Override
 	protected List<ComputedColumnHandle> getBindingList(DesignElementHandle inputElement) {
 		Iterator<ComputedColumnHandle> iterator = ChartItemUtil.getColumnDataBindings((ReportItemHandle) inputElement);
-		List<ComputedColumnHandle> list = new ArrayList<ComputedColumnHandle>();
+		List<ComputedColumnHandle> list = new ArrayList<>();
 		while (iterator.hasNext()) {
 			list.add(iterator.next());
 		}
 		return list;
 	}
 
+	@Override
 	protected void setShellStyle(int newShellStyle) {
 		super.setShellStyle(newShellStyle | SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
 	}
 
 	/**
 	 * Set read-only flag.
-	 * 
+	 *
 	 * @param isReadOnly
 	 * @since 2.3
 	 */
@@ -293,7 +310,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog#
 	 * setDialogInput
 	 * (org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog

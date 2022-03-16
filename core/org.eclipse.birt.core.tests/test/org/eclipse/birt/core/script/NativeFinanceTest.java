@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,14 +25,14 @@ import junit.framework.TestCase;
 
 /**
  * Created on Nov 12, 2004 NativeFinanceTest.
- * 
+ *
  * Unit test for class JsFinance. To each method in class, write JavaScript to
  * call every method of Class Finance, then test whether these methods can be
  * successfully called and return a correct result
- * 
- * 
+ *
+ *
  * <p>
- * 
+ *
  * @docRoot
  *          <p>
  *          This unit test including the following test case
@@ -68,9 +71,10 @@ public class NativeFinanceTest extends TestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		/*
@@ -92,9 +96,10 @@ public class NativeFinanceTest extends TestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#tearDown()
 	 */
+	@Override
 	@After
 	public void tearDown() {
 		Context.exit();
@@ -102,7 +107,7 @@ public class NativeFinanceTest extends TestCase {
 
 	/**
 	 * Evaluate a JavaScript source string.
-	 * 
+	 *
 	 * @param script
 	 * @return the result
 	 */
@@ -291,7 +296,7 @@ public class NativeFinanceTest extends TestCase {
 	@Test
 	public void testIrr() {
 		// use double array to test this case
-		double a[] = new double[] { -70000, 12000, 15000 };
+		double a[] = { -70000, 12000, 15000 };
 		Object jsNumber = Context.javaToJS(a, scope);
 		ScriptableObject.putProperty(scope, "array", jsNumber);
 		String script4 = "Finance.irr( array, -0.6 )";

@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.report.data.adapter.internal.adapter;
@@ -27,7 +30,7 @@ import org.eclipse.birt.report.model.api.ParamBindingHandle;
 public class InputParamBindingAdapter extends InputParameterBinding {
 	/**
 	 * Constructs instance based on Model ParamBindingHandle
-	 * 
+	 *
 	 * @throws AdapterException
 	 */
 	public InputParamBindingAdapter(IModelAdapter adapter, ParamBindingHandle modelHandle) throws AdapterException {
@@ -36,7 +39,7 @@ public class InputParamBindingAdapter extends InputParameterBinding {
 
 	/**
 	 * Constructs instance based on param name and expression
-	 * 
+	 *
 	 * @throws AdapterException
 	 */
 	public InputParamBindingAdapter(IModelAdapter adapter, String paramName, List<Expression> expr)
@@ -46,7 +49,7 @@ public class InputParamBindingAdapter extends InputParameterBinding {
 
 	/**
 	 * Constructs instance base on param name, expression, and type.
-	 * 
+	 *
 	 * @param paramName
 	 * @param bindingExpr
 	 * @param type

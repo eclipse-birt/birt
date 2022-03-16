@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +39,7 @@ public class ChartCategoryProviderFactory extends CategoryProviderFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The unique CategoryProviderFactory instance
 	 */
 	public static ICategoryProviderFactory getInstance() {
@@ -45,17 +48,18 @@ public class ChartCategoryProviderFactory extends CategoryProviderFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.views.attributes.providers.
 	 * ICategoryProviderFactory#getCategoryProvider(java.lang.Object)
 	 */
+	@Override
 	public ICategoryProvider getCategoryProvider(Object input) {
 		CategoryHolder customHolder = new CategoryHolder(new String[] { CATEGORY_KEY_GENERAL, CATEGORY_KEY_ALTTEXT, },
 				new String[] { Messages.getString("ChartPageGenerator.List.General"), //$NON-NLS-1$
 						Messages.getString("ChartPageGenerator.List.AltText"), //$NON-NLS-1$
 				}, new Class[] { ChartGeneralPage.class, ChartAlterPage.class, });
 
-		List<String> categories = new ArrayList<String>(Arrays
+		List<String> categories = new ArrayList<>(Arrays
 				.asList(new String[] { null, CATEGORY_KEY_BORDERS, CATEGORY_KEY_MARGIN, null, CATEGORY_KEY_SECTION,
 						CATEGORY_KEY_VISIBILITY, CATEGORY_KEY_TOC, CATEGORY_KEY_BOOKMARK, CATEGORY_KEY_COMMENTS,
 						CATEGORY_KEY_USERPROPERTIES, CATEGORY_KEY_NAMEDEXPRESSIONS, CATEGORY_KEY_ADVANCEPROPERTY, }));

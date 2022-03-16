@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ import com.ibm.icu.util.ULocale;
  */
 public class GroupCalculatorFactory {
 	/**
-	 * 
+	 *
 	 * @param interval
 	 * @param intervalStart
 	 * @param intervalRange
@@ -80,7 +83,7 @@ public class GroupCalculatorFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param interval
 	 * @param dataType
 	 * @return
@@ -103,28 +106,30 @@ public class GroupCalculatorFactory {
 		case IGroupDefinition.NO_INTERVAL:
 			return;
 		case IGroupDefinition.NUMERIC_INTERVAL:
-			if (isNumber(dataType))
+			if (isNumber(dataType)) {
 				return;
-			else
+			} else {
 				throw new DataException(ResourceConstants.BAD_GROUP_INTERVAL_TYPE,
 						new Object[] { "numeric", DataType.getName(dataType) });
+			}
 		case IGroupDefinition.STRING_PREFIX_INTERVAL:
-			if (isString(dataType))
+			if (isString(dataType)) {
 				return;
-			else
+			} else {
 				throw new DataException(ResourceConstants.BAD_GROUP_INTERVAL_TYPE,
 						new Object[] { "string prefix", DataType.getName(dataType) });
+			}
 		default:
-			if (canBeConvertToDate(dataType))
-				return;
-			else
+			if (canBeConvertToDate(dataType)) {
+			} else {
 				throw new DataException(ResourceConstants.BAD_GROUP_INTERVAL_TYPE,
 						new Object[] { "date", DataType.getName(dataType) });
+			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param interval
 	 * @param dataType
 	 * @return
@@ -137,7 +142,7 @@ public class GroupCalculatorFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataType
 	 * @return
 	 */
@@ -147,7 +152,7 @@ public class GroupCalculatorFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataType
 	 * @return
 	 */
@@ -157,7 +162,7 @@ public class GroupCalculatorFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataType
 	 * @return
 	 */

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -205,7 +208,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	protected ReportEngine engine = null;
 	protected ChartDummyEngineTask engineTask = null;
 	private Object dataSetReference = null;
-	private Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>();
+	private Map<String, ReportItemHandle> referMap = new HashMap<>();
 
 	protected ExpressionCodec exprCodec = null;
 
@@ -235,16 +238,17 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Initializes some instance handles for query execution.
-	 * 
+	 *
 	 * @throws ChartException
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public void initialize() throws ChartException {
 		try {
 			EngineConfig config = new EngineConfig();
 			String[] paths = getDesignWorkspaceClasspath();
 			if (paths != null && paths.length > 0) {
-				StringBuffer buffer = new StringBuffer();
+				StringBuilder buffer = new StringBuilder();
 				for (String path : paths) {
 					if (buffer.length() > 0) {
 						buffer.append(';');
@@ -286,6 +290,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	/**
 	 * Disposes instance handles.
 	 */
+	@Override
 	public void dispose() {
 		if (session != null) {
 			try {
@@ -333,7 +338,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Gets data cube from chart itself
-	 * 
+	 *
 	 * @return data cube name
 	 */
 	public String getDataCube() {
@@ -346,7 +351,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Gets data cube from chart container
-	 * 
+	 *
 	 * @return data cube name
 	 */
 	protected String getInheritedCube() {
@@ -361,10 +366,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 			}
 			container = container.getContainer();
 		}
-		if (cube == null) {
-			return null;
-		}
-		if (getBindingCubeHandle() == null) {
+		if ((cube == null) || (getBindingCubeHandle() == null)) {
 			return null;
 		}
 
@@ -385,14 +387,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 				itemHandle.setCube(null);
 				// Clear parameters and filters, binding if dataset changed
 				clearBindings();
-			} else {
-				if (!cubeName.equals(getDataCube()) || isPreviousDataBindingReference) {
-					CubeHandle cubeHandle = getReportDesignHandle().findCube(cubeName);
-					itemHandle.setCube(cubeHandle);
-					// Clear parameters and filters, binding if dataset changed
-					clearBindings();
-					generateBindings(ChartXTabUIUtil.generateComputedColumns(itemHandle, cubeHandle));
-				}
+			} else if (!cubeName.equals(getDataCube()) || isPreviousDataBindingReference) {
+				CubeHandle cubeHandle = getReportDesignHandle().findCube(cubeName);
+				itemHandle.setCube(cubeHandle);
+				// Clear parameters and filters, binding if dataset changed
+				clearBindings();
+				generateBindings(ChartXTabUIUtil.generateComputedColumns(itemHandle, cubeHandle));
 			}
 			ChartWizard.removeException(ChartWizard.RepDSProvider_Cube_ID);
 		} catch (SemanticException e) {
@@ -402,7 +402,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	public final String[] getPreviewHeader() {
 		Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getColumnDataBindings(itemHandle);
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		boolean bInheritColumnsOnly = isInheritColumnsOnly();
 		while (iterator.hasNext()) {
 			ComputedColumnHandle binding = iterator.next();
@@ -443,7 +443,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 			ComputedColumnHandle cch = iter.next();
 			if (!isCommonBinding(cch, bindingMap)) {
 				iter.remove();
-				continue;
 			}
 		}
 	}
@@ -451,7 +450,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	/**
 	 * Checks if specified column binding is a common binding,excluding aggregation
 	 * binding.
-	 * 
+	 *
 	 * @param cch
 	 * @param bindingMap
 	 * @return
@@ -476,7 +475,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Returns columns header info.
-	 * 
+	 *
 	 * @throws ChartException
 	 * @since BIRT 2.3
 	 */
@@ -485,8 +484,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 		if (iterator == null) {
 			return new ColumnBindingInfo[] {};
 		}
-		Map<String, ComputedColumnHandle> bindingMap = new HashMap<String, ComputedColumnHandle>();
-		List<ComputedColumnHandle> columnList = new ArrayList<ComputedColumnHandle>();
+		Map<String, ComputedColumnHandle> bindingMap = new HashMap<>();
+		List<ComputedColumnHandle> columnList = new ArrayList<>();
 		boolean bInheritColumnsOnly = isInheritColumnsOnly();
 		while (iterator.hasNext()) {
 			ComputedColumnHandle binding = iterator.next();
@@ -525,9 +524,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 		}
 
 		// Sort columns.
-		List<ColumnBindingInfo> columnsSet = new ArrayList<ColumnBindingInfo>();
-		for (int i = columnHeaders.length - 1; i >= 0; i--)
+		List<ColumnBindingInfo> columnsSet = new ArrayList<>();
+		for (int i = columnHeaders.length - 1; i >= 0; i--) {
 			columnsSet.add(columnHeaders[i]);
+		}
 		Collections.sort(columnsSet, new ColumnNameComprator());
 		columnHeaders = columnsSet.toArray(new ColumnBindingInfo[] {});
 		return columnHeaders;
@@ -544,6 +544,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 		// column binding dialog(270079)
 		// private com.ibm.icu.text.Collator collator =
 		// com.ibm.icu.text.Collator.getInstance( );
+		@Override
 		public int compare(ColumnBindingInfo src, ColumnBindingInfo target) {
 			return src.getName().compareTo(target.getName());
 		}
@@ -573,8 +574,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 		// projects
 		ClassLoader oldContextLoader = Thread.currentThread().getContextClassLoader();
 		ClassLoader parentLoader = oldContextLoader;
-		if (parentLoader == null)
+		if (parentLoader == null) {
 			parentLoader = this.getClass().getClassLoader();
+		}
 		ClassLoader newContextLoader = DataSetProvider.getCustomScriptClassLoader(parentLoader,
 				itemHandle.getModuleHandle());
 		Thread.currentThread().setContextClassLoader(newContextLoader);
@@ -599,12 +601,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 			// Restore old thread context class loader
 			Thread.currentThread().setContextClassLoader(oldContextLoader);
 		}
-		return (dataList == null) ? new ArrayList<Object[]>() : dataList;
+		return (dataList == null) ? new ArrayList<>() : dataList;
 	}
 
 	private List<Object[]> iterateDataSetResults(IResultIterator iter, String[] bindingNames, boolean isStringType)
 			throws BirtException {
-		List<Object[]> dataList = new ArrayList<Object[]>();
+		List<Object[]> dataList = new ArrayList<>();
 
 		String[] expressions = bindingNames;
 		int columnCount = expressions.length;
@@ -635,8 +637,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	 * @throws BirtException
 	 */
 	private String valueAsString(Object source) throws NumberFormatException, BirtException {
-		if (source == null)
+		if (source == null) {
 			return null;
+		}
 		if (source instanceof Number) {
 			ULocale locale = ULocale.getDefault();
 			String value = source.toString();
@@ -668,7 +671,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Add group definitions into query definition.
-	 * 
+	 *
 	 * @param queryDefn        query definition.
 	 * @param reportItemHandle the item handle contains groups.
 	 */
@@ -687,7 +690,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	/**
 	 * Check if current parameters is explicit value in chart builder, otherwise
 	 * default value of parameters will be used to get preview data.
-	 * 
+	 *
 	 * @param dataSetHandle current dataset handle.
 	 * @param queryDefn     query definition.
 	 * @return query definition.
@@ -695,7 +698,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	@SuppressWarnings("unchecked")
 	private QueryDefinition resetParametersForDataPreview(DataSetHandle dataSetHandle, QueryDefinition queryDefn) {
 		// 1. Get parameters description from dataset.
-		Map<String, DataSetParameterHandle> dsphMap = new LinkedHashMap<String, DataSetParameterHandle>();
+		Map<String, DataSetParameterHandle> dsphMap = new LinkedHashMap<>();
 		if (dataSetHandle != null) {
 			Iterator<DataSetParameterHandle> iterParams = dataSetHandle.parametersIterator();
 			while (iterParams.hasNext()) {
@@ -707,7 +710,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 		// 2. Get parameters setting from current handle.
 		Iterator<ParamBindingHandle> iterParams = itemHandle.getPropertyHandle(ReportItemHandle.PARAM_BINDINGS_PROP)
 				.iterator();
-		Map<String, ParamBindingHandle> pbhMap = new LinkedHashMap<String, ParamBindingHandle>();
+		Map<String, ParamBindingHandle> pbhMap = new LinkedHashMap<>();
 		while (iterParams.hasNext()) {
 			ParamBindingHandle paramBindingHandle = iterParams.next();
 			pbhMap.put(paramBindingHandle.getParamName(), paramBindingHandle);
@@ -740,7 +743,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Gets data set from chart itself
-	 * 
+	 *
 	 * @return data set name
 	 */
 	public String getDataSet() {
@@ -760,7 +763,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Checks if only inheritance allowed.
-	 * 
+	 *
 	 */
 	boolean isInheritanceOnly() {
 		if (isInXTabCell() || isInMultiView() || isInXTabMeasureCell()) {
@@ -771,7 +774,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Check whether an inherited data cube is used.
-	 * 
+	 *
 	 * @return
 	 * @since 2.5.3
 	 */
@@ -781,7 +784,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Check if chart is in multiple view.
-	 * 
+	 *
 	 * @return
 	 * @since 2.3
 	 */
@@ -791,7 +794,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Gets data set from chart container
-	 * 
+	 *
 	 * @return data set name
 	 */
 	@SuppressWarnings("unchecked")
@@ -889,12 +892,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	/**
 	 * Generate computed columns for the given report item with the closest data set
 	 * available.
-	 * 
+	 *
 	 * @param dataSetHandle Data Set. No aggregation created.
-	 * 
+	 *
 	 * @return true if succeed,or fail if no column generated.
 	 * @see DataUtil#generateComputedColumns(ReportItemHandle)
-	 * 
+	 *
 	 */
 	protected List<ComputedColumn> generateComputedColumns(DataSetHandle dataSetHandle) throws SemanticException {
 		return ChartReportItemUIUtil.generateComputedColumns(itemHandle, dataSetHandle);
@@ -903,7 +906,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	/**
 	 * Gets dataset from ReportItemHandle at first. If null, get dataset from its
 	 * container.
-	 * 
+	 *
 	 * @return direct dataset
 	 */
 	@SuppressWarnings("unchecked")
@@ -938,7 +941,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	 * The method is designed for overriding purpose. Subclasses can do some
 	 * additional processing on the QueryDefinition here (e.g. add sorts or
 	 * filters), before that it is going to be executed.
-	 * 
+	 *
 	 * @param queryDefn
 	 */
 	protected void processQueryDefinition(QueryDefinition queryDefn) {
@@ -953,6 +956,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 			Collator collator = Collator.getInstance(ULocale.getDefault());
 
+			@Override
 			public int compare(StyleHandle s1, StyleHandle s2) {
 				return collator.compare(s1.getDisplayLabel(), s2.getDisplayLabel());
 			}
@@ -963,9 +967,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#getAllStyles()
 	 */
+	@Override
 	public String[] getAllStyles() {
 		StyleHandle[] handles = getAllStyleHandles();
 		String[] names = new String[handles.length];
@@ -981,7 +986,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Filter predefined styles.
-	 * 
+	 *
 	 * @param items all available styles
 	 * @return filtered styles.
 	 */
@@ -992,13 +997,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 		}
 
 		List<IPredefinedStyle> preStyles = new DesignEngine(new DesignConfig()).getMetaData().getPredefinedStyles();
-		List<String> preStyleNames = new ArrayList<String>();
+		List<String> preStyleNames = new ArrayList<>();
 
 		for (int i = 0; i < preStyles.size(); i++) {
 			preStyleNames.add(preStyles.get(i).getName());
 		}
 
-		List<String> sytleNames = new ArrayList<String>();
+		List<String> sytleNames = new ArrayList<>();
 		for (int i = 0; i < newItems.length; i++) {
 			if (preStyleNames.indexOf(newItems[i]) == -1) {
 				sytleNames.add(newItems[i]);
@@ -1010,10 +1015,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#
 	 * getAllStyleDisplayNames()
 	 */
+	@Override
 	public String[] getAllStyleDisplayNames() {
 		List<String> styles = Arrays.asList(getAllStyles());
 		StyleHandle[] handles = getAllStyleHandles();
@@ -1030,10 +1036,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#getCurrentStyle ()
 	 */
+	@Override
 	public String getCurrentStyle() {
 		if (itemHandle.getStyle() == null) {
 			return null;
@@ -1043,10 +1050,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#setStyle(java
 	 * .lang.String)
 	 */
+	@Override
 	public void setStyle(String styleName) {
 		try {
 			if (styleName == null) {
@@ -1066,15 +1074,17 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getDataForColumns(java.lang.String[],
 	 *      int, boolean)
 	 * @deprecated since BIRT 2.3, the method is not used for chart live preview,
 	 *             use
 	 *             {@link #prepareRowExpressionEvaluator(Chart, List, int, boolean)}
 	 *             instead.
-	 * 
+	 *
 	 */
+	@Deprecated
+	@Override
 	@SuppressWarnings("dep-ann")
 	public final Object[] getDataForColumns(String[] sExpressions, int iMaxRecords, boolean byRow)
 			throws ChartException {
@@ -1086,6 +1096,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 				.getInt(ChartReportItemUIActivator.PREFERENCE_MAX_ROW);
 	}
 
+	@Override
 	public boolean isLivePreviewEnabled() {
 		return !isErrorFound
 				&& PreferenceFactory.getInstance().getPreferences(ChartReportItemUIActivator.getDefault(), project)
@@ -1109,11 +1120,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getDataType
 	 * (java.lang.String)
 	 */
+	@Override
 	public DataType getDataType(String expression) {
 		return ChartItemUtil.getExpressionDataType(expression, itemHandle);
 	}
@@ -1121,7 +1133,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	@SuppressWarnings("unchecked")
 	protected String[] getAllReportItemReferences() {
 		List<ReportItemHandle> availableList = itemHandle.getAvailableDataBindingReferenceList();
-		List<ReportItemHandle> referenceList = new ArrayList<ReportItemHandle>();
+		List<ReportItemHandle> referenceList = new ArrayList<>();
 		for (ReportItemHandle handle : availableList) {
 			if (handle instanceof ExtendedItemHandle) {
 				String extensionName = ((ExtendedItemHandle) handle).getExtensionName();
@@ -1136,7 +1148,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Returns if reference binding can accept this type of extended item
-	 * 
+	 *
 	 * @param extensionName extension name of item
 	 * @return true means reference binding can accept this type of extended item
 	 * @since 3.7
@@ -1212,7 +1224,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Sets row limit to specified dte's session.
-	 * 
+	 *
 	 * @param session
 	 * @param rowLimit
 	 * @param isCubeMode
@@ -1234,7 +1246,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Check it should set cube into query session.
-	 * 
+	 *
 	 * @param cube
 	 * @return
 	 */
@@ -1248,11 +1260,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#
 	 * prepareRowExpressionEvaluator(org.eclipse.birt.chart.model.Chart,
 	 * java.lang.String[], int, boolean)
 	 */
+	@Override
 	public IDataRowExpressionEvaluator prepareRowExpressionEvaluator(Chart cm, List<String> columnExpression,
 			int rowCount, boolean isStringType) throws ChartException {
 		synchronized (sessionLock) {
@@ -1269,8 +1282,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 			// projects
 			ClassLoader oldContextLoader = Thread.currentThread().getContextClassLoader();
 			ClassLoader parentLoader = oldContextLoader;
-			if (parentLoader == null)
+			if (parentLoader == null) {
 				parentLoader = this.getClass().getClassLoader();
+			}
 			ClassLoader newContextLoader = DataSetProvider.getCustomScriptClassLoader(parentLoader,
 					itemHandle.getModuleHandle());
 			Thread.currentThread().setContextClassLoader(newContextLoader);
@@ -1317,7 +1331,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Create base evaluator for chart using data set.
-	 * 
+	 *
 	 * @param handle
 	 * @param cm
 	 * @param columnExpression
@@ -1413,7 +1427,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	public List<ComputedColumnHandle> getAvailableBindingsList(ExtendedItemHandle handle) {
 		Iterator<ComputedColumnHandle> itr = getUsedDataSetBindings(null, handle);
-		List<ComputedColumnHandle> columnsList = new ArrayList<ComputedColumnHandle>();
+		List<ComputedColumnHandle> columnsList = new ArrayList<>();
 		while (itr.hasNext()) {
 			ComputedColumnHandle curColumn = itr.next();
 			columnsList.add(curColumn);
@@ -1424,7 +1438,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	/**
 	 * Create a simple expression evaluator, it will causes chart engine using
 	 * default grouping instead of DTE's grouping.
-	 * 
+	 *
 	 * @param actualResultSet
 	 * @return
 	 * @throws BirtException
@@ -1436,10 +1450,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @seeorg.eclipse.birt.chart.factory. IDataRowExpressionEvaluator
 			 * #evaluate(java.lang.String)
 			 */
+			@Override
 			public Object evaluate(String expression) {
 				try {
 					return resultIterator.getValue(expression);
@@ -1450,19 +1465,21 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @seeorg.eclipse.birt.chart.factory. IDataRowExpressionEvaluator
 			 * #evaluateGlobal(java.lang.String)
 			 */
+			@Override
 			public Object evaluateGlobal(String expression) {
 				return evaluate(expression);
 			}
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @seeorg.eclipse.birt.chart.factory. IDataRowExpressionEvaluator#next()
 			 */
+			@Override
 			public boolean next() {
 				try {
 					return resultIterator.next();
@@ -1473,9 +1490,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @seeorg.eclipse.birt.chart.factory. IDataRowExpressionEvaluator#close()
 			 */
+			@Override
 			public void close() {
 				try {
 					resultIterator.close();
@@ -1486,9 +1504,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @seeorg.eclipse.birt.chart.factory. IDataRowExpressionEvaluator#first()
 			 */
+			@Override
 			public boolean first() {
 				try {
 					return resultIterator.next();
@@ -1501,12 +1520,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Returns iterator of all filters.
-	 * 
+	 *
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	private Iterator<FilterConditionHandle> getFiltersIterator() {
-		List<FilterConditionHandle> filterList = new ArrayList<FilterConditionHandle>();
+		List<FilterConditionHandle> filterList = new ArrayList<>();
 		PropertyHandle ph = null;
 		// Inherit case.
 		if (getDataSet() == null && getReportItemReference() == null) {
@@ -1551,7 +1570,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Creates the evaluator for Cube Live preview.
-	 * 
+	 *
 	 * @param cube
 	 * @param cm
 	 * @param columnExpression
@@ -1588,7 +1607,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 			ICubeQueryDefinition queryDef = (ICubeQueryDefinition) qd;
 
 			// Generates a set of available binding names.
-			Set<String> bindingNames = new HashSet<String>();
+			Set<String> bindingNames = new HashSet<>();
 			List<Object> bindings = queryDef.getBindings();
 			for (int i = 0; i < bindings.size(); i++) {
 				bindingNames.add(((Binding) bindings.get(i)).getBindingName());
@@ -1685,7 +1704,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Check if specified base expression contains .outer expression.
-	 * 
+	 *
 	 * @param be
 	 * @return
 	 */
@@ -1714,14 +1733,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * The class is responsible to create query definition.
-	 * 
+	 *
 	 * @since BIRT 2.3
 	 */
 	protected class BaseQueryHelper extends AbstractChartBaseQueryGenerator {
 
 		/**
 		 * Constructor of the class.
-		 * 
+		 *
 		 * @param chart
 		 * @param handle
 		 * @param query
@@ -1734,10 +1753,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 		/**
 		 * Create query definition.
-		 * 
+		 *
 		 * @param columnExpression
 		 * @throws DataException
 		 */
+		@Override
 		public IDataQueryDefinition createBaseQuery(List<String> columnExpression) throws ChartException {
 			QueryDefinition queryDefn = new QueryDefinition();
 			int maxRow = getMaxRow();
@@ -1771,7 +1791,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 		/**
 		 * Add aggregate bindings of value series for grouping case.
-		 * 
+		 *
 		 * @param query
 		 * @param seriesDefinitions
 		 * @param innerMostGroupDef
@@ -1780,6 +1800,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 		 * @throws DataException
 		 * @throws DataException
 		 */
+		@Override
 		protected void addValueSeriesAggregateBindingForGrouping(BaseQueryDefinition query,
 				EList<SeriesDefinition> seriesDefinitions, GroupDefinition innerMostGroupDef,
 				Map<String, String[]> valueExprMap, SeriesDefinition baseSD) throws ChartException {
@@ -1869,10 +1890,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator
 		 * #createBaseQuery (org.eclipse.birt.data.engine.api.IDataQueryDefinition)
 		 */
+		@Override
 		public IDataQueryDefinition createBaseQuery(IDataQueryDefinition parent) {
 			throw new UnsupportedOperationException("Don't be implemented in the class."); //$NON-NLS-1$
 		}
@@ -1901,7 +1923,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Check if chart is sharing query from other report item.
-	 * 
+	 *
 	 * @return true if chart is sharing query from other report item.
 	 */
 	public boolean isSharedBinding() {
@@ -1910,7 +1932,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Check if current item handle is table shared binding reference.
-	 * 
+	 *
 	 * @return
 	 * @since 2.3
 	 */
@@ -1921,7 +1943,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	/**
 	 * Set predefined expressions for table shared binding, in table shared binding
 	 * case, the binding/expression is read only, so predefined them.
-	 * 
+	 *
 	 * @param headers
 	 * @since 2.3
 	 */
@@ -1940,7 +1962,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Returns report item handle.
-	 * 
+	 *
 	 * @since 2.3
 	 */
 	public ReportItemHandle getReportItemHandle() {
@@ -1967,7 +1989,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * The class declares some methods for processing query share with table.
-	 * 
+	 *
 	 * @since 2.3
 	 */
 	class ShareBindingQueryHelper {
@@ -1976,7 +1998,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 		/**
 		 * Set predefined expressions for UI selections.
-		 * 
+		 *
 		 * @param headers
 		 */
 		private void setPredefinedExpressions(ColumnBindingInfo[] headers) {
@@ -1989,14 +2011,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 		/**
 		 * Returns predefined expressions for sharing case.
-		 * 
+		 *
 		 * @param headers
 		 * @return
 		 */
 		private Object[] getPredefinedExpressionsForSharing(ColumnBindingInfo[] headers) {
-			List<ColumnBindingInfo> commons = new LinkedList<ColumnBindingInfo>();
-			List<ColumnBindingInfo> aggs = new LinkedList<ColumnBindingInfo>();
-			List<ColumnBindingInfo> groups = new LinkedList<ColumnBindingInfo>();
+			List<ColumnBindingInfo> commons = new LinkedList<>();
+			List<ColumnBindingInfo> aggs = new LinkedList<>();
+			List<ColumnBindingInfo> groups = new LinkedList<>();
 			for (int i = 0; i < headers.length; i++) {
 				int type = headers[i].getColumnType();
 				switch (type) {
@@ -2012,8 +2034,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 				}
 			}
 
-			List<ColumnBindingInfo> groupsWithAgg = new LinkedList<ColumnBindingInfo>();
-			List<ColumnBindingInfo> groupsWithoutAgg = new LinkedList<ColumnBindingInfo>(groups);
+			List<ColumnBindingInfo> groupsWithAgg = new LinkedList<>();
+			List<ColumnBindingInfo> groupsWithoutAgg = new LinkedList<>(groups);
 
 			for (Iterator<ColumnBindingInfo> iter = groupsWithoutAgg.iterator(); iter.hasNext();) {
 				ColumnBindingInfo cbiGroup = iter.next();
@@ -2053,7 +2075,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 			// outer groups than current group handle level(include self group).
 			ColumnBindingInfo[] optionals = null;
 			if (isInheritColumnsGroups() && groups.size() > 0) {
-				List<ColumnBindingInfo> g = new LinkedList<ColumnBindingInfo>();
+				List<ColumnBindingInfo> g = new LinkedList<>();
 				DesignElementHandle reh = itemHandle;
 				while (reh != null) {
 					if (reh.getContainer() instanceof GroupHandle) {
@@ -2077,7 +2099,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 							deh = deh.getContainer();
 						}
-						if (deh != null && deh instanceof ListingHandle) {
+						if (deh instanceof ListingHandle) {
 							if (((ListingHandle) deh).getDetail().findPosn(reh.getContainer()) >= 0) {
 								g = groups;
 							} else if (((ListingHandle) deh).getHeader().findPosn(reh.getContainer()) >= 0) {
@@ -2124,7 +2146,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 		/**
 		 * Prepare data expression evaluator for query share with table.
-		 * 
+		 *
 		 * @param cm
 		 * @param columnExpression
 		 * @return
@@ -2143,10 +2165,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 			queryDefn.setMaxRows(maxRow);
 
 			// Binding columns, aggregates, filters and sorts.
-			final Map<String, String> bindingExprsMap = new HashMap<String, String>();
+			final Map<String, String> bindingExprsMap = new HashMap<>();
 
 			Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getColumnDataBindings(itemHandle);
-			List<ComputedColumnHandle> columnList = new ArrayList<ComputedColumnHandle>();
+			List<ComputedColumnHandle> columnList = new ArrayList<>();
 			while (iterator.hasNext()) {
 				columnList.add(iterator.next());
 			}
@@ -2175,10 +2197,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 					/*
 					 * (non-Javadoc)
-					 * 
+					 *
 					 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator
 					 * #evaluate(java.lang.String)
 					 */
+					@Override
 					public Object evaluate(String expression) {
 						try {
 							String newExpr = bindingExprsMap.get(expression);
@@ -2218,7 +2241,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 		/**
 		 * Add custom expressions of chart to query.
-		 * 
+		 *
 		 * @param queryDefn
 		 * @param cm
 		 * @param bindingExprsMap
@@ -2228,7 +2251,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 				final Map<String, String> bindingExprsMap) throws DataException {
 			List<Query> queryList = ChartBaseQueryHelper.getAllQueryExpressionDefinitions(cm);
 
-			Set<String> exprSet = new HashSet<String>();
+			Set<String> exprSet = new HashSet<>();
 			for (Query query : queryList) {
 				String expr = query.getDefinition();
 				if (expr != null) {
@@ -2253,7 +2276,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 		/**
 		 * Returns columns header info.
-		 * 
+		 *
 		 * @throws ChartException
 		 * @since BIRT 2.3
 		 */
@@ -2263,7 +2286,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 				return new ColumnBindingInfo[0];
 			}
 
-			ColumnBindingInfo[] columnHeaders = null;
+			ColumnBindingInfo[] columnHeaders;
 
 			// Process grouping and aggregate on group case.
 			// Get groups.
@@ -2351,12 +2374,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 		/**
 		 * Returns groups in shared binding.
-		 * 
+		 *
 		 * @return
 		 */
 		@SuppressWarnings("unchecked")
 		private List<GroupHandle> getGroupsOfSharedBinding() {
-			List<GroupHandle> groupList = new ArrayList<GroupHandle>();
+			List<GroupHandle> groupList = new ArrayList<>();
 			ListingHandle table = null;
 			if (isInheritColumnsGroups()) {
 				table = findListingInheritance();
@@ -2375,7 +2398,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 		/**
 		 * Returns correct shared table handle when chart is sharing table's query.
-		 * 
+		 *
 		 * @param aItemHandle
 		 * @return
 		 */
@@ -2399,7 +2422,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 		/**
 		 * Returns preview row data for table shared binding, it will share table's
 		 * bindings and get them data.
-		 * 
+		 *
 		 * @param headers
 		 * @param rowCount
 		 * @param isStringType
@@ -2409,14 +2432,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 		 */
 		private List<Object[]> getPreviewRowData(ColumnBindingInfo[] headers, int rowCount, boolean isStringType)
 				throws ChartException {
-			List<Object[]> dataList = new ArrayList<Object[]>();
+			List<Object[]> dataList = new ArrayList<>();
 			// Set thread context class loader so Rhino can find POJOs in
 			// workspace
 			// projects
 			ClassLoader oldContextLoader = Thread.currentThread().getContextClassLoader();
 			ClassLoader parentLoader = oldContextLoader;
-			if (parentLoader == null)
+			if (parentLoader == null) {
 				parentLoader = this.getClass().getClassLoader();
+			}
 			ClassLoader newContextLoader = DataSetProvider.getCustomScriptClassLoader(parentLoader,
 					itemHandle.getModuleHandle());
 			Thread.currentThread().setContextClassLoader(newContextLoader);
@@ -2477,7 +2501,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 		/**
 		 * Generate share bindings with table into query.
-		 * 
+		 *
 		 * @param headers
 		 * @param queryDefn
 		 * @param aSession
@@ -2490,7 +2514,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 		private List<String> generateShareBindingsWithTable(ColumnBindingInfo[] headers, QueryDefinition queryDefn,
 				DataRequestSession aSession, Map<String, String> bindingExprsMap)
 				throws AdapterException, DataException {
-			List<String> columns = new ArrayList<String>();
+			List<String> columns = new ArrayList<>();
 			ReportItemHandle reportItemHandle = getReportItemHandle();
 			if (isInheritColumnsGroups()) {
 				reportItemHandle = findListingInheritance();
@@ -2546,10 +2570,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#update(
 	 * java.lang.String, java.lang.Object)
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public boolean update(String type, Object value) {
 		boolean isUpdated = false;
@@ -2561,7 +2586,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 			// series
 			// binding.
 			// 1. Get all bindings.
-			Map<String, ComputedColumnHandle> bindingMap = new LinkedHashMap<String, ComputedColumnHandle>();
+			Map<String, ComputedColumnHandle> bindingMap = new LinkedHashMap<>();
 			for (Iterator<ComputedColumnHandle> bindings = ChartReportItemUtil
 					.getAllColumnBindingsIterator(itemHandle); bindings.hasNext();) {
 				ComputedColumnHandle column = bindings.next();
@@ -2595,52 +2620,48 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 				if (cch != null) {
 					isUpdated = setOptionalYExpression(exprType, cch);
 				}
-			} else {
-				if (aggOnList.size() == 0) {
-					// If it consumes xtab, including multiple view, sharing
-					// xtab, and inheriting from xtab. And the selected series
-					// expression is a computed/derived expression, we need
-					// update category and optional Y expressions list for user
-					// to select.
-					CrosstabReportItemHandle xtabHandle = null;
-					try {
-						if (checkState(IN_MULTI_VIEWS)) {
-							// Chart view of xtab
-							xtabHandle = (CrosstabReportItemHandle) ((ExtendedItemHandle) this.itemHandle.getContainer()
-									.getContainer()).getReportItem();
+			} else if (aggOnList.size() == 0) {
+				// If it consumes xtab, including multiple view, sharing
+				// xtab, and inheriting from xtab. And the selected series
+				// expression is a computed/derived expression, we need
+				// update category and optional Y expressions list for user
+				// to select.
+				CrosstabReportItemHandle xtabHandle = null;
+				try {
+					if (checkState(IN_MULTI_VIEWS)) {
+						// Chart view of xtab
+						xtabHandle = (CrosstabReportItemHandle) ((ExtendedItemHandle) this.itemHandle.getContainer()
+								.getContainer()).getReportItem();
 
-						} else if (isSharedBinding()) // Sharing xtab.
-						{
-							ReportItemHandle rih = ChartReportItemUtil.getReportItemReference(this.itemHandle);
-							if (rih != null && rih instanceof ExtendedItemHandle) {
-								xtabHandle = (CrosstabReportItemHandle) ((ExtendedItemHandle) rih).getReportItem();
-							}
-						} else if (isInXTabNonAggrCell() && isInheritCube()) {
-							// Inheriting from xtab.
-							xtabHandle = ChartCubeUtil.getXtabContainerCell(itemHandle, false).getCrosstab();
+					} else if (isSharedBinding()) // Sharing xtab.
+					{
+						ReportItemHandle rih = ChartReportItemUtil.getReportItemReference(this.itemHandle);
+						if (rih instanceof ExtendedItemHandle) {
+							xtabHandle = (CrosstabReportItemHandle) ((ExtendedItemHandle) rih).getReportItem();
 						}
-					} catch (ExtendedElementException e) {
-						WizardBase.displayException(e);
-					} catch (BirtException e) {
-						WizardBase.displayException(e);
+					} else if (isInXTabNonAggrCell() && isInheritCube()) {
+						// Inheriting from xtab.
+						xtabHandle = ChartCubeUtil.getXtabContainerCell(itemHandle, false).getCrosstab();
 					}
-					if (xtabHandle != null) {
-						isUpdated = updateExpressionForConsumingXTab(xtabHandle, exprType, bindingMap);
-					}
-				} else {
-					// When chart share cube with other chart, the measure
-					// expression(value series expressions) doesn't contain
-					// level
-					// information, so here only update Y optional expression
-					// for
-					// sharing with crosstab case.
-					if (!isChartReportItemHandle(ChartItemUtil.getReportItemReference(itemHandle))) {
-						for (Iterator<SeriesDefinition> iter = ChartUIUtil
-								.getAllOrthogonalSeriesDefinitions(context.getModel()).iterator(); iter.hasNext();) {
-							SeriesDefinition sd = iter.next();
-							sd.getQuery().setDefinition(""); //$NON-NLS-1$
-							isUpdated = true;
-						}
+				} catch (BirtException e) {
+					WizardBase.displayException(e);
+				}
+				if (xtabHandle != null) {
+					isUpdated = updateExpressionForConsumingXTab(xtabHandle, exprType, bindingMap);
+				}
+			} else {
+				// When chart share cube with other chart, the measure
+				// expression(value series expressions) doesn't contain
+				// level
+				// information, so here only update Y optional expression
+				// for
+				// sharing with crosstab case.
+				if (!isChartReportItemHandle(ChartItemUtil.getReportItemReference(itemHandle))) {
+					for (Iterator<SeriesDefinition> iter = ChartUIUtil
+							.getAllOrthogonalSeriesDefinitions(context.getModel()).iterator(); iter.hasNext();) {
+						SeriesDefinition sd = iter.next();
+						sd.getQuery().setDefinition(""); //$NON-NLS-1$
+						isUpdated = true;
 					}
 				}
 			}
@@ -2680,7 +2701,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	private boolean updateExpressionForConsumingXTab(CrosstabReportItemHandle xtabHandle, String exprType,
 			Map<String, ComputedColumnHandle> bindingMap) {
 		boolean isUpdated = false;
-		List<ComputedColumnHandle> rowChildren = new ArrayList<ComputedColumnHandle>();
+		List<ComputedColumnHandle> rowChildren = new ArrayList<>();
 		for (int i = 0; i < xtabHandle.getDimensionCount(ICrosstabConstants.ROW_AXIS_TYPE); i++) {
 			DimensionViewHandle dimensionHandle = xtabHandle.getDimension(ICrosstabConstants.ROW_AXIS_TYPE, i);
 			ComputedColumnHandle cch = ChartReportItemHelper.instance().findDimensionBinding(exprCodec,
@@ -2701,7 +2722,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 			}
 		}
 
-		List<ComputedColumnHandle> colChildren = new ArrayList<ComputedColumnHandle>();
+		List<ComputedColumnHandle> colChildren = new ArrayList<>();
 		for (int i = 0; i < xtabHandle.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE); i++) {
 			DimensionViewHandle dimensionHandle = xtabHandle.getDimension(ICrosstabConstants.COLUMN_AXIS_TYPE, i);
 			ComputedColumnHandle cch = ChartReportItemHelper.instance().findDimensionBinding(exprCodec,
@@ -2781,7 +2802,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Updates cube bindings due to the change of cube set.
-	 * 
+	 *
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -2792,7 +2813,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 			if (cubeHandle != null) {
 				List<ComputedColumn> columnList = ChartXTabUIUtil.generateComputedColumns(itemHandle, cubeHandle);
 				if (columnList.size() > 0) {
-					List<String> bindingNameList = new ArrayList<String>();
+					List<String> bindingNameList = new ArrayList<>();
 					for (Iterator<ComputedColumnHandle> iter = itemHandle.columnBindingsIterator(); iter.hasNext();) {
 						ComputedColumnHandle cch = iter.next();
 						bindingNameList.add(cch.getName());
@@ -2814,7 +2835,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * Check if the cube of current item handle has multiple dimensions.
-	 * 
+	 *
 	 * @return
 	 * @since 2.3
 	 */
@@ -2856,10 +2877,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getStates()
 	 */
+	@Override
 	public int getState() {
 		int states = 0;
 		if (getDataSet() != null) {
@@ -2920,20 +2942,22 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#checkState
 	 * (int)
 	 */
+	@Override
 	public boolean checkState(int state) {
 		return (getState() & state) == state;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#checkData
 	 * (String, java.lang.Object)
 	 */
+	@Override
 	public Object checkData(String checkType, Object data) {
 		if (ChartUIConstants.QUERY_OPTIONAL.equals(checkType) || ChartUIConstants.QUERY_CATEGORY.equals(checkType)) {
 			// Only check query for Cube/Crosstab sharing cases.
@@ -2961,7 +2985,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	/**
 	 * Calculate the number of expressions binded to category series, value series
 	 * or y-optional grouping .
-	 * 
+	 *
 	 * @param expr
 	 * @return count number
 	 */
@@ -2995,7 +3019,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	/**
 	 * Check if current item handle is table shared binding reference. Check if
 	 * current is sharing query with other chart.
-	 * 
+	 *
 	 * @param isRecursive <code>true</code> means it will be recursive to find out
 	 *                    the shared chart case, else just check if the direct
 	 *                    reference is a chart item.
@@ -3013,7 +3037,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	/**
 	 * This method just calls a utility method to check if current handle holds a
 	 * chart,and will be overridden for difference cases.
-	 * 
+	 *
 	 * @param referredHandle
 	 * @return if current handle holds a chart
 	 * @since 2.5.3
@@ -3024,7 +3048,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 	/**
 	 * This method just calls a utility method to get reference handle.
-	 * 
+	 *
 	 * @return reference handle
 	 * @since 2.5.3
 	 */
@@ -3038,7 +3062,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	 */
 	protected void copySeriesDefinition(Object target) {
 		Chart targetCM = context.getModel();
-		if (target != null && target instanceof Chart) {
+		if (target instanceof Chart) {
 			targetCM = (Chart) target;
 		}
 		ExtendedItemHandle refHandle = getChartReferenceItemHandle();

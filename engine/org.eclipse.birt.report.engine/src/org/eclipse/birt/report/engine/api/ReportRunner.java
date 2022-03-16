@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * <p>
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
- * 
+ *
  */
 public class ReportRunner {
 
@@ -106,7 +106,7 @@ public class ReportRunner {
 
 	/**
 	 * Constructor of ReportRunner
-	 * 
+	 *
 	 * @param args - application arguments
 	 */
 	public ReportRunner(String[] args) {
@@ -115,7 +115,7 @@ public class ReportRunner {
 
 	/**
 	 * Main function.
-	 * 
+	 *
 	 * @param args - application argumetns.
 	 */
 	public static void main(String[] args) {
@@ -129,8 +129,9 @@ public class ReportRunner {
 	 */
 	public int execute() {
 		// Process command line arguments
-		if (parseHelpOptions() > 0)
+		if (parseHelpOptions() > 0) {
 			return 0;
+		}
 		try {
 			parseNormalOptions();
 			// startup the platform
@@ -204,8 +205,9 @@ public class ReportRunner {
 			// setup the application context
 			if (format.equalsIgnoreCase("html")) {
 				HTMLRenderOption htmlOptions = new HTMLRenderOption(options);
-				if ("ReportletNoCSS".equals(htmlType))
+				if ("ReportletNoCSS".equals(htmlType)) {
 					htmlOptions.setEmbeddable(true);
+				}
 				// setup the output encoding
 				htmlOptions.setUrlEncoding(encoding);
 				htmlOptions.setHtmlPagination(true);
@@ -289,8 +291,9 @@ public class ReportRunner {
 			// setup the application context
 			if (format.equalsIgnoreCase("html")) {
 				HTMLRenderOption htmlOptions = new HTMLRenderOption(options);
-				if ("ReportletNoCSS".equals(htmlType))
+				if ("ReportletNoCSS".equals(htmlType)) {
 					htmlOptions.setEmbeddable(true);
+				}
 				htmlOptions.setImageDirectory("image"); //$NON-NLS-1$
 				// setup the output encoding
 				htmlOptions.setUrlEncoding(encoding);
@@ -336,7 +339,7 @@ public class ReportRunner {
 
 	/**
 	 * print out the command line usage.
-	 * 
+	 *
 	 */
 	protected void printGeneralUsage() {
 		System.out.println("Help for ReportRunner"); //$NON-NLS-1$
@@ -440,7 +443,7 @@ public class ReportRunner {
 
 	/**
 	 * Private function to convert a locale name string to a locale object
-	 * 
+	 *
 	 * @param locale - locale name string
 	 * @return A locale object
 	 */
@@ -461,7 +464,7 @@ public class ReportRunner {
 
 	/**
 	 * Parse running options.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void parseRunOptions() throws Exception {
@@ -478,7 +481,7 @@ public class ReportRunner {
 
 	/**
 	 * Parse render options.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void parseRenderOptions() throws Exception {
@@ -545,7 +548,7 @@ public class ReportRunner {
 
 	/**
 	 * Parse run and render options.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void parseRunAndRenderOptions() throws Exception {
@@ -593,7 +596,7 @@ public class ReportRunner {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return 1 if this command is for help information; 0 if it's normal
 	 */
 	protected int parseHelpOptions() {
@@ -640,10 +643,10 @@ public class ReportRunner {
 
 	/**
 	 * parse the arguments.
-	 * 
+	 *
 	 * -html html-file-name -pdf pdf-file-name -fo fo-file-name -l locale-name -p
 	 * page-number design-file-name
-	 * 
+	 *
 	 * @param args - arguments
 	 */
 	protected void parseNormalOptions() {
@@ -700,7 +703,7 @@ public class ReportRunner {
 
 	/**
 	 * read paramters from the param and add it into the params.
-	 * 
+	 *
 	 * @param param  parameter string line. use '=' to separate the name and value.
 	 * @param params maps contains all the paramter name and value.
 	 */
@@ -722,7 +725,7 @@ public class ReportRunner {
 
 	/**
 	 * paraser the config/paramter/renderoption command line inputs.
-	 * 
+	 *
 	 * @return the HashMap contains all the paramter name and values.
 	 */
 	protected void parseConfigurationOptions() {
@@ -770,7 +773,7 @@ public class ReportRunner {
 
 	/**
 	 * Evaluate parameter values.
-	 * 
+	 *
 	 * @param runnable
 	 * @return
 	 */
@@ -806,7 +809,7 @@ public class ReportRunner {
 						ParameterAttribute pa = null;
 						if (isAllowMutipleValues) {
 							Object[] values = (Object[]) paramValue;
-							List<String> displayTextList = new ArrayList<String>();
+							List<String> displayTextList = new ArrayList<>();
 							if (selectList != null && selectList.size() > 0) {
 								for (Object o : values) {
 									for (ParameterSelectionChoice select : selectList) {
@@ -841,7 +844,7 @@ public class ReportRunner {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param paramDataType the data type
 	 * @param inputValue    parameter value in String
 	 * @return parameter value in Object[]
@@ -898,10 +901,10 @@ public class ReportRunner {
 	/**
 	 * If -o (targetFile) is not specified, assume same directory as inputfile, and
 	 * inputfile.*** as output file name (where *** is the output format.
-	 * 
+	 *
 	 * If -o specifies a directory, assume the file name is the same as
 	 * inputfile.***.
-	 * 
+	 *
 	 * If -o specifies a file, it has a path part and a filename part. Take the path
 	 * as the directory to store the file and other resources (for example image).
 	 */
@@ -932,18 +935,20 @@ public class ReportRunner {
 
 	/**
 	 * new a EngineConfig and config it with user's setting
-	 * 
+	 *
 	 */
 	protected EngineConfig createEngineConfig() {
 		EngineConfig config = new EngineConfig();
 
 		String resourcePath = (String) params.get("resourceDir");
-		if (resourcePath != null)
+		if (resourcePath != null) {
 			config.setResourcePath(resourcePath.trim());
+		}
 
 		String tempDir = (String) params.get("tempDir");
-		if (tempDir != null)
+		if (tempDir != null) {
 			config.setTempDir(tempDir.trim());
+		}
 
 		String logDir = (String) params.get("logDir");
 		String logLevel = (String) params.get("logLevel");
@@ -975,8 +980,9 @@ public class ReportRunner {
 		config.setLogConfig(logD, logL);
 
 		String logFile = (String) params.get("logFile");
-		if (logFile != null)
+		if (logFile != null) {
 			config.setLogFile(logFile.trim());
+		}
 
 		String scripts = (String) params.get("scriptPath");
 		HashMap map = new HashMap();

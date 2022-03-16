@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ide.IDE;
 
 /**
- * 
+ *
  */
 
 public class IDECPListLabelProvider extends LabelProvider {
@@ -42,6 +45,7 @@ public class IDECPListLabelProvider extends LabelProvider {
 		fMissing = Messages.getString("IDECPListLabelProvider.missing"); //$NON-NLS-1$
 	}
 
+	@Override
 	public String getText(Object element) {
 		if (element instanceof IDECPListElement) {
 			return getCPListElementText((IDECPListElement) element);
@@ -55,7 +59,7 @@ public class IDECPListLabelProvider extends LabelProvider {
 		case IClasspathEntry.CPE_LIBRARY: {
 			IResource resource = cpentry.getResource();
 			if (resource instanceof IContainer) {
-				StringBuffer buf = new StringBuffer(getPathLabel(path, false));
+				StringBuilder buf = new StringBuilder(getPathLabel(path, false));
 				buf.append(' ');
 				buf.append(fClassLabel);
 				if (!resource.exists()) {
@@ -90,7 +94,7 @@ public class IDECPListLabelProvider extends LabelProvider {
 			return label;
 		case IClasspathEntry.CPE_SOURCE: {
 			String pathLabel = getPathLabel(path, false);
-			StringBuffer buf = new StringBuffer(pathLabel);
+			StringBuilder buf = new StringBuilder(pathLabel);
 
 			IResource resource = cpentry.getResource();
 			if (resource != null && !resource.exists()) {
@@ -124,8 +128,9 @@ public class IDECPListLabelProvider extends LabelProvider {
 	}
 
 	public static boolean isArchivePath(IPath path, boolean allowAllAchives) {
-		if (allowAllAchives)
+		if (allowAllAchives) {
 			return true;
+		}
 
 		String ext = path.getFileExtension();
 		if (ext != null && ext.length() != 0) {
@@ -182,9 +187,10 @@ public class IDECPListLabelProvider extends LabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
 	 */
+	@Override
 	public Image getImage(Object element) {
 		if (element instanceof IDECPListElement) {
 			IDECPListElement cpentry = (IDECPListElement) element;

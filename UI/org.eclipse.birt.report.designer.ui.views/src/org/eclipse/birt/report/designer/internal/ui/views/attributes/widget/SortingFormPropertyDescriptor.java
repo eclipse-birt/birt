@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,8 +55,8 @@ import org.eclipse.swt.widgets.TableColumn;
  * provides all table-based operations such as moving, adding, deleting. The
  * Filters, Sorting, Groups and High-lights will use FormPage as UI and provides
  * corresponding Model processors.
- * 
- * 
+ *
+ *
  */
 public class SortingFormPropertyDescriptor extends PropertyDescriptor implements IFastConsumerProcessor {
 
@@ -113,7 +116,7 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param parent   A widget which will be the parent of the new instance (cannot
 	 *                 be null)
 	 * @param style    The style of widget to construct
@@ -172,16 +175,18 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TabPage
 	 * #setInput(java.util.List)
 	 */
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 		getDescriptorProvider().setInput(input);
 	}
 
+	@Override
 	public void load() {
 		if (getDescriptorProvider() instanceof ISortingFormProvider) {
 			boolean enable = ((AbstractSortingFormHandleProvider) getDescriptorProvider()).isEnable();
@@ -199,29 +204,33 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 
 	}
 
+	@Override
 	public Control getControl() {
 		return formPanel;
 	}
 
 	/**
 	 * Creates UI widgets
-	 * 
+	 *
 	 */
+	@Override
 	public Control createControl(Composite parent) {
 		assert getDescriptorProvider() != null;
 		assert getDescriptorProvider() instanceof ISortingFormProvider;
 		formPanel = new Composite(parent, SWT.NONE);
 
-		if (isFormStyle())
+		if (isFormStyle()) {
 			table = FormWidgetFactory.getInstance().createTable(formPanel,
 					SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
-		else
+		} else {
 			table = new Table(formPanel, SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
+		}
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 
 		Listener sortListener = new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
 				int modelPos = -1;
 				if (table.getSelectionIndex() > -1) {
@@ -262,8 +271,9 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 		String[] columnNames = ((ISortingFormProvider) getDescriptorProvider()).getColumnNames();
 		for (int i = 0; i < columnNames.length; i++) {
 			TableColumn column = new TableColumn(table, SWT.LEFT);
-			if (i == 0)
+			if (i == 0) {
 				table.setSortColumn(column);
+			}
 			column.setText(columnNames[i]);
 			column.setWidth(((ISortingFormProvider) getDescriptorProvider()).getColumnWidths()[i]);
 			column.addListener(SWT.Selection, sortListener);
@@ -272,6 +282,7 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 
 		table.addKeyListener(new KeyAdapter() {
 
+			@Override
 			public void keyPressed(KeyEvent e) {
 				handleTableKeyPressEvent(e);
 			}
@@ -279,39 +290,44 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 
 		table.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleTableSelectEvent();
 			}
 		});
 		table.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				handleTableMouseDoubleClickEvent();
 			}
 		});
 		createTableViewer();
 
-		if (isFormStyle())
+		if (isFormStyle()) {
 			btnDel = FormWidgetFactory.getInstance().createButton(formPanel, "", //$NON-NLS-1$
 					SWT.PUSH);
-		else
+		} else {
 			btnDel = new Button(formPanel, SWT.PUSH);
+		}
 
 		btnDel.setText(Messages.getString("FormPage.Button.Delete")); //$NON-NLS-1$
 
 		btnDel.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleDelSelectEvent();
 			}
 		});
 
-		if (isFormStyle())
+		if (isFormStyle()) {
 			btnAdd = FormWidgetFactory.getInstance().createButton(formPanel, "", //$NON-NLS-1$
 					SWT.PUSH);
-		else
+		} else {
 			btnAdd = new Button(formPanel, SWT.PUSH);
-		if (bAddWithDialog == true) {
+		}
+		if (bAddWithDialog) {
 			btnAdd.setText(Messages.getString("FormPage.Button.AddWithDialog")); //$NON-NLS-1$
 		} else {
 			btnAdd.setText(Messages.getString("FormPage.Button.Add")); //$NON-NLS-1$
@@ -319,6 +335,7 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 
 		btnAdd.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleAddSelectEvent();
 
@@ -326,11 +343,12 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 		});
 
 		if (style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL) {
-			if (isFormStyle())
+			if (isFormStyle()) {
 				btnEdit = FormWidgetFactory.getInstance().createButton(formPanel, "", SWT.PUSH); //$NON-NLS-1$
-			else
+			} else {
 				btnEdit = new Button(formPanel, SWT.PUSH);
-			if (bAddWithDialog == true) {
+			}
+			if (bAddWithDialog) {
 				btnEdit.setText(Messages.getString("FormPage.Button.EditWithDialog")); //$NON-NLS-1$
 			} else {
 				btnEdit.setText(Messages.getString("FormPage.Button.Edit")); //$NON-NLS-1$
@@ -338,6 +356,7 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 
 			btnEdit.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					handleEditSelectEvent();
 				}
@@ -371,17 +390,16 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 			return;
 		}
 
-		if (!((AbstractSortingFormHandleProvider) getDescriptorProvider()).edit(pos))
+		if (!((AbstractSortingFormHandleProvider) getDescriptorProvider()).edit(pos)) {
 			return;
+		}
 
 		table.setSelection(((AbstractSortingFormHandleProvider) getDescriptorProvider()).getShowIndex(modelPos));
 
 	}
 
 	protected void updateArraw() {
-		if (!((ISortingFormProvider) getDescriptorProvider()).isEditable())
-			return;
-		if (style == SIMPLE_FUNCTION) {
+		if (!((ISortingFormProvider) getDescriptorProvider()).isEditable() || (style == SIMPLE_FUNCTION)) {
 			return;
 		}
 		int selectIndex = table.getSelectionIndex();
@@ -394,23 +412,28 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 
 		if ((min <= selectIndex) && (selectIndex <= max)) {
 			btnDel.setEnabled(true);
-			if (btnEdit != null)
+			if (btnEdit != null) {
 				btnEdit.setEnabled(true);
+			}
 		} else {
 			btnDel.setEnabled(false);
-			if (btnEdit != null)
+			if (btnEdit != null) {
 				btnEdit.setEnabled(false);
+			}
 		}
 
 		if (getDescriptorProvider() instanceof ISortingFormProvider) {
 			ISortingFormProvider provider = (ISortingFormProvider) getDescriptorProvider();
 			if (provider.isEnable()) {
-				if (btnAdd.isEnabled())
+				if (btnAdd.isEnabled()) {
 					btnAdd.setEnabled(provider.isAddEnable());
-				if (btnEdit.isEnabled())
+				}
+				if (btnEdit.isEnabled()) {
 					btnEdit.setEnabled(provider.isEditEnable());
-				if (btnDel.isEnabled())
+				}
+				if (btnDel.isEnabled()) {
 					btnDel.setEnabled(provider.isDeleteEnable());
+				}
 			}
 		}
 
@@ -424,7 +447,7 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 
 	/**
 	 * Creates the TableViewer and set all kinds of processors.
-	 * 
+	 *
 	 */
 	private void createTableViewer() {
 
@@ -477,7 +500,7 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 
 	/**
 	 * Layouts widgets for simple UI type.
-	 * 
+	 *
 	 */
 	protected void normallLayout() {
 		FormLayout layout = new FormLayout();
@@ -616,20 +639,22 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
 		 * .lang.Object, int)
 		 */
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
 		 * lang.Object, int)
 		 */
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			return ((ISortingFormProvider) getDescriptorProvider()).getColumnText(element, columnIndex);
 		}
@@ -680,8 +705,9 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 	}
 
 	protected void handleTableMouseDoubleClickEvent() {
-		if (!((ISortingFormProvider) getDescriptorProvider()).isEditable())
+		if (!((ISortingFormProvider) getDescriptorProvider()).isEditable()) {
 			return;
+		}
 		if (style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL) {
 			edit();
 		}
@@ -693,8 +719,9 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 	}
 
 	protected void handleTableKeyPressEvent(KeyEvent e) {
-		if (!((ISortingFormProvider) getDescriptorProvider()).isEditable())
+		if (!((ISortingFormProvider) getDescriptorProvider()).isEditable()) {
 			return;
+		}
 		if (e.keyCode == SWT.DEL) {
 			int itemCount = table.getItemCount();
 			int pos = table.getSelectionIndex();
@@ -723,6 +750,7 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 		edit();
 	}
 
+	@Override
 	public void save(Object obj) throws SemanticException {
 		// TODO Auto-generated method stub
 
@@ -730,19 +758,23 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 
 	private List eventList = new LinkedList();
 
+	@Override
 	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
 		ModelEventInfo event = new ModelEventInfo(focus, ev);
 		eventList.add(event);
 	}
 
+	@Override
 	public void clear() {
 		eventList.clear();
 	}
 
+	@Override
 	public boolean isOverdued() {
 		return getControl() == null || getControl().isDisposed();
 	}
 
+	@Override
 	public void postElementEvent() {
 		while (eventList.size() > 0) {
 			if (((ISortingFormProvider) getDescriptorProvider())
@@ -759,6 +791,7 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 		}
 	}
 
+	@Override
 	public Object getAdapter(Class adapter) {
 		return null;
 	}

@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -17,22 +19,22 @@ import javax.servlet.http.HttpServletResponse;
 public interface IContext {
 	/**
 	 * Get contained bean.
-	 * 
+	 *
 	 * @return Returns the bean.
 	 */
-	public BaseAttributeBean getBean();
+	BaseAttributeBean getBean();
 
 	/**
 	 * Access request instacne.
-	 * 
+	 *
 	 * @return Returns the request.
 	 */
-	public HttpServletRequest getRequest();
+	HttpServletRequest getRequest();
 
 	/**
 	 * Access response instance.
-	 * 
+	 *
 	 * @return Returns the request.
 	 */
-	public HttpServletResponse getResponse();
+	HttpServletResponse getResponse();
 }

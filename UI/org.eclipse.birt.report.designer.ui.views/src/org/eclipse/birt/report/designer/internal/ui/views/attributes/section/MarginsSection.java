@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -23,6 +35,7 @@ public class MarginsSection extends Section {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	public void createSection() {
 		getImageLabelControl(parent);
 		getMarginsControl(parent);
@@ -35,11 +48,13 @@ public class MarginsSection extends Section {
 
 		if (imageLabel == null) {
 			imageLabel = FormWidgetFactory.getInstance().createLabel(parent, isFormStyle);
-			if (getProvider() != null && getProvider() instanceof MarginsPropertyDescriptorProvider)
+			if (getProvider() != null && getProvider() instanceof MarginsPropertyDescriptorProvider) {
 				imageLabel.setImage(((MarginsPropertyDescriptorProvider) getProvider()).getImage());
+			}
 			imageLabel.setLayoutData(new GridData());
 			imageLabel.addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					imageLabel = null;
 				}
@@ -51,28 +66,33 @@ public class MarginsSection extends Section {
 
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) getMarginsControl().getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - 1 - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 1 - placeholder;
+		}
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillSpinner;
+		}
 	}
 
 	protected MarginsPropertyDescriptor getMarginsControl(Composite parent) {
 		if (spinner == null) {
 			spinner = DescriptorToolkit.createSpinnerPropertyDescriptor(isFormStyle);
-			if (getProvider() != null)
+			if (getProvider() != null) {
 				spinner.setDescriptorProvider(getProvider());
+			}
 			spinner.createControl(parent);
 			spinner.getControl().setLayoutData(new GridData());
 			spinner.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					spinner = null;
 				}
@@ -95,8 +115,9 @@ public class MarginsSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (spinner != null)
+		if (spinner != null) {
 			spinner.setDescriptorProvider(provider);
+		}
 	}
 
 	private int width = -1;
@@ -109,6 +130,7 @@ public class MarginsSection extends Section {
 		this.width = width;
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		spinner.setInput(input);
@@ -130,26 +152,36 @@ public class MarginsSection extends Section {
 		}
 	}
 
+	@Override
 	public void load() {
-		if (spinner != null && !spinner.getControl().isDisposed())
+		if (spinner != null && !spinner.getControl().isDisposed()) {
 			spinner.load();
+		}
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (spinner != null)
+		}
+		if (spinner != null) {
 			spinner.setHidden(isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (spinner != null)
+		}
+		if (spinner != null) {
 			spinner.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 }

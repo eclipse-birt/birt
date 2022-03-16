@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ public class CubeUtil {
 	 * Splits a full name of the level element to a <code>String</code> array of
 	 * length 2. The first member of the array is the name of the dimension element
 	 * and the second is the name of the level element.
-	 * 
+	 *
 	 * @param levelName
 	 * @return an string array.
 	 */
@@ -53,7 +56,7 @@ public class CubeUtil {
 
 	/**
 	 * Gets the full name of the level element.
-	 * 
+	 *
 	 * @param dimensionName the dimension name
 	 * @param levelName     the short level name
 	 * @return the full level name
@@ -62,10 +65,12 @@ public class CubeUtil {
 		dimensionName = StringUtil.trimString(dimensionName);
 		levelName = StringUtil.trimString(levelName);
 
-		if (StringUtil.isBlank(dimensionName))
+		if (StringUtil.isBlank(dimensionName)) {
 			return levelName;
-		if (StringUtil.isBlank(levelName))
+		}
+		if (StringUtil.isBlank(levelName)) {
 			return null;
+		}
 		return dimensionName + NameExecutor.NAME_SEPARATOR + levelName;
 	}
 }

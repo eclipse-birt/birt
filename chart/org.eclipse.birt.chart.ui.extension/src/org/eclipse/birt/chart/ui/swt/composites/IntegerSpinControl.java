@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -37,7 +40,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class IntegerSpinControl extends AbstractChartIntSpinner implements SelectionListener, Listener {
 
@@ -86,7 +89,7 @@ public class IntegerSpinControl extends AbstractChartIntSpinner implements Selec
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void init() {
 		if (Display.getCurrent().getHighContrast()) {
@@ -94,11 +97,11 @@ public class IntegerSpinControl extends AbstractChartIntSpinner implements Selec
 			iSize = gc.getFontMetrics().getHeight();
 		}
 		this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
-		vListeners = new Vector<Listener>();
+		vListeners = new Vector<>();
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void placeComponents() {
 		FillLayout fl = new FillLayout();
@@ -177,6 +180,7 @@ public class IntegerSpinControl extends AbstractChartIntSpinner implements Selec
 		btnDecrement.addSelectionListener(this);
 	}
 
+	@Override
 	public void setMinimum(int iMin) {
 		this.iMinValue = iMin;
 	}
@@ -185,6 +189,7 @@ public class IntegerSpinControl extends AbstractChartIntSpinner implements Selec
 		return this.iMinValue;
 	}
 
+	@Override
 	public void setMaximum(int iMax) {
 		this.iMaxValue = iMax;
 	}
@@ -193,22 +198,25 @@ public class IntegerSpinControl extends AbstractChartIntSpinner implements Selec
 		return this.iMaxValue;
 	}
 
+	@Override
 	public void setIncrement(int iIncrement) {
 		this.iIncrement = iIncrement;
 	}
 
+	@Override
 	public void setValue(int iCurrent) {
 		this.iCurrentValue = iCurrent;
 		this.txtValue.setText(String.valueOf(iCurrentValue));
 	}
 
+	@Override
 	public int getValue() {
 		return this.iCurrentValue;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
 	@Override
@@ -224,28 +232,32 @@ public class IntegerSpinControl extends AbstractChartIntSpinner implements Selec
 		this.txtValue.setEnabled(bState);
 	}
 
+	@Override
 	public boolean isEnabled() {
 		return this.bEnabled;
 	}
 
+	@Override
 	public boolean isSpinnerEnabled() {
 		return isEnabled();
 	}
 
+	@Override
 	public void addListener(Listener listener) {
 		vListeners.add(listener);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		int iTextValue = iCurrentValue;
 		try {
-			iTextValue = Integer.valueOf(txtValue.getText()).intValue();
+			iTextValue = Integer.parseInt(txtValue.getText());
 		} catch (NumberFormatException e1) {
 			return;
 		}
@@ -285,11 +297,12 @@ public class IntegerSpinControl extends AbstractChartIntSpinner implements Selec
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
@@ -299,14 +312,15 @@ public class IntegerSpinControl extends AbstractChartIntSpinner implements Selec
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		if (event.type == TextEditorComposite.TEXT_MODIFIED) {
 			try {
-				int iValue = (Integer.valueOf(txtValue.getText()).intValue());
+				int iValue = (Integer.parseInt(txtValue.getText()));
 				if (iValue >= iMinValue && iValue <= iMaxValue) {
 					iCurrentValue = iValue;
 					fireValueChangedEvent();
@@ -346,18 +360,21 @@ public class IntegerSpinControl extends AbstractChartIntSpinner implements Selec
 
 	}
 
+	@Override
 	public void setToolTipText(String string) {
 		txtValue.setToolTipText(string);
 	}
 
 	void initAccessible() {
 		getAccessible().addAccessibleListener(new AccessibleAdapter() {
+			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
 		});
 
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
+			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point testPoint = toControl(new Point(e.x, e.y));
 				if (getBounds().contains(testPoint)) {
@@ -365,6 +382,7 @@ public class IntegerSpinControl extends AbstractChartIntSpinner implements Selec
 				}
 			}
 
+			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(new Point(location.x, location.y));
@@ -374,14 +392,17 @@ public class IntegerSpinControl extends AbstractChartIntSpinner implements Selec
 				e.height = location.height;
 			}
 
+			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
+			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_COMBOBOX;
 			}
 
+			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}

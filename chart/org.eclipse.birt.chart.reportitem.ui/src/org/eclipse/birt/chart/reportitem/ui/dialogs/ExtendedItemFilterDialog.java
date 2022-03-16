@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +33,7 @@ import org.eclipse.swt.widgets.Control;
 
 /**
  * The class is responsible to set filter conditions.
- * 
+ *
  */
 public class ExtendedItemFilterDialog extends BaseDialog {
 
@@ -42,10 +45,11 @@ public class ExtendedItemFilterDialog extends BaseDialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.
 		 * FilterHandleProvider#getColumnWidths()
 		 */
+		@Override
 		public int[] getColumnWidths() {
 			return new int[] { 150, 100, 150, 150
 					// Default width of columns.
@@ -55,7 +59,7 @@ public class ExtendedItemFilterDialog extends BaseDialog {
 
 	/**
 	 * Consturctor of the class.
-	 * 
+	 *
 	 * @param reportItemHandle
 	 */
 	public ExtendedItemFilterDialog(ExtendedItemHandle reportItemHandle) {
@@ -67,20 +71,22 @@ public class ExtendedItemFilterDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.window.Window#setShellStyle(int)
 	 */
+	@Override
 	protected void setShellStyle(int newShellStyle) {
 		super.setShellStyle(newShellStyle | SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		// Binding default help.
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.DIALOG_DATA_SET_FILTER);
@@ -101,7 +107,7 @@ public class ExtendedItemFilterDialog extends BaseDialog {
 
 	/**
 	 * Set a specified filter handle provider.
-	 * 
+	 *
 	 * @param filterHandleProvider
 	 * @since 2.3
 	 */

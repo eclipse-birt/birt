@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - modification of Batik's FontSizeManager.java to support BIRT's CSS rules
@@ -31,7 +31,7 @@ import org.w3c.dom.css.CSSValue;
 
 /**
  * This class provides a manager for the 'font-size' property values.
- * 
+ *
  */
 public class FontSizeManager extends AbstractLengthManager {
 
@@ -61,6 +61,7 @@ public class FontSizeManager extends AbstractLengthManager {
 	/**
 	 * Implements {@link ValueManager#isInheritedProperty()}.
 	 */
+	@Override
 	public boolean isInheritedProperty() {
 		return true;
 	}
@@ -68,6 +69,7 @@ public class FontSizeManager extends AbstractLengthManager {
 	/**
 	 * Implements {@link ValueManager#getPropertyName()}.
 	 */
+	@Override
 	public String getPropertyName() {
 		return CSSConstants.CSS_FONT_SIZE_PROPERTY;
 	}
@@ -75,6 +77,7 @@ public class FontSizeManager extends AbstractLengthManager {
 	/**
 	 * Implements {@link ValueManager#getDefaultValue()}.
 	 */
+	@Override
 	public Value getDefaultValue() {
 		return CSSValueConstants.MEDIUM_VALUE;
 	}
@@ -82,6 +85,7 @@ public class FontSizeManager extends AbstractLengthManager {
 	/**
 	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
 	 */
+	@Override
 	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		switch (lu.getLexicalUnitType()) {
 		case LexicalUnit.SAC_INHERIT:
@@ -118,6 +122,7 @@ public class FontSizeManager extends AbstractLengthManager {
 	 * Implements
 	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
 	 */
+	@Override
 	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
 		CSSContext ctx = engine.getCSSContext();
 

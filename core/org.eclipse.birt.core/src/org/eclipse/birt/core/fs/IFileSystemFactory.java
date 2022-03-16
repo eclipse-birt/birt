@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2018 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,11 +29,11 @@ public interface IFileSystemFactory {
 	/**
 	 * ID for File System Factory extension.
 	 */
-	static String EXTENSION_FILE_SYSTEM_FACTORY = IFileSystemFactory.class.getName();
+	String EXTENSION_FILE_SYSTEM_FACTORY = IFileSystemFactory.class.getName();
 
 	/**
 	 * Creates file object according to file path.
-	 * 
+	 *
 	 * @param fileName file path
 	 * @return file object
 	 */
@@ -38,7 +41,7 @@ public interface IFileSystemFactory {
 
 	/**
 	 * Creates file object according to file URI.
-	 * 
+	 *
 	 * @param uri file URI
 	 * @return file object
 	 */
@@ -46,7 +49,7 @@ public interface IFileSystemFactory {
 
 	/**
 	 * Creates archive file with specific arguments.
-	 * 
+	 *
 	 * @param systemId     system id
 	 * @param fileName     file name
 	 * @param mode         file mode

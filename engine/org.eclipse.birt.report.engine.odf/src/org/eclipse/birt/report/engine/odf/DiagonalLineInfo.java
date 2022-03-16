@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,10 +53,12 @@ public class DiagonalLineInfo {
 	}
 
 	public void setCoordinateSize(double coordinateSizeX, double coordinateSizeY) {
-		if (coordinateSizeX != 0)
+		if (coordinateSizeX != 0) {
 			this.width = coordinateSizeX;
-		if (coordinateSizeY != 0)
+		}
+		if (coordinateSizeY != 0) {
 			this.height = coordinateSizeY;
+		}
 	}
 
 	public void setCoordinateOrigin(int coordinateOriginX, int coordinateOriginY) {
@@ -70,7 +75,7 @@ public class DiagonalLineInfo {
 	}
 
 	public ArrayList<Line> getDiagonalLine() {
-		ArrayList<Line> diagonalLine = new ArrayList<Line>();
+		ArrayList<Line> diagonalLine = new ArrayList<>();
 		int num = diagonalCount >> 1;
 		double x = 2d / (diagonalCount + 1) * width;
 		double y = 2d / (diagonalCount + 1) * height;
@@ -89,7 +94,7 @@ public class DiagonalLineInfo {
 	}
 
 	public ArrayList<Line> getAntidiagonalLine() {
-		ArrayList<Line> antiDiagonalLine = new ArrayList<Line>();
+		ArrayList<Line> antiDiagonalLine = new ArrayList<>();
 		int num = antiDiagonalCount >> 1;
 		double x = 2d / (antiDiagonalCount + 1) * width;
 		double y = 2d / (antiDiagonalCount + 1) * height;

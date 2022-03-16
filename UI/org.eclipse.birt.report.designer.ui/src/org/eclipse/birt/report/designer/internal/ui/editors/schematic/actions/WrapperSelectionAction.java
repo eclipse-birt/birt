@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ public abstract class WrapperSelectionAction extends SelectionAction {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param part
 	 */
 	public WrapperSelectionAction(IWorkbenchPart part) {
@@ -37,9 +40,10 @@ public abstract class WrapperSelectionAction extends SelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
+	@Override
 	protected boolean calculateEnabled() {
 		if (actionHandler == null) {
 			return false;
@@ -49,18 +53,20 @@ public abstract class WrapperSelectionAction extends SelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
+	@Override
 	public void run() {
 		actionHandler.run();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.SelectionAction#handleSelectionChanged()
 	 */
+	@Override
 	protected void handleSelectionChanged() {
 		ISelection model = InsertInLayoutUtil.editPart2Model(TableUtil.filletCellInSelectionEditorpart(getSelection()));
 		if (model.isEmpty()) {
@@ -73,7 +79,7 @@ public abstract class WrapperSelectionAction extends SelectionAction {
 
 	/**
 	 * Creates action handler. All action operation will use this action handler.
-	 * 
+	 *
 	 * @param model operation handler
 	 * @return action handler
 	 */

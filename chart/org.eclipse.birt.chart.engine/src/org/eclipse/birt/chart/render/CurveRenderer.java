@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -96,7 +99,7 @@ public final class CurveRenderer {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param _render
 	 * @param _lia
 	 * @param _faX
@@ -111,7 +114,7 @@ public final class CurveRenderer {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param _cwa
 	 * @param _render
 	 * @param _lia
@@ -191,11 +194,11 @@ public final class CurveRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ipr
 	 * @throws ChartException
 	 */
-	public final void draw(IPrimitiveRenderer ipr) throws ChartException {
+	public void draw(IPrimitiveRenderer ipr) throws ChartException {
 		if (!bFillArea && !lia.isVisible()) {
 			return;
 		}
@@ -206,7 +209,7 @@ public final class CurveRenderer {
 					continue;
 				}
 
-				List<Location> al = new ArrayList<Location>();
+				List<Location> al = new ArrayList<>();
 				while ((i < loPoints.length)
 						&& !(Double.isNaN(loPoints[i].getX()) || Double.isNaN(loPoints[i].getY()))) {
 					al.add(loPoints[i]);
@@ -299,7 +302,7 @@ public final class CurveRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ipr
 	 * @param x1
 	 * @param y1
@@ -307,8 +310,8 @@ public final class CurveRenderer {
 	 * @param y2
 	 * @throws ChartException
 	 */
-	private final void plotPlane(IPrimitiveRenderer ipr, double x1, double y1, double x2, double y2, double z1,
-			double z2, boolean drawSide, boolean leftSide) throws ChartException {
+	private void plotPlane(IPrimitiveRenderer ipr, double x1, double y1, double x2, double y2, double z1, double z2,
+			boolean drawSide, boolean leftSide) throws ChartException {
 		if (bRendering3D) {
 			final Polygon3DRenderEvent pre = ((EventObjectCache) ipr).getEventObject(oSource,
 					Polygon3DRenderEvent.class);
@@ -341,18 +344,16 @@ public final class CurveRenderer {
 						loa3d[2].set(x1 + kError, zeroLocation, z1 - dTapeWidth);
 						loa3d[3].set(x1 + kError, y1 + kError, z1 - dTapeWidth);
 					}
+				} else if (y2 + kError > zeroLocation) {
+					loa3d[0].set(x2 + kError, y2 + kError, z2);
+					loa3d[1].set(x2 + kError, zeroLocation, z2);
+					loa3d[2].set(x2 + kError, zeroLocation, z2 - dTapeWidth);
+					loa3d[3].set(x2 + kError, y2 + kError, z2 - dTapeWidth);
 				} else {
-					if (y2 + kError > zeroLocation) {
-						loa3d[0].set(x2 + kError, y2 + kError, z2);
-						loa3d[1].set(x2 + kError, zeroLocation, z2);
-						loa3d[2].set(x2 + kError, zeroLocation, z2 - dTapeWidth);
-						loa3d[3].set(x2 + kError, y2 + kError, z2 - dTapeWidth);
-					} else {
-						loa3d[0].set(x2 + kError, y2 + kError, z2);
-						loa3d[1].set(x2 + kError, y2 + kError, z2 - dTapeWidth);
-						loa3d[2].set(x2 + kError, zeroLocation, z2 - dTapeWidth);
-						loa3d[3].set(x2 + kError, zeroLocation, z2);
-					}
+					loa3d[0].set(x2 + kError, y2 + kError, z2);
+					loa3d[1].set(x2 + kError, y2 + kError, z2 - dTapeWidth);
+					loa3d[2].set(x2 + kError, zeroLocation, z2 - dTapeWidth);
+					loa3d[3].set(x2 + kError, zeroLocation, z2);
 				}
 				pre.setPoints3D(loa3d);
 
@@ -390,7 +391,7 @@ public final class CurveRenderer {
 				} else {
 					// get the last point location of last series
 					Object obj = iRender.getRunTimeContext().getState(BaseRenderer.STACKED_SERIES_LOCATION_KEY);
-					double[] last = new double[] { zeroLocation, zeroLocation };
+					double[] last = { zeroLocation, zeroLocation };
 					if (obj instanceof List) {
 						List lst = (List) obj;
 						int index = lst.size() - 1;
@@ -423,7 +424,7 @@ public final class CurveRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ipr
 	 * @param x1
 	 * @param y1
@@ -431,8 +432,8 @@ public final class CurveRenderer {
 	 * @param y2
 	 * @throws ChartException
 	 */
-	private final void plotLine(IPrimitiveRenderer ipr, double x1, double y1, double x2, double y2, double z1,
-			double z2) throws ChartException {
+	private void plotLine(IPrimitiveRenderer ipr, double x1, double y1, double x2, double y2, double z1, double z2)
+			throws ChartException {
 		if (bRendering3D) {
 			final Line3DRenderEvent lre = ((EventObjectCache) ipr).getEventObject(oSource, Line3DRenderEvent.class);
 			lre.setLineAttributes(lia);
@@ -457,12 +458,12 @@ public final class CurveRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param t
 	 * @param faXY
 	 * @return
 	 */
-	private final boolean computeSpline(double t, double[] faXY) {
+	private boolean computeSpline(double t, double[] faXY) {
 		if (spX == null || spY == null) {
 			return false;
 		}
@@ -476,7 +477,7 @@ public final class CurveRenderer {
 	 * @param points
 	 * @throws ChartException
 	 */
-	private final void plotArea(IPrimitiveRenderer ipr, List<double[]> points) throws ChartException {
+	private void plotArea(IPrimitiveRenderer ipr, List<double[]> points) throws ChartException {
 		if (points == null || points.size() < 1) {
 			return;
 		}
@@ -560,7 +561,7 @@ public final class CurveRenderer {
 
 			if (lastX != null) {
 
-				List<Location> lst = new ArrayList<Location>();
+				List<Location> lst = new ArrayList<>();
 
 				for (int i = 0; i < points.size(); i++) {
 					double[] pt = points.get(i);
@@ -700,13 +701,13 @@ public final class CurveRenderer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ipr
 	 * @param fXOffset
 	 * @param fYOffset
 	 * @throws ChartException
 	 */
-	private final void renderCurve(IPrimitiveRenderer ipr, double fXOffset, double fYOffset) throws ChartException {
+	private void renderCurve(IPrimitiveRenderer ipr, double fXOffset, double fYOffset) throws ChartException {
 		final double[] faKnotXY1 = new double[2];
 		final double[] faKnotXY2 = new double[2];
 		if (!computeSpline(fa[0], faKnotXY1)) {
@@ -718,7 +719,7 @@ public final class CurveRenderer {
 		double[] faXY1, faXY2;
 		double fT;
 
-		final List<double[]> stateList = new ArrayList<double[]>();
+		final List<double[]> stateList = new ArrayList<>();
 
 		for (int i = 0; i < iNumberOfPoints - 1; i++) {
 			if (!computeSpline(fa[i + 1], faKnotXY2)) {
@@ -812,7 +813,7 @@ public final class CurveRenderer {
 		private final double[] faC;
 
 		/**
-		 * 
+		 *
 		 * @param _fa
 		 */
 		public Spline(double[] _fa) {
@@ -861,7 +862,7 @@ public final class CurveRenderer {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param x
 		 * @return
 		 */
@@ -897,7 +898,7 @@ public final class CurveRenderer {
 
 	/**
 	 * Generates the points of curve line.
-	 * 
+	 *
 	 * @param loPoints
 	 * @param connectMissingValue
 	 * @param fXOffset
@@ -920,7 +921,7 @@ public final class CurveRenderer {
 					continue;
 				}
 
-				List<Location> al = new ArrayList<Location>();
+				List<Location> al = new ArrayList<>();
 				while ((i < loPoints.length)
 						&& !(Double.isNaN(loPoints[i].getX()) || Double.isNaN(loPoints[i].getY()))) {
 					al.add(loPoints[i]);
@@ -990,7 +991,7 @@ public final class CurveRenderer {
 		double[] faXY1, faXY2;
 		double fT;
 
-		final List<double[]> stateList = new ArrayList<double[]>();
+		final List<double[]> stateList = new ArrayList<>();
 
 		for (int i = 0; i < iNumberOfPoints - 1; i++) {
 			if (!computeSpline(fa[i + 1], faKnotXY2, spX, spY)) {

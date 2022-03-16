@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,74 +29,75 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * TestCases for UserPropertyHandle.
- * 
- * 
+ *
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testConstructor()}</td>
  * <td>Constructs a UserPropertyHandle with the specified element and the
  * property definition.</td>
  * <td>The object of UserPropertyHandle is created.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Constructs a UserPropertyHandle with the specified element and the
  * property name.</td>
  * <td>The object of UserPropertyHandle is created.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetters()}</td>
  * <td>Tests to get element, design, the property name, the value and the
  * display name by a UserPropertyHandle.</td>
  * <td>Values can be retrieved correctly.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSetPropDefn()}</td>
  * <td>Sets UserPropertyDefn has no name.</td>
  * <td>Throws UserPropertyException with the error code NAME_REQUIRED.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Sets a valid UserPropertyDefn with a name.</td>
  * <td>The property definition is set correctly.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Sets a UserPropertyDefn with choices.</td>
  * <td>Property type is ChoiceType and throws an exception for the invalid
  * value.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Sets a valid value for a UserPropertyDefn with choices..</td>
  * <td>The value is set correctly.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
- * 
+ *
+ *
  */
 
 public class UserPropertyHandleTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 
 		super.setUp();
@@ -102,9 +106,9 @@ public class UserPropertyHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests to construct the UserPropertyHandle.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testConstructor() throws Exception {
@@ -122,14 +126,14 @@ public class UserPropertyHandleTest extends BaseTestCase {
 
 	/**
 	 * Test cases to set UserPropertyDefn.
-	 * 
+	 *
 	 * <ul>
 	 * <li>Sets UserPropertyDefn has no name.
 	 * <li>Sets a valid UserPropertyDefn with a name.
 	 * <li>Sets a valid UserPropertyDefn with choices.
 	 * <li>Sets the value for a UserPropertyDefn with choices.
 	 * </ul>
-	 * 
+	 *
 	 * @throws SemanticException
 	 * @throws IOException
 	 * @throws UserPropertyException
@@ -208,7 +212,7 @@ public class UserPropertyHandleTest extends BaseTestCase {
 	/**
 	 * Tests to get element, design, the property name, the value and the display
 	 * name.
-	 * 
+	 *
 	 * @throws SemanticException if the value cannot be set correctly.
 	 */
 

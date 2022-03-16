@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -20,23 +32,27 @@ public class SimpleComboSection extends Section {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	public void createSection() {
 		getLabelControl(parent);
 		getSimpleComboControl(parent);
 		getGridPlaceholder(parent);
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) simpleCombo.getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - 1 - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 1 - placeholder;
+		}
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillCombo;
+		}
 	}
 
 	public SimpleComboPropertyDescriptor getSimpleComboControl() {
@@ -46,12 +62,14 @@ public class SimpleComboSection extends Section {
 	protected SimpleComboPropertyDescriptor getSimpleComboControl(Composite parent) {
 		if (simpleCombo == null) {
 			simpleCombo = DescriptorToolkit.createSimpleComboPropertyDescriptor(true);
-			if (getProvider() != null)
+			if (getProvider() != null) {
 				simpleCombo.setDescriptorProvider(getProvider());
+			}
 			simpleCombo.createControl(parent);
 			simpleCombo.getControl().setLayoutData(new GridData());
 			simpleCombo.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					simpleCombo = null;
 				}
@@ -70,8 +88,9 @@ public class SimpleComboSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (simpleCombo != null)
+		if (simpleCombo != null) {
 			simpleCombo.setDescriptorProvider(provider);
+		}
 	}
 
 	private int width = -1;
@@ -84,6 +103,7 @@ public class SimpleComboSection extends Section {
 		this.width = width;
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		simpleCombo.setInput(input);
@@ -127,32 +147,43 @@ public class SimpleComboSection extends Section {
 		return null;
 	}
 
+	@Override
 	public void load() {
-		if (simpleCombo != null && !simpleCombo.getControl().isDisposed())
+		if (simpleCombo != null && !simpleCombo.getControl().isDisposed()) {
 			simpleCombo.load();
+		}
 	}
 
+	@Override
 	public void reset() {
 		if (simpleCombo != null && !simpleCombo.getControl().isDisposed()) {
 			simpleCombo.reset();
 		}
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (simpleCombo != null)
+		}
+		if (simpleCombo != null) {
 			simpleCombo.setHidden(isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (simpleCombo != null)
+		}
+		if (simpleCombo != null) {
 			simpleCombo.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 }

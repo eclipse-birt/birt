@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,13 +35,13 @@ import org.eclipse.birt.report.engine.ir.DataItemDesign;
  * Data item executor calculates expressions in data item design, generate a
  * data content instance, evaluate styles, bookmark, action property and pass
  * this instance to emitter.
- * 
+ *
  */
 public class DataItemExecutor extends QueryItemExecutor {
 	/**
 	 * construct a data item executor by giving execution context and report
 	 * executor visitor
-	 * 
+	 *
 	 * @param context     the executor context
 	 * @param itemEmitter the emitter
 	 */
@@ -51,7 +51,7 @@ public class DataItemExecutor extends QueryItemExecutor {
 
 	/**
 	 * execute the data item.
-	 * 
+	 *
 	 * <li>create the data content object
 	 * <li>push it to the stack
 	 * <li>open the data set, seek to the first record
@@ -62,9 +62,10 @@ public class DataItemExecutor extends QueryItemExecutor {
 	 * <li>pass it to emitter
 	 * <li>close the data set if any
 	 * <li>pop the stack.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.excutor.ReportItemLoader#execute(IContentEmitter)
 	 */
+	@Override
 	public IContent execute() {
 		DataItemDesign dataDesign = (DataItemDesign) getDesign();
 		IDataContent dataContent = report.createDataContent();
@@ -125,6 +126,7 @@ public class DataItemExecutor extends QueryItemExecutor {
 		return content;
 	}
 
+	@Override
 	public void close() throws BirtException {
 		finishTOCEntry();
 		closeQuery();

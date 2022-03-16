@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +35,7 @@ import org.eclipse.swt.widgets.Shell;
  * The drop down allows to select any child of the items input element. The item
  * shows the label and icon of its data element, if any.
  * </p>
- * 
+ *
  * @since 2.6.2
  */
 class BreadcrumbItem extends Item {
@@ -49,7 +52,7 @@ class BreadcrumbItem extends Item {
 
 	/**
 	 * A new breadcrumb item which is shown inside the given viewer.
-	 * 
+	 *
 	 * @param viewer the items viewer
 	 * @param parent the container containing the item
 	 */
@@ -74,7 +77,7 @@ class BreadcrumbItem extends Item {
 
 	/**
 	 * Returns this items viewer.
-	 * 
+	 *
 	 * @return the viewer showing this item
 	 */
 	public BreadcrumbViewer getViewer() {
@@ -83,7 +86,7 @@ class BreadcrumbItem extends Item {
 
 	/**
 	 * Sets the content provider of this item.
-	 * 
+	 *
 	 * @param contentProvider the content provider to use
 	 */
 	public void setContentProvider(ITreeContentProvider contentProvider) {
@@ -92,7 +95,7 @@ class BreadcrumbItem extends Item {
 
 	/**
 	 * Sets the label provider of this item.
-	 * 
+	 *
 	 * @param labelProvider the label provider to use
 	 */
 	public void setLabelProvider(IBreadcrumbLabelProvider labelProvider) {
@@ -102,6 +105,7 @@ class BreadcrumbItem extends Item {
 	/*
 	 * @see org.eclipse.swt.widgets.Widget#dispose()
 	 */
+	@Override
 	public void dispose() {
 		fContainer.dispose();
 		super.dispose();
@@ -109,7 +113,7 @@ class BreadcrumbItem extends Item {
 
 	/**
 	 * Should this item show a text label.
-	 * 
+	 *
 	 * @param enabled true if it should
 	 */
 	void setShowText(boolean enabled) {
@@ -118,7 +122,7 @@ class BreadcrumbItem extends Item {
 
 	/**
 	 * Does this item show a text label?
-	 * 
+	 *
 	 * @return true if it does.
 	 */
 	boolean isShowText() {
@@ -127,7 +131,7 @@ class BreadcrumbItem extends Item {
 
 	/**
 	 * Returns the width of this item.
-	 * 
+	 *
 	 * @return the width of this item
 	 */
 	int getWidth() {
@@ -136,7 +140,7 @@ class BreadcrumbItem extends Item {
 
 	/**
 	 * Sets whether this item has to be marked as selected or not.
-	 * 
+	 *
 	 * @param selected true if marked as selected
 	 */
 	void setSelected(boolean selected) {
@@ -145,7 +149,7 @@ class BreadcrumbItem extends Item {
 
 	/**
 	 * Sets whether this item has the keyboard focus.
-	 * 
+	 *
 	 * @param state <code>true</code> if it has focus, <code>false</code> otherwise
 	 */
 //	void setFocus( boolean state )
@@ -155,7 +159,7 @@ class BreadcrumbItem extends Item {
 
 	/**
 	 * Returns whether this item has the keyboard focus.
-	 * 
+	 *
 	 * @return <code>true</code> if this item has the keyboard focus
 	 */
 //	boolean hasFocus( )
@@ -187,7 +191,7 @@ class BreadcrumbItem extends Item {
 
 	/**
 	 * Set whether this is the last item in the breadcrumb item chain or not.
-	 * 
+	 *
 	 * @param isLast <code>true</code> if this is the last item, <code>false</code>
 	 *               otherwise
 	 */
@@ -200,7 +204,7 @@ class BreadcrumbItem extends Item {
 
 	/**
 	 * Sets whether or not the this item should show the details (name and label).
-	 * 
+	 *
 	 * @param visible true if the item shows details
 	 */
 	void setDetailsVisible(boolean visible) {
@@ -223,7 +227,7 @@ class BreadcrumbItem extends Item {
 
 	/**
 	 * Returns the drop down shell.
-	 * 
+	 *
 	 * @return the shell of the drop down if shown, <code>null</code> otherwise
 	 */
 	Shell getDropDownShell() {
@@ -232,7 +236,7 @@ class BreadcrumbItem extends Item {
 
 	/**
 	 * Returns the drop down selection provider of this item.
-	 * 
+	 *
 	 * @return the selection provider of the drop down or <code>null</code>
 	 */
 	ISelectionProvider getDropDownSelectionProvider() {
@@ -241,7 +245,7 @@ class BreadcrumbItem extends Item {
 
 	/**
 	 * Returns the bounds of this item.
-	 * 
+	 *
 	 * @return the bounds of this item
 	 */
 	public Rectangle getBounds() {
@@ -251,18 +255,21 @@ class BreadcrumbItem extends Item {
 	/*
 	 * @see org.eclipse.swt.widgets.Item#setText(java.lang.String)
 	 */
+	@Override
 	public void setText(String string) {
 		super.setText(string);
 		fDetailsBlock.setText(string);
 
 		// more or less space might be required for the label
-		if (fIsLast)
+		if (fIsLast) {
 			fContainer.layout(true, true);
+		}
 	}
 
 	/*
 	 * @see org.eclipse.swt.widgets.Item#setImage(org.eclipse.swt.graphics.Image)
 	 */
+	@Override
 	public void setImage(Image image) {
 		super.setImage(image);
 		fDetailsBlock.setImage(image);

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +25,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * TODO: Please document
- * 
+ *
  * @version $Revision: 1.3 $ $Date: 2007/04/23 03:30:22 $
  */
 public class EditCubeMeasureGroupAction extends AbstractElementAction {
@@ -48,10 +51,11 @@ public class EditCubeMeasureGroupAction extends AbstractElementAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
 	 * AbstractElementAction#doAction()
 	 */
+	@Override
 	protected boolean doAction() throws Exception {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println("Edit Measure Group action >> Runs ..."); //$NON-NLS-1$
@@ -65,19 +69,21 @@ public class EditCubeMeasureGroupAction extends AbstractElementAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
+	@Override
 	public boolean isEnabled() {
 		return ((MeasureGroupHandle) getSelection()).canEdit();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
 	 * AbstractElementAction#getTransactionLabel()
 	 */
+	@Override
 	protected String getTransactionLabel() {
 		return Messages.getFormattedString("cube.measuregroup.edit", //$NON-NLS-1$
 				new String[] { ((MeasureGroupHandle) getSelection()).getName() });

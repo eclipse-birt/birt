@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -12,7 +15,7 @@
 package org.eclipse.birt.data.engine.olap.data.impl;
 
 /**
- * 
+ *
  */
 
 public class NamingUtil {
@@ -29,7 +32,7 @@ public class NamingUtil {
 	public static final String DERIVED_MEASURE_PREFIX = "_${DERIVED_MEASURE}$_";
 
 	/**
-	 * 
+	 *
 	 * @param cubeName
 	 * @return
 	 */
@@ -38,7 +41,7 @@ public class NamingUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimensionName
 	 * @return
 	 */
@@ -47,7 +50,7 @@ public class NamingUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param hierarchylName
 	 * @return
 	 */
@@ -56,7 +59,7 @@ public class NamingUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimensionName
 	 * @param levelName
 	 * @return
@@ -70,7 +73,7 @@ public class NamingUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param levelName
 	 * @return
 	 */
@@ -79,7 +82,7 @@ public class NamingUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cubeName
 	 * @return
 	 */
@@ -99,8 +102,9 @@ public class NamingUtil {
 	 */
 	public static String getMeasureName(String name) {
 		if (name != null) {
-			if (name.startsWith(DERIVED_MEASURE_PREFIX))
+			if (name.startsWith(DERIVED_MEASURE_PREFIX)) {
 				return name.substring(DERIVED_MEASURE_PREFIX.length());
+			}
 		}
 		return name;
 	}
@@ -116,7 +120,7 @@ public class NamingUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param factTableName
 	 * @return
 	 */
@@ -125,7 +129,7 @@ public class NamingUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ID
 	 * @return
 	 */

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,9 +19,9 @@ import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.simpleapi.IResultSetColumn;
 
 /**
- * 
+ *
  * Implements of ResultSetColumn.
- * 
+ *
  */
 
 public class ResultSetColumnImpl extends Structure implements IResultSetColumn {
@@ -31,7 +34,7 @@ public class ResultSetColumnImpl extends Structure implements IResultSetColumn {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 */
 
 	public ResultSetColumnImpl() {
@@ -41,7 +44,7 @@ public class ResultSetColumnImpl extends Structure implements IResultSetColumn {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param columnHandle
 	 */
 
@@ -58,7 +61,7 @@ public class ResultSetColumnImpl extends Structure implements IResultSetColumn {
 
 	/**
 	 * Create instance of <code>ResultSetColumn</code>
-	 * 
+	 *
 	 * @return instance
 	 */
 
@@ -69,44 +72,48 @@ public class ResultSetColumnImpl extends Structure implements IResultSetColumn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IResultSetColumn#
 	 * getColumnDataType()
 	 */
 
+	@Override
 	public String getColumnDataType() {
 		return column.getDataType();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.IResultSetColumn#getName ()
 	 */
 
+	@Override
 	public String getName() {
 		return column.getColumnName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IResultSetColumn#
 	 * getNativeDataType()
 	 */
 
+	@Override
 	public Integer getNativeDataType() {
 		return column.getNativeDataType();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IResultSetColumn#
 	 * getPosition()
 	 */
 
+	@Override
 	public Integer getPosition() {
 		return column.getPosition();
 	}

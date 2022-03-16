@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -33,7 +35,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Abstract class for viewer tag. List base attributes for a viewer tag.
- * 
+ *
  */
 public abstract class AbstractViewerTag extends AbstractBaseTag {
 
@@ -56,9 +58,10 @@ public abstract class AbstractViewerTag extends AbstractBaseTag {
 
 	/**
 	 * Then entry to initialize tag
-	 * 
+	 *
 	 * @throws Exception
 	 */
+	@Override
 	public void __init() {
 		super.__init();
 		parameters = new LinkedHashMap();
@@ -66,12 +69,13 @@ public abstract class AbstractViewerTag extends AbstractBaseTag {
 
 	/**
 	 * validate the tag
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.taglib.AbstractBaseTag#__validate()
 	 */
+	@Override
 	public boolean __validate() throws Exception {
 		String hasHostPage = (String) pageContext.getAttribute(ATTR_HOSTPAGE);
-		if (hasHostPage != null && "true".equalsIgnoreCase(hasHostPage)) //$NON-NLS-1$
+		if ("true".equalsIgnoreCase(hasHostPage)) //$NON-NLS-1$
 		{
 			return false;
 		}
@@ -115,7 +119,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag {
 	/**
 	 * Validate the viewer id. Viewer id only can include number, letter and
 	 * underline
-	 * 
+	 *
 	 * @return
 	 */
 	protected boolean __validateViewerId() {
@@ -127,6 +131,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag {
 	/**
 	 * Handle event before doEndTag
 	 */
+	@Override
 	protected void __beforeEndTag() {
 		super.__beforeEndTag();
 		viewer.setParameters(parameters);
@@ -135,13 +140,14 @@ public abstract class AbstractViewerTag extends AbstractBaseTag {
 		pageContext.setAttribute(viewer.getId(), viewer.getId());
 
 		// Save has HostPage
-		if (viewer.isHostPage())
+		if (viewer.isHostPage()) {
 			pageContext.setAttribute(ATTR_HOSTPAGE, "true"); //$NON-NLS-1$
+		}
 	}
 
 	/**
 	 * Handle use IFrame to preview report. Each IFrame should have an unique id.
-	 * 
+	 *
 	 * @param src
 	 * @param target
 	 * @throws Exception
@@ -230,8 +236,9 @@ public abstract class AbstractViewerTag extends AbstractBaseTag {
 		writer.write("}\n"); //$NON-NLS-1$
 
 		writer.write("formObj.action = \"" + src + "\";\n"); //$NON-NLS-1$ //$NON-NLS-2$
-		if (target != null)
+		if (target != null) {
 			writer.write("formObj.target = \"" + target + "\";\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
 
 		writer.write("formObj.submit( );\n"); //$NON-NLS-1$
 		writer.write("}\n"); //$NON-NLS-1$
@@ -247,7 +254,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag {
 
 	/**
 	 * Handle IFrame definition
-	 * 
+	 *
 	 * @return
 	 */
 	protected String __handleIFrameDefinition() {
@@ -255,8 +262,9 @@ public abstract class AbstractViewerTag extends AbstractBaseTag {
 		String iframe = "<iframe name=\"" + viewer.getId() //$NON-NLS-1$
 				+ "\" frameborder=\"" + viewer.getFrameborder() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
 
-		if (viewer.getScrolling() != null)
+		if (viewer.getScrolling() != null) {
 			iframe += " scrolling = \"" + viewer.getScrolling() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+		}
 
 		iframe += __handleAppearance() + "></iframe>\r\n"; //$NON-NLS-1$
 
@@ -265,35 +273,41 @@ public abstract class AbstractViewerTag extends AbstractBaseTag {
 
 	/**
 	 * IFrame Appearance style
-	 * 
+	 *
 	 * @return
 	 */
 	protected String __handleAppearance() {
 		String style = " style='"; //$NON-NLS-1$
 
 		// position
-		if (viewer.getPosition() != null)
+		if (viewer.getPosition() != null) {
 			style += "position:" + viewer.getPosition() + ";"; //$NON-NLS-1$//$NON-NLS-2$
+		}
 
 		// height
-		if (viewer.getHeight() >= 0)
+		if (viewer.getHeight() >= 0) {
 			style += "height:" + viewer.getHeight() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
+		}
 
 		// width
-		if (viewer.getWidth() >= 0)
+		if (viewer.getWidth() >= 0) {
 			style += "width:" + viewer.getWidth() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
+		}
 
 		// top
-		if (viewer.getTop() != null)
+		if (viewer.getTop() != null) {
 			style += "top:" + viewer.getTop() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
+		}
 
 		// left
-		if (viewer.getLeft() != null)
+		if (viewer.getLeft() != null) {
 			style = style + "left:" + viewer.getLeft() + "px;"; //$NON-NLS-1$//$NON-NLS-2$
+		}
 
 		// style
-		if (viewer.getStyle() != null)
+		if (viewer.getStyle() != null) {
 			style += viewer.getStyle() + ";"; //$NON-NLS-1$
+		}
 
 		style += "' "; //$NON-NLS-1$
 
@@ -302,17 +316,19 @@ public abstract class AbstractViewerTag extends AbstractBaseTag {
 
 	/**
 	 * Add parameter into list
-	 * 
+	 *
 	 * @param field
 	 */
 	public void addParameter(ParameterField field) {
-		if (field != null)
+		if (field != null) {
 			parameters.put(field.getName(), field);
+		}
 	}
 
 	/**
 	 * @param id the id to set
 	 */
+	@Override
 	public void setId(String id) {
 		viewer.setId(id);
 	}
@@ -328,7 +344,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag {
 	 * @param isHostPage the isHostPage to set
 	 */
 	public void setIsHostPage(String isHostPage) {
-		viewer.setHostPage(Boolean.valueOf(isHostPage).booleanValue());
+		viewer.setHostPage(Boolean.parseBoolean(isHostPage));
 	}
 
 	/**
@@ -437,7 +453,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param emitterId the emitter id to set
 	 */
 	public void setEmitterId(String emitterId) {
@@ -445,7 +461,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param pageOverflow page overflow
 	 */
 	public void setPageOverflow(String pageOverflow) {

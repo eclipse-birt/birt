@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,7 +55,7 @@ public class LibraryParseTest extends BaseTestCase {
 
 	/**
 	 * Tests add css style sheet
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -86,7 +89,7 @@ public class LibraryParseTest extends BaseTestCase {
 
 	/**
 	 * Tests drop css style sheet
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -121,7 +124,7 @@ public class LibraryParseTest extends BaseTestCase {
 	 * is a label named 'label3' first can't find style, so size of semantic error
 	 * is one. Then reload the new css file which contains such style , then this
 	 * label can find style, so size of semantic error is zero.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -162,7 +165,7 @@ public class LibraryParseTest extends BaseTestCase {
 
 	/**
 	 * Tests reload css style sheet
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -222,7 +225,7 @@ public class LibraryParseTest extends BaseTestCase {
 
 	/**
 	 * Tests resolve style
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -270,7 +273,7 @@ public class LibraryParseTest extends BaseTestCase {
 
 	/**
 	 * Copies the source to destination file.
-	 * 
+	 *
 	 * @param source absolute source file path
 	 * @param dest   absolute destination file path
 	 * @throws Exception
@@ -292,7 +295,7 @@ public class LibraryParseTest extends BaseTestCase {
 
 	/**
 	 * Copies a bunch of design/library files to the temporary folder.
-	 * 
+	 *
 	 * @param fileNames the design/library file names. The first item is the main
 	 *                  design file.
 	 * @return the file path of the design file
@@ -311,7 +314,7 @@ public class LibraryParseTest extends BaseTestCase {
 
 	/**
 	 * Tests all properties and slots.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -408,7 +411,7 @@ public class LibraryParseTest extends BaseTestCase {
 
 	/**
 	 * Tests writing the properties.
-	 * 
+	 *
 	 * @throws Exception if any error found.
 	 */
 
@@ -434,7 +437,7 @@ public class LibraryParseTest extends BaseTestCase {
 
 	/**
 	 * Test config variable.
-	 * 
+	 *
 	 * @throws Exception if any error found.
 	 */
 	public void testConfigVars() throws Exception {
@@ -451,7 +454,7 @@ public class LibraryParseTest extends BaseTestCase {
 
 	/**
 	 * Checks the semantic error of Library.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 

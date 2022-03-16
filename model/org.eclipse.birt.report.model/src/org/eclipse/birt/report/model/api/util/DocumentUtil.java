@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,9 +36,9 @@ public class DocumentUtil {
 	/**
 	 * Writes the report design to the given output stream. The caller must call
 	 * <code>onSave</code> if the save succeeds.
-	 * 
+	 *
 	 * @param designHandle the report design to serialize
-	 * 
+	 *
 	 * @param out          the output stream to which the design is written.
 	 * @throws IOException if the file cannot be written to the output stream
 	 *                     successfully.
@@ -43,10 +46,11 @@ public class DocumentUtil {
 
 	public static ReportDesignHandle serialize(ReportDesignHandle designHandle, OutputStream out) throws IOException {
 		assert out != null;
-		if (designHandle == null)
+		if (designHandle == null) {
 			return null;
+		}
 
-		ReportDesign target = null;
+		ReportDesign target;
 		ReportDesign source = (ReportDesign) designHandle.getModule();
 
 		// localize element property value
@@ -73,7 +77,7 @@ public class DocumentUtil {
 
 	/**
 	 * Gets a localized report design based on the source design.
-	 * 
+	 *
 	 * @param source the source design
 	 * @return the localized report design based on the source design
 	 */

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,15 +18,15 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
-import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
- * 
+ *
  * This class implements the
  * org.eclipse.datatools.connectivity.IResultSetMetaData interface.
- * 
+ *
  */
 public class ResultSetMetaData implements IResultSetMetaData {
 
@@ -34,7 +37,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 
 	/**
 	 * assertNotNull(Object o)
-	 * 
+	 *
 	 * @param o the object that need to be tested null or not. if null, throw
 	 *          exception
 	 */
@@ -47,10 +50,10 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	}
 
 	/**
-	 * 
+	 *
 	 * Constructor ResultSetMetaData(java.sql.ResultSetMetaData rsMeta) use JDBC's
 	 * ResultSetMetaData to construct it.
-	 * 
+	 *
 	 */
 	public ResultSetMetaData(java.sql.ResultSetMetaData rsMeta) throws OdaException {
 		/* record down the JDBC ResultSetMetaData object */
@@ -61,6 +64,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnCount()
 	 */
+	@Override
 	public int getColumnCount() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, ResultSetMetaData.class.getName(), "getColumnCount",
 				"ResultSetMetaData.getColumnCount( )");
@@ -77,6 +81,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnName(int)
 	 */
+	@Override
 	public String getColumnName(int index) throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, ResultSetMetaData.class.getName(), "getColumnName",
 				"ResultSetMetaData.getColumnName( )");
@@ -102,6 +107,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnLabel(int)
 	 */
+	@Override
 	public String getColumnLabel(int index) throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, ResultSetMetaData.class.getName(), "getColumnLabel",
 				"ResultSetMetaData.getColumnLabel( )");
@@ -118,14 +124,16 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnType(int)
 	 */
+	@Override
 	public int getColumnType(int index) throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, ResultSetMetaData.class.getName(), "getColumnType",
 				"ResultSetMetaData.getColumnType( )");
 		assertNotNull(rsMetadata);
 		try {
 			int reType = getColumnTypeForSpecialJDBCDriver(index);
-			if (reType != Types.OTHER)
+			if (reType != Types.OTHER) {
 				return reType;
+			}
 
 			reType = rsMetadata.getColumnType(index);
 
@@ -153,7 +161,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	 * There are special cases for some JDBC drivers. When getting the data type of
 	 * one column, the getColumnType() return wrong value. This method handle these
 	 * cases manually.
-	 * 
+	 *
 	 * @param index
 	 * @return int; column data type
 	 */
@@ -162,14 +170,16 @@ public class ResultSetMetaData implements IResultSetMetaData {
 			// For oracle14 JDBC driver when getting
 			// the data type of one column, it returns java.sql.Types.Date for
 			// Timestamp type.
-			if ("java.sql.Timestamp".equals(rsMetadata.getColumnClassName(index)))
+			if ("java.sql.Timestamp".equals(rsMetadata.getColumnClassName(index))) {
 				return Types.TIMESTAMP;
+			}
 
 			// For mysql3.1.10 or 3.1.12 JDBC driver when getting
 			// the date type of one column, it may returns
 			// java.sql.Types.getColumnTypeForSpecialCases for varchar type.
-			if ("java.lang.String".equals(rsMetadata.getColumnClassName(index)))
+			if ("java.lang.String".equals(rsMetadata.getColumnClassName(index))) {
 				return Types.VARCHAR;
+			}
 
 			return Types.OTHER;
 		} catch (Exception e) {
@@ -184,6 +194,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnTypeName(int)
 	 */
+	@Override
 	public String getColumnTypeName(int index) throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, ResultSetMetaData.class.getName(), "getColumnTypeName",
 				"ResultSetMetaData.getColumnTypeName( )");
@@ -204,6 +215,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	 * org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnDisplayLength(
 	 * int)
 	 */
+	@Override
 	public int getColumnDisplayLength(int index) throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, ResultSetMetaData.class.getName(), "getColumnDisplayLength",
 				"ResultSetMetaData.getColumnDisplayLength( )");
@@ -222,6 +234,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getPrecision(int)
 	 */
+	@Override
 	public int getPrecision(int index) throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, ResultSetMetaData.class.getName(), "getPrecision",
 				"ResultSetMetaData.getPrecision( )");
@@ -240,6 +253,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getScale(int)
 	 */
+	@Override
 	public int getScale(int index) throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, ResultSetMetaData.class.getName(), "getScale",
 				"ResultSetMetaData.getScale( )");
@@ -258,6 +272,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#isNullable(int)
 	 */
+	@Override
 	public int isNullable(int index) throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, ResultSetMetaData.class.getName(), "isNullable",
 				"ResultSetMetaData.isNullable( )");

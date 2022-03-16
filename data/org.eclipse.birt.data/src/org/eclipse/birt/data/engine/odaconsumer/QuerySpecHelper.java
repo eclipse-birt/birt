@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2009, 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -19,10 +22,8 @@ import java.util.Properties;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.consumer.services.impl.ProviderUtil;
-import org.eclipse.datatools.connectivity.oda.profile.OdaProfileExplorer;
 import org.eclipse.datatools.connectivity.oda.spec.BaseQuery;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification.ParameterIdentifier;
@@ -50,7 +51,7 @@ public class QuerySpecHelper {
 	/**
 	 * Constructor for a specialized helper of the specified data source and data
 	 * set types.
-	 * 
+	 *
 	 * @param odaDataSourceId
 	 * @param odaDataSetId
 	 */
@@ -59,22 +60,21 @@ public class QuerySpecHelper {
 		try {
 			contributors = ResultExtensionExplorer.getInstance().getContributorsOfDataSet(odaDataSourceId,
 					odaDataSetId);
-		} catch (IllegalArgumentException ex) {
-			// ignore and use default factory helper
-		} catch (OdaException ex) {
+		} catch (IllegalArgumentException | OdaException ex) {
 			// ignore and use default factory helper
 		}
 
 		ExtensionContributor resultSetContributor = null;
-		if (contributors != null && contributors.length > 0)
+		if (contributors != null && contributors.length > 0) {
 			resultSetContributor = contributors[0]; // use the first one found
+		}
 		m_specFactoryHelper = new QuerySpecificationHelper(resultSetContributor);
 	}
 
 	/**
 	 * Constructor for a specialized helper of the specified ODA dynamicResultSet
 	 * extension.
-	 * 
+	 *
 	 * @param dynamicResultSetExtnId may be null
 	 */
 	public QuerySpecHelper(String dynamicResultSetExtnId) {
@@ -84,7 +84,7 @@ public class QuerySpecHelper {
 	/**
 	 * Gets the specialized factory helper for creating query specification
 	 * instances.
-	 * 
+	 *
 	 * @return
 	 */
 	public QuerySpecificationHelper getFactoryHelper() {
@@ -94,7 +94,7 @@ public class QuerySpecHelper {
 	/**
 	 * Sets the specified input ParameterHint and corresponding value in the
 	 * specified QuerySpecification.
-	 * 
+	 *
 	 * @param querySpec  a QuerySpecification to which the input parameter value is
 	 *                   set
 	 * @param paramHint  an input QuerySpecification; must contain either the native
@@ -104,8 +104,9 @@ public class QuerySpecHelper {
 	 */
 	public static void setParameterValue(QuerySpecification querySpec, ParameterHint paramHint, Object inputValue)
 			throws DataException {
-		if (querySpec == null || paramHint == null)
+		if (querySpec == null || paramHint == null) {
 			return; // nothing to set
+		}
 
 		boolean hasNativeName = PreparedStatement.hasValue(paramHint.getNativeName());
 		boolean hasParamPos = (paramHint.getPosition() > 0);
@@ -122,8 +123,9 @@ public class QuerySpecHelper {
 			paramIdentifier = hasParamPos
 					? querySpec.new ParameterIdentifier(paramHint.getNativeName(), paramHint.getPosition())
 					: querySpec.new ParameterIdentifier(paramHint.getNativeName());
-		} else
+		} else {
 			paramIdentifier = querySpec.new ParameterIdentifier(paramHint.getPosition());
+		}
 
 		querySpec.setParameterValue(paramIdentifier, inputValue);
 	}
@@ -131,7 +133,7 @@ public class QuerySpecHelper {
 	/**
 	 * Updates the specified validation context with the effective connection
 	 * context for online validation of a {@link QuerySpecification}.
-	 * 
+	 *
 	 * @param validationContext the validation context to be updated with a
 	 *                          connection context for online validation of a query
 	 *                          specification
@@ -145,8 +147,9 @@ public class QuerySpecHelper {
 	 */
 	public static void setValidationConnectionContext(ValidationContext validationContext, Properties connProperties,
 			Map<?, ?> appContext) throws DataException {
-		if (validationContext == null)
+		if (validationContext == null) {
 			throw new IllegalArgumentException("ValidationContext"); //$NON-NLS-1$
+		}
 
 		// gets the effective connection properties to set in the validation context
 		Properties effectiveProps = getEffectiveProperties(connProperties, appContext);
@@ -165,10 +168,11 @@ public class QuerySpecHelper {
 			}
 		}
 
-		if (validationContext.getConnection() != null)
+		if (validationContext.getConnection() != null) {
 			validationContext.getConnection().setProperties(effectiveProps);
-		else
+		} else {
 			validationContext.setConnection(validationContext.new Connection(effectiveProps));
+		}
 	}
 
 	private static Properties getEffectiveProperties(Properties connProperties, Map<?, ?> appContext)
@@ -184,43 +188,10 @@ public class QuerySpecHelper {
 	}
 
 	/**
-	 * Creates a transient connection profile instance that contains the specified
-	 * connection properties info.
-	 * 
-	 * @param odaDataSourceId an ODA data source id, as specified in an
-	 *                        oda.dataSource extension, for use as the connection
-	 *                        profile id
-	 * @param connProperties  data source connection properties
-	 * @param appContext      an application context provided by an ODA consumer
-	 *                        application; it may contain externalized connection
-	 *                        properties info, which would override those of
-	 *                        connProperties if exists; may be null
-	 * @return a new instance of transient connection profile; it is the
-	 *         responsibility of the client to manage its connection state to avoid
-	 *         having a live connection remain open
-	 * @throws OdaException
-	 */
-	@SuppressWarnings("unused")
-	private static IConnectionProfile createTransientProfile(String odaDataSourceId, Properties connProperties,
-			Map<?, ?> appContext) throws DataException {
-		Properties effectiveProps = getEffectiveProperties(connProperties, appContext);
-
-		// creates a transient connection profile instance based on specified connection
-		// info
-		IConnectionProfile connProfile;
-		try {
-			connProfile = OdaProfileExplorer.getInstance().createTransientProfile(odaDataSourceId, effectiveProps);
-		} catch (OdaException ex) {
-			throw ExceptionHandler.newException(ResourceConstants.CANNOT_OPEN_CONNECTION, ex);
-		}
-		return connProfile;
-	}
-
-	/**
 	 * Indicates whether the specified result set specification is one of the
 	 * cause(s) of the specified exception caught while preparing or executing an
 	 * ODA query.
-	 * 
+	 *
 	 * @param resultSetSpec a result set specification whose processing might have
 	 *                      caused an exception
 	 * @param dataEx        the exception caught while preparing or executing an ODA
@@ -229,8 +200,9 @@ public class QuerySpecHelper {
 	 *         in the exception; false otherwise
 	 */
 	public static boolean isInvalidResultSetSpec(ResultSetSpecification resultSetSpec, DataException dataEx) {
-		if (!hasOdaException(dataEx))
+		if (!hasOdaException(dataEx)) {
 			return false;
+		}
 
 		return ValidatorUtil.isInvalidResultSetSpec(resultSetSpec, (OdaException) dataEx.getCause());
 	}
@@ -239,7 +211,7 @@ public class QuerySpecHelper {
 	 * Indicates whether the specified FilterExpression is identified as one of the
 	 * cause(s) of the specified exception caught while preparing or executing an
 	 * ODA query.
-	 * 
+	 *
 	 * @param filterExpr a filter expression whose processing might have caused an
 	 *                   exception
 	 * @param dataEx     the exception caught while preparing or executing an ODA
@@ -248,8 +220,9 @@ public class QuerySpecHelper {
 	 *         exception; false otherwise
 	 */
 	public static boolean isInvalidFilterExpression(FilterExpression filterExpr, DataException dataEx) {
-		if (!hasOdaException(dataEx))
+		if (!hasOdaException(dataEx)) {
 			return false;
+		}
 
 		return ValidatorUtil.isInvalidFilterExpression(filterExpr, (OdaException) dataEx.getCause());
 	}
@@ -257,7 +230,7 @@ public class QuerySpecHelper {
 	/**
 	 * Indicates whether the specified sort specification is one of the cause(s) of
 	 * the specified exception caught while preparing or executing an ODA query.
-	 * 
+	 *
 	 * @param sortSpec a sort specification whose processing might have caused an
 	 *                 exception
 	 * @param dataEx   the exception caught while preparing or executing an ODA
@@ -267,8 +240,9 @@ public class QuerySpecHelper {
 	 * @see {@link #isInvalidSortKey(int, DataException)}
 	 */
 	public static boolean isInvalidSortSpec(SortSpecification sortSpec, DataException dataEx) {
-		if (!hasOdaException(dataEx))
+		if (!hasOdaException(dataEx)) {
 			return false;
+		}
 
 		return ValidatorUtil.isInvalidSortSpec(sortSpec, (OdaException) dataEx.getCause());
 	}
@@ -276,7 +250,7 @@ public class QuerySpecHelper {
 	/**
 	 * Indicates whether the specified sort key is one of the cause(s) of the
 	 * specified exception caught while preparing or executing an ODA query.
-	 * 
+	 *
 	 * @param sortKeySequenceOrder the sequence ordering position (1-based) of a
 	 *                             sort key whose processing might have caused an
 	 *                             exception
@@ -287,8 +261,9 @@ public class QuerySpecHelper {
 	 * @see {@link #isInvalidSortSpec(SortSpecification, DataException)}
 	 */
 	public static boolean isInvalidSortKey(int sortKeySequenceOrder, DataException dataEx) {
-		if (!hasOdaException(dataEx))
+		if (!hasOdaException(dataEx)) {
 			return false;
+		}
 
 		return ValidatorUtil.isInvalidSortKey(sortKeySequenceOrder, (OdaException) dataEx.getCause());
 	}
@@ -296,7 +271,7 @@ public class QuerySpecHelper {
 	/**
 	 * Indicates whether the specified result projection is one of the cause(s) of
 	 * the specified exception caught while preparing or executing an ODA query.
-	 * 
+	 *
 	 * @param resultProj a result projection whose processing might have caused an
 	 *                   exception
 	 * @param dataEx     the exception caught while preparing or executing an ODA
@@ -306,8 +281,9 @@ public class QuerySpecHelper {
 	 * @see {@link #isInvalidAggregateExpression(AggregateExpression, DataException)}
 	 */
 	public static boolean isInvalidResultProjection(ResultProjection resultProj, DataException dataEx) {
-		if (!hasOdaException(dataEx))
+		if (!hasOdaException(dataEx)) {
 			return false;
+		}
 
 		return ValidatorUtil.isInvalidResultProjection(resultProj, (OdaException) dataEx.getCause());
 	}
@@ -315,7 +291,7 @@ public class QuerySpecHelper {
 	/**
 	 * Indicates whether the specified aggregate expression is one of the cause(s)
 	 * of the specified exception caught while preparing or executing an ODA query.
-	 * 
+	 *
 	 * @param aggrExpr an aggregate expression whose processing might have caused an
 	 *                 exception
 	 * @param dataEx   the exception caught while preparing or executing an ODA
@@ -325,8 +301,9 @@ public class QuerySpecHelper {
 	 * @see {@link #isInvalidResultProjection(ResultProjection, DataException)}
 	 */
 	public static boolean isInvalidAggregateExpression(AggregateExpression aggrExpr, DataException dataEx) {
-		if (!hasOdaException(dataEx))
+		if (!hasOdaException(dataEx)) {
 			return false;
+		}
 
 		return ValidatorUtil.isInvalidAggregateExpression(aggrExpr, (OdaException) dataEx.getCause());
 	}
@@ -334,7 +311,7 @@ public class QuerySpecHelper {
 	/**
 	 * Indicates whether the specified value expression is one of the cause(s) of
 	 * the specified exception caught while preparing or executing an ODA query.
-	 * 
+	 *
 	 * @param valueExpr a value expression whose processing might have caused an
 	 *                  exception
 	 * @param dataEx    the exception caught while preparing or executing an ODA
@@ -343,8 +320,9 @@ public class QuerySpecHelper {
 	 *         exception; false otherwise
 	 */
 	public static boolean isInvalidValueExpression(ValueExpression valueExpr, DataException dataEx) {
-		if (!hasOdaException(dataEx))
+		if (!hasOdaException(dataEx)) {
 			return false;
+		}
 
 		return ValidatorUtil.isInvalidValueExpression(valueExpr, (OdaException) dataEx.getCause());
 	}
@@ -353,7 +331,7 @@ public class QuerySpecHelper {
 	 * Indicates whether the specified BaseQuery is identified as one of the
 	 * cause(s) of the specified exception caught while preparing or executing an
 	 * ODA query.
-	 * 
+	 *
 	 * @param filterExpr a {@link BaseQuery} whose processing might have caused an
 	 *                   exception
 	 * @param dataEx     the exception caught while preparing or executing an ODA
@@ -362,15 +340,17 @@ public class QuerySpecHelper {
 	 *         exception; false otherwise
 	 */
 	public static boolean isInvalidBaseQuery(BaseQuery baseQuery, DataException dataEx) {
-		if (!hasOdaException(dataEx))
+		if (!hasOdaException(dataEx)) {
 			return false;
+		}
 
 		return ValidatorUtil.isInvalidBaseQuery(baseQuery, (OdaException) dataEx.getCause());
 	}
 
 	private static boolean hasOdaException(DataException dataEx) {
-		if (dataEx == null)
+		if (dataEx == null) {
 			return false;
+		}
 		return dataEx.getCause() instanceof OdaException;
 	}
 

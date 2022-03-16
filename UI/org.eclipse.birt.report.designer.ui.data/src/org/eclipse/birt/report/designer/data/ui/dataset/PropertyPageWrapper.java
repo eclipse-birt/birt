@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -50,6 +53,7 @@ public class PropertyPageWrapper extends AbstractPropertyPage {
 		this.dataSourceSession = m_designSession;
 	}
 
+	@Override
 	public Control createPageControl(Composite parent) {
 		propertyPage.setContainer((IPreferencePageContainer) getContainer());
 		propertyPage.createControl(parent);
@@ -57,11 +61,13 @@ public class PropertyPageWrapper extends AbstractPropertyPage {
 		return propertyPage.getControl();
 	}
 
+	@Override
 	public void pageActivated() {
-		if (propertyPage instanceof DataSetEditorPage)
+		if (propertyPage instanceof DataSetEditorPage) {
 			((DataSetEditorPage) propertyPage).refresh();
-		else if (propertyPage instanceof DataSourceEditorPage)
+		} else if (propertyPage instanceof DataSourceEditorPage) {
 			((DataSourceEditorPage) propertyPage).refresh();
+		}
 
 		getContainer().setMessage(propertyPage.getMessage(), propertyPage.getMessageType());
 	}
@@ -72,30 +78,33 @@ public class PropertyPageWrapper extends AbstractPropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * getToolTip()
 	 */
+	@Override
 	public String getToolTip() {
 		return propertyPage.getTitle();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#performOk()
 	 */
+	@Override
 	public boolean performOk() {
 		return canLeave();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage
 	 * #canLeave()
 	 */
+	@Override
 	public boolean canLeave() {
 		if (propertyPage instanceof DataSetEditorPage) {
 			boolean okToLeave = ((DataSetEditorPage) propertyPage).okToLeave();
@@ -106,8 +115,9 @@ public class PropertyPageWrapper extends AbstractPropertyPage {
 					if (dataSetSession != null) {
 						requestDesign = dataSetSession.getRequest().getDataSetDesign();
 						response = dataSetSession.flush().getResponse();
-					} else
+					} else {
 						response = ((DataSetEditorPage) propertyPage).collectPageResponse();
+					}
 
 					DTPUtil.getInstance().updateDataSetHandle(response, requestDesign,
 							(OdaDataSetHandle) ((DataSetEditor) getContainer()).getModel(), false);
@@ -122,8 +132,9 @@ public class PropertyPageWrapper extends AbstractPropertyPage {
 			if (propertyPage.okToLeave()) {
 				try {
 					DataSourceDesign requestDesign = null;
-					if (this.dataSourceSession != null)
+					if (this.dataSourceSession != null) {
 						requestDesign = this.dataSourceSession.getRequest().getDataSourceDesign();
+					}
 
 					DTPUtil.getInstance().updateDataSourceHandle(
 							((DataSourceEditorPage) propertyPage).getEditSessionResponse().getResponse(), requestDesign,

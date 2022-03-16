@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,29 +26,29 @@ public interface IFilterCondition {
 	 * Left one of the two events.
 	 */
 
-	final static int LEFT_EVENT = 0;
+	int LEFT_EVENT = 0;
 
 	/**
 	 * Right one of the two events.
 	 */
 
-	final static int RIGHT_EVENT = 1;
+	int RIGHT_EVENT = 1;
 
 	/**
 	 * Both of the two events.
 	 */
 
-	final static int BOTH_EVENT = 2;
+	int BOTH_EVENT = 2;
 
 	/**
 	 * None of the two events.
 	 */
 
-	final static int NO_EVENT = 3;
+	int NO_EVENT = 3;
 
 	/**
 	 * Gets the event to be filtered. The returned event will be filtered.
-	 * 
+	 *
 	 * @param ev1 the first event to compare
 	 * @param ev2 the second event to compare
 	 * @return the event to be filtered

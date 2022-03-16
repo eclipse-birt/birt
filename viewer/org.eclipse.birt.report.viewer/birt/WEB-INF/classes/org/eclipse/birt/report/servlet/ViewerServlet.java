@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -12,6 +14,7 @@
 package org.eclipse.birt.report.servlet;
 
 import java.io.IOException;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,15 +22,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.IBirtConstants;
-import org.eclipse.birt.report.service.BirtReportServiceFactory;
-import org.eclipse.birt.report.service.BirtViewerReportService;
-import org.eclipse.birt.report.servlet.BirtSoapMessageDispatcherServlet;
-import org.eclipse.birt.report.utility.BirtUtility;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
 import org.eclipse.birt.report.presentation.aggregation.layout.FramesetFragment;
 import org.eclipse.birt.report.presentation.aggregation.layout.RunFragment;
+import org.eclipse.birt.report.service.BirtReportServiceFactory;
+import org.eclipse.birt.report.service.BirtViewerReportService;
+import org.eclipse.birt.report.utility.BirtUtility;
 
 /**
  * Servlet implementation of BIRT Web Viewer.
@@ -110,9 +112,10 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet {
 
 	/**
 	 * Local initialization.
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	protected void __init(ServletConfig config) {
 		BirtReportServiceFactory.init(new BirtViewerReportService(config.getServletContext()));
 
@@ -129,12 +132,13 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet {
 
 	/**
 	 * Init context.
-	 * 
+	 *
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @exception BirtException
 	 * @return IContext
 	 */
+	@Override
 	protected IContext __getContext(HttpServletRequest request, HttpServletResponse response) throws BirtException {
 		BirtReportServiceFactory.getReportService().setContext(getServletContext(), null);
 		return new BirtContext(request, response);
@@ -142,13 +146,14 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet {
 
 	/**
 	 * Local process http request with GET method.
-	 * 
+	 *
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 * @return
 	 */
+	@Override
 	protected void __doGet(IContext context) throws ServletException, IOException, BirtException {
 		IFragment activeFragment = null;
 		String servletPath = context.getRequest().getServletPath();
@@ -158,43 +163,47 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet {
 			activeFragment = run;
 		}
 
-		if (activeFragment != null)
+		if (activeFragment != null) {
 			activeFragment.service(context.getRequest(), context.getResponse());
+		}
 	}
 
 	/**
 	 * Locale process http request with POST method. Four different servlet paths
 	 * are expected: "/frameset", "/navigation", "/toolbar", and "/run".
-	 * 
+	 *
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 * @return
 	 */
+	@Override
 	protected void __doPost(IContext context) throws ServletException, IOException, BirtException {
 	}
 
 	/**
 	 * Local authentication. Alwasy returns true.
-	 * 
+	 *
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @return
 	 */
+	@Override
 	protected boolean __authenticate(HttpServletRequest request, HttpServletResponse response) {
 		return true;
 	}
 
 	/**
 	 * Process exception for non soap request.
-	 * 
+	 *
 	 * @param request   incoming http request
 	 * @param response  http response
 	 * @param exception
 	 * @throws ServletException
 	 * @throws IOException
 	 */
+	@Override
 	protected void __handleNonSoapException(HttpServletRequest request, HttpServletResponse response,
 			Exception exception) throws ServletException, IOException {
 		exception.printStackTrace();

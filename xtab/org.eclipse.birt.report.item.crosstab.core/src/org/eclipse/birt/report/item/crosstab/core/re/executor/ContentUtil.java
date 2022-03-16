@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -114,8 +117,8 @@ class ContentUtil {
 				StyleHandle privateStyle = modelHandle.getPrivateStyle();
 
 				if (privateStyle != null) {
-					rules = new ArrayList<HighlightRuleHandle>();
-					exprs = new ArrayList<IConditionalExpression>();
+					rules = new ArrayList<>();
+					exprs = new ArrayList<>();
 
 					Iterator itr = privateStyle.highlightRulesIterator();
 
@@ -160,7 +163,7 @@ class ContentUtil {
 
 	private static List<IConditionalExpression> setupHighlightExprs(List<HighlightRuleHandle> rules)
 			throws BirtException {
-		List<IConditionalExpression> exprs = new ArrayList<IConditionalExpression>();
+		List<IConditionalExpression> exprs = new ArrayList<>();
 
 		DataRequestSession session = DataRequestSession
 				.newSession(new DataSessionContext(DataSessionContext.MODE_DIRECT_PRESENTATION));
@@ -190,7 +193,7 @@ class ContentUtil {
 			List<Expression> val1list = rule.getValue1ExpressionList().getListValue();
 
 			if (val1list != null) {
-				vals = new ArrayList<ScriptExpression>();
+				vals = new ArrayList<>();
 
 				for (Expression expr : val1list) {
 					vals.add(modelAdapter.adaptExpression(expr, ExpressionLocation.CUBE));
@@ -303,7 +306,7 @@ class ContentUtil {
 		Iterator visItr = modelHandle.visibilityRulesIterator();
 
 		if (visItr != null && visItr.hasNext()) {
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 
 			while (visItr.hasNext()) {
 				HideRuleHandle rule = (HideRuleHandle) visItr.next();
@@ -397,8 +400,6 @@ class ContentUtil {
 	}
 
 	static void processAction(IExecutorContext context, IContent content, AbstractCrosstabItemHandle handle) {
-		// TODO no action for crosstab itself?
-		return;
 	}
 
 	private static String validExpression(String expr) {

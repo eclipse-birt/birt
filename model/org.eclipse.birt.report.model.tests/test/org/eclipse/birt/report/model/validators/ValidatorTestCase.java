@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,12 +47,13 @@ public abstract class ValidatorTestCase extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.api.validators.IValidationListener#
 		 * elementValidated(org.eclipse.birt.report.model.api.DesignElementHandle,
 		 * org.eclipse.birt.report.model.api.validators.ValidationEvent)
 		 */
 
+		@Override
 		public void elementValidated(DesignElementHandle focus, ValidationEvent ev) {
 			pool.updateErrorStatus(ev);
 		}
@@ -57,7 +61,7 @@ public abstract class ValidatorTestCase extends BaseTestCase {
 		/**
 		 * Returns whether the error exists in the error pool. This method is used to
 		 * check the errors caught by element validator.
-		 * 
+		 *
 		 * @param element       the element to check
 		 * @param validatorName the validator name
 		 * @param errorCode     the error code to check
@@ -71,7 +75,7 @@ public abstract class ValidatorTestCase extends BaseTestCase {
 		/**
 		 * Returns whether the error exists in the error pool. This method is used to
 		 * check the errors caught by property validator.
-		 * 
+		 *
 		 * @param element       the element to check
 		 * @param validatorName the validator name
 		 * @param propName      the name of the property on which the validator is
@@ -83,8 +87,9 @@ public abstract class ValidatorTestCase extends BaseTestCase {
 		protected boolean hasError(DesignElementHandle element, String validatorName, String propName,
 				String errorCode) {
 			String validationID = validatorName;
-			if (!StringUtil.isBlank(propName))
+			if (!StringUtil.isBlank(propName)) {
 				validationID = validatorName + "." + propName; //$NON-NLS-1$
+			}
 
 			return pool.hasErrorFromValidation(element.getElement(), validationID, errorCode);
 		}
@@ -97,7 +102,7 @@ public abstract class ValidatorTestCase extends BaseTestCase {
 
 		/**
 		 * Updates the errors with the validation event.
-		 * 
+		 *
 		 * @param event the received event
 		 */
 
@@ -124,8 +129,9 @@ public abstract class ValidatorTestCase extends BaseTestCase {
 				ErrorDetail detail = (ErrorDetail) iter.next();
 
 				if (detail.getElement() == element && detail.getValidationID().equalsIgnoreCase(validationID)
-						&& detail.getErrorCode().equalsIgnoreCase(errorCode))
+						&& detail.getErrorCode().equalsIgnoreCase(errorCode)) {
 					return true;
+				}
 			}
 
 			return false;

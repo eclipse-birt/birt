@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -46,8 +49,9 @@ public class ScriptDataSetRuntime extends DataSetRuntime implements IScriptDataS
 		super(dataSet, executor, session);
 		Object[] params = { dataSet, executor };
 		logger.entering(ScriptDataSetRuntime.class.getName(), "ScriptDataSetRuntime", params);
-		if (getEventHandler() instanceof IScriptDataSetEventHandler)
+		if (getEventHandler() instanceof IScriptDataSetEventHandler) {
 			scriptEventHandler = (IScriptDataSetEventHandler) getEventHandler();
+		}
 		logger.exiting(ScriptDataSetRuntime.class.getName(), "ScriptDataSetRuntime");
 		logger.log(Level.FINER, "ScriptDataSetRuntime starts up");
 	}
@@ -90,6 +94,7 @@ public class ScriptDataSetRuntime extends DataSetRuntime implements IScriptDataS
 	}
 
 	/** Executes the close script */
+	@Override
 	public void close() throws DataException {
 		if (scriptEventHandler != null) {
 			try {
@@ -103,13 +108,15 @@ public class ScriptDataSetRuntime extends DataSetRuntime implements IScriptDataS
 
 	/**
 	 * Adds a dynamically described script data set column
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.script.IScriptDataSetMetaDataDefinition#addColumn(java.lang.String,
 	 *      java.lang.Class)
 	 */
+	@Override
 	public void addColumn(String name, Class dataType) throws BirtException {
-		if (describedColumns == null)
+		if (describedColumns == null) {
 			describedColumns = new ArrayList();
+		}
 		if (name == null || name.length() == 0) {
 			throw new DataException(ResourceConstants.CUSTOM_FIELD_EMPTY);
 		}
@@ -141,6 +148,7 @@ public class ScriptDataSetRuntime extends DataSetRuntime implements IScriptDataS
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getExtensionID()
 	 */
+	@Override
 	public String getExtensionID() {
 		// Not an ODA data set and has no extension. Use a fixed string
 		return "SCRIPT";
@@ -148,7 +156,7 @@ public class ScriptDataSetRuntime extends DataSetRuntime implements IScriptDataS
 
 	/**
 	 * Gets columns defined by the describe event handler.
-	 * 
+	 *
 	 * @Returns A list of ResultFieldMetadata objects.
 	 */
 	List getDescribedMetaData() {

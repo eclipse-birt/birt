@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,12 +26,14 @@ import org.eclipse.swt.graphics.Image;
 
 public class AreaNodeProvider extends CrosstabWrapperNodeProvider {
 
+	@Override
 	public Object[] getChildren(Object model) {
 		PropertyHandle handle = ((CrosstabPropertyHandleWrapper) model).getModel();
 		String propertyName = handle.getPropertyDefn().getName();
 		Object value = handle.getValue();
-		if (value == null)
+		if (value == null) {
 			return new Object[0];
+		}
 
 		if (propertyName.equals(ICrosstabReportItemConstants.MEASURES_PROP)) {
 			List measures = (List) value;
@@ -42,52 +47,65 @@ public class AreaNodeProvider extends CrosstabWrapperNodeProvider {
 
 	/**
 	 * Creates the context menu
-	 * 
+	 *
 	 * @param sourceViewer the source viewer
 	 * @param object       the object
 	 * @param menu         the menu
 	 */
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		// do nothing
 	}
 
+	@Override
 	public Object getParent(Object model) {
 		PropertyHandle handle = ((CrosstabPropertyHandleWrapper) model).getModel();
 		return handle.getElementHandle();
 	}
 
+	@Override
 	public boolean hasChildren(Object model) {
 		return getChildren(model).length != 0;
 	}
 
+	@Override
 	public String getNodeDisplayName(Object element) {
 		PropertyHandle handle = ((CrosstabPropertyHandleWrapper) element).getModel();
 		String propertyName = handle.getPropertyDefn().getName();
 
-		if (propertyName.equals(ICrosstabReportItemConstants.COLUMNS_PROP))
+		if (propertyName.equals(ICrosstabReportItemConstants.COLUMNS_PROP)) {
 			return Messages.getString("AreaNodeProvider.ColumnArea"); //$NON-NLS-1$
-		if (propertyName.equals(ICrosstabReportItemConstants.ROWS_PROP))
+		}
+		if (propertyName.equals(ICrosstabReportItemConstants.ROWS_PROP)) {
 			return Messages.getString("AreaNodeProvider.RowArea"); //$NON-NLS-1$
-		if (propertyName.equals(ICrosstabReportItemConstants.MEASURES_PROP))
+		}
+		if (propertyName.equals(ICrosstabReportItemConstants.MEASURES_PROP)) {
 			return Messages.getString("AreaNodeProvider.DetailArea"); //$NON-NLS-1$
-		if (propertyName.equals(ICrosstabReportItemConstants.HEADER_PROP))
+		}
+		if (propertyName.equals(ICrosstabReportItemConstants.HEADER_PROP)) {
 			return Messages.getString("AreaNodeProvider.Headers"); //$NON-NLS-1$
+		}
 
 		return null;
 	}
 
+	@Override
 	public Image getNodeIcon(Object element) {
 		PropertyHandle handle = ((CrosstabPropertyHandleWrapper) element).getModel();
 		String propertyName = handle.getPropertyDefn().getName();
 
-		if (propertyName.equals(ICrosstabReportItemConstants.COLUMNS_PROP))
+		if (propertyName.equals(ICrosstabReportItemConstants.COLUMNS_PROP)) {
 			return CrosstabUIHelper.getImage(CrosstabUIHelper.COLUMNS_AREA_IMAGE);
-		if (propertyName.equals(ICrosstabReportItemConstants.ROWS_PROP))
+		}
+		if (propertyName.equals(ICrosstabReportItemConstants.ROWS_PROP)) {
 			return CrosstabUIHelper.getImage(CrosstabUIHelper.ROWS_AREA_IMAGE);
-		if (propertyName.equals(ICrosstabReportItemConstants.MEASURES_PROP))
+		}
+		if (propertyName.equals(ICrosstabReportItemConstants.MEASURES_PROP)) {
 			return CrosstabUIHelper.getImage(CrosstabUIHelper.DETAIL_AREA_IMAGE);
-		if (propertyName.equals(ICrosstabReportItemConstants.HEADER_PROP))
+		}
+		if (propertyName.equals(ICrosstabReportItemConstants.HEADER_PROP)) {
 			return CrosstabUIHelper.getImage(CrosstabUIHelper.HEADERS_AREA_IMAGE);
+		}
 		return super.getNodeIcon(element);
 	}
 }

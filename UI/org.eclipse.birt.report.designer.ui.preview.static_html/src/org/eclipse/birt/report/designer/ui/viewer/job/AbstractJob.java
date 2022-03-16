@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +21,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
 /**
- * 
+ *
  */
 
 public abstract class AbstractJob extends Job {
@@ -30,6 +33,7 @@ public abstract class AbstractJob extends Job {
 		this.designFile = designFile;
 	}
 
+	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		IStatus returnValue = Status.OK_STATUS;
 		setPriority(Job.SHORT);
@@ -56,9 +60,11 @@ public abstract class AbstractJob extends Job {
 		return returnValue;
 	}
 
+	@Override
 	public boolean belongsTo(Object family) {
-		if (family != null && family.equals(this.designFile))
+		if (family != null && family.equals(this.designFile)) {
 			return true;
+		}
 		return super.belongsTo(family);
 	}
 

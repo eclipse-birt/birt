@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,7 +58,7 @@ import org.eclipse.birt.report.engine.presentation.LocalizedContentVisitor;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 /**
- * 
+ *
  */
 
 public class OnPageBreakScriptVisitor extends DefaultReportItemVisitorImpl {
@@ -113,99 +113,120 @@ public class OnPageBreakScriptVisitor extends DefaultReportItemVisitorImpl {
 
 	private class OnPageBreakExecutor extends DefaultReportItemVisitorImpl {
 
+		@Override
 		public Object visitAutoTextItem(AutoTextItemDesign autoText, Object value) {
 			AutoTextScriptExecutor.handleOnPageBreak((IAutoTextContent) value, context);
 			return value;
 		}
 
+		@Override
 		public Object visitBand(BandDesign band, Object value) {
 			return visitReportItem(band, value);
 		}
 
+		@Override
 		public Object visitCell(CellDesign cell, Object value) {
 			CellScriptExecutor.handleOnPageBreak((ICellContent) value, context);
 			return value;
 		}
 
+		@Override
 		public Object visitDataItem(DataItemDesign data, Object value) {
 			DataItemScriptExecutor.handleOnPageBreak((IDataContent) value, context);
 			return value;
 		}
 
+		@Override
 		public Object visitExtendedItem(ExtendedItemDesign item, Object value) {
 			return visitReportItem(item, value);
 		}
 
+		@Override
 		public Object visitFreeFormItem(FreeFormItemDesign container, Object value) {
 			return visitReportItem(container, value);
 		}
 
+		@Override
 		public Object visitGridItem(GridItemDesign grid, Object value) {
 			GridScriptExecutor.handleOnPageBreak((ITableContent) value, context);
 			return value;
 		}
 
+		@Override
 		public Object visitGroup(GroupDesign group, Object value) {
 			return visitReportItem(group, value);
 		}
 
+		@Override
 		public Object visitImageItem(ImageItemDesign image, Object value) {
 			ImageScriptExecutor.handleOnPageBreak((IContent) value, context);
 			return value;
 		}
 
+		@Override
 		public Object visitLabelItem(LabelItemDesign label, Object value) {
 			LabelScriptExecutor.handleOnPageBreak((ILabelContent) value, context);
 			return value;
 		}
 
+		@Override
 		public Object visitListBand(ListBandDesign band, Object value) {
 			return visitReportItem(band, value);
 		}
 
+		@Override
 		public Object visitListGroup(ListGroupDesign group, Object value) {
 			ListGroupScriptExecutor.handleOnPageBreak((IListGroupContent) value, context);
 			return value;
 		}
 
+		@Override
 		public Object visitListItem(ListItemDesign list, Object value) {
 			ListScriptExecutor.handleOnPageBreak((IListContent) value, context);
 			return value;
 		}
 
+		@Override
 		public Object visitListing(ListingDesign listing, Object value) {
 			return visitReportItem(listing, value);
 		}
 
+		@Override
 		public Object visitDynamicTextItem(DynamicTextItemDesign dynamicText, Object value) {
 			DynamicTextScriptExecutor.handleOnPageBreak((IContent) value, context);
 			return value;
 		}
 
+		@Override
 		public Object visitRow(RowDesign row, Object value) {
 			RowScriptExecutor.handleOnPageBreak((IRowContent) value, context);
 			return value;
 		}
 
+		@Override
 		public Object visitTableBand(TableBandDesign band, Object value) {
 			return visitReportItem(band, value);
 		}
 
+		@Override
 		public Object visitTableGroup(TableGroupDesign group, Object value) {
 			TableGroupScriptExecutor.handleOnPageBreak((ITableGroupContent) value, context);
 			return value;
 		}
 
+		@Override
 		public Object visitTableItem(TableItemDesign table, Object value) {
 			TableScriptExecutor.handleOnPageBreak((ITableContent) value, context);
 			return value;
 		}
 
+		@Override
 		public Object visitTemplate(TemplateDesign template, Object value) {
 			TextItemScriptExecutor.handleOnPageBreak((IContent) value, context);
 			return value;
 		}
 
+		@Override
 		public Object visitTextItem(TextItemDesign text, Object value) {
 			TextItemScriptExecutor.handleOnPageBreak((IContent) value, context);
 			return value;

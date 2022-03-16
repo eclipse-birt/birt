@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +62,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 	 * <code>OverridePropertyInfo</code>.
 	 */
 
-	protected Map<String, OverridePropertyInfo> overridePropertyInfoMap = new HashMap<String, OverridePropertyInfo>();
+	protected Map<String, OverridePropertyInfo> overridePropertyInfoMap = new HashMap<>();
 
 	/**
 	 * The factory to create scriptable classes.
@@ -70,7 +73,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 	/**
 	 * Constructs the peer extension element definition with the element definition
 	 * name and report item factory.
-	 * 
+	 *
 	 * @param name              the name of the extension element definition
 	 * @param reportItemFactory the report item factory of the extension element
 	 */
@@ -84,7 +87,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 
 	/**
 	 * Gets the report item factory of this extension element definition.
-	 * 
+	 *
 	 * @return the report item factory of the extension element definition
 	 */
 
@@ -96,10 +99,11 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 	 * Returns the localized display name, if non-empty string can be found with
 	 * resource key and <code> IMessages </code> . Otherwise, return name of this
 	 * element definition.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.ObjectDefn#getDisplayName()
 	 */
 
+	@Override
 	public String getDisplayName() {
 		if (displayNameKey != null && reportItemFactory != null) {
 			IMessages messages = reportItemFactory.getMessages();
@@ -107,8 +111,9 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 			if (messages != null) {
 				String displayName = messages.getMessage(displayNameKey, ThreadResources.getLocale());
 
-				if (!StringUtil.isBlank(displayName))
+				if (!StringUtil.isBlank(displayName)) {
 					return displayName;
+				}
 			}
 		}
 
@@ -117,10 +122,11 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#buildProperties()
 	 */
 
+	@Override
 	protected void buildProperties() throws MetaDataException {
 		super.buildProperties();
 
@@ -163,14 +169,14 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 
 	/**
 	 * Override allowedUnits property.
-	 * 
+	 *
 	 */
 
 	private void overrideProperty() {
 		// inherit override property definition from parent.
 
 		ElementDefn tmpDefn = parent;
-		while (tmpDefn != null && tmpDefn instanceof PeerExtensionElementDefn) {
+		while (tmpDefn instanceof PeerExtensionElementDefn) {
 			PeerExtensionElementDefn tmpPeerDefn = (PeerExtensionElementDefn) tmpDefn;
 			if (tmpPeerDefn.overridePropertyInfoMap == null || tmpPeerDefn.overridePropertyInfoMap.isEmpty()) {
 				tmpDefn = tmpDefn.parent;
@@ -195,14 +201,16 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 
 			if (properties.get(propName) != null) {
 				ElementPropertyDefn defn = (ElementPropertyDefn) properties.get(propName);
-				if (defn.definedBy == this)
+				if (defn.definedBy == this) {
 					continue;
+				}
 			}
 
 			OverridePropertyInfo propInfo = overridePropertyInfoMap.get(propName);
 
-			if (propInfo == null)
+			if (propInfo == null) {
 				continue;
+			}
 
 			String units = propInfo.getAllowedUnits();
 			String choices = propInfo.getAllowedChoices();
@@ -212,31 +220,37 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 					MetaDataDictionary.getInstance().getChoiceSet(DesignChoiceConstants.CHOICE_UNITS), units);
 
 			ElementPropertyDefn defn = (ElementPropertyDefn) cachedProperties.get(propName);
-			if (defn == null)
+			if (defn == null) {
 				continue;
+			}
 
 			ChoiceSet choiceSet = null;
 
 			if (choices != null) {
 				IChoiceSet tmpSet = defn.getChoices();
-				if (tmpSet != null)
+				if (tmpSet != null) {
 					choiceSet = buildChoiceSet(tmpSet, choices);
-				else
+				} else {
 					choiceSet = null;
+				}
 			}
 
-			if (unitSet == null && choiceSet == null && !useOwnSearch)
+			if (unitSet == null && choiceSet == null && !useOwnSearch) {
 				continue;
+			}
 
 			ElementPropertyDefn clonedDefn = (ElementPropertyDefn) reflectClass(defn);
-			if (clonedDefn == null)
+			if (clonedDefn == null) {
 				continue;
+			}
 
-			if (choiceSet != null)
+			if (choiceSet != null) {
 				clonedDefn.allowedChoices = choiceSet;
+			}
 
-			if (unitSet != null)
+			if (unitSet != null) {
 				clonedDefn.allowedUnits = unitSet;
+			}
 
 			clonedDefn.useOwnSearch = useOwnSearch;
 
@@ -246,13 +260,13 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 
 	/**
 	 * build Choice Set.
-	 * 
+	 *
 	 * @param units units such as 'in,cm'
 	 * @return choice set.
 	 */
 
 	private ChoiceSet buildChoiceSet(IChoiceSet romSet, String units) {
-		List<IChoice> choiceList = new ArrayList<IChoice>();
+		List<IChoice> choiceList = new ArrayList<>();
 		if (units != null && units.length() > 0) {
 			String[] eachUnit = units.split(","); //$NON-NLS-1$
 
@@ -267,8 +281,9 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 				}
 			}
 		}
-		if (choiceList.size() == 0)
+		if (choiceList.size() == 0) {
 			return null;
+		}
 
 		ChoiceSet choiceSet = new ChoiceSet();
 
@@ -281,7 +296,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 
 	/**
 	 * Sets override property information.
-	 * 
+	 *
 	 * @param prop
 	 * @param propInfo
 	 */
@@ -292,16 +307,17 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#isContainer()
 	 */
+	@Override
 	public boolean isContainer() {
 		return isContainer;
 	}
 
 	/**
 	 * Returns the factory to create scriptable class for ROM defined elements.
-	 * 
+	 *
 	 * @return the scriptable factory
 	 */
 
@@ -311,7 +327,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 
 	/**
 	 * Sets the factory to create scriptable class for ROM defined elements.
-	 * 
+	 *
 	 * @param scriptableFactory the scriptable factory to set
 	 */
 
@@ -321,10 +337,11 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#buildTriggerDefnSet()
 	 */
 
+	@Override
 	protected void buildTriggerDefnSet() {
 		super.buildTriggerDefnSet();
 
@@ -343,10 +360,11 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.ExtensionElementDefn#buildXmlName
 	 * ()
 	 */
+	@Override
 	protected void buildXmlName() {
 		// set the xml-name to that of ExtendedItem
 		ElementDefn defn = (ElementDefn) MetaDataDictionary.getInstance()

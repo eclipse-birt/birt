@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,11 +25,11 @@ import org.eclipse.swt.graphics.Point;
  * A {@link ReportImageDescriptor} consists of a base image and several
  * adornments. The adornments are computed according to the flags either passed
  * during creation or set via the method {@link #setAdornments(int)}.
- * 
+ *
  * <p>
  * This class may be instantiated; it is not intended to be subclassed.
  * </p>
- * 
+ *
  * @since 2.0
  */
 public class ReportImageDescriptor extends CompositeImageDescriptor {
@@ -37,9 +40,11 @@ public class ReportImageDescriptor extends CompositeImageDescriptor {
 		fBaseImage = baseImage;
 	}
 
+	@Override
 	public boolean equals(Object object) {
-		if (object == null || !ReportImageDescriptor.class.equals(object.getClass()))
+		if (object == null || !ReportImageDescriptor.class.equals(object.getClass())) {
 			return false;
+		}
 		ReportImageDescriptor other = (ReportImageDescriptor) object;
 		return (fBaseImage.equals(other.fBaseImage));
 	}
@@ -47,6 +52,7 @@ public class ReportImageDescriptor extends CompositeImageDescriptor {
 	/*
 	 * (non-Javadoc) Method declared on Object.
 	 */
+	@Override
 	public int hashCode() {
 		return fBaseImage.hashCode();
 	}
@@ -54,6 +60,7 @@ public class ReportImageDescriptor extends CompositeImageDescriptor {
 	/*
 	 * (non-Javadoc) Method declared in CompositeImageDescriptor
 	 */
+	@Override
 	protected void drawCompositeImage(int width, int height) {
 		ImageData bg = fBaseImage.getImageData();
 		ImageData data = getImageData(
@@ -71,6 +78,7 @@ public class ReportImageDescriptor extends CompositeImageDescriptor {
 		return data;
 	}
 
+	@Override
 	protected Point getSize() {
 		return new Point(fBaseImage.getImageData().width, fBaseImage.getImageData().height);
 	}

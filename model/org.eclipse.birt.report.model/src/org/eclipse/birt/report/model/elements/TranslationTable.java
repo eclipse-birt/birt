@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +39,7 @@ import com.ibm.icu.util.ULocale;
  * <li>The resource-key names are unique within the design.</li>
  * <li>The translation locale names are unique within a resource.</li>
  * </ul>
- * 
+ *
  * @see ReportDesign
  */
 
@@ -45,12 +48,12 @@ public final class TranslationTable implements Cloneable {
 	/**
 	 * Bunch of user Messages keyed by resourceKey. The structure of this map is
 	 * like this:
-	 * 
+	 *
 	 * <pre>
 	 *         resourceMap --
 	 *                      |--[resourceKey:ArrayList&lt;Translation&gt;]
-	 *                      |                                            
-	 *                      |        
+	 *                      |
+	 *                      |
 	 *                      |--[resourceKey:ArrayList&lt;Translation&gt;]
 	 *                      |
 	 *                      |
@@ -67,7 +70,7 @@ public final class TranslationTable implements Cloneable {
 	public TranslationTable() {
 		// stored in input order.
 
-		resourceMap = new LinkedHashMap<String, List<Translation>>();
+		resourceMap = new LinkedHashMap<>();
 	}
 
 	/**
@@ -75,7 +78,7 @@ public final class TranslationTable implements Cloneable {
 	 * are defined by the customers. One entry of <code>Translation</code>
 	 * represents a translated message for a specific locale.
 	 * <p>
-	 * 
+	 *
 	 * @param newTranslation new entry of <code>Translation</code> that are to be
 	 *                       added to the table.
 	 */
@@ -88,7 +91,7 @@ public final class TranslationTable implements Cloneable {
 		List<Translation> translationList = resourceMap.get(resourceKey);
 
 		if (translationList == null) {
-			translationList = new ArrayList<Translation>();
+			translationList = new ArrayList<>();
 			resourceMap.put(resourceKey, translationList);
 		}
 
@@ -98,28 +101,30 @@ public final class TranslationTable implements Cloneable {
 	/**
 	 * Removes a Translation from the table.
 	 * <p>
-	 * 
+	 *
 	 * @param trans new entry of <code>Translation</code> that are to be removed
-	 * 
+	 *
 	 * @return <code>true</code> if the translation table contains the given
 	 *         translation.
-	 * 
+	 *
 	 */
 
 	public boolean remove(Translation trans) {
-		if (trans == null)
+		if (trans == null) {
 			return false;
+		}
 
 		List<Translation> translationList = resourceMap.get(trans.getResourceKey());
-		if (translationList == null)
+		if (translationList == null) {
 			return false;
+		}
 
 		return translationList.remove(trans);
 	}
 
 	/**
 	 * Finds user defined messages for the current thread's locale.
-	 * 
+	 *
 	 * @param resourceKey Resource key of the user defined message.
 	 * @return the corresponding locale-dependent messages. Return <code>null</code>
 	 *         if resoueceKey is blank.
@@ -136,7 +141,7 @@ public final class TranslationTable implements Cloneable {
 	 * will try to match using only the language. If still not found, and there is a
 	 * translation that was defined without specifying the locale, then the text of
 	 * this translation will be returned. Or else, return <code>null</code>.
-	 * 
+	 *
 	 * @param resourceKey Resource key of the user defined message.
 	 * @param theLocale   locale of a message.
 	 * @return the corresponding locale-dependent messages. Return <code>null</code>
@@ -144,8 +149,9 @@ public final class TranslationTable implements Cloneable {
 	 */
 
 	public String getMessage(String resourceKey, ULocale theLocale) {
-		if (StringUtil.isBlank(resourceKey))
+		if (StringUtil.isBlank(resourceKey)) {
 			return null;
+		}
 
 		String locale = theLocale == null ? null : theLocale.toString();
 
@@ -155,13 +161,15 @@ public final class TranslationTable implements Cloneable {
 		}
 
 		List<Translation> translationList = resourceMap.get(resourceKey);
-		if (translationList == null)
+		if (translationList == null) {
 			return null;
+		}
 
 		// en_US_VARIANT will be cut to en_US.
 
-		if (locale.length() > 5)
+		if (locale.length() > 5) {
 			locale = locale.substring(0, 5);
+		}
 
 		// First, match the whole word( LANGUAGE_COUNTRY or LANGUAGE ) or a null
 
@@ -174,8 +182,9 @@ public final class TranslationTable implements Cloneable {
 
 		Translation trans = findTranslation(resourceKey, locale);
 
-		if (trans != null)
+		if (trans != null) {
 			return trans.getText();
+		}
 
 		// Secondly, match the Language only: en, zh
 
@@ -184,8 +193,9 @@ public final class TranslationTable implements Cloneable {
 
 			trans = findTranslation(resourceKey, language);
 
-			if (trans != null)
+			if (trans != null) {
 				return trans.getText();
+			}
 
 		}
 
@@ -206,7 +216,7 @@ public final class TranslationTable implements Cloneable {
 	/**
 	 * Finds a <code>Translation</code> by the message resource key and the locale.
 	 * <p>
-	 * 
+	 *
 	 * @param resourceKey resourceKey of the user-defined message where the
 	 *                    translation is defined in.
 	 * @param locale      locale for the translation. Locale is in java-defined
@@ -216,17 +226,17 @@ public final class TranslationTable implements Cloneable {
 
 	public Translation findTranslation(String resourceKey, String locale) {
 		List<Translation> translationList = resourceMap.get(resourceKey);
-		if (translationList == null)
+		if (translationList == null) {
 			return null;
+		}
 
 		for (Iterator<Translation> transIterator = translationList.iterator(); transIterator.hasNext();) {
 
 			Translation trans = transIterator.next();
 
-			if (locale == null && trans.getLocale() == null)
+			if ((locale == null && trans.getLocale() == null) || (locale != null && locale.equalsIgnoreCase(trans.getLocale()))) {
 				return trans;
-			if (locale != null && locale.equalsIgnoreCase(trans.getLocale()))
-				return trans;
+			}
 		}
 
 		return null;
@@ -235,15 +245,16 @@ public final class TranslationTable implements Cloneable {
 
 	/**
 	 * Returns if the specified translation is contained in the translation table.
-	 * 
+	 *
 	 * @param trans a given <code>Translation</code>
 	 * @return <code>true</code> if the <code>Translation</code> is contained in the
 	 *         translation table, return <code>false</code> otherwise.
 	 */
 
 	public boolean contains(Translation trans) {
-		if (trans == null)
+		if (trans == null) {
 			return false;
+		}
 
 		return findTranslation(trans.getResourceKey(), trans.getLocale()) != null;
 	}
@@ -253,13 +264,13 @@ public final class TranslationTable implements Cloneable {
 	 * <p>
 	 * Return null if there is no translation stored.
 	 * <p>
-	 * 
+	 *
 	 * @return a list containing all the Translations. Return null if there is no
 	 *         translation stored.
 	 */
 
 	public List<Translation> getTranslations() {
-		ArrayList<Translation> translations = new ArrayList<Translation>();
+		ArrayList<Translation> translations = new ArrayList<>();
 
 		Iterator<List<Translation>> iterator = resourceMap.values().iterator();
 
@@ -267,8 +278,9 @@ public final class TranslationTable implements Cloneable {
 			translations.addAll(iterator.next());
 		}
 
-		if (translations.isEmpty())
+		if (translations.isEmpty()) {
 			return null;
+		}
 
 		return translations;
 	}
@@ -277,7 +289,7 @@ public final class TranslationTable implements Cloneable {
 	 * Returns the collection of translations defined for a specific message. The
 	 * message is identified by its resourceKey.
 	 * <p>
-	 * 
+	 *
 	 * @param resourceKey resource key for the message.
 	 * @return a list containing all the Translations defined for the message.
 	 */
@@ -289,7 +301,7 @@ public final class TranslationTable implements Cloneable {
 	/**
 	 * Returns a string array containing all the resourceKeys defined for messages.
 	 * <p>
-	 * 
+	 *
 	 * @return a string array containing all the resourcekeys defined for messages
 	 *         return <code>null</code> if there is no messages stored.
 	 */
@@ -298,8 +310,9 @@ public final class TranslationTable implements Cloneable {
 		Set<String> keySet = resourceMap.keySet();
 
 		int size = keySet.size();
-		if (size == 0)
+		if (size == 0) {
 			return null;
+		}
 
 		String[] keys = new String[size];
 		keySet.toArray(keys);
@@ -310,14 +323,15 @@ public final class TranslationTable implements Cloneable {
 	/**
 	 * Makes a clone of this translation. The cloned translation contains a copy of
 	 * the translation message map which in the original one.
-	 * 
+	 *
 	 * @return the cloned translation.
-	 * 
+	 *
 	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public Object clone() throws CloneNotSupportedException {
 		TranslationTable table = (TranslationTable) super.clone();
-		table.resourceMap = new LinkedHashMap<String, List<Translation>>();
+		table.resourceMap = new LinkedHashMap<>();
 
 		for (Iterator<List<Translation>> it = resourceMap.values().iterator(); it.hasNext();) {
 			List<Translation> transList = it.next();

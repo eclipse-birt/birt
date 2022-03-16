@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +50,7 @@ public interface IConfigurationElement {
 	 * @see IExecutableExtension#setInitializationData(IConfigurationElement,
 	 *      String, Object)
 	 */
-	public Object createExecutableExtension(String propertyName) throws FrameworkException;
+	Object createExecutableExtension(String propertyName) throws FrameworkException;
 
 	/**
 	 * Returns the named attribute of this configuration element, or
@@ -55,11 +58,11 @@ public interface IConfigurationElement {
 	 * <p>
 	 * The names of configuration element attributes are the same as the attribute
 	 * names of the corresponding XML element. For example, the configuration markup
-	 * 
+	 *
 	 * <pre>
 	 * &lt;bg pattern="stripes"/&gt;
 	 * </pre>
-	 * 
+	 *
 	 * corresponds to a configuration element named <code>"bg"</code> with an
 	 * attribute named <code>"pattern"</code> with attribute value
 	 * <code>"stripes"</code>.
@@ -72,7 +75,7 @@ public interface IConfigurationElement {
 	 * @param name the name of the attribute
 	 * @return attribute value, or <code>null</code> if none
 	 */
-	public String getAttribute(String name);
+	String getAttribute(String name);
 
 	/**
 	 * Returns the named attribute of this configuration element, or
@@ -80,11 +83,11 @@ public interface IConfigurationElement {
 	 * <p>
 	 * The names of configuration element attributes are the same as the attribute
 	 * names of the corresponding XML element. For example, the configuration markup
-	 * 
+	 *
 	 * <pre>
 	 * &lt;bg pattern="stripes"/&gt;
 	 * </pre>
-	 * 
+	 *
 	 * corresponds to a configuration element named <code>"bg"</code> with an
 	 * attribute named <code>"pattern"</code> with attribute value
 	 * <code>"stripes"</code>.
@@ -97,7 +100,7 @@ public interface IConfigurationElement {
 	 * @param name the name of the attribute
 	 * @return attribute value, or <code>null</code> if none
 	 */
-	public String getAttributeAsIs(String name);
+	String getAttributeAsIs(String name);
 
 	/**
 	 * Returns the names of the attributes of this configuration element. Returns an
@@ -105,18 +108,18 @@ public interface IConfigurationElement {
 	 * <p>
 	 * The names of configuration element attributes are the same as the attribute
 	 * names of the corresponding XML element. For example, the configuration markup
-	 * 
+	 *
 	 * <pre>
 	 * &lt;bg color="blue" pattern="stripes"/&gt;
 	 * </pre>
-	 * 
+	 *
 	 * corresponds to a configuration element named <code>"bg"</code> with
 	 * attributes named <code>"color"</code> and <code>"pattern"</code>.
 	 * </p>
 	 *
 	 * @return the names of the attributes
 	 */
-	public String[] getAttributeNames();
+	String[] getAttributeNames();
 
 	/**
 	 * Returns all configuration elements that are children of this configuration
@@ -125,14 +128,14 @@ public interface IConfigurationElement {
 	 * <p>
 	 * Each child corresponds to a nested XML element in the configuration markup.
 	 * For example, the configuration markup
-	 * 
+	 *
 	 * <pre>
 	 * &lt;view&gt;
 	 * &nbsp&nbsp&nbsp&nbsp&lt;verticalHint&gt;top&lt;/verticalHint&gt;
 	 * &nbsp&nbsp&nbsp&nbsp&lt;horizontalHint&gt;left&lt;/horizontalHint&gt;
 	 * &lt;/view&gt;
 	 * </pre>
-	 * 
+	 *
 	 * corresponds to a configuration element, named <code>"view"</code>, with two
 	 * children.
 	 * </p>
@@ -140,7 +143,7 @@ public interface IConfigurationElement {
 	 * @return the child configuration elements
 	 * @see #getChildren(String)
 	 */
-	public IConfigurationElement[] getChildren();
+	IConfigurationElement[] getChildren();
 
 	/**
 	 * Returns all child configuration elements with the given name. Returns an
@@ -151,29 +154,29 @@ public interface IConfigurationElement {
 	 * @return the child configuration elements with that name
 	 * @see #getChildren()
 	 */
-	public IConfigurationElement[] getChildren(String name);
+	IConfigurationElement[] getChildren(String name);
 
 	/**
 	 * Returns the extension that declares this configuration element.
 	 *
 	 * @return the extension
 	 */
-	public IExtension getDeclaringExtension();
+	IExtension getDeclaringExtension();
 
 	/**
 	 * Returns the name of this configuration element. The name of a configuration
 	 * element is the same as the XML tag of the corresponding XML element. For
 	 * example, the configuration markup
-	 * 
+	 *
 	 * <pre>
 	 * &lt;wizard name="Create Project"/&gt;
 	 * </pre>
-	 * 
+	 *
 	 * corresponds to a configuration element named <code>"wizard"</code>.
 	 *
 	 * @return the name of this configuration element
 	 */
-	public String getName();
+	String getName();
 
 	/**
 	 * Returns the element which contains this element. If this element is an
@@ -184,16 +187,16 @@ public interface IConfigurationElement {
 	 * @return the parent of this configuration element or <code>null</code>
 	 * @since 3.0
 	 */
-	public Object getParent();
+	Object getParent();
 
 	/**
 	 * Returns the text value of this configuration element. For example, the
 	 * configuration markup
-	 * 
+	 *
 	 * <pre>
 	 * &lt;script lang="javascript"&gt;.\scripts\cp.js&lt;/script&gt;
 	 * </pre>
-	 * 
+	 *
 	 * corresponds to a configuration element <code>"script"</code> with value
 	 * <code>".\scripts\cp.js"</code>.
 	 * <p>
@@ -206,16 +209,16 @@ public interface IConfigurationElement {
 	 *
 	 * @return the text value of this configuration element or <code>null</code>
 	 */
-	public String getValue();
+	String getValue();
 
 	/**
 	 * Returns the untranslated text value of this configuration element. For
 	 * example, the configuration markup
-	 * 
+	 *
 	 * <pre>
 	 * &lt;script lang="javascript"&gt;.\scripts\cp.js&lt;/script&gt;
 	 * </pre>
-	 * 
+	 *
 	 * corresponds to a configuration element <code>"script"</code> with value
 	 * <code>".\scripts\cp.js"</code>.
 	 * <p>
@@ -224,11 +227,11 @@ public interface IConfigurationElement {
 	 * <p>
 	 * Note that translation specified in the plug-in manifest file is <b>not</b>
 	 * automatically applied. For example, the configuration markup
-	 * 
+	 *
 	 * <pre>
 	 * &lt;tooltip&gt;#hattip&lt;/tooltip&gt;
 	 * </pre>
-	 * 
+	 *
 	 * corresponds to a configuration element, named <code>"tooltip"</code>, with
 	 * value <code>"#hattip"</code>.
 	 * </p>
@@ -236,5 +239,5 @@ public interface IConfigurationElement {
 	 * @return the untranslated text value of this configuration element or
 	 *         <code>null</code>
 	 */
-	public String getValueAsIs();
+	String getValueAsIs();
 }

@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,11 +24,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Label Position</b></em>', and utility methods for working with them.
  * <!-- end-user-doc --> <!-- begin-model-doc -->
- * 
+ *
  * This type represents the possible values for label positions.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getPosition()
  * @model
  * @generated
@@ -38,7 +41,7 @@ public enum Position implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #ABOVE
 	 * @generated
 	 * @ordered
@@ -51,7 +54,7 @@ public enum Position implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #BELOW
 	 * @generated
 	 * @ordered
@@ -64,7 +67,7 @@ public enum Position implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #LEFT
 	 * @generated
 	 * @ordered
@@ -77,7 +80,7 @@ public enum Position implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #RIGHT
 	 * @generated
 	 * @ordered
@@ -90,7 +93,7 @@ public enum Position implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #INSIDE
 	 * @generated
 	 * @ordered
@@ -103,7 +106,7 @@ public enum Position implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #OUTSIDE
 	 * @generated
 	 * @ordered
@@ -113,7 +116,7 @@ public enum Position implements Enumerator {
 	/**
 	 * The '<em><b>Above</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #ABOVE_LITERAL
 	 * @model name="Above"
 	 * @generated
@@ -124,7 +127,7 @@ public enum Position implements Enumerator {
 	/**
 	 * The '<em><b>Below</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #BELOW_LITERAL
 	 * @model name="Below"
 	 * @generated
@@ -135,7 +138,7 @@ public enum Position implements Enumerator {
 	/**
 	 * The '<em><b>Left</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #LEFT_LITERAL
 	 * @model name="Left"
 	 * @generated
@@ -146,7 +149,7 @@ public enum Position implements Enumerator {
 	/**
 	 * The '<em><b>Right</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #RIGHT_LITERAL
 	 * @model name="Right"
 	 * @generated
@@ -157,7 +160,7 @@ public enum Position implements Enumerator {
 	/**
 	 * The '<em><b>Inside</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #INSIDE_LITERAL
 	 * @model name="Inside"
 	 * @generated
@@ -168,7 +171,7 @@ public enum Position implements Enumerator {
 	/**
 	 * The '<em><b>Outside</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #OUTSIDE_LITERAL
 	 * @model name="Outside"
 	 * @generated
@@ -179,16 +182,16 @@ public enum Position implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Position</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final Position[] VALUES_ARRAY = new Position[] { ABOVE_LITERAL, BELOW_LITERAL, LEFT_LITERAL,
-			RIGHT_LITERAL, INSIDE_LITERAL, OUTSIDE_LITERAL, };
+	private static final Position[] VALUES_ARRAY = { ABOVE_LITERAL, BELOW_LITERAL, LEFT_LITERAL, RIGHT_LITERAL,
+			INSIDE_LITERAL, OUTSIDE_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Position</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static final List<Position> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -196,7 +199,7 @@ public enum Position implements Enumerator {
 	/**
 	 * Returns the '<em><b>Position</b></em>' literal with the specified literal
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static Position get(String literal) {
@@ -212,7 +215,7 @@ public enum Position implements Enumerator {
 	/**
 	 * Returns the '<em><b>Position</b></em>' literal with the specified name. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static Position getByName(String name) {
@@ -228,7 +231,7 @@ public enum Position implements Enumerator {
 	/**
 	 * Returns the '<em><b>Position</b></em>' literal with the specified integer
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static Position get(int value) {
@@ -251,21 +254,21 @@ public enum Position implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String literal;
@@ -273,10 +276,10 @@ public enum Position implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private Position(int value, String name, String literal) {
+	Position(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -284,27 +287,30 @@ public enum Position implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -312,7 +318,7 @@ public enum Position implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override

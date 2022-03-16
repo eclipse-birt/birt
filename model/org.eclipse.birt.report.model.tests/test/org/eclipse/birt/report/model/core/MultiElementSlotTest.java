@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,7 +19,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * The Test Case of Class MultiElementSlot.
- * 
+ *
  * The MultiElementSlot is container of the design elements. It has multi
  * contents. We test the insert-remove operation and container-content
  * relationship in test case.
@@ -26,45 +29,46 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testInsertRemove}</td>
  * <td>insert two label elements into MultiElementSlot</td>
  * <td>MultiElementSlot contains two elements</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>find the position of the new inserted element</td>
  * <td>find special element</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>remove the first element in MultiElementSlot.</td>
  * <td>can't find element</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testMoveContent}</td>
  * <td>insert three lable elements</td>
  * <td>find three elements</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>move element position</td>
  * <td>position of elements changed</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 public class MultiElementSlotTest extends BaseTestCase {
 
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -73,7 +77,7 @@ public class MultiElementSlotTest extends BaseTestCase {
 	/**
 	 * Tests general slot operation, such as insert, drop, contains, findPos and so
 	 * on.
-	 * 
+	 *
 	 * <p>
 	 * Test Cases:
 	 * <ul>
@@ -87,7 +91,7 @@ public class MultiElementSlotTest extends BaseTestCase {
 	 * <li>find special element</li>
 	 * <li>cann't find element</li>
 	 * </ul>
-	 * 
+	 *
 	 */
 	public void testInsertRemove() {
 		MultiElementSlot slot = new MultiElementSlot();

@@ -1,13 +1,28 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.document;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupInfo;
-
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class GroupInfoUtilTest {
 	static final int SOURCE = 1;
@@ -21,7 +36,7 @@ public class GroupInfoUtilTest {
 	 * $402 3: CHINA SHANGHAI 2003 Cola $553 4: CHINA SHANGHAI 2003 Pizza $223 5:
 	 * CHINA SHANGHAI 2004 Cola $226 6: USA CHICAGO 2004 Pizza $133 7: USA NEW YORK
 	 * 2004 Cola $339 8: USA NEW YORK 2004 Cola $297
-	 * 
+	 *
 	 * groups: (parent, child) LEVEL 0 LEVEL 1 LEVEL 2
 	 * ============================================ 0: -,0 0,0 0,0 1: -,2 0,2 0,2 2:
 	 * 1,4 1,3 3: 1,5 1,5 4: 2,6 5: 3,7
@@ -83,7 +98,7 @@ public class GroupInfoUtilTest {
 
 	/**
 	 * Without remove any group instance.
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
@@ -118,40 +133,12 @@ public class GroupInfoUtilTest {
 
 	/**
 	 * Without remove any group instance.
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
 	private List[] getTest1(int type) {
-		if (type == SOURCE) {
-			/*
-			 * LEVEL 0 LEVEL 1 LEVEL 2 ============================================ 0: -,0
-			 * 0,0 0,0 1: -,2 0,2 0,2 2: 1,4 1,3 3: 1,5 1,5 4: 2,6 5: 3,7
-			 */
-
-			List[] lists = new List[3];
-			List level0 = new ArrayList();
-			List level1 = new ArrayList();
-			List level2 = new ArrayList();
-			lists[0] = level0;
-			lists[1] = level1;
-			lists[2] = level2;
-			level0.add(getGroupInfo(-1, 0));
-			level0.add(getGroupInfo(-1, 2));
-			level1.add(getGroupInfo(0, 0));
-			level1.add(getGroupInfo(0, 2));
-			level1.add(getGroupInfo(1, 4));
-			level1.add(getGroupInfo(1, 5));
-			level2.add(getGroupInfo(0, 0));
-			level2.add(getGroupInfo(0, 2));
-			level2.add(getGroupInfo(1, 3));
-			level2.add(getGroupInfo(1, 5));
-			level2.add(getGroupInfo(2, 6));
-			level2.add(getGroupInfo(3, 7));
-			return lists;
-		}
-
-		if (type == TARGET) {
+		if ((type == SOURCE) || (type == TARGET)) {
 			/*
 			 * LEVEL 0 LEVEL 1 LEVEL 2 ============================================ 0: -,0
 			 * 0,0 0,0 1: -,2 0,2 0,2 2: 1,4 1,3 3: 1,5 1,5 4: 2,6 5: 3,7
@@ -182,7 +169,7 @@ public class GroupInfoUtilTest {
 
 	/**
 	 * A leaf should be removed, but its parent group still exist.
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
@@ -244,7 +231,7 @@ public class GroupInfoUtilTest {
 
 	/**
 	 * A leaf will be removed. Its parent group is also removed.
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
@@ -305,7 +292,7 @@ public class GroupInfoUtilTest {
 
 	/**
 	 * Without remove any group instance.
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
@@ -365,7 +352,7 @@ public class GroupInfoUtilTest {
 
 	/**
 	 * All removed.
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
@@ -416,7 +403,7 @@ public class GroupInfoUtilTest {
 
 	/**
 	 * Partly removed.
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
@@ -470,7 +457,7 @@ public class GroupInfoUtilTest {
 
 	/**
 	 * Remove exactly last leaf.
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
@@ -531,7 +518,7 @@ public class GroupInfoUtilTest {
 
 	/**
 	 * Complex case
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
@@ -616,7 +603,7 @@ public class GroupInfoUtilTest {
 
 	/**
 	 * Complex case
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
@@ -699,41 +686,45 @@ public class GroupInfoUtilTest {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param g1
 	 * @param g2
 	 * @return
 	 */
 	private boolean twoGroupListArrayEqual(List[] g1, List[] g2) {
-		if (g1.length != g2.length)
+		if (g1.length != g2.length) {
 			return false;
+		}
 		for (int i = 0; i < g1.length; i++) {
-			if (!twoListEqual(g1[i], g2[i]))
+			if (!twoListEqual(g1[i], g2[i])) {
 				return false;
+			}
 		}
 		return true;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param g1
 	 * @param g2
 	 * @return
 	 */
 	private boolean twoListEqual(List g1, List g2) {
-		if (g1.size() != g2.size())
+		if (g1.size() != g2.size()) {
 			return false;
+		}
 		for (int i = 0; i < g1.size(); i++) {
 			GroupInfo info1 = (GroupInfo) g1.get(i);
 			GroupInfo info2 = (GroupInfo) g2.get(i);
-			if (info1.parent != info2.parent || info1.firstChild != info2.firstChild)
+			if (info1.parent != info2.parent || info1.firstChild != info2.firstChild) {
 				return false;
+			}
 		}
 		return true;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parent
 	 * @param child
 	 * @return
@@ -759,7 +750,7 @@ public class GroupInfoUtilTest {
 
 	/**
 	 * test remove one group item , not entire group
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -815,7 +806,7 @@ public class GroupInfoUtilTest {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	@Test

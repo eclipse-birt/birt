@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,7 +60,7 @@ public final class RegionAction {
 
 	/**
 	 * RegionAction constructor taking a polygon to define the region
-	 * 
+	 *
 	 * @param oSource     StructureSource
 	 * @param loa         Polygon points
 	 * @param ac          Action
@@ -83,7 +86,7 @@ public final class RegionAction {
 
 	/**
 	 * This constructor supports shape definition via a rectangle.
-	 * 
+	 *
 	 * @param oSource     StructureSource
 	 * @param bo          Rectangle
 	 * @param ac          Action
@@ -113,7 +116,7 @@ public final class RegionAction {
 		this.region = sh;
 	}
 
-	private static final int toSwingArcType(int iArcStyle) {
+	private static int toSwingArcType(int iArcStyle) {
 		switch (iArcStyle) {
 		case ArcRenderEvent.OPEN:
 			return Arc2D.OPEN;
@@ -130,7 +133,7 @@ public final class RegionAction {
 			return null;
 		}
 
-		ArrayList<Integer> al = new ArrayList<Integer>();
+		ArrayList<Integer> al = new ArrayList<>();
 
 		FlatteningPathIterator pitr = new FlatteningPathIterator(shape.getPathIterator(null), 1);
 		double[] data = new double[6];
@@ -182,7 +185,7 @@ public final class RegionAction {
 
 	/**
 	 * This constructor supports shape definition via an elliptical arc
-	 * 
+	 *
 	 * @param oSource
 	 * @param boEllipse
 	 * @param dStart
@@ -217,14 +220,14 @@ public final class RegionAction {
 	/**
 	 * @return The action associated with current ShapedAction.
 	 */
-	public final Action getAction() {
+	public Action getAction() {
 		return _ac;
 	}
 
 	/**
 	 * @return The source object associated with current ShapedAction
 	 */
-	public final StructureSource getSource() {
+	public StructureSource getSource() {
 		return _oSource;
 	}
 
@@ -232,7 +235,7 @@ public final class RegionAction {
 	 * Note the Region object is value copied, others are just reference copy.
 	 * <b>The invoker must call <code>dispose()</code> explicitly when this is not
 	 * used anymore</b>.
-	 * 
+	 *
 	 * @return A copy of current RegionAction
 	 */
 	public RegionAction copy() {
@@ -241,7 +244,7 @@ public final class RegionAction {
 
 	/**
 	 * Returns if the current region contains given point.
-	 * 
+	 *
 	 * @param p
 	 * @param gc
 	 * @return if the current region contains given point
@@ -252,7 +255,7 @@ public final class RegionAction {
 
 	/**
 	 * Returns if the current region contains given x,y.
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @param gc
@@ -277,7 +280,7 @@ public final class RegionAction {
 
 	/**
 	 * Returns if current region is empty.
-	 * 
+	 *
 	 * @return if current region is empty
 	 */
 	public boolean isEmpty() {
@@ -290,7 +293,7 @@ public final class RegionAction {
 
 	/**
 	 * Returns mouse cursor of the region.
-	 * 
+	 *
 	 * @return
 	 */
 	public Cursor getCursor() {
@@ -299,7 +302,7 @@ public final class RegionAction {
 
 	/**
 	 * Set mouse cursor of the region.
-	 * 
+	 *
 	 * @param cursor
 	 */
 	public void setCursor(Cursor cursor) {

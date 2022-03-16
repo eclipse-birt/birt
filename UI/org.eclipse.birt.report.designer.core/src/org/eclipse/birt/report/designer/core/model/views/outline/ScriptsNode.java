@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,6 +26,7 @@ public class ScriptsNode implements IScriptTreeNode {
 		this.reportDesignHandle = handle;
 	}
 
+	@Override
 	public Object[] getChildren() {
 		if (this.reportDesignHandle != null) {
 			ScriptedDesignVisitor visitor = new ScriptedDesignVisitor();
@@ -37,15 +41,17 @@ public class ScriptsNode implements IScriptTreeNode {
 		return null;
 	}
 
+	@Override
 	public Object getParent() {
 		return reportDesignHandle;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object arg0) {
 		if (arg0 == this) {
 			return true;
@@ -56,10 +62,12 @@ public class ScriptsNode implements IScriptTreeNode {
 		return false;
 	}
 
+	@Override
 	public int hashCode() {
 		int hashCode = 13;
-		if (reportDesignHandle != null)
+		if (reportDesignHandle != null) {
 			hashCode += reportDesignHandle.hashCode() * 7;
+		}
 		return hashCode;
 	}
 }

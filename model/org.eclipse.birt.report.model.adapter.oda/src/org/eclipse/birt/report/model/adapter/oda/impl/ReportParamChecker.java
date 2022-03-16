@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,12 +45,12 @@ class ReportParamChecker {
 		this.currentParam = currentParam;
 		this.reportParam = reportParam;
 
-		ambiguousAttrs = new HashSet<String>(4);
-		ambiguousList = new ArrayList<IAmbiguousAttribute>();
+		ambiguousAttrs = new HashSet<>(4);
+		ambiguousList = new ArrayList<>();
 	}
 
 	/**
-	 * 
+	 *
 	 */
 
 	public List<IAmbiguousAttribute> process() {
@@ -65,12 +68,13 @@ class ReportParamChecker {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataAttrs
 	 */
 	private void processDataElementAttributes(DataElementAttributes dataAttrs) {
-		if (dataAttrs == null)
+		if (dataAttrs == null) {
 			return;
+		}
 
 		boolean allowsNull = dataAttrs.allowsNull();
 		boolean oldValue = reportParam.isRequired();
@@ -84,12 +88,13 @@ class ReportParamChecker {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataElementUiHints
 	 */
 	private void processDataElementUIHints(DataElementUIHints dataElementUiHints) {
-		if (dataElementUiHints == null)
+		if (dataElementUiHints == null) {
 			return;
+		}
 
 		// handle propmpText
 		String newPromptText = dataElementUiHints.getDisplayName();
@@ -104,12 +109,13 @@ class ReportParamChecker {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param attrs
 	 */
 	private void processInputParameterAttributes(InputParameterAttributes attrs) {
-		if (attrs == null)
+		if (attrs == null) {
 			return;
+		}
 
 		InputElementAttributes inputElementAttrs = attrs.getElementAttributes();
 		processInputElementAttributes(inputElementAttrs);
@@ -119,12 +125,13 @@ class ReportParamChecker {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param inputParamUiHints
 	 */
 	private void processInputParameterUIHints(InputParameterUIHints inputParamUiHints) {
-		if (inputParamUiHints == null)
+		if (inputParamUiHints == null) {
 			return;
+		}
 
 		if (reportParam.getContainer() instanceof ParameterGroupHandle) {
 			ParameterGroupHandle groupHandle = (ParameterGroupHandle) reportParam.getContainer();
@@ -137,12 +144,13 @@ class ReportParamChecker {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param attrs
 	 */
 	private void processInputElementAttributes(InputElementAttributes attrs) {
-		if (attrs == null)
+		if (attrs == null) {
 			return;
+		}
 
 		// update isOptional value
 
@@ -169,12 +177,13 @@ class ReportParamChecker {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param inputElementUiHints
 	 */
 	private void processInputElementUIHints(InputElementUIHints inputElementUiHints) {
-		if (inputElementUiHints == null)
+		if (inputElementUiHints == null) {
 			return;
+		}
 
 		// handle auto suggest threshold
 		int newValue = inputElementUiHints.getAutoSuggestThreshold();
@@ -194,12 +203,13 @@ class ReportParamChecker {
 	/**
 	 * Handles the input prompt control style with the controlType in scalar
 	 * parameter handle.
-	 * 
+	 *
 	 * @param style
 	 */
 	private void processInputPromptControlStyle(InputPromptControlStyle style) {
-		if (style == null)
+		if (style == null) {
 			return;
+		}
 
 		String newControlType = AdapterUtil.newROMControlType(style);
 		String oldControlType = reportParam.getControlType();
@@ -208,7 +218,7 @@ class ReportParamChecker {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param newValue
 	 * @param oldValue
 	 * @param propName
@@ -217,8 +227,9 @@ class ReportParamChecker {
 		PropertyHandle propHandle = reportParam.getPropertyHandle(propName);
 		if (!CompareUtil.isEquals(newValue, oldValue) && !ambiguousAttrs.contains(propName)) {
 			// if new value is null and the report parameter has no local value
-			if (newValue == null && !propHandle.isLocal())
+			if (newValue == null && !propHandle.isLocal()) {
 				return;
+			}
 
 			ambiguousList.add(new AmbiguousAttribute(propName, oldValue, newValue, true));
 			ambiguousAttrs.add(propName);
@@ -226,15 +237,16 @@ class ReportParamChecker {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param newValue
 	 * @param oldValue
 	 * @param propName
 	 * @param isContary
 	 */
 	private void handleValue(boolean newValue, boolean oldValue, String propName, boolean isContary) {
-		if (isContary)
+		if (isContary) {
 			newValue = !newValue;
+		}
 		if (!CompareUtil.isEquals(newValue, oldValue) && !ambiguousAttrs.contains(propName)) {
 			ambiguousList.add(new AmbiguousAttribute(propName, oldValue, newValue, true));
 			ambiguousAttrs.add(propName);

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,32 +33,32 @@ public interface ICompatibleReportItem {
 	 * the design file, this method is automatically called to add bound data
 	 * columns so that the design file before BIRT 2.1.0 can be compatible with BIRT
 	 * 2.1.0 or later.
-	 * 
+	 *
 	 * @return a list containing the possible expressions.
 	 */
 
-	public List getRowExpressions();
+	List getRowExpressions();
 
 	/**
 	 * Updates existed expression with the given expressions. The keys in
 	 * <code>newExpressions</code> are existed expressions, while, the values are
 	 * the new expressions to replace existed ones.
-	 * 
+	 *
 	 * @param newExpressions a map containing the updated expressions.
 	 */
 
-	public void updateRowExpressions(Map newExpressions);
+	void updateRowExpressions(Map newExpressions);
 
 	/**
 	 * Checks the parser compatibilities for this report item and return the status.
-	 * 
+	 *
 	 * @return the compatibility status.
 	 */
-	public CompatibilityStatus checkCompatibility();
+	CompatibilityStatus checkCompatibility();
 
 	/**
 	 * handle the compatibility issue
 	 */
-	public void handleCompatibilityIssue();
+	void handleCompatibilityIssue();
 
 }

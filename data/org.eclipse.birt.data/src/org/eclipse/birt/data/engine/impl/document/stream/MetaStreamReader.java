@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,14 +26,14 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
- * 
+ *
  */
 
 public class MetaStreamReader extends StreamReader {
 	private static Logger logger = Logger.getLogger(MetaStreamReader.class.getName());
 
 	/**
-	 * 
+	 *
 	 * @param context
 	 * @param id
 	 * @throws DataException
@@ -60,11 +63,12 @@ public class MetaStreamReader extends StreamReader {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param streamType
 	 * @return
 	 * @throws DataException
 	 */
+	@Override
 	public RAInputStream getRAInputStream(int streamType) throws DataException {
 		Object temp = this.streamMap.get(Integer.valueOf(streamType));
 		if (temp == null) {
@@ -96,7 +100,7 @@ public class MetaStreamReader extends StreamReader {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected int getCollectionStreamType() {
 		return DataEngineContext.META_STREAM;
@@ -111,6 +115,7 @@ public class MetaStreamReader extends StreamReader {
 			this.size = size;
 		}
 
+		@Override
 		public String toString() {
 			return "[" + this.offset + "," + this.size + "]";
 		}

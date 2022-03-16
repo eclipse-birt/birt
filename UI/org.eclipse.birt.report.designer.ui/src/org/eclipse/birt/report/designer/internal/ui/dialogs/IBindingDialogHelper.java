@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,56 +27,56 @@ public interface IBindingDialogHelper {
 
 	/**
 	 * Set the binding holder
-	 * 
+	 *
 	 * @param bindingHolder
 	 */
 	void setBindingHolder(ReportItemHandle bindingHolder);
 
 	/**
 	 * Set the binding content.
-	 * 
+	 *
 	 * @param binding
 	 */
 	void setBinding(ComputedColumnHandle binding);
 
 	/**
 	 * Set the DataColumnBindingDialog which use this helper.
-	 * 
+	 *
 	 * @param dialog
 	 */
 	void setDialog(DataColumnBindingDialog dialog);
 
 	/**
 	 * Set if the Binding is a aggregation.
-	 * 
+	 *
 	 * @param isAggregate
 	 */
 	void setAggregate(boolean isAggregate);
 
 	/**
 	 * Set if the Binding is a aggregation.
-	 * 
+	 *
 	 * @param isAggregate
 	 */
 	void setMeasure(boolean isAggregate);
 
 	/**
 	 * Set if the Binding is a time period.
-	 * 
+	 *
 	 * @param timePeriod
 	 */
 	void setTimePeriod(boolean timePeriod);
 
 	/**
 	 * Set the ExpressionProvider for ExpressionBuilder open in the BindingDialog.
-	 * 
+	 *
 	 * @param expressionProvider
 	 */
 	void setExpressionProvider(ExpressionProvider expressionProvider);
 
 	/**
 	 * Create the content of the dialog
-	 * 
+	 *
 	 * @param parent
 	 */
 	void createContent(Composite parent);
@@ -90,7 +93,7 @@ public interface IBindingDialogHelper {
 
 	/**
 	 * return this helper's content is differ to a binding
-	 * 
+	 *
 	 * @param binding
 	 * @return
 	 */
@@ -98,7 +101,7 @@ public interface IBindingDialogHelper {
 
 	/**
 	 * create a new data binding use this helper's content
-	 * 
+	 *
 	 * @param name if the name is null, helper will determine the name.
 	 * @return
 	 */
@@ -106,7 +109,7 @@ public interface IBindingDialogHelper {
 
 	/**
 	 * edit a existing data binding use this helper's content
-	 * 
+	 *
 	 * @param binding
 	 * @return
 	 * @throws SemanticException
@@ -115,21 +118,21 @@ public interface IBindingDialogHelper {
 
 	/**
 	 * set the container DesignElementHandle of the created data item
-	 * 
+	 *
 	 * @param container
 	 */
 	void setContainer(Object container);
 
 	/**
 	 * Return that this helper can process binding editing even there are warnings.
-	 * 
+	 *
 	 * @return
 	 */
 	boolean canProcessWithWarning();
 
 	/**
 	 * Return that this helper can process aggregation.
-	 * 
+	 *
 	 * @return
 	 */
 	boolean canProcessAggregation();

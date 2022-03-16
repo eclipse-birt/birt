@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +25,7 @@ import org.eclipse.birt.data.engine.olap.data.document.AbstractBufferedRandomAcc
  * Extension to the AbstractBufferedRandomAccessObject, use memory delegate
  * according to the setting of cacheSize if memory is available, or use the disk
  * cache instead.
- * 
+ *
  */
 public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject {
 	private RandomAccessFile delegate;
@@ -35,7 +38,7 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 
 	/**
 	 * Constructor for the BufferedRandomAccessFile object
-	 * 
+	 *
 	 * @param file       Description of Parameter
 	 * @param mode       Description of Parameter
 	 * @param bufferSize Description of Parameter
@@ -58,7 +61,7 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @param mode
 	 * @param bufferSize
@@ -69,7 +72,7 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	private void createRandomAccessFile() throws IOException {
@@ -87,10 +90,11 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.document.
 	 * AbstractBufferedRandomAccessObject#delegateClose()
 	 */
+	@Override
 	protected void delegateClose() throws IOException {
 		if (delegate == null) {
 			return;
@@ -100,10 +104,11 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.document.
 	 * AbstractBufferedRandomAccessObject#delegateGetFilePointer()
 	 */
+	@Override
 	protected long delegateGetFilePointer() throws IOException {
 		if (delegate == null) {
 			return pointer;
@@ -113,10 +118,11 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.document.
 	 * AbstractBufferedRandomAccessObject#delegateLength()
 	 */
+	@Override
 	protected long delegateLength() throws IOException {
 		if (delegate == null) {
 			return length;
@@ -126,15 +132,17 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.document.
 	 * AbstractBufferedRandomAccessObject#delegateRead(byte[], int, int)
 	 */
+	@Override
 	protected int delegateRead(byte[] b, int pos, int len) throws IOException {
 		if (delegate == null) {
 			int size = Math.min(length - pointer, len);
-			if (size <= 0)
+			if (size <= 0) {
 				return -1;
+			}
 			System.arraycopy(memoryDelegate, pointer, b, pos, size);
 			return size;
 		}
@@ -143,20 +151,22 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.document.
 	 * AbstractBufferedRandomAccessObject#delegateRead(byte[])
 	 */
+	@Override
 	protected int delegateRead(byte[] b) throws IOException {
 		return delegateRead(b, 0, b.length);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.document.
 	 * AbstractBufferedRandomAccessObject#delegateSeek(long)
 	 */
+	@Override
 	protected void delegateSeek(long pos) throws IOException {
 		if (delegate == null) {
 			if (pos > memoryDelegate.length && !pureMemory) {
@@ -186,10 +196,11 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.document.
 	 * AbstractBufferedRandomAccessObject#delegateSetLength(long)
 	 */
+	@Override
 	protected void delegateSetLength(long newLength) throws IOException {
 		if (delegate == null) {
 			if (newLength > memoryDelegate.length && !pureMemory) {
@@ -207,10 +218,11 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.document.
 	 * AbstractBufferedRandomAccessObject#delegateWrite(byte[], int, int)
 	 */
+	@Override
 	protected void delegateWrite(byte[] b, int pos, int len) throws IOException {
 		if (delegate == null) {
 			if (pointer + len > memoryDelegate.length && !pureMemory) {

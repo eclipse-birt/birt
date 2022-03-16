@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,14 +22,14 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test <code>DataColumnNameValidator</code>
- * 
+ *
  */
 
 public class DataColumnNameValidatorTest extends BaseTestCase {
 
 	/**
 	 * Test validate method.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -47,7 +50,7 @@ public class DataColumnNameValidatorTest extends BaseTestCase {
 	/**
 	 * Tests validate column name in grid,if the data item locates in grid. see bug
 	 * 244914
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testValidateColumnNameInGrid() throws Exception {
@@ -59,7 +62,7 @@ public class DataColumnNameValidatorTest extends BaseTestCase {
 
 	/**
 	 * Tests the data in the inner table without binding and data-set.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDataInInnerTable() throws Exception {
@@ -74,7 +77,7 @@ public class DataColumnNameValidatorTest extends BaseTestCase {
 	/**
 	 * Tests validate column name. If the column locates in template, the column
 	 * name need not be checked.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testValidateColumnNameInTemplate() throws Exception {

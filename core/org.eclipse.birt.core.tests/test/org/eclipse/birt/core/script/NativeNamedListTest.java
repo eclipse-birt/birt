@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.core.script;
 
 import java.util.Date;
@@ -28,9 +40,10 @@ public class NativeNamedListTest extends TestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		/*
@@ -54,9 +67,10 @@ public class NativeNamedListTest extends TestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#tearDown()
 	 */
+	@Override
 	@After
 	public void tearDown() {
 		Context.exit();
@@ -64,7 +78,7 @@ public class NativeNamedListTest extends TestCase {
 
 	/**
 	 * Evaluate a JavaScript source string.
-	 * 
+	 *
 	 * @param script
 	 * @return the result
 	 */
@@ -81,7 +95,7 @@ public class NativeNamedListTest extends TestCase {
 	StringBuffer buffer = new StringBuffer();
 
 	protected void registerBeans() {
-		String[] names = new String[] { "a", "b", "c", "d" };
+		String[] names = { "a", "b", "c", "d" };
 		HashMap values = new HashMap();
 		values.put("a", new Integer(123));
 		values.put("b", "STRING");

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,13 +45,13 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
- * 
+ *
  */
 
 public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	private CellEditor[] editors;
-	private String[] columnNames = new String[] { Messages.getString("CrosstabPageBreakProvider.Column.GroupLevel"), //$NON-NLS-1$
+	private String[] columnNames = { Messages.getString("CrosstabPageBreakProvider.Column.GroupLevel"), //$NON-NLS-1$
 			Messages.getString("CrosstabPageBreakProvider.Column.Before"), //$NON-NLS-1$
 			Messages.getString("CrosstabPageBreakProvider.Column.After"), //$NON-NLS-1$
 			Messages.getString("CrosstabPageBreakProvider.Column.Interval"), //$NON-NLS-1$
@@ -61,19 +64,20 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	final private static int PAGE_BREAK_BEFORE = 0;
 	final private static int PAGE_BREAK_AFTER = 1;
-	private int[] columnWidths = new int[] { 200, 160, 160, 80 };
+	private int[] columnWidths = { 200, 160, 160, 80 };
 
 	/**
 	 * Constant, represents empty String array.
 	 */
-	private static final String[] EMPTY = new String[0];
+	private static final String[] EMPTY = {};
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#canModify(java.lang.Object, java.lang.String)
 	 */
+	@Override
 	public boolean canModify(Object element, String property) {
 		// TODO Auto-generated method stub
 		return false;
@@ -81,10 +85,11 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#doAddItem(int)
 	 */
+	@Override
 	public boolean doAddItem(int pos) throws Exception {
 		// TODO Auto-generated method stub
 		CrosstabReportItemHandle reportHandle = null;
@@ -104,10 +109,11 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#doDeleteItem(int)
 	 */
+	@Override
 	public boolean doDeleteItem(int pos) throws Exception {
 		// TODO Auto-generated method stub
 		CrosstabReportItemHandle reportHandle = null;
@@ -119,7 +125,7 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 		}
 
 		if (reportHandle.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE) != null) {
-			LevelViewHandle levelViewHandle = null;
+			LevelViewHandle levelViewHandle;
 			CrosstabViewHandle crosstabView = reportHandle.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE);
 			levelViewHandle = (LevelViewHandle) getLevel(crosstabView).get(pos);
 			if (levelViewHandle != null) {
@@ -142,10 +148,11 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#doEditItem(int)
 	 */
+	@Override
 	public boolean doEditItem(int pos) {
 		// TODO Auto-generated method stub
 		CrosstabReportItemHandle reportHandle = null;
@@ -172,10 +179,11 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#doMoveItem(int, int)
 	 */
+	@Override
 	public boolean doMoveItem(int oldPos, int newPos) throws Exception {
 		// TODO Auto-generated method stub
 
@@ -184,10 +192,11 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getColumnNames()
 	 */
+	@Override
 	public String[] getColumnNames() {
 		// TODO Auto-generated method stub
 		return columnNames;
@@ -195,10 +204,11 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getColumnText(java.lang.Object, int)
 	 */
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
 		if (!(element instanceof LevelViewHandle)) {
@@ -213,10 +223,11 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 		case 2:
 			return getPageBreakDisplayName(levelViewHandle.getPageBreakAfter(), PAGE_BREAK_AFTER);
 		case 3:
-			if (levelViewHandle.getModelHandle().getProperty(ILevelViewConstants.PAGE_BREAK_INTERVAL_PROP) == null)
+			if (levelViewHandle.getModelHandle().getProperty(ILevelViewConstants.PAGE_BREAK_INTERVAL_PROP) == null) {
 				return ""; //$NON-NLS-1$
-			else
+			} else {
 				return "" + levelViewHandle.getPageBreakInterval(); //$NON-NLS-1$
+			}
 
 		default:
 			break;
@@ -245,10 +256,11 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getColumnWidths()
 	 */
+	@Override
 	public int[] getColumnWidths() {
 		// TODO Auto-generated method stub
 		return columnWidths;
@@ -256,10 +268,11 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
+	@Override
 	public CellEditor[] getEditors(Table table) {
 		// TODO Auto-generated method stub
 		if (editors == null) {
@@ -273,10 +286,11 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getElements(java.lang.Object)
 	 */
+	@Override
 	public Object[] getElements(Object inputElement) {
 		// TODO Auto-generated method stub
 		input = inputElement;
@@ -288,8 +302,9 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 		}
 
 		List list = new ArrayList();
-		if (!(obj instanceof ExtendedItemHandle))
+		if (!(obj instanceof ExtendedItemHandle)) {
 			return EMPTY;
+		}
 		ExtendedItemHandle element = (ExtendedItemHandle) obj;
 		CrosstabReportItemHandle crossTab = null;
 		try {
@@ -320,10 +335,11 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getImagePath(java.lang.Object, int)
 	 */
+	@Override
 	public Image getImage(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
 		return null;
@@ -331,10 +347,11 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getValue(java.lang.Object, java.lang.String)
 	 */
+	@Override
 	public Object getValue(Object element, String property) {
 		// TODO Auto-generated method stub
 		return null;
@@ -342,10 +359,11 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#modify(java.lang.Object, java.lang.String, java.lang.Object)
 	 */
+	@Override
 	public boolean modify(Object data, String property, Object value) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
@@ -353,11 +371,12 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider
 	 * #needRefreshed(org.eclipse.birt.report.model.api.activity.NotificationEvent )
 	 */
+	@Override
 	public boolean needRefreshed(NotificationEvent event) {
 		// TODO Auto-generated method stub
 		return false;
@@ -365,10 +384,11 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IDescriptorProvider#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
 		return Messages.getString("CrosstabPageGenerator.List.PageBreak"); //$NON-NLS-1$
@@ -406,12 +426,14 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 			ExceptionUtil.handle(e);
 			return false;
 		}
-		if (crossTab == null)
+		if (crossTab == null) {
 			return false;
-		if (getLevelNames(crossTab).length == 0)
+		}
+		if (getLevelNames(crossTab).length == 0) {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	}
 
 	private String[] getLevelNames(CrosstabReportItemHandle crosstabHandle) {
@@ -430,8 +452,9 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 			DimensionViewHandle dimension = crosstabView.getDimension(i);
 			int levelCount = dimension.getLevelCount();
 			for (int j = 0; j < levelCount; j++) {
-				if (!isInLevelList(crosstabHandle, dimension.getLevel(j)))
+				if (!isInLevelList(crosstabHandle, dimension.getLevel(j))) {
 					list.add(dimension.getLevel(j).getCubeLevelName());
+				}
 			}
 		}
 

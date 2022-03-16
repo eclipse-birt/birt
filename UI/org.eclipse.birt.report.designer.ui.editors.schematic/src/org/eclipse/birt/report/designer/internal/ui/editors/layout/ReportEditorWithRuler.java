@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -44,7 +46,7 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param parent
 	 */
 	public ReportEditorWithRuler(IEditorPart parent) {
@@ -53,11 +55,12 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
 	 * GraphicalEditorWithFlyoutPalette#createGraphicalViewer(org.eclipse.swt.
 	 * widgets.Composite)
 	 */
+	@Override
 	protected void createGraphicalViewer(Composite parent) {
 		// bidi_hcg start
 		/*
@@ -65,10 +68,11 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette {
 		 * orientation accordingly
 		 */
 
-		if (getModel().isDirectionRTL())
+		if (getModel().isDirectionRTL()) {
 			rulerComp = new EditorRulerComposite(parent, SWT.RIGHT_TO_LEFT);
-		else
+		} else {
 			rulerComp = new EditorRulerComposite(parent, SWT.LEFT_TO_RIGHT);
+		}
 
 //		else
 //		// bidi_hcg end
@@ -109,10 +113,11 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.
 	 * AbstractReportDesigner#configureGraphicalViewer()
 	 */
+	@Override
 	protected void configureGraphicalViewer() {
 		super.configureGraphicalViewer();
 		createRulers();
@@ -120,10 +125,11 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
 	 * GraphicalEditorWithFlyoutPalette#getGraphicalControl()
 	 */
+	@Override
 	protected Control getGraphicalControl() {
 		return rulerComp;
 	}
@@ -155,9 +161,10 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IWorkbenchPart#dispose()
 	 */
+	@Override
 	public void dispose() {
 		super.dispose();
 		rulerComp = null;
@@ -167,11 +174,12 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.ui.parts.GraphicalEditor#selectionChanged(org.eclipse.ui.
 	 * IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
+	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		super.selectionChanged(part, selection);
 

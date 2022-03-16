@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +51,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
- * 
+ *
  * @author David Michonneau
  */
 public class DeferredGraphicalViewer extends ScrollingGraphicalViewer {
@@ -74,9 +77,10 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer {
 	/**
 	 * Sets the selection to the given selection and fires selection changed. The
 	 * ISelection should be an {@link IStructuredSelection}or it will be ignored.
-	 * 
+	 *
 	 * @see ISelectionProvider#setSelection(ISelection)
 	 */
+	@Override
 	public void setSelection(ISelection newSelection) {
 		setSelection(newSelection, true);
 
@@ -85,19 +89,21 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer {
 	/**
 	 * Sets the selection to the given selection and fires selection changed. The
 	 * ISelection should be an {@link IStructuredSelection}or it will be ignored.
-	 * 
+	 *
 	 * @see ISelectionProvider#setSelection(ISelection)
 	 */
 	public void setSelection(ISelection newSelection, boolean dispatch) {
-		if (!(newSelection instanceof IStructuredSelection))
+		if (!(newSelection instanceof IStructuredSelection)) {
 			return;
+		}
 
 		List editparts = ((IStructuredSelection) newSelection).toList();
 		List selection = primGetSelectedEditParts();
 
 		setFocus(null);
-		for (int i = 0; i < selection.size(); i++)
+		for (int i = 0; i < selection.size(); i++) {
 			((EditPart) selection.get(i)).setSelected(EditPart.SELECTED_NONE);
+		}
 		selection.clear();
 
 		editparts = flitterEditpart(editparts);
@@ -106,10 +112,11 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer {
 
 		for (int i = 0; i < editparts.size(); i++) {
 			EditPart part = (EditPart) editparts.get(i);
-			if (i == editparts.size() - 1)
+			if (i == editparts.size() - 1) {
 				part.setSelected(EditPart.SELECTED_PRIMARY);
-			else
+			} else {
 				part.setSelected(EditPart.SELECTED);
+			}
 
 		}
 
@@ -137,41 +144,47 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer {
 	/**
 	 * @see GraphicalViewer#findHandleAt(org.eclipse.draw2d.geometry.Point)
 	 */
+	@Override
 	public Handle findHandleAt(Point p) {
 		LayerManager layermanager = (LayerManager) getEditPartRegistry().get(LayerManager.ID);
-		if (layermanager == null)
+		if (layermanager == null) {
 			return null;
+		}
 		List list = new ArrayList(3);
 		// list.add(layermanager.getLayer(LayerConstants.PRIMARY_LAYER));
 		list.add(layermanager.getLayer(LayerConstants.CONNECTION_LAYER));
 		list.add(layermanager.getLayer(LayerConstants.FEEDBACK_LAYER));
 		IFigure handle = getLightweightSystem().getRootFigure().findFigureAtExcluding(p.x, p.y, list);
-		if (handle instanceof Handle)
+		if (handle instanceof Handle) {
 			return (Handle) handle;
+		}
 		return null;
 	}
 
 	/**
 	 * Exposes it to public.
-	 * 
+	 *
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.ScrollingGraphicalViewer#getFigureCanvas()
 	 */
+	@Override
 	public FigureCanvas getFigureCanvas() {
 		return super.getFigureCanvas();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.ui.parts.AbstractEditPartViewer#appendSelection(org.eclipse.
 	 * gef.EditPart)
 	 */
+	@Override
 	public void appendSelection(EditPart editpart) {
-		if (editpart != focusPart)
+		if (editpart != focusPart) {
 			setFocus(null);
+		}
 		List list = primGetSelectedEditParts();
 		list.remove(editpart);
 		list.add(editpart);
@@ -179,6 +192,7 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer {
 		setSelection(new StructuredSelection(list));
 	}
 
+	@Override
 	public void setEditDomain(EditDomain domain) {
 		super.setEditDomain(domain);
 		eventDispatcher = new ReportDomainEventDispatcher(domain, this);
@@ -189,15 +203,17 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalViewerImpl#getEventDispatcher()
 	 */
+	@Override
 	protected DomainEventDispatcher getEventDispatcher() {
 		return eventDispatcher;
 	}
 
 	// We override reveal to show the Handles of the selected EditPart when
 	// scrolling
+	@Override
 	public void reveal(EditPart part) {
 		// In some case, the editor control is not created, but get the sync selection
 		// event.
@@ -245,24 +261,27 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer {
 		Point topLeft = exposeRegion.getTopLeft();
 		Point bottomRight = exposeRegion.getBottomRight().translate(viewportSize.getNegated());
 		Point finalLocation = new Point();
-		if (viewportSize.width < exposeRegion.width)
+		if (viewportSize.width < exposeRegion.width) {
 			finalLocation.x = Math.min(bottomRight.x, Math.max(topLeft.x, port.getViewLocation().x));
-		else
+		} else {
 			finalLocation.x = Math.min(topLeft.x, Math.max(bottomRight.x, port.getViewLocation().x));
+		}
 
-		if (viewportSize.height < exposeRegion.height)
+		if (viewportSize.height < exposeRegion.height) {
 			finalLocation.y = Math.min(bottomRight.y, Math.max(topLeft.y, port.getViewLocation().y));
-		else
+		} else {
 			finalLocation.y = Math.min(topLeft.y, Math.max(bottomRight.y, port.getViewLocation().y));
+		}
 
 		getFigureCanvas().scrollSmoothTo(finalLocation.x, finalLocation.y);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.AbstractEditPartViewer#fireSelectionChanged()
 	 */
+	@Override
 	protected void fireSelectionChanged() {
 
 //		Display.getCurrent( ).asyncExec( new Runnable( ) {
@@ -296,7 +315,7 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void initStepDat() {
 		Viewport port = ((FigureCanvas) getControl()).getViewport();
@@ -331,11 +350,12 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert#
 		 * convertSelectionToModelLisr(java.util.List)
 		 */
+		@Override
 		public List convertSelectionToModelLisr(List list) {
 			List retValue = new ArrayList();
 			int size = list.size();

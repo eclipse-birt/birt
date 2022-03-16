@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,8 +19,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -32,14 +35,14 @@ import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 
 /**
- * 
+ *
  */
 
 public class OlapQueryUtil {
 
 	/**
 	 * Valid bindings, return a list of invalid binding.
-	 * 
+	 *
 	 * @param queryDefn
 	 * @param suppressException
 	 * @return
@@ -51,7 +54,7 @@ public class OlapQueryUtil {
 		OlapExpressionCompiler.validateDependencyCycle(new HashSet<IBinding>(queryDefn.getBindings()));
 
 		// invalid bindings
-		Set<IBinding> result = new HashSet<IBinding>();
+		Set<IBinding> result = new HashSet<>();
 
 		Set validDimLevels = new HashSet();
 
@@ -60,10 +63,10 @@ public class OlapQueryUtil {
 		populateLevel(queryDefn, validDimLevels, ICubeQueryDefinition.PAGE_EDGE);
 
 		// help to get all binding names which are referenced by a given binding
-		Map<IBinding, Set<String>> bindingReferences = new HashMap<IBinding, Set<String>>();
+		Map<IBinding, Set<String>> bindingReferences = new HashMap<>();
 
 		// all binding names
-		Set<String> bindingNames = new HashSet<String>();
+		Set<String> bindingNames = new HashSet<>();
 
 		// validate one by one and prepare bindingReferences and bindingNames
 		for (int i = 0; i < queryDefn.getBindings().size(); i++) {
@@ -79,7 +82,7 @@ public class OlapQueryUtil {
 			List<String> references = ExpressionCompilerUtil.extractColumnExpression(binding.getExpression(),
 					ExpressionUtil.DATA_INDICATOR);
 
-			bindingReferences.put(binding, new HashSet<String>(references));
+			bindingReferences.put(binding, new HashSet<>(references));
 			bindingNames.add(binding.getBindingName());
 
 			Set levels = OlapExpressionCompiler.getReferencedDimLevel(binding.getExpression(), queryDefn.getBindings());
@@ -137,18 +140,20 @@ public class OlapQueryUtil {
 	}
 
 	private static void throwException(boolean suppressException, DataException e) throws DataException {
-		if (!suppressException)
+		if (!suppressException) {
 			throw e;
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param validDimLevels
 	 * @param edgeType
 	 */
 	private static void populateLevel(ICubeQueryDefinition queryDefn, Set validDimLevels, int edgeType) {
-		if (queryDefn.getEdge(edgeType) == null)
+		if (queryDefn.getEdge(edgeType) == null) {
 			return;
+		}
 		for (int i = 0; i < queryDefn.getEdge(edgeType).getDimensions().size(); i++) {
 			for (int j = 0; j < getHierarchy(queryDefn, edgeType, i).getLevels().size(); j++) {
 				ILevelDefinition level = (ILevelDefinition) getHierarchy(queryDefn, edgeType, i).getLevels().get(j);
@@ -158,7 +163,7 @@ public class OlapQueryUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param edgeType
 	 * @param i
 	 * @return
@@ -168,7 +173,7 @@ public class OlapQueryUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param edgeType
 	 * @param i
 	 * @return

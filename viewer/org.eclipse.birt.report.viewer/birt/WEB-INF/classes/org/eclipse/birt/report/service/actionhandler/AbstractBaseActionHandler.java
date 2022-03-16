@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -62,7 +64,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param context
 	 * @param operation
 	 * @param response
@@ -76,10 +78,11 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 
 	/**
 	 * Execute action handler.
-	 * 
+	 *
 	 * @exception RemoteException
 	 * @return
 	 */
+	@Override
 	public void execute() throws RemoteException {
 		try {
 			__execute();
@@ -90,7 +93,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 
 	/**
 	 * Check whether the page number is valid or not.
-	 * 
+	 *
 	 * @param pageNumber
 	 * @param document
 	 * @return
@@ -107,7 +110,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 
 	/**
 	 * Get page number from incoming soap request.
-	 * 
+	 *
 	 * @param request
 	 * @param params
 	 * @param document
@@ -153,7 +156,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 
 	/**
 	 * Get bookmark name from SOAP params and request.
-	 * 
+	 *
 	 * @param params
 	 * @param bean
 	 * @return
@@ -181,7 +184,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 
 	/**
 	 * Get isToc flag from SOAP params and request.
-	 * 
+	 *
 	 * @param params
 	 * @param bean
 	 * @return
@@ -204,15 +207,16 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 			return bean.isToc();
 		}
 
-		if ("true".equalsIgnoreCase(tocFlag)) //$NON-NLS-1$
+		if ("true".equalsIgnoreCase(tocFlag)) { //$NON-NLS-1$
 			return true;
+		}
 
 		return false;
 	}
 
 	/**
 	 * Paser returned report ids.
-	 * 
+	 *
 	 * @param activeIds
 	 * @return
 	 * @throws RemoteException
@@ -265,7 +269,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 				}
 
 				try {
-					reportId.setRptElementId(Long.valueOf(Long.parseLong(id.substring(secondComma + 1))));
+					reportId.setRptElementId(Long.parseLong(id.substring(secondComma + 1)));
 				} catch (Exception e) {
 					reportId.setRptElementId(null);
 				}
@@ -282,24 +286,30 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 		return reportIds;
 	}
 
+	@Override
 	public boolean canExecute() {
 		return true;
 	}
 
+	@Override
 	public boolean canUndo() {
 		return false;
 	}
 
+	@Override
 	public boolean canRedo() {
 		return false;
 	}
 
+	@Override
 	public void undo() {
 	}
 
+	@Override
 	public void redo() {
 	}
 
+	@Override
 	public boolean prepare() {
 		return true;
 	}
@@ -308,7 +318,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 
 	/**
 	 * Prepare the update list. TODO: move to base.
-	 * 
+	 *
 	 * @param data
 	 * @param op
 	 * @param response
@@ -330,7 +340,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 
 	/**
 	 * util.
-	 * 
+	 *
 	 * @param target
 	 * @param data
 	 * @return
@@ -348,7 +358,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 
 	/**
 	 * Get svg flag from incoming soap message or URL.
-	 * 
+	 *
 	 * @param params
 	 * @return
 	 * @throws RemoteException
@@ -377,15 +387,17 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 
 	/**
 	 * Set Current Task Id if existed
-	 * 
+	 *
 	 */
 	protected void updateTaskId() {
-		if (operation == null)
+		if (operation == null) {
 			return;
+		}
 
 		Oprand[] oprands = operation.getOprand();
-		if (oprands == null)
+		if (oprands == null) {
 			return;
+		}
 
 		for (int i = 0; i < oprands.length; i++) {
 			String paramName = oprands[i].getName();
@@ -402,7 +414,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 	/**
 	 * Creates an InputOptions structure based on the values from the given
 	 * attribute bean.
-	 * 
+	 *
 	 * @param bean attribute bean.
 	 * @return input options
 	 */

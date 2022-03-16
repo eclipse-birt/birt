@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -73,7 +76,7 @@ public class DataPointHints {
 
 	/**
 	 * DataPointHints constructor.
-	 * 
+	 *
 	 * @param _oBaseValue       Category data
 	 * @param _oOrthogonalValue Value data
 	 * @param _sSeriesValue     Value Series Name
@@ -85,7 +88,7 @@ public class DataPointHints {
 	 * @param _lo               Location
 	 * @param _dSize            Size
 	 * @param _rtc              Runtime Context
-	 * 
+	 *
 	 */
 	public DataPointHints(Object _oBaseValue, Object _oOrthogonalValue, Object _oSeriesValue, Object _oPercentileValue,
 			DataPoint _dp, FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal, FormatSpecifier _fsSeries,
@@ -114,7 +117,7 @@ public class DataPointHints {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param _oBaseValue
 	 * @param _oOrthogonalValue
 	 * @param _oSeriesValue
@@ -140,7 +143,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns a copy of current DataPointHints object, which is virtual.
-	 * 
+	 *
 	 * @return copy instance
 	 * @throws ChartException
 	 */
@@ -156,7 +159,7 @@ public class DataPointHints {
 
 	/**
 	 * Accumulates values to current DataPointHintes.
-	 * 
+	 *
 	 * @param _oBaseValue
 	 * @param _oOrthogonalValue
 	 * @param _oSeriesValue
@@ -240,7 +243,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns the base value of current DataPointHintes.
-	 * 
+	 *
 	 * @return base value
 	 */
 	public final Object getBaseValue() {
@@ -249,7 +252,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns the orthogonal value of current DataPointHintes.
-	 * 
+	 *
 	 * @return orthogonal value
 	 */
 	public final Object getOrthogonalValue() {
@@ -258,7 +261,7 @@ public class DataPointHints {
 
 	/**
 	 * Sets orthogonal value.
-	 * 
+	 *
 	 * @param value
 	 * @since 2.5
 	 */
@@ -268,7 +271,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns the stacked orthogonal value.
-	 * 
+	 *
 	 * @return stacked value or null if not stacked
 	 */
 	public final Double getStackOrthogonalValue() {
@@ -281,7 +284,7 @@ public class DataPointHints {
 
 	/**
 	 * Sets current data point is outside of plot area.
-	 * 
+	 *
 	 */
 	public final void markOutside() {
 		this.bOutside = true;
@@ -289,7 +292,7 @@ public class DataPointHints {
 
 	/**
 	 * Invalidates if current data point is outside of plot area.
-	 * 
+	 *
 	 */
 	public final boolean isOutside() {
 		return this.bOutside;
@@ -297,7 +300,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns the series value of current DataPointHintes.
-	 * 
+	 *
 	 * @return series value
 	 */
 	public final Object getSeriesValue() {
@@ -306,7 +309,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns the percentile orthogonal value of current DataPointHintes.
-	 * 
+	 *
 	 * @return percentile orthogonal value
 	 */
 	public final Object getPercentileOrthogonalValue() {
@@ -315,7 +318,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns the location value of current DataPointHintes.
-	 * 
+	 *
 	 * @return location
 	 */
 	public final Location getLocation() {
@@ -325,7 +328,7 @@ public class DataPointHints {
 	/**
 	 * Returns the 3d location value of current DataPointHintes(only available in 3d
 	 * mode).
-	 * 
+	 *
 	 * @return location
 	 */
 	public final Location3D getLocation3D() {
@@ -338,7 +341,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns the index of current DataPointHints.
-	 * 
+	 *
 	 * @return current index
 	 */
 	public final int getIndex() {
@@ -347,7 +350,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns the size value of current DataPointHintes.
-	 * 
+	 *
 	 * @return size value
 	 */
 	public final double getSize() {
@@ -356,7 +359,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns the size value of current DataPointHintes(only available in 3d mode).
-	 * 
+	 *
 	 * @return size value
 	 */
 	public final Size getSize2D() {
@@ -365,7 +368,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns the user value of current DataPointHintes.
-	 * 
+	 *
 	 * @param key
 	 * @return user value
 	 */
@@ -384,13 +387,13 @@ public class DataPointHints {
 
 	/**
 	 * Sets the user value of current DataPointHintes.
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 */
 	public final void setUserValue(String key, Object value) {
 		if (userValueMap == null) {
-			userValueMap = new HashMap<String, Object>();
+			userValueMap = new HashMap<>();
 		}
 
 		userValueMap.put(key, value);
@@ -398,7 +401,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns the orthogonal display value of current DataPointHintes.
-	 * 
+	 *
 	 * @return orthogonal value with format
 	 */
 	public final String getOrthogonalDisplayValue() {
@@ -407,7 +410,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns the base display value of current DataPointHintes.
-	 * 
+	 *
 	 * @return base value with format
 	 */
 	public String getBaseDisplayValue() {
@@ -416,7 +419,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns the series display value of current DataPointHintes.
-	 * 
+	 *
 	 * @return series value with format
 	 */
 	public final String getSeriesDisplayValue() {
@@ -425,7 +428,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns the percentile orthogonal display value of current DataPointHintes.
-	 * 
+	 *
 	 * @return percentile orthogonal value with format
 	 */
 	public final String getPercentileOrthogonalDisplayValue() {
@@ -435,7 +438,7 @@ public class DataPointHints {
 	/**
 	 * Returns the base display value of current DataPointHintes using given format
 	 * specifier.
-	 * 
+	 *
 	 * @param formatSpecifier format specifier of value to be displayed
 	 * @return base value with format
 	 */
@@ -468,7 +471,7 @@ public class DataPointHints {
 	/**
 	 * Returns the orthogonal display value of current DataPointHintes using given
 	 * format specifier.
-	 * 
+	 *
 	 * @param formatSpecifier format specifier of the value to be displayed
 	 * @return orthogonal value with format
 	 */
@@ -493,7 +496,7 @@ public class DataPointHints {
 	/**
 	 * Returns the series display value of current DataPointHintes using given
 	 * format specifier.
-	 * 
+	 *
 	 * @param formatSpecifier format specifier of the value to be displayed
 	 * @return series value with format
 	 */
@@ -518,7 +521,7 @@ public class DataPointHints {
 	/**
 	 * Returns the percentile orthogonal display value of current DataPointHintes
 	 * using given format specifier.
-	 * 
+	 *
 	 * @param formatSpecifier format specifier of the value to be displayed
 	 * @return percentile orthogonal value with format
 	 */
@@ -538,7 +541,7 @@ public class DataPointHints {
 
 	/**
 	 * Returns the display value of current DataPointHintes.
-	 * 
+	 *
 	 * @return display value
 	 */
 	public final String getDisplayValue() {
@@ -547,12 +550,12 @@ public class DataPointHints {
 
 	/**
 	 * Returns the display value of current DataPointHintes.
-	 * 
+	 *
 	 * @param fs format specifier of the value to be displayed
 	 * @return display value
 	 */
 	public final String getDisplayValue(FormatSpecifier fs) {
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 
 		if (dp == null) {
 			// Show orthogonal value by default.
@@ -605,16 +608,17 @@ public class DataPointHints {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public final String toString() {
 		return getDisplayValue();
 	}
 
 	/**
 	 * Sets the base value.
-	 * 
+	 *
 	 * @param newBaseValue the new base value
 	 */
 	public final void setBaseValue(Object newBaseValue) {

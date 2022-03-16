@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,20 +61,22 @@ public class FloatPropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
+	@Override
 	public int getTypeCode() {
 		return FLOAT_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
+	@Override
 	public String getName() {
 		return FLOAT_TYPE_NAME;
 	}
@@ -88,28 +93,36 @@ public class FloatPropertyType extends PropertyType {
 	 * </ul>
 	 * <p>
 	 * Float property type is stored as <code>java.lang.Double</code> internally.
-	 * 
+	 *
 	 * @return A <code>Double</code> value that store the value. Return
 	 *         <code>null</code> if value is null.
 	 */
 
+	@Override
 	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
-		if (value == null)
+		if (value == null) {
 			return null;
-		if (value instanceof Double)
+		}
+		if (value instanceof Double) {
 			return value;
-		if (value instanceof Float)
+		}
+		if (value instanceof Float) {
 			return new Double(((Float) value).doubleValue());
-		if (value instanceof Integer)
+		}
+		if (value instanceof Integer) {
 			return new Double(((Integer) value).intValue());
-		if (value instanceof BigDecimal)
+		}
+		if (value instanceof BigDecimal) {
 			return new Double(((BigDecimal) value).doubleValue());
-		if (value instanceof Boolean)
+		}
+		if (value instanceof Boolean) {
 			return new Double(
 					((Boolean) value).booleanValue() ? BooleanPropertyType.INT_TRUE : BooleanPropertyType.INT_FALSE);
-		if (value instanceof String)
+		}
+		if (value instanceof String) {
 			return validateInputString(module, element, defn, (String) value);
+		}
 
 		throw new PropertyValueException(value, PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, FLOAT_TYPE);
 	}
@@ -118,19 +131,21 @@ public class FloatPropertyType extends PropertyType {
 	 * Validates the XML representation of the float property value. The string
 	 * value will be parsed into a <code>Double</code> in a locale-independent way.
 	 * <p>
-	 * 
+	 *
 	 * @return Returns the <code>Double</code> represented by the string argument.
 	 *         Return <code>null</code> if value is null or a blank string.
 	 */
 
+	@Override
 	public Object validateXml(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;
 
 		tmpValue = StringUtil.trimString(tmpValue);
-		if (tmpValue == null)
+		if (tmpValue == null) {
 			return null;
+		}
 
 		return parseDouble(tmpValue);
 	}
@@ -138,16 +153,18 @@ public class FloatPropertyType extends PropertyType {
 	/**
 	 * Converts the float property value into a double. Return its double value if
 	 * the input <code>value</code> is a Double, return 0.0 if value is null.
-	 * 
+	 *
 	 */
 
+	@Override
 	public double toDouble(Module module, Object value) {
-		if (value == null)
+		if (value == null) {
 			return 0;
+		}
 
 		if (value instanceof String) {
 			try {
-				return Double.valueOf((String) value).doubleValue();
+				return Double.parseDouble((String) value);
 			} catch (NumberFormatException e) {
 				return 0.0;
 			}
@@ -160,12 +177,14 @@ public class FloatPropertyType extends PropertyType {
 	 * Converts the float property value into an integer. Return its integer value
 	 * if the input <code>value</code> is a <code>Double</code>, return 0 if value
 	 * is null.
-	 * 
+	 *
 	 */
 
+	@Override
 	public int toInteger(Module module, Object value) {
-		if (value == null)
+		if (value == null) {
 			return 0;
+		}
 
 		if (value instanceof String) {
 			try {
@@ -180,17 +199,20 @@ public class FloatPropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#toString(java
 	 * .lang.Object)
 	 */
 
+	@Override
 	public String toString(Module module, PropertyDefn defn, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
-		if (value instanceof String)
+		if (value instanceof String) {
 			return (String) value;
+		}
 
 		return formatter.format(((Double) value).doubleValue());
 	}
@@ -199,12 +221,14 @@ public class FloatPropertyType extends PropertyType {
 	 * Converts the float property value into an localized formatter, e.g: return
 	 * "12,000.123" for a Double(12000.123d) in US locale. Return <code>null</code>
 	 * if the value is null.
-	 * 
+	 *
 	 */
 
+	@Override
 	public String toDisplayString(Module module, PropertyDefn defn, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		ULocale locale = module == null ? ThreadResources.getLocale() : module.getLocale();
 		NumberFormat formatter = NumberFormat.getNumberInstance(locale.toLocale());
@@ -215,19 +239,21 @@ public class FloatPropertyType extends PropertyType {
 	 * Validates the float property value in locale-dependent way. The string value
 	 * will be parsed in the in the current locale, it will be stored internally as
 	 * a <code>Double</code>.
-	 * 
+	 *
 	 * @return Double value of the input string. Return null if input value is null
 	 *         or a blank string.
-	 * 
+	 *
 	 * @throws PropertyValueException if the input string is not valid for the
 	 *                                current locale.
 	 */
 
+	@Override
 	public Object validateInputString(Module module, DesignElement element, PropertyDefn defn, String value)
 			throws PropertyValueException {
 		value = StringUtil.trimString(value);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		ULocale locale = module == null ? ThreadResources.getLocale() : module.getLocale();
 		NumberFormat localeFormatter = NumberFormat.getNumberInstance(locale.toLocale());
@@ -246,7 +272,7 @@ public class FloatPropertyType extends PropertyType {
 	/**
 	 * Returns a new <code>Double</code> initialized to the value represented by the
 	 * specified <code>String</code>.
-	 * 
+	 *
 	 * @param value the string representint a double
 	 * @return Returns the <code>Double</code> represented by the string argument
 	 * @throws PropertyValueException if the string can not be parsed to a double

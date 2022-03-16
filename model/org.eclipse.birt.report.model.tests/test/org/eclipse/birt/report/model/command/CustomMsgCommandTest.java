@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +23,7 @@ import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
- * 
+ *
  * TestCases for CustomMsgCommand.
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
@@ -28,70 +31,70 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testAddTranslation()}</td>
  * <td>ULocale duplicate.</td>
  * <td>Command failed, exception is thrown.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Resource key is missing.</td>
  * <td>Command failed, exception is thrown.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Command success.</td>
  * <td>The translation is added to the report.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testDropTranslation()}</td>
  * <td>Command success.</td>
  * <td>The translation is removed from the design.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Resource key is not provided.</td>
  * <td>Exception should be thrown.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSetULocale()}</td>
  * <td>command success.</td>
  * <td>the old translation is dropped, the new translation with new locale is
  * added.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>the new locale duplicate exists ones</td>
  * <td>command failed, the old translation is not changed.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSetText()}</td>
  * <td>command success.</td>
  * <td>the old translation is dropped, the new translation with new text is
  * added</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>the translation is not find in the report</td>
  * <td>command should failed, exception thrown</td>
  * </tr>
- * 
- * 
+ *
+ *
  * <tr>
  * <td>{@link #testWriter()}</td>
  * <td>Test writer.</td>
  * <td></td>
  * </tr>
- * 
+ *
  */
 
 public class CustomMsgCommandTest extends BaseTestCase {
@@ -100,9 +103,10 @@ public class CustomMsgCommandTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign("CustomMsgCommandTest.xml"); //$NON-NLS-1$
@@ -114,7 +118,7 @@ public class CustomMsgCommandTest extends BaseTestCase {
 	 * failed. 2. if resource key is missing, command failed. 3. if command success,
 	 * the translation is added to the report.
 	 * <p>
-	 * 
+	 *
 	 * @throws CustomMsgException
 	 */
 	public void testAddTranslation() throws CustomMsgException {
@@ -171,9 +175,9 @@ public class CustomMsgCommandTest extends BaseTestCase {
 	 * translation is removed from the design. 2. if resource key is not provided,
 	 * exception should be thrown.
 	 * <p>
-	 * 
+	 *
 	 * @throws CustomMsgException
-	 * 
+	 *
 	 */
 	public void testDropTranslation() throws CustomMsgException {
 		assertEquals(6, design.getTranslations().size());
@@ -198,7 +202,7 @@ public class CustomMsgCommandTest extends BaseTestCase {
 	/**
 	 * test set locale for a translation. 1. command success, the old translation is
 	 * dropped, the new translation with new locale is added.
-	 * 
+	 *
 	 * @throws CustomMsgException
 	 */
 	public void testSetULocale() throws CustomMsgException {
@@ -223,7 +227,7 @@ public class CustomMsgCommandTest extends BaseTestCase {
 	 * test set text for a translation. 1. command success, the old translation is
 	 * dropped, the new translation with new text is added. 2. the translation is
 	 * not find in the report, command should failed.
-	 * 
+	 *
 	 * @throws CustomMsgException
 	 */
 
@@ -254,7 +258,7 @@ public class CustomMsgCommandTest extends BaseTestCase {
 
 	/**
 	 * test designWriter.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testWriter() throws Exception {
@@ -264,7 +268,7 @@ public class CustomMsgCommandTest extends BaseTestCase {
 
 	/**
 	 * Test event notification.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -299,12 +303,13 @@ public class CustomMsgCommandTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.
 		 * model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			CustomMsgEvent event = (CustomMsgEvent) ev;
 

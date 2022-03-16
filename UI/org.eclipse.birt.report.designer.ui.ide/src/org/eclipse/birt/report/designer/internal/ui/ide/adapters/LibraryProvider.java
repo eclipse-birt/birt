@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,10 +40,11 @@ import org.eclipse.ui.IFileEditorInput;
 /**
  * Implement of ILibraryProvider Return libraries defined in preference and
  * libraries in the same project with the report file.
- * 
+ *
  * @deprecated
  */
 
+@Deprecated
 public class LibraryProvider implements ILibraryProvider {
 
 	private static final String MSG_OPEN_DEFINED_LIBRARY_ERROR_TITLE = Messages
@@ -52,10 +56,11 @@ public class LibraryProvider implements ILibraryProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.lib.ILibraryProvider#
 	 * getLibrarys()
 	 */
+	@Override
 	public LibraryHandle[] getLibraries() {
 		projectLibrarys = new ArrayList();
 		ArrayList libList = new ArrayList();
@@ -110,8 +115,9 @@ public class LibraryProvider implements ILibraryProvider {
 			try {
 				LibraryHandle handle = SessionHandleAdapter.getInstance().getSessionHandle()
 						.openLibrary(predefinedLibrarys[i]);
-				if (!isLibExist(existList, handle))
+				if (!isLibExist(existList, handle)) {
 					libList.add(handle);
+				}
 			} catch (DesignFileException e) {
 				ExceptionUtil.handle(e, MSG_OPEN_DEFINED_LIBRARY_ERROR_TITLE, MSG_OPEN_DEFINED_LIBRARY_ERROR_MSG);
 			}
@@ -174,8 +180,9 @@ public class LibraryProvider implements ILibraryProvider {
 	private boolean isLibExist(List list, LibraryHandle handle) {
 		for (Iterator iter = list.iterator(); iter.hasNext();) {
 			LibraryHandle element = (LibraryHandle) iter.next();
-			if (element.getFileName().equals(handle.getFileName()))
+			if (element.getFileName().equals(handle.getFileName())) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -187,6 +194,7 @@ public class LibraryProvider implements ILibraryProvider {
 		return projectLibrarys.contains(handle.getFileName());
 	}
 
+	@Override
 	public Image getDisplayIcon(LibraryHandle handle) {
 		if (!isInProjectFolder(handle)) {
 			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ELEMENT_LIBRARY_REFERENCED);

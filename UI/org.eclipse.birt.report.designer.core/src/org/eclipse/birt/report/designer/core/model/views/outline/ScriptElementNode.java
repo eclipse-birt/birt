@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,6 +37,7 @@ public class ScriptElementNode implements IScriptTreeNode, IMenuListener {
 		this.parent = parent;
 	}
 
+	@Override
 	public Object[] getChildren() {
 		if (this.parent != null) {
 			ScriptedElementVisitor visitor = new ScriptedElementVisitor();
@@ -42,19 +46,22 @@ public class ScriptElementNode implements IScriptTreeNode, IMenuListener {
 		return new Object[0];
 	}
 
+	@Override
 	public Object getParent() {
 		return this.parent;
 	}
 
+	@Override
 	public void menuAboutToShow(IMenuManager manager) {
 		manager.add(new GotoReportElementAction(getParent()));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object arg0) {
 		if (arg0 == this) {
 			return true;
@@ -65,10 +72,12 @@ public class ScriptElementNode implements IScriptTreeNode, IMenuListener {
 		return false;
 	}
 
+	@Override
 	public int hashCode() {
 		int hashCode = 13;
-		if (parent != null)
+		if (parent != null) {
 			hashCode += parent.hashCode() * 7;
+		}
 		return hashCode;
 	}
 
@@ -84,13 +93,14 @@ class GotoReportElementAction extends Action {
 		this.source = seletedElement;
 	}
 
+	@Override
 	public void run() {
 		fireSelectionChanged();
 	}
 
 	/**
 	 * Fires a selection changed event.
-	 * 
+	 *
 	 * @param selection the new selection
 	 */
 	protected void fireSelectionChanged() {

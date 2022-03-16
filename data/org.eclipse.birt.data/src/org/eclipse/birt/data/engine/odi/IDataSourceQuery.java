@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -39,7 +42,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 public interface IDataSourceQuery extends IQuery {
 	/**
 	 * Gets the data source associated with this query instance.
-	 * 
+	 *
 	 * @return The associated IDataSource instance
 	 */
 	// public IDataSource getDataSource();
@@ -47,14 +50,14 @@ public interface IDataSourceQuery extends IQuery {
 	/**
 	 * Gets the query text defined in this query, specified when this query was
 	 * instantiated by IDataSource.newQuery.
-	 * 
+	 *
 	 * @return The query text to be prepared and executed by the data source driver.
 	 */
 	// public String getQueryText();
 
 	/**
 	 * Gets the type of this query text.
-	 * 
+	 *
 	 * @return The type of query text.
 	 */
 	// public String getQueryType();
@@ -64,15 +67,15 @@ public interface IDataSourceQuery extends IQuery {
 	 * access. One is not required to provide hints for every expected result field.
 	 * Any field hints provided will be applied only if the underlying data provider
 	 * is not able to provide runtime metadata.
-	 * 
+	 *
 	 * @param columnDefns One or more field/column hints as a collection of
 	 *                    ColumnHint objects.
 	 */
-	public void setResultHints(Collection columnDefns);
+	void setResultHints(Collection columnDefns);
 
 	/**
 	 * Return a collection of field definition hints associated with this query.
-	 * 
+	 *
 	 * @return A collection of one or more ResultFieldHint objects provided to
 	 *         assist in data access.
 	 */
@@ -88,16 +91,16 @@ public interface IDataSourceQuery extends IQuery {
 	 * fields specified in setResultProjection() would be bound. Any remaining
 	 * fields defined in the result hints would not be included in the result
 	 * objects returned by the execute method.
-	 * 
+	 *
 	 * @param fieldNames An ordered list of result field/column names.
 	 * @throws DataException if given fieldNames are invalid.
 	 */
-	public void setResultProjection(String[] fieldNames) throws DataException;
+	void setResultProjection(String[] fieldNames) throws DataException;
 
 	/**
 	 * Returns the result specification to project the fields to return in a query
 	 * result object.
-	 * 
+	 *
 	 * @return An array of projected field names. Null if none is defined.
 	 */
 	// public String[] getResultProjection();
@@ -106,12 +109,12 @@ public interface IDataSourceQuery extends IQuery {
 	 * Sets a collection of org.eclipse.birt.data.engine.odaconsumer.ParameterHint
 	 * object to provide parameter hints, and bound input parameter values
 	 */
-	public void setParameterHints(Collection parameterHints);
+	void setParameterHints(Collection parameterHints);
 
 	/**
 	 * Return a collection of input/output parameter hints associated with this
 	 * query.
-	 * 
+	 *
 	 * @return A collection of one or more IParameterDefinition objects to assist in
 	 *         data access.
 	 */
@@ -121,11 +124,11 @@ public interface IDataSourceQuery extends IQuery {
 	 * Adds the specified value to the named property. Multiple calls using the same
 	 * property name may be allowed. Its processing is implementation-dependent on
 	 * the underlying data source. Note: This should be called before prepare().
-	 * 
+	 *
 	 * @param name  The name of property.
 	 * @param value The value to add to the named property.
 	 */
-	public void addProperty(String name, String value) throws DataException;
+	void addProperty(String name, String value) throws DataException;
 
 	/**
 	 * Dynamically declares an user-defined custom, modifiable field in the result
@@ -134,7 +137,7 @@ public interface IDataSourceQuery extends IQuery {
 	 * A declared custom field is automatically included in the projected result of
 	 * an IResultObject instance. It contains null value, until an ODI consumer
 	 * directly assigns a value to it.
-	 * 
+	 *
 	 * @param fieldName The name of the custom field; must be unique in an result
 	 *                  instance.
 	 * @param dataType  The data type of the custom field; must be one defined in
@@ -142,17 +145,17 @@ public interface IDataSourceQuery extends IQuery {
 	 *                  it is not known at this time.
 	 * @throws DataException if the field cannot be added.
 	 */
-	public void declareCustomField(String fieldName, int dataType) throws DataException;
+	void declareCustomField(String fieldName, int dataType) throws DataException;
 
 	/**
 	 * Prepares the query instance for subsequent execution. This method requires
 	 * the Query instance to validate any bound elements, such as the Result
 	 * Projection against the underlying result metadata, and report any
 	 * incompatibilities by throwing a chained OdiException.
-	 * 
+	 *
 	 * @throws DataException if query validation error(s) occur.
 	 */
-	public IPreparedDSQuery prepare() throws DataException;
+	IPreparedDSQuery prepare() throws DataException;
 
 	/**
 	 * Class to hold hints for a result set field. For use with setResultHints

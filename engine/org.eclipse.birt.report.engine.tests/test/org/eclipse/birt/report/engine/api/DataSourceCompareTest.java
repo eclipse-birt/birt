@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +24,7 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.report.engine.EngineCase;
 
 /**
- * 
+ *
  */
 
 public class DataSourceCompareTest extends EngineCase {
@@ -41,11 +44,13 @@ public class DataSourceCompareTest extends EngineCase {
 	static final String GOLDEN_HTML = UTEST_FOLDER + "golden.html";
 	static final String RESULT_HTML = UTEST_FOLDER + "modified.html";
 
+	@Override
 	public void setUp() {
 		removeFile(UTEST_FOLDER);
 		new File(UTEST_FOLDER).mkdirs();
 	}
 
+	@Override
 	public void tearDown() {
 		removeFile(UTEST_FOLDER);
 	}
@@ -102,7 +107,7 @@ public class DataSourceCompareTest extends EngineCase {
 
 	/**
 	 * do run
-	 * 
+	 *
 	 * @throws Exception
 	 * @throws Exception
 	 */
@@ -151,7 +156,7 @@ public class DataSourceCompareTest extends EngineCase {
 		private String targetFile;
 
 		/**
-		 * 
+		 *
 		 */
 		public EngineTask(String designFile, String documentFile, String dataSourceFile, String targetFile) {
 			this.designFile = designFile;
@@ -196,7 +201,7 @@ public class DataSourceCompareTest extends EngineCase {
 
 		/**
 		 * create the report document.
-		 * 
+		 *
 		 * @throws Exception
 		 */
 		public void doRenderTask() throws Exception {

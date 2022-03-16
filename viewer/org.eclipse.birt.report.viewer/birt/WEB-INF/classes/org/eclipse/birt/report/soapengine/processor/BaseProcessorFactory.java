@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -16,7 +18,6 @@ import java.io.UnsupportedEncodingException;
 
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.soapengine.api.ReportIdType;
-import org.eclipse.birt.report.soapengine.processor.IProcessorFactory;
 
 /**
  * Processor factory class.
@@ -30,7 +31,7 @@ public class BaseProcessorFactory implements IProcessorFactory {
 
 	/**
 	 * Get processor factory instance.
-	 * 
+	 *
 	 * @return
 	 * @throws MarshalException
 	 * @throws ValidationException
@@ -59,15 +60,17 @@ public class BaseProcessorFactory implements IProcessorFactory {
 
 	/**
 	 * Initializes the ERNI config manager instance. Read ERNI_Config.xml
-	 * 
+	 *
 	 * @throws UnsupportedEncodingException
 	 * @throws ValidationException
 	 * @throws MarshalException
 	 * @throws FileNotFoundException
 	 */
+	@Override
 	public void init() throws AxisFault {
 	}
 
+	@Override
 	public IComponentProcessor createProcessor(String category, ReportIdType component) {
 		if (component != null) {
 			if (ReportIdType._Document.equalsIgnoreCase(component.getValue())) {

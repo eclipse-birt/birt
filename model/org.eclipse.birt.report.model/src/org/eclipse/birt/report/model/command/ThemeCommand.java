@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,19 +42,20 @@ public class ThemeCommand extends AbstractElementCommand {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param module the module to set the theme
 	 */
 
 	public ThemeCommand(Module module, DesignElement element) {
 		super(module, element);
-		if (element.getPropertyDefn(ISupportThemeElementConstants.THEME_PROP) == null)
+		if (element.getPropertyDefn(ISupportThemeElementConstants.THEME_PROP) == null) {
 			throw new IllegalArgumentException("The element does not support theme property!"); //$NON-NLS-1$
+		}
 	}
 
 	/**
 	 * Sets the theme of an element.
-	 * 
+	 *
 	 * @param name the name of the theme to set.
 	 * @throws SemanticException if the element can not have theme or the theme is
 	 *                           not found.
@@ -65,7 +69,7 @@ public class ThemeCommand extends AbstractElementCommand {
 
 	/**
 	 * Sets the theme of an element given the theme itself.
-	 * 
+	 *
 	 * @param theme the theme element to set.
 	 * @throws SemanticException if the element can not have theme or the theme is
 	 *                           not found.
@@ -78,8 +82,9 @@ public class ThemeCommand extends AbstractElementCommand {
 		}
 
 		String name = null;
-		if (theme != null)
+		if (theme != null) {
 			name = ReferenceValueUtil.needTheNamespacePrefix(theme.getElement(), theme.getModule(), module);
+		}
 
 		Object retValue = doValidateValue(name);
 
@@ -87,10 +92,11 @@ public class ThemeCommand extends AbstractElementCommand {
 		// exception
 
 		ElementRefValue refValue = (ElementRefValue) retValue;
-		if (refValue.isResolved() && refValue.getElement() != theme.getElement())
+		if (refValue.isResolved() && refValue.getElement() != theme.getElement()) {
 			throw new SemanticError(element,
 					new String[] { ISupportThemeElementConstants.THEME_PROP, refValue.getName() },
 					SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF);
+		}
 
 		doSetThemeRefValue((ElementRefValue) retValue);
 	}
@@ -99,22 +105,23 @@ public class ThemeCommand extends AbstractElementCommand {
 	 * Sets the theme with the given element reference value. Call this method when
 	 * the theme name or theme element has been validated. Otherwise, uses
 	 * {@link #setTheme(String)} or {@link #setThemeElement(ThemeHandle)}.
-	 * 
+	 *
 	 * @param refValue the validated reference value
 	 * @throws SemanticException if the element can not have theme or the theme is
 	 *                           not found.
 	 */
 
 	protected void setThemeRefValue(ElementRefValue refValue) throws SemanticException {
-		if (refValue == null && ((ISupportThemeElement) element).getThemeName() == null)
+		if (refValue == null && ((ISupportThemeElement) element).getThemeName() == null) {
 			return;
+		}
 
 		doSetThemeRefValue(refValue);
 	}
 
 	/**
 	 * Validates the value of the input theme name.
-	 * 
+	 *
 	 * @param name the theme name
 	 * @return the <code>ElementRefValue</code>. Can be resolved or unresolved.
 	 * @throws PropertyValueException if the value is not valid
@@ -124,18 +131,20 @@ public class ThemeCommand extends AbstractElementCommand {
 		name = StringUtil.trimString(name);
 
 		ElementPropertyDefn propDefn = element.getPropertyDefn(ISupportThemeElementConstants.THEME_PROP);
-		if (propDefn == null)
+		if (propDefn == null) {
 			throw new PropertyNameException(element, ISupportThemeElementConstants.THEME_PROP);
+		}
 
-		if (name == null && ((ISupportThemeElement) element).getThemeName() == null)
+		if (name == null && ((ISupportThemeElement) element).getThemeName() == null) {
 			return null;
+		}
 
 		return propDefn.validateValue(module, element, name);
 	}
 
 	/**
 	 * Do the work to set the new theme with the given <code>newThemeValue</code>.
-	 * 
+	 *
 	 * @param newThemeValue the validated <code>ElementRefValue</code>
 	 */
 
@@ -160,8 +169,9 @@ public class ThemeCommand extends AbstractElementCommand {
 		}
 
 		if (newThemeValue != null && newThemeValue.isResolved()
-				&& newThemeValue.getElement() == ((ISupportThemeElement) element).getTheme())
+				&& newThemeValue.getElement() == ((ISupportThemeElement) element).getTheme()) {
 			return;
+		}
 
 		// adjust the back references for styles in the theme
 

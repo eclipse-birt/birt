@@ -3,13 +3,13 @@ package org.eclipse.birt.report.engine.layout.pdf;
 
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -79,10 +79,12 @@ public class PDFLayoutManagerFactory {
 
 	private class ContentVisitor implements IContentVisitor {
 
+		@Override
 		public Object visit(IContent content, Object value) {
 			return visitContent(content, value);
 		}
 
+		@Override
 		public Object visitContent(IContent content, Object value) {
 			boolean isInline = PropertyUtil.isInlineElement(content);
 			if (isInline) {
@@ -92,11 +94,13 @@ public class PDFLayoutManagerFactory {
 			}
 		}
 
+		@Override
 		public Object visitPage(IPageContent page, Object value) {
 			assert (false);
 			return null;
 		}
 
+		@Override
 		public Object visitContainer(IContainerContent container, Object value) {
 			boolean isInline = PropertyUtil.isInlineElement(container);
 			if (isInline) {
@@ -106,39 +110,48 @@ public class PDFLayoutManagerFactory {
 			}
 		}
 
+		@Override
 		public Object visitTable(ITableContent table, Object value) {
 			return new PDFTableLM(context, parent, table, executor);
 		}
 
+		@Override
 		public Object visitTableBand(ITableBandContent tableBand, Object value) throws BirtException {
 			return new PDFTableBandLM(context, parent, tableBand, executor);
 		}
 
+		@Override
 		public Object visitRow(IRowContent row, Object value) {
 			return new PDFRowLM(context, parent, row, executor);
 		}
 
+		@Override
 		public Object visitCell(ICellContent cell, Object value) {
 			return new PDFCellLM(context, parent, cell, executor);
 		}
 
+		@Override
 		public Object visitText(ITextContent text, Object value) {
 			// FIXME
 			return handleText(text);
 		}
 
+		@Override
 		public Object visitLabel(ILabelContent label, Object value) {
 			return handleText(label);
 		}
 
+		@Override
 		public Object visitData(IDataContent data, Object value) {
 			return handleText(data);
 		}
 
+		@Override
 		public Object visitImage(IImageContent image, Object value) {
 			return new PDFImageLM(context, parent, image, executor);
 		}
 
+		@Override
 		public Object visitForeign(IForeignContent foreign, Object value) throws BirtException {
 			if (IForeignContent.HTML_TYPE.equals(foreign.getRawType())) {
 				// build content DOM tree for HTML text
@@ -156,21 +169,23 @@ public class PDFLayoutManagerFactory {
 			return handleText(label);
 		}
 
+		@Override
 		public Object visitAutoText(IAutoTextContent autoText, Object value) {
 			if (IAutoTextContent.PAGE_NUMBER == autoText.getType()) {
 				if (parent instanceof PDFLineAreaLM) {
 					String originalPageNumber = autoText.getText();
 					DataFormatValue format = autoText.getComputedStyle().getDataFormat();
 					NumberFormatter nf = null;
-					if (format == null)
+					if (format == null) {
 						nf = new NumberFormatter();
-					else {
+					} else {
 						String pattern = format.getNumberPattern();
 						String locale = format.getNumberLocale();
-						if (locale == null)
+						if (locale == null) {
 							nf = new NumberFormatter(pattern);
-						else
+						} else {
 							nf = new NumberFormatter(pattern, new ULocale(locale));
+						}
 					}
 
 					try {
@@ -206,11 +221,13 @@ public class PDFLayoutManagerFactory {
 			}
 		}
 
+		@Override
 		public Object visitList(IListContent list, Object value) {
 			return new PDFListLM(context, parent, list, executor);
 
 		}
 
+		@Override
 		public Object visitListBand(IListBandContent listBand, Object value) {
 			assert (false);
 			return null;
@@ -219,14 +236,17 @@ public class PDFLayoutManagerFactory {
 
 		}
 
+		@Override
 		public Object visitListGroup(IListGroupContent group, Object value) {
 			return new PDFListGroupLM(context, parent, group, executor);
 		}
 
+		@Override
 		public Object visitTableGroup(ITableGroupContent group, Object value) {
 			return new PDFTableGroupLM(context, parent, group, executor);
 		}
 
+		@Override
 		public Object visitGroup(IGroupContent group, Object value) {
 			return new PDFListGroupLM(context, parent, group, executor);
 		}

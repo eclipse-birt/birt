@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +57,7 @@ public class TableLayout extends XYLayout {
 
 	TableBorderHelper helper;
 
-	Map<IFigure, FigureInfomation> figureInfo = new HashMap<IFigure, FigureInfomation>();
+	Map<IFigure, FigureInfomation> figureInfo = new HashMap<>();
 
 	private boolean isCalculating = false;
 	private boolean isNeedRelayout = true;
@@ -72,7 +75,7 @@ public class TableLayout extends XYLayout {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param rowCount
 	 * @param columnCount
 	 */
@@ -83,7 +86,7 @@ public class TableLayout extends XYLayout {
 
 	/**
 	 * Layout given container.
-	 * 
+	 *
 	 * @param container
 	 * @param bool
 	 */
@@ -111,9 +114,10 @@ public class TableLayout extends XYLayout {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.LayoutManager#layout(org.eclipse.draw2d.IFigure)
 	 */
+	@Override
 	public void layout(IFigure container) {
 		if (!isDistroy()) {
 			return;
@@ -176,6 +180,7 @@ public class TableLayout extends XYLayout {
 		if (containerWidth < 0) {
 			Display.getCurrent().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					if (isNeedRelayout) {
 						getOwner().reLayout();
@@ -203,6 +208,7 @@ public class TableLayout extends XYLayout {
 		if (hasCell) {
 			Platform.run(new SafeRunnable() {
 
+				@Override
 				public void run() {
 					UIUtil.resetViewSelection(getOwner().getViewer(), false);
 				}
@@ -260,8 +266,9 @@ public class TableLayout extends XYLayout {
 		// if ( !bounds.equals( child.getBounds( ) ) )
 		{
 			child.setBounds(bounds);
-			if (child.getLayoutManager() != null)
+			if (child.getLayoutManager() != null) {
 				child.getLayoutManager().invalidate();
+			}
 			child.revalidate();
 		}
 	}
@@ -408,7 +415,7 @@ public class TableLayout extends XYLayout {
 			int samMin = 0;
 			int trueSamMin = 0;
 
-			int[] adjustNumber = new int[0];
+			int[] adjustNumber = {};
 			for (int j = rowNumber; j < rowNumber + rowSpan; j++) {
 				TableLayoutData.RowData rowData = data.findRowData(j);
 				if (!hasAdjust.contains(Integer.valueOf(j))) {
@@ -668,7 +675,7 @@ public class TableLayout extends XYLayout {
 			int samMin = 0;
 			int trueSamMin = 0;
 
-			int[] adjustNumber = new int[0];
+			int[] adjustNumber = {};
 			for (int j = rowNumber; j < rowNumber + rowSpan; j++) {
 				TableLayoutData.RowData rowData = data.findRowData(j);
 				if (!hasAdjust.contains(Integer.valueOf(j))) {
@@ -746,7 +753,7 @@ public class TableLayout extends XYLayout {
 			int samMin = 0;
 			int trueSamMin = 0;
 
-			int[] adjustNumber = new int[0];
+			int[] adjustNumber = {};
 			for (int j = columnNumber; j < columnNumber + columnSpan; j++) {
 				TableLayoutData.ColumnData columnData = data.findColumnData(j);
 
@@ -870,6 +877,7 @@ public class TableLayout extends XYLayout {
 	/**
 	 * @see LayoutManager#getConstraint(IFigure)
 	 */
+	@Override
 	public Object getConstraint(IFigure figure) {
 		return constraints.get(figure);
 	}
@@ -877,6 +885,7 @@ public class TableLayout extends XYLayout {
 	/**
 	 * @see LayoutManager#remove(IFigure)
 	 */
+	@Override
 	public void remove(IFigure figure) {
 		super.remove(figure);
 		constraints.remove(figure);
@@ -885,13 +894,15 @@ public class TableLayout extends XYLayout {
 	/**
 	 * Sets the layout constraint of the given figure. The constraints can only be
 	 * of type {@link Rectangle}.
-	 * 
+	 *
 	 * @see LayoutManager#setConstraint(IFigure, Object)
 	 */
+	@Override
 	public void setConstraint(IFigure figure, Object newConstraint) {
 		super.setConstraint(figure, newConstraint);
-		if (newConstraint != null)
+		if (newConstraint != null) {
 			constraints.put(figure, newConstraint);
+		}
 	}
 
 	/**
@@ -903,7 +914,7 @@ public class TableLayout extends XYLayout {
 
 	/**
 	 * Gets row count of Row
-	 * 
+	 *
 	 * @return
 	 */
 	public int getRowCount() {
@@ -912,7 +923,7 @@ public class TableLayout extends XYLayout {
 
 	/**
 	 * Keeps table layout information includes columns width, rows height
-	 * 
+	 *
 	 */
 	public static class WorkingData {
 
@@ -930,7 +941,7 @@ public class TableLayout extends XYLayout {
 
 	/**
 	 * Gets the table edit part of, which owned this layout manager
-	 * 
+	 *
 	 * @return
 	 */
 	public ITableLayoutOwner getOwner() {
@@ -978,6 +989,7 @@ public class TableLayout extends XYLayout {
 	 * @see org.eclipse.draw2d.LayoutManager#getMinimumSize(org.eclipse.draw2d.IFigure,
 	 *      int, int)
 	 */
+	@Override
 	public Dimension getMinimumSize(IFigure container, int wHint, int hHint) {
 		return calculateMinimumSize(container, wHint, hHint);
 	}

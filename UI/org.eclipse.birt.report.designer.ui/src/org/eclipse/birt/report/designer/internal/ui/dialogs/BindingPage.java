@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -68,6 +71,7 @@ public class BindingPage extends Composite implements Listener {
 
 	public static class ContentProvider implements IStructuredContentProvider {
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof List) {
 				return ((List) inputElement).toArray();
@@ -77,9 +81,11 @@ public class BindingPage extends Composite implements Listener {
 			return new Object[0];
 		}
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 	}
@@ -143,7 +149,7 @@ public class BindingPage extends Composite implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * AttributePage#buildUI()
 	 */
@@ -161,6 +167,7 @@ public class BindingPage extends Composite implements Listener {
 		datasetButton.setText(DATA_SET_LABEL);
 		datasetButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				refreshBinding();
 				if (datasetButton.getSelection()
@@ -168,8 +175,9 @@ public class BindingPage extends Composite implements Listener {
 								.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF
 						&& (DEUtil.getBindingHolder(getReportItemHandle(), true) == null
 								|| DEUtil.getBindingHolder(getReportItemHandle(), true)
-										.getDataBindingType() != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF))
+										.getDataBindingType() != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)) {
 					saveBinding();
+				}
 			}
 
 		});
@@ -177,6 +185,7 @@ public class BindingPage extends Composite implements Listener {
 		datasetCombo = new ComboViewer(new CCombo(this, SWT.READ_ONLY | SWT.BORDER));
 		datasetCombo.setLabelProvider(new LabelProvider() {
 
+			@Override
 			public String getText(Object element) {
 				BindingInfo info = (BindingInfo) element;
 				String datasetName = info.getBindingValue();
@@ -191,6 +200,7 @@ public class BindingPage extends Composite implements Listener {
 				.setBackground(PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
 		datasetCombo.getCCombo().addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				saveBinding();
 			}
@@ -200,6 +210,7 @@ public class BindingPage extends Composite implements Listener {
 		bindingButton.setText(BUTTON_BINDING);
 		bindingButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ParameterBindingDialog dialog = new ParameterBindingDialog(UIUtil.getDefaultShell(),
 						((DesignElementHandle) input.get(0)));
@@ -225,24 +236,27 @@ public class BindingPage extends Composite implements Listener {
 		reportItemButton.setLayoutData(data);
 		reportItemButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				refreshBinding();
 				if (reportItemButton.getSelection()
 						&& getReportItemHandle().getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_DATA
 						&& (DEUtil.getBindingHolder(getReportItemHandle(), true) == null
 								|| DEUtil.getBindingHolder(getReportItemHandle(), true)
-										.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF))
+										.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)) {
 					saveBinding();
+				}
 			}
 
 		});
 
 		data = new FormData();
 		if (UIUtil.getStringWidth(datasetButton.getText(), datasetButton) > UIUtil
-				.getStringWidth(reportItemButton.getText(), reportItemButton))
+				.getStringWidth(reportItemButton.getText(), reportItemButton)) {
 			data.left = new FormAttachment(datasetButton, 0, SWT.RIGHT);
-		else
+		} else {
 			data.left = new FormAttachment(reportItemButton, 0, SWT.RIGHT);
+		}
 		data.top = new FormAttachment(datasetButton, 0, SWT.CENTER);
 		data.right = new FormAttachment(50);
 		datasetCombo.getCCombo().setLayoutData(data);
@@ -256,6 +270,7 @@ public class BindingPage extends Composite implements Listener {
 		reportItemCombo.setLayoutData(data);
 		reportItemCombo.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				saveBinding();
 			}
@@ -317,7 +332,7 @@ public class BindingPage extends Composite implements Listener {
 	}
 
 	public List<BindingInfo> getVisibleDataSetHandles(ModuleHandle handle) {
-		ArrayList<BindingInfo> list = new ArrayList<BindingInfo>();
+		ArrayList<BindingInfo> list = new ArrayList<>();
 		for (Iterator iterator = handle.getVisibleDataSets().iterator(); iterator.hasNext();) {
 			DataSetHandle dataSetHandle = (DataSetHandle) iterator.next();
 			BindingInfo info = new BindingInfo(ReportItemHandle.DATABINDING_TYPE_DATA, dataSetHandle.getQualifiedName(),
@@ -344,12 +359,10 @@ public class BindingPage extends Composite implements Listener {
 		return newList;
 	}
 
-	protected Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>();
+	protected Map<String, ReportItemHandle> referMap = new HashMap<>();
 
 	protected List getAvailableDataBindingReferenceList(ReportItemHandle element) {
-		List bindingRef = new ArrayList();
-		bindingRef.addAll(element.getAvailableDataSetBindingReferenceList());
-
+		List bindingRef = new ArrayList(element.getAvailableDataSetBindingReferenceList());
 		if (ExtendedDataModelUIAdapterHelper.getInstance().getAdapter() != null) {
 			List temp = (ExtendedDataModelUIAdapterHelper.getInstance().getAdapter()
 					.getAvailableBindingReferenceList(element));
@@ -407,7 +420,7 @@ public class BindingPage extends Composite implements Listener {
 	// }
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * AttributePage#refreshValues(java.util.Set)
 	 */
@@ -417,7 +430,7 @@ public class BindingPage extends Composite implements Listener {
 	 * datasetCombo.deselectAll( ); // table.removeAll( ); // table.setEnabled(
 	 * false ); return; } datasetCombo.setEnabled( true ); // table.setEnabled( true
 	 * );
-	 * 
+	 *
 	 * String selectedDataSetName = datasetCombo.getText( ); String[] oldList =
 	 * datasetCombo.getItems( ); String[] dataSets = ChoiceSetFactory.getDataSets(
 	 * ); String[] newList = new String[dataSets.length + 1]; newList[0] = NONE;
@@ -446,14 +459,16 @@ public class BindingPage extends Composite implements Listener {
 	// }
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.
 	 * model.api.DesignElementHandle,
 	 * org.eclipse.birt.model.activity.NotificationEvent)
 	 */
+	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
-		if (this.isDisposed())
+		if (this.isDisposed()) {
 			return;
+		}
 		if (ev.getEventType() == NotificationEvent.PROPERTY_EVENT) {
 			PropertyEvent event = (PropertyEvent) ev;
 			String propertyName = event.getPropertyName();
@@ -477,7 +492,7 @@ public class BindingPage extends Composite implements Listener {
 
 	/**
 	 * Gets the DE CommandStack instance
-	 * 
+	 *
 	 * @return CommandStack instance
 	 */
 	private CommandStack getActionStack() {
@@ -539,8 +554,9 @@ public class BindingPage extends Composite implements Listener {
 	}
 
 	protected void registerListeners() {
-		if (input == null)
+		if (input == null) {
 			return;
+		}
 		for (int i = 0; i < input.size(); i++) {
 			Object obj = input.get(i);
 			if (obj instanceof DesignElementHandle) {
@@ -552,8 +568,9 @@ public class BindingPage extends Composite implements Listener {
 	}
 
 	protected void deRegisterListeners() {
-		if (input == null)
+		if (input == null) {
 			return;
+		}
 		for (int i = 0; i < input.size(); i++) {
 			Object obj = input.get(i);
 			if (obj instanceof DesignElementHandle) {
@@ -566,6 +583,7 @@ public class BindingPage extends Composite implements Listener {
 		}
 	}
 
+	@Override
 	public void dispose() {
 		deRegisterListeners();
 		super.dispose();
@@ -615,6 +633,7 @@ public class BindingPage extends Composite implements Listener {
 			this.bindingValue = bindingValue;
 		}
 
+		@Override
 		public boolean equals(Object obj) {
 			if (!(obj instanceof BindingInfo)) {
 				return false;
@@ -624,20 +643,19 @@ public class BindingPage extends Composite implements Listener {
 						|| (this.bindingValue != null && !this.bindingValue.equals(info.bindingValue))) {
 					return false;
 				}
-				if (this.bindingType != info.bindingType) {
-					return false;
-				}
-				if (this.isDataSet != info.isDataSet) {
+				if ((this.bindingType != info.bindingType) || (this.isDataSet != info.isDataSet)) {
 					return false;
 				}
 				return true;
 			}
 		}
 
+		@Override
 		public int hashCode() {
 			int code = 13;
-			if (this.bindingValue != null)
+			if (this.bindingValue != null) {
 				code += this.bindingValue.hashCode() * 7;
+			}
 			code += this.bindingType * 5;
 			code += Boolean.valueOf(this.isDataSet()).hashCode() * 3;
 			return code;
@@ -664,8 +682,9 @@ public class BindingPage extends Composite implements Listener {
 		if (type == ReportItemHandle.DATABINDING_TYPE_NONE) {
 			if (DEUtil.getBindingHolder(getReportItemHandle(), true) != null
 					&& DEUtil.getBindingHolder(getReportItemHandle(), true)
-							.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
+							.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF) {
 				type = ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF;
+			}
 		}
 		switch (type) {
 		case ReportItemHandle.DATABINDING_TYPE_NONE:
@@ -709,10 +728,11 @@ public class BindingPage extends Composite implements Listener {
 		ReportItemHandle element = getReportItemHandle();
 		String value;
 		boolean isDataSet = false;
-		;
+
 		int type = element.getDataBindingType();
-		if (type == ReportItemHandle.DATABINDING_TYPE_NONE)
+		if (type == ReportItemHandle.DATABINDING_TYPE_NONE) {
 			type = DEUtil.getBindingHolder(element).getDataBindingType();
+		}
 		switch (type) {
 		case ReportItemHandle.DATABINDING_TYPE_DATA:
 			DataSetHandle dataset = element.getDataSet();
@@ -735,10 +755,11 @@ public class BindingPage extends Composite implements Listener {
 			break;
 		case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF:
 			ReportItemHandle reference = element.getDataBindingReference();
-			if (reference == null)
+			if (reference == null) {
 				value = NullReportItemChoice;
-			else
+			} else {
 				value = reference.getQualifiedName();
+			}
 			break;
 		default: {
 			value = NullDatasetChoice.bindingValue;
@@ -762,8 +783,9 @@ public class BindingPage extends Composite implements Listener {
 					info = null;
 				}
 				int ret = 0;
-				if (!NullDatasetChoice.equals(info))
+				if (!NullDatasetChoice.equals(info)) {
 					ret = 4;
+				}
 				if ((!NullDatasetChoice.equals(oldValue)
 						|| getReportItemHandle().getColumnBindings().iterator().hasNext())
 						&& !(info != null && info.equals(oldValue))) {
@@ -910,12 +932,13 @@ public class BindingPage extends Composite implements Listener {
 								Messages.getString("BindingPage.DataSetBindingSelector.Title.DataSet")); //$NON-NLS-1$
 				selector.setDataSet(info.getBindingValue(), info.isDataSet());
 				Iterator bindings = getReportItemHandle().getColumnBindings().iterator();
-				List<String> columnNames = new ArrayList<String>();
+				List<String> columnNames = new ArrayList<>();
 				while (bindings.hasNext()) {
 					columnNames.add(((ComputedColumnHandle) bindings.next()).getName());
 				}
-				if (!columnNames.isEmpty())
+				if (!columnNames.isEmpty()) {
 					selector.setColumns(columnNames.toArray(new String[0]));
+				}
 				if (selector.open() == Dialog.OK) {
 					clearBinding(getReportItemHandle().getColumnBindings(),
 							(Object[]) ((Object[]) selector.getResult())[2]);

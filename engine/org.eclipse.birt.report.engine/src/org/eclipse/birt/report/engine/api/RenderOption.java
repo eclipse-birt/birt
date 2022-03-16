@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ public class RenderOption extends TaskOption implements IRenderOption {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param options
 	 */
 	public RenderOption(Map options) {
@@ -46,7 +46,7 @@ public class RenderOption extends TaskOption implements IRenderOption {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param options
 	 */
 	public RenderOption(IRenderOption options) {
@@ -55,30 +55,34 @@ public class RenderOption extends TaskOption implements IRenderOption {
 
 	/**
 	 * returns the output settings
-	 * 
+	 *
 	 * @return the output settings
 	 * @deprecated user should always use the get/set to change the setting.
 	 */
+	@Deprecated
+	@Override
 	public Map getOutputSetting() {
 		return options;
 	}
 
 	/**
 	 * returns the output format, i.e., html, pdf, etc.
-	 * 
+	 *
 	 * @return Returns the output format
 	 */
+	@Override
 	public String getOutputFormat() {
 		return getStringOption(OUTPUT_FORMAT);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api2.IOutputSetting#setOutputFormat(java.lang.
 	 * String)
 	 */
+	@Override
 	public void setOutputFormat(String format) {
 		setOption(OUTPUT_FORMAT, format);
 	}
@@ -86,35 +90,39 @@ public class RenderOption extends TaskOption implements IRenderOption {
 	/**
 	 * Get emitter id.
 	 */
+	@Override
 	public String getEmitterID() {
 		return getStringOption(EMITTER_ID);
 	}
 
 	/**
 	 * Set emitter id.
-	 * 
+	 *
 	 * @param emitterId emitter id
 	 */
+	@Override
 	public void setEmitterID(String emitterId) {
 		setOption(EMITTER_ID, emitterId);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api2.IOutputSetting#setOutputStream(java.io.
 	 * OutputStream)
 	 */
+	@Override
 	public void setOutputStream(OutputStream ostream) {
 		setOption(OUTPUT_STREAM, ostream);
 	}
 
 	/**
 	 * Get output stream
-	 * 
+	 *
 	 * @return output stream
 	 */
+	@Override
 	public OutputStream getOutputStream() {
 		Object out = getOption(OUTPUT_STREAM);
 		if (out instanceof OutputStream) {
@@ -125,18 +133,20 @@ public class RenderOption extends TaskOption implements IRenderOption {
 
 	/**
 	 * Set name of the output file.
-	 * 
+	 *
 	 * @param outputFileName name of the output file
 	 */
+	@Override
 	public void setOutputFileName(String outputFileName) {
 		setOption(OUTPUT_FILE_NAME, outputFileName);
 	}
 
 	/**
 	 * Get name of the output file.
-	 * 
+	 *
 	 * @return output file name
 	 */
+	@Override
 	public String getOutputFileName() {
 		return getStringOption(OUTPUT_FILE_NAME);
 	}
@@ -144,6 +154,7 @@ public class RenderOption extends TaskOption implements IRenderOption {
 	/**
 	 * @param formats - the image format supported by the browser
 	 */
+	@Override
 	public void setSupportedImageFormats(String formats) {
 		setOption(SUPPORTED_IMAGE_FORMATS, formats);
 	}
@@ -151,42 +162,47 @@ public class RenderOption extends TaskOption implements IRenderOption {
 	/**
 	 * @return the image format supported by the browser
 	 */
+	@Override
 	public String getSupportedImageFormats() {
 		return getStringOption(SUPPORTED_IMAGE_FORMATS);
 	}
 
 	/**
 	 * Returns the base URL for creating an Action URL
-	 * 
+	 *
 	 * @return the baseURL.
 	 */
+	@Override
 	public String getBaseURL() {
 		return getStringOption(BASE_URL);
 	}
 
 	/**
 	 * sets the base url for action handling
-	 * 
+	 *
 	 * @param baseURL sets the base URL used for action handling
 	 */
+	@Override
 	public void setBaseURL(String baseURL) {
 		setOption(BASE_URL, baseURL);
 	}
 
 	/**
 	 * Returns the app base url for URL images
-	 * 
+	 *
 	 * @return appBaseUrl
 	 */
+	@Override
 	public String getAppBaseURL() {
 		return getStringOption(APP_BASE_URL);
 	}
 
 	/**
 	 * Set app base url
-	 * 
+	 *
 	 * @param appBaseURL the app base url
 	 */
+	@Override
 	public void setAppBaseURL(String appBaseUrl) {
 		setOption(APP_BASE_URL, appBaseUrl);
 	}
@@ -195,10 +211,13 @@ public class RenderOption extends TaskOption implements IRenderOption {
 	 * @deprecated
 	 * @param handler
 	 */
+	@Deprecated
+	@Override
 	public void setActionHandle(IHTMLActionHandler handler) {
 		setActionHandler(handler);
 	}
 
+	@Override
 	public void setActionHandler(IHTMLActionHandler handler) {
 		setOption(ACTION_HANDLER, handler);
 	}
@@ -207,10 +226,13 @@ public class RenderOption extends TaskOption implements IRenderOption {
 	 * @deprecated
 	 * @return
 	 */
+	@Deprecated
+	@Override
 	public IHTMLActionHandler getActionHandle() {
 		return getActionHandler();
 	}
 
+	@Override
 	public IHTMLActionHandler getActionHandler() {
 		Object handler = getOption(ACTION_HANDLER);
 		if (handler instanceof IHTMLActionHandler) {
@@ -223,10 +245,13 @@ public class RenderOption extends TaskOption implements IRenderOption {
 	 * @deprecated
 	 * @param handler
 	 */
+	@Deprecated
+	@Override
 	public void setImageHandle(IHTMLImageHandler handler) {
 		setImageHandler(handler);
 	}
 
+	@Override
 	public void setImageHandler(IHTMLImageHandler handler) {
 		setOption(IMAGE_HANDLER, handler);
 	}
@@ -235,10 +260,13 @@ public class RenderOption extends TaskOption implements IRenderOption {
 	 * @deprecated
 	 * @return
 	 */
+	@Deprecated
+	@Override
 	public IHTMLImageHandler getImageHandle() {
 		return getImageHandler();
 	}
 
+	@Override
 	public IHTMLImageHandler getImageHandler() {
 		Object handler = getOption(IMAGE_HANDLER);
 		if (handler instanceof IHTMLImageHandler) {
@@ -256,7 +284,7 @@ public class RenderOption extends TaskOption implements IRenderOption {
 
 	/**
 	 * Get flag indicates if the output stream needs to be closed on exit.
-	 * 
+	 *
 	 * @param closeOnExit
 	 */
 	public void closeOutputStreamOnExit(boolean closeOnExit) {

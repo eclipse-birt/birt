@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -13,6 +16,8 @@ package org.eclipse.birt.data.oda.pojo.ui.impl.dialogs;
 
 import java.io.File;
 
+import org.eclipse.birt.data.oda.pojo.api.Constants;
+import org.eclipse.birt.data.oda.pojo.ui.i18n.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -25,11 +30,8 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Text;
 
-import org.eclipse.birt.data.oda.pojo.api.Constants;
-import org.eclipse.birt.data.oda.pojo.ui.i18n.Messages;
-
 /**
- * 
+ *
  */
 
 public class ClassPathEditor {
@@ -55,11 +57,12 @@ public class ClassPathEditor {
 		addJarsButton.addSelectionListener(new SelectionAdapter() {
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events
 			 * .SelectionEvent)
 			 */
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				JarsSelectionDialog jsd = new JarsSelectionDialog(topComposite.getShell(), topDirForRelativePath);
 				jsd.open();
@@ -82,11 +85,12 @@ public class ClassPathEditor {
 		addClassFoldersButton.addSelectionListener(new SelectionAdapter() {
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events
 			 * .SelectionEvent)
 			 */
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ClassFoldersSelectionDialog cfsd = new ClassFoldersSelectionDialog(topComposite.getShell(),
 						topDirForRelativePath);
@@ -109,11 +113,12 @@ public class ClassPathEditor {
 		addJarsButton.addSelectionListener(new SelectionAdapter() {
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events
 			 * .SelectionEvent)
 			 */
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dialog = new FileDialog(txtClassPaths.getShell(), SWT.MULTI);
 				dialog.setFilterExtensions(new String[] { "*.jar;*.zip" }); //$NON-NLS-1$
@@ -132,11 +137,12 @@ public class ClassPathEditor {
 		addClassFoldersButton.addSelectionListener(new SelectionAdapter() {
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events
 			 * .SelectionEvent)
 			 */
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				DirectoryDialog dialog = new DirectoryDialog(txtClassPaths.getShell());
 				dialog.open();

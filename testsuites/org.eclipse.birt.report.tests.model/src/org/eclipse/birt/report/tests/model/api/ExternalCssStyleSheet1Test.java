@@ -1,11 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.api;
 
 import java.io.InputStream;
 import java.util.List;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.SessionHandle;
@@ -17,6 +26,9 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /**
  * TestCases for ExternalCssStyleSheet.
  * <p>
@@ -25,21 +37,21 @@ import com.ibm.icu.util.ULocale;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
- * 
+ *
+ *
  * <tr>
  * <td>{@link #testParserForSupportedProperties()}</td>
  * <td>Parse supported style properties in CSS file</td>
  * <td>Return style properties values.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testParserForNoSupportedProperties()}</td>
  * <td>Parse unsupported properties.</td>
  * <td>Handle the errors.</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class ExternalCssStyleSheet1Test extends BaseTestCase {
 
@@ -59,6 +71,7 @@ public class ExternalCssStyleSheet1Test extends BaseTestCase {
 		return new TestSuite(ExternalCssStyleSheet1Test.class);
 	}
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -83,7 +96,7 @@ public class ExternalCssStyleSheet1Test extends BaseTestCase {
 
 	/**
 	 * Parse supported style properties in CSS file
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testParserForSupportedProperties() throws Exception {
@@ -285,7 +298,7 @@ public class ExternalCssStyleSheet1Test extends BaseTestCase {
 
 	/**
 	 * Parse unsupported style properties in CSS file
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testParserForNoSupportedProperties() throws Exception {

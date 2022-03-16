@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -13,20 +16,20 @@ package org.eclipse.birt.data.oda.pojo.ui.impl.providers;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.swt.graphics.Image;
-
 import org.eclipse.birt.data.oda.pojo.ui.impl.models.TreeData;
 import org.eclipse.birt.data.oda.pojo.ui.impl.providers.ClassTreeContentProvider.ClassWrapper;
 import org.eclipse.birt.data.oda.pojo.ui.util.Utils;
 import org.eclipse.birt.data.oda.pojo.util.ClassParser;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.graphics.Image;
 
 /**
- * 
+ *
  */
 
 public class ClassTreeLabelProvider extends LabelProvider {
 
+	@Override
 	public Image getImage(Object arg0) {
 		if (arg0 instanceof TreeData) {
 			Object obj = ((TreeData) arg0).getWrappedObject();
@@ -47,6 +50,7 @@ public class ClassTreeLabelProvider extends LabelProvider {
 		return null;
 	}
 
+	@Override
 	public String getText(Object arg0) {
 		if (arg0 instanceof TreeData) {
 			Object obj = ((TreeData) arg0).getWrappedObject();

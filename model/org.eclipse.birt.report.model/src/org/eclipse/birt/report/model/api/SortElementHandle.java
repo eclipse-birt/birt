@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +24,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
 import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ *
  */
 public class SortElementHandle extends ContentElementHandle implements ISortElementModel {
 
@@ -29,7 +32,7 @@ public class SortElementHandle extends ContentElementHandle implements ISortElem
 	 * Constructs a sort handle with the given design and the element. The
 	 * application generally does not create handles directly. Instead, it uses one
 	 * of the navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -43,9 +46,9 @@ public class SortElementHandle extends ContentElementHandle implements ISortElem
 	 * case is the name of a column. The expression can also be an expression that
 	 * includes columns. When used for a group, the expression can contain an
 	 * aggregate computed over the group.
-	 * 
+	 *
 	 * @return the key to sort
-	 * 
+	 *
 	 * @see #setKey(String)
 	 */
 
@@ -55,7 +58,7 @@ public class SortElementHandle extends ContentElementHandle implements ISortElem
 
 	/**
 	 * Sets an expression that gives the sort key on which to sort.
-	 * 
+	 *
 	 * @param key the key to sort
 	 * @throws SemanticException value required exception
 	 * @see #getKey()
@@ -73,7 +76,7 @@ public class SortElementHandle extends ContentElementHandle implements ISortElem
 	 * <li>SORT_DIRECTION_ASC
 	 * <li>SORT_DIRECTION_DESC
 	 * </ul>
-	 * 
+	 *
 	 * @return the direction to sort
 	 */
 
@@ -89,7 +92,7 @@ public class SortElementHandle extends ContentElementHandle implements ISortElem
 	 * <li>SORT_DIRECTION_ASC
 	 * <li>SORT_DIRECTION_DESC
 	 * </ul>
-	 * 
+	 *
 	 * @param direction the direction to set
 	 * @throws SemanticException if the direction is not in choice list.
 	 */
@@ -101,21 +104,22 @@ public class SortElementHandle extends ContentElementHandle implements ISortElem
 	/**
 	 * Gets the member value handle of this sort element if it sets. Otherwise
 	 * return null.
-	 * 
+	 *
 	 * @return the member value handle.
 	 */
 	public MemberValueHandle getMember() {
 		List contents = getContents(MEMBER_PROP);
-		if (contents != null && contents.size() > 0)
+		if (contents != null && contents.size() > 0) {
 			return (MemberValueHandle) contents.get(0);
+		}
 		return null;
 	}
 
 	/**
 	 * Gets the strength of this sort collation. By default, it is -1.
-	 * 
+	 *
 	 * @return the strength of this sort
-	 * 
+	 *
 	 * @see #setStrength(int)
 	 */
 
@@ -125,10 +129,10 @@ public class SortElementHandle extends ContentElementHandle implements ISortElem
 
 	/**
 	 * Sets the strength for this sort.
-	 * 
+	 *
 	 * @param strength the strength to sort
 	 * @throws SemanticException
-	 * 
+	 *
 	 * @see #getStrength()
 	 */
 
@@ -138,9 +142,9 @@ public class SortElementHandle extends ContentElementHandle implements ISortElem
 
 	/**
 	 * Gets the locale of this sort collation.
-	 * 
+	 *
 	 * @return the locale of this sort
-	 * 
+	 *
 	 * @see #setLocale(ULocale)
 	 */
 
@@ -150,10 +154,10 @@ public class SortElementHandle extends ContentElementHandle implements ISortElem
 
 	/**
 	 * Sets the locale for this sort.
-	 * 
+	 *
 	 * @param locale the locale to sort
 	 * @throws SemanticException
-	 * 
+	 *
 	 * @see #getLocale()
 	 */
 

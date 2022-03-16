@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +51,7 @@ public class DocParser extends HtmlDocReader {
 
 	/**
 	 * @throws ParseException
-	 * 
+	 *
 	 */
 	private void parseElement() throws ParseException {
 		skipTo("/h1");
@@ -62,8 +65,9 @@ public class DocParser extends HtmlDocReader {
 
 		for (;;) {
 			int token = getToken();
-			if (token == HTMLParser.EOF)
+			if (token == HTMLParser.EOF) {
 				return;
+			}
 			if (isElement(token, "h2") || isElement(token, "/body") || isElement(token, "/html")) {
 				pushToken(token);
 				return;
@@ -80,20 +84,23 @@ public class DocParser extends HtmlDocReader {
 
 			String header = parser.getTokenText();
 			token = getToken();
-			if (!isElement(token, "/h3"))
+			if (!isElement(token, "/h3")) {
 				pushToken(token);
+			}
 			if (header.equalsIgnoreCase("Description")) {
 				docObj.setDescription(copySection());
 			} else if (header.equalsIgnoreCase("XML Summary")) {
-				if (docObj.isElement())
+				if (docObj.isElement()) {
 					getElement().setXmlSummary(copySection());
+				}
 			} else if (header.equalsIgnoreCase("See Also")) {
 				docObj.setSeeAlso(copySection());
 			} else if (header.equalsIgnoreCase("Inherited Properties")) {
-				if (docObj.isElement())
+				if (docObj.isElement()) {
 					parseInheritedProperties();
-				else
+				} else {
 					copySection();
+				}
 			} else if (header.equalsIgnoreCase("Issues")) {
 				// Issues are private to the implementation. Ignore them.
 
@@ -115,8 +122,9 @@ public class DocParser extends HtmlDocReader {
 				pushToken(token);
 				return;
 			}
-			if (isElement(token, "dl"))
+			if (isElement(token, "dl")) {
 				break;
+			}
 		}
 
 		// Read list contents.
@@ -136,19 +144,21 @@ public class DocParser extends HtmlDocReader {
 
 			// Get the property name.
 
-			StringBuffer text = new StringBuffer();
+			StringBuilder text = new StringBuilder();
 			for (;;) {
 				token = getToken();
 				if (isBlockEnd(token) || isElement(token, "/dl") || isElement(token, "dd") || isElement(token, "dt")) {
 					pushToken(token);
 					break;
 				}
-				if (isElement(token, "/dt"))
+				if (isElement(token, "/dt")) {
 					break;
-				if (token == HTMLParser.TEXT)
+				}
+				if (token == HTMLParser.TEXT) {
 					text.append(parser.getTokenText());
-				else if (token == HTMLParser.ELEMENT)
+				} else if (token == HTMLParser.ELEMENT) {
 					text.append(parser.getFullElement());
+				}
 			}
 
 			// Add the property.
@@ -156,9 +166,9 @@ public class DocParser extends HtmlDocReader {
 			String propName = text.toString();
 			DocInheritedProperty prop = new DocInheritedProperty();
 			prop.setName(stripPara(propName));
-			if (prop.isDefined(getElement()))
+			if (prop.isDefined(getElement())) {
 				getElement().addInheritedPropertyNote(prop);
-			else {
+			} else {
 				error("Inherited property " + prop.getName() + " is not defined in rom.def");
 			}
 
@@ -170,19 +180,21 @@ public class DocParser extends HtmlDocReader {
 				continue;
 			}
 
-			text = new StringBuffer();
+			text = new StringBuilder();
 			for (;;) {
 				token = getToken();
 				if (isBlockEnd(token) || isElement(token, "/dl") || isElement(token, "dt")) {
 					pushToken(token);
 					break;
 				}
-				if (isElement(token, "/dd"))
+				if (isElement(token, "/dd")) {
 					break;
-				if (token == HTMLParser.TEXT)
+				}
+				if (token == HTMLParser.TEXT) {
 					text.append(parser.getTokenText());
-				else if (token == HTMLParser.ELEMENT)
+				} else if (token == HTMLParser.ELEMENT) {
 					text.append(parser.getFullElement());
+				}
 			}
 			prop.setDescription(stripPara(text.toString()));
 		}
@@ -190,20 +202,22 @@ public class DocParser extends HtmlDocReader {
 		// Skip list end.
 
 		token = getToken();
-		if (!isElement(token, "/dl"))
+		if (!isElement(token, "/dl")) {
 			pushToken(token);
+		}
 	}
 
 	// Copy the contents of a section up to the next section heading at
 	// the H3 level or higher. Also stop at end of body, html or file.
 
+	@Override
 	public String getTail(String header, String suffix) {
 		return header.substring(0, header.length() - suffix.length()).trim();
 	}
 
 	/**
 	 * @throws ParseException
-	 * 
+	 *
 	 */
 	private void parseMembers() throws ParseException {
 		for (;;) {
@@ -232,8 +246,9 @@ public class DocParser extends HtmlDocReader {
 				throw new ParseException(msg);
 			}
 			token = getToken();
-			if (!isElement(token, "/h2"))
+			if (!isElement(token, "/h2")) {
 				pushToken(token);
+			}
 			if (type.equals("property")) {
 				parseProperty(header);
 			} else if (docObj.isElement() && type.equals("method")) {
@@ -251,8 +266,9 @@ public class DocParser extends HtmlDocReader {
 	private String parseHeader() throws ParseException {
 		for (;;) {
 			int token = getToken();
-			if (token == HTMLParser.EOF)
+			if (token == HTMLParser.EOF) {
 				return null;
+			}
 			if (isElement(token, "h2") || isElement(token, "/body") || isElement(token, "/html")) {
 				pushToken(token);
 				return null;
@@ -270,8 +286,9 @@ public class DocParser extends HtmlDocReader {
 
 			String header = parser.getTokenText();
 			token = getToken();
-			if (!isElement(token, "/h3"))
+			if (!isElement(token, "/h3")) {
 				pushToken(token);
+			}
 			if (header.equalsIgnoreCase("Issues")) {
 				// Issues are private to the implementation. Ignore them.
 
@@ -281,8 +298,9 @@ public class DocParser extends HtmlDocReader {
 				// conversion. Ignore it.
 
 				copySection();
-			} else
+			} else {
 				return header;
+			}
 		}
 	}
 
@@ -295,26 +313,30 @@ public class DocParser extends HtmlDocReader {
 		// Summary is first block of text after h1.
 
 		String value = copySection();
-		if (prop != null)
+		if (prop != null) {
 			prop.setSummary(stripPara(value));
+		}
 
 		for (;;) {
 			String header = parseHeader();
-			if (header == null)
+			if (header == null) {
 				break;
+			}
 
 			if (header.equalsIgnoreCase("Description")) {
 				value = copySection();
-				if (prop != null)
+				if (prop != null) {
 					prop.setDescription(value);
+				}
 			} else if (header.equalsIgnoreCase("Notes")) {
 				parseNotes(prop);
 			} else if (header.equalsIgnoreCase("Choices")) {
 				parseChoices(prop);
 			} else if (header.equalsIgnoreCase("See Also")) {
 				value = copySection();
-				if (prop != null)
+				if (prop != null) {
 					prop.setSeeAlso(value);
+				}
 			} else {
 				warning("Unexpected Property header: " + header);
 				copySection();
@@ -329,12 +351,14 @@ public class DocParser extends HtmlDocReader {
 				pushToken(token);
 				return;
 			}
-			if (!isElement(token, "p"))
+			if (!isElement(token, "p")) {
 				continue;
+			}
 			String note = getTextTo("/p");
 			int posn = note.indexOf(':');
-			if (posn == -1)
+			if (posn == -1) {
 				continue;
+			}
 			String key = note.substring(0, posn);
 			note = note.substring(posn + 1).trim();
 			prop.addNote(key, note);
@@ -354,8 +378,9 @@ public class DocParser extends HtmlDocReader {
 		}
 		for (;;) {
 			token = getToken();
-			if (isElement(token, "/ul"))
+			if (isElement(token, "/ul")) {
 				break;
+			}
 			if (isBlockEnd(token)) {
 				error("</ul> missing from Choices section");
 				pushToken(token);
@@ -368,8 +393,9 @@ public class DocParser extends HtmlDocReader {
 			}
 			String line = getTextTo("/li");
 			int posn = line.indexOf(':');
-			if (posn == -1)
+			if (posn == -1) {
 				continue;
+			}
 			String name = line.substring(0, posn);
 			String descrip = line.substring(posn + 1).trim();
 			DocChoice choice = prop.findChoice(name);
@@ -390,26 +416,31 @@ public class DocParser extends HtmlDocReader {
 		// Summary is first block of text after h1.
 
 		String value = copySection();
-		if (method != null)
+		if (method != null) {
 			method.setSummary(stripPara(value));
+		}
 
 		for (;;) {
 			String header = parseHeader();
-			if (header == null)
+			if (header == null) {
 				break;
+			}
 
 			if (header.equalsIgnoreCase("Description")) {
 				value = copySection();
-				if (method != null)
+				if (method != null) {
 					method.setDescription(value);
+				}
 			} else if (header.equalsIgnoreCase("Return")) {
 				value = copySection();
-				if (method != null)
+				if (method != null) {
 					method.setReturnText(value);
+				}
 			} else if (header.equalsIgnoreCase("See Also")) {
 				value = copySection();
-				if (method != null)
+				if (method != null) {
 					method.setSeeAlso(value);
+				}
 			} else {
 				warning("Unexpected Method header: " + header);
 				copySection();
@@ -426,26 +457,31 @@ public class DocParser extends HtmlDocReader {
 		// Summary is first block of text after h1.
 
 		String value = copySection();
-		if (slot != null)
+		if (slot != null) {
 			slot.setSummary(stripPara(value));
+		}
 
 		for (;;) {
 			String header = parseHeader();
-			if (header == null)
+			if (header == null) {
 				break;
+			}
 
 			if (header.equalsIgnoreCase("Description")) {
 				value = copySection();
-				if (slot != null)
+				if (slot != null) {
 					slot.setDescription(value);
+				}
 			} else if (header.equalsIgnoreCase("See Also")) {
 				value = copySection();
-				if (slot != null)
+				if (slot != null) {
 					slot.setSeeAlso(value);
+				}
 			} else if (header.equalsIgnoreCase("Contents")) {
 				value = copySection();
-				if (slot != null)
+				if (slot != null) {
 					slot.setContentInfo(value);
+				}
 			} else {
 				warning("Unexpected Slot header: " + header);
 				copySection();
@@ -470,7 +506,7 @@ public class DocParser extends HtmlDocReader {
 	static class ParseException extends Exception {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 

@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -55,7 +58,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -65,7 +68,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -75,7 +78,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 	/**
 	 * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -84,7 +87,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 	/**
 	 * The default value of the '{@link #getSize() <em>Size</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSize()
 	 * @generated
 	 * @ordered
@@ -94,7 +97,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 	/**
 	 * The cached value of the '{@link #getSize() <em>Size</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSize()
 	 * @generated
 	 * @ordered
@@ -104,7 +107,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 	/**
 	 * This is true if the Size attribute has been set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -113,7 +116,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 	/**
 	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -123,7 +126,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 	/**
 	 * The cached value of the '{@link #isVisible() <em>Visible</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -133,7 +136,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 	/**
 	 * This is true if the Visible attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -142,7 +145,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 	/**
 	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getFill()
 	 * @generated
 	 * @ordered
@@ -152,7 +155,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 	/**
 	 * The cached value of the '{@link #getIconPalette() <em>Icon Palette</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getIconPalette()
 	 * @generated
 	 * @ordered
@@ -162,7 +165,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 	/**
 	 * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getOutline()
 	 * @generated
 	 * @ordered
@@ -171,7 +174,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected MarkerImpl() {
@@ -180,7 +183,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -190,160 +193,179 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public MarkerType getType() {
 		return type;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setType(MarkerType newType) {
 		MarkerType oldType = type;
 		type = newType == null ? TYPE_EDEFAULT : newType;
 		boolean oldTypeESet = typeESet;
 		typeESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.MARKER__TYPE, oldType, type,
 					!oldTypeESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetType() {
 		MarkerType oldType = type;
 		boolean oldTypeESet = typeESet;
 		type = TYPE_EDEFAULT;
 		typeESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.MARKER__TYPE, oldType,
 					TYPE_EDEFAULT, oldTypeESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetType() {
 		return typeESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getSize() {
 		return size;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setSize(int newSize) {
 		int oldSize = size;
 		size = newSize;
 		boolean oldSizeESet = sizeESet;
 		sizeESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.MARKER__SIZE, oldSize, size,
 					!oldSizeESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetSize() {
 		int oldSize = size;
 		boolean oldSizeESet = sizeESet;
 		size = SIZE_EDEFAULT;
 		sizeESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.MARKER__SIZE, oldSize,
 					SIZE_EDEFAULT, oldSizeESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetSize() {
 		return sizeESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isVisible() {
 		return visible;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setVisible(boolean newVisible) {
 		boolean oldVisible = visible;
 		visible = newVisible;
 		boolean oldVisibleESet = visibleESet;
 		visibleESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.MARKER__VISIBLE, oldVisible, visible,
 					!oldVisibleESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetVisible() {
 		boolean oldVisible = visible;
 		boolean oldVisibleESet = visibleESet;
 		visible = VISIBLE_EDEFAULT;
 		visibleESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.MARKER__VISIBLE, oldVisible,
 					VISIBLE_EDEFAULT, oldVisibleESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetVisible() {
 		return visibleESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public Fill getFill() {
 		return fill;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetFill(Fill newFill, NotificationChain msgs) {
@@ -352,47 +374,54 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.MARKER__FILL, oldFill, newFill);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setFill(Fill newFill) {
 		if (newFill != fill) {
 			NotificationChain msgs = null;
-			if (fill != null)
+			if (fill != null) {
 				msgs = ((InternalEObject) fill).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.MARKER__FILL, null, msgs);
-			if (newFill != null)
+			}
+			if (newFill != null) {
 				msgs = ((InternalEObject) newFill).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.MARKER__FILL, null, msgs);
+			}
 			msgs = basicSetFill(newFill, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.MARKER__FILL, newFill, newFill));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public Palette getIconPalette() {
 		return iconPalette;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetIconPalette(Palette newIconPalette, NotificationChain msgs) {
@@ -401,48 +430,55 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.MARKER__ICON_PALETTE, oldIconPalette, newIconPalette);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setIconPalette(Palette newIconPalette) {
 		if (newIconPalette != iconPalette) {
 			NotificationChain msgs = null;
-			if (iconPalette != null)
+			if (iconPalette != null) {
 				msgs = ((InternalEObject) iconPalette).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.MARKER__ICON_PALETTE, null, msgs);
-			if (newIconPalette != null)
+			}
+			if (newIconPalette != null) {
 				msgs = ((InternalEObject) newIconPalette).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.MARKER__ICON_PALETTE, null, msgs);
+			}
 			msgs = basicSetIconPalette(newIconPalette, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.MARKER__ICON_PALETTE, newIconPalette,
 					newIconPalette));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public LineAttributes getOutline() {
 		return outline;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetOutline(LineAttributes newOutline, NotificationChain msgs) {
@@ -451,39 +487,45 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.MARKER__OUTLINE, oldOutline, newOutline);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setOutline(LineAttributes newOutline) {
 		if (newOutline != outline) {
 			NotificationChain msgs = null;
-			if (outline != null)
+			if (outline != null) {
 				msgs = ((InternalEObject) outline).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.MARKER__OUTLINE, null, msgs);
-			if (newOutline != null)
+			}
+			if (newOutline != null) {
 				msgs = ((InternalEObject) newOutline).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.MARKER__OUTLINE, null, msgs);
+			}
 			msgs = basicSetOutline(newOutline, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.MARKER__OUTLINE, newOutline,
 					newOutline));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -501,7 +543,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -525,7 +567,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -555,7 +597,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -585,7 +627,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -609,30 +651,34 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (type: "); //$NON-NLS-1$
-		if (typeESet)
+		if (typeESet) {
 			result.append(type);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", size: "); //$NON-NLS-1$
-		if (sizeESet)
+		if (sizeESet) {
 			result.append(size);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", visible: "); //$NON-NLS-1$
-		if (visibleESet)
+		if (visibleESet) {
 			result.append(visible);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
@@ -666,7 +712,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 	 * For accelerating graphic purpose make a fast copy of a Marker without
 	 * iconPalette, which is obsolete, and the fill, which will be changed in many
 	 * cases. Using the setFillSimple to set the fill faster.
-	 * 
+	 *
 	 * @param src
 	 * @return marker instance
 	 */
@@ -694,7 +740,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 
 	/**
 	 * To set the fill without EMF notifying for accelerating graphic purpose.
-	 * 
+	 *
 	 * @param marker
 	 * @param fill
 	 */
@@ -709,6 +755,7 @@ public class MarkerImpl extends EObjectImpl implements Marker {
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
+	@Override
 	public Marker copyInstance() {
 		MarkerImpl dest = new MarkerImpl();
 

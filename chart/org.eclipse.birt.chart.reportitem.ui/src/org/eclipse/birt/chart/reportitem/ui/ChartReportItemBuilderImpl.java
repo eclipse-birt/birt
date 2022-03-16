@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -120,7 +123,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements I
 
 	/**
 	 * Open the chart with specified task
-	 * 
+	 *
 	 * @param taskId specified task to open
 	 */
 	public ChartReportItemBuilderImpl(String taskId) {
@@ -134,11 +137,12 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI#open(org.
 	 * eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
+	@Override
 	public int open(final ExtendedItemHandle eih) {
 		if (iInstanceCount > 0) // LIMIT TO ONE INSTANCE
 		{
@@ -325,6 +329,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements I
 			final CommandStack commandStack, final String TRANS_NAME, final Object[] applyData) {
 		chartBuilder.addCustomButton(new ApplyButtonHandler(chartBuilder) {
 
+			@Override
 			public void run() {
 				super.run();
 				// Save the data when applying
@@ -451,6 +456,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements I
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
+	@Override
 	public String invoke(String sExpression, Object oContext, String sTitle) {
 		final ExpressionBuilder eb = new ExpressionBuilder(sExpression);
 		eb.setExpressionProvider(new ExpressionProvider((ExtendedItemHandle) oContext));
@@ -466,6 +473,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements I
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
+	@Override
 	public String invoke(String sExpression, Object oContext, String sTitle, boolean isChartProvider) {
 		final ExpressionBuilder eb = new ExpressionBuilder(sExpression);
 		eb.setExpressionProvider(new ChartExpressionProvider());
@@ -480,13 +489,14 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#validate(org.
 	 * eclipse.birt.chart.model.Chart, java.lang.Object)
 	 */
+	@Override
 	public String[] validate(Chart cm, Object oContext) {
-		final ArrayList<String> alProblems = new ArrayList<String>(4);
+		final ArrayList<String> alProblems = new ArrayList<>(4);
 
 		// CHECK FOR UNBOUND DATASET
 		final ExtendedItemHandle eih = (ExtendedItemHandle) oContext;
@@ -505,11 +515,12 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getRegisteredKeys
 	 * ()
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<String> getRegisteredKeys() {
 		return extendedHandle.getModuleHandle().getMessageKeys();
@@ -517,11 +528,12 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getValue(java.
 	 * lang.String)
 	 */
+	@Override
 	public String getValue(String sKey) {
 		String value = extendedHandle.getModuleHandle().getMessage(sKey);
 		if (value == null || value.equals("")) //$NON-NLS-1$
@@ -533,16 +545,17 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getConvertedValue
 	 * (double, java.lang.String, java.lang.String)
 	 */
+	@Override
 	public final double getConvertedValue(double dOriginalValue, String sFromUnits, String sToUnits) {
 		if (sFromUnits == null || sToUnits == null) {
 			return dOriginalValue;
 		}
-		double dResult = -1d;
+		double dResult;
 
 		// CONVERT FROM PIXELS
 		final IDisplayServer ids = ChartUIUtil.getDisplayServer();
@@ -586,10 +599,11 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(int,
 	 * java.lang.String, java.lang.Object, java.lang.String)
 	 */
+	@Override
 	public String invoke(int command, String value, final Object context, String sTitle) throws ChartException {
 		final ExpressionProvider ep = createExpressionProvider(command, context);
 		Shell shell = null;
@@ -658,14 +672,17 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements I
 		return value;
 	}
 
+	@Override
 	public boolean isInvokingSupported() {
 		return true;
 	}
 
+	@Override
 	public boolean isEclipseModeSupported() {
 		return true;
 	}
 
+	@Override
 	public Object invoke(Command command, Object... inData) throws ChartException {
 		Object outData = null;
 		switch (command) {
@@ -722,13 +739,15 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#
 	 * getFormatSpecifierHandler()
 	 */
+	@Override
 	public IFormatSpecifierHandler getFormatSpecifierHandler() {
-		if (formatSpecifierHandler == null)
+		if (formatSpecifierHandler == null) {
 			formatSpecifierHandler = new FormatSpecifierHandler();
+		}
 		return formatSpecifierHandler;
 	}
 

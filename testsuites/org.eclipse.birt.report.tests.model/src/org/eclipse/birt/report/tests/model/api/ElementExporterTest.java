@@ -1,10 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.api;
 
 import java.util.Iterator;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
@@ -39,6 +48,9 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /**
  * TestCases for ElementExportUtil class.
  * <p>
@@ -47,21 +59,21 @@ import com.ibm.icu.util.ULocale;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
- * 
+ *
+ *
  * <tr>
  * <td>{@link #testCanExport()}</td>
  * <td>Test six canExport methods</td>
  * <td>Return true/false based on the tested structure or element</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testCanExport_invalid()}</td>
  * <td>Test invalid arguments in canExport methods</td>
  * <td>Handle the invalid arguments</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class ElementExporterTest extends BaseTestCase {
 
@@ -76,17 +88,19 @@ public class ElementExporterTest extends BaseTestCase {
 
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		designHandle = createDesign(ULocale.ENGLISH);
 		libaryHandle = createLibrary();
 	}
 
+	@Override
 	protected void tearDown() throws Exception {
 	}
 
 	/**
 	 * Test six canExport methods
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 	public void testCanExport() throws SemanticException {

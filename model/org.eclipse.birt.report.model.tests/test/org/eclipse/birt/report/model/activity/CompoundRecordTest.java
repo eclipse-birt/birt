@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,99 +32,99 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testAppend()}</td>
  * <td>append one record to list</td>
  * <td>size of list is equal to one</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testUndo()}</td>
  * <td>execute record</td>
  * <td>state of activityrecord is done_state</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>undo record</td>
  * <td>state of activityrecord is undone_state</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testRedo()}</td>
  * <td>execute record</td>
  * <td>state of activityrecord is done_state</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>undo record</td>
  * <td>state of activityrecord is undone_state</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>redo record</td>
  * <td>state of activityrecord is redone_state</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testCanUndo()}</td>
  * <td>execute record</td>
  * <td>both records canUnod are true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>set both records canUndo are true</td>
  * <td>both records canUnod are true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>set one record canUndo is false</td>
  * <td>one record canUndo is true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testCanRedo()}</td>
  * <td>execute record</td>
  * <td>record canRedo is false</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>set both records canRedo are true</td>
  * <td>both records canRedo are true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testPop()}</td>
  * <td>pop from empty list</td>
  * <td>null</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>add one record to list and pop it twice</td>
  * <td>first pop return record , second pop return null</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testExecute()}</td>
  * <td>execute empty record list</td>
  * <td>true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>add two records and execute record list</td>
  * <td>true</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 public class CompoundRecordTest extends BaseTestCase {
 
@@ -132,6 +135,7 @@ public class CompoundRecordTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		this.compoundRecord = new CompoundRecord("SampleCompoundRecord"); //$NON-NLS-1$
@@ -142,6 +146,7 @@ public class CompoundRecordTest extends BaseTestCase {
 	/*
 	 * @see TestCase#tearDown()
 	 */
+	@Override
 	protected void tearDown() throws Exception {
 		this.compoundRecord = null;
 		this.activityRecord = null;
@@ -391,11 +396,11 @@ public class CompoundRecordTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * Mockup ElementRecord. The target of the ActivityRecord is linked to a
 	 * MockupDesignElement, and suppose execute operation is always successful.
-	 * 
+	 *
 	 */
 
 	class MockupActivityRecord extends AbstractElementRecord {
@@ -417,27 +422,29 @@ public class CompoundRecordTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord
 		 * #canRedo()
 		 */
+		@Override
 		public boolean canRedo() {
 			return this.canRedo;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord
 		 * #canUndo()
 		 */
+		@Override
 		public boolean canUndo() {
 			return this.canUndo;
 		}
 
 		/**
 		 * Constructor
-		 * 
+		 *
 		 * @param activityID
 		 */
 		public MockupActivityRecord(int activityID) {
@@ -446,10 +453,11 @@ public class CompoundRecordTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord
 		 * #execute()
 		 */
+		@Override
 		public void execute() {
 			this.canUndo = true;
 			this.canRedo = false;
@@ -457,10 +465,11 @@ public class CompoundRecordTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord
 		 * #undo()
 		 */
+		@Override
 		public void undo() {
 			if (this.canUndo) {
 				this.canRedo = true;
@@ -470,10 +479,11 @@ public class CompoundRecordTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord
 		 * #redo()
 		 */
+		@Override
 		public void redo() {
 			if (this.canRedo) {
 				this.canUndo = true;
@@ -483,24 +493,27 @@ public class CompoundRecordTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
 		 * #getTarget()
 		 */
+		@Override
 		public DesignElement getTarget() {
 			return new MockupDesignElement();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
 		 * #getEvent()
 		 */
+		@Override
 		public NotificationEvent getEvent() {
 			return new MockupEvent();
 		}
 
+		@Override
 		public void rollback() {
 			undo();
 		}
@@ -509,7 +522,7 @@ public class CompoundRecordTest extends BaseTestCase {
 		 * Returns <code>true</code> if need to hold the event at this time. We need to
 		 * hold the event if it is sent inside a transaction that declared to filter
 		 * notification events( <code>FilterEventsCompoundRecord</code>).
-		 * 
+		 *
 		 * @param transStack the transaction stack.
 		 * @return <code>true</code> if need to hold the event at this time, returns
 		 *         <code>false</code> otherwise.
@@ -517,8 +530,9 @@ public class CompoundRecordTest extends BaseTestCase {
 		protected final boolean holdEvent(Stack transStack) {
 			if (transStack != null && !transStack.isEmpty()) {
 				CompoundRecord cr = (CompoundRecord) transStack.peek();
-				if (cr instanceof FilterEventsCompoundRecord)
+				if (cr instanceof FilterEventsCompoundRecord) {
 					return true;
+				}
 			}
 
 			return false;
@@ -532,47 +546,46 @@ public class CompoundRecordTest extends BaseTestCase {
 
 	class MockupDesignElement extends DesignElement {
 
-		private int counter = 0;
-
 		/**
 		 * increase the counter by 1.
 		 */
 		public void increase() {
-			++counter;
 		}
 
 		/**
 		 * decrease the counter by 1.
 		 */
 		public void decrease() {
-			--counter;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.elements.DesignElement# apply
 		 * (org.eclipse.birt.report.model.design.report.elements.DesignVisitor)
 		 */
+		@Override
 		public void apply(ElementVisitor visitor) {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.elements.DesignElement#
 		 * getElementName()
 		 */
+		@Override
 		public String getElementName() {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.design.core.elements.DesignElement#
 		 * getHandle (org.eclipse.birt.report.model.design.core.activity.DesignContext)
 		 */
+		@Override
 		public DesignElementHandle getHandle(Module rootElement) {
 			return null;
 		}
@@ -582,9 +595,10 @@ public class CompoundRecordTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.activity.NotificationEvent#getEventType ()
 		 */
+		@Override
 		public int getEventType() {
 			return NotificationEvent.CONTENT_EVENT;
 		}

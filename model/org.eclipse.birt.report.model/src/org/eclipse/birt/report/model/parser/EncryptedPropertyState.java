@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,12 +41,12 @@ import org.xml.sax.SAXException;
 public class EncryptedPropertyState extends PropertyState {
 
 	/**
-	 * 
+	 *
 	 */
 	protected String encryptionID = null;
 
 	/**
-	 * 
+	 *
 	 * @param theHandler
 	 * @param element
 	 */
@@ -52,7 +55,7 @@ public class EncryptedPropertyState extends PropertyState {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param theHandler
 	 * @param element
 	 * @param propDefn
@@ -68,10 +71,11 @@ public class EncryptedPropertyState extends PropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		super.parseAttrs(attrs);
 		encryptionID = attrs.getValue(DesignSchemaConstants.ENCRYPTION_ID_ATTRIB);
@@ -79,9 +83,10 @@ public class EncryptedPropertyState extends PropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
 	 */
+	@Override
 	public void end() throws SAXException {
 		String value = text.toString();
 
@@ -113,16 +118,17 @@ public class EncryptedPropertyState extends PropertyState {
 		}
 
 		String valueToSet = StringUtil.trimString(value);
-		if (null == valueToSet)
+		if (null == valueToSet) {
 			return;
+		}
 
 		// do some backward-compatibility
 		if (handler.versionNumber < VersionUtil.VERSION_3_2_15) {
 			IEncryptionHelper helper = null;
 			String encryption = null;
-			if (struct != null)
+			if (struct != null) {
 				helper = SimpleEncryptionHelper.getInstance();
-			else {
+			} else {
 				encryption = encryptionID == null ? SimpleEncryptionHelper.ENCRYPTION_ID : encryptionID;
 				helper = MetaDataDictionary.getInstance().getEncryptionHelper(encryption);
 			}
@@ -131,11 +137,11 @@ public class EncryptedPropertyState extends PropertyState {
 				valueToSet = helper == null ? valueToSet : helper.encrypt(valueToSet);
 
 				// set encryption id
-				if (struct == null)
+				if (struct == null) {
 					element.setEncryptionHelper((ElementPropertyDefn) propDefn, encryption);
-			} else {
-				if (struct == null)
-					element.setEncryptionHelper((ElementPropertyDefn) propDefn, encryption);
+				}
+			} else if (struct == null) {
+				element.setEncryptionHelper((ElementPropertyDefn) propDefn, encryption);
 			}
 		}
 
@@ -160,7 +166,7 @@ public class EncryptedPropertyState extends PropertyState {
 	/**
 	 * Converts input value to expression. If the property type is expression and
 	 * the exprType is not null, the String value will be converted to Expression.
-	 * 
+	 *
 	 * @param defn       property definition.
 	 * @param valueToSet the value.
 	 * @return the converted object.

@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -33,7 +36,7 @@ import org.eclipse.swt.widgets.Label;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class InsetsComposite extends AbstractChartInsets implements ModifyListener {
 
@@ -73,7 +76,7 @@ public class InsetsComposite extends AbstractChartInsets implements ModifyListen
 
 	/**
 	 * Creates a composite for <code>Inserts</code>. Default row number is 2.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param insets
@@ -87,7 +90,7 @@ public class InsetsComposite extends AbstractChartInsets implements ModifyListen
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param numberRows      specify row number. Valid number is 1,2,4.
@@ -113,14 +116,14 @@ public class InsetsComposite extends AbstractChartInsets implements ModifyListen
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void init() {
 		this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void placeComponents() {
 		Group grpInsets = createGroup();
@@ -252,7 +255,7 @@ public class InsetsComposite extends AbstractChartInsets implements ModifyListen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
 	@Override
@@ -269,7 +272,7 @@ public class InsetsComposite extends AbstractChartInsets implements ModifyListen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#isEnabled()
 	 */
 	@Override
@@ -277,6 +280,7 @@ public class InsetsComposite extends AbstractChartInsets implements ModifyListen
 		return bEnabled;
 	}
 
+	@Override
 	public void setInsets(Insets insets, String sUnits) {
 		if (insets == null) {
 			return;
@@ -319,10 +323,11 @@ public class InsetsComposite extends AbstractChartInsets implements ModifyListen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.
 	 * ModifyEvent)
 	 */
+	@Override
 	public void modifyText(ModifyEvent event) {
 		double dblCurrent = -1;
 		double dblPoints = -1;
@@ -356,6 +361,7 @@ public class InsetsComposite extends AbstractChartInsets implements ModifyListen
 		txtRight.setEnabled(bState);
 	}
 
+	@Override
 	public void setDefaultInsets(Insets insets) {
 		this.defaultInsets = insets;
 	}

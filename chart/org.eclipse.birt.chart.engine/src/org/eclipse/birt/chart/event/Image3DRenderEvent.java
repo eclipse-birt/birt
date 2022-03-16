@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,9 +50,10 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements I3DRen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
+	@Override
 	public PrimitiveRenderEvent copy() {
 		Image3DRenderEvent ire = new Image3DRenderEvent(source);
 
@@ -71,18 +75,20 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements I3DRen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
 	 */
+	@Override
 	public Object3D getObject3D() {
 		return object3D;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double, double)
 	 */
+	@Override
 	public void prepare2D(double xOffset, double yOffset) {
 		Location[] points = object3D.getPoints2D(xOffset, yOffset);
 		setLocation(points[0]);
@@ -90,9 +96,10 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements I3DRen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.ImageRenderEvent#reset()
 	 */
+	@Override
 	public void reset() {
 		this.object3D = null;
 		super.reset();

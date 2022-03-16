@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -62,10 +65,11 @@ public class DebugJsEditor extends DecoratedScriptEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.editor.script.DecoratedScriptEditor#
 	 * createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public void createPartControl(Composite parent) {
 		Font font = parent.getFont();
 		Composite composite = ScriptSWTFactory.createComposite(parent, font, 1, 1, GridData.FILL_HORIZONTAL, 0, 0);
@@ -90,6 +94,7 @@ public class DebugJsEditor extends DecoratedScriptEditor {
 
 		messageLabel.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDown(MouseEvent e) {
 				if (outlinePage != null) {
 					outlinePage.selectionItem(getDebugJSInput().getId());
@@ -104,6 +109,7 @@ public class DebugJsEditor extends DecoratedScriptEditor {
 		sep.setLayoutData(layoutData);
 		sep.addPaintListener(new PaintListener() {
 
+			@Override
 			public void paintControl(PaintEvent e) {
 				GC gc = e.gc;
 				Rectangle rect = sep.getBounds();
@@ -126,11 +132,12 @@ public class DebugJsEditor extends DecoratedScriptEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#doSetInput(org.eclipse.
 	 * ui.IEditorInput)
 	 */
+	@Override
 	protected void doSetInput(IEditorInput input) throws CoreException {
 		super.doSetInput(input);
 		String name = getLabelMessage();
@@ -165,19 +172,21 @@ public class DebugJsEditor extends DecoratedScriptEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.editor.script.DecoratedScriptEditor#
 	 * createScriptInput(java.lang.String)
 	 */
+	@Override
 	protected IEditorInput createScriptInput(String script) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#isDirty()
 	 */
+	@Override
 	public boolean isDirty() {
 		return false;
 	}
@@ -188,27 +197,32 @@ public class DebugJsEditor extends DecoratedScriptEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#getAdapter(java.lang.
 	 * Class)
 	 */
+	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter == IReportScriptLocation.class) {
 			return new IReportScriptLocation() {
 
+				@Override
 				public String getID() {
 					return getDebugJSInput().getId();
 				}
 
+				@Override
 				public int getLineNumber() {
 					return -1;
 				}
 
+				@Override
 				public String getReportFileName() {
 					return getDebugJSInput().getFile().getAbsolutePath();
 				}
 
+				@Override
 				public String getDisplayName() {
 					return getLabelMessage();
 				}

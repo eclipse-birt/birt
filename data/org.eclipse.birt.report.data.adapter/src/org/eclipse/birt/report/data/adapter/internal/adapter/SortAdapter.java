@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.report.data.adapter.internal.adapter;
@@ -31,7 +34,7 @@ public class SortAdapter extends SortDefinition {
 	/**
 	 * Creates a new sort based on the provided key and direction Direction contains
 	 * a String value defined in Model
-	 * 
+	 *
 	 * @throws AdapterException
 	 */
 	public SortAdapter(IModelAdapter adapter, Expression expr, String direction) throws AdapterException {
@@ -41,29 +44,33 @@ public class SortAdapter extends SortDefinition {
 
 	/**
 	 * Creates a new sort based on model sort key definition
-	 * 
+	 *
 	 * @throws AdapterException
 	 */
 	public SortAdapter(IModelAdapter adapter, SortKeyHandle keyHandle) throws AdapterException {
 		ExpressionHandle handle = keyHandle.getExpressionProperty(SortKey.KEY_MEMBER);
-		if (handle == null)
+		if (handle == null) {
 			return;
+		}
 		IScriptExpression expr = adapter.adaptExpression((Expression) handle.getValue());
 		this.setExpression(expr);
 		this.setSortDirection(sortDirectionFromModel(keyHandle.getDirection()));
 		this.setSortStrength(keyHandle.getStrength());
-		if (keyHandle.getLocale() != null)
+		if (keyHandle.getLocale() != null) {
 			this.setSortLocale(keyHandle.getLocale());
+		}
 	}
 
 	/**
 	 * Converts a model sort direction string to equivalent enumeration constant
 	 */
 	public static int sortDirectionFromModel(String modelDirectionStr) {
-		if ("asc".equals(modelDirectionStr)) //$NON-NLS-1$
+		if ("asc".equals(modelDirectionStr)) { //$NON-NLS-1$
 			return IGroupDefinition.SORT_ASC;
-		if ("desc".equals(modelDirectionStr)) //$NON-NLS-1$
+		}
+		if ("desc".equals(modelDirectionStr)) { //$NON-NLS-1$
 			return IGroupDefinition.SORT_DESC;
+		}
 
 		return IGroupDefinition.SORT_ASC;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,10 +38,12 @@ public class ExtensionClassJSObject implements JSObjectMetaData {
 		this.classInfo = classInfo;
 	}
 
+	@Override
 	public String getName() {
 		return classInfo.getName();
 	}
 
+	@Override
 	public JSMethod[] getMethods() {
 		if (cacheMethods == null) {
 			List jsMethods = new ArrayList();
@@ -56,6 +61,7 @@ public class ExtensionClassJSObject implements JSObjectMetaData {
 		return cacheMethods;
 	}
 
+	@Override
 	public JSField[] getFields() {
 		if (cacheFields == null) {
 			List jsFields = new ArrayList();
@@ -73,14 +79,17 @@ public class ExtensionClassJSObject implements JSObjectMetaData {
 		return cacheFields;
 	}
 
+	@Override
 	public String toString() {
 		return classInfo.getName();
 	}
 
+	@Override
 	public String getDescription() {
 		return null;
 	}
 
+	@Override
 	public int getVisibility() {
 		return VISIBILITY_PUBLIC;
 	}
@@ -89,6 +98,7 @@ public class ExtensionClassJSObject implements JSObjectMetaData {
 		return name.substring(name.lastIndexOf(".") + 1); //$NON-NLS-1$
 	}
 
+	@Override
 	public JSObjectMetaData getComponentType() {
 		return null;
 	}
@@ -111,14 +121,17 @@ public class ExtensionClassJSObject implements JSObjectMetaData {
 			}
 		}
 
+		@Override
 		public String getName() {
 			return method.getName();
 		}
 
+		@Override
 		public JSObjectMetaData getReturn() {
 			return returnType;
 		}
 
+		@Override
 		public JSObjectMetaData[] getArguments() {
 			// TODO impl real argument info, currently simply use argument type
 
@@ -128,7 +141,7 @@ public class ExtensionClassJSObject implements JSObjectMetaData {
 				// only process first arguemnt list
 				IArgumentInfoList ail = (IArgumentInfoList) itr.next();
 
-				List<JSObjectMetaData> args = new ArrayList<JSObjectMetaData>();
+				List<JSObjectMetaData> args = new ArrayList<>();
 
 				for (Iterator aitr = ail.argumentsIterator(); aitr.hasNext();) {
 					IArgumentInfo aif = (IArgumentInfo) aitr.next();
@@ -141,9 +154,10 @@ public class ExtensionClassJSObject implements JSObjectMetaData {
 			return null;
 		}
 
+		@Override
 		public String getDisplayText() {
 			if (displayText == null) {
-				StringBuffer strbuf = new StringBuffer(getName());
+				StringBuilder strbuf = new StringBuilder(getName());
 				strbuf.append("("); //$NON-NLS-1$
 				Iterator argListItr = method.argumentListIterator();
 
@@ -174,14 +188,17 @@ public class ExtensionClassJSObject implements JSObjectMetaData {
 			return displayText;
 		}
 
+		@Override
 		public String getDescription() {
 			return null;
 		}
 
+		@Override
 		public int getVisibility() {
 			return VISIBILITY_PUBLIC;
 		}
 
+		@Override
 		public int compareTo(Object obj) {
 			if (obj instanceof ExtensionClassMethod && ((ExtensionClassMethod) obj).getName() != null) {
 				return getName().compareToIgnoreCase(((ExtensionClassMethod) obj).getName());
@@ -211,17 +228,20 @@ public class ExtensionClassJSObject implements JSObjectMetaData {
 			}
 		}
 
+		@Override
 		public String getName() {
 			return field.getName();
 		}
 
+		@Override
 		public JSObjectMetaData getType() {
 			return type;
 		}
 
+		@Override
 		public String getDisplayText() {
 			if (displayText == null) {
-				StringBuffer strbuf = new StringBuffer(getName());
+				StringBuilder strbuf = new StringBuilder(getName());
 				strbuf.append(" "); //$NON-NLS-1$
 				if (field != null && field.getDataType() != null) {
 					strbuf.append(getSimpleName(field.getDataType()));
@@ -242,14 +262,17 @@ public class ExtensionClassJSObject implements JSObjectMetaData {
 			return displayText;
 		}
 
+		@Override
 		public String getDescription() {
 			return null;
 		}
 
+		@Override
 		public int getVisibility() {
 			return VISIBILITY_PUBLIC;
 		}
 
+		@Override
 		public int compareTo(Object obj) {
 			if (obj instanceof ExtensionClassField && ((ExtensionClassField) obj).getName() != null) {
 				return getName().compareToIgnoreCase(((ExtensionClassField) obj).getName());

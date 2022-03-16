@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -123,7 +126,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * The dialog maintains the filters against chart using cube set case.
- * 
+ *
  * @since 2.3
  */
 public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
@@ -138,7 +141,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 	protected Composite dummy1, dummy2;
 	protected Label label1, label2;
 
-	protected List<String> valueList = new ArrayList<String>();
+	protected List<String> valueList = new ArrayList<>();
 
 	protected List selValueList = new ArrayList();
 
@@ -151,9 +154,9 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 	protected ReportElementHandle currentItem = null;
 
-	protected static final String[] EMPTY_ARRAY = new String[] {};
+	protected static final String[] EMPTY_ARRAY = {};
 
-	protected List<String> columnList, measureList = new ArrayList<String>();
+	protected List<String> columnList, measureList = new ArrayList<>();
 
 	protected int valueVisible;
 
@@ -163,9 +166,9 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 	/**
 	 * Constant, represents empty String array.
 	 */
-	protected static final String[] EMPTY = new String[0];
+	protected static final String[] EMPTY = {};
 
-	private Map<String, String> fExprMap = new LinkedHashMap<String, String>();
+	private Map<String, String> fExprMap = new LinkedHashMap<>();
 
 	protected String title, message;
 
@@ -219,7 +222,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder#
 	 * setColumnList(org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
@@ -227,14 +230,14 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 		if (handle instanceof ExtendedItemHandle) {
 			try {
 				fExprMap = getValidFilterExpressions((ExtendedItemHandle) handle);
-				columnList = new ArrayList<String>(fExprMap.keySet());
+				columnList = new ArrayList<>(fExprMap.keySet());
 				return;
 			} catch (ExtendedElementException e) {
 				e.printStackTrace();
 			}
 		}
 
-		columnList = new ArrayList<String>();
+		columnList = new ArrayList<>();
 	}
 
 	protected String adaptExpr(ExpressionCodec exprCodec) {
@@ -244,8 +247,8 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 	}
 
 	protected Map<String, String> getValidFilterExpressions(ExtendedItemHandle handle) throws ExtendedElementException {
-		Map<String, String> exprMap = new LinkedHashMap<String, String>();
-		measureList = new ArrayList<String>();
+		Map<String, String> exprMap = new LinkedHashMap<>();
+		measureList = new ArrayList<>();
 
 		for (LevelHandle lh : ChartCubeUtil.getAllLevels(handle.getCube())) {
 			exprCodec.setBindingName(ChartCubeUtil.createLevelBindingName(lh), true);
@@ -291,9 +294,10 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
+	@Override
 	protected void okPressed() {
 		try {
 			if (inputHandle == null) {
@@ -389,7 +393,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void setBindingParams(ParamBindingHandle[] params) {
 		this.bindingParams = params;
@@ -409,7 +413,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Returns the operator value by its display name.
-	 * 
+	 *
 	 * @param name
 	 */
 	public static String getValueForOperator(String name) {
@@ -424,7 +428,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Returns how many value fields this operator needs.
-	 * 
+	 *
 	 * @param operatorValue
 	 */
 	public static int determineValueVisible(String operatorValue) {
@@ -455,7 +459,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Returns the operator display name by its value.
-	 * 
+	 *
 	 * @param value
 	 */
 	public static String getNameForOperator(String value) {
@@ -470,7 +474,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Returns the index for given operator value in the operator list.
-	 * 
+	 *
 	 * @param value
 	 */
 	protected static int getIndexForOperatorValue(String value) {
@@ -503,11 +507,12 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 	private String fCurrentExpr = ""; //$NON-NLS-1$
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.INSERT_EDIT_FILTER_CONDITION_DIALOG_ID);
 
@@ -562,6 +567,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 		}
 		expression.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (expression.getText().equals(VALUE_OF_THIS_DATA_ITEM) && designHandle instanceof DataItemHandle) {
 					expression
@@ -581,6 +587,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 		expButton.addListener(new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				if (event.data instanceof String[]) {
 					updateButtons();
@@ -617,6 +624,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 	protected Listener expValueVerifyListener = new Listener() {
 
+		@Override
 		public void handleEvent(Event event) {
 			CCombo thisCombo = (CCombo) event.widget;
 			String text = event.text;
@@ -630,6 +638,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 	private Listener expValueSelectionListener = new Listener() {
 
+		@Override
 		public void handleEvent(Event event) {
 			CCombo thisCombo = (CCombo) event.widget;
 			int selectionIndex = thisCombo.getSelectionIndex();
@@ -773,6 +782,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 		expressionValue.addListener(SWT.Selection, expValueSelectionListener);
 		Listener listener = new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				updateButtons();
 			}
@@ -781,6 +791,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 		expressionValue.addListener(SWT.Modify, listener);
 		expressionValue.addListener(SWT.MouseDown, new Listener() {
 
+			@Override
 			public void handleEvent(Event arg0) {
 				if (isMeasureSelected()) {
 					if (expressionValue.getItemCount() > 0) {
@@ -862,10 +873,12 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 		setButtonLayoutData(addBtn);
 		addBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String value = addExpressionValue.getText().trim();
 				if (valueList.indexOf(value) < 0) {
@@ -893,9 +906,9 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 		table.setLinesVisible(true);
 		TableColumn column;
 		int i;
-		String[] columNames = new String[] { Messages.getString("FilterConditionBuilder.list.item1"), //$NON-NLS-1$
+		String[] columNames = { Messages.getString("FilterConditionBuilder.list.item1"), //$NON-NLS-1$
 		};
-		int[] columLength = new int[] { 288 };
+		int[] columLength = { 288 };
 		for (i = 0; i < columNames.length; i++) {
 			column = new TableColumn(table, SWT.NONE, i);
 			column.setText(columNames[i]);
@@ -903,9 +916,11 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 		}
 		table.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				checkEditDelButtonStatus();
 			}
@@ -913,6 +928,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 		table.addKeyListener(new KeyListener() {
 
+			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.DEL) {
 					int index = table.getSelectionIndex();
@@ -933,6 +949,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 			}
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 
 			}
@@ -940,6 +957,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 		});
 		table.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
 				if (selection.getFirstElement() != null && selection.getFirstElement() instanceof String) {
@@ -948,10 +966,11 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 					ExpressionBuilder expressionBuilder = new ExpressionBuilder(getShell(), initValue);
 
 					if (designHandle != null) {
-						if (expressionProvider == null)
+						if (expressionProvider == null) {
 							expressionBuilder.setExpressionProvider(new ExpressionProvider(designHandle));
-						else
+						} else {
 							expressionBuilder.setExpressionProvider(expressionProvider);
+						}
 					}
 
 					if (expressionBuilder.open() == OK) {
@@ -988,10 +1007,12 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 		setButtonLayoutData(editBtn);
 		editBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
 				if (selection.getFirstElement() != null && selection.getFirstElement() instanceof String) {
@@ -1000,10 +1021,11 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 					ExpressionBuilder expressionBuilder = new ExpressionBuilder(getShell(), initValue);
 
 					if (designHandle != null) {
-						if (expressionProvider == null)
+						if (expressionProvider == null) {
 							expressionBuilder.setExpressionProvier(new ExpressionProvider(designHandle));
-						else
+						} else {
 							expressionBuilder.setExpressionProvier(expressionProvider);
+						}
 					}
 
 					if (expressionBuilder.open() == OK) {
@@ -1028,10 +1050,12 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 		setButtonLayoutData(delBtn);
 		delBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int index = table.getSelectionIndex();
 				if (index > -1) {
@@ -1057,10 +1081,12 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 		setButtonLayoutData(delAllBtn);
 		delAllBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int count = valueList.size();
 				if (count > 0) {
@@ -1076,6 +1102,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 		addExpressionValue.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				checkAddButtonStatus();
 				updateButtons();
@@ -1089,10 +1116,12 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 	protected ITableLabelProvider tableLableProvier = new ITableLabelProvider() {
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (columnIndex == 0) {
 				return (String) element;
@@ -1100,18 +1129,22 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 			return ""; //$NON-NLS-1$
 		}
 
+		@Override
 		public void addListener(ILabelProviderListener listener) {
 
 		}
 
+		@Override
 		public void dispose() {
 
 		}
 
+		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
+		@Override
 		public void removeListener(ILabelProviderListener listener) {
 
 		}
@@ -1119,14 +1152,17 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 	protected IStructuredContentProvider tableContentProvider = new IStructuredContentProvider() {
 
+		@Override
 		public void dispose() {
 
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 
 		}
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement == null) {
 				return new Object[0];
@@ -1139,6 +1175,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 	protected SelectionListener operatorSelectionListener = new SelectionListener() {
 
+		@Override
 		public void widgetSelected(SelectionEvent e) {
 			String value = getValueForOperator(operator.getText());
 
@@ -1185,6 +1222,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 			updateButtons();
 		}
 
+		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
 
 		}
@@ -1192,13 +1230,15 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 	protected Listener comboModifyListener = new Listener() {
 
+		@Override
 		public void handleEvent(Event e) {
 			Assert.isLegal(e.widget instanceof Combo);
 			Combo combo = (Combo) e.widget;
 			String newValue = combo.getText();
 			String value = DEUtil.getExpression(getResultSetColumn(newValue));
-			if (value != null)
+			if (value != null) {
 				newValue = value;
+			}
 			combo.setText(newValue);
 			updateButtons();
 		}
@@ -1253,8 +1293,9 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Refreshes the OK button state.
-	 * 
+	 *
 	 */
+	@Override
 	protected void updateButtons() {
 		enableInput(isExpressionOK());
 		if (getButton(IDialogConstants.OK_ID) != null) {
@@ -1310,11 +1351,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 	 * Gets if the expression field is not empty.
 	 */
 	protected boolean isExpressionOK() {
-		if (expression == null) {
-			return false;
-		}
-
-		if (expression.getText() == null || expression.getText().length() == 0) {
+		if ((expression == null) || expression.getText() == null || expression.getText().length() == 0) {
 			return false;
 		}
 
@@ -1325,11 +1362,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 	 * Gets if the condition is available.
 	 */
 	protected boolean isConditionOK() {
-		if (expression == null) {
-			return false;
-		}
-
-		if (!isExpressionOK()) {
+		if ((expression == null) || !isExpressionOK()) {
 			return false;
 		}
 
@@ -1389,7 +1422,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 			return;
 		}
 		boolean enabled = (tableViewer.getSelection() == null) ? false : true;
-		if (enabled == true && tableViewer.getSelection() instanceof StructuredSelection) {
+		if (enabled && tableViewer.getSelection() instanceof StructuredSelection) {
 			StructuredSelection selection = (StructuredSelection) tableViewer.getSelection();
 			if (selection.toList().size() <= 0) {
 				enabled = false;
@@ -1447,7 +1480,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 			expressionValue1.setVisible(true);
 			ExpressionButtonUtil.getExpressionButton(expressionValue1).getControl().setVisible(true);
 			expressionValue2.setVisible(true);
-			;
+
 			ExpressionButtonUtil.getExpressionButton(expressionValue2).getControl().setVisible(true);
 			andLable.setVisible(true);
 			andLable.setEnabled(true);
@@ -1477,8 +1510,9 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 				ExpressionProvider exprProvider = new ChartCubeFilterExpressionProvider(designHandle,
 						fExprMap.values().toArray(new String[] {}));
 				expressionBuilder.setExpressionProvider(exprProvider);
-			} else
+			} else {
 				expressionBuilder.setExpressionProvider(expressionProvider);
+			}
 		}
 
 		if (expressionBuilder.open() == OK) {
@@ -1496,7 +1530,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 
 	/**
 	 * Sets the model input.
-	 * 
+	 *
 	 * @param input
 	 */
 	public void setInput(Object inputHandle) {
@@ -1514,7 +1548,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 	 * @return
 	 */
 	private List getSelectValueList() {
-		if (needRefreshList == false) {
+		if (!needRefreshList) {
 			return selValueList;
 		}
 		CubeHandle cube = null;
@@ -1584,7 +1618,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 	/**
 	 * Gets chart model from UI context under chart builder case or from report item
 	 * under property editor case.
-	 * 
+	 *
 	 * @param item
 	 * @return
 	 */
@@ -1598,6 +1632,7 @@ public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog {
 		return cm;
 	}
 
+	@Override
 	public int open() {
 		if (getShell() == null) {
 			// create the window

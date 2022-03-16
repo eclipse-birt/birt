@@ -1,9 +1,12 @@
 /**
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +24,7 @@ import org.eclipse.birt.report.model.elements.TableRow;
 /**
  * Represents an object for copy/paste in Gird/Table. The copy/paste between
  * Grid/Table must follow the following rules:
- * 
+ *
  * <ul>
  * <li>Copy/paste operations must occur among the same type of elements, like
  * among grid elements. A copy/paste operation between Grid/Table is not
@@ -32,14 +35,14 @@ import org.eclipse.birt.report.model.elements.TableRow;
  * <li>Slot layouts between the source grid/table and the target grid/table must
  * be same.
  * </ul>
- * 
+ *
  */
 
 public abstract class RowBandAdapter {
 
 	/**
 	 * Returns the element where the copy/paste operation occurs.
-	 * 
+	 *
 	 * @return the element
 	 */
 
@@ -47,7 +50,7 @@ public abstract class RowBandAdapter {
 
 	/**
 	 * Returns the module where the element belongs to.
-	 * 
+	 *
 	 * @return the module
 	 */
 
@@ -57,7 +60,7 @@ public abstract class RowBandAdapter {
 
 	/**
 	 * Returns the number of columns in the element.
-	 * 
+	 *
 	 * @return the number of columns in the element
 	 */
 
@@ -65,14 +68,14 @@ public abstract class RowBandAdapter {
 
 	/**
 	 * Returns count of rows.
-	 * 
+	 *
 	 * @return count of rows.
 	 */
 	protected abstract int getRowCount();
 
 	/**
 	 * Computes column count in one row.
-	 * 
+	 *
 	 * @param row
 	 * @return column count in one row.
 	 */
@@ -90,7 +93,7 @@ public abstract class RowBandAdapter {
 
 	/**
 	 * Computes column count in one row.
-	 * 
+	 *
 	 * @param rowHandle
 	 * @return column count in one row.
 	 */
@@ -101,7 +104,7 @@ public abstract class RowBandAdapter {
 
 	/**
 	 * Checks element has parent or not.
-	 * 
+	 *
 	 * @return <code>true</code>if has parent, else return <code>false</code>
 	 */
 

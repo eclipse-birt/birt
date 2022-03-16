@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -34,7 +37,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * Block</b></em>'. <!-- end-user-doc -->
  * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
@@ -42,7 +45,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 	/**
 	 * The default value of the '{@link #isAuto() <em>Auto</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isAuto()
 	 * @generated
 	 * @ordered
@@ -51,7 +54,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 	/**
 	 * The cached value of the '{@link #isAuto() <em>Auto</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isAuto()
 	 * @generated
 	 * @ordered
@@ -60,7 +63,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 	/**
 	 * This is true if the Auto attribute has been set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -68,7 +71,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected TitleBlockImpl() {
@@ -76,28 +79,30 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 	}
 
 	/**
-	 * 
+	 *
 	 * Note: Manually written
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public boolean isTitle() {
 		return true;
 	}
 
 	/**
-	 * 
+	 *
 	 * Note: Manually written
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public boolean isCustom() {
 		return false;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -107,55 +112,61 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isAuto() {
 		return auto;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setAuto(boolean newAuto) {
 		boolean oldAuto = auto;
 		auto = newAuto;
 		boolean oldAutoESet = autoESet;
 		autoESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.TITLE_BLOCK__AUTO, oldAuto, auto,
 					!oldAutoESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetAuto() {
 		boolean oldAuto = auto;
 		boolean oldAutoESet = autoESet;
 		auto = AUTO_EDEFAULT;
 		autoESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.TITLE_BLOCK__AUTO, oldAuto,
 					AUTO_EDEFAULT, oldAutoESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetAuto() {
 		return autoESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -169,7 +180,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -184,7 +195,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -199,7 +210,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -213,27 +224,29 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (auto: "); //$NON-NLS-1$
-		if (autoESet)
+		if (autoESet) {
 			result.append(auto);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/**
 	 * A convenience method to create an initialized 'TitleBlock' instance
-	 * 
+	 *
 	 * @return
 	 */
 	public static Block create() {
@@ -244,7 +257,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * A convenience method to create an initialized 'TitleBlock' instance
-	 * 
+	 *
 	 * @return
 	 */
 	public static Block createDefault() {
@@ -253,6 +266,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 		return tb;
 	}
 
+	@Override
 	protected BoundingBox computeBox(IDisplayServer xs, RunTimeContext rtc) throws ChartException {
 		Label la = goFactory.copyOf(getLabel());
 		final String sPreviousValue = la.getCaption().getValue();
@@ -277,6 +291,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 	/**
 	 * @generated
 	 */
+	@Override
 	public TitleBlock copyInstance() {
 		TitleBlockImpl dest = new TitleBlockImpl();
 		dest.set(this);

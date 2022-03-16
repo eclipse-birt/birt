@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
  * expressions used by chart, so the class extends
  * {@link org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider} and
  * provides available expressions for setting filter condition.
- * 
+ *
  * @since 2.3
  */
 public class ChartCubeFilterExpressionProvider extends ExpressionProvider {
@@ -40,7 +43,7 @@ public class ChartCubeFilterExpressionProvider extends ExpressionProvider {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param handle report element handle which chart relies on.
 	 */
 	public ChartCubeFilterExpressionProvider(DesignElementHandle handle, final String[] availableExpressions) {
@@ -50,11 +53,12 @@ public class ChartCubeFilterExpressionProvider extends ExpressionProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getChildren(
 	 * java.lang.Object)
 	 */
+	@Override
 	public Object[] getChildren(Object parent) {
 		Object[] children = null;
 
@@ -82,7 +86,7 @@ public class ChartCubeFilterExpressionProvider extends ExpressionProvider {
 
 	/**
 	 * Returns available expressions used by chart.
-	 * 
+	 *
 	 * @param reportItemHandle the report item handle which chart relies on.
 	 * @return
 	 */
@@ -104,10 +108,11 @@ public class ChartCubeFilterExpressionProvider extends ExpressionProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#
 	 * getAllBindingElementHandles()
 	 */
+	@Override
 	protected List<DesignElementHandle> getAllBindingElementHandles() {
 		ArrayList<DesignElementHandle> childrenList = new ArrayList();
 		List bindingList = getAllColumnBindingList();
@@ -129,7 +134,7 @@ public class ChartCubeFilterExpressionProvider extends ExpressionProvider {
 
 	/**
 	 * Check if specified expression is used by chart.
-	 * 
+	 *
 	 * @param expression
 	 * @return
 	 */
@@ -146,9 +151,10 @@ public class ChartCubeFilterExpressionProvider extends ExpressionProvider {
 	/**
 	 * Overwrite the method to disable Cube Data selection, because chart with cube
 	 * set only allow to set filter condition on used expressions.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getCategoryList()
 	 */
+	@Override
 	protected List getCategoryList() {
 		List list = super.getCategoryList();
 		for (Iterator iter = list.iterator(); iter.hasNext();) {

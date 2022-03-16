@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +23,7 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
  * An OutputStream wraper for RandomAccessStreamImpl.
- * 
+ *
  */
 
 public class ArchiveEntryOutputStream extends RAOutputStream {
@@ -38,7 +41,7 @@ public class ArchiveEntryOutputStream extends RAOutputStream {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param fs     the compound file system.
 	 * @param stream the stream item.
 	 */
@@ -51,10 +54,12 @@ public class ArchiveEntryOutputStream extends RAOutputStream {
 		this.entry.setOutputStream(this);
 	}
 
+	@Override
 	public long getOffset() throws IOException {
 		return offset + buffer_offset;
 	}
 
+	@Override
 	public void seek(long localPos) throws IOException {
 		if (localPos < 0) {
 			throw new IOException(
@@ -71,6 +76,7 @@ public class ArchiveEntryOutputStream extends RAOutputStream {
 		}
 	}
 
+	@Override
 	public void write(int b) throws IOException {
 		if (buffer_offset >= buffer_size) {
 			flushBuffer();
@@ -79,6 +85,7 @@ public class ArchiveEntryOutputStream extends RAOutputStream {
 		buffer_offset++;
 	}
 
+	@Override
 	public void writeInt(int value) throws IOException {
 		if (buffer_offset + 4 >= buffer_size) {
 			flushBuffer();
@@ -87,6 +94,7 @@ public class ArchiveEntryOutputStream extends RAOutputStream {
 		buffer_offset += 4;
 	}
 
+	@Override
 	public void writeLong(long value) throws IOException {
 		if (buffer_offset + 8 >= buffer_size) {
 			flushBuffer();
@@ -95,6 +103,7 @@ public class ArchiveEntryOutputStream extends RAOutputStream {
 		buffer_offset += 8;
 	}
 
+	@Override
 	public void write(byte b[], int off, int len) throws IOException {
 		if (buffer_offset + len <= buffer_size) {
 			System.arraycopy(b, off, buffer, buffer_offset, len);
@@ -106,6 +115,7 @@ public class ArchiveEntryOutputStream extends RAOutputStream {
 		offset += len;
 	}
 
+	@Override
 	public void flush() throws IOException {
 		// need not invoke entry's flush here.
 		// assume we have opened several streams in an archive file,
@@ -116,6 +126,7 @@ public class ArchiveEntryOutputStream extends RAOutputStream {
 		flushBuffer();
 	}
 
+	@Override
 	public void close() throws IOException {
 		if (entry != null) {
 			entry.setOutputStream(null);
@@ -140,6 +151,7 @@ public class ArchiveEntryOutputStream extends RAOutputStream {
 		}
 	}
 
+	@Override
 	public long length() throws IOException {
 		long length = entry.getLength();
 		long offset = getOffset();

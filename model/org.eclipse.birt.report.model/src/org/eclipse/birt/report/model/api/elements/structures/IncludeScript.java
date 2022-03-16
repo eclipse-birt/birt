@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,14 +32,14 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * include script. Used when a report design {@link ReportDesign}gives a file
  * name of include script in the report design. Each script in report design has
  * the following properties:
- * 
+ *
  * <p>
  * <dl>
  * <dt><strong>File Name </strong></dt>
  * <dd>a include script structure in the report design has a required file name
  * to load the script.</dd>
  * </dl>
- * 
+ *
  */
 
 public class IncludeScript extends Structure {
@@ -61,7 +64,7 @@ public class IncludeScript extends Structure {
 
 	/**
 	 * Default constructor.
-	 * 
+	 *
 	 */
 
 	public IncludeScript() {
@@ -69,7 +72,7 @@ public class IncludeScript extends Structure {
 
 	/**
 	 * Constructs the script with the required file name.
-	 * 
+	 *
 	 * @param fileName file name of the script
 	 */
 
@@ -79,25 +82,28 @@ public class IncludeScript extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return INCLUDE_SCRIPT_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.
 	 * String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (FILE_NAME_MEMBER.equalsIgnoreCase(propName))
+		if (FILE_NAME_MEMBER.equalsIgnoreCase(propName)) {
 			return fileName;
+		}
 
 		assert false;
 		return null;
@@ -105,22 +111,24 @@ public class IncludeScript extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.
 	 * String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (FILE_NAME_MEMBER.equals(propName))
+		if (FILE_NAME_MEMBER.equals(propName)) {
 			fileName = (String) value;
-		else
+		} else {
 			assert false;
+		}
 	}
 
 	/**
 	 * Returns file name of the script.
-	 * 
+	 *
 	 * @return file name of the script
 	 */
 
@@ -130,7 +138,7 @@ public class IncludeScript extends Structure {
 
 	/**
 	 * Sets the file name of the script.
-	 * 
+	 *
 	 * @param fileName the file name to set
 	 */
 
@@ -140,13 +148,14 @@ public class IncludeScript extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report
 	 * .model.elements.ReportDesign,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public List validate(Module module, DesignElement element) {
 		ArrayList list = new ArrayList();
 
@@ -160,11 +169,12 @@ public class IncludeScript extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.
 	 * model.api.SimpleValueHandle, int)
 	 */
+	@Override
 	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new IncludeScriptHandle(valueHandle, index);
 	}

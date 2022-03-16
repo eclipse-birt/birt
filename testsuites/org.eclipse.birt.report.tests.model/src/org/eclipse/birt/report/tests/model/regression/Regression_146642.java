@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -45,7 +48,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * element (which may reside in a library and is used by several reports). The
  * current ROM requires that every report defines it own highlight rule styles.
  * </p>
- * 
+ *
  * @author Tianli Zhang
  */
 public class Regression_146642 extends BaseTestCase {
@@ -53,6 +56,7 @@ public class Regression_146642 extends BaseTestCase {
 	private final static String INPUT = "Regression_146642.xml"; //$NON-NLS-1$
 	private final static String LIB = "Regression_146642_lib.xml"; //$NON-NLS-1$
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -62,13 +66,14 @@ public class Regression_146642 extends BaseTestCase {
 
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}
 
 	/**
 	 * test a label with a highlight rule which refer to a style
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -97,7 +102,7 @@ public class Regression_146642 extends BaseTestCase {
 
 	/**
 	 * test a label with a highlight rule which refer to a style
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -130,7 +135,7 @@ public class Regression_146642 extends BaseTestCase {
 	 * textOverline, textLineThrough, textAlign, textIndent, textTransform insert a
 	 * text add HighlightRule referring to "Style" for the text. 2.New a report,
 	 * extend the text from the library.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */

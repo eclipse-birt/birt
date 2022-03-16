@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,18 +26,6 @@ import java.util.List;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler;
-import org.eclipse.datatools.connectivity.oda.OdaException;
-import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
-import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
-import org.eclipse.datatools.connectivity.oda.design.ResourceIdentifiers;
-import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.ImageRegistry;
-import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Shell;
 
 import org.eclipse.birt.data.oda.pojo.querymodel.ClassColumnMappings;
 import org.eclipse.birt.data.oda.pojo.querymodel.Column;
@@ -56,9 +47,20 @@ import org.eclipse.birt.data.oda.pojo.ui.impl.models.ColumnDefinition;
 import org.eclipse.birt.data.oda.pojo.ui.impl.models.OdaType;
 import org.eclipse.birt.data.oda.pojo.util.PojoQueryWriter;
 import org.eclipse.birt.data.oda.pojo.util.URLParser;
+import org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler;
+import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
+import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
+import org.eclipse.datatools.connectivity.oda.design.ResourceIdentifiers;
+import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Shell;
 
 /**
- * 
+ *
  */
 
 public class Utils {
@@ -99,7 +101,7 @@ public class Utils {
 	}
 
 	private Utils() {
-	};
+	}
 
 	public static URLParser createURLParser(ResourceIdentifiers ri) {
 		if (ri == null) {
@@ -127,10 +129,7 @@ public class Utils {
 		if (type == Character.TYPE || type == Character.class) {
 			return OdaType.String;
 		}
-		if (type == Byte.TYPE || type == Byte.class) {
-			return OdaType.Integer;
-		}
-		if (type == Short.TYPE || type == Short.class) {
+		if (type == Byte.TYPE || type == Byte.class || type == Short.TYPE || type == Short.class) {
 			return OdaType.Integer;
 		}
 		if (type == Integer.TYPE || type == Integer.class) {
@@ -239,7 +238,7 @@ public class Utils {
 				logger.log(Level.WARNING, "Unkown Oda type: " + crn.getColumn().getOdaType()); //$NON-NLS-1$
 				type = OdaType.String;
 			}
-			Stack<IMappingSource> mss = new Stack<IMappingSource>();
+			Stack<IMappingSource> mss = new Stack<>();
 			mss.push(crn.getReference());
 			RelayReferenceNode rrn = crn.getParent();
 			while (rrn != null) {
@@ -326,7 +325,7 @@ public class Utils {
 			throw new OdaException(Messages.getFormattedString("DataSet.InvalidColumnMappingPath", //$NON-NLS-1$
 					new Object[] { mappingPath }));
 		}
-		List<IMappingSource> sources = new ArrayList<IMappingSource>();
+		List<IMappingSource> sources = new ArrayList<>();
 		for (String mappingPart : mappingParts) {
 			String part = mappingPart.trim();
 			if (part.equals("")) //$NON-NLS-1$
@@ -340,7 +339,7 @@ public class Utils {
 				String methodName = part.substring(0, last).trim();
 				if (isValidIdentifier(methodName)) {
 					String paramParts = part.substring(last + 1, part.length() - 1).trim();
-					List<IMethodParameter> params = new ArrayList<IMethodParameter>();
+					List<IMethodParameter> params = new ArrayList<>();
 					if (paramParts.length() > 0) // contain parameters
 					{
 						String[] ps = splitBy(paramParts, Constants.METHOD_PARAM_SEPARATOR);
@@ -416,7 +415,7 @@ public class Utils {
 	/**
 	 * we should consider the case that char <parameter>separator</parameter>
 	 * included in a quoted string
-	 * 
+	 *
 	 * @param s:         string to be split
 	 * @param separator: can not be <code>CONSTANT_PARAM_VALUE_QUOTE</code> or
 	 *                   <code>CONSTANT_PARAM_VALUE_QUOTE_ESCAPE</code>
@@ -424,7 +423,7 @@ public class Utils {
 	 */
 	private static String[] splitBy(String s, char separator) throws OdaException {
 		assert s != null;
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		int startIndex = 0;
 		int curIndex = 0;
 		boolean isWaitingForEndQuote = false;
@@ -437,13 +436,11 @@ public class Utils {
 					// go to the end of a quoted string
 					isWaitingForEndQuote = false;
 				}
-			} else {
-				if (c == separator) {
-					result.add(s.substring(startIndex, curIndex));
-					startIndex = curIndex + 1;
-				} else if (c == Constants.CONSTANT_PARAM_VALUE_QUOTE) {
-					isWaitingForEndQuote = true;
-				}
+			} else if (c == separator) {
+				result.add(s.substring(startIndex, curIndex));
+				startIndex = curIndex + 1;
+			} else if (c == Constants.CONSTANT_PARAM_VALUE_QUOTE) {
+				isWaitingForEndQuote = true;
 			}
 			curIndex++;
 		}
@@ -472,6 +469,7 @@ public class Utils {
 	public static class FileComparator implements Comparator<File>, Serializable {
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public int compare(File o1, File o2) {
 			if (o1.isDirectory() && o2.isDirectory()) {
 				return o1.getName().compareTo(o2.getName());

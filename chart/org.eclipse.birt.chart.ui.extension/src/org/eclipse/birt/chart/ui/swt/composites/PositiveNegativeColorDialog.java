@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -72,6 +75,7 @@ public class PositiveNegativeColorDialog extends TrayDialog implements Listener 
 		this(shellParent, wizardContext, mSelected, ColorDefinitionImpl.create(0, 0, 254));
 	}
 
+	@Override
 	protected Control createContents(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.DIALOG_COLOR_POSNEG);
 		getShell().setText(Messages.getString("PositiveNegativeColorDialog.Lbl.PositiveNegativeColorEditor")); //$NON-NLS-1$
@@ -80,10 +84,12 @@ public class PositiveNegativeColorDialog extends TrayDialog implements Listener 
 		return super.createContents(parent);
 	}
 
+	@Override
 	protected void setShellStyle(int newShellStyle) {
 		super.setShellStyle(newShellStyle | SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		GridLayout glContent = new GridLayout();
 		glContent.numColumns = 2;
@@ -178,10 +184,11 @@ public class PositiveNegativeColorDialog extends TrayDialog implements Listener 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		if (event.widget.equals(fccPosColor)) {
 			mCurrent.getFills().set(0, (Fill) event.data);
@@ -191,6 +198,7 @@ public class PositiveNegativeColorDialog extends TrayDialog implements Listener 
 		cnvPreview.redraw();
 	}
 
+	@Override
 	protected void cancelPressed() {
 		mCurrent = mBackup;
 		super.cancelPressed();

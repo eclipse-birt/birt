@@ -1,15 +1,21 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.impl.rd;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,16 +48,14 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryLocator;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.junit.Before;
+import org.junit.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.IdScriptableObject;
 import org.mozilla.javascript.ScriptableObject;
 
 import testutil.ConfigText;
 import testutil.JDBCOdaDataSource;
-
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Test the feature of report document. A life cycle of report document can be
@@ -85,6 +89,7 @@ public class ReportDocumentTest extends RDTestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestData.TableName"),
 				ConfigText.getString("Api.TestData.TableSQL"), ConfigText.getString("Api.TestData.TestDataFileName1"));
@@ -113,7 +118,7 @@ public class ReportDocumentTest extends RDTestCase {
 
 	/**
 	 * Basic report document test without sub query, but it has aggregation.
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -131,7 +136,7 @@ public class ReportDocumentTest extends RDTestCase {
 
 	/**
 	 * Basic report document test without sub query, but it has aggregation.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -184,8 +189,9 @@ public class ReportDocumentTest extends RDTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			for (int i = 0; i < rowBeArray.length; i++)
+			for (int i = 0; i < rowBeArray.length; i++) {
 				expectedValue.add(ri.getValue(rowExprName[i]));
+			}
 		}
 
 		ri.close();
@@ -224,11 +230,13 @@ public class ReportDocumentTest extends RDTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			for (int i = 0; i < rowBeArray.length; i++)
+			for (int i = 0; i < rowBeArray.length; i++) {
 				expectedValue.add(ri.getValue(rowExprName[i]));
+			}
 
-			for (int i = 0; i < totalExprName.length; i++)
+			for (int i = 0; i < totalExprName.length; i++) {
 				expectedValue.add(ri.getValue(totalExprName[i]));
+			}
 		}
 
 		ri.close();
@@ -335,7 +343,7 @@ public class ReportDocumentTest extends RDTestCase {
 		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
 		myPreDataEngine = DataEngine.newDataEngine(deContext2);
 
-		int[] destIndex = new int[] { 1, 3, 4, 6, 7 };
+		int[] destIndex = { 1, 3, 4, 6, 7 };
 		this.preBasicMove(destIndex);
 		this.closeArchiveReader();
 		this.checkOutputFile();
@@ -366,7 +374,7 @@ public class ReportDocumentTest extends RDTestCase {
 
 	/**
 	 * Without use next
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -377,7 +385,7 @@ public class ReportDocumentTest extends RDTestCase {
 		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
 		myPreDataEngine = DataEngine.newDataEngine(deContext2);
 
-		int[] destIndex = new int[] { 1, 3, 4, 6, 7 };
+		int[] destIndex = { 1, 3, 4, 6, 7 };
 		this.preBasicMove2(destIndex);
 		this.closeArchiveReader();
 		this.checkOutputFile();
@@ -418,7 +426,7 @@ public class ReportDocumentTest extends RDTestCase {
 
 	/**
 	 * Test the expression on the group header
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -496,7 +504,7 @@ public class ReportDocumentTest extends RDTestCase {
 
 	/**
 	 * Basic report document test without sub query, but it has aggregation.
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -541,11 +549,13 @@ public class ReportDocumentTest extends RDTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			for (int i = 0; i < rowBeArray.length; i++)
+			for (int i = 0; i < rowBeArray.length; i++) {
 				expectedValue.add(ri.getValue(rowExprName[i]));
+			}
 
-			for (int i = 0; i < totalBeArray.length; i++)
+			for (int i = 0; i < totalBeArray.length; i++) {
 				expectedValue.add(ri.getValue(totalExprName[i]));
+			}
 
 			this.expectedStartingGroupLevelValueList.add(new Integer(ri.getStartingGroupLevel()));
 			this.expectedEndingGroupLevelValueList.add(new Integer(ri.getEndingGroupLevel()));
@@ -663,11 +673,13 @@ public class ReportDocumentTest extends RDTestCase {
 		ri.next();
 		ri.skipToEnd(1);
 		while (ri.next()) {
-			for (int i = 0; i < rowBeArray.length; i++)
+			for (int i = 0; i < rowBeArray.length; i++) {
 				expectedValue.add(ri.getValue(rowExprName[i]));
+			}
 
-			for (int i = 0; i < totalBeArray.length; i++)
+			for (int i = 0; i < totalBeArray.length; i++) {
 				expectedValue.add(ri.getValue(totalExprName[i]));
+			}
 
 			this.expectedStartingGroupLevelValueList.add(new Integer(ri.getStartingGroupLevel()));
 			this.expectedEndingGroupLevelValueList.add(new Integer(ri.getEndingGroupLevel()));
@@ -727,11 +739,13 @@ public class ReportDocumentTest extends RDTestCase {
 				currRow++;
 				if (currRow == countOfRow - 1) {
 					genValue = new ArrayList();
-					for (int i = 0; i < rowBeArray.length; i++)
+					for (int i = 0; i < rowBeArray.length; i++) {
 						genValue.add(ri.getValue(rowExprName[i]));
+					}
 
-					for (int i = 0; i < totalBeArray.length; i++)
+					for (int i = 0; i < totalBeArray.length; i++) {
 						genValue.add(ri.getValue(totalExprName[i]));
+					}
 				}
 			}
 			ri.close();
@@ -786,7 +800,7 @@ public class ReportDocumentTest extends RDTestCase {
 	/**
 	 * Basic report document test without sub query, but its use details property is
 	 * false;
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -827,11 +841,13 @@ public class ReportDocumentTest extends RDTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			for (int i = 0; i < rowExprName.length; i++)
+			for (int i = 0; i < rowExprName.length; i++) {
 				expectedValue.add(ri.getValue(rowExprName[i]));
+			}
 
-			for (int i = 0; i < totalExprName.length; i++)
+			for (int i = 0; i < totalExprName.length; i++) {
 				expectedValue.add(ri.getValue(totalExprName[i]));
+			}
 
 			this.expectedStartingGroupLevelValueList.add(new Integer(ri.getStartingGroupLevel()));
 			this.expectedEndingGroupLevelValueList.add(new Integer(ri.getEndingGroupLevel()));
@@ -888,7 +904,7 @@ public class ReportDocumentTest extends RDTestCase {
 
 	/**
 	 * Basic sub query test for report document.
-	 * 
+	 *
 	 * @throws BirtException
 	 * @throws IOException
 	 */
@@ -938,17 +954,20 @@ public class ReportDocumentTest extends RDTestCase {
 		IResultIterator ri = qr.getResultIterator();
 
 		int loopCount = 5;
-		for (int i = 0; i < loopCount; i++)
+		for (int i = 0; i < loopCount; i++) {
 			ri.next();
+		}
 
 		IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
 
 		while (ri2.next()) {
-			for (int i = 0; i < rowExprName.length; i++)
+			for (int i = 0; i < rowExprName.length; i++) {
 				expectedValue.add(ri2.getValue(rowExprName[i]));
+			}
 
-			for (int i = 0; i < totalExprName.length; i++)
+			for (int i = 0; i < totalExprName.length; i++) {
 				expectedValue.add(ri2.getValue(totalExprName[i]));
+			}
 		}
 
 		ri2.close();
@@ -964,8 +983,9 @@ public class ReportDocumentTest extends RDTestCase {
 		IResultIterator ri = qr.getResultIterator();
 
 		int loopCount = 5;
-		for (int i = 0; i < loopCount; i++)
+		for (int i = 0; i < loopCount; i++) {
 			ri.next();
+		}
 
 		IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
 
@@ -980,7 +1000,7 @@ public class ReportDocumentTest extends RDTestCase {
 	 * Sub query test2 for report document. This query has two features: 1: sub
 	 * query is added on the query, not on group 2: the point of the parent query
 	 * moves to the end
-	 * 
+	 *
 	 * @throws BirtException
 	 * @throws IOException
 	 */
@@ -1017,17 +1037,20 @@ public class ReportDocumentTest extends RDTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 
-		while (ri.next())
+		while (ri.next()) {
 			;
+		}
 
 		IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
 
 		while (ri2.next()) {
-			for (int i = 0; i < rowExprName.length; i++)
+			for (int i = 0; i < rowExprName.length; i++) {
 				expectedValue.add(ri2.getValue(rowExprName[i]));
+			}
 
-			for (int i = 0; i < totalExprName.length; i++)
+			for (int i = 0; i < totalExprName.length; i++) {
 				expectedValue.add(ri2.getValue(totalExprName[i]));
+			}
 		}
 
 		ri2.close();
@@ -1042,8 +1065,9 @@ public class ReportDocumentTest extends RDTestCase {
 		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
 		IResultIterator ri = qr.getResultIterator();
 
-		while (ri.next())
+		while (ri.next()) {
 			;
+		}
 
 		IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
 
@@ -1096,11 +1120,13 @@ public class ReportDocumentTest extends RDTestCase {
 			IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
 
 			while (ri2.next()) {
-				for (int i = 0; i < rowExprName.length; i++)
+				for (int i = 0; i < rowExprName.length; i++) {
 					expectedValue.add(ri2.getValue(rowExprName[i]));
+				}
 
-				for (int i = 0; i < totalExprName.length; i++)
+				for (int i = 0; i < totalExprName.length; i++) {
 					expectedValue.add(ri2.getValue(totalExprName[i]));
+				}
 			}
 			ri2.close();
 		}
@@ -1130,7 +1156,7 @@ public class ReportDocumentTest extends RDTestCase {
 
 	/**
 	 * Basic sub query test for report document.
-	 * 
+	 *
 	 * @throws BirtException
 	 * @throws IOException
 	 */
@@ -1194,11 +1220,13 @@ public class ReportDocumentTest extends RDTestCase {
 			System.out.println(ri.getValue("COUNTRY_1"));
 			IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
 			while (ri2.next()) {
-				for (int i = 0; i < rowBeArray.length; i++)
+				for (int i = 0; i < rowBeArray.length; i++) {
 					expectedValue.add(ri2.getValue(rowExprName[i]));
+				}
 
-				for (int i = 0; i < totalBeArray.length; i++)
+				for (int i = 0; i < totalBeArray.length; i++) {
 					expectedValue.add(ri2.getValue(totalExprName[i]));
+				}
 			}
 			ri2.close();
 		}
@@ -1227,7 +1255,7 @@ public class ReportDocumentTest extends RDTestCase {
 
 	/**
 	 * Advanced sub query test. A sub query is retrieved from another sub query.
-	 * 
+	 *
 	 * @throws BirtException
 	 * @throws IOException
 	 */
@@ -1318,13 +1346,15 @@ public class ReportDocumentTest extends RDTestCase {
 		subRowExprName[1] = "CITY";
 		subRowExprName[2] = "SALE_DATE";
 		subRowExprName[3] = "AMOUNT";
-		for (int i = 0; i < subRowExprName.length; i++)
+		for (int i = 0; i < subRowExprName.length; i++) {
 			abc += subRowExprName[i] + "  ";
+		}
 		this.testPrintln(abc);
 		do {
 			abc = "";
-			for (int i = 0; i < subRowExprName.length; i++)
+			for (int i = 0; i < subRowExprName.length; i++) {
 				abc += ri.getValue(subRowExprName[i]) + "  ";
+			}
 			this.testPrintln(abc + ri.getRowId());
 		} while (ri.next());
 
@@ -1375,11 +1405,13 @@ public class ReportDocumentTest extends RDTestCase {
 
 		IResultIterator ri3 = ri2.getSecondaryIterator(subOfSubQueryName, subOfSubScope);
 		while (ri3.next()) {
-			for (int i = 0; i < rowBeArray.length; i++)
+			for (int i = 0; i < rowBeArray.length; i++) {
 				expectedValue.add(ri3.getValue(rowExprName[i]));
+			}
 
-			for (int i = 0; i < totalBeArray.length; i++)
+			for (int i = 0; i < totalBeArray.length; i++) {
 				expectedValue.add(ri3.getValue(totalExprName[i]));
+			}
 		}
 
 		ri3.close();
@@ -1410,7 +1442,7 @@ public class ReportDocumentTest extends RDTestCase {
 
 	/**
 	 * Basic report document test with nested query
-	 * 
+	 *
 	 * @throws BirtException
 	 * @throws IOException
 	 */
@@ -1476,11 +1508,13 @@ public class ReportDocumentTest extends RDTestCase {
 		saveForPresentation(qr2);
 
 		while (ri.next()) {
-			for (int i = 0; i < rowBeArray2.length; i++)
+			for (int i = 0; i < rowBeArray2.length; i++) {
 				expectedValue.add(ri.getValue(rowExprName[i]));
+			}
 
-			for (int i = 0; i < totalBeArray2.length; i++)
+			for (int i = 0; i < totalBeArray2.length; i++) {
 				expectedValue.add(ri.getValue(totalExprName[i]));
+			}
 		}
 
 		ri.close();
@@ -1498,7 +1532,7 @@ public class ReportDocumentTest extends RDTestCase {
 
 	/**
 	 * Basic report document test with computed column
-	 * 
+	 *
 	 * @throws BirtException
 	 * @throws IOException
 	 */
@@ -1519,9 +1553,9 @@ public class ReportDocumentTest extends RDTestCase {
 	 * @throws BirtException
 	 */
 	private void genComputedColumn() throws BirtException {
-		String[] ccName = new String[] { "cc1", "cc2" };
-		String[] ccExpr = new String[] { "row.COUNTRY", "row.AMOUNT*100" };
-		int[] dataTypes = new int[] { DataType.STRING_TYPE, DataType.INTEGER_TYPE };
+		String[] ccName = { "cc1", "cc2" };
+		String[] ccExpr = { "row.COUNTRY", "row.AMOUNT*100" };
+		int[] dataTypes = { DataType.STRING_TYPE, DataType.INTEGER_TYPE };
 		for (int i = 0; i < 2; i++) {
 			ComputedColumn computedColumn = new ComputedColumn(ccName[i], ccExpr[i], dataTypes[i]);
 			((BaseDataSetDesign) this.dataSet).addComputedColumn(computedColumn);
@@ -1534,8 +1568,9 @@ public class ReportDocumentTest extends RDTestCase {
 		int length = tempArray.length;
 		IBaseExpression[] rowBeArray = new IBaseExpression[length + 2];
 		System.arraycopy(tempArray, 0, rowBeArray, 0, length);
-		for (int i = 0; i < ccName.length; i++)
+		for (int i = 0; i < ccName.length; i++) {
 			rowBeArray[length + i] = new ScriptExpression("dataSetRow." + ccName[i]);
+		}
 
 		rowExprName = new String[rowBeArray.length];
 		for (int i = 0; i < rowExprName.length; i++) {
@@ -1567,11 +1602,13 @@ public class ReportDocumentTest extends RDTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			for (int i = 0; i < rowBeArray.length; i++)
+			for (int i = 0; i < rowBeArray.length; i++) {
 				expectedValue.add(ri.getValue(rowExprName[i]));
+			}
 
-			for (int i = 0; i < totalBeArray.length; i++)
+			for (int i = 0; i < totalBeArray.length; i++) {
 				expectedValue.add(ri.getValue(totalExprName[i]));
+			}
 		}
 
 		ri.close();
@@ -1650,7 +1687,7 @@ public class ReportDocumentTest extends RDTestCase {
 
 	/**
 	 * Only check the result of the expectedValue of the result set
-	 * 
+	 *
 	 * @param data.it
 	 * @param ri
 	 * @throws DataException
@@ -1692,7 +1729,7 @@ public class ReportDocumentTest extends RDTestCase {
 	/**
 	 * Check the result of the row result set and the starting and ending group
 	 * level
-	 * 
+	 *
 	 * @param ri
 	 * @throws BirtException
 	 */
@@ -1737,7 +1774,7 @@ public class ReportDocumentTest extends RDTestCase {
 	/**
 	 * Check the result of the row result set and the starting and ending group
 	 * level
-	 * 
+	 *
 	 * @param ri
 	 * @throws BirtException
 	 */
@@ -1747,16 +1784,19 @@ public class ReportDocumentTest extends RDTestCase {
 		Iterator it2 = this.expectedEndingGroupLevelValueList.iterator();
 
 		for (int k = 0; k < destIndex; k++) {
-			for (int i = 0; i < rowExprName.length; i++)
+			for (int i = 0; i < rowExprName.length; i++) {
 				it.next();
-			for (int i = 0; i < totalExprName.length; i++)
+			}
+			for (int i = 0; i < totalExprName.length; i++) {
 				it.next();
+			}
 			it1.next(); // for starting group level
 			it2.next(); // for ending group level
 		}
 
-		if (destIndex >= 1)
+		if (destIndex >= 1) {
 			ri.moveTo(destIndex - 1);
+		}
 
 		while (ri.next()) {
 			String str = "";
@@ -1793,7 +1833,7 @@ public class ReportDocumentTest extends RDTestCase {
 
 	/**
 	 * Skip specified skipCount at the begining.
-	 * 
+	 *
 	 * @param ri
 	 * @param skipCount
 	 * @throws BirtException
@@ -1802,10 +1842,12 @@ public class ReportDocumentTest extends RDTestCase {
 		Iterator it = this.expectedValue.iterator();
 
 		for (int k = 0; k < skipCount; k++) {
-			for (int i = 0; i < rowExprName.length; i++)
+			for (int i = 0; i < rowExprName.length; i++) {
 				it.next();
-			for (int i = 0; i < totalExprName.length; i++)
+			}
+			for (int i = 0; i < totalExprName.length; i++) {
 				it.next();
+			}
 			ri.next();
 		}
 
@@ -1831,14 +1873,15 @@ public class ReportDocumentTest extends RDTestCase {
 
 	/**
 	 * Skip specified skipCount at the begining.
-	 * 
+	 *
 	 * @param ri
 	 * @param skipCount
 	 * @throws BirtException
 	 */
 	private void checkResult4(IResultIterator ri, int destIndex[], boolean doNextFirst) throws BirtException {
-		if (doNextFirst)
+		if (doNextFirst) {
 			ri.next();
+		}
 
 		int offset = rowExprName.length + totalExprName.length;
 
@@ -1871,7 +1914,7 @@ public class ReportDocumentTest extends RDTestCase {
 
 	/**
 	 * Basic report document without data set
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -1949,9 +1992,10 @@ public class ReportDocumentTest extends RDTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.rd.RDTestCase#useFolderArchive()
 	 */
+	@Override
 	protected boolean useFolderArchive() {
 		return true;
 	}

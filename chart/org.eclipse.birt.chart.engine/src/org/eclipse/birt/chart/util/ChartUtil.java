@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -117,8 +120,8 @@ public class ChartUtil {
 
 	private static final NumberFormat DEFAULT_NUMBER_FORMAT = initDefaultNumberFormat();
 
-	private static final Map<Integer, String> mapPattern = new HashMap<Integer, String>();
-	private static final Map<Integer, String> mapPatternHierarchy = new HashMap<Integer, String>();
+	private static final Map<Integer, String> mapPattern = new HashMap<>();
+	private static final Map<Integer, String> mapPatternHierarchy = new HashMap<>();
 	private static final String TEXT_WEEK = Messages.getString("ChartUtil.Text.Week"); //$NON-NLS-1$
 	private static final String TEXT_DAY = Messages.getString("ChartUtil.Text.Day"); //$NON-NLS-1$
 	static {
@@ -157,7 +160,7 @@ public class ChartUtil {
 	/**
 	 * Returns if the given color definition is totally transparent. e.g.
 	 * transparency==0.
-	 * 
+	 *
 	 * @param cdef
 	 * @return if the given color definition is totally transparent
 	 */
@@ -167,7 +170,7 @@ public class ChartUtil {
 
 	/**
 	 * Returns if the given label has defined a shadow.
-	 * 
+	 *
 	 * @param la
 	 * @return if the given label has defined a shadow.
 	 */
@@ -177,7 +180,7 @@ public class ChartUtil {
 
 	/**
 	 * Returns if the given two double values are equal within a small precision.
-	 * 
+	 *
 	 * @param v1
 	 * @param v2
 	 */
@@ -187,7 +190,7 @@ public class ChartUtil {
 
 	/**
 	 * Returns if the given two double values are equal within a small precision.
-	 * 
+	 *
 	 * @param v1
 	 * @param v2
 	 * @param isBigNumber
@@ -204,7 +207,7 @@ public class ChartUtil {
 	/**
 	 * Returns if the given two double values are not equal within a small
 	 * precision.
-	 * 
+	 *
 	 * @param v1
 	 * @param v2
 	 */
@@ -215,7 +218,7 @@ public class ChartUtil {
 	/**
 	 * Returns if the given left double value is less than the given right value
 	 * within a small precision.
-	 * 
+	 *
 	 * @param v1
 	 * @param v2
 	 */
@@ -226,7 +229,7 @@ public class ChartUtil {
 	/**
 	 * Returns if the given left double value is less than or equals to the given
 	 * right value within a small precision.
-	 * 
+	 *
 	 * @param v1
 	 * @param v2
 	 */
@@ -237,7 +240,7 @@ public class ChartUtil {
 	/**
 	 * Returns if the given left double value is greater than the given right value
 	 * within a small precision.
-	 * 
+	 *
 	 * @param v1
 	 * @param v2
 	 */
@@ -248,7 +251,7 @@ public class ChartUtil {
 	/**
 	 * Returns if the given left double value is greater than or equals to the given
 	 * right value within a small precision.
-	 * 
+	 *
 	 * @param lv
 	 * @param rv
 	 */
@@ -265,7 +268,7 @@ public class ChartUtil {
 
 	/**
 	 * Convert pixel value to points.
-	 * 
+	 *
 	 * @param idsSWT
 	 * @param dOriginalHeight
 	 * @return points value
@@ -277,7 +280,7 @@ public class ChartUtil {
 	/**
 	 * Returns the quadrant (1-4) for given angle in degree. Specially, -1 means
 	 * Zero degree. -2 means 90 degree, -3 means 180 degree, -4 means 270 degree.
-	 * 
+	 *
 	 * @param dAngle
 	 * @return quadrant
 	 */
@@ -313,7 +316,7 @@ public class ChartUtil {
 
 	/**
 	 * Returns if two polygons intersect each other.
-	 * 
+	 *
 	 * @param pg1
 	 * @param pg2
 	 * @return if two polygons intersect each other
@@ -329,7 +332,7 @@ public class ChartUtil {
 	/**
 	 * Merges two fonts to the original one from a source. The original one can not
 	 * be null. ?Only consider inheritable properties.
-	 * 
+	 *
 	 * @param original
 	 * @param source
 	 */
@@ -369,7 +372,7 @@ public class ChartUtil {
 
 	/**
 	 * Returns the string representation for given object. null for null object.
-	 * 
+	 *
 	 * @param value
 	 * @return string value
 	 */
@@ -391,7 +394,7 @@ public class ChartUtil {
 	/**
 	 * Returns the string representation for given object. Null outputs blank
 	 * string.
-	 * 
+	 *
 	 * @param value
 	 * @return string value
 	 */
@@ -406,22 +409,23 @@ public class ChartUtil {
 	 * Converts Fill if possible. If Fill is MultipleFill type, convert to
 	 * positive/negative Color according to the value. If not MultipleFill type,
 	 * return original fill for positive value, or negative fill for negative value.
-	 * 
+	 *
 	 * @param fill      Fill to convert
 	 * @param dValue    numeric value
 	 * @param fNegative Fill for negative value. Useless for positive value or
 	 *                  MultipleFill
 	 * @deprecated use {@link FillUtil#convertFill(Fill, double, Fill)}
 	 */
+	@Deprecated
 	public static Fill convertFill(Fill fill, double dValue, Fill fNegative) {
 		return FillUtil.convertFill(fill, dValue, fNegative);
 	}
 
 	/**
 	 * Transposes the anchor
-	 * 
+	 *
 	 * @param an anchor
-	 * 
+	 *
 	 */
 	public static Anchor transposeAnchor(Anchor an) throws IllegalArgumentException {
 		if (an == null) {
@@ -486,7 +490,7 @@ public class ChartUtil {
 
 	/**
 	 * Convers Scale unit type to ICU Calendar constant.
-	 * 
+	 *
 	 * @param unitType Scale unit type
 	 * @return Calendar constant or -1 if not found
 	 */
@@ -516,7 +520,7 @@ public class ChartUtil {
 	 * Returns max row count that will be supported in charts. Users can set it in
 	 * JVM argument "CHART_MAX_ROW" or RuntimeContext. Default value is 0 which
 	 * means no max limitation.
-	 * 
+	 *
 	 * @return max row count that will be supported in charts.
 	 * @since 2.2.0
 	 */
@@ -547,7 +551,7 @@ public class ChartUtil {
 
 	/**
 	 * Gets all supported output formats.
-	 * 
+	 *
 	 * @return string array of output formats
 	 * @since 2.2
 	 */
@@ -562,7 +566,7 @@ public class ChartUtil {
 
 	/**
 	 * Gets all supported output display names.
-	 * 
+	 *
 	 * @return string array of output display names
 	 * @since 2.5
 	 */
@@ -582,7 +586,7 @@ public class ChartUtil {
 
 	/**
 	 * Checks current output format can be supported
-	 * 
+	 *
 	 * @param output current output format
 	 * @return can be supported or not
 	 * @throws ChartException
@@ -606,7 +610,7 @@ public class ChartUtil {
 	 * Returns if specified locale uses right-to-left direction. See ISO codes at
 	 * http://www.unicode.org/unicode/onlinedat/languages.html RTL languages are
 	 * Hebrew, Arabic, Urdu, Farsi (Persian), Yiddish
-	 * 
+	 *
 	 * @param lcl locale to check direction
 	 * @return if specified locale uses right-to-left direction
 	 * @since 2.2
@@ -630,7 +634,7 @@ public class ChartUtil {
 
 	/**
 	 * Checks precise of big number.
-	 * 
+	 *
 	 * @param bdValue
 	 * @return precise or not
 	 * @since 2.6
@@ -666,7 +670,7 @@ public class ChartUtil {
 	/**
 	 * Checks a double value is double precise. If value is 2.1, then return true;
 	 * if value is 2.1000000001 or 2.099999999999, then return false.
-	 * 
+	 *
 	 * @param dValue
 	 * @return if precise
 	 */
@@ -695,7 +699,7 @@ public class ChartUtil {
 	 * non-transposed direction or X axis in transpose direction. Current algorithm
 	 * of Axis layout is to use Axis Scale width for category axis title, and to use
 	 * the chart height except chart title section for orthogonal axis title.
-	 * 
+	 *
 	 * @param cm chart model
 	 * @param xs display server to compute pixel
 	 * @return height of orthogonal axis title in form of pixels
@@ -726,21 +730,19 @@ public class ChartUtil {
 			} else {
 				return (titleBounds.getTop() - chartBounds.getTop()) / 72 * xs.getDpiResolution();
 			}
+		} else if (legendPosition == Position.ABOVE) {
+			return (chartBounds.getHeight() + chartBounds.getTop() - legendBounds.getTop() - legendBounds.getHeight())
+					/ 72 * xs.getDpiResolution();
+		} else if (legendPosition == Position.BELOW) {
+			return (legendBounds.getTop() - chartBounds.getTop()) / 72 * xs.getDpiResolution();
 		} else {
-			if (legendPosition == Position.ABOVE) {
-				return (chartBounds.getHeight() + chartBounds.getTop() - legendBounds.getTop()
-						- legendBounds.getHeight()) / 72 * xs.getDpiResolution();
-			} else if (legendPosition == Position.BELOW) {
-				return (legendBounds.getTop() - chartBounds.getTop()) / 72 * xs.getDpiResolution();
-			} else {
-				return chartBounds.getHeight() / 72 * xs.getDpiResolution();
-			}
+			return chartBounds.getHeight() / 72 * xs.getDpiResolution();
 		}
 	}
 
 	/**
 	 * Returns grouping unit name of series grouping.
-	 * 
+	 *
 	 * @param grouping
 	 * @return grouping unit name
 	 * @since BIRT 2.3
@@ -770,7 +772,7 @@ public class ChartUtil {
 	 * The method escapes '"','\n',EOF,'\r' and so on from specified
 	 * expression/script expression, it returns an expression that can be used as
 	 * binding name.
-	 * 
+	 *
 	 * @param expression
 	 * @return escaped string
 	 * @since 2.5.1
@@ -781,7 +783,7 @@ public class ChartUtil {
 
 	/**
 	 * Create row full expression of value series.
-	 * 
+	 *
 	 * @param orthQuery
 	 * @param orthSD
 	 * @param categorySD
@@ -816,13 +818,13 @@ public class ChartUtil {
 
 	/**
 	 * Returns a binding name for a value series.
-	 * 
+	 *
 	 * @param orthQuery
 	 * @param orthoSD
 	 * @param categorySD
 	 * @return binding name
 	 * @throws ChartException
-	 * 
+	 *
 	 * @since 2.5.1
 	 */
 	public static String generateBindingNameOfValueSeries(Query orthQuery, SeriesDefinition orthoSD,
@@ -832,14 +834,14 @@ public class ChartUtil {
 
 	/**
 	 * Returns a binding name for a value series.
-	 * 
+	 *
 	 * @param orthQuery
 	 * @param orthoSD
 	 * @param categorySD
 	 * @param forceNewRule indicates if use old
 	 * @return binding name
 	 * @throws ChartException
-	 * 
+	 *
 	 * @since 4.2
 	 */
 	public static String generateBindingNameOfValueSeries(Query orthQuery, SeriesDefinition orthoSD,
@@ -869,13 +871,13 @@ public class ChartUtil {
 
 	/**
 	 * Returns row full expression of value series.
-	 * 
+	 *
 	 * @param orthQuery
 	 * @param orthoSD
 	 * @param categorySD
 	 * @throws ChartException
 	 * @since 2.3
-	 * 
+	 *
 	 */
 	private static String getValueSeriesRowFullExpression(ExpressionCodec exprCodec, Query orthQuery,
 			SeriesDefinition orthoSD, SeriesDefinition categorySD) throws ChartException {
@@ -924,7 +926,7 @@ public class ChartUtil {
 	/**
 	 * Return full aggregate expression which includes aggregate function and
 	 * aggregate parameters.
-	 * 
+	 *
 	 * @param orthoSD
 	 * @param categorySD
 	 * @param orthQuery
@@ -945,7 +947,7 @@ public class ChartUtil {
 
 	/**
 	 * Create full aggregate string.
-	 * 
+	 *
 	 * @param aggrFunc
 	 * @param aggrParameters
 	 * @return full string
@@ -957,7 +959,7 @@ public class ChartUtil {
 			return null;
 		}
 
-		StringBuffer expr = new StringBuffer(aggrFunc);
+		StringBuilder expr = new StringBuilder(aggrFunc);
 		IAggregateFunction aFunc = PluginSettings.instance().getAggregateFunction(aggrFunc);
 		for (int i = 0; i < aggrParameters.length && i < aFunc.getParametersCount(); i++) {
 			String param = (aggrParameters[i]) == null ? "" : (String) aggrParameters[i]; //$NON-NLS-1$
@@ -968,7 +970,7 @@ public class ChartUtil {
 
 	/**
 	 * Returns value of aggregate function parameters.
-	 * 
+	 *
 	 * @param orthSD
 	 * @param baseSD
 	 * @param orthQuery
@@ -995,7 +997,7 @@ public class ChartUtil {
 
 	/**
 	 * Gets the aggregation function expression
-	 * 
+	 *
 	 * @param orthoSD
 	 * @param strBaseAggExp
 	 * @throws ChartException
@@ -1034,7 +1036,7 @@ public class ChartUtil {
 
 	/**
 	 * Returns aggregation function expression.
-	 * 
+	 *
 	 * @param orthSD
 	 * @param baseSD
 	 * @return aggregation function name or null
@@ -1060,7 +1062,7 @@ public class ChartUtil {
 	 * <p>
 	 * Now the magic aggregates in chart include Count, DistinctCount, Top,
 	 * TopPercent, Bottom, BottomPercent, Rank, PercentRank and Running Count.
-	 * 
+	 *
 	 * @param aggFunc
 	 * @return if magic aggregate
 	 * @since BIRT 2.3
@@ -1080,7 +1082,7 @@ public class ChartUtil {
 	/**
 	 * Remove all invisible SeriesDefinitions from a EList of SeriesDefinitions.
 	 * This is a help function of the pruneInvisibleSeries. ( see below )
-	 * 
+	 *
 	 * @param elSed (will be changed)
 	 * @since 2.3
 	 */
@@ -1099,7 +1101,7 @@ public class ChartUtil {
 
 	/**
 	 * Remove all invisible SeriesDefinitions from the runtime chart model.
-	 * 
+	 *
 	 * @param cm (will be changed)
 	 * @since 2.3
 	 */
@@ -1129,7 +1131,7 @@ public class ChartUtil {
 	 * Aligns a double value with a int value, if the difference between the two
 	 * value is less than EPS, and if dValue is lager than 1E15, the maximum count
 	 * of significant digit is set to 15
-	 * 
+	 *
 	 * @param dValue
 	 * @param bForce
 	 * @return int
@@ -1154,7 +1156,7 @@ public class ChartUtil {
 
 	/**
 	 * Returns all instances of <code>SeriesDefinition</code> on category of chart.
-	 * 
+	 *
 	 * @param chart chart model object.
 	 * @return a list of instances of <code>SeriesDefinition</code>.
 	 * @since 2.3
@@ -1172,13 +1174,13 @@ public class ChartUtil {
 	 * Return specified axis definitions or all series definitions. Remember return
 	 * type is ArrayList, not EList, no event is fired when adding or removing an
 	 * element.
-	 * 
+	 *
 	 * @param chart chart
 	 * @return specified axis definitions or all series definitions
 	 * @since 2.3
 	 */
 	public static List<SeriesDefinition> getAllOrthogonalSeriesDefinitions(Chart chart) {
-		List<SeriesDefinition> seriesList = new ArrayList<SeriesDefinition>();
+		List<SeriesDefinition> seriesList = new ArrayList<>();
 		if (chart instanceof ChartWithAxes) {
 			EList<Axis> axisList = ((ChartWithAxes) chart).getAxes().get(0).getAssociatedAxes();
 			for (int i = 0; i < axisList.size(); i++) {
@@ -1192,7 +1194,7 @@ public class ChartUtil {
 
 	/**
 	 * Create a regular row expression for the matching operation.
-	 * 
+	 *
 	 * @param expression   specified expression.
 	 * @param hasOperation indicate if the expression will include operations.
 	 * @return a regular row expression
@@ -1213,20 +1215,20 @@ public class ChartUtil {
 	/**
 	 * The method compiles specified string to convert special symbol of regular
 	 * expression, it avoids the special char in string is parsed as regular symbol.
-	 * 
+	 *
 	 * @param expr
 	 * @return
 	 * @since 2.3.1
 	 */
 	private static String escapeRegexpSymbol(String expr) {
-		char[] specialSymbol = new char[] { '$', '(', ')', '*', '+', '.', '[', '?', '^', '{', '|', '}', '\\' };
+		char[] specialSymbol = { '$', '(', ')', '*', '+', '.', '[', '?', '^', '{', '|', '}', '\\' };
 
-		List<Character> specialList = new ArrayList<Character>();
+		List<Character> specialList = new ArrayList<>();
 		for (int i = 0; i < specialSymbol.length; i++) {
-			specialList.add(Character.valueOf(specialSymbol[i]));
+			specialList.add(specialSymbol[i]);
 		}
 
-		StringBuffer sb = new StringBuffer(expr);
+		StringBuilder sb = new StringBuilder(expr);
 		for (int i = 0; i < sb.length(); i++) {
 			int index = specialList.indexOf(Character.valueOf(sb.charAt(i)));
 			if (index < 0) {
@@ -1243,13 +1245,13 @@ public class ChartUtil {
 
 	/**
 	 * Returns all value expressions of chart.
-	 * 
+	 *
 	 * @param cm
 	 * @return expression array
 	 * @since 2.3
 	 */
 	public static String[] getValueSeriesExpressions(Chart cm) {
-		Set<String> valueExprs = new LinkedHashSet<String>();
+		Set<String> valueExprs = new LinkedHashSet<>();
 		List<SeriesDefinition> orthSDs = ChartUtil.getAllOrthogonalSeriesDefinitions(cm);
 		for (SeriesDefinition sd : orthSDs) {
 			Series s = sd.getDesignTimeSeries();
@@ -1267,13 +1269,13 @@ public class ChartUtil {
 
 	/**
 	 * Returns all Y optional expressions of chart.
-	 * 
+	 *
 	 * @param cm
 	 * @return expression array
 	 * @since 2.3
 	 */
 	public static String[] getYOptoinalExpressions(Chart cm) {
-		Set<String> yOptionalExprs = new LinkedHashSet<String>();
+		Set<String> yOptionalExprs = new LinkedHashSet<>();
 		List<SeriesDefinition> orthSDs = ChartUtil.getAllOrthogonalSeriesDefinitions(cm);
 		for (SeriesDefinition sd : orthSDs) {
 			if (sd.getQuery() != null && sd.getQuery().getDefinition() != null && !"".equals(sd.getQuery() //$NON-NLS-1$
@@ -1287,7 +1289,7 @@ public class ChartUtil {
 
 	/**
 	 * Check if Y optional expression is specified.
-	 * 
+	 *
 	 * @param cm
 	 * @return specified or not
 	 * @since 2.5.3
@@ -1298,13 +1300,13 @@ public class ChartUtil {
 
 	/**
 	 * Returns all category expressions of chart.
-	 * 
+	 *
 	 * @param cm
 	 * @return expression array
 	 * @since 2.3
 	 */
 	public static String[] getCategoryExpressions(Chart cm) {
-		Set<String> categoryExprs = new LinkedHashSet<String>();
+		Set<String> categoryExprs = new LinkedHashSet<>();
 		EList<SeriesDefinition> baseSDs = ChartUtil.getBaseSeriesDefinitions(cm);
 		for (SeriesDefinition sd : baseSDs) {
 			EList<Query> dds = sd.getDesignTimeSeries().getDataDefinition();
@@ -1320,7 +1322,7 @@ public class ChartUtil {
 
 	/**
 	 * Compare version number, the format of version number should be X.X.X style.
-	 * 
+	 *
 	 * @param va version number 1.
 	 * @param vb version number 2.
 	 * @since 2.3
@@ -1329,11 +1331,11 @@ public class ChartUtil {
 		String[] vas = va.split("\\."); //$NON-NLS-1$
 		String[] vbs = vb.split("\\."); //$NON-NLS-1$
 
-		List<String> vaList = new ArrayList<String>();
+		List<String> vaList = new ArrayList<>();
 		for (int i = 0; i < vas.length; i++) {
 			vaList.add(vas[i].trim().equals("") ? "0" : vas[i]); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		List<String> vbList = new ArrayList<String>();
+		List<String> vbList = new ArrayList<>();
 		for (int i = 0; i < vbs.length; i++) {
 			vbList.add(vbs[i].trim().equals("") ? "0" : vbs[i]); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -1349,8 +1351,8 @@ public class ChartUtil {
 		}
 
 		for (int i = 0; i < vaList.size(); i++) {
-			int a = Integer.valueOf(vaList.get(i)).intValue();
-			int b = Integer.valueOf(vbList.get(i)).intValue();
+			int a = Integer.parseInt(vaList.get(i));
+			int b = Integer.parseInt(vbList.get(i));
 			if (a == b) {
 				continue;
 			} else {
@@ -1368,14 +1370,14 @@ public class ChartUtil {
 			return str.split(","); //$NON-NLS-1$
 		}
 
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 		char[] charArray = (str + ",").toCharArray(); //$NON-NLS-1$
 		int startIndex = 0;
 		for (int i = 0; i < charArray.length; i++) {
 			char c = charArray[i];
 			if (c == ',') {
 				if (charArray[i - 1] != '\\' && i > 0) {
-					list.add(str.substring(startIndex, i).replaceAll("\\\\,", ",") //$NON-NLS-1$ //$NON-NLS-2$
+					list.add(str.substring(startIndex, i).replace("\\,", ",") //$NON-NLS-1$ //$NON-NLS-2$
 							.trim());
 					startIndex = i + 1;
 				}
@@ -1386,7 +1388,7 @@ public class ChartUtil {
 
 	/**
 	 * Creates new sample data according to specified axis type.
-	 * 
+	 *
 	 * @param axisType axis type
 	 * @param index    sample data index
 	 */
@@ -1394,7 +1396,7 @@ public class ChartUtil {
 		if (axisType.equals(AxisType.DATE_TIME_LITERAL)) {
 			String dsRepresentation = "01/05/2000,02/01/2000,04/12/2000,03/12/2000,02/29/2000"; //$NON-NLS-1$
 			String[] strTok = getStringTokens(dsRepresentation);
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < strTok.length; i++) {
 				String strDataElement = strTok[i];
 				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); //$NON-NLS-1$
@@ -1424,7 +1426,7 @@ public class ChartUtil {
 
 		String dsRepresentation = "6,4,12,8,10"; //$NON-NLS-1$
 		String[] strTok = getStringTokens(dsRepresentation);
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < strTok.length; i++) {
 			String strDataElement = strTok[i];
 			NumberFormat nf = NumberFormat.getNumberInstance();
@@ -1450,11 +1452,11 @@ public class ChartUtil {
 
 	/**
 	 * Creates new sample data for Ancillary Series.
-	 * 
+	 *
 	 * @param vOSD vector of all orthogonal SeriesDefinitions
 	 */
 	public static String getNewAncillarySampleData(Vector<SeriesDefinition> vOSD) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < vOSD.size(); i++) {
 			sb.append(vOSD.get(i).getDesignTimeSeries().getSeriesIdentifier());
@@ -1467,7 +1469,7 @@ public class ChartUtil {
 
 	/**
 	 * Backtraces the chart model from a given series
-	 * 
+	 *
 	 * @param series
 	 * @return chart model
 	 */
@@ -1489,7 +1491,7 @@ public class ChartUtil {
 
 	/**
 	 * Check if specified string is empty.
-	 * 
+	 *
 	 * @param str
 	 * @return if empty
 	 * @since 2.3.1
@@ -1500,7 +1502,7 @@ public class ChartUtil {
 
 	public static abstract class Cache<T, V> {
 
-		private Map<T, V> hm = new HashMap<T, V>();
+		private Map<T, V> hm = new HashMap<>();
 		protected ULocale locale;
 
 		public Cache() {
@@ -1534,7 +1536,7 @@ public class ChartUtil {
 			return new DecimalFormat(pattern, new DecimalFormatSymbols(locale));
 		}
 
-	};
+	}
 
 	public static class CacheDateFormat extends ChartUtil.Cache<Integer, IDateFormatWrapper> {
 
@@ -1547,7 +1549,7 @@ public class ChartUtil {
 			return DateFormatWrapperFactory.getPreferredDateFormat(iDateTimeUnit, locale);
 		}
 
-	};
+	}
 
 	public static boolean containsYOptionalGrouping(Chart chart) {
 		boolean YOG = false;
@@ -1564,7 +1566,7 @@ public class ChartUtil {
 
 	/**
 	 * XOR for boolean
-	 * 
+	 *
 	 * @param b0
 	 * @param b1
 	 * @return xor
@@ -1575,19 +1577,19 @@ public class ChartUtil {
 
 	/**
 	 * Convenient method to instantiate a generic HashMap
-	 * 
+	 *
 	 * @param <K>
 	 * @param <V>
 	 * @return map
 	 */
 	public static <K, V> Map<K, V> newHashMap() {
-		return new HashMap<K, V>();
+		return new HashMap<>();
 	}
 
 	/**
 	 * Revise the version of chart model to current value and do attributes
 	 * migration from specified chat model to current.
-	 * 
+	 *
 	 * @param chartModel
 	 * @since 2.5
 	 */
@@ -1597,10 +1599,6 @@ public class ChartUtil {
 		}
 
 		chartModel.setVersion(Chart.VERSION);
-
-		// Do some migration tasks for the version revision.
-		// ...
-		return;
 	}
 
 	public static boolean isDataEmpty(RunTimeContext rtc) {
@@ -1613,7 +1611,7 @@ public class ChartUtil {
 
 	/**
 	 * Check if current chart model defines multiple Y axes.
-	 * 
+	 *
 	 * @return if multiple y axes
 	 * @since 2.5
 	 */
@@ -1624,7 +1622,7 @@ public class ChartUtil {
 
 	/**
 	 * Check if current plot layout is study layout for multiple Y axes.
-	 * 
+	 *
 	 * @param cm
 	 * @return is study layout or not
 	 * @since 2.5
@@ -1635,7 +1633,7 @@ public class ChartUtil {
 
 	/**
 	 * Returns the Axis instance which contains specified series.
-	 * 
+	 *
 	 * @param series
 	 * @return axis
 	 * @since 2.5
@@ -1672,7 +1670,7 @@ public class ChartUtil {
 
 	/**
 	 * Finds the ExtendedProperty in chart model according to property name
-	 * 
+	 *
 	 * @param cm           chart model
 	 * @param propertyName property name
 	 * @return property or null if not found
@@ -1689,7 +1687,7 @@ public class ChartUtil {
 
 	/**
 	 * Removes a extended property.
-	 * 
+	 *
 	 * @param cm
 	 * @param propertyName the property name of target extended property.
 	 * @return <code>true</code> if specified property is remvoed.
@@ -1707,7 +1705,7 @@ public class ChartUtil {
 	/**
 	 * Sets the value in extended property. If the property with specified name is
 	 * not found, insert one property.
-	 * 
+	 *
 	 * @param cm
 	 * @param propertyName
 	 * @param propertyValue
@@ -1730,7 +1728,7 @@ public class ChartUtil {
 
 	/**
 	 * Gets adapter from extension point.
-	 * 
+	 *
 	 * @param <T>
 	 * @param adaptable
 	 * @param type
@@ -1746,7 +1744,7 @@ public class ChartUtil {
 
 	/**
 	 * Creates default format pattern according to current datetime level.
-	 * 
+	 *
 	 * @param datetimeLevel level such as Calendar.YEAR, CDateTime.QUARTER
 	 * @param keepHierarchy indicates if pattern includes hierarchy
 	 * @return format pattern
@@ -1762,7 +1760,7 @@ public class ChartUtil {
 
 	/**
 	 * Creates default format specifier according to series grouping
-	 * 
+	 *
 	 * @param sg series grouping
 	 * @return default format or null
 	 */
@@ -1781,7 +1779,7 @@ public class ChartUtil {
 
 	/**
 	 * Check if sorting is set on series definition.
-	 * 
+	 *
 	 * @param seriesDefinition
 	 * @return series has sorting or not
 	 * @since 2.5.3
@@ -1799,7 +1797,7 @@ public class ChartUtil {
 
 	/**
 	 * Returns a default NumberFormat, which can be used when none is specified.
-	 * 
+	 *
 	 * @return A default NumberFormat, which can be used when none is specified.
 	 * @since 2.5.3
 	 */
@@ -1811,7 +1809,7 @@ public class ChartUtil {
 	 * Adjust data set if there are big number in chart model. In order to get same
 	 * scale in same axis, all big number in data sets in same axis will have same
 	 * divisor, this method computes same divisor for each axis in chart model.
-	 * 
+	 *
 	 * @param cm
 	 * @throws ChartException
 	 * @since 2.6
@@ -1848,7 +1846,7 @@ public class ChartUtil {
 	}
 
 	private static void adjustDataSets(Axis ax) throws ChartException {
-		List<Series> seriesList = new ArrayList<Series>();
+		List<Series> seriesList = new ArrayList<>();
 		for (SeriesDefinition sd : ax.getSeriesDefinitions()) {
 			seriesList.addAll(sd.getRunTimeSeries());
 		}
@@ -1884,19 +1882,23 @@ public class ChartUtil {
 
 				if (bnMin == null) {
 					Object tmp = idsp.getMinimum(ds);
-					if (tmp != null)
+					if (tmp != null) {
 						bnMin = NumberUtil.asBigDecimal((Number) tmp);
+					}
 					tmp = idsp.getMaximum(ds);
-					if (tmp != null)
+					if (tmp != null) {
 						bnMax = NumberUtil.asBigDecimal((Number) tmp);
+					}
 					continue;
 				}
 				Object tmp = idsp.getMinimum(ds);
-				if (tmp != null)
+				if (tmp != null) {
 					bnMin = bnMin.min(NumberUtil.asBigDecimal((Number) tmp));
+				}
 				tmp = idsp.getMaximum(ds);
-				if (tmp != null)
+				if (tmp != null) {
 					bnMax = bnMax.max(NumberUtil.asBigDecimal((Number) tmp));
+				}
 			}
 
 			// If bnMin or bnMax is null, it means all related data sets of
@@ -2017,7 +2019,7 @@ public class ChartUtil {
 
 	/**
 	 * Returns instance of category series definition.
-	 * 
+	 *
 	 * @param chart
 	 * @return instance of category series definition.
 	 * @since 3.7
@@ -2028,7 +2030,7 @@ public class ChartUtil {
 
 	/**
 	 * Returns number of orthogonal axes.
-	 * 
+	 *
 	 * @param chart
 	 * @return number of orthogonal axes.
 	 * @since 3.7
@@ -2045,7 +2047,7 @@ public class ChartUtil {
 
 	/**
 	 * Return specified axis definitions.
-	 * 
+	 *
 	 * @param chart     chart
 	 * @param axisIndex If chart is without axis type, it always return all
 	 *                  orthogonal series definition.
@@ -2064,7 +2066,7 @@ public class ChartUtil {
 
 	/**
 	 * Returns a value series definitions of chart.
-	 * 
+	 *
 	 * @param chart
 	 * @return a value series definitions of chart.
 	 * @since 3.7
@@ -2082,11 +2084,11 @@ public class ChartUtil {
 
 	/**
 	 * Returns specified query.
-	 * 
+	 *
 	 * @param seriesDefn
 	 * @param queryIndex
 	 * @return query object.
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static Query getDataQuery(SeriesDefinition seriesDefn, int queryIndex) {
@@ -2105,7 +2107,7 @@ public class ChartUtil {
 
 	/**
 	 * Check if specified chart is doughnut chart.
-	 * 
+	 *
 	 * @param cm
 	 * @return true if specified chart is doughnut chart.
 	 */
@@ -2121,7 +2123,7 @@ public class ChartUtil {
 
 	/**
 	 * Returns default chart title.
-	 * 
+	 *
 	 * @param chart
 	 * @return default chart title.
 	 */
@@ -2129,12 +2131,12 @@ public class ChartUtil {
 		if (chart.getType() == null) {
 			return ""; //$NON-NLS-1$
 		}
-		return Messages.getString(chart.getType().replaceAll(" ", "") + ".Title");//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return Messages.getString(chart.getType().replace(" ", "") + ".Title");//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	/**
 	 * Returns default chart title.
-	 * 
+	 *
 	 * @param chart
 	 * @param uLocale
 	 * @return default chart title.
@@ -2143,13 +2145,13 @@ public class ChartUtil {
 		if (chart.getType() == null) {
 			return ""; //$NON-NLS-1$
 		}
-		return Messages.getString(chart.getType().replaceAll(" ", "") + ".Title", uLocale);//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return Messages.getString(chart.getType().replace(" ", "") + ".Title", uLocale);//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	/**
 	 * Checks if current series is only an instance of specified series type,
 	 * neither super class nor sub class.
-	 * 
+	 *
 	 * @param series series instance
 	 * @param clazz  series type
 	 * @return true means an instance of this direct interface.
@@ -2167,7 +2169,7 @@ public class ChartUtil {
 	/**
 	 * Returns the expression text from the raw expression which supports both BRE
 	 * and Javascript types.
-	 * 
+	 *
 	 * @param expr raw expression
 	 * @return expression text
 	 */
@@ -2180,7 +2182,7 @@ public class ChartUtil {
 	/**
 	 * Returns the expression type from the raw expression which supports both BRE
 	 * and Javascript types.
-	 * 
+	 *
 	 * @param expr raw expression
 	 * @return expression type
 	 */
@@ -2192,7 +2194,7 @@ public class ChartUtil {
 
 	/**
 	 * Encode script expression into a string
-	 * 
+	 *
 	 * @param expression script expression
 	 * @return encoded expression string
 	 */
@@ -2208,7 +2210,7 @@ public class ChartUtil {
 
 	/**
 	 * Set related label for action in locale.
-	 * 
+	 *
 	 * @param action
 	 * @param locale
 	 */

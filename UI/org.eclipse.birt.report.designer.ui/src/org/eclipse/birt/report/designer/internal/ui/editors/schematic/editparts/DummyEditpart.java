@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -19,13 +22,13 @@ import org.eclipse.draw2d.geometry.Dimension;
 /**
  * Dummy edit part to avoid null pointer error This will be the default editpart
  * the if there're no editpart is created by the BraphicalPartFactory.
- * 
+ *
  */
 public class DummyEditpart extends ReportElementEditPart {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
 	public DummyEditpart(Object model) {
@@ -34,9 +37,10 @@ public class DummyEditpart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		Figure figure = new Figure();
 		figure.setMaximumSize(new Dimension(0, 0));
@@ -46,16 +50,17 @@ public class DummyEditpart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#elementChanged(org.eclipse.birt.model.api.
@@ -67,21 +72,23 @@ public class DummyEditpart extends ReportElementEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#refreshFigure()
 	 */
+	@Override
 	public void refreshFigure() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#creatDesignElementHandleAdapter()
 	 */
+	@Override
 	public DesignElementHandleAdapter creatDesignElementHandleAdapter() {
 		return null;
 		// do nothing

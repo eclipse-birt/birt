@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  */
 
 public class HierarchyDefinition extends NamedObject implements IHierarchyDefinition {
@@ -30,11 +33,12 @@ public class HierarchyDefinition extends NamedObject implements IHierarchyDefini
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition#createLevel(
 	 * java.lang.String)
 	 */
+	@Override
 	public ILevelDefinition createLevel(String levelName) {
 		ILevelDefinition level = new LevelDefiniton(this, levelName);
 		this.levels.add(level);
@@ -43,21 +47,23 @@ public class HierarchyDefinition extends NamedObject implements IHierarchyDefini
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition#getDimension
 	 * ()
 	 */
+	@Override
 	public IDimensionDefinition getDimension() {
 		return this.dim;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition#getLevels()
 	 */
+	@Override
 	public List getLevels() {
 		return this.levels;
 	}
@@ -65,6 +71,7 @@ public class HierarchyDefinition extends NamedObject implements IHierarchyDefini
 	/**
 	 * Clone itself
 	 */
+	@Override
 	public IHierarchyDefinition clone() {
 		HierarchyDefinition cloned = new HierarchyDefinition(this.dim.clone(), this.getName());
 		cloneFields(cloned);

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -11,13 +14,14 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
-import com.ibm.icu.text.SimpleDateFormat;
-import com.ibm.icu.util.Calendar;
 import java.util.Date;
-import com.ibm.icu.util.TimeZone;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
 
 /**
  * The Spinner componnet base on SWT,show time
@@ -33,7 +37,7 @@ public class TimeLabel extends Label {
 	/**
 	 * Constructs a new instance of this class given its parent and a style value
 	 * describing its behavior and appearance.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 */
@@ -44,7 +48,7 @@ public class TimeLabel extends Label {
 	/**
 	 * Constructs a new instance of this class given its parent ,a style and type,
 	 * type is the show the time format("yyyy-MM-dd",etc)
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param type
@@ -64,7 +68,7 @@ public class TimeLabel extends Label {
 
 	/**
 	 * set date
-	 * 
+	 *
 	 * @param date
 	 */
 	public void setDate(Date date) {
@@ -73,7 +77,7 @@ public class TimeLabel extends Label {
 
 	/**
 	 * Fetch the time
-	 * 
+	 *
 	 * @return time
 	 */
 	public long getTime() {
@@ -83,7 +87,7 @@ public class TimeLabel extends Label {
 
 	/**
 	 * Sets thr time
-	 * 
+	 *
 	 * @param time
 	 */
 	public void setTime(long time) {
@@ -94,7 +98,7 @@ public class TimeLabel extends Label {
 
 	/**
 	 * gets the show format
-	 * 
+	 *
 	 * @return the format type
 	 */
 	public String getFormatType() {
@@ -103,7 +107,7 @@ public class TimeLabel extends Label {
 
 	/**
 	 * sets the show format
-	 * 
+	 *
 	 * @param type
 	 */
 	public void setFormatType(String type) {
@@ -114,7 +118,7 @@ public class TimeLabel extends Label {
 
 	/**
 	 * when the TimeZone is changed ,update the time
-	 * 
+	 *
 	 * @param oldID
 	 * @param newID
 	 * @return true
@@ -147,7 +151,7 @@ public class TimeLabel extends Label {
 
 	/**
 	 * Sets the TimeZone ID
-	 * 
+	 *
 	 * @param newID
 	 */
 	public void setTimeZoneID(String newID) {
@@ -157,7 +161,7 @@ public class TimeLabel extends Label {
 
 	/**
 	 * Gets the TimeZone ID value
-	 * 
+	 *
 	 * @return id
 	 */
 	public String getTimeZone() {
@@ -166,7 +170,7 @@ public class TimeLabel extends Label {
 
 	/**
 	 * Sets the infomation. Infomation may be come from TimeOptionDialog
-	 * 
+	 *
 	 * @param dialogInfo
 	 * @return true
 	 */
@@ -187,7 +191,7 @@ public class TimeLabel extends Label {
 
 	/**
 	 * Gets the infomation
-	 * 
+	 *
 	 * @return infomation
 	 */
 	public DialogInfo getInfo() {
@@ -200,9 +204,10 @@ public class TimeLabel extends Label {
 
 	/*
 	 * This class don't pass th check,So this method must be overhide. (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#checkSubclass()
 	 */
+	@Override
 	protected void checkSubclass() {
 
 	}

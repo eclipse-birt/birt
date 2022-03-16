@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +35,7 @@ import org.eclipse.birt.report.model.util.EncryptionUtil;
 
 /**
  * Records setting the value of a structure member.
- * 
+ *
  */
 
 public class MemberRecord extends SimpleRecord {
@@ -76,7 +79,7 @@ public class MemberRecord extends SimpleRecord {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param module the module
 	 * @param obj    the element that contains the property that contains the
 	 *               structure that contains the member.
@@ -103,11 +106,12 @@ public class MemberRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
 	 * (boolean)
 	 */
 
+	@Override
 	protected void perform(boolean undo) {
 		PropertyDefn prop = memberRef.getPropDefn();
 		if (structure != null) {
@@ -124,40 +128,42 @@ public class MemberRecord extends SimpleRecord {
 
 			StructureContext context = new StructureContext(structure, prop, null);
 
-			if (tmpOldValue instanceof Structure)
+			if (tmpOldValue instanceof Structure) {
 				context.remove((Structure) tmpOldValue);
+			}
 
-			if (value instanceof Structure)
+			if (value instanceof Structure) {
 				context.add((Structure) value);
-			else {
-				if (structure instanceof PropertyBinding && value != null
-						&& PropertyBinding.VALUE_MEMBER.equals(prop.getName())) {
+			} else if (structure instanceof PropertyBinding && value != null
+					&& PropertyBinding.VALUE_MEMBER.equals(prop.getName())) {
 
-					EncryptionUtil.setEncryptionBindingValue(module, structure, prop, value);
-				} else
-					structure.setProperty(prop, value);
+				EncryptionUtil.setEncryptionBindingValue(module, structure, prop, value);
+			} else {
+				structure.setProperty(prop, value);
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
 	 * #getTarget()
 	 */
 
+	@Override
 	public DesignElement getTarget() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
 	 * #getEvent()
 	 */
 
+	@Override
 	public NotificationEvent getEvent() {
 		// Use the same notification for the done/redone and undone states.
 
@@ -166,14 +172,13 @@ public class MemberRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
 	 */
 
+	@Override
 	protected List<RecordTask> getPostTasks() {
-		List<RecordTask> retList = new ArrayList<RecordTask>();
-		retList.addAll(super.getPostTasks());
-
+		List<RecordTask> retList = new ArrayList<>(super.getPostTasks());
 		NotificationEvent ev = getEvent();
 
 		retList.add(new NotificationRecordTask(element, ev));

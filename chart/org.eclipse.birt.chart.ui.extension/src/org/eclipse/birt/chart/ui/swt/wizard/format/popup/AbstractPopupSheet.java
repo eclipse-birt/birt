@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +40,7 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
 /**
- * 
+ *
  */
 
 public abstract class AbstractPopupSheet implements ITaskPopupSheet {
@@ -61,13 +64,14 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet {
 
 	/**
 	 * Registers context help to this popup sheet.
-	 * 
+	 *
 	 * @param parent top composite
 	 */
 	protected void bindHelp(Composite parent) {
 		// Do nothing here to override
 	}
 
+	@Override
 	public Composite getUI(Composite parent) {
 		// Cache the top composite for refresh later
 		cmpTop = new Composite(parent, SWT.NONE);
@@ -114,6 +118,7 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet {
 		toolBar.setCursor(cursor);
 		toolBar.addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				cursor.dispose();
 			}
@@ -123,6 +128,7 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet {
 		item.setToolTipText(Messages.getString("AbstractPopupSheet.Label.Close")); //$NON-NLS-1$
 		item.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (cmpTop != null && !cmpTop.isDisposed()) {
 					cmpTop.getShell().close();
@@ -140,7 +146,7 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet {
 	 * parent's layout is assumed to be a <code>GridLayout</code> and the number of
 	 * columns in this layout is incremented. Subclasses may override.
 	 * </p>
-	 * 
+	 *
 	 * @param parent the parent composite
 	 * @return the help control
 	 */
@@ -163,6 +169,7 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet {
 		toolBar.setCursor(cursor);
 		toolBar.addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				cursor.dispose();
 			}
@@ -172,6 +179,7 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet {
 		item.setToolTipText(Messages.getString("AbstractPopupSheet.Label.Help")); //$NON-NLS-1$
 		item.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				helpPressed();
 			}
@@ -189,6 +197,7 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet {
 		link.setToolTipText(IDialogConstants.HELP_LABEL);
 		link.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				helpPressed();
 			}
@@ -213,6 +222,7 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet {
 		}
 	}
 
+	@Override
 	public void refreshComponent(Composite parent) {
 		if (needRefresh) {
 			if (cmpTop != null && !cmpTop.isDisposed()) {
@@ -238,6 +248,7 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet {
 		this.strTitle = title;
 	}
 
+	@Override
 	public String getTitle() {
 		return strTitle;
 	}

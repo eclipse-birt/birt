@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * ScriptDataSetHandle ds = design.getElementFactory().newScriptDataSet(
  * dataSetName ); ...
- * 
+ *
  * <pre>
  * PropertyHandle ph = ds.getPropertyHandle(ScriptDataSetHandle.RESULT_SET_PROP);
  * for (int i = 0; i &lt; columns.length; i++) {
@@ -39,7 +42,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * 	ph.addItem(rsc); // &lt;= NPE
  * }
  * </pre>
- * 
+ *
  * <b>Test description:</b>
  * <p>
  * In ScriptDataSet, result set hints has replaced the result set property.
@@ -47,7 +50,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * Test if getPropertyHandle(RESULT_SET_PROP) returns
  * getPropertyHandle(RESULT_SET_HINTS_PROP) and no exception
- * 
+ *
  */
 public class Regression_156977 extends BaseTestCase
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,26 +27,26 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <p>
  * <code>TableColumn</code>,<code>TableRow</code> and <code>Cell</code> are also
  * tested in this test case.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testMethods()}</td>
  * <td>Test column slot of GridItem after parsing design file</td>
  * <td>The column number in the slot is 2. And the column number is 4.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Test row slot of GridItem after parsing design file</td>
  * <td>The row number in the slot is 2.</td>
  * </tr>
- * 
+ *
  * </table>
  */
 
@@ -54,6 +57,7 @@ public class GridItemHandleTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign(fileName);
@@ -61,9 +65,9 @@ public class GridItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the column count on grids that have column definition or not.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testMethods() throws Exception {
@@ -98,7 +102,7 @@ public class GridItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Test copy , paste , insert , shift table row.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testRowCopyPasteAction() throws Exception {
@@ -229,7 +233,7 @@ public class GridItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests getCell().
-	 * 
+	 *
 	 */
 	public void testGetCell() {
 		assertEquals(0, design.getErrorList().size());

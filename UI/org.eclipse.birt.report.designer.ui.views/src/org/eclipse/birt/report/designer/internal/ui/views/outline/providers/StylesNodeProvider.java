@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -42,17 +44,18 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Deals with the styles node
- * 
- * 
+ *
+ *
  */
 public class StylesNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object.
-	 * 
+	 *
 	 * @param menu   the menu
 	 * @param object the object
 	 */
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		menu.add(new InsertAction(object, Messages.getString("StylesNodeProvider.action.New"))); //$NON-NLS-1$
 		super.createContextMenu(sourceViewer, object, menu);
@@ -68,31 +71,34 @@ public class StylesNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Gets the node display name of the given object.
-	 * 
+	 *
 	 * @param object the object
 	 * @return the display name
 	 */
+	@Override
 	public String getNodeDisplayName(Object object) {
 		return STYLES;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(
 	 * java.lang.Object)
 	 */
+	@Override
 	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_NODE_STYLES;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#
 	 * createElement(java.lang.String)
 	 */
+	@Override
 	protected DesignElementHandle createElement(String type) throws Exception {
 		// ElementFactory factory = SessionHandleAdapter.getInstance( )
 		// .getReportDesignHandle( )
@@ -110,6 +116,7 @@ public class StylesNodeProvider extends DefaultNodeProvider {
 		return super.createElement(type);
 	}
 
+	@Override
 	public Object[] getChildren(Object model) {
 		ModuleHandle moduleHandle = ((SlotHandle) model).getElementHandle().getModuleHandle();
 		Object[] styles = moduleHandle.getStyles().getContents().toArray();

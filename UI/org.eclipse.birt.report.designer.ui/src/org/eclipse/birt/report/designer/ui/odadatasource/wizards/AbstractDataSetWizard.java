@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -31,6 +34,7 @@ import org.eclipse.swt.widgets.Composite;
  *             {@link org.eclipse.datatools.connectivity.oda.design.ui
  *             org.eclipse.datatools.connectivity.oda.design.ui } .
  */
+@Deprecated
 public abstract class AbstractDataSetWizard extends Wizard {
 
 	private static final String CREATE_DATA_SET_TRANS_NAME = Messages
@@ -61,11 +65,12 @@ public abstract class AbstractDataSetWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.wizard.IWizard#createPageControls(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	public void createPageControls(Composite pageContainer) {
 		// Call getDataSet so that it can create the data set if one hasn't been
 		// created
@@ -80,6 +85,7 @@ public abstract class AbstractDataSetWizard extends Wizard {
 		super.createPageControls(pageContainer);
 	}
 
+	@Override
 	public final boolean performFinish() {
 		boolean returnValue = doFinish();
 
@@ -99,10 +105,7 @@ public abstract class AbstractDataSetWizard extends Wizard {
 				if (isUseTransaction()) {
 					getActivityStack().commit();
 				}
-			} catch (ContentException e) {
-				getActivityStack().rollback();
-				ExceptionHandler.handle(e);
-			} catch (NameException e) {
+			} catch (ContentException | NameException e) {
 				getActivityStack().rollback();
 				ExceptionHandler.handle(e);
 			}
@@ -140,9 +143,10 @@ public abstract class AbstractDataSetWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#performCancel()
 	 */
+	@Override
 	public final boolean performCancel() {
 		boolean returnValue = doCancel();
 
@@ -158,7 +162,7 @@ public abstract class AbstractDataSetWizard extends Wizard {
 
 	/**
 	 * Gets the activity stack of the report
-	 * 
+	 *
 	 * @return returns the stack
 	 */
 	public CommandStack getActivityStack() {

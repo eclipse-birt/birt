@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,12 +46,13 @@ public class CopyForPastePolicy extends CopyPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.elements.strategy.CopyStrategy#execute(
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public void execute(DesignElement source, DesignElement destination) {
 		if (destination.getExtendsName() == null && !destination.isVirtualElement()) {
 			clearDisplayName(destination);
@@ -70,8 +74,9 @@ public class CopyForPastePolicy extends CopyPolicy {
 					iter = current.getLocalUserProperties().iterator();
 					while (iter.hasNext()) {
 						UserPropertyDefn uDefn = (UserPropertyDefn) iter.next();
-						if (destination.getLocalUserPropertyDefn(uDefn.getName()) != null)
+						if (destination.getLocalUserPropertyDefn(uDefn.getName()) != null) {
 							continue;
+						}
 						destination.addUserPropertyDefn((UserPropertyDefn) uDefn.copy());
 					}
 				}
@@ -88,8 +93,9 @@ public class CopyForPastePolicy extends CopyPolicy {
 		Module module = source.getRoot();
 		while (iter.hasNext()) {
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next();
-			if (!propDefn.canInherit() && !propDefn.isStyleProperty())
+			if (!propDefn.canInherit() && !propDefn.isStyleProperty()) {
 				continue;
+			}
 
 			String propName = propDefn.getName();
 
@@ -98,8 +104,9 @@ public class CopyForPastePolicy extends CopyPolicy {
 			// flatten to new element.
 
 			if (IStyledElementModel.STYLE_PROP.equals(propName) || IDesignElementModel.EXTENDS_PROP.equals(propName)
-					|| IDesignElementModel.USER_PROPERTIES_PROP.equals(propName))
+					|| IDesignElementModel.USER_PROPERTIES_PROP.equals(propName)) {
 				continue;
+			}
 
 			if (propDefn.isEncryptable()) {
 				if (source.getLocalEncryptionID(propDefn) == null
@@ -116,8 +123,9 @@ public class CopyForPastePolicy extends CopyPolicy {
 			}
 
 			Object tmpValue = source.getLocalProperty(module, propDefn);
-			if (tmpValue != null)
+			if (tmpValue != null) {
 				continue;
+			}
 
 			current = source.isVirtualElement() ? source.getVirtualParent() : source.getExtendsElement();
 
@@ -154,24 +162,26 @@ public class CopyForPastePolicy extends CopyPolicy {
 
 	/**
 	 * Auxiliary function helps to clear display name and display name id.
-	 * 
+	 *
 	 * @param e the design element need to clear display name information.
 	 */
 
 	protected void clearDisplayName(DesignElement e) {
 		// clear text-property of displayName
-		if (e.getLocalProperty(null, IDesignElementModel.DISPLAY_NAME_PROP) != null)
+		if (e.getLocalProperty(null, IDesignElementModel.DISPLAY_NAME_PROP) != null) {
 			e.setProperty(IDesignElementModel.DISPLAY_NAME_PROP, null);
+		}
 
 		// clear text-property of displayNameID
 
-		if (e.getLocalProperty(null, IDesignElementModel.DISPLAY_NAME_ID_PROP) != null)
+		if (e.getLocalProperty(null, IDesignElementModel.DISPLAY_NAME_ID_PROP) != null) {
 			e.setProperty(IDesignElementModel.DISPLAY_NAME_ID_PROP, null);
+		}
 	}
 
 	/**
 	 * Returns the instance of this class.
-	 * 
+	 *
 	 * @return the instance of this class
 	 */
 

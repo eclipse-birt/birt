@@ -1,15 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.binding;
+
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +35,9 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.junit.Test;
 
 import testutil.ConfigText;
-
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Test case for Computed Column feature
@@ -53,6 +56,7 @@ public class ComputedColumnTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestData1.TableName"),
 				ConfigText.getString("Api.TestData1.TableSQL"), ConfigText.getString("Api.TestData1.TestDataFileName"));
@@ -135,7 +139,7 @@ public class ComputedColumnTest extends APITestCase {
 
 	/**
 	 * Same as testInvalidExpr1
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -156,7 +160,7 @@ public class ComputedColumnTest extends APITestCase {
 
 	/**
 	 * Expression of computed column can not be null or trimmed to length of zero.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -177,7 +181,7 @@ public class ComputedColumnTest extends APITestCase {
 
 	/**
 	 * Expression of computed column can not be null or trimmed to length of zero.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -199,7 +203,7 @@ public class ComputedColumnTest extends APITestCase {
 
 	/**
 	 * test sort on computed column
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -215,7 +219,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameSort[0] = "SORT_DEFINITION";
 		IBaseExpression[] bindingExprSort = new IBaseExpression[1];
 		bindingExprSort[0] = new ScriptExpression("dataSetRow.ccc/Total.ave(dataSetRow.ccc)");
-		SortDefinition[] sortDefn = new SortDefinition[] { new SortDefinition() };
+		SortDefinition[] sortDefn = { new SortDefinition() };
 		sortDefn[0].setExpression("row.SORT_DEFINITION");
 		sortDefn[0].setSortDirection(ISortDefinition.SORT_DESC);
 
@@ -226,7 +230,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[3] = "ROW_COL3";
 		bindingNameRow[4] = "ROW_ccc";
 		bindingNameRow[5] = "ROW_ccc2";
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0), };
@@ -242,7 +246,7 @@ public class ComputedColumnTest extends APITestCase {
 
 	/**
 	 * test computed column with script sort expression
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -260,7 +264,7 @@ public class ComputedColumnTest extends APITestCase {
 		IBaseExpression[] bindingExprSort = new IBaseExpression[1];
 		bindingExprSort[0] = new ScriptExpression("dataSetRow.cc");
 
-		SortDefinition[] sortDefn = new SortDefinition[] { new SortDefinition() };
+		SortDefinition[] sortDefn = { new SortDefinition() };
 		sortDefn[0].setColumn("SORT_DEFINITION");
 		sortDefn[0].setSortDirection(ISortDefinition.SORT_DESC);
 
@@ -270,7 +274,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[2] = "ROW_COL2";
 		bindingNameRow[3] = "ROW_COL3";
 		bindingNameRow[4] = "ROW_cc";
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0), };
 
@@ -283,7 +287,7 @@ public class ComputedColumnTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -300,7 +304,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameFilter[0] = "FILTER_ccc";
 		IBaseExpression[] bindingExprFilter = new IBaseExpression[1];
 		bindingExprFilter[0] = new ScriptExpression("dataSetRow.ccc");
-		FilterDefinition[] filterDefn = new FilterDefinition[] { new FilterDefinition(
+		FilterDefinition[] filterDefn = { new FilterDefinition(
 				new ConditionalExpression("row.FILTER_ccc", IConditionalExpression.OP_BOTTOM_N, "6")) };
 
 		String[] bindingNameRow = new String[6];
@@ -310,7 +314,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[3] = "ROW_COL3";
 		bindingNameRow[4] = "ROW_ccc";
 		bindingNameRow[5] = "ROW_ccc2";
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0), };
@@ -325,7 +329,7 @@ public class ComputedColumnTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -344,8 +348,7 @@ public class ComputedColumnTest extends APITestCase {
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.ccc");
 		bindingExprGroup[1] = new ScriptExpression("Total.sum(dataSetRow.ccc,null,1)*(dataSetRow.COL3+1)");
-		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group1"),
-				new GroupDefinition("group2") };
+		GroupDefinition[] groupDefn = { new GroupDefinition("group1"), new GroupDefinition("group2") };
 		groupDefn[0].setInterval(IGroupDefinition.NUMERIC_INTERVAL);
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP1");
 		groupDefn[0].setIntervalRange(2);
@@ -358,7 +361,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[3] = "ROW_COL3";
 		bindingNameRow[4] = "ROW_ccc";
 		bindingNameRow[5] = "ROW_ccc2";
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0) };
@@ -373,7 +376,7 @@ public class ComputedColumnTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -394,7 +397,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[3] = "ROW_COL3";
 		bindingNameRow[4] = "ROW_cc1";
 
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0) };
 		FilterDefinition filter = new FilterDefinition(new ScriptExpression("row.cc1"));
@@ -409,7 +412,7 @@ public class ComputedColumnTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -432,7 +435,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[4] = "ROW_cc1";
 		bindingNameRow[5] = "ROW_cc2";
 
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0),
 				new ScriptExpression("dataSetRow." + ccName[0], DataType.INTEGER_TYPE),
@@ -450,7 +453,7 @@ public class ComputedColumnTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -471,7 +474,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[3] = "ROW_COL3";
 		bindingNameRow[4] = "ROW_cc1";
 
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0) };
 		FilterDefinition filter = new FilterDefinition(new ScriptExpression("row.cc1"));
@@ -487,7 +490,7 @@ public class ComputedColumnTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -508,7 +511,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[3] = "ROW_COL3";
 		bindingNameRow[4] = "ROW_cc1";
 
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0) };
 		FilterDefinition filter = new FilterDefinition(new ScriptExpression("row.cc1"));
@@ -524,7 +527,7 @@ public class ComputedColumnTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -548,7 +551,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[6] = "ROW_cc3";
 		bindingNameRow[7] = "ROW_cc4";
 
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0), new ScriptExpression("dataSetRow." + ccName[2], 0),
@@ -564,7 +567,7 @@ public class ComputedColumnTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -594,7 +597,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[5] = "ROW_cc2";
 		bindingNameRow[6] = "ROW_cc3";
 
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0),
@@ -610,7 +613,7 @@ public class ComputedColumnTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -647,7 +650,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[7] = "ROW_cc4";
 		bindingNameRow[8] = "ROW_cc5";
 
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0), new ScriptExpression("dataSetRow." + ccName[2], 0),
@@ -665,7 +668,7 @@ public class ComputedColumnTest extends APITestCase {
 
 	/**
 	 * test nested aggregation computed column
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -687,7 +690,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[4] = "ROW_cc1";
 		bindingNameRow[5] = "ROW_cc2";
 		bindingNameRow[6] = "ROW_cc3";
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0),
@@ -704,7 +707,7 @@ public class ComputedColumnTest extends APITestCase {
 
 	/**
 	 * test nested computed column
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -726,7 +729,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[4] = "ROW_cc1";
 		bindingNameRow[5] = "ROW_cc2";
 		bindingNameRow[6] = "ROW_cc3";
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0),
@@ -743,7 +746,7 @@ public class ComputedColumnTest extends APITestCase {
 
 	/**
 	 * test aggregation contains filter computed column
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -765,7 +768,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[4] = "ROW_cc1";
 		bindingNameRow[5] = "ROW_cc2";
 		bindingNameRow[6] = "ROW_cc3";
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0),
@@ -782,7 +785,7 @@ public class ComputedColumnTest extends APITestCase {
 
 	/**
 	 * Test group filters when computed columns include aggregations.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -801,7 +804,7 @@ public class ComputedColumnTest extends APITestCase {
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.cc1");
 
-		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group1") };
+		GroupDefinition[] groupDefn = { new GroupDefinition("group1") };
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP1");
 
 		FilterDefinition filter = new FilterDefinition(new ScriptExpression("Total.sum(dataSetRow.COL0)>400"));
@@ -816,7 +819,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[5] = "ROW_cc2";
 		bindingNameRow[6] = "ROW_cc3";
 		bindingNameRow[7] = "ROW_cc4";
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0), new ScriptExpression("dataSetRow." + ccName[2], 0),
@@ -832,7 +835,7 @@ public class ComputedColumnTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -852,7 +855,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[3] = "ROW_COL3";
 		bindingNameRow[4] = "ROW_ccc";
 		bindingNameRow[5] = "ROW_ccc2";
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0), };
@@ -869,7 +872,7 @@ public class ComputedColumnTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -887,7 +890,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[2] = "ROW_COL2";
 		bindingNameRow[3] = "ROW_COL3";
 		bindingNameRow[4] = "ROW_ccc";
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0) };
 
@@ -902,7 +905,7 @@ public class ComputedColumnTest extends APITestCase {
 	/**
 	 * Test multi-pass on sort. Currently only indirect aggregation function
 	 * nestings are supported.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -921,7 +924,7 @@ public class ComputedColumnTest extends APITestCase {
 		IBaseExpression[] bindingExprSort = new IBaseExpression[2];
 		bindingExprSort[0] = new ScriptExpression("dataSetRow.COL1/(Total.ave(dataSetRow.cc1)+dataSetRow.cc1)");
 		bindingExprSort[1] = new ScriptExpression("dataSetRow.cc2-dataSetRow.COL2");
-		SortDefinition[] sortDefn = new SortDefinition[] { new SortDefinition(), new SortDefinition() };
+		SortDefinition[] sortDefn = { new SortDefinition(), new SortDefinition() };
 		sortDefn[0].setColumn("SORT_DEFINITION_1");
 		sortDefn[0].setSortDirection(ISortDefinition.SORT_DESC);
 		sortDefn[1].setColumn("SORT_DEFINITION_2");
@@ -934,7 +937,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[3] = "ROW_COL3";
 		bindingNameRow[4] = "ROW_cc1";
 		bindingNameRow[5] = "ROW_cc2";
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0), };
@@ -947,7 +950,7 @@ public class ComputedColumnTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -966,8 +969,7 @@ public class ComputedColumnTest extends APITestCase {
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.COL1");
 		bindingExprGroup[1] = new ScriptExpression("dataSetRow.cc2+Total.sum(dataSetRow.COL1,null,1)");
-		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("group1"),
-				new GroupDefinition("group2") };
+		GroupDefinition[] groupDefn = { new GroupDefinition("group1"), new GroupDefinition("group2") };
 		groupDefn[0].setKeyExpression("row.GROUP_GROUP1");
 		groupDefn[1].setKeyExpression("row.GROUP_GROUP2");
 
@@ -978,7 +980,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[3] = "ROW_COL3";
 		bindingNameRow[4] = "ROW_cc1";
 		bindingNameRow[5] = "ROW_cc2";
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + ccName[0], 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0) };
@@ -993,7 +995,7 @@ public class ComputedColumnTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -1009,7 +1011,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameSort[0] = "SORT_DEFINITION";
 		IBaseExpression[] bindingExprSort = new IBaseExpression[1];
 		bindingExprSort[0] = new ScriptExpression("dataSetRow.ccc/Total.ave(dataSetRow.ccc)");
-		SortDefinition[] sortDefn = new SortDefinition[] { new SortDefinition() };
+		SortDefinition[] sortDefn = { new SortDefinition() };
 		sortDefn[0].setColumn("SORT_DEFINITION");
 		sortDefn[0].setSortDirection(ISortDefinition.SORT_DESC);
 
@@ -1020,7 +1022,7 @@ public class ComputedColumnTest extends APITestCase {
 		bindingNameRow[3] = "ROW_COL3";
 		bindingNameRow[4] = "ROW_cc1";
 		bindingNameRow[5] = "ROW_cc2";
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + "COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + "COL0", 0),
 				new ScriptExpression("dataSetRow." + "COL1", 0), new ScriptExpression("dataSetRow." + "COL2", 0),
 				new ScriptExpression("dataSetRow." + "COL3", 0), new ScriptExpression("dataSetRow." + "cc2", 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0), };
@@ -1039,7 +1041,7 @@ public class ComputedColumnTest extends APITestCase {
 
 	/**
 	 * print resultset iterator
-	 * 
+	 *
 	 * @param resultIt
 	 * @param bindingNameRow
 	 * @param bindingExprRow
@@ -1060,12 +1062,13 @@ public class ComputedColumnTest extends APITestCase {
 			str = "";
 			for (int i = 0; i < bindingNameRow.length; i++) {
 				str += " ";
-				if (resultIt.getValue(bindingNameRow[i]) == null)
+				if (resultIt.getValue(bindingNameRow[i]) == null) {
 					str += "<null>";
-				else
+				} else {
 					str += (resultIt.getValue(bindingNameRow[i]) instanceof Double)
 							? (int) Double.parseDouble(resultIt.getValue(bindingNameRow[i]).toString())
 							: resultIt.getValue(bindingNameRow[i]);
+				}
 				str += "    ";
 			}
 			testPrintln(str);

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.report.designer.internal.ui;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -20,6 +32,7 @@ import org.eclipse.jface.window.Window;
 
 public class TableDropAdapter implements IDropAdapter {
 
+	@Override
 	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		// TODO Auto-generated method stub
 		int result = DNDService.LOGIC_UNKNOW;
@@ -36,6 +49,7 @@ public class TableDropAdapter implements IDropAdapter {
 		return result;
 	}
 
+	@Override
 	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		if (target instanceof TableCellEditPart) {
 

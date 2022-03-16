@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,46 +43,57 @@ public final class ChartPropertyMethodInfo implements IMethodInfo {
 		this.isStatic = isStatic;
 	}
 
+	@Override
 	public Iterator argumentListIterator() {
 		return null;
 	}
 
+	@Override
 	public IClassInfo getClassReturnType() {
 		return null;
 	}
 
+	@Override
 	public String getJavaDoc() {
 		return null;
 	}
 
+	@Override
 	public String getReturnType() {
 		return null;
 	}
 
+	@Override
 	public String getToolTip() {
 		return tooltip;
 	}
 
+	@Override
 	public String getToolTipKey() {
 		return tooltipKey;
 	}
 
+	@Override
 	public boolean isConstructor() {
 		return isConstructor;
 	}
 
+	@Override
 	public boolean isStatic() {
 		return isStatic;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
 
+	@Override
 	public String getDisplayNameKey() {
 		return displayNameKey;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,7 +19,7 @@ import org.eclipse.swt.dnd.DragSourceAdapter;
 import org.eclipse.swt.dnd.DragSourceEvent;
 
 /**
- * 
+ *
  */
 
 public class CustomPreviewTableDragListener extends DragSourceAdapter {
@@ -25,7 +28,7 @@ public class CustomPreviewTableDragListener extends DragSourceAdapter {
 	private CustomPreviewTable customTable;
 
 	/**
-	 * 
+	 *
 	 */
 	public CustomPreviewTableDragListener(CustomPreviewTable customTable, String strHeader) {
 		super();
@@ -35,24 +38,27 @@ public class CustomPreviewTableDragListener extends DragSourceAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.dnd.DragSourceListener#dragSetData(org.eclipse.swt.dnd.
 	 * DragSourceEvent)
 	 */
+	@Override
 	public void dragSetData(DragSourceEvent event) {
 		event.data = strHeader;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.dnd.DragSourceListener#dragStart(org.eclipse.swt.dnd.
 	 * DragSourceEvent)
 	 */
+	@Override
 	public void dragStart(DragSourceEvent event) {
 		event.doit = (strHeader != null && strHeader.length() > 0);
 	}
 
+	@Override
 	public void dragFinished(DragSourceEvent event) {
 		super.dragFinished(event);
 

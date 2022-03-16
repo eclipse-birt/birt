@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,13 +40,14 @@ public class AggregationUtil {
 
 	/**
 	 * Provide all user-defined aggregation methods
-	 * 
+	 *
 	 * @param classInfo
 	 * @return
 	 */
 	public static List getMethods(IClassInfo classInfo) {
-		if (!classInfo.getName().equalsIgnoreCase((AGGREGATION_CATEGORY)))
+		if (!classInfo.getName().equalsIgnoreCase((AGGREGATION_CATEGORY))) {
 			return Collections.EMPTY_LIST;
+		}
 
 		List methodList = new ArrayList();
 		IConfigurationElement[] aggregations = ((IConfigurationElement[]) Platform.getExtensionRegistry()
@@ -75,12 +79,14 @@ public class AggregationUtil {
 	private static ArgumentInfoList loadArgumentList(String metaInfo) {
 		ArgumentInfoList argList = new ArgumentInfoList();
 
-		if (metaInfo == null)
+		if (metaInfo == null) {
 			return argList;
+		}
 
 		String[] args = metaInfo.split(REGULAR_EXPR_DELIMITER_COMMA);
-		if (!isValid(args))
+		if (!isValid(args)) {
 			return argList;
+		}
 
 		for (int i = 0; i < args.length; i++) {
 			ArgumentInfo arg = new ArgumentInfo();
@@ -100,8 +106,9 @@ public class AggregationUtil {
 	private static boolean isValid(String[] args) {
 		for (int i = 0; i < args.length; i++) {
 			args[i] = args[i].trim();
-			if (args[i].indexOf(BLANK) == -1)
+			if (args[i].indexOf(BLANK) == -1) {
 				return false;
+			}
 		}
 
 		return true;

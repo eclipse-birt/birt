@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +36,7 @@ import org.eclipse.birt.data.engine.olap.util.OlapQueryUtil;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * 
+ *
  */
 
 public class PreparedCubeQuery implements IPreparedCubeQuery {
@@ -42,10 +45,9 @@ public class PreparedCubeQuery implements IPreparedCubeQuery {
 	private DataEngineContext context;
 	private Map appContext;
 	private List<SimpleLevelFilter> internalFilters;
-	private Map<String, Set<String>> inaccessibleDimLevels;
 
 	/**
-	 * 
+	 *
 	 * @param defn
 	 * @param scope
 	 */
@@ -55,9 +57,10 @@ public class PreparedCubeQuery implements IPreparedCubeQuery {
 		this.session = session;
 		this.context = context;
 		this.appContext = appContext;
-		this.internalFilters = new ArrayList<SimpleLevelFilter>();
-		if (!containsDrillFilter(defn))
+		this.internalFilters = new ArrayList<>();
+		if (!containsDrillFilter(defn)) {
 			validateQuery();
+		}
 	}
 
 	public void setInAccessibleDimLevels(Map<String, Set<String>> inaccessibleDimLevels) {
@@ -73,22 +76,24 @@ public class PreparedCubeQuery implements IPreparedCubeQuery {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery#execute(org.mozilla.
 	 * javascript.Scriptable)
 	 */
+	@Override
 	public ICubeQueryResults execute(Scriptable scope) throws DataException {
 		return this.execute(null, scope);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery#execute(org.eclipse.
 	 * birt.data.engine.api.IBaseQueryResults, org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	public ICubeQueryResults execute(IBaseQueryResults outerResults, Scriptable scope) throws DataException {
 		Scriptable cubeScope = null;
 		try {
@@ -108,24 +113,14 @@ public class PreparedCubeQuery implements IPreparedCubeQuery {
 					.getConstructor(ICubeQueryDefinition.class, DataEngineSession.class, DataEngineContext.class,
 							Map.class)
 					.newInstance(cubeQueryDefn, session, context, appContext);
-		} catch (ClassNotFoundException e) {
-		} catch (InstantiationException e) {
-		} catch (IllegalAccessException e) {
-		} catch (SecurityException e) {
-		} catch (IllegalArgumentException e) {
-		} catch (InvocationTargetException e) {
-		} catch (NoSuchMethodException e) {
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SecurityException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException e) {
 		}
 		if (delegateObject != null) {
 			try {
 				Method method = delegateObject.getClass().getMethod("execute",
 						new Class[] { IBaseQueryResults.class, Scriptable.class });
 				return (ICubeQueryResults) method.invoke(delegateObject, new Object[] { outerResults, scope });
-			} catch (SecurityException e) {
-			} catch (NoSuchMethodException e) {
-			} catch (IllegalArgumentException e) {
-			} catch (IllegalAccessException e) {
-			} catch (InvocationTargetException e) {
+			} catch (SecurityException | NoSuchMethodException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 			}
 		}
 		return new CubeQueryResults(outerResults, this, this.session, cubeScope, this.context, appContext);
@@ -133,10 +128,11 @@ public class PreparedCubeQuery implements IPreparedCubeQuery {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery#
 	 * getCubeQueryDefinition()
 	 */
+	@Override
 	public IBaseCubeQueryDefinition getCubeQueryDefinition() {
 		return this.cubeQueryDefn;
 	}
@@ -150,12 +146,9 @@ public class PreparedCubeQuery implements IPreparedCubeQuery {
 	}
 
 	private boolean containsDrillFilter(ICubeQueryDefinition defn) {
-		if (defn.getEdge(ICubeQueryDefinition.ROW_EDGE) != null
-				&& !defn.getEdge(ICubeQueryDefinition.ROW_EDGE).getDrillFilter().isEmpty()) {
-			return true;
-		}
-		if (defn.getEdge(ICubeQueryDefinition.COLUMN_EDGE) != null
-				&& !defn.getEdge(ICubeQueryDefinition.COLUMN_EDGE).getDrillFilter().isEmpty()) {
+		if ((defn.getEdge(ICubeQueryDefinition.ROW_EDGE) != null
+				&& !defn.getEdge(ICubeQueryDefinition.ROW_EDGE).getDrillFilter().isEmpty()) || (defn.getEdge(ICubeQueryDefinition.COLUMN_EDGE) != null
+				&& !defn.getEdge(ICubeQueryDefinition.COLUMN_EDGE).getDrillFilter().isEmpty())) {
 			return true;
 		}
 		return false;

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,30 +34,33 @@ public class ChartComponentFactory implements IComponentFactory {
 
 	/**
 	 * Creates number data element
-	 * 
+	 *
 	 * @param value double value
 	 * @return number data element
 	 */
+	@Override
 	public INumberDataElement createNumberElement(double value) {
 		return new NumberElementImpl(value);
 	}
 
 	/**
 	 * Creates datetime data element
-	 * 
+	 *
 	 * @param date long Date
 	 * @return datetime data element
 	 */
+	@Override
 	public IDateTimeDataElement createDateTimeElement(long date) {
 		return new DateTimeElementImpl(date);
 	}
 
 	/**
 	 * Creates datetime data element
-	 * 
+	 *
 	 * @param date calendar
 	 * @return datetime data element
 	 */
+	@Override
 	public IDateTimeDataElement createDateTimeElement(Calendar date) {
 		if (date == null) {
 			return null;

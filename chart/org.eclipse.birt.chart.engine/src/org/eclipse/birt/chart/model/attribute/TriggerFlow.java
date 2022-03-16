@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -22,9 +34,9 @@ import org.eclipse.emf.common.util.Enumerator;
  * the trigger's action will be triggered in the bubbling phase BubbleAndStop:
  * the trigger's action will be triggered in the bubbling phase, and will stop
  * the bubbling flow.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getTriggerFlow()
  * @model extendedMetaData="name='TriggerFlow'"
  * @generated
@@ -33,7 +45,7 @@ public enum TriggerFlow implements Enumerator {
 	/**
 	 * The '<em><b>Capture</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #CAPTURE
 	 * @generated
 	 * @ordered
@@ -42,7 +54,7 @@ public enum TriggerFlow implements Enumerator {
 	/**
 	 * The '<em><b>Bubble</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #BUBBLE
 	 * @generated
 	 * @ordered
@@ -51,7 +63,7 @@ public enum TriggerFlow implements Enumerator {
 	/**
 	 * The '<em><b>Bubble And Stop</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #BUBBLE_AND_STOP
 	 * @generated
 	 * @ordered
@@ -65,7 +77,7 @@ public enum TriggerFlow implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #CAPTURE_LITERAL
 	 * @model name="Capture"
 	 * @generated
@@ -80,7 +92,7 @@ public enum TriggerFlow implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #BUBBLE_LITERAL
 	 * @model name="Bubble"
 	 * @generated
@@ -95,7 +107,7 @@ public enum TriggerFlow implements Enumerator {
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #BUBBLE_AND_STOP_LITERAL
 	 * @model name="BubbleAndStop"
 	 * @generated
@@ -106,16 +118,15 @@ public enum TriggerFlow implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Trigger Flow</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final TriggerFlow[] VALUES_ARRAY = new TriggerFlow[] { CAPTURE_LITERAL, BUBBLE_LITERAL,
-			BUBBLE_AND_STOP_LITERAL, };
+	private static final TriggerFlow[] VALUES_ARRAY = { CAPTURE_LITERAL, BUBBLE_LITERAL, BUBBLE_AND_STOP_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Trigger Flow</b></em>'
 	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static final List<TriggerFlow> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -123,7 +134,7 @@ public enum TriggerFlow implements Enumerator {
 	/**
 	 * Returns the '<em><b>Trigger Flow</b></em>' literal with the specified literal
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static TriggerFlow get(String literal) {
@@ -139,7 +150,7 @@ public enum TriggerFlow implements Enumerator {
 	/**
 	 * Returns the '<em><b>Trigger Flow</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static TriggerFlow getByName(String name) {
@@ -155,7 +166,7 @@ public enum TriggerFlow implements Enumerator {
 	/**
 	 * Returns the '<em><b>Trigger Flow</b></em>' literal with the specified integer
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static TriggerFlow get(int value) {
@@ -172,21 +183,21 @@ public enum TriggerFlow implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String literal;
@@ -194,10 +205,10 @@ public enum TriggerFlow implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private TriggerFlow(int value, String name, String literal) {
+	TriggerFlow(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -205,27 +216,30 @@ public enum TriggerFlow implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -233,7 +247,7 @@ public enum TriggerFlow implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override

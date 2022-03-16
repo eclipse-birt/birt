@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ public class OdaDesignerStateHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of Oda Designer state.
-	 * 
+	 *
 	 * @param elementHandle the oda data set element.
 	 * @param context       context to the structure.
 	 */
@@ -36,19 +39,20 @@ public class OdaDesignerStateHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of Oda Designer state.
-	 * 
+	 *
 	 * @param elementHandle the oda data set element.
 	 * @param context       context to the structure
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public OdaDesignerStateHandle(DesignElementHandle elementHandle, MemberRef context) {
 		super(elementHandle, context);
 	}
 
 	/**
 	 * Returns the version of the designer state's data.
-	 * 
+	 *
 	 * @return the version of the designer state's data.
 	 */
 
@@ -58,7 +62,7 @@ public class OdaDesignerStateHandle extends StructureHandle {
 
 	/**
 	 * Sets the version of the designer state's data.
-	 * 
+	 *
 	 * @param version the version of the designer state's data.
 	 */
 
@@ -68,7 +72,7 @@ public class OdaDesignerStateHandle extends StructureHandle {
 
 	/**
 	 * Returns the content data as byte arrays.
-	 * 
+	 *
 	 * @return the content data as byte arrays.
 	 */
 
@@ -79,7 +83,7 @@ public class OdaDesignerStateHandle extends StructureHandle {
 
 	/**
 	 * Sets the content data as byte arrays.
-	 * 
+	 *
 	 * @param contentBlob the content data as byte arrays.
 	 */
 
@@ -101,7 +105,7 @@ public class OdaDesignerStateHandle extends StructureHandle {
 
 	/**
 	 * Returns the content data as string.
-	 * 
+	 *
 	 * @return the content data as string.
 	 */
 
@@ -112,7 +116,7 @@ public class OdaDesignerStateHandle extends StructureHandle {
 
 	/**
 	 * Sets the content data as string.
-	 * 
+	 *
 	 * @param contentString the content data as string.
 	 */
 

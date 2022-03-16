@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,39 +29,39 @@ import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
  * the data set definition, if defined. A parameter can be an input or output
  * parameter. A parameter can also be input and output parameter. Each data set
  * parameter has the following properties:
- * 
+ *
  * <p>
  * <dl>
  * <dt><strong>Name </strong></dt>
  * <dd>a data set parameter has a required name.</dd>
- * 
+ *
  * <dt><strong>Position </strong></dt>
  * <dd>a data set parameter has an optional position for it.</dd>
- * 
+ *
  * <dt><strong>Data Type </strong></dt>
  * <dd>a data set parameter has a choice data type: any, integer, string, data
  * time, decimal, float, structure or table.</dd>
- * 
+ *
  * <dt><strong>Is optional </strong></dt>
  * <dd>whether this parameter is optional.</dd>
- * 
+ *
  * <dt><strong>Is Nullable </strong></dt>
  * <dd>whether the value of this parameter can be nullable.</dd>
- * 
+ *
  * <dt><strong>Is Input </strong></dt>
  * <dd>whether this parameter is an input parameter.</dd>
- * 
+ *
  * <dt><strong>Is Output </strong></dt>
  * <dd>whether this parameter is an output parameter.</dd>
  * </dl>
- * 
+ *
  */
 
 public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of data set parameter.
-	 * 
+	 *
 	 * @param valueHandle the value handle for data set parameter list of one
 	 *                    property
 	 * @param index       the position of this data set parameter in the list
@@ -70,7 +73,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Returns the data type of this parameter. The possible values are:
-	 * 
+	 *
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
 	 * <li>COLUMN_DATA_TYPE_INTEGER
@@ -81,7 +84,7 @@ public class DataSetParameterHandle extends StructureHandle {
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 * 
+	 *
 	 * @return the data type of this parameter.
 	 */
 
@@ -95,7 +98,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets the data type of this parameter. The allowed values are:
-	 * 
+	 *
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
 	 * <li>COLUMN_DATA_TYPE_INTEGER
@@ -106,7 +109,7 @@ public class DataSetParameterHandle extends StructureHandle {
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 * 
+	 *
 	 * @param dataType the data type to set
 	 * @throws SemanticException if the value is not in the above list.
 	 */
@@ -121,7 +124,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Returns the parameter name.
-	 * 
+	 *
 	 * @return the parameter name
 	 */
 
@@ -131,7 +134,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets the parameter name.
-	 * 
+	 *
 	 * @param name the name to set
 	 * @throws SemanticException value required exception
 	 */
@@ -156,7 +159,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Returns the position of this parameter in parameter list.
-	 * 
+	 *
 	 * @return the position of this parameter.
 	 */
 
@@ -166,7 +169,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets the position of this parameter in parameter list.
-	 * 
+	 *
 	 * @param position the position to set
 	 */
 
@@ -176,7 +179,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Whether the parameter is optional.
-	 * 
+	 *
 	 * @return whether the parameter is optional
 	 */
 
@@ -186,7 +189,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets whether the parameter is optional.
-	 * 
+	 *
 	 * @param value the value to set
 	 */
 
@@ -196,7 +199,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets the default value of the input parameter.
-	 * 
+	 *
 	 * @param expr the default value
 	 */
 
@@ -206,7 +209,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Gets the default value of the input parameter.
-	 * 
+	 *
 	 * @return the default value
 	 */
 
@@ -216,7 +219,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Checks whether this parameter is an input parameter.
-	 * 
+	 *
 	 * @return <code>true</code> if it is an input parameter. Otherwise
 	 *         <code>false</code>.
 	 */
@@ -227,7 +230,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets whether this parameter is an input parameter.
-	 * 
+	 *
 	 * @param isInput <code>true</code> if it is an input parameter. Otherwise
 	 *                <code>false</code>.
 	 */
@@ -238,31 +241,33 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Checks whether the value of this parameter can be <code>null</code>.
-	 * 
+	 *
 	 * @return <code>true</code> if the value can be <code>null</code>. Otherwise
 	 *         <code>false</code>.
 	 * @deprecated Use <code>allowNull()</code>
 	 */
 
+	@Deprecated
 	public boolean isNullable() {
 		return allowNull();
 	}
 
 	/**
 	 * Sets whether the value of this parameter can be <code>null</code>.
-	 * 
+	 *
 	 * @param isNullable <code>true</code> if the value can be <code>null</code>.
 	 *                   Otherwise <code>false</code>.
 	 * @deprecated Use <code>setAllowNull(boolean)</code>
 	 */
 
+	@Deprecated
 	public void setIsNullable(boolean isNullable) {
 		setAllowNull(isNullable);
 	}
 
 	/**
 	 * Checks whether the value of this parameter can be <code>null</code>.
-	 * 
+	 *
 	 * @return <code>true</code> if the value can be <code>null</code>. Otherwise
 	 *         <code>false</code>.
 	 */
@@ -273,7 +278,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets whether the value of this parameter can be <code>null</code>.
-	 * 
+	 *
 	 * @param allowNull <code>true</code> if the value can be <code>null</code>.
 	 *                  Otherwise <code>false</code>.
 	 */
@@ -284,7 +289,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Checks whether this parameter is an output parameter.
-	 * 
+	 *
 	 * @return <code>true</code> if it is an output parameter. Otherwise
 	 *         <code>false</code>.
 	 */
@@ -295,7 +300,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets whether this parameter is an output parameter.
-	 * 
+	 *
 	 * @param isOutput <code>true</code> if it is an output parameter. Otherwise
 	 *                 <code>false</code>.
 	 */
@@ -306,26 +311,29 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.StructureHandle#getMember(java.lang
 	 * .String)
 	 */
+	@Override
 	public MemberHandle getMember(String memberName) {
 		StructPropertyDefn memberDefn = (StructPropertyDefn) getDefn().getMember(memberName);
-		if (memberDefn == null)
+		if (memberDefn == null) {
 			return null;
+		}
 
-		if (DesignSchemaConstants.NAME_ATTRIB.equalsIgnoreCase(memberName))
+		if (DesignSchemaConstants.NAME_ATTRIB.equalsIgnoreCase(memberName)) {
 			return new NameMemberHandle(this, memberDefn);
+		}
 
 		return new MemberHandle(this, memberDefn);
 	}
 
 	/**
 	 * Returns the native data type.
-	 * 
+	 *
 	 * @return the parameter native data type.
-	 * 
+	 *
 	 */
 
 	public Integer getNativeDataType() {
@@ -334,9 +342,9 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets the parameter native data type.
-	 * 
+	 *
 	 * @param dataType the native data type to set.
-	 * 
+	 *
 	 */
 
 	public void setNativeDataType(Integer dataType) {
@@ -346,7 +354,7 @@ public class DataSetParameterHandle extends StructureHandle {
 	/**
 	 * Returns the data type in parameter type choices of this parameter. The
 	 * possible values are:
-	 * 
+	 *
 	 * <ul>
 	 * <li>PARAM_TYPE_ANY
 	 * <li>PARAM_TYPE_INTEGER
@@ -356,7 +364,7 @@ public class DataSetParameterHandle extends StructureHandle {
 	 * <li>PARAM_TYPE_FLOAT
 	 * <li>PARAM_TYPE_BOOLEAN
 	 * </ul>
-	 * 
+	 *
 	 * @return the data type of this parameter.
 	 */
 
@@ -367,7 +375,7 @@ public class DataSetParameterHandle extends StructureHandle {
 	/**
 	 * Sets the data type in parameter type choices to this parameter. The allowed
 	 * values are:
-	 * 
+	 *
 	 * <ul>
 	 * <li>PARAM_TYPE_ANY
 	 * <li>PARAM_TYPE_INTEGER
@@ -377,7 +385,7 @@ public class DataSetParameterHandle extends StructureHandle {
 	 * <li>PARAM_TYPE_FLOAT
 	 * <li>PARAM_TYPE_BOOLEAN
 	 * </ul>
-	 * 
+	 *
 	 * @param dataType the data type to set
 	 * @throws SemanticException if the value is not in the above list.
 	 */
@@ -396,7 +404,7 @@ public class DataSetParameterHandle extends StructureHandle {
 		/**
 		 * Constructs a member handle with the given structure handle and the member
 		 * property definition.
-		 * 
+		 *
 		 * @param structHandle a handle to the structure
 		 * @param member       definition of the member within the structure
 		 */
@@ -407,11 +415,12 @@ public class DataSetParameterHandle extends StructureHandle {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#setValue(java
 		 * .lang.Object)
 		 */
 
+		@Override
 		public void setValue(Object value) throws SemanticException {
 			String oldName = this.getStringValue();
 
@@ -439,7 +448,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 		/**
 		 * Gets the property message.
-		 * 
+		 *
 		 * @return the property message.
 		 */
 		private String changePropertyMessage() {
@@ -450,7 +459,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Gets the display name of this parameter.
-	 * 
+	 *
 	 * @return the display name of this parameter
 	 */
 	public String getDisplayName() {
@@ -459,7 +468,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets the display name of this parameter.
-	 * 
+	 *
 	 * @param displayName the new display name of this parameter
 	 */
 	public void setDisplayName(String displayName) {
@@ -468,7 +477,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Gets the resource key of the display name of this parameter.
-	 * 
+	 *
 	 * @return the resource key of the display name
 	 */
 	public String getDisplayNameKey() {
@@ -477,7 +486,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets the resource key of the display name of this parameter.
-	 * 
+	 *
 	 * @param displayNameID the new resource key of the display name
 	 */
 	public void setDisplayNameKey(String displayNameID) {
@@ -486,7 +495,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Gets the heading of this parameter.
-	 * 
+	 *
 	 * @return the heading of this parameter
 	 */
 	public String getHeading() {
@@ -495,7 +504,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets the heading of this parameter.
-	 * 
+	 *
 	 * @param heading the new heading of this parameter
 	 */
 	public void setHeading(String heading) {
@@ -504,7 +513,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Gets the resource key of the heading of this parameter.
-	 * 
+	 *
 	 * @return the resource key of the heading
 	 */
 	public String getHeadingKey() {
@@ -513,7 +522,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets the resource key of the heading of this parameter.
-	 * 
+	 *
 	 * @param headingID the new resource key of the heading
 	 */
 	public void setHeadingKey(String headingID) {
@@ -522,7 +531,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Gets the help text of this parameter.
-	 * 
+	 *
 	 * @return the help text of this parameter
 	 */
 	public String getHelpText() {
@@ -531,7 +540,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets the help text of this parameter.
-	 * 
+	 *
 	 * @param helpText the new help text of this parameter
 	 */
 	public void setHelpText(String helpText) {
@@ -540,7 +549,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Gets the resource key of the help text of this parameter.
-	 * 
+	 *
 	 * @return the resource key of the help text
 	 */
 	public String getHelpTextKey() {
@@ -549,7 +558,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets the resource key of the help text of this parameter.
-	 * 
+	 *
 	 * @param helpTextID the new resource key of the help text
 	 */
 	public void setHelpTextKey(String helpTextID) {
@@ -558,7 +567,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Gets the description of this parameter.
-	 * 
+	 *
 	 * @return the description of this parameter
 	 */
 	public String getDescription() {
@@ -567,7 +576,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets the description of this parameter.
-	 * 
+	 *
 	 * @param description the new description of this parameter
 	 */
 	public void setDescription(String description) {
@@ -576,7 +585,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Gets the resource key of the description of this parameter.
-	 * 
+	 *
 	 * @return the resource key of the description
 	 */
 	public String getDescriptionKey() {
@@ -585,7 +594,7 @@ public class DataSetParameterHandle extends StructureHandle {
 
 	/**
 	 * Sets the resource key of the description of this parameter.
-	 * 
+	 *
 	 * @param descriptionID the new resource key of the description
 	 */
 	public void setDescriptoinKey(String descriptionID) {

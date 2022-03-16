@@ -18,8 +18,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper;
  * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * http://www.eclipse.org/legal/epl-2.0.html
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  *******************************************************************************/
 
@@ -28,7 +28,7 @@ public class DataSourceAdapter extends AbstractDataAdapter {
 	private final boolean updateName;
 
 	/**
-	 * 
+	 *
 	 */
 
 	DataSourceAdapter() {
@@ -46,8 +46,9 @@ public class DataSourceAdapter extends AbstractDataAdapter {
 	 */
 
 	public DataSourceDesign createDataSourceDesign(OdaDataSourceHandle sourceHandle) {
-		if (sourceHandle == null)
+		if (sourceHandle == null) {
 			return null;
+		}
 
 		DataSourceDesign sourceDesign = designFactory.createDataSourceDesign();
 		updateDataSourceDesign(sourceHandle, sourceDesign);
@@ -92,8 +93,9 @@ public class DataSourceAdapter extends AbstractDataAdapter {
 
 	public OdaDataSourceHandle createDataSourceHandle(DataSourceDesign sourceDesign, ModuleHandle module)
 			throws SemanticException, IllegalStateException {
-		if (sourceDesign == null)
+		if (sourceDesign == null) {
 			return null;
+		}
 
 		// validate the source design to make sure it is valid
 
@@ -101,8 +103,9 @@ public class DataSourceAdapter extends AbstractDataAdapter {
 		OdaDataSourceHandle sourceHandle = module.getElementFactory().newOdaDataSource(sourceDesign.getName(),
 				sourceDesign.getOdaExtensionId());
 
-		if (sourceHandle == null)
+		if (sourceHandle == null) {
 			return null;
+		}
 
 		adaptDataSourceDesign(sourceDesign, sourceHandle);
 		return sourceHandle;
@@ -111,8 +114,9 @@ public class DataSourceAdapter extends AbstractDataAdapter {
 	public void updateDataSourceHandle(DataSourceDesign sourceDesign, OdaDataSourceHandle sourceHandle)
 			throws SemanticException {
 		if (sourceDesign == null || sourceHandle == null || (sourceHandle.getExtends() != null)
-				&& isDataSourceHandleAndDataSourceDesignEqual(sourceHandle, sourceDesign))
+				&& isDataSourceHandleAndDataSourceDesignEqual(sourceHandle, sourceDesign)) {
 			return;
+		}
 
 		DesignUtil.validateObject(sourceDesign);
 		CommandStack stack = sourceHandle.getModuleHandle().getCommandStack();
@@ -123,8 +127,9 @@ public class DataSourceAdapter extends AbstractDataAdapter {
 
 			sourceHandle.setProperty(OdaDataSourceHandle.EXTENSION_ID_PROP, sourceDesign.getOdaExtensionId());
 
-			if (updateName)
+			if (updateName) {
 				sourceHandle.setName(sourceDesign.getName());
+			}
 
 			sourceHandle.setDisplayName(sourceDesign.getDisplayName());
 			sourceHandle.setDisplayNameKey(sourceDesign.getDisplayNameKey());
@@ -180,14 +185,13 @@ public class DataSourceAdapter extends AbstractDataAdapter {
 	}
 
 	public boolean isEqualDataSourceDesign(DataSourceDesign designFromHandle, DataSourceDesign design) {
-		if (designFromHandle == null && design == null)
+		if (designFromHandle == null && design == null) {
 			return true;
+		}
 
-		if (designFromHandle != null && design == null)
+		if ((designFromHandle != null && design == null) || (designFromHandle == null && design != null)) {
 			return false;
-
-		if (designFromHandle == null && design != null)
-			return false;
+		}
 
 		assert designFromHandle != null;
 
@@ -196,14 +200,17 @@ public class DataSourceAdapter extends AbstractDataAdapter {
 		Properties handleProps = designFromHandle.getPublicProperties();
 		Properties props = design.getPublicProperties();
 
-		if (handleProps == null && props == null)
+		if (handleProps == null && props == null) {
 			return true;
+		}
 
-		if (handleProps != null && props == null)
+		if (handleProps != null && props == null) {
 			return false;
+		}
 
-		if (handleProps == null && props != null)
+		if (handleProps == null && props != null) {
 			return false;
+		}
 
 		assert handleProps != null;
 		assert props != null;
@@ -215,8 +222,9 @@ public class DataSourceAdapter extends AbstractDataAdapter {
 			String propName = prop.getName();
 			if (propValue == null) {
 				String value = props.getProperty(propName);
-				if (value != null && value.trim().equals("")) //$NON-NLS-1$
+				if (value != null && value.trim().equals("")) { // $NON-NLS-1$
 					prop.setNameValue(prop.getName(), ""); //$NON-NLS-1$
+				}
 			}
 		}
 
@@ -230,17 +238,17 @@ public class DataSourceAdapter extends AbstractDataAdapter {
 	 * Copies values of <code>sourceDesign</code> to <code>sourceHandle</code>.
 	 * Values in <code>sourceDesign</code> are validated before maps to values in
 	 * OdaDataSourceHandle.
-	 * 
+	 *
 	 * @param sourceDesign the ODA data source design
 	 * @param sourceHandle the Model handle
 	 * @throws SemanticException if any value is invalid.
-	 * 
+	 *
 	 */
 
 	private void adaptDataSourceDesign(DataSourceDesign sourceDesign, OdaDataSourceHandle sourceHandle)
 			throws SemanticException {
 
-		Object value = null;
+		Object value;
 
 		// properties on ReportElement, like name, displayNames, etc.
 

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -70,11 +70,13 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine {
 			return;
 		}
 		PDFPageLM pageLM = new PDFPageLM(this, context, report, output, executor);
-		while (pageLM.layout())
+		while (pageLM.layout()) {
 			;
+		}
 
 	}
 
+	@Override
 	public void layout(IReportExecutor executor, IReportContent report, IContentEmitter output, boolean pagination)
 			throws BirtException {
 		context.setAllowPageBreak(pagination);
@@ -107,15 +109,16 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine {
 		if (null != totalPageContent) {
 			DataFormatValue format = totalPageContent.getComputedStyle().getDataFormat();
 			NumberFormatter nf = null;
-			if (format == null)
+			if (format == null) {
 				nf = new NumberFormatter();
-			else {
+			} else {
 				String pattern = format.getNumberPattern();
 				String locale = format.getNumberLocale();
-				if (locale == null)
+				if (locale == null) {
 					nf = new NumberFormatter(pattern);
-				else
+				} else {
 					nf = new NumberFormatter(pattern, new ULocale(locale));
+				}
 			}
 
 			long totalPageCount = this.totalPage > 0 ? totalPage : pageCount;
@@ -141,6 +144,8 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine {
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
+	@Override
 	public void layout(ILayoutManager parent, IReportItemExecutor executor, IContentEmitter emitter)
 			throws BirtException {
 		IContent content = executor.execute();
@@ -152,12 +157,15 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine {
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
+	@Override
 	public void layout(ILayoutManager parent, IContent content, IContentEmitter output) throws BirtException {
 		IReportItemExecutor executor = new DOMReportItemExecutor(content);
 		layout(parent, executor, output);
 		executor.close();
 	}
 
+	@Override
 	public void setPageHandler(ILayoutPageHandler handle) {
 		this.handle = handle;
 	}
@@ -166,6 +174,7 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine {
 		return this.handle;
 	}
 
+	@Override
 	public void cancel() {
 		if (context != null) {
 			context.setCancel(true);
@@ -174,13 +183,13 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine {
 
 	protected void setupLayoutOptions() {
 		Object fitToPage = options.get(IPDFRenderOption.FIT_TO_PAGE);
-		if (fitToPage != null && fitToPage instanceof Boolean) {
+		if (fitToPage instanceof Boolean) {
 			if (((Boolean) fitToPage).booleanValue()) {
 				context.setFitToPage(true);
 			}
 		}
 		Object pageBreakOnly = options.get(IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY);
-		if (pageBreakOnly != null && pageBreakOnly instanceof Boolean) {
+		if (pageBreakOnly instanceof Boolean) {
 			if (((Boolean) pageBreakOnly).booleanValue()) {
 				context.setPagebreakPaginationOnly(true);
 			}
@@ -189,10 +198,8 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine {
 		if (pageOverflow != null) {
 			int pageOverflowType = ((Integer) pageOverflow).intValue();
 			context.setPageOverflow(pageOverflowType);
-		} else {
-			if (context.fitToPage()) {
-				context.setPageOverflow(IPDFRenderOption.FIT_TO_PAGE_SIZE);
-			}
+		} else if (context.fitToPage()) {
+			context.setPageOverflow(IPDFRenderOption.FIT_TO_PAGE_SIZE);
 		}
 		Object outputDisplayNone = options.get(IPDFRenderOption.OUTPUT_DISPLAY_NONE);
 		if (outputDisplayNone instanceof Boolean) {
@@ -202,19 +209,19 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine {
 		}
 
 		Object textWrapping = options.get(IPDFRenderOption.PDF_TEXT_WRAPPING);
-		if (textWrapping != null && textWrapping instanceof Boolean) {
+		if (textWrapping instanceof Boolean) {
 			if (!((Boolean) textWrapping).booleanValue()) {
 				context.setTextWrapping(false);
 			}
 		}
 		Object fontSubstitution = options.get(IPDFRenderOption.PDF_FONT_SUBSTITUTION);
-		if (fontSubstitution != null && fontSubstitution instanceof Boolean) {
+		if (fontSubstitution instanceof Boolean) {
 			if (!((Boolean) fontSubstitution).booleanValue()) {
 				context.setFontSubstitution(false);
 			}
 		}
 		Object bidiProcessing = options.get(IPDFRenderOption.PDF_BIDI_PROCESSING);
-		if (bidiProcessing != null && bidiProcessing instanceof Boolean) {
+		if (bidiProcessing instanceof Boolean) {
 			if (!((Boolean) bidiProcessing).booleanValue()) {
 				context.setBidiProcessing(false);
 			}
@@ -229,30 +236,37 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine {
 //		}
 	}
 
+	@Override
 	public void setOption(String name, Object value) {
 		options.put(name, value);
 	}
 
+	@Override
 	public Object getOption(String name) {
 		return options.get(name);
 	}
 
+	@Override
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
 
+	@Override
 	public void setLayoutPageHint(IPageHint pageHint) {
 		context.setLayoutPageHint(pageHint);
 	}
 
+	@Override
 	public long getPageCount() {
 		return pageCount;
 	}
 
+	@Override
 	public void close() throws BirtException {
 		resolveTotalPage(emitter);
 	}
 
+	@Override
 	public void setTotalPageCount(long totalPage) {
 		this.totalPage = totalPage;
 

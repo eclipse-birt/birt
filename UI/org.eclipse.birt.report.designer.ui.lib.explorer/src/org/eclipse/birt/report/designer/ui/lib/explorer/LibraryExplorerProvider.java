@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,10 +60,11 @@ public class LibraryExplorerProvider extends ViewsTreeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#
 	 * getChildren(java.lang.Object)
 	 */
+	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof ReportResourceEntry) {
 			return getElementChildren(parentElement, ((ReportResourceEntry) parentElement).getReportElement());
@@ -100,7 +104,7 @@ public class LibraryExplorerProvider extends ViewsTreeProvider {
 
 	/**
 	 * Returns all children in the specified parent.
-	 * 
+	 *
 	 * @param parentElement the specified parent element.
 	 * @param object        the specified parent entry.
 	 * @return all children in the specified parent.
@@ -133,10 +137,11 @@ public class LibraryExplorerProvider extends ViewsTreeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#
 	 * getImage(java.lang.Object)
 	 */
+	@Override
 	public Image getImage(Object element) {
 		if (element instanceof ResourceEntryWrapper) {
 			if (((ResourceEntryWrapper) element).getType() == ResourceEntryWrapper.RPTDESIGN) {
@@ -158,19 +163,21 @@ public class LibraryExplorerProvider extends ViewsTreeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#
 	 * getText(java.lang.Object)
 	 */
+	@Override
 	public String getText(Object element) {
 		if (element instanceof ResourceEntryWrapper
 				&& ((ResourceEntryWrapper) element).getType() == ResourceEntryWrapper.RPTDESIGN) {
 			String rptdesignPath = (String) ((ResourceEntryWrapper) element).getAdapter(ReportDesignHandle.class);
 			File file = new File(rptdesignPath);
-			if (file.exists())
+			if (file.exists()) {
 				return new File(rptdesignPath).getName();
-			else
+			} else {
 				return rptdesignPath;
+			}
 		} else if (element instanceof ResourceEntryWrapper
 				&& ((ResourceEntryWrapper) element).getType() == ResourceEntryWrapper.LIBRARY) {
 			LibraryHandle lib = (LibraryHandle) ((ResourceEntryWrapper) element).getAdapter(LibraryHandle.class);
@@ -208,10 +215,11 @@ public class LibraryExplorerProvider extends ViewsTreeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#
 	 * hasChildren(java.lang.Object)
 	 */
+	@Override
 	public boolean hasChildren(Object element) {
 		if (element instanceof ResourceEntry) {
 			return getChildren(element).length > 0;
@@ -219,12 +227,14 @@ public class LibraryExplorerProvider extends ViewsTreeProvider {
 		return super.hasChildren(element);
 	}
 
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		if (oldInput instanceof Object[]) {
 			Object[] array = (Object[]) oldInput;
 			for (int i = 0; i < array.length; i++) {
-				if (array[i] instanceof ResourceEntry)
+				if (array[i] instanceof ResourceEntry) {
 					((ResourceEntry) array[i]).dispose();
+				}
 			}
 		}
 		super.inputChanged(viewer, oldInput, newInput);

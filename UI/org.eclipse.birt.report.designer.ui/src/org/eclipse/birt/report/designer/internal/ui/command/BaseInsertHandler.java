@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +45,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ *
  */
 
 public class BaseInsertHandler extends SelectionHandler {
@@ -57,11 +60,12 @@ public class BaseInsertHandler extends SelectionHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
 	 * ExecutionEvent)
 	 */
+	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		super.execute(event);
 
@@ -72,7 +76,7 @@ public class BaseInsertHandler extends SelectionHandler {
 		stack.startTrans(STACK_MSG_INSERT_ELEMENT);
 
 		boolean retValue = initializeVariable(event);
-		if (retValue == false) {
+		if (!retValue) {
 			return Boolean.FALSE;
 		}
 
@@ -138,6 +142,7 @@ public class BaseInsertHandler extends SelectionHandler {
 	protected void selectElement(final Object element, final boolean edit) {
 		Display.getCurrent().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				if (element instanceof ReportItemHandle) {
 					IWorkbenchPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()

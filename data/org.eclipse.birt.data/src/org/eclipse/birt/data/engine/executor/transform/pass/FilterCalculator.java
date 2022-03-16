@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +38,7 @@ class FilterCalculator {
 	protected DataEngineSession session;
 
 	/**
-	 * 
+	 *
 	 * @param populator
 	 * @param iccState
 	 * @param filterByRow
@@ -48,7 +51,7 @@ class FilterCalculator {
 
 	/**
 	 * This method filters out all unnecessary rows from result set.
-	 * 
+	 *
 	 * @param populator
 	 * @param iccState
 	 * @param filterByRow
@@ -76,7 +79,7 @@ class FilterCalculator {
 		/*
 		 * populator.getExpressionProcessor( ) .setResultSetMetaData(
 		 * populator.getResultSetMetadata( ) );
-		 * 
+		 *
 		 * populator.getExpressionProcessor( ) .compileFilter(
 		 * filterByRow.getFilterList( ), iccState );
 		 */
@@ -87,13 +90,13 @@ class FilterCalculator {
 
 	/**
 	 * Carry out the actual filtering job.
-	 * 
+	 *
 	 * @param filterPass
 	 * @param stopSign
 	 * @throws DataException
 	 */
 	protected void doFiltering(FilterPassController filterPass) throws DataException {
-		boolean needMultiPass = false;
+		boolean needMultiPass;
 		needMultiPass = FilterUtil.hasMutipassFilters(filterByRow.getFilterList());
 
 		// When the given filter list starting from a filter with top n/ bottom
@@ -118,7 +121,7 @@ class FilterCalculator {
 	 * BottomN.The pass actually contains two steps. 1.FIRST PASS: in this step we
 	 * just go through all result rows and make preparation work for the second step
 	 * 2.SECOND PASS: in this step the rows that are not qualified is filtered out
-	 * 
+	 *
 	 * @param filterPass
 	 * @param stopSign
 	 * @throws DataException
@@ -170,7 +173,7 @@ class FilterCalculator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param filterPass
 	 * @param stopSign
 	 * @throws DataException
@@ -184,8 +187,7 @@ class FilterCalculator {
 		filterPass.setPassLevel(FilterPassController.FIRST_PASS);
 		filterPass.setRowCount(populator.getCache().getCount());
 
-		List<IFilterDefinition> temp = new ArrayList<IFilterDefinition>();
-		temp.addAll(filterByRow.getFilterList());
+		List<IFilterDefinition> temp = new ArrayList<>(filterByRow.getFilterList());
 		filterByRow.getFilterList().clear();
 		for (int i = 0; i < temp.size(); i++) {
 			if (!FilterUtil.isFilterNeedMultiPass(temp.get(i))) {
@@ -198,7 +200,7 @@ class FilterCalculator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param filterPass
 	 * @param stopSign
 	 * @throws DataException
@@ -208,8 +210,7 @@ class FilterCalculator {
 		filterPass.setPassLevel(FilterPassController.FIRST_PASS);
 		filterPass.setRowCount(populator.getCache().getCount());
 
-		List<IFilterDefinition> temp = new ArrayList<IFilterDefinition>();
-		temp.addAll(filterByRow.getFilterList());
+		List<IFilterDefinition> temp = new ArrayList<>(filterByRow.getFilterList());
 		filterByRow.getFilterList().clear();
 		for (int i = 0; i < temp.size(); i++) {
 			if (FilterUtil.isFilterNeedMultiPass(temp.get(i))) {
@@ -222,7 +223,7 @@ class FilterCalculator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param filterPass
 	 * @param stopSign
 	 * @throws DataException
@@ -231,8 +232,7 @@ class FilterCalculator {
 		// Set pass level to second
 		filterPass.setPassLevel(FilterPassController.SECOND_PASS);
 
-		List<IFilterDefinition> temp = new ArrayList<IFilterDefinition>();
-		temp.addAll(filterByRow.getFilterList());
+		List<IFilterDefinition> temp = new ArrayList<>(filterByRow.getFilterList());
 		filterByRow.getFilterList().clear();
 		for (int i = 0; i < temp.size(); i++) {
 			if (FilterUtil.isFilterNeedMultiPass(temp.get(i))) {

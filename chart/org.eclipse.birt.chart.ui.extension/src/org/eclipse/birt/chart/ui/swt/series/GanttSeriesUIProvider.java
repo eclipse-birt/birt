@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -40,7 +43,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class GanttSeriesUIProvider extends DefaultSeriesUIProvider {
 
@@ -50,20 +53,23 @@ public class GanttSeriesUIProvider extends DefaultSeriesUIProvider {
 		super();
 	}
 
+	@Override
 	public Composite getSeriesAttributeSheet(Composite parent, Series series, ChartWizardContext context) {
 		return new GanttSeriesAttributeComposite(parent, SWT.NONE, context, series);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass()
 	 */
+	@Override
 	public String getSeriesClass() {
 		return SERIES_CLASS;
 	}
 
+	@Override
 	public ISelectDataComponent getSeriesDataComponent(int seriesType, SeriesDefinition seriesDefn,
 			ChartWizardContext context, String sTitle) {
 		if (seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES) {
@@ -79,25 +85,26 @@ public class GanttSeriesUIProvider extends DefaultSeriesUIProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#getCompatibleAxisType(
 	 * org.eclipse.birt.chart.model.component.Series )
 	 */
+	@Override
 	public AxisType[] getCompatibleAxisType(Series series) {
 		return new AxisType[] { AxisType.DATE_TIME_LITERAL };
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#
 	 * validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
 	 */
+	@Override
 	public void validateSeriesBindingType(Series series, IDataServiceProvider idsp) throws ChartException {
-		ArrayList<Query> al = new ArrayList<Query>();
-		al.addAll(series.getDataDefinition());
+		ArrayList<Query> al = new ArrayList<>(series.getDataDefinition());
 		for (int i = 0; i < al.size(); i++) {
 			Query query = al.get(i);
 			DataType dataType = idsp.getDataType(query.getDefinition());
@@ -112,12 +119,13 @@ public class GanttSeriesUIProvider extends DefaultSeriesUIProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#
 	 * validateAggregationType (org.eclipse.birt.chart.model.component.Series,
 	 * org.eclipse.birt.chart.model.data.SeriesDefinition,
 	 * org.eclipse.birt.chart.model.data.SeriesDefinition)
 	 */
+	@Override
 	public boolean isValidAggregationType(Series series, SeriesDefinition orthSD, SeriesDefinition baseSD) {
 		boolean isValidAgg = true;
 		EList<Query> queries = series.getDataDefinition();
@@ -152,11 +160,12 @@ public class GanttSeriesUIProvider extends DefaultSeriesUIProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validationIndex(org.
 	 * eclipse.birt.chart.model.component.Series)
 	 */
+	@Override
 	public int[] validationIndex(Series series) {
 		return new int[] { 0, 1 };
 	}
@@ -164,13 +173,13 @@ public class GanttSeriesUIProvider extends DefaultSeriesUIProvider {
 	/**
 	 * Check if default aggregation and value series aggregation are valid for Gantt
 	 * chart and show warning message in UI.
-	 * 
+	 *
 	 * @param grouping
 	 * @param isCategoryGrouping
 	 * @param id                 error id for log
 	 * @return <code>true</code> if aggregation is valid.
 	 * @since 2.3
-	 * 
+	 *
 	 */
 	private boolean isValidAggregation(SeriesGrouping grouping, boolean isCategoryGrouping, String id) {
 		if (grouping == null || !grouping.isEnabled()) {

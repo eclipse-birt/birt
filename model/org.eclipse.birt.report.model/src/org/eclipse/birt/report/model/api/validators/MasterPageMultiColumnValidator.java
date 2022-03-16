@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +32,7 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * Validates the multiple columns and content width should be consistent. This
  * validator should be performed after <code>MasterPageTypeValidator</code> and
  * <code>MasterPageSizeValidator</code>.
- * 
+ *
  * <h3>Rule</h3> The rule is that the width occupied by column spacing is less
  * than the content width.
  * <p>
@@ -38,10 +41,10 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * content width = WIDTH_PROP - LEFT_MARGIN_PROP - RIGHT_MARGIN_PROP
  * <p>
  * column spacing width < content width
- * 
+ *
  * <h3>Applicability</h3> This validator is only applied to
  * <code>GraphicMasterPage</code>.
- * 
+ *
  * @see MasterPageTypeValidator
  * @see MasterPageSizeValidator
  */
@@ -52,7 +55,7 @@ public class MasterPageMultiColumnValidator extends AbstractElementValidator {
 
 	/**
 	 * Returns the singleton validator instance.
-	 * 
+	 *
 	 * @return the validator instance
 	 */
 
@@ -62,22 +65,24 @@ public class MasterPageMultiColumnValidator extends AbstractElementValidator {
 
 	/**
 	 * Validates whether multiple columns and content width are consistent.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the graphic master page to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
+	@Override
 	public List<SemanticException> validate(Module module, DesignElement element) {
-		if (!(element instanceof MasterPage))
+		if (!(element instanceof MasterPage)) {
 			return Collections.emptyList();
+		}
 
 		return doValidate(module, (MasterPage) element);
 	}
 
 	private List<SemanticException> doValidate(Module module, MasterPage toValidate) {
-		List<SemanticException> list = new ArrayList<SemanticException>();
+		List<SemanticException> list = new ArrayList<>();
 
 		// Check margins. Must start on the page and not be of negative
 		// size.

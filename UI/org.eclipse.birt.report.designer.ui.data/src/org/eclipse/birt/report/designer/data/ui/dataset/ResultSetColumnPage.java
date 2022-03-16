@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -75,7 +78,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * 
+ *
  */
 
 public class ResultSetColumnPage extends Composite {
@@ -102,6 +105,7 @@ public class ResultSetColumnPage extends Composite {
 		protected String displayNameKey;
 		protected String helpText;
 
+		@Override
 		public boolean equals(Object obj) {
 			if (this == obj) {
 				return true;
@@ -116,6 +120,7 @@ public class ResultSetColumnPage extends Composite {
 			return false;
 		}
 
+		@Override
 		public int hashCode() {
 			return this.columnName.hashCode() * 11 + this.dataType * 17;
 		}
@@ -132,17 +137,20 @@ public class ResultSetColumnPage extends Composite {
 	protected static String COLUMN_DISPLAY_NAME = Messages.getString("dataset.editor.title.displayName"); //$NON-NLS-1$
 	protected static String COLUMN_DISPLAY_NAME_KEY = Messages.getString("dataset.editor.title.displayNameKey"); //$NON-NLS-1$
 
-	protected ArrayList<ResultSetColumnModel> columnList = new ArrayList<ResultSetColumnModel>();
+	protected ArrayList<ResultSetColumnModel> columnList = new ArrayList<>();
 	protected ArrayList listenerList = new ArrayList();
 
 	protected IStructuredContentProvider contentProvider = new IStructuredContentProvider() {
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			return ((ArrayList) inputElement).toArray();
 		}
@@ -184,10 +192,12 @@ public class ResultSetColumnPage extends Composite {
 	protected void initLabelProvider() {
 		labelProvider = new ITableLabelProvider() {
 
+			@Override
 			public Image getColumnImage(Object element, int columnIndex) {
 				return null;
 			}
 
+			@Override
 			public String getColumnText(Object element, int columnIndex) {
 				ResultSetColumnModel model = (ResultSetColumnModel) element;
 				String text = null;
@@ -213,16 +223,20 @@ public class ResultSetColumnPage extends Composite {
 				return Utility.convertToGUIString(text);
 			}
 
+			@Override
 			public void addListener(ILabelProviderListener listener) {
 			}
 
+			@Override
 			public void dispose() {
 			}
 
+			@Override
 			public boolean isLabelProperty(Object element, String property) {
 				return false;
 			}
 
+			@Override
 			public void removeListener(ILabelProviderListener listener) {
 			}
 
@@ -247,6 +261,7 @@ public class ResultSetColumnPage extends Composite {
 			/**
 			 * @see org.eclipse.swt.events.KeyAdapter#keyReleased(org.eclipse.swt.events.KeyEvent)
 			 */
+			@Override
 			public void keyReleased(KeyEvent e) {
 				// If Delete pressed, delete the selected row
 				if (e.keyCode == SWT.DEL) {
@@ -256,9 +271,9 @@ public class ResultSetColumnPage extends Composite {
 
 		});
 
-		String[] columns = new String[] { null, COLUMN_NAME, COLUMN_DATA_TYPE, COLUMN_ALIAS, COLUMN_DISPLAY_NAME,
+		String[] columns = { null, COLUMN_NAME, COLUMN_DATA_TYPE, COLUMN_ALIAS, COLUMN_DISPLAY_NAME,
 				COLUMN_DISPLAY_NAME_KEY };
-		int[] columnWidth = new int[] { 20, 100, 100, 100, 100, 100 };
+		int[] columnWidth = { 20, 100, 100, 100, 100, 100 };
 
 		for (int i = 0; i < columns.length; i++) {
 			TableColumn column = new TableColumn(table, SWT.LEFT);
@@ -275,6 +290,7 @@ public class ResultSetColumnPage extends Composite {
 		columnTable.setInput(columnList);
 		columnTable.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateButtons();
 			}
@@ -282,6 +298,7 @@ public class ResultSetColumnPage extends Composite {
 		});
 		columnTable.getTable().addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateButtons();
 			}
@@ -290,6 +307,7 @@ public class ResultSetColumnPage extends Composite {
 
 		columnTable.getTable().addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				if (columnTable.getTable().getSelectionCount() == 1) {
 					doEdit();
@@ -310,6 +328,7 @@ public class ResultSetColumnPage extends Composite {
 		add.setEnabled(true);
 		add.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doNew();
 			}
@@ -320,6 +339,7 @@ public class ResultSetColumnPage extends Composite {
 		edit.setText(Messages.getString("ResultSetColumnPage.button.edit")); //$NON-NLS-1$
 		edit.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doEdit();
 			}
@@ -330,6 +350,7 @@ public class ResultSetColumnPage extends Composite {
 		delete.setText(Messages.getString("ResultSetColumnPage.button.delete")); //$NON-NLS-1$
 		delete.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				buttonPressed(SWT.DEL);
 			}
@@ -340,6 +361,7 @@ public class ResultSetColumnPage extends Composite {
 		up.setText(Messages.getString("ResultSetColumnPage.button.up"));
 		up.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				buttonPressed(SWT.UP);
 			}
@@ -350,6 +372,7 @@ public class ResultSetColumnPage extends Composite {
 		down.setText(Messages.getString("ResultSetColumnPage.button.down"));
 		down.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				buttonPressed(SWT.DOWN);
 			}
@@ -417,7 +440,7 @@ public class ResultSetColumnPage extends Composite {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param handle
 	 */
 	public void saveResult(DataSetHandle handle) {
@@ -443,7 +466,7 @@ public class ResultSetColumnPage extends Composite {
 				ResultSetColumn column = StructureFactory.createResultSetColumn();
 				column.setColumnName(model.columnName);
 				column.setDataType(dataTypes[model.dataType].getName());
-				column.setPosition(Integer.valueOf(i));
+				column.setPosition(i);
 				resultSetPropertyHandle.addItem(column);
 				ColumnHintHandle columnHintHandle = null;
 				for (Iterator hintIter = columnHintPropertyHandle.iterator(); hintIter.hasNext();) {
@@ -536,11 +559,12 @@ public class ResultSetColumnPage extends Composite {
 
 	/**
 	 * make custom control accessible
-	 * 
+	 *
 	 */
 	void initAccessible() {
 		getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
+			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
@@ -548,6 +572,7 @@ public class ResultSetColumnPage extends Composite {
 
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
+			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point testPoint = toControl(new Point(e.x, e.y));
 				if (getBounds().contains(testPoint)) {
@@ -555,6 +580,7 @@ public class ResultSetColumnPage extends Composite {
 				}
 			}
 
+			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(new Point(location.x, location.y));
@@ -564,14 +590,17 @@ public class ResultSetColumnPage extends Composite {
 				e.height = location.height;
 			}
 
+			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
+			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_COMBOBOX;
 			}
 
+			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
@@ -594,6 +623,7 @@ public class ResultSetColumnPage extends Composite {
 			initColumnInfos();
 		}
 
+		@Override
 		protected void createCustomControls(Composite parent) {
 			Composite composite = new Composite(parent, SWT.NONE);
 			GridLayout layout = new GridLayout();
@@ -622,6 +652,7 @@ public class ResultSetColumnPage extends Composite {
 			columnNameText.setText(columnName);
 			columnNameText.addModifyListener(new ModifyListener() {
 
+				@Override
 				public void modifyText(ModifyEvent e) {
 					columnName = columnNameText.getText().trim();
 					validateSyntax();
@@ -641,10 +672,12 @@ public class ResultSetColumnPage extends Composite {
 			}
 			typeCombo.addSelectionListener(new SelectionListener() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					dataType = typeCombo.getSelectionIndex();
 				}
 
+				@Override
 				public void widgetDefaultSelected(SelectionEvent arg0) {
 
 				}
@@ -660,6 +693,7 @@ public class ResultSetColumnPage extends Composite {
 			aliasText.setText(alias);
 			aliasText.addModifyListener(new ModifyListener() {
 
+				@Override
 				public void modifyText(ModifyEvent e) {
 					alias = aliasText.getText().trim();
 					validateSyntax();
@@ -676,6 +710,7 @@ public class ResultSetColumnPage extends Composite {
 			displayNameText.setText(displayName);
 			displayNameText.addModifyListener(new ModifyListener() {
 
+				@Override
 				public void modifyText(ModifyEvent e) {
 					displayName = displayNameText.getText().trim();
 				}
@@ -694,6 +729,7 @@ public class ResultSetColumnPage extends Composite {
 			tx.setLayoutData(ControlProvider.getGridDataWithHSpan(1));
 			tx.addModifyListener(new ModifyListener() {
 
+				@Override
 				public void modifyText(ModifyEvent e) {
 					displayNameKey = tx.getText().trim();
 				}
@@ -702,6 +738,7 @@ public class ResultSetColumnPage extends Composite {
 
 			SelectionAdapter listener = new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent event) {
 					ResourceEditDialog dlg = new ResourceEditDialog(getShell(),
 							Messages.getString("ResourceKeyDescriptor.title.SelectKey")); //$NON-NLS-1$
@@ -716,23 +753,25 @@ public class ResultSetColumnPage extends Composite {
 			Button bt = new Button(parent, SWT.PUSH);
 			bt.setText("..."); //$NON-NLS-1$
 			bt.addSelectionListener(listener);
-			if (getBaseName() == null)
+			if (getBaseName() == null) {
 				bt.setEnabled(false);
+			}
 		}
 
 		private String[] getBaseNames() {
 			List<String> resources = SessionHandleAdapter.getInstance().getReportDesignHandle().getIncludeResources();
-			if (resources == null)
+			if (resources == null) {
 				return null;
-			else
+			} else {
 				return resources.toArray(new String[0]);
+			}
 		}
 
 		private URL[] getResourceURLs() {
 			String[] baseNames = getBaseNames();
-			if (baseNames == null)
+			if (baseNames == null) {
 				return null;
-			else {
+			} else {
 				URL[] urls = new URL[baseNames.length];
 				for (int i = 0; i < baseNames.length; i++) {
 					urls[i] = SessionHandleAdapter.getInstance().getReportDesignHandle().findResource(baseNames[i],
@@ -746,6 +785,7 @@ public class ResultSetColumnPage extends Composite {
 			return SessionHandleAdapter.getInstance().getReportDesignHandle().getIncludeResource();
 		}
 
+		@Override
 		protected boolean isResizable() {
 			return true;
 		}
@@ -783,14 +823,17 @@ public class ResultSetColumnPage extends Composite {
 			return value == null ? EMPTY_STRING : value.trim();
 		}
 
+		@Override
 		protected void rollback() {
 
 		}
 
+		@Override
 		protected IStatus validateSemantics(Object structureOrHandle) {
 			return validateSyntax(structureOrHandle);
 		}
 
+		@Override
 		protected IStatus validateSyntax(Object structureOrHandle) {
 			if (columnName == null || columnName.trim().length() == 0) {
 				return getMiscStatus(IStatus.ERROR,
@@ -808,6 +851,7 @@ public class ResultSetColumnPage extends Composite {
 			return getOKStatus();
 		}
 
+		@Override
 		protected String getTitle() {
 			return title;
 		}

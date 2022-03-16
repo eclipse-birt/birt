@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,7 +19,7 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * 
+ *
  */
 
 public class ErrorsManager {
@@ -30,14 +33,14 @@ public class ErrorsManager {
 
 	private WizardBase wizard = null;
 
-	private static final String LINE_SEPARATOR = System.getProperty("line.separator"); //$NON-NLS-1$
+	private static final String LINE_SEPARATOR = System.lineSeparator();
 
 	private static final int WIDTH_OFFSET = 100;
 
 	/**
 	 * This method returns the instance of ErrorsManager. If an instance does not
 	 * exist, one is created.
-	 * 
+	 *
 	 * @return Singleton instance of ErrorsManager
 	 */
 	public static ErrorsManager instance() {
@@ -54,7 +57,7 @@ public class ErrorsManager {
 
 	/**
 	 * This method registers a wizard with the ErrorsManager.
-	 * 
+	 *
 	 * @param wizard
 	 */
 	public void registerWizard(WizardBase wizard) {
@@ -63,7 +66,7 @@ public class ErrorsManager {
 
 	/**
 	 * Set the error message to the wizard dialog.
-	 * 
+	 *
 	 * @param t Exception
 	 */
 	public void showErrors(String errorMessage) {
@@ -78,7 +81,7 @@ public class ErrorsManager {
 
 	/**
 	 * format error message,separator line according to the Shell width
-	 * 
+	 *
 	 * @param shell
 	 * @param errorMessage
 	 * @return
@@ -92,7 +95,7 @@ public class ErrorsManager {
 		GC gc = new GC(shell);
 		int maxChar = width / gc.getFontMetrics().getAverageCharWidth();
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		int currentLineLength = 0;
 		char[] chars = errorMessage.toCharArray();
 		for (char tempChar : chars) {

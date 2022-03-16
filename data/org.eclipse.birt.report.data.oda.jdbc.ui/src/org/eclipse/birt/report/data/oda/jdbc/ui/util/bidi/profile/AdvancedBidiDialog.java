@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008, 2009 IBM Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * IBM Corporation - initial API and implementation
@@ -33,7 +36,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * A dialog that subclasses <code>TitleAreaDialog</code> and used to pick Bidi
  * properties for a data set.
- * 
+ *
  * @author bidi_hcg
  */
 
@@ -69,16 +72,18 @@ public class AdvancedBidiDialog extends TitleAreaDialog {
 
 	}
 
+	@Override
 	protected boolean isResizable() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite area = (Composite) super.createDialogArea(parent);
 		Composite contents = new Composite(area, SWT.NONE);
@@ -124,6 +129,7 @@ public class AdvancedBidiDialog extends TitleAreaDialog {
 		}
 		disableTransformButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				disableTransform = !disableTransform;
 				handleDisableTransform();
@@ -137,9 +143,10 @@ public class AdvancedBidiDialog extends TitleAreaDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
+	@Override
 	protected void okPressed() {
 		if (!disableTransform) {
 			metadataBidiFormat = BidiGUIUtility.INSTANCE.getBiDiFormat(bidiMetadataFormatFrame);
@@ -159,10 +166,12 @@ public class AdvancedBidiDialog extends TitleAreaDialog {
 		super.okPressed();
 	}
 
+	@Override
 	public boolean close() {
 		return super.close();
 	}
 
+	@Override
 	public int open() {
 		try {
 			if (getShell() == null) {

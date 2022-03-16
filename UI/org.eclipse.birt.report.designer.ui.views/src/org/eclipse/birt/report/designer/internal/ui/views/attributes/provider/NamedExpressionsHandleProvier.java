@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,45 +32,51 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
- * 
+ *
  */
 
 public class NamedExpressionsHandleProvier extends AbstractFormHandleProvider {
 
-	private static final int[] COLUMN_WIDTHS = new int[] { 250, 300 };
-	private static final String[] COLUMNS = new String[] {
-			Messages.getString("NamedExpressionsHandleProvier.Column.Name"), //$NON-NLS-1$
+	private static final int[] COLUMN_WIDTHS = { 250, 300 };
+	private static final String[] COLUMNS = { Messages.getString("NamedExpressionsHandleProvier.Column.Name"), //$NON-NLS-1$
 			Messages.getString("NamedExpressionsHandleProvier.Column.DefaultValue") //$NON-NLS-1$
 	};
 	private static final String TITLE = Messages.getString("ReportPageGenerator.List.NamedExpressions"); //$NON-NLS-1$
 
 	private DesignElementHandle inputElement;
 
+	@Override
 	public String[] getColumnNames() {
 		return COLUMNS;
 	}
 
+	@Override
 	public int[] getColumnWidths() {
 		return COLUMN_WIDTHS;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return TITLE;
 	}
 
+	@Override
 	public CellEditor[] getEditors(Table table) {
 		return null;
 	}
 
+	@Override
 	public boolean doMoveItem(int oldPos, int newPos) throws Exception {
 		return false;
 	}
 
+	@Override
 	public boolean doDeleteItem(int pos) throws Exception {
 		inputElement.dropUserPropertyDefn(((UserPropertyDefn) getElements(inputElement)[pos]).getName());
 		return true;
 	}
 
+	@Override
 	public boolean doAddItem(int pos) throws Exception {
 		UserPropertyBuilder builder = new UserPropertyBuilder(UserPropertyBuilder.NAMED_EXPRESSION);
 		builder.setInput(inputElement);
@@ -78,27 +87,32 @@ public class NamedExpressionsHandleProvier extends AbstractFormHandleProvider {
 		return false;
 	}
 
+	@Override
 	public boolean doEditItem(int pos) {
 		return false;
 	}
 
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		UserPropertyDefn def = (UserPropertyDefn) element;
 		if (columnIndex == 0) {
 			return def.getName();
 		}
 		Object defaultValue = def.getDefault();
-		if (defaultValue instanceof Expression)
+		if (defaultValue instanceof Expression) {
 			return ((Expression) defaultValue).getStringExpression();
-		else if (defaultValue instanceof String)
+		} else if (defaultValue instanceof String) {
 			return (String) defaultValue;
+		}
 		return null;
 	}
 
+	@Override
 	public Image getImage(Object element, int columnIndex) {
 		return null;
 	}
 
+	@Override
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof List) {
 			inputElement = ((List) inputElement).get(0);
@@ -117,18 +131,22 @@ public class NamedExpressionsHandleProvier extends AbstractFormHandleProvider {
 		return null;
 	}
 
+	@Override
 	public boolean canModify(Object element, String property) {
 		return true;
 	}
 
+	@Override
 	public Object getValue(Object element, String property) {
 		return null;
 	}
 
+	@Override
 	public boolean modify(Object data, String property, Object value) throws Exception {
 		return false;
 	}
 
+	@Override
 	public boolean needRefreshed(NotificationEvent event) {
 		if (event instanceof UserPropertyEvent) {
 			return true;

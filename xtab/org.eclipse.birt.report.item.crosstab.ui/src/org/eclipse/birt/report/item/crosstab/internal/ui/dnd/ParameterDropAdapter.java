@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,19 +32,20 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 
 /**
- * 
+ *
  */
 
 public class ParameterDropAdapter implements IDropAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter#canDrop(java.
 	 * lang.Object, java.lang.Object, int,
 	 * org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation)
 	 */
+	@Override
 	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		if (!isScalarParameterHandle(transfer)) {
 			return DNDService.LOGIC_UNKNOW;
@@ -49,10 +53,11 @@ public class ParameterDropAdapter implements IDropAdapter {
 		if (target instanceof EditPart) {
 			EditPart editPart = (EditPart) target;
 			if (editPart.getModel() instanceof IVirtualValidator) {
-				if (((IVirtualValidator) editPart.getModel()).handleValidate(transfer))
+				if (((IVirtualValidator) editPart.getModel()).handleValidate(transfer)) {
 					return DNDService.LOGIC_TRUE;
-				else
+				} else {
 					return DNDService.LOGIC_FALSE;
+				}
 			}
 		}
 		return DNDService.LOGIC_UNKNOW;
@@ -63,8 +68,9 @@ public class ParameterDropAdapter implements IDropAdapter {
 			DesignElementHandle container = null;
 			Object[] items = (Object[]) transfer;
 			for (int i = 0; i < items.length; i++) {
-				if (!(items[i] instanceof ScalarParameterHandle))
+				if (!(items[i] instanceof ScalarParameterHandle)) {
 					return false;
+				}
 
 			}
 			return true;
@@ -74,12 +80,13 @@ public class ParameterDropAdapter implements IDropAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter#performDrop(
 	 * java.lang.Object, java.lang.Object, int,
 	 * org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation)
 	 */
+	@Override
 	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		if (target instanceof EditPart)// drop on layout
 		{
@@ -124,8 +131,9 @@ public class ParameterDropAdapter implements IDropAdapter {
 					editPart.getViewer().getEditDomain().getCommandStack().execute(command);
 					stack.commit();
 					return true;
-				} else
+				} else {
 					return false;
+				}
 			}
 		}
 		return false;

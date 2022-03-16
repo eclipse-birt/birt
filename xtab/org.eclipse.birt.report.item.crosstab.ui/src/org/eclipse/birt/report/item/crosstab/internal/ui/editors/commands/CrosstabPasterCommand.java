@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,7 +48,7 @@ public class CrosstabPasterCommand extends Command {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param sourceHandle
 	 * @param newContainer
 	 * @param afterHandle
@@ -61,6 +64,7 @@ public class CrosstabPasterCommand extends Command {
 	/**
 	 * @return <code>true</code> if the command can be executed
 	 */
+	@Override
 	public boolean canExecute() {
 		DesignElementHandle childHandle = sourceHandle;
 
@@ -71,6 +75,7 @@ public class CrosstabPasterCommand extends Command {
 	/**
 	 * Executes the Command.
 	 */
+	@Override
 	public void execute() {
 		try {
 			calculatePositionAndSlotId();
@@ -97,7 +102,7 @@ public class CrosstabPasterCommand extends Command {
 
 	/**
 	 * Gets the content name
-	 * 
+	 *
 	 * @return
 	 */
 	public String getContentName() {
@@ -106,7 +111,7 @@ public class CrosstabPasterCommand extends Command {
 
 	/**
 	 * Sets the conten name
-	 * 
+	 *
 	 * @param contentName
 	 */
 	public void setContentName(String contentName) {

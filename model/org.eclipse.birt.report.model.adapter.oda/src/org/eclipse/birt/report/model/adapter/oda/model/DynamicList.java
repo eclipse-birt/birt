@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -39,7 +51,7 @@ public interface DynamicList extends EObject {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Data Set Name</em>' attribute.
 	 * @see #setDataSetName(String)
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDynamicList_DataSetName()
@@ -54,7 +66,7 @@ public interface DynamicList extends EObject {
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getDataSetName
 	 * <em>Data Set Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Data Set Name</em>' attribute.
 	 * @see #getDataSetName()
 	 * @generated
@@ -69,7 +81,7 @@ public interface DynamicList extends EObject {
 	 * should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Enabled</em>' attribute.
 	 * @see #setEnabled(String)
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDynamicList_Enabled()
@@ -83,7 +95,7 @@ public interface DynamicList extends EObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getEnabled
 	 * <em>Enabled</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Enabled</em>' attribute.
 	 * @see #getEnabled()
 	 * @generated
@@ -98,7 +110,7 @@ public interface DynamicList extends EObject {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Label Column</em>' attribute.
 	 * @see #setLabelColumn(String)
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDynamicList_LabelColumn()
@@ -113,7 +125,7 @@ public interface DynamicList extends EObject {
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getLabelColumn
 	 * <em>Label Column</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Label Column</em>' attribute.
 	 * @see #getLabelColumn()
 	 * @generated
@@ -128,7 +140,7 @@ public interface DynamicList extends EObject {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Value Column</em>' attribute.
 	 * @see #setValueColumn(String)
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDynamicList_ValueColumn()
@@ -143,7 +155,7 @@ public interface DynamicList extends EObject {
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getValueColumn
 	 * <em>Value Column</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Value Column</em>' attribute.
 	 * @see #getValueColumn()
 	 * @generated

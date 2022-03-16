@@ -1,9 +1,9 @@
 /*******************************************************************************
   * Copyright (c) 2012 Megha Nidhi Dahal.
   * All rights reserved. This program and the accompanying materials
-  * are made available under the terms of the Eclipse Public License v1.0
+  * are made available under the terms of the Eclipse Public License v2.0
   * which accompanies this distribution, and is available at
-  * http://www.eclipse.org/legal/epl-v10.html
+  * http://www.eclipse.org/legal/epl-2.0.html
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
@@ -30,7 +30,7 @@ public class ResultSetMetaDataHelper {
 	String[] originalColumnNames;
 	String[] columnLabels;
 
-	private Map<String, Integer> columnNameIndexMap = new HashMap<String, Integer>();
+	private Map<String, Integer> columnNameIndexMap = new HashMap<>();
 
 	/**
 	 * Constructor
@@ -41,8 +41,9 @@ public class ResultSetMetaDataHelper {
 	 * @throws OdaException
 	 */
 	public ResultSetMetaDataHelper(String[] colNames, String[] colTypes, String[] colLabels) throws OdaException {
-		if (colNames == null)
+		if (colNames == null) {
 			throw new OdaException(Messages.getString("common_ARGUMENT_CANNOT_BE_NULL")); //$NON-NLS-1$
+		}
 
 		this.columnNames = colNames;
 		this.columnTypes = colTypes;
@@ -69,7 +70,7 @@ public class ResultSetMetaDataHelper {
 
 	private void initMap() {
 		for (int i = 0; i < columnNames.length; i++) {
-			columnNameIndexMap.put(columnNames[i], Integer.valueOf(i));
+			columnNameIndexMap.put(columnNames[i], i);
 		}
 	}
 

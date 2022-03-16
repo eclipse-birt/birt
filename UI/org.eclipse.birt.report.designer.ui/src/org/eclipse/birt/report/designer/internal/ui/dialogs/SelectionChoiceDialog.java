@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +59,7 @@ import org.eclipse.ui.ISharedImages;
 
 public class SelectionChoiceDialog extends BaseDialog {
 
-	public static interface ISelectionChoiceValidator {
+	public interface ISelectionChoiceValidator {
 
 		String validate(String displayLabelKey, String displayLabel, String value);
 	}
@@ -105,6 +108,7 @@ public class SelectionChoiceDialog extends BaseDialog {
 		this.canUseNullValue = canUseNullValue;
 	}
 
+	@Override
 	protected boolean initDialog() {
 		Assert.isNotNull(selectionChoice);
 		labelEditor.setText(UIUtil.convertToGUIString(selectionChoice.getLabel()));
@@ -115,8 +119,9 @@ public class SelectionChoiceDialog extends BaseDialog {
 		return true;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
-		String[] labels = new String[] { Messages.getString("ParameterDialog.SelectionDialog.Label.DisplayTextKey"), //$NON-NLS-1$
+		String[] labels = { Messages.getString("ParameterDialog.SelectionDialog.Label.DisplayTextKey"), //$NON-NLS-1$
 				Messages.getString("ParameterDialog.SelectionDialog.Label.DisplayText"), //$NON-NLS-1$
 				Messages.getString("ParameterDialog.SelectionDialog.Label.Value") //$NON-NLS-1$
 		};
@@ -136,6 +141,7 @@ public class SelectionChoiceDialog extends BaseDialog {
 		resourceBtn.setToolTipText(Messages.getString("ParameterDialog.SelectionDialog.Button.Resource.Tooltip")); //$NON-NLS-1$
 		resourceBtn.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleBrowserSelectedEvent();
 			}
@@ -147,6 +153,7 @@ public class SelectionChoiceDialog extends BaseDialog {
 		removeBtn.setToolTipText(Messages.getString("ParameterDialog.SelectionDialog.Button.Remove.Tooltip")); //$NON-NLS-1$
 		removeBtn.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				resourceText.setText(EMPTY_STRING);
 				labelEditor.setText(EMPTY_STRING);
@@ -189,18 +196,22 @@ public class SelectionChoiceDialog extends BaseDialog {
 		if (validator != null) {
 			ModifyListener listener = new ModifyListener() {
 
+				@Override
 				public void modifyText(ModifyEvent e) {
 					updateStatus();
 				}
 
 			};
 			labelEditor.addModifyListener(listener);
-			if (getValueControl() instanceof Text)
+			if (getValueControl() instanceof Text) {
 				((Text) getValueControl()).addModifyListener(listener);
-			if (getValueControl() instanceof Combo)
+			}
+			if (getValueControl() instanceof Combo) {
 				((Combo) getValueControl()).addModifyListener(listener);
-			if (getValueControl() instanceof CCombo)
+			}
+			if (getValueControl() instanceof CCombo) {
 				((CCombo) getValueControl()).addModifyListener(listener);
+			}
 
 		}
 
@@ -209,6 +220,7 @@ public class SelectionChoiceDialog extends BaseDialog {
 		return composite;
 	}
 
+	@Override
 	protected void okPressed() {
 		selectionChoice.setLabel(UIUtil.convertToModelString(labelEditor.getText(), false));
 		selectionChoice.setValue(getValueValue());
@@ -218,8 +230,9 @@ public class SelectionChoiceDialog extends BaseDialog {
 	}
 
 	private void updateStatus() {
-		if (helper != null)
+		if (helper != null) {
 			helper.update(false);
+		}
 		String erroeMessage = validator.validate(UIUtil.convertToModelString(resourceText.getText(), false),
 				UIUtil.convertToModelString(labelEditor.getText(), false), getValueValue());
 		if (erroeMessage != null) {
@@ -244,17 +257,18 @@ public class SelectionChoiceDialog extends BaseDialog {
 
 	private String[] getBaseNames() {
 		List<String> resources = SessionHandleAdapter.getInstance().getReportDesignHandle().getIncludeResources();
-		if (resources == null)
+		if (resources == null) {
 			return null;
-		else
+		} else {
 			return resources.toArray(new String[0]);
+		}
 	}
 
 	private URL[] getResourceURLs() {
 		String[] baseNames = getBaseNames();
-		if (baseNames == null)
+		if (baseNames == null) {
 			return null;
-		else {
+		} else {
 			URL[] urls = new URL[baseNames.length];
 			for (int i = 0; i < baseNames.length; i++) {
 				urls[i] = SessionHandleAdapter.getInstance().getReportDesignHandle().findResource(baseNames[i],
@@ -304,10 +318,12 @@ public class SelectionChoiceDialog extends BaseDialog {
 
 	private void handleSelectedEvent(String[] values) {
 		if (values.length == 2) {
-			if (values[0] != null)
+			if (values[0] != null) {
 				resourceText.setText(values[0]);
-			if (values[1] != null)
+			}
+			if (values[1] != null) {
 				labelEditor.setText(values[1]);
+			}
 			updateRemoveBtnState();
 		}
 	}
@@ -330,6 +346,7 @@ public class SelectionChoiceDialog extends BaseDialog {
 						helper.createContent(parent);
 						helper.addListener(SWT.Modify, new Listener() {
 
+							@Override
 							public void handleEvent(Event event) {
 								helper.update(false);
 							}

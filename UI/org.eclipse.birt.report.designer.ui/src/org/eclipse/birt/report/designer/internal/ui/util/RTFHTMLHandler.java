@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +25,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.StyleConstants;
 
 /**
- * 
+ *
  */
 
 public class RTFHTMLHandler implements RTFDocumentHandler {
@@ -30,14 +33,14 @@ public class RTFHTMLHandler implements RTFDocumentHandler {
 	private HTMLNode rootNode;
 	private HTMLNode parentNode;
 	private HTMLNode currentNode;
-	private Stack<HTMLNode> nodeStack = new Stack<HTMLNode>();
+	private Stack<HTMLNode> nodeStack = new Stack<>();
 
 	private static class HTMLNode {
 
 		private String name;
 		private String content;
-		private HashMap<String, String> attributes = new HashMap<String, String>();
-		private List<HTMLNode> childNodes = new ArrayList<HTMLNode>();
+		private HashMap<String, String> attributes = new HashMap<>();
+		private List<HTMLNode> childNodes = new ArrayList<>();
 		private HTMLNode parent;
 
 		public HTMLNode name(String name) {
@@ -87,6 +90,7 @@ public class RTFHTMLHandler implements RTFDocumentHandler {
 			return attributes;
 		}
 
+		@Override
 		public String toString() {
 			return this.name;
 		}
@@ -96,6 +100,7 @@ public class RTFHTMLHandler implements RTFDocumentHandler {
 		this.rootNode = this.parentNode = new HTMLNode().name("div");
 	}
 
+	@Override
 	public void startElement(String name, AttributeSet attributeSet) {
 		this.currentNode = new HTMLNode().name(name.equalsIgnoreCase("paragraph") ? "div" : name);
 		this.currentNode.parent(this.parentNode);
@@ -107,8 +112,9 @@ public class RTFHTMLHandler implements RTFDocumentHandler {
 		Object fontcolor = attributeSet.getAttribute(StyleConstants.Foreground);
 		if (fontfamily != null || fontsize != null || fontcolor != null) {
 			HTMLNode fontnode = new HTMLNode().name("font");
-			if (fontfamily != null)
+			if (fontfamily != null) {
 				fontnode.attribute("face", fontfamily.toString());
+			}
 			if (fontcolor != null) {
 				Color color = (Color) fontcolor;
 				fontnode.attribute("color", makeColorString(color));
@@ -133,12 +139,14 @@ public class RTFHTMLHandler implements RTFDocumentHandler {
 		}
 	}
 
+	@Override
 	public void content(String content) {
 		content = content.replaceAll("\\t", getSpaceTab(8));
 		content = content.replaceAll("\\n", "<br/>");
 		this.currentNode.content(content);
 	}
 
+	@Override
 	public void endElement(String name) {
 		this.parentNode = this.nodeStack.pop().parent;
 	}
@@ -146,7 +154,7 @@ public class RTFHTMLHandler implements RTFDocumentHandler {
 	private String makeColorString(Color color1) {
 		String s = Long.toString(color1.getRGB() & 0xffffff, 16);
 		if (s.length() < 6) {
-			StringBuffer stringbuffer = new StringBuffer();
+			StringBuilder stringbuffer = new StringBuilder();
 			for (int i = s.length(); i < 6; i++) {
 				stringbuffer.append("0");
 			}
@@ -166,7 +174,7 @@ public class RTFHTMLHandler implements RTFDocumentHandler {
 
 	private void trimRootNode(HTMLNode rootNode) {
 		List<HTMLNode> nodes = rootNode.getChildren();
-		List<HTMLNode> temps = new ArrayList<HTMLNode>(nodes);
+		List<HTMLNode> temps = new ArrayList<>(nodes);
 		for (int i = 0; i < nodes.size(); i++) {
 			HTMLNode node = nodes.get(i);
 			if (isBlankNode(node)) {
@@ -222,30 +230,35 @@ public class RTFHTMLHandler implements RTFDocumentHandler {
 		if (node.name.equals("content")) {
 			if (node.childNodes.size() == 0) {
 				if (node.content != null) {
-					if (indent > 0)
+					if (indent > 0) {
 						sb.append("\n");
+					}
 					for (int i = 0; i < indent; i++) {
 						sb.append("\t");
 					}
 					sb.append(node.content);
 				}
 			}
-			for (HTMLNode childNode : node.childNodes)
+			for (HTMLNode childNode : node.childNodes) {
 				serializeHTMLNode(childNode, sb, indent);
+			}
 			return;
 		}
-		if (indent > 0)
+		if (indent > 0) {
 			sb.append("\n");
+		}
 		for (int i = 0; i < indent; i++) {
 			sb.append("\t");
 		}
 		sb.append("<").append(node.name);
-		for (String key : node.attributes.keySet())
+		for (String key : node.attributes.keySet()) {
 			sb.append(" ").append(key).append("=\"").append(node.attributes.get(key)).append("\"");
+		}
 		sb.append(">");
 
-		for (HTMLNode childNode : node.childNodes)
+		for (HTMLNode childNode : node.childNodes) {
 			serializeHTMLNode(childNode, sb, indent + 1);
+		}
 
 		if (node.content != null) {
 			sb.append(node.content);
@@ -261,7 +274,7 @@ public class RTFHTMLHandler implements RTFDocumentHandler {
 	}
 
 	private String getSpaceTab(int i) {
-		StringBuffer stringbuffer = new StringBuffer();
+		StringBuilder stringbuffer = new StringBuilder();
 		for (int j = 0; j < i; j++) {
 			stringbuffer.append("&nbsp;");
 		}

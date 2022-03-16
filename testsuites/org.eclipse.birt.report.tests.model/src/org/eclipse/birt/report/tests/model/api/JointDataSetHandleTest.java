@@ -1,10 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.report.tests.model.api;
 
-import java.util.List;
 import java.util.Iterator;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
@@ -25,29 +34,32 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /**
  * TestCases for JointDataSetHandle.
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
- * 
+ *
  * <tr>
  * <td>{@link #testJointDataSetType()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testJointCondition()}</td>
  * </tr>
  * <tr>
  * <td>{@link #testParameter()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testFilter()}</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class JointDataSetHandleTest extends BaseTestCase {
 
@@ -65,6 +77,7 @@ public class JointDataSetHandleTest extends BaseTestCase {
 		return new TestSuite(JointDataSetHandleTest.class);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -73,13 +86,14 @@ public class JointDataSetHandleTest extends BaseTestCase {
 		copyResource_INPUT(filename2, filename2);
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}
 
 	/**
 	 * Test different join type
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testJointDataSetType() throws Exception {
@@ -106,7 +120,7 @@ public class JointDataSetHandleTest extends BaseTestCase {
 
 	/**
 	 * Test set joindataset join properties
-	 * 
+	 *
 	 * @throws SemanticException
 	 * @throws DesignFileException
 	 */
@@ -142,7 +156,7 @@ public class JointDataSetHandleTest extends BaseTestCase {
 
 	/**
 	 * Test parameters in joindataset
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testParameter() throws Exception {
@@ -168,7 +182,7 @@ public class JointDataSetHandleTest extends BaseTestCase {
 
 	/**
 	 * Test filter in joindataset
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testFilter() throws Exception {

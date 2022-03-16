@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -38,82 +50,82 @@ import com.ibm.icu.util.ULocale;
  * properties that describe the design as a whole like author, base and comments
  * etc.
  * <p>
- * 
+ *
  * Besides properties, it also contains a variety of elements that make up the
  * report. These include:
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
  * collapse" bordercolor="#111111">
  * <th width="20%">Content Item</th>
  * <th width="40%">Description</th>
- * 
+ *
  * <tr>
  * <td>Code Modules</td>
  * <td>Global scripts that apply to the report as a whole.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>Parameters</td>
  * <td>A list of Parameter elements that describe the data that the user can
  * enter when running the report.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>Data Sources</td>
  * <td>The connections used by the report.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>Data Sets</td>
  * <td>Data sets defined in the design.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>Color Palette</td>
  * <td>A set of custom color names as part of the design.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>Styles</td>
  * <td>User-defined styles used to format elements in the report. Each style
  * must have a unique name within the set of styles for this report.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>Page Setup</td>
  * <td>The layout of the master pages within the report.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>Components</td>
  * <td>Reusable report items defined in this design. Report items can extend
  * these items. Defines a "private library" for this design.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>Body</td>
  * <td>A list of the visual report content. Content is made up of one or more
  * sections. A section is a report item that fills the width of the page. It can
  * contain Text, Grid, List, Table, etc. elements</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>Scratch Pad</td>
  * <td>Temporary place to move report items while restructuring a report.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>Translations</td>
  * <td>The list of externalized messages specifically for this report.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>Images</td>
  * <td>A list of images embedded in this report.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  * <p>
  * Module allow to use the components defined in <code>Library</code>.
  * <ul>
@@ -124,25 +136,25 @@ import com.ibm.icu.util.ULocale;
  * <li>User can use style, data source, and data set, which are defined in
  * library, in design file.
  * </ul>
- * 
+ *
  * <pre>
  *                      // Include one library
- *                      
+ *
  *                      ReportDesignHandle designHandle = ...;
  *                      designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
  *                      LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
- *                       
+ *
  *                      // Create one label based on the one in library
- *                     
+ *
  *                      LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
  *                      LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
- *                     
+ *
  *                      // Add the new label into design file
- *                     
+ *
  *                      designHandle.getBody().add(myLabelHandle);
- * 
+ *
  * </pre>
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.ReportDesign
  */
 
@@ -152,7 +164,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 * Constructs a handle with the given design. The application generally does not
 	 * create handles directly. Instead, it uses one of the navigation methods
 	 * available on other element handles.
-	 * 
+	 *
 	 * @param design the report design
 	 */
 
@@ -163,7 +175,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Returns the script called at the end of the Factory after closing the report
 	 * document (if any). This is the last method called in the Factory.
-	 * 
+	 *
 	 * @return the script
 	 */
 
@@ -173,7 +185,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Returns the script called after starting a presentation time action.
-	 * 
+	 *
 	 * @return the script
 	 */
 
@@ -184,7 +196,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Returns the base directory to use when computing relative links from this
 	 * report. Especially used for searching images, library and so.
-	 * 
+	 *
 	 * @return the base directory
 	 */
 
@@ -195,7 +207,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Returns the script called at the start of the Factory after the initialize( )
 	 * method and before opening the report document (if any).
-	 * 
+	 *
 	 * @return the script
 	 */
 
@@ -205,7 +217,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Returns the script called before starting a presentation time action.
-	 * 
+	 *
 	 * @return the script
 	 */
 
@@ -217,7 +229,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 * Returns a slot handle to work with the sections in the report's Body slot.
 	 * The order of sections within the slot determines the order in which the
 	 * sections print.
-	 * 
+	 *
 	 * @return A handle for working with the report sections.
 	 */
 
@@ -227,7 +239,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Returns the refresh rate when viewing the report.
-	 * 
+	 *
 	 * @return the refresh rate
 	 */
 
@@ -238,7 +250,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Returns a slot handle to work with the scratched elements within the report,
 	 * which are no longer needed or are in the process of rearranged.
-	 * 
+	 *
 	 * @return A handle for working with the scratched elements.
 	 */
 
@@ -249,7 +261,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Returns the list of all the included script file of the libraries. Each one
 	 * is the instance of <code>IncludeScriptHandle</code>
-	 * 
+	 *
 	 * @return the iterator of included scripts.
 	 */
 
@@ -262,8 +274,9 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 				PropertyHandle propHandle = lib.getHandle(lib).getPropertyHandle(INCLUDE_SCRIPTS_PROP);
 
 				Iterator scriptIter = propHandle.iterator();
-				while (scriptIter.hasNext())
+				while (scriptIter.hasNext()) {
 					includeLibScriptList.add(scriptIter.next());
+				}
 			}
 		}
 		return includeLibScriptList.iterator();
@@ -272,7 +285,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Sets the script called at the end of the Factory after closing the report
 	 * document (if any). This is the last method called in the Factory.
-	 * 
+	 *
 	 * @param value the script to set.
 	 */
 
@@ -286,7 +299,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the script called after starting a presentation time action.
-	 * 
+	 *
 	 * @param value the script to set.
 	 */
 
@@ -301,7 +314,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Sets the base directory to use when computing relative links from this
 	 * report. Especially used for searching images, library and so.
-	 * 
+	 *
 	 * @param base the base directory to set
 	 */
 
@@ -316,7 +329,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Sets the script called at the start of the Factory after the initialize( )
 	 * method and before opening the report document (if any).
-	 * 
+	 *
 	 * @param value the script to set.
 	 */
 
@@ -330,7 +343,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the script called before starting a presentation time action.
-	 * 
+	 *
 	 * @param value the script to set.
 	 */
 
@@ -344,7 +357,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the refresh rate when viewing the report.
-	 * 
+	 *
 	 * @param rate the refresh rate
 	 */
 
@@ -359,17 +372,18 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Returns a slot handle to work with the styles within the report. Note that
 	 * the order of the styles within the slot is unimportant.
-	 * 
+	 *
 	 * @return A handle for working with the styles.
-	 * 
+	 *
 	 */
+	@Override
 	public SlotHandle getStyles() {
 		return getSlot(IReportDesignModel.STYLE_SLOT);
 	}
 
 	/**
 	 * Gets all css styles sheet
-	 * 
+	 *
 	 * @return each item is <code>CssStyleSheetHandle</code>
 	 */
 
@@ -386,11 +400,12 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.ModuleHandle#importCssStyles(org.
 	 *      eclipse.birt.report.model.api.css.CssStyleSheetHandle, java.util.List)
 	 */
 
+	@Override
 	public void importCssStyles(CssStyleSheetHandle stylesheet, List selectedStyles) {
 		if (stylesheet == null || selectedStyles == null || selectedStyles.isEmpty()) {
 			// do nothing now.
@@ -408,14 +423,13 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 			if (stylesheet.findStyle(style.getName()) != null) {
 				// Copy CssStyle to Style
 				SharedStyleHandle newStyle = StyleUtil.transferCssStyleToSharedStyle(module, style);
-				if (newStyle == null)
+				if (newStyle == null) {
 					continue;
+				}
 				module.makeUniqueName(newStyle.getElement());
 				try {
 					addElement(newStyle, IReportDesignModel.STYLE_SLOT);
-				} catch (ContentException e) {
-					assert false;
-				} catch (NameException e) {
+				} catch (ContentException | NameException e) {
 					assert false;
 				}
 			}
@@ -425,7 +439,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the resource key of the display name.
-	 * 
+	 *
 	 * @param displayNameKey the resource key of the display name
 	 * @throws SemanticException if the display name resource-key property is locked
 	 *                           or not defined on this design.
@@ -437,7 +451,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets the resource key of the display name.
-	 * 
+	 *
 	 * @return the resource key of the display name
 	 */
 
@@ -447,7 +461,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the display name.
-	 * 
+	 *
 	 * @param displayName the display name
 	 * @throws SemanticException if the display name property is locked or not
 	 *                           defined on this design.
@@ -459,7 +473,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets the display name.
-	 * 
+	 *
 	 * @return the display name
 	 */
 
@@ -469,7 +483,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the design icon/thumbnail file path.
-	 * 
+	 *
 	 * @param iconFile the design icon/thumbnail file path to set
 	 * @throws SemanticException if the property is locked or not defined on this
 	 *                           design.
@@ -481,7 +495,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets the design icon/thumbnail file path.
-	 * 
+	 *
 	 * @return the design icon/thumbnail file path
 	 */
 
@@ -491,7 +505,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the design cheat sheet file path.
-	 * 
+	 *
 	 * @param cheatSheet the design cheat sheet file path to set
 	 * @throws SemanticException if the property is locked or not defined on this
 	 *                           design.
@@ -503,7 +517,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets the design cheat sheet file path.
-	 * 
+	 *
 	 * @return the design cheat sheet file path
 	 */
 
@@ -513,7 +527,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the thumbnail image encoded in ISO-8859-1.
-	 * 
+	 *
 	 * @param data the thumbnail image to set
 	 * @throws SemanticException if the property is locked or not defined on this
 	 *                           design.
@@ -523,8 +537,9 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 		String toSet = null;
 
 		try {
-			if (data != null)
+			if (data != null) {
 				toSet = new String(data, CHARSET);
+			}
 		} catch (UnsupportedEncodingException e) {
 			assert false;
 		}
@@ -534,7 +549,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets the thumbnail image encoded in ISO-8859-1.
-	 * 
+	 *
 	 * @return the thumbnail image
 	 */
 
@@ -544,7 +559,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Deletes the thumbnail image in the design.
-	 * 
+	 *
 	 * @throws SemanticException if the property is locked or not defined on this
 	 *                           design.
 	 */
@@ -555,7 +570,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets all bookmarks defined in this module.
-	 * 
+	 *
 	 * @return All bookmarks defined in this module.
 	 */
 
@@ -576,7 +591,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets all TOCs defined in this module.
-	 * 
+	 *
 	 * @return All TOCs defined in this module.
 	 */
 
@@ -597,7 +612,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Gets report items which holds a template definition, that is, report item in
 	 * body slot and page slot. Notice, nested template items is excluded.
-	 * 
+	 *
 	 * @return report items which holds a template definition, nested template items
 	 *         is excluded.
 	 */
@@ -621,7 +636,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Auxilary method, help to find design element which holds and template
 	 * definition.
-	 * 
+	 *
 	 * @param contents the contents to search.
 	 * @param addTo    The list to add to.
 	 */
@@ -642,9 +657,10 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.ModuleHandle#getCubes()
 	 */
+	@Override
 	public SlotHandle getCubes() {
 		return getSlot(CUBE_SLOT);
 	}
@@ -652,14 +668,14 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Gets the layout preference of this report design. It can be one of the
 	 * following:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
 	 * </code>
 	 * <li><code>
 	 * DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return layout preference of report design
 	 */
 	public String getLayoutPreference() {
@@ -675,7 +691,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 * <li><code>
 	 * DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param layout the layout to set
 	 * @throws SemanticException if value is invalid
 	 */
@@ -686,7 +702,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Returns the iterator over all included css style sheets. Each one is the
 	 * instance of <code>IncludedCssStyleSheetHandle</code>
-	 * 
+	 *
 	 * @return the iterator over all included css style sheets.
 	 */
 
@@ -698,11 +714,12 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets <code>IncludedCssStyleSheetHandle</code> by file name.
-	 * 
+	 *
 	 * @deprecated
 	 * @param fileName the file name
 	 * @return the includedCssStyleSheet handle.
 	 */
+	@Deprecated
 	public IncludedCssStyleSheetHandle findIncludedCssStyleSheetHandleByFileName(String fileName) {
 
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(module, getElement());
@@ -712,7 +729,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets <code>IncludedCssStyleSheetHandle</code> by properties.
-	 * 
+	 *
 	 * @param fileName
 	 * @param externalCssURI
 	 * @param useExternalCss
@@ -728,12 +745,13 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets <code>CssStyleSheetHandle</code> by file name.
-	 * 
+	 *
 	 * @deprecated
 	 * @param fileName the file name.
-	 * 
+	 *
 	 * @return the cssStyleSheet handle.
 	 */
+	@Deprecated
 	public CssStyleSheetHandle findCssStyleSheetHandleByFileName(String fileName) {
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(module, getElement());
 		return adapter.findCssStyleSheetHandleByFileName(fileName);
@@ -742,7 +760,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets <code>CssStyleSheetHandle</code> by file name.
-	 * 
+	 *
 	 * @param fileName
 	 * @param externalCssURI
 	 * @param useExternalCss
@@ -758,7 +776,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Includes one css with the given css file name. The new css will be appended
 	 * to the css list.
-	 * 
+	 *
 	 * @param sheetHandle css style sheet handle
 	 * @throws SemanticException if error is encountered when handling
 	 *                           <code>CssStyleSheet</code> structure list.
@@ -772,13 +790,14 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Includes one css with the given css file name. The new css will be appended
 	 * to the css list.
-	 * 
+	 *
 	 * @deprecated
 	 * @param fileName css file name
 	 * @throws SemanticException if error is encountered when handling
 	 *                           <code>CssStyleSheet</code> structure list.
 	 */
 
+	@Deprecated
 	public void addCss(String fileName) throws SemanticException {
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(module, getElement());
 		adapter.addCss(fileName);
@@ -787,7 +806,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Includes one css with the given css file name. The new css will be appended
 	 * to the css list.
-	 * 
+	 *
 	 * @param fileName css file name
 	 * @throws SemanticException if error is encountered when handling
 	 *                           <code>CssStyleSheet</code> structure list.
@@ -802,15 +821,16 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Includes one CSS structure with the given IncludedCssStyleSheet. The new css
 	 * will be appended to the CSS list.
-	 * 
+	 *
 	 * @param cssStruct the CSS structure
 	 * @throws SemanticException if error is encountered when handling
 	 *                           <code>CssStyleSheet</code> structure list.
 	 */
 
 	public void addCss(IncludedCssStyleSheet cssStruct) throws SemanticException {
-		if (cssStruct == null)
+		if (cssStruct == null) {
 			return;
+		}
 
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(module, getElement());
 		adapter.addCss(cssStruct);
@@ -819,11 +839,12 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Renames both <code>IncludedCssStyleSheet</code> and <code>CSSStyleSheet<code>
 	 * to newFileName.
-	 * 
+	 *
 	 * @deprecated
 	 * @param handle      the includedCssStyleSheetHandle
 	 * @param newFileName the new file name
 	 */
+	@Deprecated
 	public void renameCss(IncludedCssStyleSheetHandle handle, String newFileName) throws SemanticException {
 
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(module, getElement());
@@ -833,7 +854,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Renames both <code>IncludedCssStyleSheet</code> and <code>CSSStyleSheet<code>
 	 * to newFileName.
-	 * 
+	 *
 	 * @param handle      the includedCssStyleSheetHandle
 	 * @param newFileName the new file name
 	 */
@@ -846,13 +867,14 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Checks css can be renamed or not.
-	 * 
+	 *
 	 * @deprecated
 	 * @param handle      the included css style sheet handle.
 	 * @param newFileName the new file name.
 	 * @return <code>true</code> can be renamed.else return <code>false</code>
 	 * @throws SemanticException
 	 */
+	@Deprecated
 	public boolean canRenameCss(IncludedCssStyleSheetHandle handle, String newFileName) throws SemanticException {
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(module, getElement());
 		return adapter.canRenameCss(handle, newFileName);
@@ -860,7 +882,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Checks css can be renamed or not.
-	 * 
+	 *
 	 * @param handle      the included css style sheet handle.
 	 * @param newFileName the new file name.
 	 * @return <code>true</code> can be renamed.else return <code>false</code>
@@ -874,7 +896,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Drops the given css style sheet of this design file.
-	 * 
+	 *
 	 * @param sheetHandle the css to drop
 	 * @throws SemanticException if error is encountered when handling
 	 *                           <code>CssStyleSheet
@@ -890,7 +912,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Check style sheet can be droped or not.
-	 * 
+	 *
 	 * @param sheetHandle
 	 * @return <code>true</code> can be dropped.else return <code>false</code>
 	 */
@@ -902,7 +924,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Check style sheet can be added or not.
-	 * 
+	 *
 	 * @param sheetHandle
 	 * @return <code>true</code> can be added.else return <code>false</code>
 	 */
@@ -914,12 +936,13 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Check style sheet can be added or not.
-	 * 
+	 *
 	 * @deprecated
 	 * @param fileName
 	 * @return <code>true</code> can be added.else return <code>false</code>
 	 */
 
+	@Deprecated
 	public boolean canAddCssStyleSheet(String fileName) {
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(module, getElement());
 		return adapter.canAddCssStyleSheet(fileName);
@@ -927,7 +950,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Check style sheet can be added or not.
-	 * 
+	 *
 	 * @param fileName
 	 * @param externalCssURI
 	 * @param useExternalCss
@@ -942,7 +965,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Reloads the css with the given css file path. If the css already is included
 	 * directly, reload it. If the css is not included, exception will be thrown.
-	 * 
+	 *
 	 * @param sheetHandle css style sheet handle.
 	 * @throws SemanticException if error is encountered when handling
 	 *                           <code>CssStyleSheet</code> structure list. Or it
@@ -963,9 +986,9 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 * <li><code>BIDI_DIRECTION_LTR</code>
 	 * <li><code>BIDI_DIRECTION_RTL</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the Bidi orientation value
-	 * 
+	 *
 	 */
 
 	public String getBidiOrientation() {
@@ -979,7 +1002,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 * <li><code>BIDI_DIRECTION_LTR</code>
 	 * <li><code>BIDI_DIRECTION_RTL</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param bidiOrientation orientation value to be set
 	 * @throws SemanticException
 	 */
@@ -990,10 +1013,11 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#isDirectionRTL()
 	 */
 
+	@Override
 	public boolean isDirectionRTL() {
 		return DesignChoiceConstants.BIDI_DIRECTION_RTL.equals(getBidiOrientation());
 	}
@@ -1001,9 +1025,9 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Returns <code>true</code> if the ACL feature is enable; otherwise false. By
 	 * default, it is <code>false</code>.
-	 * 
+	 *
 	 * @return the flag to control whether to enable ACL
-	 * 
+	 *
 	 */
 
 	public boolean isEnableACL() {
@@ -1013,10 +1037,10 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the flag to control whether to enable ACL.
-	 * 
+	 *
 	 * @param enableACL true if to enable ACL, otherwise false
 	 * @throws SemanticException if the property is locked by masks
-	 * 
+	 *
 	 */
 
 	public void setEnableACL(boolean enableACL) throws SemanticException {
@@ -1025,9 +1049,9 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Returns the ACL expression associated with the design instance.
-	 * 
+	 *
 	 * @return the expression in string
-	 * 
+	 *
 	 */
 
 	public String getACLExpression() {
@@ -1036,10 +1060,10 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the ACL expression associated with the design instance.
-	 * 
+	 *
 	 * @param expr the expression in string
 	 * @throws SemanticException if the property is locked by masks
-	 * 
+	 *
 	 */
 
 	public void setACLExpression(String expr) throws SemanticException {
@@ -1050,9 +1074,9 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 * Returns <code>true</code> (the default), the design's ACL is automatically
 	 * propagated to all its directly contained child elements and are added to
 	 * their ACLs. Otherwise <code>false</code>.
-	 * 
+	 *
 	 * @return the flag to control whether to cascade ACL
-	 * 
+	 *
 	 */
 
 	public boolean cascadeACL() {
@@ -1062,13 +1086,13 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the flag to control whether to cascade ACL
-	 * 
+	 *
 	 * @param cascadeACL <code>true</code> (the default), a design's ACL is
 	 *                   automatically propagated to all its directly contained
 	 *                   child elements and are added to their ACLs. Otherwise
 	 *                   <code>false</code>.
 	 * @throws SemanticException if the property is locked by masks
-	 * 
+	 *
 	 */
 
 	public void setCascadeACL(boolean cascadeACL) throws SemanticException {
@@ -1078,7 +1102,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Gets the image DPI of the report design. This property can ensure image in
 	 * report design may be displayed as same size at design time as at run time.
-	 * 
+	 *
 	 * @return the value of image DPI.
 	 */
 	public int getImageDPI() {
@@ -1088,7 +1112,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Sets the image DPI of the report design. This property can ensure image in
 	 * report design may be displayed as same size at design time as at run time.
-	 * 
+	 *
 	 * @param imageDPI the value of image DPI.
 	 * @throws SemanticException if the property is locked by masks
 	 */
@@ -1098,7 +1122,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets the script of onPageStart method.
-	 * 
+	 *
 	 * @return the script of onPageStart method.
 	 */
 	public String getOnPageStart() {
@@ -1107,7 +1131,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the script of onPageStart method.
-	 * 
+	 *
 	 * @param onPageStart the script of onPageStart method.
 	 * @throws SemanticException if the property is locked by masks.
 	 */
@@ -1117,7 +1141,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets the script of onPageEnd method.
-	 * 
+	 *
 	 * @return the script of onPageEnd method.
 	 */
 	public String getOnPageEnd() {
@@ -1126,7 +1150,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the script of onPageEnd method.
-	 * 
+	 *
 	 * @param onPageEnd the script of onPageEnd method.
 	 * @throws SemanticException if the property is locked by masks.
 	 */
@@ -1137,7 +1161,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Gets the pageVariables list value which contains
 	 * <code>VariableElementHandle</code>.
-	 * 
+	 *
 	 * @return the page variables list value.
 	 */
 	public List<VariableElementHandle> getPageVariables() {
@@ -1146,30 +1170,33 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets the <VariableElementHandle> according to the input page variable name.
-	 * 
+	 *
 	 * @param pageVariableName the page variable name.
 	 * @return the <VariableElementHandle> according to the input page variable name
-	 * 
+	 *
 	 */
 	public VariableElementHandle getPageVariable(String pageVariableName) {
-		if (pageVariableName == null)
+		if (pageVariableName == null) {
 			return null;
+		}
 		VariableElement element = ((ReportDesign) module).findVariableElement(pageVariableName);
-		if (element == null)
+		if (element == null) {
 			return null;
+		}
 		return element.handle(module);
 	}
 
 	/**
 	 * Sets the page variable value.
-	 * 
+	 *
 	 * @param pageVariableName the page variable name.
 	 * @param value            the page variable value.
 	 * @throws SemanticException
 	 */
 	public void setPageVariable(String pageVariableName, Expression value) throws SemanticException {
-		if (pageVariableName == null)
+		if (pageVariableName == null) {
 			return;
+		}
 		VariableElementHandle handle = getPageVariable(pageVariableName);
 		if (handle == null) {
 			ElementFactory factory = getElementFactory();
@@ -1186,7 +1213,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Adds data variable that user defined on the report design.
-	 * 
+	 *
 	 * @param variable the variable
 	 * @throws SemanticException
 	 */
@@ -1197,7 +1224,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Removes the given data variable.
-	 * 
+	 *
 	 * @param variable the variable
 	 * @throws SemanticException
 	 */
@@ -1208,7 +1235,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets all variable.
-	 * 
+	 *
 	 * @return the list of variable. Each item is an instance of
 	 *         <code>VariableElementHandle</code>.
 	 */
@@ -1223,9 +1250,9 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets the locale of the report design.
-	 * 
+	 *
 	 * @return the locale of the report design.
-	 * 
+	 *
 	 * @see #setLocale(ULocale)
 	 */
 
@@ -1235,10 +1262,10 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the locale of the report design.
-	 * 
+	 *
 	 * @param locale the locale of the report design.
 	 * @throws SemanticException
-	 * 
+	 *
 	 * @see #getLocale()
 	 */
 
@@ -1251,35 +1278,38 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 * css style might be included by the design handle itself and the theme which
 	 * the design refers. Each item in the list is instance of
 	 * <code>IncludedCssStyleSheetHandle</code>.
-	 * 
+	 *
 	 * @return list of all the included css style sheet that set the external URI
 	 */
 	public List<IncludedCssStyleSheetHandle> getAllExternalIncludedCsses() {
-		List<IncludedCssStyleSheetHandle> ret = new ArrayList<IncludedCssStyleSheetHandle>();
+		List<IncludedCssStyleSheetHandle> ret = new ArrayList<>();
 		List<IncludedCssStyleSheetHandle> values = getNativeStructureList(CSSES_PROP);
 
 		// first, look css style sheet in the design itself
 		if (values != null && !values.isEmpty()) {
 			for (int i = 0; i < values.size(); i++) {
 				IncludedCssStyleSheetHandle sheetHandle = values.get(i);
-				if (sheetHandle.getExternalCssURI() != null || sheetHandle.isUseExternalCss())
+				if (sheetHandle.getExternalCssURI() != null || sheetHandle.isUseExternalCss()) {
 					ret.add(sheetHandle);
+				}
 			}
 		}
 
 		// second, collect the theme referred by the design and included
 		// libraries
-		List<ThemeHandle> themeList = new ArrayList<ThemeHandle>();
+		List<ThemeHandle> themeList = new ArrayList<>();
 		ThemeHandle themeHandle = getTheme();
-		if (themeHandle != null)
+		if (themeHandle != null) {
 			themeList.add(themeHandle);
+		}
 		List<LibraryHandle> libs = getAllLibraries();
 		if (libs != null) {
 			for (int i = 0; i < libs.size(); i++) {
 				LibraryHandle libHandle = libs.get(i);
 				themeHandle = libHandle.getTheme();
-				if (themeHandle != null && !themeList.contains(themeHandle))
+				if (themeHandle != null && !themeList.contains(themeHandle)) {
 					themeList.add(themeHandle);
+				}
 			}
 		}
 
@@ -1289,8 +1319,9 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 			Iterator<Object> iter = themeHandle.getPropertyHandle(IAbstractThemeModel.CSSES_PROP).iterator();
 			while (iter.hasNext()) {
 				IncludedCssStyleSheetHandle sheetHandle = (IncludedCssStyleSheetHandle) iter.next();
-				if (sheetHandle.getExternalCssURI() != null || sheetHandle.isUseExternalCss())
+				if (sheetHandle.getExternalCssURI() != null || sheetHandle.isUseExternalCss()) {
 					ret.add(sheetHandle);
+				}
 			}
 		}
 
@@ -1309,20 +1340,22 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets the flatten element by the original name.
-	 * 
+	 *
 	 * @param elementHandle the handle of a flatten element once in the same
 	 *                      namespace
 	 * @param originalName  the original name of the element
-	 * 
+	 *
 	 * @return the flatten element handle, or null if not found
 	 */
 	public DesignElementHandle getFlattenElement(DesignElementHandle elementHandle, String originalName) {
 		DesignElement flatternElement = null;
-		if (elementHandle != null)
+		if (elementHandle != null) {
 			flatternElement = ((ReportDesign) module).getFlattenElement(elementHandle.getElement(), originalName);
+		}
 
-		if (flatternElement != null)
+		if (flatternElement != null) {
 			return flatternElement.getHandle(module);
+		}
 
 		return null;
 	}
@@ -1330,7 +1363,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Gets the on-prepare script of the report design. Startup phase. No data
 	 * binding yet. The design of an element can be changed here.
-	 * 
+	 *
 	 * @return the on-prepare script of the report design
 	 */
 
@@ -1340,10 +1373,10 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the on-prepare script of the report design.
-	 * 
+	 *
 	 * @param script the script to set
 	 * @throws SemanticException if the method is locked.
-	 * 
+	 *
 	 * @see #getOnPrepare()
 	 */
 
@@ -1354,7 +1387,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Gets the client-initialize script of the report design. The design can load
 	 * java script libraries by the property.
-	 * 
+	 *
 	 * @return the client-initialize script of the report design
 	 */
 
@@ -1364,10 +1397,10 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the client-initialize script of the report design.
-	 * 
+	 *
 	 * @param script the script to set
 	 * @throws SemanticException if the method is locked.
-	 * 
+	 *
 	 * @see #getClientInitialize()
 	 */
 
@@ -1377,7 +1410,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Gets the language of the report design.
-	 * 
+	 *
 	 * @return the language of the report design
 	 */
 
@@ -1387,7 +1420,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 	/**
 	 * Sets the language of the report design.
-	 * 
+	 *
 	 * @param language the language to set
 	 * @throws SemanticException if the method is locked.
 	 */

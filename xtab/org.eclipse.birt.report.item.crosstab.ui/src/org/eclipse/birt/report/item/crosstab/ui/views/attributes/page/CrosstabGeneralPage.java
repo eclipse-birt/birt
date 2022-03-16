@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,6 +50,7 @@ public class CrosstabGeneralPage extends GeneralPage {
 	IDescriptorProvider layoutMeasuresProvider;
 	private ComboSection layoutMeasureSection;
 
+	@Override
 	protected void buildContent() {
 
 		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider(ReportItemHandle.NAME_PROP,
@@ -107,10 +111,12 @@ public class CrosstabGeneralPage extends GeneralPage {
 
 	}
 
+	@Override
 	public boolean canReset() {
 		return false;
 	}
 
+	@Override
 	public void refresh() {
 		super.refresh();
 		checkLayoutProperty();
@@ -118,37 +124,30 @@ public class CrosstabGeneralPage extends GeneralPage {
 
 	private void checkLayoutProperty() {
 		if (input instanceof List && DEUtil.getMultiSelectionHandle((List) input).isExtendedElements()) {
-			if (checkControl())
+			if (checkControl()) {
 				layoutMeasureSection.getComboControl().getControl().setEnabled(false);
-		}
-//		else if ( input instanceof List
-//				&& DEUtil.getMultiSelectionHandle( (List) input )
-//						.getModuleHandle( ) instanceof LibraryHandle )
-//		{
-//			if ( checkControl( ) )
-//				layoutMeasureSection.getComboControl( )
-//						.getControl( )
-//						.setEnabled( false );
-//		}
-		else {
-			if (checkControl())
-				layoutMeasureSection.getComboControl().getControl().setEnabled(true);
+			}
+		} else if (checkControl()) {
+			layoutMeasureSection.getComboControl().getControl().setEnabled(true);
 		}
 	}
 
 	private boolean checkControl() {
 		if (layoutMeasureSection != null && layoutMeasureSection.getComboControl() != null
 				&& layoutMeasureSection.getComboControl().getControl() != null
-				&& !layoutMeasureSection.getComboControl().getControl().isDisposed())
+				&& !layoutMeasureSection.getComboControl().getControl().isDisposed()) {
 			return true;
+		}
 		return false;
 	}
 
+	@Override
 	public void postElementEvent() {
 		super.postElementEvent();
 		checkLayoutProperty();
 	}
 
+	@Override
 	protected void applyCustomSections() {
 		Object[] helperProviders = ElementAdapterManager.getAdapters(this, ISectionHelperProvider.class);
 		if (helperProviders != null) {
@@ -159,8 +158,9 @@ public class CrosstabGeneralPage extends GeneralPage {
 					if (helper != null) {
 						Section section = helper.createSection(container, ISupportThemeElementConstants.THEME_PROP,
 								ICrosstabConstants.CROSSTAB_EXTENSION_NAME, true);
-						if (section instanceof SimpleComboSection)
+						if (section instanceof SimpleComboSection) {
 							((SimpleComboSection) section).setWidth(200);
+						}
 						section.setLayoutNum(6);
 						section.setGridPlaceholder(4, true);
 						addSectionAfter(CrosstabPageSectionId.CROSSTAB_THEME, section,

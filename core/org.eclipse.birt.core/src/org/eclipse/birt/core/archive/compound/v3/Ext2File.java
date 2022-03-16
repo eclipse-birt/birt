@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,16 +21,16 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
  * there are two kinds of caches in the file object:
- * 
+ *
  * data cache: each file has one block data cache, contains the data at the
  * current position.
- * 
+ *
  * fat cache: each file has max to 3 blocks fat caches.
- * 
+ *
  * once the cache is retried, it is returned to the file system object. The file
  * system object decides if the cache need to be locked for other file objects
  * or return it to the cache manager.
- * 
+ *
  * there is only one Ext2File is opened as write, so we needn't synchronize the
  * FAT node list
  */

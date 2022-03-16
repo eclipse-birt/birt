@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -87,7 +90,7 @@ import org.eclipse.emf.ecore.EObject;
  * or default chart values, if current chart element isn't set or is null, then
  * use reference chart object to replace if the reference chart object is set or
  * not null, otherwise use default chart value to replace if it is set.
- * 
+ *
  * @generated
  */
 
@@ -3593,8 +3596,8 @@ public class BaseChartValueUpdater {
 		updateFormatSpecifier("formatSpecifier", eObj, eObj.getFormatSpecifier(),
 				eRefObj == null ? null : eRefObj.getFormatSpecifier(),
 				eDefObj == null ? null : eDefObj.getFormatSpecifier(), eDefOverride, checkVisible);
-		Map<String, Series> seriesRefMap = new HashMap<String, Series>();
-		;
+		Map<String, Series> seriesRefMap = new HashMap<>();
+
 		if (eRefObj != null) {
 			for (Series series : eRefObj.getSeries()) {
 				seriesRefMap.put(getSeriesID(series), series);
@@ -5328,7 +5331,6 @@ public class BaseChartValueUpdater {
 	public void updateFill(String name, EObject eParentObj, Fill eObj, Fill eRefObj, Fill eDefObj, boolean eDefOverride,
 			boolean checkVisible) {
 		if (eObj != null || (eRefObj == null && eDefObj == null)) {
-			return;
 		} else {
 			updateFillImpl(name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride, checkVisible);
 		}
@@ -5487,7 +5489,6 @@ public class BaseChartValueUpdater {
 	public void updateFormatSpecifier(String name, EObject eParentObj, FormatSpecifier eObj, FormatSpecifier eRefObj,
 			FormatSpecifier eDefObj, boolean eDefOverride, boolean checkVisible) {
 		if (eObj != null || (eRefObj == null && eDefObj == null)) {
-			return;
 		} else {
 			updateFormatSpecifierImpl(name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride, checkVisible);
 		}

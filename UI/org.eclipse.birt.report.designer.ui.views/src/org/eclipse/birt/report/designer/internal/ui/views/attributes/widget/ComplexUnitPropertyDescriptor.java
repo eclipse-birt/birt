@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 /**
- * 
+ *
  */
 
 public class ComplexUnitPropertyDescriptor extends PropertyDescriptor {
@@ -45,6 +48,7 @@ public class ComplexUnitPropertyDescriptor extends PropertyDescriptor {
 		setFormStyle(formStyle);
 	}
 
+	@Override
 	public void setInput(Object handle) {
 		this.input = handle;
 		getDescriptorProvider().setInput(input);
@@ -52,28 +56,32 @@ public class ComplexUnitPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
+	@Override
 	public Control getControl() {
 		return complexUnit;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Control createControl(Composite parent) {
 		if (isFormStyle()) {
 			complexUnit = FormWidgetFactory.getInstance().createComplexUnit(parent);
-		} else
+		} else {
 			complexUnit = new ComplexUnit(parent, style);
+		}
 
 		complexUnit.addValueChangeListener(new IDimensionValueChangedListener() {
 
+			@Override
 			public void valueChanged(String newValue, String unit) {
 				handleEvent(newValue, unit);
 			}
@@ -81,6 +89,7 @@ public class ComplexUnitPropertyDescriptor extends PropertyDescriptor {
 		});
 		complexUnit.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				if (complexUnit.getUnits() != null && complexUnit.getUnits().length > 0
 						&& (complexUnit.getUnit() == null || complexUnit.getUnit().length() == 0)) {
@@ -119,11 +128,13 @@ public class ComplexUnitPropertyDescriptor extends PropertyDescriptor {
 		} else {
 			if (getDescriptorProvider() instanceof UnitPropertyDescriptorProvider) {
 				String unitName = ((UnitPropertyDescriptorProvider) getDescriptorProvider()).getUnitName(unit);
-				if (unitName != null)
+				if (unitName != null) {
 					value += unitName;
+				}
 			}
-			if (value.equals(deMeasureValue + deUnitValue))
+			if (value.equals(deMeasureValue + deUnitValue)) {
 				return;
+			}
 		}
 		try {
 			save(value);
@@ -134,12 +145,14 @@ public class ComplexUnitPropertyDescriptor extends PropertyDescriptor {
 		}
 	}
 
+	@Override
 	public void load() {
 		if (getDescriptorProvider() instanceof UnitPropertyDescriptorProvider) {
 			deMeasureValue = ((UnitPropertyDescriptorProvider) getDescriptorProvider()).getMeasureValue();
 
-			if (deMeasureValue == null)
+			if (deMeasureValue == null) {
 				deMeasureValue = ""; //$NON-NLS-1$
+			}
 			if (!deMeasureValue.equals(String.valueOf(complexUnit.getValue()))) {
 				try {
 					complexUnit.setValue(deMeasureValue);
@@ -157,17 +170,19 @@ public class ComplexUnitPropertyDescriptor extends PropertyDescriptor {
 				ExceptionUtil.handle(e);
 				return;
 			}
-			if (deUnitValue == null)
+			if (deUnitValue == null) {
 				complexUnit.deselectUnit();
-			else if (!deUnitValue.equals(complexUnit.getUnit())) {
+			} else if (!deUnitValue.equals(complexUnit.getUnit())) {
 				complexUnit.selectUnit(Arrays.asList(items).indexOf(deUnitValue));
 			}
 		}
 	}
 
+	@Override
 	public void save(Object obj) throws SemanticException {
-		if (!isReadOnly)
+		if (!isReadOnly) {
 			getDescriptorProvider().save(obj);
+		}
 	}
 
 	private boolean isReadOnly = false;

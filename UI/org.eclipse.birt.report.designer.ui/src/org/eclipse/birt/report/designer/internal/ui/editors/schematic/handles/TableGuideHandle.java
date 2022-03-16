@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +29,7 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * The class is the table, list grid guide handle
- * 
+ *
  */
 public class TableGuideHandle extends AbstractGuideHandle {
 
@@ -42,9 +45,10 @@ public class TableGuideHandle extends AbstractGuideHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#paint(org.eclipse.draw2d.Graphics)
 	 */
+	@Override
 	public void paintFigure(Graphics graphics) {
 		Dimension rect = calculateIndicatorDimension(graphics, 1);
 
@@ -88,16 +92,18 @@ public class TableGuideHandle extends AbstractGuideHandle {
 
 		/*
 		 * Sets the handle the bounds
-		 * 
+		 *
 		 * @see org.eclipse.draw2d.Locator#relocate(org.eclipse.draw2d.IFigure)
 		 */
+		@Override
 		public void relocate(IFigure target) {
 			// System.out.println("relocate");
 			Rectangle bounds;
-			if (getReference() instanceof HandleBounds)
+			if (getReference() instanceof HandleBounds) {
 				bounds = ((HandleBounds) getReference()).getHandleBounds();
-			else
+			} else {
 				bounds = getReference().getBounds();
+			}
 
 			bounds = new PrecisionRectangle(
 					new Rectangle(bounds.x, bounds.y + bounds.height, DEFAULT_VALUE.width, DEFAULT_VALUE.height));
@@ -109,10 +115,6 @@ public class TableGuideHandle extends AbstractGuideHandle {
 			if (target.getBounds().width < bounds.width || target.getBounds().height < bounds.height) {
 				target.setSize(bounds.getSize());
 			}
-		}
-
-		public GraphicalEditPart getOwner() {
-			return owner;
 		}
 
 		public void setOwner(GraphicalEditPart owner) {
@@ -140,7 +142,7 @@ public class TableGuideHandle extends AbstractGuideHandle {
 
 	/**
 	 * Sets the left corner label
-	 * 
+	 *
 	 * @param indicatorLabel
 	 */
 	public void setIndicatorLabel(String indicatorLabel) {
@@ -151,7 +153,7 @@ public class TableGuideHandle extends AbstractGuideHandle {
 
 	/**
 	 * Sets the left corner
-	 * 
+	 *
 	 * @param image
 	 */
 	public void setIndicatorIcon(Image image) {

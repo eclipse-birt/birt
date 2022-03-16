@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -65,7 +67,7 @@ public abstract class AbstractGetPageActionHandler extends AbstractBaseActionHan
 
 	/**
 	 * Returns report document file name.
-	 * 
+	 *
 	 * @param bean
 	 * @return
 	 */
@@ -73,7 +75,7 @@ public abstract class AbstractGetPageActionHandler extends AbstractBaseActionHan
 
 	/**
 	 * Check whether report document file existed.
-	 * 
+	 *
 	 * @param docName
 	 * @throws RemoteException
 	 */
@@ -81,7 +83,7 @@ public abstract class AbstractGetPageActionHandler extends AbstractBaseActionHan
 
 	/**
 	 * default constructor
-	 * 
+	 *
 	 * @param context
 	 * @param operation
 	 * @param response
@@ -93,6 +95,7 @@ public abstract class AbstractGetPageActionHandler extends AbstractBaseActionHan
 	/**
 	 * execute action hanlder
 	 */
+	@Override
 	protected void __execute() throws Exception {
 		prepareParameters();
 		doExecution();
@@ -101,7 +104,7 @@ public abstract class AbstractGetPageActionHandler extends AbstractBaseActionHan
 
 	/**
 	 * Prepare parameters
-	 * 
+	 *
 	 * @throws Exception
 	 * @throws RemoteException
 	 */
@@ -169,7 +172,7 @@ public abstract class AbstractGetPageActionHandler extends AbstractBaseActionHan
 
 	/**
 	 * Execution process
-	 * 
+	 *
 	 * @throws ReportServiceException
 	 * @throws RemoteException
 	 */
@@ -196,7 +199,7 @@ public abstract class AbstractGetPageActionHandler extends AbstractBaseActionHan
 
 	/**
 	 * Prepare response
-	 * 
+	 *
 	 * @throws ReportServiceException
 	 * @throws RemoteException
 	 */
@@ -238,13 +241,14 @@ public abstract class AbstractGetPageActionHandler extends AbstractBaseActionHan
 
 	/**
 	 * Check whether the page number is valid or not.
-	 * 
+	 *
 	 * @param pageNumber
 	 * @param document
 	 * @return
 	 * @throws RemoteException
 	 * @throws ReportServiceException
 	 */
+	@Override
 	protected boolean isValidPageNumber(HttpServletRequest request, long pageNumber, String documentName)
 			throws RemoteException, ReportServiceException {
 		InputOptions options = new InputOptions();
@@ -254,13 +258,14 @@ public abstract class AbstractGetPageActionHandler extends AbstractBaseActionHan
 
 	/**
 	 * Get page number from incoming soap request.
-	 * 
+	 *
 	 * @param params
 	 * @param document
 	 * @return
 	 * @throws RemoteException
 	 * @throws ReportServiceException
 	 */
+	@Override
 	protected long getPageNumber(HttpServletRequest request, Oprand[] params, String documentName)
 			throws RemoteException, ReportServiceException {
 		long pageNumber = -1;

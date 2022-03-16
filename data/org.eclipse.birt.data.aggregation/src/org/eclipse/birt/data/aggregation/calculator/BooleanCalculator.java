@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,59 +30,72 @@ import org.eclipse.birt.data.engine.core.DataException;
 public class BooleanCalculator implements ICalculator {
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.script.math.ICalculator#add(java.lang.Object,
 	 * java.lang.Object)
 	 */
+	@Override
 	public Number add(Object a, Object b) throws DataException {
-		if (a == null && b == null)
+		if (a == null && b == null) {
 			return null;
-		if (a == null)
+		}
+		if (a == null) {
 			return convertToNumber((Boolean) b);
-		if (b == null)
+		}
+		if (b == null) {
 			return convertToNumber((Boolean) a);
+		}
 		return convertToNumber(((Boolean) a) || ((Boolean) b));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.script.math.ICalculator#divide(java.lang.Object,
 	 * java.lang.Object)
 	 */
+	@Override
 	public Number divide(Object dividend, Object divisor) throws DataException {
-		if (dividend == null)
+		if (dividend == null) {
 			return null;
-		if (divisor == null)
+		}
+		if (divisor == null) {
 			return convertToNumber((Boolean) dividend);
-		if (divisor == Boolean.FALSE)
+		}
+		if (divisor == Boolean.FALSE) {
 			return null; // division by 0
+		}
 		return convertToNumber(((Boolean) dividend) && ((Boolean) divisor));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.script.math.ICalculator#multiply(java.lang.Object,
 	 * java.lang.Object)
 	 */
+	@Override
 	public Number multiply(Object a, Object b) throws DataException {
-		if (a == null && b == null)
+		if (a == null && b == null) {
 			return null;
-		if (a == null)
+		}
+		if (a == null) {
 			return convertToNumber((Boolean) b);
-		if (b == null)
+		}
+		if (b == null) {
 			return convertToNumber((Boolean) a);
+		}
 		return convertToNumber(((Boolean) a) && ((Boolean) b));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.core.script.math.ICalculator#safeDivide(java.lang.Object,
 	 * java.lang.Object, java.lang.Object)
 	 */
+	@Override
 	public Number safeDivide(Object dividend, Object divisor, Number ifZero) throws DataException {
 		try {
 			return divide(dividend, divisor);
@@ -90,27 +106,32 @@ public class BooleanCalculator implements ICalculator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.script.math.ICalculator#subtract(java.lang.Object,
 	 * java.lang.Object)
 	 */
+	@Override
 	public Number subtract(Object a, Object b) throws DataException {
-		if (a == null && b == null)
+		if (a == null && b == null) {
 			return null;
-		if (a == null)
+		}
+		if (a == null) {
 			return convertToNumber((Boolean) b);
-		if (b == null)
+		}
+		if (b == null) {
 			return convertToNumber((Boolean) a);
+		}
 		return convertToNumber(((Boolean) a) ^ ((Boolean) b));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.ICalculator#getTypedObject(java.
 	 * lang.Object)
 	 */
+	@Override
 	public Object getTypedObject(Object obj) throws DataException {
 		try {
 			return DataTypeUtil.toBoolean(obj);

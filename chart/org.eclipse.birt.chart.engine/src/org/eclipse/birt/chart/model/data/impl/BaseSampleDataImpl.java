@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -37,7 +40,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 	 * The default value of the '{@link #getDataSetRepresentation() <em>Data Set
 	 * Representation</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #getDataSetRepresentation()
 	 * @generated
 	 * @ordered
@@ -48,7 +51,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 	 * The cached value of the '{@link #getDataSetRepresentation() <em>Data Set
 	 * Representation</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #getDataSetRepresentation()
 	 * @generated
 	 * @ordered
@@ -57,7 +60,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected BaseSampleDataImpl() {
@@ -66,7 +69,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -76,29 +79,32 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getDataSetRepresentation() {
 		return dataSetRepresentation;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setDataSetRepresentation(String newDataSetRepresentation) {
 		String oldDataSetRepresentation = dataSetRepresentation;
 		dataSetRepresentation = newDataSetRepresentation;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.BASE_SAMPLE_DATA__DATA_SET_REPRESENTATION,
 					oldDataSetRepresentation, dataSetRepresentation));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -112,7 +118,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -127,7 +133,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -142,7 +148,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -157,15 +163,16 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (dataSetRepresentation: "); //$NON-NLS-1$
 		result.append(dataSetRepresentation);
 		result.append(')');
@@ -175,6 +182,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 	/**
 	 * @generated
 	 */
+	@Override
 	public BaseSampleData copyInstance() {
 		BaseSampleDataImpl dest = new BaseSampleDataImpl();
 		dest.set(this);

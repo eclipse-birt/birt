@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +33,7 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class TriggerEditorDialog extends TrayDialog {
 
@@ -51,7 +54,7 @@ public class TriggerEditorDialog extends TrayDialog {
 	private TriggerDataComposite triggerUI;
 
 	/**
-	 * 
+	 *
 	 * @param shellParent
 	 * @param triggers
 	 * @param wizardContext
@@ -75,16 +78,19 @@ public class TriggerEditorDialog extends TrayDialog {
 		vOriginalTriggers = EcoreUtil.copyAll(triggers);
 	}
 
+	@Override
 	protected Control createContents(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_INTERACTIVITY);
 		getShell().setText(Messages.getFormattedString("TriggerEditorDialog.Title.TriggerEditor", sTitle)); //$NON-NLS-1$
 		return super.createContents(parent);
 	}
 
+	@Override
 	protected void setShellStyle(int newShellStyle) {
 		super.setShellStyle(newShellStyle | SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		triggerUI = new TriggerDataComposite(parent, SWT.NONE, triggers, cursorContainer, wizardContext,
 				iInteractivityType, optionalStyle);
@@ -98,11 +104,13 @@ public class TriggerEditorDialog extends TrayDialog {
 		return triggers;
 	}
 
+	@Override
 	protected void okPressed() {
 		triggerUI.markSaveWhenClosing();
 		super.okPressed();
 	}
 
+	@Override
 	protected void cancelPressed() {
 		triggers.clear();
 		triggers.addAll(vOriginalTriggers);

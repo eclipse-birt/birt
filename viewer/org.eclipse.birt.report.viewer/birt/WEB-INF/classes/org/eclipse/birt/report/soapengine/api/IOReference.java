@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * IOReference.java
  *
@@ -22,7 +34,7 @@ public class IOReference implements java.io.Serializable {
 
 	/**
 	 * Gets the id value for this IOReference.
-	 * 
+	 *
 	 * @return id
 	 */
 	public java.lang.String getId() {
@@ -31,7 +43,7 @@ public class IOReference implements java.io.Serializable {
 
 	/**
 	 * Sets the id value for this IOReference.
-	 * 
+	 *
 	 * @param id
 	 */
 	public void setId(java.lang.String id) {
@@ -40,7 +52,7 @@ public class IOReference implements java.io.Serializable {
 
 	/**
 	 * Gets the fullPath value for this IOReference.
-	 * 
+	 *
 	 * @return fullPath
 	 */
 	public java.lang.String getFullPath() {
@@ -49,7 +61,7 @@ public class IOReference implements java.io.Serializable {
 
 	/**
 	 * Sets the fullPath value for this IOReference.
-	 * 
+	 *
 	 * @param fullPath
 	 */
 	public void setFullPath(java.lang.String fullPath) {
@@ -58,14 +70,18 @@ public class IOReference implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof IOReference))
+		if (!(obj instanceof IOReference)) {
 			return false;
+		}
 		IOReference other = (IOReference) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -81,6 +97,7 @@ public class IOReference implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

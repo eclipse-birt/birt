@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -38,6 +41,7 @@ public abstract class AbstractTitlePropertyDialog extends AbstractPropertyDialog
 		super(parentShell, model);
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		createDialogTitleArea(parent);
 		return super.createDialogArea(parent);
@@ -62,9 +66,10 @@ public abstract class AbstractTitlePropertyDialog extends AbstractPropertyDialog
 	private static final int H_GAP_IMAGE = 5;
 	static {
 		ImageRegistry reg = JFaceResources.getImageRegistry();
-		if (reg.get(DLG_IMG_TITLE_BANNER) == null)
+		if (reg.get(DLG_IMG_TITLE_BANNER) == null) {
 			reg.put(DLG_IMG_TITLE_BANNER,
 					ImageDescriptor.createFromFile(TitleAreaDialog.class, "images/title_banner.gif"));//$NON-NLS-1$
+		}
 	}
 
 	private void createDialogTitleArea(Composite parent) {
@@ -88,6 +93,7 @@ public abstract class AbstractTitlePropertyDialog extends AbstractPropertyDialog
 		// add a dispose listener
 		titleArea.addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				if (titleAreaColor != null) {
 					titleAreaColor.dispose();
@@ -154,8 +160,9 @@ public abstract class AbstractTitlePropertyDialog extends AbstractPropertyDialog
 
 	public void setErrorMessage(String newErrorMessage) {
 		// Any change?
-		if (errorMessage == null ? newErrorMessage == null : errorMessage.equals(newErrorMessage))
+		if (errorMessage == null ? newErrorMessage == null : errorMessage.equals(newErrorMessage)) {
 			return;
+		}
 		errorMessage = newErrorMessage;
 
 		// Clear or set error message.
@@ -168,9 +175,10 @@ public abstract class AbstractTitlePropertyDialog extends AbstractPropertyDialog
 			// avoid calling setMessage in case it is overridden to call
 			// setErrorMessage,
 			// which would result in a recursive infinite loop
-			if (message == null) // this should probably never happen since
-				// setMessage does this conversion....
+			if (message == null) { // this should probably never happen since
+									// setMessage does this conversion....
 				message = ""; //$NON-NLS-1$
+			}
 			updateMessage(message);
 			messageImageLabel.setImage(messageImage);
 			setImageLabelVisible(messageImage != null);
@@ -301,8 +309,9 @@ public abstract class AbstractTitlePropertyDialog extends AbstractPropertyDialog
 			messageLabelData.right = new FormAttachment(titleImageLabel);
 			messageLabelData.left = new FormAttachment(messageImageLabel, 0);
 			messageLabelData.height = messageLabelHeight;
-			if (titleImageLargest)
+			if (titleImageLargest) {
 				messageLabelData.bottom = new FormAttachment(titleImageLabel, 0, SWT.BOTTOM);
+			}
 			messageLabel.setLayoutData(messageLabelData);
 		}
 		// Do not layout before the dialog area has been created

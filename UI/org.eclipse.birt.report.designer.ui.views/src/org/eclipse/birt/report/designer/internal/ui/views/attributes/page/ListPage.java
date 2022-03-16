@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,6 +47,7 @@ import org.eclipse.swt.SWT;
  */
 public class ListPage extends GeneralPage {
 
+	@Override
 	protected void buildContent() {
 
 		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider(ReportItemHandle.NAME_PROP,
@@ -141,7 +145,7 @@ public class ListPage extends GeneralPage {
 	}
 
 	private IDescriptorProvider[] createFontStyleProviders() {
-		IDescriptorProvider[] providers = new IDescriptorProvider[] {
+		IDescriptorProvider[] providers = {
 
 				new FontStylePropertyDescriptorProvider(StyleHandle.FONT_WEIGHT_PROP,
 						ReportDesignConstants.STYLE_ELEMENT),
@@ -158,13 +162,15 @@ public class ListPage extends GeneralPage {
 				new PropertyDescriptorProvider(StyleHandle.TEXT_ALIGN_PROP, ReportDesignConstants.STYLE_ELEMENT) };
 
 		for (int i = 0; i < providers.length; i++) {
-			if (providers[i] instanceof PropertyDescriptorProvider)
+			if (providers[i] instanceof PropertyDescriptorProvider) {
 				((PropertyDescriptorProvider) providers[i]).enableReset(true);
+			}
 		}
 
 		return providers;
 	}
 
+	@Override
 	protected void applyCustomSections() {
 		Object[] helperProviders = ElementAdapterManager.getAdapters(this, ISectionHelperProvider.class);
 		if (helperProviders != null) {
@@ -175,8 +181,9 @@ public class ListPage extends GeneralPage {
 					if (helper != null) {
 						Section section = helper.createSection(container, ListHandle.THEME_PROP,
 								ReportDesignConstants.LIST_ITEM, true);
-						if (section instanceof SimpleComboSection)
+						if (section instanceof SimpleComboSection) {
 							((SimpleComboSection) section).setWidth(200);
+						}
 						section.setLayoutNum(6);
 						section.setGridPlaceholder(4, true);
 						addSectionAfter(PageSectionId.LIST_THEME, section, PageSectionId.LIST_DISPLAY);

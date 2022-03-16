@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,6 +33,7 @@ public abstract class GlobalStackAction extends Action implements UpdateAction {
 		this.stack = stack;
 		stack.addListener(new ActivityStackListener() {
 
+			@Override
 			public void stackChanged(ActivityStackEvent event) {
 				if (event.getStack() == GlobalStackAction.this.stack) {
 					update();
@@ -43,6 +47,7 @@ public abstract class GlobalStackAction extends Action implements UpdateAction {
 
 	abstract protected String getDisplayLabel();
 
+	@Override
 	public void update() {
 		setEnabled(calculateEnabled());
 		setText(getDisplayLabel());

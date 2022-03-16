@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -131,7 +134,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 	protected SlotDefn slotDefn = null;
 	protected SystemPropertyDefn propDefn = null;
 	protected StructureDefn struct = null;
-	protected ArrayList<Choice> choices = new ArrayList<Choice>();
+	protected ArrayList<Choice> choices = new ArrayList<>();
 
 	/**
 	 * The input string will not be trimmed.
@@ -166,7 +169,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 	/**
 	 * Constructs the meta data handler implementation with the specified error
 	 * handler.
-	 * 
+	 *
 	 * @param errorHandler
 	 * @param builder
 	 */
@@ -175,47 +178,58 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 		this.builder = builder;
 	}
 
+	@Override
 	public AbstractParseState createStartState() {
 		return new StartState();
 	}
 
 	/**
 	 * Convert the array list of choices to an array.
-	 * 
+	 *
 	 * @return an array of the choices.
 	 */
 
 	private Choice[] getChoiceArray() {
 		Choice[] choiceArray = new Choice[choices.size()];
-		for (int i = 0; i < choices.size(); i++)
+		for (int i = 0; i < choices.size(); i++) {
 			choiceArray[i] = choices.get(i);
+		}
 		return choiceArray;
 	}
 
 	class StartState extends InnerParseState {
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
-			if (tagName.equalsIgnoreCase(ROOT_TAG))
+			if (tagName.equalsIgnoreCase(ROOT_TAG)) {
 				return new RootState();
+			}
 			return super.startElement(tagName);
 		}
 	}
 
 	class RootState extends InnerParseState {
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
-			if (CHOICE_TYPE_TAG.equalsIgnoreCase(tagName))
+			if (CHOICE_TYPE_TAG.equalsIgnoreCase(tagName)) {
 				return new ChoiceTypeState();
-			if (STRUCTURE_TAG.equalsIgnoreCase(tagName))
+			}
+			if (STRUCTURE_TAG.equalsIgnoreCase(tagName)) {
 				return new StructDefnState();
-			if (ELEMENT_TAG.equalsIgnoreCase(tagName))
+			}
+			if (ELEMENT_TAG.equalsIgnoreCase(tagName)) {
 				return new ElementDefnState();
-			if (STYLE_TAG.equalsIgnoreCase(tagName))
+			}
+			if (STYLE_TAG.equalsIgnoreCase(tagName)) {
 				return new StyleState();
-			if (CLASS_TAG.equalsIgnoreCase(tagName))
+			}
+			if (CLASS_TAG.equalsIgnoreCase(tagName)) {
 				return new ClassState();
-			if (VALIDATORS_TAG.equalsIgnoreCase(tagName))
+			}
+			if (VALIDATORS_TAG.equalsIgnoreCase(tagName)) {
 				return new ValidatorsState();
+			}
 			return super.startElement(tagName);
 		}
 	}
@@ -224,16 +238,17 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		ChoiceSet choiceSet = null;
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			choices.clear();
 			String name = attrs.getValue(NAME_ATTRIB);
-			if (StringUtil.isBlank(name))
+			if (StringUtil.isBlank(name)) {
 				errorHandler.semanticError(
 						new MetaDataParserException(MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED));
-			else {
+			} else {
 				choiceSet = builder.createChoiceSet();
 				choiceSet.setName(name);
-				;
+
 				try {
 					builder.addChoiceSet(choiceSet);
 				} catch (MetaDataException e) {
@@ -243,20 +258,25 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 			}
 		}
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
-			if (tagName.equalsIgnoreCase(CHOICE_TAG))
+			if (tagName.equalsIgnoreCase(CHOICE_TAG)) {
 				return new ChoiceState();
+			}
 			return super.startElement(tagName);
 		}
 
+		@Override
 		public void end() throws SAXException {
-			if (!choices.isEmpty() && choiceSet != null)
+			if (!choices.isEmpty() && choiceSet != null) {
 				choiceSet.setChoices(getChoiceArray());
+			}
 		}
 	}
 
 	protected class StyleState extends InnerParseState {
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			String name = attrs.getValue(NAME_ATTRIB);
 			String displayNameID = attrs.getValue(DISPLAY_NAME_ID_ATTRIB);
@@ -285,6 +305,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 	protected class StructDefnState extends InnerParseState {
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			String name = attrs.getValue(NAME_ATTRIB);
 			String displayNameID = attrs.getValue(DISPLAY_NAME_ID_ATTRIB);
@@ -312,18 +333,21 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
+		@Override
 		public void end() throws SAXException {
 			super.end();
 			struct = null;
 		}
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
-			if (tagName.equalsIgnoreCase(MEMBER_TAG))
+			if (tagName.equalsIgnoreCase(MEMBER_TAG)) {
 				return new MemberState();
+			}
 			return super.startElement(tagName);
 		}
 	}
@@ -332,6 +356,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		StructPropertyDefn memberDefn = null;
 
+		@Override
 		public void parseAttrs(Attributes attrs) {
 			String name = getAttrib(attrs, NAME_ATTRIB);
 			String displayNameID = getAttrib(attrs, DISPLAY_NAME_ID_ATTRIB);
@@ -355,8 +380,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 						new MetaDataParserException(MetaDataParserException.DESIGN_EXCEPTION_TYPE_REQUIRED));
 				ok = false;
 			}
-			if (!ok)
+			if (!ok) {
 				return;
+			}
 			PropertyType typeDefn = dictionary.getPropertyType(type);
 
 			if (typeDefn == null) {
@@ -365,8 +391,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 				return;
 			}
 
-			if (!ok)
+			if (!ok) {
 				return;
+			}
 			String detailName = getAttrib(attrs, DETAIL_TYPE_ATTRIB);
 			ChoiceSet choiceSet = null;
 			String structDefn = null;
@@ -383,8 +410,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 				if (detailName != null) {
 					choiceSet = validateChoiceSet(detailName);
-					if (choiceSet == null)
+					if (choiceSet == null) {
 						return;
+					}
 				}
 
 				break;
@@ -398,16 +426,18 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 				}
 
 				choiceSet = validateChoiceSet(detailName);
-				if (choiceSet == null)
+				if (choiceSet == null) {
 					return;
+				}
 
 				break;
 
 			case IPropertyType.COLOR_TYPE:
 
 				choiceSet = validateChoiceSet(ColorPropertyType.COLORS_CHOICE_SET);
-				if (choiceSet == null)
+				if (choiceSet == null) {
 					return;
+				}
 
 				break;
 
@@ -427,8 +457,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 							MetaDataParserException.DESIGN_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED));
 					return;
 				}
-				if (detailName.equals(THIS_KEYWORD))
+				if (detailName.equals(THIS_KEYWORD)) {
 					detailName = elementDefn.getName();
+				}
 				break;
 			case IPropertyType.LIST_TYPE:
 				if (subType == null) {
@@ -446,8 +477,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 									MetaDataParserException.DESIGN_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED));
 							return;
 						}
-						if (detailName.equals(THIS_KEYWORD))
+						if (detailName.equals(THIS_KEYWORD)) {
 							detailName = elementDefn.getName();
+						}
 					}
 
 				}
@@ -458,8 +490,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 			memberDefn.setName(name);
 			memberDefn.setType(typeDefn);
-			if (subTypeDefn != null && typeDefn.getTypeCode() == IPropertyType.LIST_TYPE)
+			if (subTypeDefn != null && typeDefn.getTypeCode() == IPropertyType.LIST_TYPE) {
 				memberDefn.setSubType(subTypeDefn);
+			}
 			memberDefn.setDisplayNameID(displayNameID);
 			memberDefn.setValueRequired(getBooleanAttrib(attrs, VALUE_REQUIRED_ATTRIB, false));
 			memberDefn.setSince(attrs.getValue(SINCE_ATTRIB));
@@ -483,15 +516,17 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 				memberDefn.setValueValidator(validator);
 			}
 
-			if (typeDefn.getTypeCode() == IPropertyType.STRUCT_TYPE)
+			if (typeDefn.getTypeCode() == IPropertyType.STRUCT_TYPE) {
 				memberDefn.setIsList(getBooleanAttrib(attrs, IS_LIST_ATTRIB, false));
+			}
 
-			if (choiceSet != null)
+			if (choiceSet != null) {
 				memberDefn.setDetails(choiceSet);
-			else if (structDefn != null)
+			} else if (structDefn != null) {
 				memberDefn.setDetails(structDefn);
-			else if (detailName != null)
+			} else if (detailName != null) {
 				memberDefn.setDetails(detailName);
+			}
 
 			memberDefn.setIntrinsic(getBooleanAttrib(attrs, IS_INTRINSIC_ATTRIB, false));
 			try {
@@ -502,14 +537,17 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		}
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
-			if (tagName.equalsIgnoreCase(DEFAULT_TAG))
+			if (tagName.equalsIgnoreCase(DEFAULT_TAG)) {
 				return new DefaultValueState(memberDefn);
-			else if (tagName.equalsIgnoreCase(ALLOWED_TAG))
+			} else if (tagName.equalsIgnoreCase(ALLOWED_TAG)) {
 				return new AllowedState(memberDefn);
+			}
 			return super.startElement(tagName);
 		}
 
+		@Override
 		public void end() throws SAXException {
 			if (memberDefn == null) {
 				return;
@@ -535,6 +573,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 			return builder.createElementDefn();
 		}
 
+		@Override
 		public void parseAttrs(Attributes attrs) {
 			String name = attrs.getValue(NAME_ATTRIB);
 			String displayNameID = attrs.getValue(DISPLAY_NAME_ID_ATTRIB);
@@ -551,8 +590,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 				ok = false;
 			}
 
-			if (!ok)
+			if (!ok) {
 				return;
+			}
 
 			// use this method to create element definition instance and handle
 			// the name, this will help to override and change the behavior for
@@ -640,9 +680,10 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 						}
 					}
 				}
-			} else
+			} else { // $NON-NLS-1$//$NON-NLS-2$
 				errorHandler.semanticError(
 						new MetaDataParserException(MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE));
+			}
 
 			try {
 				builder.addElementDefn(elementDefn);
@@ -652,30 +693,39 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 			}
 		}
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
-			if (tagName.equalsIgnoreCase(PROPERTY_TAG))
+			if (tagName.equalsIgnoreCase(PROPERTY_TAG)) {
 				return new PropertyState();
-			if (tagName.equalsIgnoreCase(PROPERTY_GROUP_TAG))
+			}
+			if (tagName.equalsIgnoreCase(PROPERTY_GROUP_TAG)) {
 				return new PropertyGroupState();
-			if (tagName.equalsIgnoreCase(STYLE_PROPERTY_TAG))
+			}
+			if (tagName.equalsIgnoreCase(STYLE_PROPERTY_TAG)) {
 				return new StylePropertyState();
-			if (tagName.equalsIgnoreCase(SLOT_TAG))
+			}
+			if (tagName.equalsIgnoreCase(SLOT_TAG)) {
 				return new SlotState();
-			if (tagName.equalsIgnoreCase(METHOD_TAG))
+			}
+			if (tagName.equalsIgnoreCase(METHOD_TAG)) {
 				return new ElementMethodState(elementDefn);
-			if (tagName.equalsIgnoreCase(SEMANTIC_VALIDATOR_TAG))
+			}
+			if (tagName.equalsIgnoreCase(SEMANTIC_VALIDATOR_TAG)) {
 				return new TriggerState();
-			if (tagName.equalsIgnoreCase(PROPERTY_VISIBILITY_TAG))
+			}
+			if (tagName.equalsIgnoreCase(PROPERTY_VISIBILITY_TAG)) {
 				return new PropertyVisibilityState();
+			}
 
 			return super.startElement(tagName);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
+		@Override
 		public void end() throws SAXException {
 			super.end();
 			elementDefn = null;
@@ -687,6 +737,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		private class PropertyVisibilityState extends InnerParseState {
 
+			@Override
 			public void parseAttrs(Attributes attrs) {
 				String name = attrs.getValue(NAME_ATTRIB);
 				String visible = attrs.getValue(PROPERTY_VISIBILITY_ATTRIB);
@@ -704,6 +755,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 	class PropertyGroupState extends InnerParseState {
 
+		@Override
 		public void parseAttrs(Attributes attrs) {
 			groupNameID = attrs.getValue(DISPLAY_NAME_ID_ATTRIB);
 			if (StringUtil.isBlank(groupNameID)) {
@@ -712,18 +764,21 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 			}
 		}
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
-			if (tagName.equalsIgnoreCase(PROPERTY_TAG))
+			if (tagName.equalsIgnoreCase(PROPERTY_TAG)) {
 				return new PropertyState();
+			}
 			return super.startElement(tagName);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
+		@Override
 		public void end() throws SAXException {
 			groupNameID = null;
 		}
@@ -731,8 +786,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 	protected class PropertyState extends InnerParseState {
 
-		List<String> propertyTypes = new ArrayList<String>();
+		List<String> propertyTypes = new ArrayList<>();
 
+		@Override
 		public void parseAttrs(Attributes attrs) {
 			choices.clear();
 			propDefn = null;
@@ -763,8 +819,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 				ok = false;
 			}
 
-			if (!ok)
+			if (!ok) {
 				return;
+			}
 
 			// Look up the choice set name, if any.
 
@@ -800,8 +857,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 				if (detailName != null) {
 					choiceSet = validateChoiceSet(detailName);
-					if (choiceSet == null)
+					if (choiceSet == null) {
 						return;
+					}
 				}
 
 				break;
@@ -812,16 +870,18 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 				// attribute or type element, so valid it at the end of element
 				if (detailName != null) {
 					choiceSet = validateChoiceSet(detailName);
-					if (choiceSet == null)
+					if (choiceSet == null) {
 						return;
+					}
 				}
 				break;
 
 			case IPropertyType.COLOR_TYPE:
 
 				choiceSet = validateChoiceSet(ColorPropertyType.COLORS_CHOICE_SET);
-				if (choiceSet == null)
+				if (choiceSet == null) {
 					return;
+				}
 
 				break;
 
@@ -865,8 +925,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 									MetaDataParserException.DESIGN_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED));
 							return;
 						}
-						if (detailName.equals(THIS_KEYWORD))
+						if (detailName.equals(THIS_KEYWORD)) {
 							detailName = elementDefn.getName();
+						}
 					}
 
 				}
@@ -885,8 +946,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 			propDefn.setName(name);
 			propDefn.setDisplayNameID(displayNameID);
 			propDefn.setType(typeDefn);
-			if (typeDefn.getTypeCode() == IPropertyType.LIST_TYPE)
+			if (typeDefn.getTypeCode() == IPropertyType.LIST_TYPE) {
 				propDefn.setSubType(subTypeDefn);
+			}
 			propDefn.setGroupNameKey(groupNameID);
 			propDefn.setCanInherit(getBooleanAttrib(attrs, CAN_INHERIT_ATTRIBUTE, true));
 			propDefn.setIntrinsic(getBooleanAttrib(attrs, IS_INTRINSIC_ATTRIB, false));
@@ -914,15 +976,17 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 				propDefn.setValueValidator(validator);
 			}
 
-			if (typeCode == IPropertyType.STRUCT_TYPE || propDefn.isElementType())
+			if (typeCode == IPropertyType.STRUCT_TYPE || propDefn.isElementType()) {
 				propDefn.setIsList(isList);
+			}
 
-			if (choiceSet != null)
+			if (choiceSet != null) {
 				propDefn.setDetails(choiceSet);
-			else if (struct != null)
+			} else if (struct != null) {
 				propDefn.setDetails(struct);
-			else if (detailName != null)
+			} else if (detailName != null) {
 				propDefn.setDetails(detailName);
+			}
 
 			if ("true".equalsIgnoreCase(namespace)) {
 				NameConfig config = new NameConfig();
@@ -933,23 +997,26 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 			}
 		}
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
-			if (tagName.equalsIgnoreCase(DEFAULT_TAG))
+			if (tagName.equalsIgnoreCase(DEFAULT_TAG)) {
 				return new DefaultValueState(propDefn);
-			else if (tagName.equalsIgnoreCase(ALLOWED_TAG))
+			} else if (tagName.equalsIgnoreCase(ALLOWED_TAG)) {
 				return new AllowedState(propDefn);
-			else if (tagName.equalsIgnoreCase(ALLOWED_UNITS_TAG))
+			} else if (tagName.equalsIgnoreCase(ALLOWED_UNITS_TAG)) {
 				return new AllowedUnitsState(propDefn);
-			else if (tagName.equalsIgnoreCase(TRIGGER_TAG))
+			} else if (tagName.equalsIgnoreCase(TRIGGER_TAG)) {
 				return new TriggerState();
-			else if (tagName.equalsIgnoreCase(DEFAULT_UNIT_TAG))
+			} else if (tagName.equalsIgnoreCase(DEFAULT_UNIT_TAG)) {
 				return new DefaultUnitState();
-			else if (tagName.equalsIgnoreCase(TYPE_TAG))
+			} else if (tagName.equalsIgnoreCase(TYPE_TAG)) {
 				return new PropertyTypeState(propertyTypes);
-			else
+			} else {
 				return super.startElement(tagName);
+			}
 		}
 
+		@Override
 		public void end() throws SAXException {
 			if (propDefn == null) {
 				return;
@@ -1029,9 +1096,11 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 	class DefaultUnitState extends InnerParseState {
 
+		@Override
 		public void end() throws SAXException {
-			if (propDefn == null)
+			if (propDefn == null) {
 				return;
+			}
 
 			int type = propDefn.getTypeCode();
 
@@ -1053,9 +1122,11 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 			this.tmpPropDefn = tmpPropDefn;
 		}
 
+		@Override
 		public void end() throws SAXException {
-			if (tmpPropDefn == null)
+			if (tmpPropDefn == null) {
 				return;
+			}
 
 			int type = tmpPropDefn.getTypeCode();
 
@@ -1067,14 +1138,15 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 			}
 
 			ChoiceSet allowedChoices = builder.createChoiceSet();
-			ArrayList<IChoice> allowedList = new ArrayList<IChoice>();
+			ArrayList<IChoice> allowedList = new ArrayList<>();
 
 			String choicesStr = StringUtil.trimString(text.toString());
 
 			// blank string.
 
-			if (choicesStr == null)
+			if (choicesStr == null) {
 				return;
+			}
 
 			String[] nameArray = choicesStr.split(","); //$NON-NLS-1$
 
@@ -1131,9 +1203,11 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 			this.tmpPropDefn = tmpPropDefn;
 		}
 
+		@Override
 		public void end() throws SAXException {
-			if (tmpPropDefn == null)
+			if (tmpPropDefn == null) {
 				return;
+			}
 
 			int type = tmpPropDefn.getTypeCode();
 
@@ -1146,14 +1220,15 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 			}
 
 			ChoiceSet allowedChoices = builder.createChoiceSet();
-			ArrayList<IChoice> allowedList = new ArrayList<IChoice>();
+			ArrayList<IChoice> allowedList = new ArrayList<>();
 
 			String choicesStr = StringUtil.trimString(text.toString());
 
 			// blank string.
 
-			if (choicesStr == null)
+			if (choicesStr == null) {
 				return;
+			}
 
 			String[] nameArray = choicesStr.split(","); //$NON-NLS-1$
 
@@ -1186,15 +1261,18 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
+		@Override
 		public AbstractParseState startElement(String tagName) {
-			if (VALUE_VALIDATOR_TAG.equalsIgnoreCase(tagName))
+			if (VALUE_VALIDATOR_TAG.equalsIgnoreCase(tagName)) {
 				return new ValueValidatorState();
-			if (SEMANTIC_VALIDATOR_TAG.equalsIgnoreCase(tagName))
+			}
+			if (SEMANTIC_VALIDATOR_TAG.equalsIgnoreCase(tagName)) {
 				return new SemanticValidatorState();
+			}
 			return super.startElement(tagName);
 		}
 	}
@@ -1203,11 +1281,12 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
 		 * org.xml.sax.Attributes)
 		 */
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			String name = getAttrib(attrs, NAME_ATTRIB);
 			String className = getAttrib(attrs, CLASS_ATTRIB);
@@ -1247,11 +1326,12 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
 		 * org.xml.sax.Attributes)
 		 */
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			String name = getAttrib(attrs, NAME_ATTRIB);
 			String modules = getAttrib(attrs, MODULES_ATTRIB);
@@ -1301,9 +1381,11 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 			this.propertyDefn = propDefn;
 		}
 
+		@Override
 		public void end() throws SAXException {
-			if (this.propertyDefn == null)
+			if (this.propertyDefn == null) {
 				return;
+			}
 			// validation should be done in property.end or member.end as
 			// the choice set may not defined yet
 			propertyDefn.setDefault(text.toString());
@@ -1312,6 +1394,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 	class ChoiceState extends InnerParseState {
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			String displayNameID = attrs.getValue(DISPLAY_NAME_ID_ATTRIB);
 			String xmlName = attrs.getValue(NAME_ATTRIB);
@@ -1335,17 +1418,19 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 						break;
 					}
 				}
-				if (found)
+				if (found) {
 					errorHandler.semanticError(
 							new MetaDataParserException(MetaDataException.DESIGN_EXCEPTION_DUPLICATE_CHOICE_NAME));
-				else
+				} else {
 					choices.add(choice);
+				}
 			}
 		}
 	}
 
 	class StylePropertyState extends InnerParseState {
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			String name = attrs.getValue(NAME_ATTRIB);
 
@@ -1356,14 +1441,16 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 				ok = false;
 			}
 
-			if (ok)
+			if (ok) {
 				elementDefn.addStyleProperty(name);
+			}
 
 		}
 	}
 
 	class SlotState extends InnerParseState {
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			String name = attrs.getValue(NAME_ATTRIB);
 			String displayNameID = attrs.getValue(DISPLAY_NAME_ID_ATTRIB);
@@ -1386,8 +1473,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 				ok = false;
 			}
 
-			if (!ok)
+			if (!ok) {
 				return;
+			}
 
 			slotDefn = new SlotDefn();
 			slotDefn.setName(name);
@@ -1415,19 +1503,23 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 			elementDefn.addSlot(slotDefn);
 		}
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
-			if (tagName.equalsIgnoreCase(TYPE_TAG))
+			if (tagName.equalsIgnoreCase(TYPE_TAG)) {
 				return new SlotTypeState();
-			if (tagName.equalsIgnoreCase(TRIGGER_TAG))
+			}
+			if (tagName.equalsIgnoreCase(TRIGGER_TAG)) {
 				return new TriggerState();
+			}
 			return super.startElement(tagName);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
+		@Override
 		public void end() throws SAXException {
 			super.end();
 			slotDefn = null;
@@ -1441,13 +1533,14 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		/**
 		 * Constructs the property type state with a list to hold all the type names.
-		 * 
+		 *
 		 * @param propertyTypes
 		 */
 		public PropertyTypeState(List<String> propertyTypes) {
 			this.types = propertyTypes;
 		}
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			boolean ok = (propDefn != null);
 			String name = attrs.getValue(NAME_ATTRIB);
@@ -1457,13 +1550,15 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 				ok = false;
 			}
 
-			if (ok)
+			if (ok) {
 				types.add(name);
+			}
 		}
 	}
 
 	class SlotTypeState extends InnerParseState {
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			boolean ok = (slotDefn != null);
 			String name = attrs.getValue(NAME_ATTRIB);
@@ -1473,8 +1568,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 				ok = false;
 			}
 
-			if (ok)
+			if (ok) {
 				slotDefn.addType(name);
+			}
 		}
 	}
 
@@ -1493,34 +1589,38 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.report.model.metadata.MetaDataHandler.
 		 * AbstractMethodState#getMethodInfo()
 		 */
 
+		@Override
 		MethodInfo getMethodInfo(String name) {
 			ClassInfo classInfo = (ClassInfo) owner;
 
 			if (classInfo != null) {
-				if (isConstructor)
+				if (isConstructor) {
 					methodInfo = (MethodInfo) classInfo.getConstructor();
-				else
+				} else {
 					methodInfo = classInfo.findMethod(name);
+				}
 			}
 
-			if (methodInfo == null)
+			if (methodInfo == null) {
 				methodInfo = builder.createMethodInfo(isConstructor);
+			}
 
 			return methodInfo;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.report.model.metadata.MetaDataHandler.
 		 * AbstractMethodState#addDefnTo()
 		 */
 
+		@Override
 		void addDefnTo() {
 			assert owner instanceof ClassInfo;
 
@@ -1541,15 +1641,16 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 	class ElementMethodState extends AbstractMethodState {
 
-		SystemPropertyDefn localPropDefn = null;;
+		SystemPropertyDefn localPropDefn = null;
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.report.model.metadata.MetaDataHandler.
 		 * AbstractMethodState#getMethodInfo()
 		 */
 
+		@Override
 		MethodInfo getMethodInfo(String name) {
 			return new MethodInfo(false);
 		}
@@ -1561,10 +1662,11 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
 		 * org.xml.sax.Attributes)
 		 */
+		@Override
 		public void parseAttrs(Attributes attrs) {
 			super.parseAttrs(attrs);
 			localPropDefn.setValueRequired(getBooleanAttrib(attrs, VALUE_REQUIRED_ATTRIB, false));
@@ -1575,11 +1677,12 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @seeorg.eclipse.birt.report.model.metadata.MetaDataHandler.
 		 * AbstractMethodState#addDefnTo()
 		 */
 
+		@Override
 		final void addDefnTo() {
 			assert owner instanceof ElementDefn;
 
@@ -1633,7 +1736,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		/**
 		 * Constructs a <code>MethodState</code> with the given owner.
-		 * 
+		 *
 		 * @param obj the parent object of this state
 		 */
 
@@ -1650,13 +1753,14 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		/**
 		 * Returns method information with the given method name.
-		 * 
+		 *
 		 * @param name the method name
 		 * @return the <code>MethodInfo</code> object
 		 */
 
 		abstract MethodInfo getMethodInfo(String name);
 
+		@Override
 		public void parseAttrs(Attributes attrs) {
 			String name = attrs.getValue(NAME_ATTRIB);
 			String displayNameID = attrs.getValue(DISPLAY_NAME_ID_ATTRIB);
@@ -1676,8 +1780,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 				ok = false;
 			}
 
-			if (!ok)
+			if (!ok) {
 				return;
+			}
 
 			// Note that here ROM supports overloadding, while JavaScript not.
 			// finds the method info if it has been parsed.
@@ -1693,15 +1798,19 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 			addDefnTo();
 		}
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
-			if (tagName.equalsIgnoreCase(ARGUMENT_TAG))
+			if (tagName.equalsIgnoreCase(ARGUMENT_TAG)) {
 				return new ArgumentState();
+			}
 			return super.startElement(tagName);
 		}
 
+		@Override
 		public void end() throws SAXException {
-			if (argumentList == null)
+			if (argumentList == null) {
 				argumentList = new ArgumentInfoList();
+			}
 
 			methodInfo.addArgumentList(argumentList);
 
@@ -1711,6 +1820,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		class ArgumentState extends InnerParseState {
 
+			@Override
 			public void parseAttrs(Attributes attrs) {
 				String name = attrs.getValue(NAME_ATTRIB);
 				String tagID = attrs.getValue(TAG_ID_ATTRIB);
@@ -1720,16 +1830,18 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 					type = attrs.getValue(DATA_TYPE_ATTRIB);
 				}
 
-				if (name == null)
+				if (name == null) {
 					return;
+				}
 
 				ArgumentInfo argument = builder.createArgumentInfo();
 				argument.setName(name);
 				argument.setType(type);
 				argument.setDisplayNameKey(tagID);
 
-				if (argumentList == null)
+				if (argumentList == null) {
 					argumentList = new ArgumentInfoList();
+				}
 
 				try {
 					argumentList.addArgument(argument);
@@ -1745,6 +1857,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		protected ClassInfo classInfo = null;
 
+		@Override
 		public void parseAttrs(Attributes attrs) {
 			String name = attrs.getValue(NAME_ATTRIB);
 			String displayNameID = attrs.getValue(DISPLAY_NAME_ID_ATTRIB);
@@ -1763,18 +1876,20 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 				ok = false;
 			}
 
-			if (!ok)
+			if (!ok) {
 				return;
+			}
 
 			classInfo = builder.createClassInfo();
 			classInfo.setName(name);
 			classInfo.setDisplayNameKey(displayNameID);
 			classInfo.setToolTipKey(toolTipID);
 
-			if (Boolean.TRUE.toString().equalsIgnoreCase(isNative))
+			if (Boolean.TRUE.toString().equalsIgnoreCase(isNative)) {
 				classInfo.setNative(true);
-			else if (Boolean.FALSE.toString().equalsIgnoreCase(isNative))
+			} else if (Boolean.FALSE.toString().equalsIgnoreCase(isNative)) {
 				classInfo.setNative(false);
+			}
 
 			try {
 				builder.addClassInfo(classInfo);
@@ -1784,22 +1899,27 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 			}
 		}
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
-			if (tagName.equalsIgnoreCase(CONSTRUCTOR_TAG))
+			if (tagName.equalsIgnoreCase(CONSTRUCTOR_TAG)) {
 				return new ClassMethodState(classInfo, true);
-			if (tagName.equalsIgnoreCase(MEMBER_TAG))
+			}
+			if (tagName.equalsIgnoreCase(MEMBER_TAG)) {
 				return new MemberState();
-			if (tagName.equalsIgnoreCase(METHOD_TAG))
+			}
+			if (tagName.equalsIgnoreCase(METHOD_TAG)) {
 				return new ClassMethodState(classInfo, false);
+			}
 
 			return super.startElement(tagName);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
+		@Override
 		public void end() throws SAXException {
 			super.end();
 			classInfo = null;
@@ -1807,6 +1927,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		protected class MemberState extends InnerParseState {
 
+			@Override
 			public void parseAttrs(Attributes attrs) {
 				String name = attrs.getValue(NAME_ATTRIB);
 				String displayNameID = attrs.getValue(DISPLAY_NAME_ID_ATTRIB);
@@ -1830,8 +1951,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 					ok = false;
 				}
 
-				if (!ok)
+				if (!ok) {
 					return;
+				}
 
 				MemberInfo memberDefn = builder.createMemberInfo();
 				memberDefn.setName(name);
@@ -1854,10 +1976,11 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
 		 * org.xml.sax.Attributes)
 		 */
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			assert propDefn != null || slotDefn != null;
 
@@ -1868,14 +1991,17 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 				SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(validatorName);
 
 				triggerDefn.setPreRequisite(getBooleanAttrib(attrs, PRE_REQUISITE_ATTRIB, false));
-				if (!StringUtil.isBlank(targetElement))
+				if (!StringUtil.isBlank(targetElement)) {
 					triggerDefn.setTargetElement(targetElement);
+				}
 
-				if (propDefn != null)
+				if (propDefn != null) {
 					propDefn.getTriggerDefnSet().add(triggerDefn);
+				}
 
-				if (slotDefn != null)
+				if (slotDefn != null) {
 					slotDefn.getTriggerDefnSet().add(triggerDefn);
+				}
 			} else {
 				errorHandler.semanticError(
 						new MetaDataParserException(MetaDataParserException.DESIGN_EXCEPTION_VALIDATOR_NAME_REQUIRED));
@@ -1886,7 +2012,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 	/**
 	 * Checks if dictionary contains a specified ChoiceSet with the name
 	 * <code>choiceSetName</code>.
-	 * 
+	 *
 	 * @param choiceSetName the name of ChoiceSet to be checked.
 	 * @return the validated choiceSet. If not found, return null.
 	 */
@@ -1905,7 +2031,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 	/**
 	 * Transfers trim option string to trim option value. The input value is defined
 	 * in <code>ModelUtil</code> and can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li>NO_TRIM</li>
 	 * <li>TRIM_EMPTY</li>
@@ -1913,7 +2039,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 	 * <li>TRIM_EMPTY&TRIM_NULL</li>
 	 * <li>NULL</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param trimOption the trim option.
 	 * @return the trim option value.
 	 */
@@ -1944,10 +2070,11 @@ public class MetaDataHandlerImpl extends XMLParserHandler {
 
 	/**
 	 * Does some actions when the meta data file is end.
-	 * 
+	 *
 	 * @throws MetaDataParserException
 	 */
 
+	@Override
 	public void endDocument() throws MetaDataParserException {
 		//
 		if (!errorHandler.getErrors().isEmpty()) {

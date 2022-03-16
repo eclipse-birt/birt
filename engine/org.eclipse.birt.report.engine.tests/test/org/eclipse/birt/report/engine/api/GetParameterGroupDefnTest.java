@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,10 +17,9 @@ package org.eclipse.birt.report.engine.api;
 import java.util.ArrayList;
 
 import org.eclipse.birt.report.engine.EngineCase;
-import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 
 /**
- * 
+ *
  */
 
 public class GetParameterGroupDefnTest extends EngineCase {
@@ -30,6 +32,7 @@ public class GetParameterGroupDefnTest extends EngineCase {
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/GetParameterGroupDefnTest.rptdesign";
 	static final String REPORT_DESIGN = "GetParameterGroupDefnTest.rptdesign";
 
+	@Override
 	public void setUp() throws Exception {
 		removeFile(REPORT_DESIGN);
 		copyResource(REPORT_DESIGN_RESOURCE, REPORT_DESIGN);
@@ -39,6 +42,7 @@ public class GetParameterGroupDefnTest extends EngineCase {
 		paramGroupTask = engine.createGetParameterDefinitionTask(runnable);
 	}
 
+	@Override
 	public void tearDown() {
 		// shut down the engine.
 		if (engine != null) {
@@ -72,7 +76,7 @@ public class GetParameterGroupDefnTest extends EngineCase {
 		assertTrue(PARAM_COUNT_IN_GROUP == parameters.size());
 
 		IParameterDefnBase param = null;
-		final String[] goldenParamNames = new String[] { "paramString", "paramInteger", "paramFloat", "paramDecimal",
+		final String[] goldenParamNames = { "paramString", "paramInteger", "paramFloat", "paramDecimal",
 				"paramDateTime", "paramBoolean", "paramStringListBoxStatic", "paramComboBoxStatic",
 				"paramRadioButtonStatic", "paramStringListBoxDynamic", "paramStringComboBoxDynamic" };
 		assertTrue(PARAM_COUNT_IN_GROUP == goldenParamNames.length);

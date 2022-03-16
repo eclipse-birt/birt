@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,13 +33,13 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 /**
- * 
+ *
  */
 
 public class JSLevelAccessor extends ScriptableObject {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private ICubeQueryDefinition cubeQueryDefn;
@@ -46,28 +49,32 @@ public class JSLevelAccessor extends ScriptableObject {
 		this.dims = new HashMap();
 		this.cubeQueryDefn = defn;
 
-		if (cursor.getPageEdgeView() != null && this.cubeQueryDefn.getEdge(ICubeQueryDefinition.PAGE_EDGE) != null)
+		if (cursor.getPageEdgeView() != null && this.cubeQueryDefn.getEdge(ICubeQueryDefinition.PAGE_EDGE) != null) {
 			populateDimensionObjects(this.cubeQueryDefn.getEdge(ICubeQueryDefinition.PAGE_EDGE).getDimensions(),
 					cursor.getPageEdgeView().getEdgeCursor().getDimensionCursor().iterator());
+		}
 
 		/*
 		 * Populate Row Edge dimension objects.
 		 */
-		if (cursor.getRowEdgeView() != null && this.cubeQueryDefn.getEdge(ICubeQueryDefinition.ROW_EDGE) != null)
+		if (cursor.getRowEdgeView() != null && this.cubeQueryDefn.getEdge(ICubeQueryDefinition.ROW_EDGE) != null) {
 			populateDimensionObjects(this.cubeQueryDefn.getEdge(ICubeQueryDefinition.ROW_EDGE).getDimensions(),
 					cursor.getRowEdgeView().getEdgeCursor().getDimensionCursor().iterator());
+		}
 
 		/*
 		 * Populate Column Edge dimension objects.
 		 */
-		if (cursor.getColumnEdgeView() != null && this.cubeQueryDefn.getEdge(ICubeQueryDefinition.COLUMN_EDGE) != null)
+		if (cursor.getColumnEdgeView() != null
+				&& this.cubeQueryDefn.getEdge(ICubeQueryDefinition.COLUMN_EDGE) != null) {
 			populateDimensionObjects(this.cubeQueryDefn.getEdge(ICubeQueryDefinition.COLUMN_EDGE).getDimensions(),
 					cursor.getColumnEdgeView().getEdgeCursor().getDimensionCursor().iterator());
+		}
 
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimList
 	 * @param cursors
 	 * @throws OLAPException
@@ -89,9 +96,10 @@ public class JSLevelAccessor extends ScriptableObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 	 */
+	@Override
 	public String getClassName() {
 		return "JSDimensionObject";
 	}
@@ -100,9 +108,11 @@ public class JSLevelAccessor extends ScriptableObject {
 	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
 	 * org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	public Object get(String name, Scriptable start) {
-		if (!this.dims.containsKey(name))
+		if (!this.dims.containsKey(name)) {
 			throw new RuntimeException(new DataException(ResourceConstants.DIMENSION_NAME_NOT_FOUND, name));
+		}
 		return this.dims.get(name);
 	}
 }

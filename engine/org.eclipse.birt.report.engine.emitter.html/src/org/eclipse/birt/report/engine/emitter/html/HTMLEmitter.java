@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +39,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.css.CSSValue;
 
 /**
- * 
+ *
  */
 
 public abstract class HTMLEmitter {
@@ -51,7 +54,7 @@ public abstract class HTMLEmitter {
 	 * The <code>containerDisplayStack</code> that stores the display value of
 	 * container.
 	 */
-	protected Stack<Integer> containerDisplayStack = new Stack<Integer>();
+	protected Stack<Integer> containerDisplayStack = new Stack<>();
 	private static final DecimalFormat FORMATTER = new DecimalFormat("#.###", //$NON-NLS-1$
 			new DecimalFormatSymbols(Locale.ENGLISH));
 
@@ -122,15 +125,16 @@ public abstract class HTMLEmitter {
 		IStyle style = page.getStyle();
 		if (!needOutputBackgroundSize) {
 			AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
-		} else
+		} else {
 			AttributeBuilder.buildBackgroundColor(styleBuffer, style, reportEmitter);
+		}
 		AttributeBuilder.buildBorders(styleBuffer, style);
 	}
 
 	/**
 	 * Build size style string say, "width: 10.0mm;". The min-height should be
 	 * implemented by sepcial way.
-	 * 
+	 *
 	 * @param content The <code>StringBuffer</code> to which the result is output.
 	 * @param name    The property name
 	 * @param value   The values of the property
@@ -180,7 +184,7 @@ public abstract class HTMLEmitter {
 	/**
 	 * convert the dimension type value into a string. The returned value has
 	 * "#.###" format.
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 */
@@ -216,7 +220,7 @@ public abstract class HTMLEmitter {
 	 * style. When designating width or height value to an inline element, or when
 	 * the element has right-to-left base direction, it it will be treated as
 	 * inline-block.
-	 * 
+	 *
 	 * @param x      Specifies how far a box's left margin edge is offset to the
 	 *               right of the left edge of the box's containing block.
 	 * @param y      Specifies how far an absolutely positioned box's top margin
@@ -263,7 +267,7 @@ public abstract class HTMLEmitter {
 	 * style. When designating width or height value to an inline element, or when
 	 * the element has right-to-left base direction, it it will be treated as
 	 * inline-block.
-	 * 
+	 *
 	 * @param x      Specifies how far a box's left margin edge is offset to the
 	 *               right of the left edge of the box's containing block.
 	 * @param y      Specifies how far an absolutely positioned box's top margin
@@ -311,7 +315,7 @@ public abstract class HTMLEmitter {
 	 * style. When designating width or height value to an inline element, or when
 	 * the element has right-to-left base direction, it will be treated as
 	 * inline-block.
-	 * 
+	 *
 	 * @param x      Specifies how far a box's left margin edge is offset to the
 	 *               right of the left edge of the box's containing block.
 	 * @param y      Specifies how far an absolutely positioned box's top margin
@@ -354,7 +358,7 @@ public abstract class HTMLEmitter {
 
 	/**
 	 * adds the default table styles
-	 * 
+	 *
 	 * @param styleBuffer
 	 */
 	protected void addDefaultTableStyles(StringBuffer styleBuffer) {
@@ -396,7 +400,7 @@ public abstract class HTMLEmitter {
 	 * <td>replaced by 'min-height' property</td>
 	 * </tr>
 	 * </table>
-	 * 
+	 *
 	 * @param type        The display type of the element.
 	 * @param style       The style of an element.
 	 * @param height      The height property.
@@ -411,7 +415,7 @@ public abstract class HTMLEmitter {
 //	{
 //		boolean canShrink = style != null
 //				&& "true".equalsIgnoreCase( style.getCanShrink( ) ); //$NON-NLS-1$
-//		
+//
 //		if ( IStyle.BLOCK_VALUE == display )
 //		{
 //			buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, width );
@@ -468,7 +472,7 @@ public abstract class HTMLEmitter {
 	 * <td>replaced by 'min-height' property</td>
 	 * </tr>
 	 * </table>
-	 * 
+	 *
 	 * @param type        The display type of the element.
 	 * @param style       The style of an element.
 	 * @param height      The height property.
@@ -502,7 +506,7 @@ public abstract class HTMLEmitter {
 
 	/**
 	 * Checks the 'CanShrink' property and sets the width and height according
-	 * 
+	 *
 	 * @param type        The display type of the element.
 	 * @param style       The style of an element.
 	 * @param height      The height property.
@@ -557,7 +561,7 @@ public abstract class HTMLEmitter {
 		int display = getElementType(x, y, width, height, container.getStyle());
 		// The display value is pushed in Stack. It will be popped when
 		// close the container tag.
-		containerDisplayStack.push(Integer.valueOf(display));
+		containerDisplayStack.push(display);
 		if (!reportEmitter.browserSupportsInlineBlock) {
 			if (((display & HTMLEmitterUtil.DISPLAY_INLINE) > 0)
 					|| ((display & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK) > 0)) {
@@ -612,7 +616,7 @@ public abstract class HTMLEmitter {
 
 	/**
 	 * Set the display property to style.
-	 * 
+	 *
 	 * @param display     The display type.
 	 * @param mask        The mask.
 	 * @param styleBuffer The <code>StringBuffer</code> object that returns 'style'
@@ -652,14 +656,14 @@ public abstract class HTMLEmitter {
 		if (vAlign != null && vAlign != IStyle.BASELINE_VALUE && height != null && canShrink != IStyle.TRUE_VALUE) {
 			// implement vertical align.
 			writer.openTag(HTMLTags.TAG_TABLE);
-			StringBuffer nestingTableStyleBuffer = new StringBuffer();
+			StringBuilder nestingTableStyleBuffer = new StringBuilder();
 			nestingTableStyleBuffer.append(" width:100%; height:"); //$NON-NLS-1$
 			nestingTableStyleBuffer.append(height.toString());
 			writer.attribute(HTMLTags.ATTR_STYLE, nestingTableStyleBuffer.toString());
 			writer.openTag(HTMLTags.TAG_TR);
 			writer.openTag(HTMLTags.TAG_TD);
 
-			StringBuffer textStyleBuffer = new StringBuffer();
+			StringBuilder textStyleBuffer = new StringBuilder();
 			textStyleBuffer.append(" vertical-align:"); //$NON-NLS-1$
 			textStyleBuffer.append(vAlign.getCssText());
 			textStyleBuffer.append(";"); //$NON-NLS-1$

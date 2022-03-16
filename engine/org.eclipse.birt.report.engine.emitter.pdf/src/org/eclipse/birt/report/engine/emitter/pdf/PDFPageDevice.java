@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -73,15 +76,14 @@ public class PDFPageDevice implements IPageDevice {
 
 	protected PDFPage currentPage = null;
 
-	protected HashMap<Float, PdfTemplate> templateMap = new HashMap<Float, PdfTemplate>();
+	protected HashMap<Float, PdfTemplate> templateMap = new HashMap<>();
 
-	protected HashMap<String, PdfTemplate> imageCache = new HashMap<String, PdfTemplate>();
+	protected HashMap<String, PdfTemplate> imageCache = new HashMap<>();
 
 	/**
 	 * the iText and Birt engine version info.
 	 */
-	protected static String[] versionInfo = new String[] {
-			BundleVersionUtil.getBundleVersion("org.eclipse.birt.report.engine") };
+	protected static String[] versionInfo = { BundleVersionUtil.getBundleVersion("org.eclipse.birt.report.engine") };
 
 	protected final static int MAX_PAGE_WIDTH = 14400000; // 200 inch
 	protected final static int MAX_PAGE_HEIGHT = 14400000; // 200 inch
@@ -123,7 +125,7 @@ public class PDFPageDevice implements IPageDevice {
 			// appendPDF, and take a list of strings of PDF files to
 			// append to the end.
 			// this is where we will test the merge
-			List<InputStream> pdfs = new ArrayList<InputStream>();
+			List<InputStream> pdfs = new ArrayList<>();
 
 			// removed using the runtime instance of the report and switched to using the
 			// designtime
@@ -209,16 +211,15 @@ public class PDFPageDevice implements IPageDevice {
 					// check size of PDFs to make sure we aren't calling this on a 0 size array
 					if (pdfs.size() > 0) {
 						// this hasn't been initialized yet, open the doc
-						if (!this.doc.isOpen())
+						if (!this.doc.isOpen()) {
 							this.doc.open();
+						}
 						concatPDFs(pdfs, false);
 					}
 				}
 			}
 			// End Modification
-		} catch (DocumentException de) {
-			logger.log(Level.SEVERE, de.getMessage(), de);
-		} catch (BirtException be) {
+		} catch (DocumentException | BirtException be) {
 			logger.log(Level.SEVERE, be.getMessage(), be);
 		}
 	}
@@ -257,6 +258,7 @@ public class PDFPageDevice implements IPageDevice {
 		return imageCache;
 	}
 
+	@Override
 	public void close() throws Exception {
 		if (!doc.isOpen()) {
 			// to ensure we create a PDF file
@@ -267,7 +269,7 @@ public class PDFPageDevice implements IPageDevice {
 		// appendPDF, and take a list of strings of PDF files to
 		// append to the end.
 		// this is where we will test the merge
-		List<InputStream> pdfs = new ArrayList<InputStream>();
+		List<InputStream> pdfs = new ArrayList<>();
 
 		// removed using the runtime instance of the report and switched to using the
 		// designtime
@@ -364,6 +366,7 @@ public class PDFPageDevice implements IPageDevice {
 		}
 	}
 
+	@Override
 	public IPage newPage(int width, int height, Color backgroundColor) {
 		int w = Math.min(width, MAX_PAGE_WIDTH);
 		int h = Math.min(height, MAX_PAGE_HEIGHT);
@@ -416,10 +419,10 @@ public class PDFPageDevice implements IPageDevice {
 
 	/**
 	 * Patched PDF to Combine PDF Files
-	 * 
+	 *
 	 * Given a list of PDF Files When a user wants to append PDf files to a PDF
 	 * emitter output Then Append the PDF files to the output stream or output file
-	 * 
+	 *
 	 * @param streamOfPDFFiles
 	 * @param paginate
 	 */
@@ -428,7 +431,7 @@ public class PDFPageDevice implements IPageDevice {
 		Document document = doc;
 		try {
 			List<InputStream> pdfs = streamOfPDFFiles;
-			List<PdfReader> readers = new ArrayList<PdfReader>();
+			List<PdfReader> readers = new ArrayList<>();
 			int totalPages = 0;
 			Iterator<InputStream> iteratorPDFs = pdfs.iterator();
 

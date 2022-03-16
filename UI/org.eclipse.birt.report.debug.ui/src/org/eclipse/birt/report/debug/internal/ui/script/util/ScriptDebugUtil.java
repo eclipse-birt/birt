@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +53,7 @@ public class ScriptDebugUtil {
 
 	/**
 	 * Gets the default work space.
-	 * 
+	 *
 	 * @return
 	 */
 	public static IResource getDefaultResource() {
@@ -59,7 +62,7 @@ public class ScriptDebugUtil {
 
 	/**
 	 * Find java exe file.
-	 * 
+	 *
 	 * @param vmInstallLocation
 	 * @return
 	 */
@@ -77,7 +80,7 @@ public class ScriptDebugUtil {
 
 	/**
 	 * Get the java project through the name.
-	 * 
+	 *
 	 * @param projectName
 	 * @return
 	 * @throws CoreException
@@ -100,25 +103,30 @@ public class ScriptDebugUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param source
 	 * @return
 	 */
 	public static String expandLibraryName(String source) {
-		if (source == null || source.length() == 0)
+		if (source == null || source.length() == 0) {
 			return ""; //$NON-NLS-1$
-		if (source.indexOf("$ws$") != -1) //$NON-NLS-1$
+		}
+		if (source.indexOf("$ws$") != -1) { // $NON-NLS-1$
 			source = source.replaceAll("\\$ws\\$", //$NON-NLS-1$
 					"ws" + IPath.SEPARATOR + TargetPlatform.getWS()); //$NON-NLS-1$
-		if (source.indexOf("$os$") != -1) //$NON-NLS-1$
+		}
+		if (source.indexOf("$os$") != -1) { // $NON-NLS-1$
 			source = source.replaceAll("\\$os\\$", //$NON-NLS-1$
 					"os" + IPath.SEPARATOR + TargetPlatform.getOS()); //$NON-NLS-1$
-		if (source.indexOf("$nl$") != -1) //$NON-NLS-1$
+		}
+		if (source.indexOf("$nl$") != -1) { // $NON-NLS-1$
 			source = source.replaceAll("\\$nl\\$", //$NON-NLS-1$
 					"nl" + IPath.SEPARATOR + TargetPlatform.getNL()); //$NON-NLS-1$
-		if (source.indexOf("$arch$") != -1) //$NON-NLS-1$
+		}
+		if (source.indexOf("$arch$") != -1) { // $NON-NLS-1$
 			source = source.replaceAll("\\$arch\\$", //$NON-NLS-1$
 					"arch" + IPath.SEPARATOR + TargetPlatform.getOSArch()); //$NON-NLS-1$
+		}
 		return source;
 	}
 
@@ -153,8 +161,9 @@ public class ScriptDebugUtil {
 		} else {
 			IPluginLibrary[] libraries = model.getPluginBase().getLibraries();
 			for (int i = 0; i < libraries.length; i++) {
-				if (IPluginLibrary.RESOURCE.equals(libraries[i].getType()))
+				if (IPluginLibrary.RESOURCE.equals(libraries[i].getType())) {
 					continue;
+				}
 				model = (IPluginModelBase) libraries[i].getModel();
 				String name = libraries[i].getName();
 				String expandedName = expandLibraryName(name);
@@ -215,8 +224,9 @@ public class ScriptDebugUtil {
 	 * @throws CoreException
 	 */
 	public static String getSubstitutedString(String text) throws CoreException {
-		if (text == null)
+		if (text == null) {
 			return ""; //$NON-NLS-1$
+		}
 		IStringVariableManager mgr = VariablesPlugin.getDefault().getStringVariableManager();
 		return mgr.performStringSubstitution(text);
 	}
@@ -227,7 +237,7 @@ public class ScriptDebugUtil {
 	 * Checks characters before and after the offset to see if they are allowed java
 	 * identifier characters until a separator character (period, space, etc) is
 	 * found.
-	 * 
+	 *
 	 * @param document The document to search
 	 * @param offset   The offset to start looking for the word
 	 * @return IRegion containing the word or <code>null</code>
@@ -248,8 +258,9 @@ public class ScriptDebugUtil {
 
 			while (pos >= 0) {
 				c = document.getChar(pos);
-				if (!Character.isJavaIdentifierPart(c))
+				if (!Character.isJavaIdentifierPart(c)) {
 					break;
+				}
 				--pos;
 			}
 
@@ -260,8 +271,9 @@ public class ScriptDebugUtil {
 
 			while (pos < length) {
 				c = document.getChar(pos);
-				if (!Character.isJavaIdentifierPart(c))
+				if (!Character.isJavaIdentifierPart(c)) {
 					break;
+				}
 				++pos;
 			}
 
@@ -271,12 +283,13 @@ public class ScriptDebugUtil {
 		}
 
 		if (start >= -1 && end > -1) {
-			if (start == offset && end == offset)
+			if (start == offset && end == offset) {
 				return new Region(offset, 0);
-			else if (start == offset)
+			} else if (start == offset) {
 				return new Region(start, end - start);
-			else
+			} else {
 				return new Region(start + 1, end - start - 1);
+			}
 		}
 
 		return null;

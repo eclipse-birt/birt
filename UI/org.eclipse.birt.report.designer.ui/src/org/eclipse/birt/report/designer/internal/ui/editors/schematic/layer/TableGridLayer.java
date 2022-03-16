@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +44,7 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * Paint the grid
- * 
+ *
  */
 public class TableGridLayer extends GridLayer {
 
@@ -49,7 +52,7 @@ public class TableGridLayer extends GridLayer {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param rows
 	 * @param cells
 	 */
@@ -74,10 +77,11 @@ public class TableGridLayer extends GridLayer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.editparts.GridLayer#paintGrid(org.eclipse.draw2d.Graphics )
 	 */
+	@Override
 	protected void paintGrid(Graphics g) {
 
 		// Collections.sort( getRows( ), new NumberComparator( ) );
@@ -216,7 +220,7 @@ public class TableGridLayer extends GridLayer {
 
 	/**
 	 * Create the list of all the images to be displayed.
-	 * 
+	 *
 	 * @param x         the x-cordinator of the base image.
 	 * @param y         the y-cordinator of the base image.
 	 * @param size
@@ -347,15 +351,6 @@ public class TableGridLayer extends GridLayer {
 		return TableUtil.caleVisualWidth(source, columnIndex, column);
 	}
 
-	private int getTableWidth() {
-		int width = 0;
-		for (Iterator it = getColumns().iterator(); it.hasNext();) {
-			width += TableUtil.caleVisualWidth(source, it.next());
-		}
-
-		return width;
-	}
-
 	/*
 	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
 	 */
@@ -368,7 +363,7 @@ public class TableGridLayer extends GridLayer {
 		if (obj != null) {
 			Rectangle rect = new Rectangle(x, y, width, height);
 
-			int color = 0xFFFFFF;
+			int color;
 			// if ( obj instanceof String )
 			// {
 			// color = ColorUtil.parseColor( (String) obj );
@@ -385,14 +380,14 @@ public class TableGridLayer extends GridLayer {
 
 //	/**
 //	 * Sorter to be used to sort the rows with row number
-//	 * 
+//	 *
 //	 */
 //	public static class NumberComparator implements Comparator
 //	{
 //
 //		/*
 //		 * (non-Javadoc)
-//		 * 
+//		 *
 //		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 //		 */
 //		public int compare( Object o1, Object o2 )

@@ -2,13 +2,13 @@ package org.eclipse.birt.report.engine.layout.pdf.cache;
 
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -64,67 +64,82 @@ public class CursorableList implements List {
 		cursor += n;
 	}
 
+	@Override
 	public boolean add(Object o) {
 		list.add(cursor, o);
 		cursor++;
 		return true;
 	}
 
+	@Override
 	public void add(int index, Object element) {
 		throw new UnsupportedOperationException("unsupported operation"); //$NON-NLS-1$
 
 	}
 
+	@Override
 	public boolean addAll(Collection c) {
 		throw new UnsupportedOperationException("unsupported operation"); //$NON-NLS-1$
 	}
 
+	@Override
 	public boolean addAll(int index, Collection c) {
 		throw new UnsupportedOperationException("unsupported operation"); //$NON-NLS-1$
 	}
 
+	@Override
 	public void clear() {
 		list.clear();
 		cursor = 0;
 
 	}
 
+	@Override
 	public boolean contains(Object o) {
 		return list.contains(o);
 	}
 
+	@Override
 	public boolean containsAll(Collection c) {
 		return list.containsAll(c);
 	}
 
+	@Override
 	public Object get(int index) {
 		return list.get(index);
 	}
 
+	@Override
 	public int indexOf(Object o) {
 		return list.indexOf(o);
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return list.isEmpty();
 	}
 
+	@Override
 	public Iterator iterator() {
 		return list.iterator();
 	}
 
+	@Override
 	public int lastIndexOf(Object o) {
 		return list.indexOf(o);
 	}
 
+	@Override
 	public ListIterator listIterator() {
 		return list.listIterator();
 	}
 
+	@Override
 	public ListIterator listIterator(int index) {
 		return list.listIterator(index);
 	}
 
+	@Override
 	public Object remove(int index) {
 		Object obj = list.remove(index);
 		if (cursor > index) {
@@ -133,6 +148,7 @@ public class CursorableList implements List {
 		return obj;
 	}
 
+	@Override
 	public boolean remove(Object o) {
 		int index = list.indexOf(o);
 		if (index >= 0) {
@@ -142,30 +158,37 @@ public class CursorableList implements List {
 		return false;
 	}
 
+	@Override
 	public boolean removeAll(Collection c) {
 		throw new UnsupportedOperationException("unsupported operation"); //$NON-NLS-1$
 	}
 
+	@Override
 	public boolean retainAll(Collection c) {
 		throw new UnsupportedOperationException("unsupported operation"); //$NON-NLS-1$
 	}
 
+	@Override
 	public Object set(int index, Object element) {
 		throw new UnsupportedOperationException("unsupported operation"); //$NON-NLS-1$
 	}
 
+	@Override
 	public int size() {
 		return list.size();
 	}
 
+	@Override
 	public List subList(int fromIndex, int toIndex) {
 		throw new UnsupportedOperationException("unsupported operation"); //$NON-NLS-1$
 	}
 
+	@Override
 	public Object[] toArray() {
 		return list.toArray();
 	}
 
+	@Override
 	public Object[] toArray(Object[] a) {
 		return list.toArray(a);
 	}

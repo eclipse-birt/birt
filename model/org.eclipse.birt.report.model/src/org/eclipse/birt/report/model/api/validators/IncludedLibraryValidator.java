@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,8 +26,8 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
  * Validates whether the included library file is existed or not.
- * 
- * 
+ *
+ *
  */
 public class IncludedLibraryValidator extends AbstractElementValidator {
 
@@ -32,7 +35,7 @@ public class IncludedLibraryValidator extends AbstractElementValidator {
 
 	/**
 	 * Returns the singleton validator instance.
-	 * 
+	 *
 	 * @return the validator instance
 	 */
 
@@ -42,12 +45,13 @@ public class IncludedLibraryValidator extends AbstractElementValidator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.validators.AbstractElementValidator#validate
 	 * (org.eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
+	@Override
 	public List<SemanticException> validate(Module module, DesignElement element) {
 
 		List errors = new ArrayList();

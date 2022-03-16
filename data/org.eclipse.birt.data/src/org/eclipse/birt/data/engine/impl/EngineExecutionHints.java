@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,22 +32,22 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ *
  *
  */
 public class EngineExecutionHints implements IEngineExecutionHints {
 	private Set cachedDataSetNames;
-	private List<IDataQueryDefinition> queryDefns = new ArrayList<IDataQueryDefinition>();
+	private List<IDataQueryDefinition> queryDefns = new ArrayList<>();
 
 	/**
-	 * 
+	 *
 	 */
 	EngineExecutionHints() {
 		this.cachedDataSetNames = new HashSet();
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataEngine
 	 * @param queryDefns
 	 * @throws DataException
@@ -64,18 +67,21 @@ public class EngineExecutionHints implements IEngineExecutionHints {
 					if (dataSetName != null) {
 						IBaseDataSetDesign design = dataEngine.getDataSetDesign(dataSetName);
 
-						if (design instanceof IScriptDataSetDesign)
+						if (design instanceof IScriptDataSetDesign) {
 							continue;
+						}
 
-						if (design instanceof ICacheable)
+						if (design instanceof ICacheable) {
 							DataSetDesignHelper.populateDataSetNames(dataEngine.getDataSetDesign(dataSetName),
 									dataEngine, temp2);
+						}
 
 						if (qd.getParentQuery() != null && qd.getInputParamBindings().size() == 0) {
 							for (int i = 0; i < temp2.size(); i++) {
 								if (((BaseDataSetDesign) dataEngine.getDataSetDesign(temp2.get(i).toString()))
-										.needCache())
+										.needCache()) {
 									this.cachedDataSetNames.add(temp2.get(i));
+								}
 							}
 						}
 						for (int i = 0; i < temp2.size(); i++) {
@@ -91,10 +97,11 @@ public class EngineExecutionHints implements IEngineExecutionHints {
 
 			Set tempSet = new HashSet();
 			for (int i = 0; i < temp.size(); i++) {
-				if (tempSet.contains(temp.get(i)))
+				if (tempSet.contains(temp.get(i))) {
 					this.cachedDataSetNames.add(temp.get(i));
-				else
+				} else {
 					tempSet.add(temp.get(i));
+				}
 			}
 
 			// The query filter's type is Only supported in extension, so data set should
@@ -123,11 +130,12 @@ public class EngineExecutionHints implements IEngineExecutionHints {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.IQueryExecutionHints#needCacheDataSet(java.
 	 * lang.String)
 	 */
+	@Override
 	public boolean needCacheDataSet(String dataSetName) {
 		return this.cachedDataSetNames.contains(dataSetName);
 	}

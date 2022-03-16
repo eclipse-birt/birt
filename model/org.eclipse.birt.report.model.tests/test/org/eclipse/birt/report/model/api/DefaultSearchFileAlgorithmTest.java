@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +34,7 @@ import com.ibm.icu.util.ULocale;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>testFindFile</td>
  * <td>Get a <code>ReportDesign</code> instance, then find another file which
@@ -39,9 +42,9 @@ import com.ibm.icu.util.ULocale;
  * <td>If the file exists in the 'base' folder, returns the absolute path of
  * this file. If not, returns null.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 public class DefaultSearchFileAlgorithmTest extends BaseTestCase {
 
@@ -49,9 +52,10 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		ULocale locale = new ULocale("en_US");//$NON-NLS-1$
@@ -62,7 +66,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase {
 
 	/**
 	 * Copies a bunch of design/library files to the temporary folder.
-	 * 
+	 *
 	 * @param fileNames the design/library file names. The first item is the main
 	 *                  design file.
 	 * @return the file path of the design file
@@ -83,7 +87,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase {
 	 * Tests the 'findResource' method of DefaultSearchFileAlgorithm.
 	 * <P>
 	 * for the file protocol and url protocol.
-	 * 
+	 *
 	 * @throws Exception if the test fails.
 	 */
 
@@ -117,7 +121,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase {
 
 	/**
 	 * Finds the message file from default resource locator.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -134,7 +138,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase {
 
 	/**
 	 * Tests the 'findFile' method of DefaultSearchFileAlgorithm.
-	 * 
+	 *
 	 * @throws Exception if the test fails.
 	 */
 
@@ -158,18 +162,18 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase {
 
 	/**
 	 * Tests search resources under fragments.
-	 * 
+	 *
 	 * <ul>
 	 * <li>
 	 * <li>case 1:
 	 * <li>open a report which used resource in fragments.
 	 * </ul>
-	 * 
+	 *
 	 * <ul>
 	 * <li>case 2:
 	 * <li>open a library with url in the form of "bundleresource://".
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -200,13 +204,13 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
 	public void testResourceFolder() throws Exception {
 		String testFile = "CustomColorHandleTest_golden.xml"; //$NON-NLS-1$
-		URL resource = null;
+		URL resource;
 
 		// set resource folder only in module
 
@@ -227,7 +231,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase {
 
 	/**
 	 * Finds the jar file from default resource locator.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -242,7 +246,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase {
 
 	/**
 	 * Tests handle mail protocol.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testMail() throws Exception {

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -32,44 +44,53 @@ public class ComboAndButtonSection extends Section {
 
 	protected CComboPropertyDescriptor combo;
 
+	@Override
 	public void createSection() {
-		if (buttonSelectList == null)
+		if (buttonSelectList == null) {
 			buttonSelectList = new ArrayList();
-		if (comboSelectList == null)
+		}
+		if (comboSelectList == null) {
 			comboSelectList = new ArrayList();
+		}
 		getLabelControl(parent);
 		getComboControl(parent);
 		getButtonControl(parent);
 		getGridPlaceholder(parent);
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) combo.getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - 2 - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 2 - placeholder;
+		}
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillCCombo;
+		}
 
 		gd = (GridData) button.getLayoutData();
 
-		if (buttonWidth > -1)
+		if (buttonWidth > -1) {
 			gd.widthHint = Math.max(button.computeSize(-1, -1).x, buttonWidth);
+		}
 	}
 
 	protected CComboPropertyDescriptor getComboControl(Composite parent) {
 		if (combo == null) {
 			combo = DescriptorToolkit.createCComboPropertyDescriptor(true);
-			if (getProvider() != null)
+			if (getProvider() != null) {
 				combo.setDescriptorProvider(getProvider());
+			}
 			combo.createControl(parent);
 			combo.getControl().setLayoutData(new GridData());
 			combo.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					combo = null;
 				}
@@ -105,6 +126,7 @@ public class ComboAndButtonSection extends Section {
 			}
 			button.addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					button = null;
 				}
@@ -113,6 +135,7 @@ public class ComboAndButtonSection extends Section {
 			if (buttonSelectList.isEmpty()) {
 				SelectionListener listener = new SelectionAdapter() {
 
+					@Override
 					public void widgetSelected(SelectionEvent e) {
 						onClickButton();
 					}
@@ -137,8 +160,9 @@ public class ComboAndButtonSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (combo != null)
+		if (combo != null) {
 			combo.setDescriptorProvider(provider);
+		}
 	}
 
 	public String getButtonText() {
@@ -147,8 +171,9 @@ public class ComboAndButtonSection extends Section {
 
 	public void setButtonText(String buttonText) {
 		this.buttonText = buttonText;
-		if (button != null)
+		if (button != null) {
 			button.setText(buttonText);
+		}
 	}
 
 	protected List buttonSelectList = new ArrayList();
@@ -158,19 +183,22 @@ public class ComboAndButtonSection extends Section {
 	 */
 	public void addButtonSelectionListener(SelectionListener listener) {
 		if (!buttonSelectList.contains(listener)) {
-			if (!buttonSelectList.isEmpty())
+			if (!buttonSelectList.isEmpty()) {
 				removeButtonSelectionListener((SelectionListener) buttonSelectList.get(0));
+			}
 			buttonSelectList.add(listener);
-			if (button != null)
+			if (button != null) {
 				button.addSelectionListener(listener);
+			}
 		}
 	}
 
 	public void removeButtonSelectionListener(SelectionListener listener) {
 		if (buttonSelectList.contains(listener)) {
 			buttonSelectList.remove(listener);
-			if (button != null)
+			if (button != null) {
 				button.removeSelectionListener(listener);
+			}
 		}
 	}
 
@@ -178,36 +206,42 @@ public class ComboAndButtonSection extends Section {
 
 	public void addComboSelectionListener(SelectionListener listener) {
 		if (!comboSelectList.contains(listener)) {
-			if (!comboSelectList.isEmpty())
+			if (!comboSelectList.isEmpty()) {
 				removeComboSelectionListener((SelectionListener) comboSelectList.get(0));
+			}
 			comboSelectList.add(listener);
-			if (combo != null)
+			if (combo != null) {
 				combo.addComboSelectionListener(listener);
+			}
 		}
 	}
 
 	public void removeComboSelectionListener(SelectionListener listener) {
 		if (comboSelectList.contains(listener)) {
 			comboSelectList.remove(listener);
-			if (combo != null)
+			if (combo != null) {
 				combo.removeComboSelectionListener(listener);
+			}
 		}
 	}
 
 	protected void onClickButton() {
-	};
+	}
 
 	public void forceFocus() {
 		combo.getControl().forceFocus();
 	}
 
+	@Override
 	public void setInput(Object input) {
 		combo.setInput(input);
 	}
 
+	@Override
 	public void load() {
-		if (combo != null && !combo.getControl().isDisposed())
+		if (combo != null && !combo.getControl().isDisposed()) {
 			combo.load();
+		}
 	}
 
 	private int buttonWidth = 60;
@@ -217,7 +251,7 @@ public class ComboAndButtonSection extends Section {
 		if (button != null) {
 			GridData data = new GridData();
 			data.widthHint = Math.max(button.computeSize(-1, -1).x, buttonWidth);
-			;
+
 			data.grabExcessHorizontalSpace = false;
 			button.setLayoutData(data);
 		}
@@ -257,26 +291,36 @@ public class ComboAndButtonSection extends Section {
 		this.fillCCombo = fillCCombo;
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (combo != null)
+		}
+		if (combo != null) {
 			combo.setHidden(isHidden);
-		if (button != null)
+		}
+		if (button != null) {
 			WidgetUtil.setExcludeGridData(button, isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (combo != null)
+		}
+		if (combo != null) {
 			combo.setVisible(isVisible);
-		if (button != null)
+		}
+		if (button != null) {
 			button.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 
 }

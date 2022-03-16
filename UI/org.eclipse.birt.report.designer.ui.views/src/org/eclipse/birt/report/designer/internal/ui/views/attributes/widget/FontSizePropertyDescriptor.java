@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +39,7 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#resetUIData()
 	 */
@@ -48,26 +51,30 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor {
 		}
 
 		if (getDescriptorProvider() instanceof FontSizePropertyDescriptorProvider) {
-			if (((FontSizePropertyDescriptorProvider) getDescriptorProvider()).isReadOnly())
+			if (((FontSizePropertyDescriptorProvider) getDescriptorProvider()).isReadOnly()) {
 				builder.setEnabled(false);
+			}
 		}
 		builder.setFontSizeValue(strValue);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
+	@Override
 	public Control getControl() {
 		return builder;
 	}
 
+	@Override
 	public Control createControl(Composite parent) {
 		builder = new FontSizeBuilder(parent, SWT.NONE, isFormStyle());
 		builder.addListener(SWT.Modify, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				handleBuilderModifyEvent();
 			}
@@ -103,6 +110,7 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor {
 		}
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		descriptorProvider.save(value);
 	}
@@ -125,11 +133,13 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor {
 
 	private String oldValue;
 
+	@Override
 	public void load() {
 		oldValue = getDescriptorProvider().load().toString();
 		refresh(oldValue);
 	}
 
+	@Override
 	public void setInput(Object handle) {
 		this.input = handle;
 		getDescriptorProvider().setInput(input);

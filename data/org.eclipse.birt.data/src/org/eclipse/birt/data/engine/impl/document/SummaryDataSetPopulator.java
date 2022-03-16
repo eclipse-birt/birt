@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +25,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
  * The populator class for summary result set.
- * 
+ *
  */
 public class SummaryDataSetPopulator implements IDataSetPopulator {
 	private org.eclipse.birt.data.engine.impl.document.ResultIterator docIt;
@@ -39,9 +42,11 @@ public class SummaryDataSetPopulator implements IDataSetPopulator {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IDataSetPopulator#next()
 	 */
+	@Override
 	public IResultObject next() throws DataException {
-		if (!this.docIt.next())
+		if (!this.docIt.next()) {
 			return null;
+		}
 
 		Object[] field = new Object[this.resultClass.getFieldCount()];
 
@@ -51,8 +56,9 @@ public class SummaryDataSetPopulator implements IDataSetPopulator {
 			try {
 				if (ExprMetaUtil.POS_NAME.equals(columnName)) {
 					field[i] = this.docIt.getRowId();
-				} else
+				} else {
 					field[i] = this.docIt.getValue(columnName);
+				}
 			} catch (BirtException e) {
 				throw DataException.wrap(e);
 			}

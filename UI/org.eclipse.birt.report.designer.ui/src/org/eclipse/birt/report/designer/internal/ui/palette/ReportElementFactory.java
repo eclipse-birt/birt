@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ public class ReportElementFactory implements CreationFactory {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param name
 	 */
 	public ReportElementFactory(Object name) {
@@ -32,7 +35,7 @@ public class ReportElementFactory implements CreationFactory {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param name
 	 */
 	public ReportElementFactory(Object name, Object newObject) {
@@ -42,18 +45,20 @@ public class ReportElementFactory implements CreationFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.requests.CreationFactory#getNewObject()
 	 */
+	@Override
 	public Object getNewObject() {
 		return newObject;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.requests.CreationFactory#getObjectType()
 	 */
+	@Override
 	public Object getObjectType() {
 		return elementName;
 	}

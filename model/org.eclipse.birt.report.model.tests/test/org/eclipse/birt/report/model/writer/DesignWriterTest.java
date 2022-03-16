@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +51,7 @@ import com.ibm.icu.util.ULocale;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected Result</th>
- * 
+ *
  * <tr>
  * <td><a name="T1">testSerializeOutputStream </a></td>
  * <td>Save the opened design file by calling
@@ -58,20 +61,20 @@ import com.ibm.icu.util.ULocale;
  * compare the final output file to a golden file, they should be identical
  * except the modification date</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>testUTF8Encoding</td>
  * <td>Tests to write some character that are not UTF-8.</td>
  * <td>The file can be written and read correctly.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
- * 
+ *
+ *
  * @see org.eclipse.birt.report.model.writer.DesignWriter
  * @see org.eclipse.birt.report.model.api.ReportDesignHandle
  * @see org.eclipse.birt.report.model.util.XMLWriter
- * 
+ *
  */
 public class DesignWriterTest extends BaseTestCase {
 
@@ -87,7 +90,7 @@ public class DesignWriterTest extends BaseTestCase {
 	/**
 	 * Save the design by calling Please see <a href="#T1">here </a> for detail test
 	 * case description.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testSerializeOutputStream() throws Exception {
@@ -105,7 +108,7 @@ public class DesignWriterTest extends BaseTestCase {
 
 	/**
 	 * Tests UTF-8 writer and DesignReader.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testUTF8Encoding() throws Exception {
@@ -114,8 +117,8 @@ public class DesignWriterTest extends BaseTestCase {
 			fail();
 		} catch (DesignFileException e) {
 			List<ErrorDetail> list = e.getErrorList();
-			assertTrue(list.get(0).getExceptionName(),list.get(0).getExceptionName().endsWith("XMLParserException"));
-		//	assertTrue(list.get(0).getExceptionName(),list.get(0).getExceptionName().endsWith("MalformedByteSequenceException"));
+			assertTrue(list.get(0).getExceptionName(), list.get(0).getExceptionName().endsWith("XMLParserException"));
+			// assertTrue(list.get(0).getExceptionName(),list.get(0).getExceptionName().endsWith("MalformedByteSequenceException"));
 		}
 
 		createDesign();
@@ -154,7 +157,7 @@ public class DesignWriterTest extends BaseTestCase {
 
 	/**
 	 * Tests UTF signature.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testBOMSignature() throws Exception {
@@ -197,7 +200,7 @@ public class DesignWriterTest extends BaseTestCase {
 	/**
 	 * Tests the save() to give a file name like "file:/c:/test" -- containing file
 	 * schema.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testSave() throws Exception {
@@ -206,8 +209,9 @@ public class DesignWriterTest extends BaseTestCase {
 		String folder = getTempFolder() + OUTPUT_FOLDER;
 
 		File f = new File(folder);
-		if (!f.exists())
+		if (!f.exists()) {
 			f.mkdirs();
+		}
 
 		designHandle.setFileName(f.toURI().toURL() + "DesignWriterTest.xml"); //$NON-NLS-1$
 		designHandle.save();
@@ -216,7 +220,7 @@ public class DesignWriterTest extends BaseTestCase {
 	/**
 	 * Reads the content in the output stream as a design file. Design handle and
 	 * design are updated.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	private void readOutputFile(String outputFileName) throws Exception {
@@ -232,7 +236,7 @@ public class DesignWriterTest extends BaseTestCase {
 	 * Test item in structure contain another structure. for example: report item
 	 * has toc structure, and toc can contain other structure such as DateTimeFormat
 	 * , StringFormat.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testStructContainStrucut() throws Exception {
@@ -260,7 +264,7 @@ public class DesignWriterTest extends BaseTestCase {
 	 * Test item in structure list contain another structure. for example: style has
 	 * highlightrule list. and each highlightrule can contain other structure such
 	 * as DateTimeFormat, StringFormat.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testStructListContainStruct() throws Exception {
@@ -277,7 +281,7 @@ public class DesignWriterTest extends BaseTestCase {
 		formatValueToSet.setPattern("yyyy/mm/dd");//$NON-NLS-1$
 		rule.setProperty(TOC.DATE_TIME_FORMAT_MEMBER, formatValueToSet);
 
-		List<HighlightRule> list = new ArrayList<HighlightRule>();
+		List<HighlightRule> list = new ArrayList<>();
 		list.add(rule);
 		styleHandle.getElement().setProperty(IStyleModel.HIGHLIGHT_RULES_PROP, list);
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +34,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
  * Records adding or removing an item from a property list.
- * 
+ *
  */
 
 public class PropertyListRecord extends SimpleRecord {
@@ -77,11 +80,11 @@ public class PropertyListRecord extends SimpleRecord {
 	/**
 	 * Constructor for a remove operation. Removes the item given by the member
 	 * reference.
-	 * 
+	 *
 	 * @param element  the element
 	 * @param context  the context to add the structure
 	 * @param toRemove the structure to remove
-	 * 
+	 *
 	 */
 
 	public PropertyListRecord(DesignElement element, StructureContext context, int posn) {
@@ -95,11 +98,12 @@ public class PropertyListRecord extends SimpleRecord {
 		assert element == context.getElement();
 
 		Object valueContainer = context.getValueContainer();
-		if (valueContainer instanceof Structure)
+		if (valueContainer instanceof Structure) {
 			list = (List) ((Structure) valueContainer).getLocalProperty(null, (PropertyDefn) context.getPropDefn());
-		else
+		} else {
 			list = (List) ((DesignElement) valueContainer).getLocalProperty(null,
 					(ElementPropertyDefn) context.getPropDefn());
+		}
 
 		this.posn = posn;
 		this.value = list.get(posn);
@@ -111,13 +115,13 @@ public class PropertyListRecord extends SimpleRecord {
 	/**
 	 * Constructor for a remove operation. Removes the item given by the member
 	 * reference.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param element the element
 	 * @param context the context to add the structure
 	 * @param toAdd   the structure to add
 	 * @param posn    the position to add
-	 * 
+	 *
 	 */
 
 	public PropertyListRecord(DesignElement element, StructureContext context, Object toAdd, int posn) {
@@ -132,11 +136,12 @@ public class PropertyListRecord extends SimpleRecord {
 		assert element == context.getElement();
 
 		Object valueContainer = context.getValueContainer();
-		if (valueContainer instanceof Structure)
+		if (valueContainer instanceof Structure) {
 			list = (List) ((Structure) valueContainer).getLocalProperty(null, (PropertyDefn) context.getPropDefn());
-		else
+		} else {
 			list = (List) ((DesignElement) valueContainer).getLocalProperty(null,
 					(ElementPropertyDefn) context.getPropDefn());
+		}
 
 		this.posn = posn;
 
@@ -147,10 +152,10 @@ public class PropertyListRecord extends SimpleRecord {
 	/**
 	 * Constructor for a remove operation. Removes the item given by the member
 	 * reference.
-	 * 
+	 *
 	 * @param element  the design element
 	 * @param propDefn the element property definition
-	 * 
+	 *
 	 * @param theList  the property list itself
 	 * @param toAdd    the object to add, not the structure
 	 * @param posn     the position to add
@@ -175,7 +180,7 @@ public class PropertyListRecord extends SimpleRecord {
 	/**
 	 * Constructor for a remove operation. Removes the item given by the member
 	 * reference.
-	 * 
+	 *
 	 * @param element  the element
 	 * @param propDefn the element property definition
 	 * @param theList  the property list itself
@@ -197,11 +202,12 @@ public class PropertyListRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
 	 * (boolean)
 	 */
 
+	@Override
 	protected void perform(boolean undo) {
 		boolean doAdd = (undo && !isAdd || !undo && isAdd);
 		if (doAdd) {
@@ -224,36 +230,41 @@ public class PropertyListRecord extends SimpleRecord {
 			Object localValue = context.getLocalValue(element.getRoot());
 			if (localValue instanceof List) {
 				List listValue = (List) localValue;
-				if (listValue.isEmpty())
+				if (listValue.isEmpty()) {
 					context.clearValue();
+				}
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
 	 * #getTarget()
 	 */
 
+	@Override
 	public DesignElement getTarget() {
-		if (eventTarget != null)
+		if (eventTarget != null) {
 			return eventTarget.getElement();
+		}
 
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
 	 * ()
 	 */
 
+	@Override
 	public NotificationEvent getEvent() {
-		if (eventTarget != null)
+		if (eventTarget != null) {
 			return new PropertyEvent(eventTarget.getElement(), eventTarget.getPropName());
+		}
 
 		// Use the same notification for the done/redone and undone states.
 
@@ -262,20 +273,19 @@ public class PropertyListRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
+	@Override
 	protected List<RecordTask> getPostTasks() {
-		List<RecordTask> retList = new ArrayList<RecordTask>();
-		retList.addAll(super.getPostTasks());
-
+		List<RecordTask> retList = new ArrayList<>(super.getPostTasks());
 		retList.add(new NotificationRecordTask(element, getEvent()));
 
 		// if the structure is referencable, then send notification to the
 		// clients
 
-		if (value != null && value instanceof IStructure && ((IStructure) value).isReferencable()) {
+		if (value instanceof IStructure && ((IStructure) value).isReferencable()) {
 			ReferencableStructure refValue = (ReferencableStructure) value;
 			retList.add(new NotificationRecordTask(refValue, getEvent()));
 		}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +42,7 @@ public class ResourceSelectionValidator implements ISelectionStatusValidator {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param multiSelect   allow multi select.
 	 * @param acceptFolders allow select folder as result.
 	 * @param ext           file extension to filter.
@@ -69,7 +72,7 @@ public class ResourceSelectionValidator implements ISelectionStatusValidator {
 
 	/**
 	 * Constructor. No allow mulit select,
-	 * 
+	 *
 	 * @param acceptFolders allow select folder as result.
 	 */
 	public ResourceSelectionValidator(boolean acceptFolders) {
@@ -78,7 +81,7 @@ public class ResourceSelectionValidator implements ISelectionStatusValidator {
 
 	/**
 	 * Constructor. Not allow mulit select,
-	 * 
+	 *
 	 * @param acceptFolders allow select folder as result.
 	 * @param ext           file extension to filter.
 	 */
@@ -88,7 +91,7 @@ public class ResourceSelectionValidator implements ISelectionStatusValidator {
 
 	/**
 	 * Constructor. Not allow mulit select, Not allow select folder as result.
-	 * 
+	 *
 	 * @param ext file extension to filter.
 	 */
 	public ResourceSelectionValidator(String[] ext) {
@@ -97,22 +100,23 @@ public class ResourceSelectionValidator implements ISelectionStatusValidator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.dialogs.ISelectionStatusValidator#validate(java.lang.Object[])
 	 */
+	@Override
 	public IStatus validate(Object[] selection) {
 		int nSelected = selection.length;
 		String pluginId = ReportPlugin.REPORT_UI;
 
-		if (nSelected == 0 || (nSelected > 1 && multiSelect == false)) {
+		if (nSelected == 0 || (nSelected > 1 && !multiSelect)) {
 			return EmptyStatus;
 		}
 		for (int i = 0; i < selection.length; i++) {
 			Object curr = selection[i];
 			if (curr instanceof ResourceEntry) {
 				ResourceEntry resource = (ResourceEntry) curr;
-				if (acceptFolders == false && !resource.isFile()) {
+				if (!acceptFolders && !resource.isFile()) {
 					return EmptyStatus;
 				}
 				if (ext != null) {

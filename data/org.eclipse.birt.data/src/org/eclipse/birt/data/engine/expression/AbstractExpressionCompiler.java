@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -64,21 +67,22 @@ abstract class AbstractExpressionCompiler {
 
 	/**
 	 * Compile the script expression.
-	 * 
+	 *
 	 * @param baseExpr
 	 * @param context
 	 * @return
 	 */
 	private void compile(IScriptExpression baseExpr, ScriptContext context) throws DataException {
-		if (baseExpr == null)
+		if (baseExpr == null) {
 			return;
+		}
 		CompiledExpression handle = this.compileExpression(baseExpr, context);
 		baseExpr.setHandle(handle);
 	}
 
 	/**
 	 * compile the scriptExpresion to generate a subclass of compiledExpression.
-	 * 
+	 *
 	 * @param exp
 	 * @param context
 	 * @return
@@ -89,8 +93,9 @@ abstract class AbstractExpressionCompiler {
 		try {
 			this.scriptExpr = baseExpr;
 			exp = baseExpr.getText();
-			if (exp == null || BaseExpression.constantId.equals(baseExpr.getScriptId()))
+			if (exp == null || BaseExpression.constantId.equals(baseExpr.getScriptId())) {
 				return null;
+			}
 			IDataScriptEngine engine = (IDataScriptEngine) context.getScriptEngine(IDataScriptEngine.ENGINE_NAME);
 
 			ScriptNode tree = parse(exp, engine.getJSContext(context));
@@ -103,7 +108,7 @@ abstract class AbstractExpressionCompiler {
 
 	/**
 	 * compile the string expression
-	 * 
+	 *
 	 * @param expression
 	 * @param context
 	 * @return
@@ -113,8 +118,9 @@ abstract class AbstractExpressionCompiler {
 		String exp = "";
 		try {
 			exp = expression;
-			if (exp == null)
+			if (exp == null) {
 				return null;
+			}
 
 			IDataScriptEngine engine = (IDataScriptEngine) context.getScriptEngine(IDataScriptEngine.ENGINE_NAME);
 
@@ -127,7 +133,7 @@ abstract class AbstractExpressionCompiler {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return scriptExpression
 	 */
 	protected IScriptExpression getScriptExpression() {
@@ -136,7 +142,7 @@ abstract class AbstractExpressionCompiler {
 
 	/**
 	 * get compiled environment
-	 * 
+	 *
 	 * @param context
 	 * @return
 	 */
@@ -150,7 +156,7 @@ abstract class AbstractExpressionCompiler {
 
 	/**
 	 * process the script tree to produce a <code>CompiledExpression</code>
-	 * 
+	 *
 	 * @param expression
 	 * @param tree
 	 * @param context
@@ -162,9 +168,10 @@ abstract class AbstractExpressionCompiler {
 	{
 		CompiledExpression expr;
 		if (tree.getFirstChild() == tree.getLastChild()) {
-			if (tree.getFirstChild() == null)
+			if (tree.getFirstChild() == null) {
 				throw new DataException("Expression parse error: first child is null. The expression is " + expression,
 						expression);
+			}
 			// A single expression
 			if (tree.getFirstChild().getType() != Token.EXPR_RESULT && tree.getFirstChild().getType() != Token.EXPR_VOID
 					&& tree.getFirstChild().getType() != Token.BLOCK) {
@@ -174,9 +181,9 @@ abstract class AbstractExpressionCompiler {
 			Node child, parent = tree;
 			Node exprNode = parent.getFirstChild();
 			child = exprNode.getFirstChild();
-			if (child.getNext() != null)
+			if (child.getNext() != null) {
 				child = exprNode;
-			else {
+			} else {
 				parent = exprNode;
 			}
 			assert (child != null && parent != null);
@@ -188,22 +195,24 @@ abstract class AbstractExpressionCompiler {
 			// to identify the interesting subexpressions
 			expr = compileComplexExpr(context, tree, false);
 		}
-		if (expr instanceof BytecodeExpression)
+		if (expr instanceof BytecodeExpression) {
 			compileForBytecodeExpr(context, tree, expr);
+		}
 		return expr;
 	}
 
 	/**
 	 * parse the expression to script tree
-	 * 
+	 *
 	 * @param expression
 	 * @param cx
 	 * @return
 	 * @throws DataException
 	 */
 	protected ScriptNode parse(String expression, Context cx) throws DataException {
-		if (expression == null)
+		if (expression == null) {
 			throw new DataException(ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK);
+		}
 
 		CompilerEnvirons compilerEnv = getCompilerEnv(cx);
 		Parser p = new Parser(compilerEnv, cx.getErrorReporter());
@@ -214,9 +223,9 @@ abstract class AbstractExpressionCompiler {
 	}
 
 	/**
-	 * 
+	 *
 	 * returns the compiled expression from processing a child node
-	 * 
+	 *
 	 * @param context
 	 * @param customerChecked
 	 * @param parent
@@ -265,15 +274,16 @@ abstract class AbstractExpressionCompiler {
 			break;
 		}
 		}
-		if (compiledExpr == null)
+		if (compiledExpr == null) {
 			compiledExpr = compileComplexExpr(context, child, customerChecked);
+		}
 		return compiledExpr;
 	}
 
 	/**
 	 * Check if the expression is a direct column reference type. If so, returns an
 	 * instance of DirectColRefExpr that represents it; otherwise returns null.
-	 * 
+	 *
 	 * @param parent
 	 * @param refNode
 	 * @param customerChecked
@@ -286,7 +296,7 @@ abstract class AbstractExpressionCompiler {
 	/**
 	 * Check if the expression is a direct column reference type. If so, returns an
 	 * instance of DirectColRefExpr that represents it; otherwise returns null.
-	 * 
+	 *
 	 * @param refNode
 	 * @param customerChecked
 	 * @return
@@ -300,13 +310,15 @@ abstract class AbstractExpressionCompiler {
 
 		Node rowName = refNode.getFirstChild();
 		assert (rowName != null);
-		if (rowName.getType() != Token.NAME)
+		if (rowName.getType() != Token.NAME) {
 			return null;
+		}
 
 		String str = rowName.getString();
 		assert (str != null);
-		if (!str.equals(rowIndicator))
+		if (!str.equals(rowIndicator)) {
 			return null;
+		}
 
 		Node rowColumn = rowName.getNext();
 		assert (rowColumn != null);
@@ -333,7 +345,7 @@ abstract class AbstractExpressionCompiler {
 	/**
 	 * Check the expression is an aggregate expression. If so, returns an instance
 	 * of AggregateExpression, otherwise return null
-	 * 
+	 *
 	 * @param context
 	 * @param parent
 	 * @param callNode
@@ -346,7 +358,7 @@ abstract class AbstractExpressionCompiler {
 	/**
 	 * Check the expression is a complex expression. If so, returns an instance of
 	 * ComplexExpression, otherwise return null
-	 * 
+	 *
 	 * @param context
 	 * @param complexNode
 	 * @return @throws DataException
@@ -355,7 +367,7 @@ abstract class AbstractExpressionCompiler {
 			throws DataException {
 		ComplexExpression complexExpr = new ComplexExpression();
 		Node child = complexNode.getFirstChild();
-		complexExpr.addTokenList(Integer.valueOf(complexNode.getType()));
+		complexExpr.addTokenList(complexNode.getType());
 		while (child != null) {
 			// keep reference to next child, since subsequent steps could lose
 			// the reference to it
@@ -365,15 +377,16 @@ abstract class AbstractExpressionCompiler {
 			if (child.getType() == Token.NUMBER || child.getType() == Token.STRING || child.getType() == Token.TRUE
 					|| child.getType() == Token.FALSE || child.getType() == Token.NULL) {
 				CompiledExpression subExpr = processChild(context, false, complexNode, child, null);
-				if (subExpr instanceof ConstantExpression)
+				if (subExpr instanceof ConstantExpression) {
 					complexExpr.addContantsExpressions(subExpr);
+				}
 				child = nextChild;
 				continue;
 			}
 
 			CompiledExpression subExpr = processChild(context, checked, complexNode, child, null);
 			complexExpr.addSubExpression(subExpr);
-			complexExpr.addTokenList(Integer.valueOf(child.getType()));
+			complexExpr.addTokenList(child.getType());
 			child = nextChild;
 		}
 
@@ -384,7 +397,7 @@ abstract class AbstractExpressionCompiler {
 
 	/**
 	 * compile the tree to script
-	 * 
+	 *
 	 * @param context
 	 * @param tree
 	 * @param expr
@@ -402,23 +415,26 @@ abstract class AbstractExpressionCompiler {
 	 * An aggregation expression in the form of Total.xxx for example Total.sum(
 	 * row.x ) This means the first child is a GETPROP node, and its left child is
 	 * "Total" and its right child is "sum"
-	 * 
+	 *
 	 * @param callNode
 	 * @return @throws DataException
 	 */
 	protected IAggrFunction getAggregationFunction(Node callNode) throws DataException {
 
 		Node firstChild = callNode.getFirstChild();
-		if (firstChild.getType() != Token.GETPROP)
+		if (firstChild.getType() != Token.GETPROP) {
 			return null;
+		}
 
 		Node getPropLeftChild = firstChild.getFirstChild();
-		if (getPropLeftChild.getType() != Token.NAME || !getPropLeftChild.getString().equals(TOTAL))
+		if (getPropLeftChild.getType() != Token.NAME || !getPropLeftChild.getString().equals(TOTAL)) {
 			return null;
+		}
 
 		Node getPropRightChild = firstChild.getLastChild();
-		if (getPropRightChild.getType() != Token.STRING)
+		if (getPropRightChild.getType() != Token.STRING) {
 			return null;
+		}
 
 		String aggrFuncName = getPropRightChild.getString();
 		IAggrFunction agg = AggregationManager.getInstance().getAggregation(aggrFuncName);
@@ -437,7 +453,7 @@ abstract class AbstractExpressionCompiler {
 	 * provides no additional information for the calculation to use. this nesting
 	 * could occur depending on the Rhino parse tree that's returned by Rhino, and
 	 * the limited way we can traverse down the parse tree.
-	 * 
+	 *
 	 * @param complexExpr
 	 */
 	private void flattenNestedComplexExprs(ComplexExpression complexExpr) {
@@ -449,9 +465,9 @@ abstract class AbstractExpressionCompiler {
 		Iterator iter = subExprs.iterator();
 		while (iter.hasNext()) {
 			CompiledExpression childExpr = (CompiledExpression) iter.next();
-			if (childExpr instanceof ColumnReferenceExpression || childExpr instanceof AggregateExpression)
+			if (childExpr instanceof ColumnReferenceExpression || childExpr instanceof AggregateExpression) {
 				interestingSubExpr.add(childExpr);
-			else if (childExpr instanceof ComplexExpression) {
+			} else if (childExpr instanceof ComplexExpression) {
 				Collection childSubExprs = ((ComplexExpression) childExpr).getSubExpressions();
 
 				childSubExprs.addAll(((ComplexExpression) childExpr).getConstantExpressions());
@@ -461,16 +477,18 @@ abstract class AbstractExpressionCompiler {
 				while (childIter.hasNext()) {
 					CompiledExpression childChildExpr = (CompiledExpression) childIter.next();
 					if (childChildExpr instanceof ColumnReferenceExpression
-							|| childChildExpr instanceof AggregateExpression)
+							|| childChildExpr instanceof AggregateExpression) {
 						interestingSubExpr.add(childChildExpr);
-					else if (childChildExpr instanceof ConstantExpression)
+					} else if (childChildExpr instanceof ConstantExpression) {
 						interestingConstantExpr.add(childChildExpr);
-					else
+					} else {
 						assert false;
+					}
 				}
 
-			} else
+			} else {
 				assert false;
+			}
 
 			iter.remove();
 		}
@@ -481,7 +499,7 @@ abstract class AbstractExpressionCompiler {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param isDataSetMode
 	 */
 	public void setDataSetMode(boolean isDataSetMode) {
@@ -494,7 +512,7 @@ abstract class AbstractExpressionCompiler {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	protected boolean getDataSetMode() {

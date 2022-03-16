@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,21 +36,26 @@ public class MongoDBDataSourceWizardPage extends DataSourceWizardPage {
 		pageHelper = new MongoDBDataSourcePageHelper(this);
 	}
 
+	@Override
 	public Properties collectCustomProperties() {
 		return pageHelper.collectCustomProperties(properties);
 	}
 
+	@Override
 	public void setInitialProperties(Properties dataSourceProps) {
 		properties = dataSourceProps;
-		if (pageHelper == null)
+		if (pageHelper == null) {
 			return; // ignore, wait till createPageCustomControl to initialize
+		}
 
 		pageHelper.initPageInfos(properties);
 	}
 
+	@Override
 	public void createPageCustomControl(Composite parent) {
-		if (pageHelper == null)
+		if (pageHelper == null) {
 			pageHelper = new MongoDBDataSourcePageHelper(this);
+		}
 
 		pageHelper.createPageControls(parent);
 		pageHelper.refreshPageControls();
@@ -58,9 +66,10 @@ public class MongoDBDataSourceWizardPage extends DataSourceWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
 	 */
+	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		pageHelper.setFocus();

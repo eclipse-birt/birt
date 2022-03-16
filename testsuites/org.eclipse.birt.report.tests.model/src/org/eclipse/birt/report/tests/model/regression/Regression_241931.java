@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -37,6 +40,7 @@ public class Regression_241931 extends BaseTestCase {
 	private final static String CSS1 = "regression_241931_1.css";
 	private final static String CSS2 = "regression_241931_2.css";
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -48,7 +52,7 @@ public class Regression_241931 extends BaseTestCase {
 
 	/**
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	public void test_regression_241931() throws Exception {
 		openDesign(REPORT);
@@ -77,19 +81,14 @@ public class Regression_241931 extends BaseTestCase {
 
 		public static class Notification {
 
-			DesignElementHandle target = null;
 			NotificationEvent event = null;
 
 			Notification(DesignElementHandle element, NotificationEvent event) {
-				this.target = element;
 				this.event = event;
-			}
-
-			public NotificationEvent getEvent() {
-				return this.event;
 			}
 		}
 
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			this.notifications.add(new Notification(focus, ev));
 		}

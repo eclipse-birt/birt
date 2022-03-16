@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +24,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Represents the handle of the cube-dimension/hierarchy join condition.
- * 
+ *
  * <p>
  * <dl>
  * <dt><strong>Primary Keys </strong></dt>
@@ -32,14 +35,14 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * <dd>Hierarchy refers a hierarchy element in one of the dimension in the cube.
  * </dd>
  * </dl>
- * 
+ *
  */
 
 public class DimensionConditionHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of the cube join condition.
-	 * 
+	 *
 	 * @param valueHandle the value handle for the cube join condition list of one
 	 *                    property
 	 * @param index       the position of this join condition in the list
@@ -52,7 +55,7 @@ public class DimensionConditionHandle extends StructureHandle {
 	/**
 	 * Gets the member handle to deal with all the
 	 * <code>DimensionJoinCondition</code>.
-	 * 
+	 *
 	 * @return the member handle for all the DimensionJoinCondition
 	 */
 	public MemberHandle getJoinConditions() {
@@ -61,7 +64,7 @@ public class DimensionConditionHandle extends StructureHandle {
 
 	/**
 	 * Gets the dimension join condition handle.
-	 * 
+	 *
 	 * @param joinCondition the join condition.
 	 * @return the dimension join condition handle.
 	 * @throws SemanticException
@@ -73,7 +76,7 @@ public class DimensionConditionHandle extends StructureHandle {
 
 	/**
 	 * Removes join condition from this dimension condition.
-	 * 
+	 *
 	 * @param joinCondition the join condition to remove
 	 * @throws SemanticException
 	 */
@@ -83,7 +86,7 @@ public class DimensionConditionHandle extends StructureHandle {
 
 	/**
 	 * Remove the join condition in the specified position.
-	 * 
+	 *
 	 * @param index the position where the join condition resides
 	 * @throws SemanticException
 	 */
@@ -93,21 +96,22 @@ public class DimensionConditionHandle extends StructureHandle {
 
 	/**
 	 * Gets the referred hierarchy handle of this condition.
-	 * 
+	 *
 	 * @return hierarchy handle of this condition if found, otherwise null
 	 */
 	public HierarchyHandle getHierarchy() {
 		ElementRefValue refValue = (ElementRefValue) ((Structure) getStructure()).getLocalProperty(getModule(),
 				DimensionCondition.HIERARCHY_MEMBER);
-		if (refValue == null || !refValue.isResolved())
+		if (refValue == null || !refValue.isResolved()) {
 			return null;
+		}
 		DesignElement element = refValue.getElement();
 		return (HierarchyHandle) element.getHandle(element.getRoot());
 	}
 
 	/**
 	 * Gets the referred hierarchy name of this condition.
-	 * 
+	 *
 	 * @return hierarchy name of this condition if set, otherwise null
 	 */
 	public String getHierarchyName() {
@@ -116,7 +120,7 @@ public class DimensionConditionHandle extends StructureHandle {
 
 	/**
 	 * Sets the referred hierarchy by the name.
-	 * 
+	 *
 	 * @param hierarchyName the hierarchy name to set
 	 * @throws SemanticException
 	 */
@@ -126,7 +130,7 @@ public class DimensionConditionHandle extends StructureHandle {
 
 	/**
 	 * Sets the referred hierarchy by the handle.
-	 * 
+	 *
 	 * @param hierarchyHandle the hierarchy handle to set
 	 * @throws SemanticException
 	 */

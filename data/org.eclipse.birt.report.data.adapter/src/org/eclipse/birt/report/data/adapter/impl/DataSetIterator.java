@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -58,7 +61,6 @@ public class DataSetIterator implements IDatasetIterator {
 	private ResultMeta metadata;
 	private Calendar calendar;
 	private Calendar defaultCalendar;
-	private Calendar gmtCalendar;
 	private SecurityListener securityListener;
 	private long nullTime;
 	private String dimName;
@@ -66,7 +68,7 @@ public class DataSetIterator implements IDatasetIterator {
 	private IQueryResults queryResult;
 
 	/**
-	 * 
+	 *
 	 * @param session
 	 * @param query
 	 * @param appContext
@@ -90,7 +92,7 @@ public class DataSetIterator implements IDatasetIterator {
 
 	/**
 	 * Create DataSetIterator for fact table.
-	 * 
+	 *
 	 * @param session
 	 * @param cubeHandle
 	 * @throws BirtException
@@ -123,8 +125,9 @@ public class DataSetIterator implements IDatasetIterator {
 	}
 
 	static int getDefaultStartValue(String timeType, String value) throws AdapterException {
-		if (value != null && Double.valueOf(value).doubleValue() != 0)
-			return Integer.valueOf(value).intValue();
+		if (value != null && Double.parseDouble(value) != 0) {
+			return Integer.parseInt(value);
+		}
 		if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH.equals(timeType)) {
 			return 1;
 		} else if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK.equals(timeType)) {
@@ -147,57 +150,65 @@ public class DataSetIterator implements IDatasetIterator {
 			return 0;
 		} else if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals(timeType)) {
 			return 0;
-		} else
+		} else {
 			throw new AdapterException("Error");
+		}
 	}
 
 	static String createLevelName(String dimName, String levelName) {
-		if (dimName != null)
+		if (dimName != null) {
 			return dimName + "/" + levelName;
-		else
+		} else {
 			return levelName;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator#close()
 	 */
+	@Override
 	public void close() throws BirtException {
-		if (this.queryResult != null)
+		if (this.queryResult != null) {
 			this.queryResult.close();
-		if (it != null)
+		}
+		if (it != null) {
 			it.close();
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator#getFieldIndex(
 	 * java.lang.String)
 	 */
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		return this.metadata.getFieldIndex(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator#getFieldType(java
 	 * .lang.String)
 	 */
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		return this.metadata.getFieldType(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator#getValue(int)
 	 */
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		Object value = it.getValue(this.metadata.getFieldName(fieldIndex));
 		if (value == null) {
@@ -215,9 +226,10 @@ public class DataSetIterator implements IDatasetIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator#next()
 	 */
+	@Override
 	public boolean next() throws BirtException {
 		boolean hasNext = false;
 
@@ -233,9 +245,8 @@ public class DataSetIterator implements IDatasetIterator {
 
 		if (!hasNext) {
 			it.close();
-		} else {
-			if (this.securityListener != null)
-				this.securityListener.process(dimName, this);
+		} else if (this.securityListener != null) {
+			this.securityListener.process(dimName, this);
 		}
 		return hasNext;
 	}
@@ -254,7 +265,7 @@ public class DataSetIterator implements IDatasetIterator {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 */
 	private class ResultMeta {
@@ -265,7 +276,7 @@ public class DataSetIterator implements IDatasetIterator {
 
 		/**
 		 * Constructor.
-		 * 
+		 *
 		 * @param columnMetas
 		 */
 		ResultMeta(List columnMetas) {
@@ -284,7 +295,7 @@ public class DataSetIterator implements IDatasetIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param fieldName
 		 * @return
 		 */
@@ -293,7 +304,7 @@ public class DataSetIterator implements IDatasetIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param fieldName
 		 * @return
 		 */
@@ -302,7 +313,7 @@ public class DataSetIterator implements IDatasetIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param index
 		 * @return
 		 */
@@ -311,7 +322,7 @@ public class DataSetIterator implements IDatasetIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param index
 		 * @return
 		 */
@@ -324,7 +335,7 @@ public class DataSetIterator implements IDatasetIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param fieldType
 		 * @return
 		 */
@@ -354,7 +365,7 @@ public class DataSetIterator implements IDatasetIterator {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 */
 	static class ColumnMeta {
@@ -369,7 +380,7 @@ public class DataSetIterator implements IDatasetIterator {
 		private IDataProcessor dataProcessor;
 
 		/**
-		 * 
+		 *
 		 * @param name
 		 */
 		ColumnMeta(String name, IDataProcessor processor, int type) {
@@ -379,7 +390,7 @@ public class DataSetIterator implements IDatasetIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @return
 		 */
 		public int getIndex() {
@@ -387,7 +398,7 @@ public class DataSetIterator implements IDatasetIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @return
 		 */
 		public int getType() {
@@ -395,7 +406,7 @@ public class DataSetIterator implements IDatasetIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @return
 		 */
 		public String getName() {
@@ -403,7 +414,7 @@ public class DataSetIterator implements IDatasetIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param index
 		 */
 		public void setIndex(int index) {
@@ -411,7 +422,7 @@ public class DataSetIterator implements IDatasetIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param type
 		 */
 		public void setDataType(int type) {
@@ -419,7 +430,7 @@ public class DataSetIterator implements IDatasetIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @return
 		 */
 		public boolean isLevelKey() {
@@ -427,7 +438,7 @@ public class DataSetIterator implements IDatasetIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @return
 		 */
 		public boolean isMeasure() {
@@ -435,7 +446,7 @@ public class DataSetIterator implements IDatasetIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param type
 		 */
 		public void setType(int type) {
@@ -443,7 +454,7 @@ public class DataSetIterator implements IDatasetIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @return
 		 */
 		public IDataProcessor getDataProcessor() {
@@ -452,10 +463,11 @@ public class DataSetIterator implements IDatasetIterator {
 	}
 
 	interface IDataProcessor {
-		public Object process(Object d) throws AdapterException;
+		Object process(Object d) throws AdapterException;
 	}
 
 	private static class DummyDataProcessor implements IDataProcessor {
+		@Override
 		public Object process(Object d) {
 			return d;
 		}
@@ -463,7 +475,7 @@ public class DataSetIterator implements IDatasetIterator {
 
 	/**
 	 * Clear time portion of a date value
-	 * 
+	 *
 	 * @param d
 	 */
 	private static void cleanTimePortion(Calendar d) {
@@ -487,8 +499,9 @@ public class DataSetIterator implements IDatasetIterator {
 		}
 
 		/**
-		 * 
+		 *
 		 */
+		@Override
 		public String getClassName() {
 			return "TempDateTransformer";
 		}
@@ -497,19 +510,18 @@ public class DataSetIterator implements IDatasetIterator {
 
 	private class Function_Transform extends Function_temp {
 		private static final long serialVersionUID = 1L;
-		private ULocale locale;
 
 		public Function_Transform(ULocale locale) {
-			this.locale = locale;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.data.adapter.impl.DataSetIterator.TimeValueProcessor.
 		 * Function_temp#getValue(java.lang.Object[])
 		 */
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			assert args.length == 2;
 			String timeType = args[0].toString();
@@ -523,6 +535,7 @@ public class DataSetIterator implements IDatasetIterator {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public Object call(Context cx, Scriptable scope, Scriptable thisObj, java.lang.Object[] args) {
 			args = convertToJavaObjects(args);
 
@@ -551,6 +564,7 @@ public class DataSetIterator implements IDatasetIterator {
 			this.calculator = calculator;
 		}
 
+		@Override
 		public Object process(Object d) throws AdapterException {
 			try {
 				return this.calculator.calculate(d);
@@ -572,8 +586,9 @@ public class DataSetIterator implements IDatasetIterator {
 		DateTimeAttributeProcessor(String timeType, ULocale locale, TimeZone zone) {
 			this.timeType = timeType;
 			this.calendar = Calendar.getInstance(locale);
-			if (zone != null)
+			if (zone != null) {
 				this.calendar.setTimeZone(zone);
+			}
 		}
 
 		private void populateCalendar(Object d) {
@@ -589,9 +604,11 @@ public class DataSetIterator implements IDatasetIterator {
 			}
 		}
 
+		@Override
 		public Object process(Object d) throws AdapterException {
-			if (d == null)
+			if (d == null) {
 				return null;
+			}
 
 			populateCalendar(d);
 			if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH.equals(timeType)
@@ -656,8 +673,9 @@ public class DataSetIterator implements IDatasetIterator {
 				// For second, set millisecond to 0.
 				this.calendar.set(Calendar.MILLISECOND, 0);
 				return this.calendar.getTime();
-			} else
+			} else {
 				throw new AdapterException(ResourceConstants.INVALID_DATE_TIME_TYPE, timeType);
+			}
 
 		}
 	}

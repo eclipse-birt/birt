@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +43,7 @@ public class ReferenceValueUtil {
 	/**
 	 * Resolves a property element reference. The reference is the value of a
 	 * property of type property element reference.
-	 * 
+	 *
 	 * @param structure structure
 	 * @param module    the module information needed for the check, and records any
 	 *                  errors
@@ -52,17 +55,20 @@ public class ReferenceValueUtil {
 
 	public static ElementRefValue resolveElementReference(Structure structure, Module module, StructPropertyDefn prop,
 			Object value) {
-		if (prop.getTypeCode() != IPropertyType.ELEMENT_REF_TYPE)
+		if (prop.getTypeCode() != IPropertyType.ELEMENT_REF_TYPE) {
 			return null;
+		}
 
 		assert value == null || value instanceof ElementRefValue;
 
-		if (value == null || module == null)
+		if (value == null || module == null) {
 			return (ElementRefValue) value;
+		}
 
 		ElementRefValue ref = (ElementRefValue) value;
-		if (ref.isResolved())
+		if (ref.isResolved()) {
 			return ref;
+		}
 
 		// The element exist and is not resolved. Try to resolve it.
 		// If it is now resolved, cache the back pointer.
@@ -75,8 +81,9 @@ public class ReferenceValueUtil {
 
 		refType.resolve(module, structure.getElement(), prop, ref);
 
-		if (!ref.isResolved())
+		if (!ref.isResolved()) {
 			return ref;
+		}
 
 		DesignElement me = structure.getElement();
 
@@ -101,34 +108,39 @@ public class ReferenceValueUtil {
 	 * parent, the namespace of the library should be added before the value. This
 	 * is used to allocate the referenced element/structure within the correct
 	 * scope.
-	 * 
+	 *
 	 * @param refValue the reference value
 	 * @param root     the module that the element attached.
 	 * @param module   the module that holds the ActivityStack. For the case that
 	 *                 element is not on the library/design tree.
 	 * @return the value of the property. The type of the returned object should be
 	 *         strings.
-	 * 
+	 *
 	 */
 
 	public static String needTheNamespacePrefix(ReferenceValue refValue, Module root, Module module) {
-		if (refValue == null)
+		if (refValue == null) {
 			return null;
+		}
 
 		String namespace = refValue.getLibraryNamespace();
 		String name = refValue.getName();
 
-		if (namespace == null)
+		if (namespace == null) {
 			return name;
+		}
 		Module theRoot = module;
-		if (root != null)
+		if (root != null) {
 			theRoot = root;
+		}
 
 		if (theRoot instanceof Library) {
-			if (!namespace.equals(((Library) theRoot).getNamespace()))
+			if (!namespace.equals(((Library) theRoot).getNamespace())) {
 				name = namespace + ReferenceValue.NAMESPACE_DELIMITER + name;
-		} else
+			}
+		} else {
 			name = namespace + ReferenceValue.NAMESPACE_DELIMITER + name;
+		}
 
 		return name;
 
@@ -140,31 +152,34 @@ public class ReferenceValueUtil {
 	 * namespace is in the return string. If the root element of
 	 * <code>element</code> is not <code>module</code> and it is a library with the
 	 * namespace, the return value contains the namespace.
-	 * 
+	 *
 	 * <p>
 	 * This is used to allocate the referenced element/structure within the correct
 	 * scope.
-	 * 
+	 *
 	 * @param element the design element.
 	 * @param root
 	 * @param module  the module.
 	 * @return the element name. It contains the library namespace if above criteria
 	 *         applies.
-	 * 
+	 *
 	 */
 
 	public static String needTheNamespacePrefix(DesignElement element, Module root, Module module) {
-		if (element == null)
+		if (element == null) {
 			return null;
+		}
 
 		String nameSpace = null;
-		if (root != null && root instanceof Library)
+		if (root instanceof Library) {
 			nameSpace = ((Library) root).getNamespace();
+		}
 
 		String name = element.getFullName();
 
-		if (root != module)
+		if (root != module) {
 			name = nameSpace + ReferenceValue.NAMESPACE_DELIMITER + name;
+		}
 		return name;
 	}
 
@@ -175,12 +190,12 @@ public class ReferenceValueUtil {
 	 * parent, the namespace of the library should be added before the value. This
 	 * is used to allocate the referenced element/structure within the correct
 	 * scope.
-	 * 
+	 *
 	 * @param refValue the reference value
 	 * @param root     the module that the element attached.
 	 * @return the value of the property. The type of the returned object should be
 	 *         strings.
-	 * 
+	 *
 	 */
 
 	public static String needTheNamespacePrefix(ReferenceValue refValue, Module root) {
@@ -189,7 +204,7 @@ public class ReferenceValueUtil {
 
 	/**
 	 * Resolves the parent element reference.
-	 * 
+	 *
 	 * @param module     the module information needed for the check
 	 * @param element    design element
 	 * @param extendsRef extended reference
@@ -197,11 +212,9 @@ public class ReferenceValueUtil {
 
 	public static void resloveExtends(Module module, DesignElement element, ElementRefValue extendsRef) {
 
-		if (extendsRef == null || module == null)
+		if (extendsRef == null || module == null || extendsRef.isResolved()) {
 			return;
-
-		if (extendsRef.isResolved())
-			return;
+		}
 
 		// The parent exist and is not resolved. Try to resolve it.
 		// If it is now resolved, cache the back pointer.
@@ -229,7 +242,7 @@ public class ReferenceValueUtil {
 	/**
 	 * Resolves a property element reference. The reference is the value of a
 	 * property of type property element reference.
-	 * 
+	 *
 	 * @param module  the module information needed for the check, and records any
 	 *                errors
 	 * @param element design element
@@ -242,8 +255,9 @@ public class ReferenceValueUtil {
 	public static ElementRefValue resolveElementReference(Module module, DesignElement element,
 			ElementPropertyDefn prop, ElementRefValue value) {
 		ElementRefValue ref = value;
-		if (ref.isResolved())
+		if (ref.isResolved()) {
 			return ref;
+		}
 
 		// The element exist and is not resolved. Try to resolve it.
 		// If it is now resolved, cache the back pointer.
@@ -259,14 +273,16 @@ public class ReferenceValueUtil {
 				|| prop.getSubTypeCode() == IPropertyType.ELEMENT_REF_TYPE;
 
 		ElementRefPropertyType refType = null;
-		if (prop.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE)
+		if (prop.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE) {
 			refType = (ElementRefPropertyType) prop.getType();
-		else
+		} else {
 			refType = (ElementRefPropertyType) prop.getSubType();
+		}
 
 		refType.resolve(module, element, prop, ref);
-		if (ref.isResolved())
+		if (ref.isResolved()) {
 			ref.getTargetElement().addClient(element, prop.getName());
+		}
 
 		return ref;
 	}
@@ -274,7 +290,7 @@ public class ReferenceValueUtil {
 	/**
 	 * Resolves a property structure reference. The reference is the value of a
 	 * property of type property structure reference.
-	 * 
+	 *
 	 * @param module  the module information needed for the check, and records any
 	 *                errors
 	 * @param element design element
@@ -287,8 +303,9 @@ public class ReferenceValueUtil {
 	public static StructRefValue resolveStructReference(Module module, DesignElement element, ElementPropertyDefn prop,
 			StructRefValue value) {
 		StructRefValue ref = value;
-		if (ref.isResolved())
+		if (ref.isResolved()) {
 			return ref;
+		}
 
 		// The element exist and is not resolved. Try to resolve it.
 		// If it is now resolved, cache the back pointer.
@@ -299,8 +316,9 @@ public class ReferenceValueUtil {
 
 		StructRefPropertyType refType = (StructRefPropertyType) prop.getType();
 		refType.resolve(module, prop, ref);
-		if (ref.isResolved())
+		if (ref.isResolved()) {
 			ref.getTargetStructure().addClient(element, prop.getName());
+		}
 
 		return ref;
 	}
@@ -308,7 +326,7 @@ public class ReferenceValueUtil {
 	/**
 	 * Implements to cache a back-pointer from referenced structure or referenced
 	 * element.
-	 * 
+	 *
 	 * @param element design element
 	 * @param oldRef  the old reference, if any
 	 * @param newRef  the new reference, if any
@@ -317,8 +335,9 @@ public class ReferenceValueUtil {
 
 	public static void updateReference(DesignElement element, ReferenceValue oldRef, ReferenceValue newRef,
 			ElementPropertyDefn prop) {
-		if (oldRef == null && newRef == null)
+		if (oldRef == null && newRef == null) {
 			return;
+		}
 		if (oldRef instanceof ElementRefValue || newRef instanceof ElementRefValue) {
 			IReferencableElement target;
 			// Drop the old reference. Clear the back pointer from the
@@ -327,8 +346,9 @@ public class ReferenceValueUtil {
 
 			if (oldRef != null) {
 				target = ((ElementRefValue) oldRef).getTargetElement();
-				if (target != null)
+				if (target != null) {
 					target.dropClient(element);
+				}
 			}
 
 			// Add the new reference. Cache a back pointer from the referenced
@@ -338,8 +358,9 @@ public class ReferenceValueUtil {
 
 			if (newRef != null) {
 				target = ((ElementRefValue) newRef).getTargetElement();
-				if (target != null)
+				if (target != null) {
 					target.addClient(element, prop.getName());
+				}
 			}
 		}
 
@@ -351,8 +372,9 @@ public class ReferenceValueUtil {
 
 			if (oldRef != null) {
 				target = ((StructRefValue) oldRef).getTargetStructure();
-				if (target != null)
+				if (target != null) {
 					target.dropClient(element);
+				}
 			}
 
 			// Add the new reference. Cache a back pointer from the referenced
@@ -362,8 +384,9 @@ public class ReferenceValueUtil {
 
 			if (newRef != null) {
 				target = ((StructRefValue) newRef).getTargetStructure();
-				if (target != null)
+				if (target != null) {
 					target.addClient(element, prop.getName());
+				}
 			}
 		}
 	}

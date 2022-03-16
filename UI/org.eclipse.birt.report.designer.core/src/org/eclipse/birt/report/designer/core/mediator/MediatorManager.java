@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2012 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,10 +27,11 @@ public final class MediatorManager {
 
 	private static volatile MediatorManager manager;
 
-	private Map<IMediatorTarget, IMediator> mediatorMap = new WeakHashMap<IMediatorTarget, IMediator>();
+	private Map<IMediatorTarget, IMediator> mediatorMap = new WeakHashMap<>();
 
 	private ITargetDisposeListener listener = new ITargetDisposeListener() {
 
+		@Override
 		public void dispose(IMediatorTarget target) {
 			removeMediator(target);
 		}
@@ -52,7 +56,7 @@ public final class MediatorManager {
 	 * Returns the mediator for given target, if the mediator does not exist and
 	 * "force" is True, registers and returns a new one automatically, otherwise,
 	 * returns null.
-	 * 
+	 *
 	 * @param target
 	 * @param force
 	 * @return
@@ -75,7 +79,7 @@ public final class MediatorManager {
 
 	/**
 	 * Removes the mediator for the given target if exists.
-	 * 
+	 *
 	 * @param target
 	 */
 	public void removeMediator(IMediatorTarget target) {
@@ -92,7 +96,7 @@ public final class MediatorManager {
 
 	/**
 	 * Reassociates the mediator of the old target to the new target, if it exists.
-	 * 
+	 *
 	 * @param oldTarget
 	 * @param newTarget
 	 */

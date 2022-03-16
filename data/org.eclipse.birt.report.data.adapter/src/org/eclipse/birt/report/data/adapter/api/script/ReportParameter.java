@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.report.data.adapter.api.script;
@@ -23,10 +26,10 @@ import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.Wrapper;
 
 /**
- * 
+ *
  * Implements the "params" scriptable object to access report parameter
  * attributes value
- * 
+ *
  */
 public class ReportParameter extends ScriptableObject implements Wrapper {
 
@@ -41,7 +44,7 @@ public class ReportParameter extends ScriptableObject implements Wrapper {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param params
 	 */
 	public ReportParameter(Map parameters, String name, Scriptable scope) {
@@ -54,6 +57,7 @@ public class ReportParameter extends ScriptableObject implements Wrapper {
 	/*
 	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 	 */
+	@Override
 	public String getClassName() {
 		return "ReportParameter";
 	}
@@ -62,6 +66,7 @@ public class ReportParameter extends ScriptableObject implements Wrapper {
 	 * @see org.mozilla.javascript.ScriptableObject#has(java.lang.String,
 	 * org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	public boolean has(String name, Scriptable scope) {
 		if (FIELD_VALUE.equals(name) || FIELD_DISPLAY_TEXT.equals(name)) {
 			return true;
@@ -79,6 +84,7 @@ public class ReportParameter extends ScriptableObject implements Wrapper {
 	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
 	 * org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	public Object get(String name, Scriptable start) {
 		DummyParameterAttribute attr = (DummyParameterAttribute) this.params.get(this.parameterName);
 		if (attr == null) {
@@ -114,6 +120,7 @@ public class ReportParameter extends ScriptableObject implements Wrapper {
 			this.impl = callable;
 		}
 
+		@Override
 		public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
 			ReportParameter parameter = (ReportParameter) thisObj;
 			Scriptable value = (Scriptable) parameter.unwrap();
@@ -125,6 +132,7 @@ public class ReportParameter extends ScriptableObject implements Wrapper {
 	 * @see org.mozilla.javascript.ScriptableObject#put(java.lang.String,
 	 * org.mozilla.javascript.Scriptable, java.lang.Object)
 	 */
+	@Override
 	public void put(String name, Scriptable scope, Object value) {
 		Object parameterValue = this.params.get(parameterName);
 		if (parameterValue == null) {
@@ -142,6 +150,7 @@ public class ReportParameter extends ScriptableObject implements Wrapper {
 	/*
 	 * @see org.mozilla.javascript.ScriptableObject#getDefaultValue(java.lang.Class)
 	 */
+	@Override
 	public Object getDefaultValue(Class hint) {
 		Object value = params.get(parameterName);
 		if (value == null) {
@@ -155,6 +164,7 @@ public class ReportParameter extends ScriptableObject implements Wrapper {
 	/*
 	 * @see org.mozilla.javascript.Wrapper#unwrap()
 	 */
+	@Override
 	public Object unwrap() {
 		Object value = params.get(parameterName);
 		if (value != null) {

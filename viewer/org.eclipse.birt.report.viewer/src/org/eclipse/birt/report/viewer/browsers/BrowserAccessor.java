@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -32,7 +34,7 @@ public class BrowserAccessor {
 
 	/**
 	 * Get current preview browser.
-	 * 
+	 *
 	 * @param forceExternal forece using external browser or not
 	 * @return browser instance
 	 */
@@ -73,16 +75,19 @@ public class BrowserAccessor {
 			return support.getExternalBrowser();
 		}
 
+		@Override
 		public void close() {
 			if (browser != null) {
 				browser.close();
 			}
 		}
 
+		@Override
 		public boolean isCloseSupported() {
 			return true;
 		}
 
+		@Override
 		public void displayURL(String url) throws Exception {
 			try {
 				browser = getExternalBrowser();
@@ -94,17 +99,21 @@ public class BrowserAccessor {
 			}
 		}
 
+		@Override
 		public boolean isSetLocationSupported() {
 			return false;
 		}
 
+		@Override
 		public boolean isSetSizeSupported() {
 			return false;
 		}
 
+		@Override
 		public void setLocation(int x, int y) {
 		}
 
+		@Override
 		public void setSize(int width, int height) {
 		}
 	}

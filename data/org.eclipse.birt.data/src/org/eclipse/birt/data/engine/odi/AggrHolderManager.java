@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +30,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.stream.DummyOutputStream;
 
 /**
- * 
+ *
  */
 
 public class AggrHolderManager {
@@ -36,8 +39,8 @@ public class AggrHolderManager {
 	private HashMap<String, IAggrValueHolder> aggrIndex;
 
 	public AggrHolderManager() {
-		this.holders = new ArrayList<IAggrValueHolder>();
-		this.aggrIndex = new HashMap<String, IAggrValueHolder>();
+		this.holders = new ArrayList<>();
+		this.aggrIndex = new HashMap<>();
 	}
 
 	public void addAggrValueHolder(IAggrValueHolder newHolder) throws DataException {
@@ -55,8 +58,9 @@ public class AggrHolderManager {
 
 	public Object getAggrValue(String aggrName) throws DataException {
 		IAggrValueHolder holder = this.aggrIndex.get(aggrName);
-		if (holder != null)
+		if (holder != null) {
 			return holder.getAggrValue(aggrName);
+		}
 
 		throw new DataException(ResourceConstants.INVALID_BOUND_COLUMN_NAME, aggrName);
 	}

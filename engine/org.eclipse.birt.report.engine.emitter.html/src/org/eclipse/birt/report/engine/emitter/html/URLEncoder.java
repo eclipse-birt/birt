@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +20,7 @@ import java.io.UnsupportedEncodingException;
  * Provides a method to encode any string into a URL-safe form. Non-ASCII
  * characters are first encoded as sequences of two or three bytes, using the
  * UTF-8 algorithm, before being encoded as %HH escapes.
- * 
+ *
  */
 public class URLEncoder {
 
@@ -74,7 +77,7 @@ public class URLEncoder {
 	 * @return The encoded string
 	 */
 	public static String encode(String s, String encoding) {
-		StringBuffer sbuf = new StringBuffer();
+		StringBuilder sbuf = new StringBuilder();
 		try {
 			byte[] bytes;
 			if ("".equals(encoding)) {

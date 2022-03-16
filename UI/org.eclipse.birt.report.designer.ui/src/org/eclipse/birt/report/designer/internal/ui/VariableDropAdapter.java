@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,13 +40,14 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 
 /**
- * 
+ *
  */
 
 public class VariableDropAdapter implements IDropAdapter {
 
 	public static final String TRANS_NAME = Messages.getString("VariableDropAdapter.TranasctionName");
 
+	@Override
 	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		if (transfer instanceof VariableElementHandle && target instanceof EditPart) {
 			EditPart editPart = (EditPart) target;
@@ -54,20 +58,22 @@ public class VariableDropAdapter implements IDropAdapter {
 					int slot_id = ((SlotHandle) editPart.getModel()).getSlotID();
 					if (slot_id == ISimpleMasterPageModel.PAGE_HEADER_SLOT
 							|| slot_id == ISimpleMasterPageModel.PAGE_FOOTER_SLOT) {
-						if (((SlotHandle) editPart.getModel()).getCount() > 0)
+						if (((SlotHandle) editPart.getModel()).getCount() > 0) {
 							return DNDService.LOGIC_FALSE;
-						else
+						} else {
 							return DNDService.LOGIC_TRUE;
+						}
 					} else if (slot_id == ISimpleMasterPageModel.PAGE_HEADER_SLOT) {
 						return DNDService.LOGIC_TRUE;
 					}
 				}
 				// variable can drop to gridin master page, bug 293121
 				if (getMasterPageHandle(editPart) != null || DesignChoiceConstants.VARIABLE_TYPE_REPORT
-						.equals(((VariableElementHandle) transfer).getType()))
+						.equals(((VariableElementHandle) transfer).getType())) {
 					return DNDService.LOGIC_TRUE;
-				else
+				} else {
 					return DNDService.LOGIC_FALSE;
+				}
 			}
 		}
 
@@ -75,14 +81,17 @@ public class VariableDropAdapter implements IDropAdapter {
 	}
 
 	private Object getMasterPageHandle(EditPart editPart) {
-		if (editPart == null)
+		if (editPart == null) {
 			return null;
+		}
 		if (editPart.getParent() != null && (editPart.getParent().getModel() instanceof MasterPageHandle
-				|| editPart.getParent().getModel() instanceof ModuleHandle))
+				|| editPart.getParent().getModel() instanceof ModuleHandle)) {
 			return editPart.getParent().getModel();
+		}
 		return getMasterPageHandle(editPart.getParent());
 	}
 
+	@Override
 	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
 
 		EditPart editPart = (EditPart) target;
@@ -115,8 +124,9 @@ public class VariableDropAdapter implements IDropAdapter {
 			editPart.getViewer().getEditDomain().getCommandStack().execute(command);
 			stack.commit();
 			return true;
-		} else
+		} else {
 			return false;
+		}
 	}
 
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -239,7 +242,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param parentShell
 	 */
 	public GroupDialog(Shell parentShell, String title) {
@@ -274,11 +277,12 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		// Assert.isNotNull( dataSetList );
 
@@ -371,9 +375,11 @@ public class GroupDialog extends BaseDialog implements Listener {
 		tocEditor.setLayoutData(gd);
 		tocEditor.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
-				if (tocStyleType == null)
+				if (tocStyleType == null) {
 					return;
+				}
 				if (tocEditor.getText().trim().equals("")) //$NON-NLS-1$
 				{
 					tocStyleType.setEnabled(false);
@@ -399,7 +405,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 	/**
 	 * Creates the title area
-	 * 
+	 *
 	 * @param parent the parent composite
 	 */
 	private void createTitleArea(Composite parent) {
@@ -420,6 +426,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 		titleArea.addPaintListener(new PaintListener() {
 
+			@Override
 			public void paintControl(PaintEvent e) {
 				e.gc.setForeground(titleArea.getDisplay().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW));
 				Rectangle bounds = titleArea.getClientArea();
@@ -437,7 +444,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 	/**
 	 * Creates the field area
-	 * 
+	 *
 	 * @param parent the parent composite
 	 */
 	private void createFieldArea(Composite parent) {
@@ -467,6 +474,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 		keyChooser.setVisibleItemCount(30);
 		keyChooser.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				if (!keyChooser.getText().trim().equals("")) //$NON-NLS-1$
 				{
@@ -478,6 +486,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 		keyChooser.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (keyChooser.getSelectionIndex() != -1) {
 					IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter(keyChooser);
@@ -500,6 +509,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 		keyChooser.addFocusListener(new FocusAdapter() {
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				String key = UIUtil.convertToModelString(keyChooser.getText(), true);
 				if (key != null) {
@@ -540,10 +550,12 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 		ExpressionHelper helper = new ExpressionHelper() {
 
+			@Override
 			public String getExpression() {
 				return GroupDialog.this.getKeyExpression(keyChooser, keyChooser.getText());
 			}
 
+			@Override
 			public void setExpression(String expression) {
 				GroupDialog.this.setKeyExpression(keyChooser, expression);
 			}
@@ -552,6 +564,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 				return new ExpressionProvider(inputGroup);
 			}
 
+			@Override
 			public IExpressionContextFactory getExpressionContextFactory() {
 				return new ExpressionContextFactoryImpl(getContextObject(), getExpressionProvider());
 			}
@@ -588,6 +601,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 		intervalType.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				intervalRange.setEnabled(intervalType.getSelectionIndex() != 0);
 				intervalBaseButton
@@ -604,10 +618,11 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.swt.events.VerifyListener#verifyText(org.eclipse.
 			 * swt.events.VerifyEvent)
 			 */
+			@Override
 			public void verifyText(VerifyEvent event) {
 				if (event.text.length() <= 0) {
 					return;
@@ -641,6 +656,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 		intervalBaseButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		intervalBaseButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				intervalBaseText.setEnabled(intervalBaseButton.getSelection());
 			}
@@ -684,6 +700,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 			startCollapsedHelper.getControl().setLayoutData(data);
 			startCollapsedHelper.addListener(SWT.Modify, new org.eclipse.swt.widgets.Listener() {
 
+				@Override
 				public void handleEvent(Event event) {
 					startCollapsedHelper.update(false);
 					startCollapsed = (Boolean) startCollapsedHelper.getProperty(START_COLLAPSED);
@@ -695,7 +712,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 	/**
 	 * Creates the group area
-	 * 
+	 *
 	 * @param parent the parent composite
 	 */
 	private void createGroupArea(Composite parent) {
@@ -773,7 +790,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 	/**
 	 * Creates sorting and filter table area
-	 * 
+	 *
 	 * @param parent the parent composite
 	 */
 	private void createFilterSortingArea(Composite parent) {
@@ -798,6 +815,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 		TabItem filterItem = new TabItem(tab, SWT.NONE);
 		FormPage filterPage = new FormPage(tab, FormPage.FULL_FUNCTION_HORIZONTAL, new FilterHandleProvider() {
 
+			@Override
 			public int[] getColumnWidths() {
 				return new int[] { 200, 100, 100, 100 };
 			}
@@ -816,6 +834,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 		final TabItem sortItem = new TabItem(tab, SWT.NONE);
 		FormPage sortPage = new FormPage(tab, FormPage.FULL_FUNCTION_HORIZONTAL, new SortingHandleProvider() {
 
+			@Override
 			public int[] getColumnWidths() {
 				return new int[] { 200, 100, 100, 100 };
 			}
@@ -831,13 +850,13 @@ public class GroupDialog extends BaseDialog implements Listener {
 	private boolean checkReadOnlyControl(String property, Control control) {
 		PropertyHandle handle = inputGroup.getPropertyHandle(property);
 		if (handle != null && handle.isReadOnly()) {
-			if (control instanceof Text)
+			if (control instanceof Text) {
 				((Text) control).setEditable(false);
-			else if (control instanceof Combo)
+			} else if (control instanceof Combo) {
 				((Combo) control).setEnabled(false);
-			else if (control instanceof Button)
+			} else if (control instanceof Button) {
 				((Button) control).setEnabled(false);
-			else if (control instanceof Composite) {
+			} else if (control instanceof Composite) {
 				disableControl((Composite) control);
 			}
 			return handle.isReadOnly();
@@ -848,20 +867,22 @@ public class GroupDialog extends BaseDialog implements Listener {
 	private void disableControl(Composite container) {
 		Control[] children = container.getChildren();
 		for (int i = 0; i < children.length; i++) {
-			if (children[i] instanceof Composite)
+			if (children[i] instanceof Composite) {
 				disableControl((Composite) children[i]);
-			else if (!(children[i] instanceof Label))
+			} else if (!(children[i] instanceof Label)) {
 				children[i].setEnabled(false);
+			}
 		}
 		container.setEnabled(false);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog ()
 	 */
+	@Override
 	protected boolean initDialog() {
 		if (inputGroup.getName() != null) {
 			nameEditor.setText(inputGroup.getName());
@@ -875,10 +896,11 @@ public class GroupDialog extends BaseDialog implements Listener {
 		refreshColumnList();
 
 		setKeyExpression(inputGroup.getExpressionProperty(IGroupElementModel.KEY_EXPR_PROP));
-		if (checkReadOnlyControl(IGroupElementModel.KEY_EXPR_PROP, keyChooser))
+		if (checkReadOnlyControl(IGroupElementModel.KEY_EXPR_PROP, keyChooser)) {
 			((ExpressionButton) keyChooser.getData(ExpressionButtonUtil.EXPR_BUTTON)).setEnabled(false);
-		else
+		} else {
 			((ExpressionButton) keyChooser.getData(ExpressionButtonUtil.EXPR_BUTTON)).setEnabled(true);
+		}
 
 		PropertyHandle property = inputGroup.getPropertyHandle(GroupElement.INTERVAL_RANGE_PROP);
 		String range = property == null ? null : property.getDisplayValue();
@@ -928,12 +950,12 @@ public class GroupDialog extends BaseDialog implements Listener {
 			index = getTocStyleIndex(inputGroup.getTOC().getStyleName());
 			if (index >= 0 && index < tocStyleType.getItemCount()) {
 				tocStyleType.select(index);
-			} else {
-				if (inputGroup.getTOC().getStyleName() != null)
-					tocStyleType.setText(inputGroup.getTOC().getStyleName());
+			} else if (inputGroup.getTOC().getStyleName() != null) {
+				tocStyleType.setText(inputGroup.getTOC().getStyleName());
 			}
-			if (tocStyleType.getText() == null || tocStyleType.getText().trim().length() == 0)
+			if (tocStyleType.getText() == null || tocStyleType.getText().trim().length() == 0) {
 				tocStyleType.setEnabled(false);
+			}
 		}
 		if (checkReadOnlyControl(IGroupElementModel.TOC_PROP, tocEditor)) {
 			((ExpressionButton) tocEditor.getData(ExpressionButtonUtil.EXPR_BUTTON)).setEnabled(false);
@@ -1044,20 +1066,21 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 	/**
 	 * Sets the model input.
-	 * 
+	 *
 	 * @param input
 	 */
 	public void setInput(Object input) {
 		assert input instanceof GroupHandle;
-		if (inputGroup != null)
+		if (inputGroup != null) {
 			inputGroup.removeListener(this);
+		}
 		inputGroup = (GroupHandle) input;
 		inputGroup.addListener(this);
 	}
 
 	/**
 	 * Sets the dataset list to use.
-	 * 
+	 *
 	 * @param dataSetList
 	 */
 	// public void setDataSetList( List dataSetList )
@@ -1066,9 +1089,10 @@ public class GroupDialog extends BaseDialog implements Listener {
 	// }
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
+	@Override
 	protected void okPressed() {
 		try {
 			inputGroup.setName(nameEditor.getText());
@@ -1085,10 +1109,10 @@ public class GroupDialog extends BaseDialog implements Listener {
 			String tocText = tocEditor.getText();
 			if (tocText != null && !tocText.equals("")) //$NON-NLS-1$
 			{
-				if (inputGroup.getTOC() != null)
+				if (inputGroup.getTOC() != null) {
 					ExpressionButtonUtil.saveExpressionButtonControl(tocEditor, inputGroup.getTOC(),
 							TOC.TOC_EXPRESSION);
-				else {
+				} else {
 					TOC toc = StructureFactory.createTOC();
 					ExpressionButtonUtil.saveExpressionButtonControl(tocEditor, toc, TOC.TOC_EXPRESSION);
 					inputGroup.addTOC(toc);
@@ -1178,8 +1202,9 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 			index = intervalType.getSelectionIndex();
 
-			if (!intervalChoices[index].getName().equals(inputGroup.getInterval()))
+			if (!intervalChoices[index].getName().equals(inputGroup.getInterval())) {
 				inputGroup.setInterval(intervalChoices[index].getName());
+			}
 
 			if (index != 0) {
 				try {
@@ -1206,24 +1231,27 @@ public class GroupDialog extends BaseDialog implements Listener {
 			}
 
 			if (ascending.getSelection()) {
-				if (!DesignChoiceConstants.SORT_DIRECTION_ASC.equals(inputGroup.getSortDirection()))
+				if (!DesignChoiceConstants.SORT_DIRECTION_ASC.equals(inputGroup.getSortDirection())) {
 					inputGroup.setSortDirection(DesignChoiceConstants.SORT_DIRECTION_ASC);
-			} else {
-				if (!DesignChoiceConstants.SORT_DIRECTION_DESC.equals(inputGroup.getSortDirection()))
-					inputGroup.setSortDirection(DesignChoiceConstants.SORT_DIRECTION_DESC);
+				}
+			} else if (!DesignChoiceConstants.SORT_DIRECTION_DESC.equals(inputGroup.getSortDirection())) {
+				inputGroup.setSortDirection(DesignChoiceConstants.SORT_DIRECTION_DESC);
 			}
 
 			String choice = pagebreakBeforeChoicesAll[pagebreakBeforeCombo.getSelectionIndex()].getName();
-			if (!choice.equals(inputGroup.getPageBreakBefore()))
+			if (!choice.equals(inputGroup.getPageBreakBefore())) {
 				inputGroup.setPageBreakBefore(choice);
+			}
 
 			choice = pagebreakAfterChoicesAll[pagebreakAfterCombo.getSelectionIndex()].getName();
-			if (!choice.equals(inputGroup.getPageBreakAfter()))
+			if (!choice.equals(inputGroup.getPageBreakAfter())) {
 				inputGroup.setPageBreakAfter(choice);
+			}
 
 			choice = pagebreakInsideChoicesAll[pagebreakInsideCombo.getSelectionIndex()].getName();
-			if (!choice.equals(inputGroup.getPageBreakInside()))
+			if (!choice.equals(inputGroup.getPageBreakInside())) {
 				inputGroup.setPageBreakInside(choice);
+			}
 
 			if (inputGroup.repeatHeader() != repeatHeaderButton.getSelection()) {
 				inputGroup.setRepeatHeader(repeatHeaderButton.getSelection());
@@ -1248,17 +1276,19 @@ public class GroupDialog extends BaseDialog implements Listener {
 				String position = ""
 						+ (inputGroup.getContainer().getSlot(IListingElementModel.GROUP_SLOT).findPosn(inputGroup) + 1);
 				if (startCollapsed) {
-					if (!groups.contains(position))
+					if (!groups.contains(position)) {
 						groups.add(position);
+					}
 				} else {
 					groups.remove(position);
 				}
 
-				StringBuffer buffer = new StringBuffer();
+				StringBuilder buffer = new StringBuilder();
 				for (int i = 0; i < groups.size(); i++) {
 					buffer.append(groups.get(i));
-					if (i < groups.size() - 1)
+					if (i < groups.size() - 1) {
 						buffer.append(","); //$NON-NLS-1$
+					}
 				}
 
 				String value = buffer.toString().trim().length() > 0 ? buffer.toString().trim() : null;
@@ -1284,17 +1314,19 @@ public class GroupDialog extends BaseDialog implements Listener {
 				String position = ""
 						+ (inputGroup.getContainer().getSlot(IListingElementModel.GROUP_SLOT).findPosn(inputGroup) + 1);
 				if (startCollapsed) {
-					if (!groups.contains(position))
+					if (!groups.contains(position)) {
 						groups.add(position);
+					}
 				} else {
 					groups.remove(position);
 				}
 
-				StringBuffer buffer = new StringBuffer();
+				StringBuilder buffer = new StringBuilder();
 				for (int i = 0; i < groups.size(); i++) {
 					buffer.append(groups.get(i));
-					if (i < groups.size() - 1)
+					if (i < groups.size() - 1) {
 						buffer.append(","); //$NON-NLS-1$
+					}
 				}
 
 				String value = buffer.toString().trim().length() > 0 ? buffer.toString().trim() : null;
@@ -1309,17 +1341,18 @@ public class GroupDialog extends BaseDialog implements Listener {
 	}
 
 	private List<String> getGroupNames(String s) {
-		List<String> groups = new ArrayList<String>();
-		if (s == null)
+		List<String> groups = new ArrayList<>();
+		if (s == null) {
 			return groups;
-		StringBuffer buffer = new StringBuffer();
+		}
+		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
 			if (c == ',') {
 				if (buffer.toString().trim().length() > 0) {
 					groups.add(buffer.toString().trim());
 				}
-				buffer = new StringBuffer();
+				buffer = new StringBuilder();
 			} else {
 				buffer.append(c);
 			}
@@ -1368,7 +1401,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 	/**
 	 * Returns the internal type index by its value.
-	 * 
+	 *
 	 * @param interval
 	 */
 	private int getIntervalTypeIndex(String interval) {
@@ -1414,17 +1447,19 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 	/**
 	 * Reset interval
-	 * 
+	 *
 	 */
 	private void resetInterval() {
 		String currentKeyExpression = keyChooser.getText();
-		if (previoiusKeyExpression.equals(currentKeyExpression))
+		if (previoiusKeyExpression.equals(currentKeyExpression)) {
 			return;
+		}
 
-		if (ExpressionUtility.isColumnExpression(currentKeyExpression))
+		if (ExpressionUtility.isColumnExpression(currentKeyExpression)) {
 			intervalChoices = getSubIntervalChoice();
-		else
+		} else {
 			intervalChoices = intervalChoicesAll;
+		}
 
 		resetIntervalType(intervalChoices);
 
@@ -1433,14 +1468,15 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 	/**
 	 * Get subIntervalChoice, could be String,Date,Numeric or All
-	 * 
+	 *
 	 * @return
 	 */
 	private IChoice[] getSubIntervalChoice() {
 		Class columnType = getColumnType();
 
-		if (columnType == null)
+		if (columnType == null) {
 			return intervalChoicesAll;
+		}
 
 		if (String.class.isAssignableFrom(columnType)) {
 			return intervalChoicesString;
@@ -1454,13 +1490,13 @@ public class GroupDialog extends BaseDialog implements Listener {
 	}
 
 	private static IChoice[] getIntervalChoicesString() {
-		String[] str = new String[] { DesignChoiceConstants.INTERVAL_NONE, DesignChoiceConstants.INTERVAL_PREFIX, };
+		String[] str = { DesignChoiceConstants.INTERVAL_NONE, DesignChoiceConstants.INTERVAL_PREFIX, };
 
 		return getIntervalChoiceArray(str);
 	}
 
 	private static IChoice[] getIntervalChoicesDate() {
-		String[] str = new String[] { DesignChoiceConstants.INTERVAL_NONE, DesignChoiceConstants.INTERVAL_YEAR,
+		String[] str = { DesignChoiceConstants.INTERVAL_NONE, DesignChoiceConstants.INTERVAL_YEAR,
 				DesignChoiceConstants.INTERVAL_QUARTER, DesignChoiceConstants.INTERVAL_MONTH,
 				DesignChoiceConstants.INTERVAL_WEEK, DesignChoiceConstants.INTERVAL_DAY,
 				DesignChoiceConstants.INTERVAL_HOUR, DesignChoiceConstants.INTERVAL_MINUTE,
@@ -1470,14 +1506,14 @@ public class GroupDialog extends BaseDialog implements Listener {
 	}
 
 	private static IChoice[] getIntervalChoicesNumeric() {
-		String[] str = new String[] { DesignChoiceConstants.INTERVAL_NONE, DesignChoiceConstants.INTERVAL_INTERVAL, };
+		String[] str = { DesignChoiceConstants.INTERVAL_NONE, DesignChoiceConstants.INTERVAL_INTERVAL, };
 
 		return getIntervalChoiceArray(str);
 	}
 
 	/**
 	 * Get intervalChoiceArray
-	 * 
+	 *
 	 * @param str
 	 * @return
 	 */
@@ -1498,7 +1534,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 	/**
 	 * Get columnDataType
-	 * 
+	 *
 	 * @return
 	 */
 	private Class getColumnType() {
@@ -1506,8 +1542,9 @@ public class GroupDialog extends BaseDialog implements Listener {
 			Object dataSetItemModel = columnList.get(i);
 
 			if (dataSetItemModel instanceof DataSetItemModel) {
-				if (((DataSetItemModel) dataSetItemModel).getDataSetColumnName().equals(keyChooser.getText()))
+				if (((DataSetItemModel) dataSetItemModel).getDataSetColumnName().equals(keyChooser.getText())) {
 					return DataType.getClass(((DataSetItemModel) dataSetItemModel).getDataType());
+				}
 			}
 		}
 
@@ -1516,7 +1553,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 	/**
 	 * Reset intervalType
-	 * 
+	 *
 	 * @param choice
 	 */
 	private void resetIntervalType(IChoice[] choice) {
@@ -1529,6 +1566,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 		intervalType.select(0);
 		intervalType.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				intervalRange.setEnabled(intervalType.getSelectionIndex() != 0);
 				intervalBaseButton
@@ -1542,7 +1580,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 
 	/**
 	 * Enable the interval range and base right after refreshing the interval type
-	 * 
+	 *
 	 */
 	private void enableIntervalRangeAndBase(boolean bool) {
 		intervalRange.setEnabled(bool);
@@ -1580,6 +1618,7 @@ public class GroupDialog extends BaseDialog implements Listener {
 		chooser.setText(key);
 	}
 
+	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 		PropertyHandle propertyHandle = inputGroup.getPropertyHandle(TableHandle.SORT_PROP);
 		if (propertyHandle.iterator().hasNext()) {

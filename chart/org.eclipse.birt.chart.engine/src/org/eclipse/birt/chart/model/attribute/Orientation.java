@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,11 +24,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Orientation</b></em>', and utility methods for working with them. <!--
  * end-user-doc --> <!-- begin-model-doc -->
- * 
+ *
  * This type represents the options available for orientation.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getOrientation()
  * @model
  * @generated
@@ -38,7 +41,7 @@ public enum Orientation implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #HORIZONTAL
 	 * @generated
 	 * @ordered
@@ -51,7 +54,7 @@ public enum Orientation implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #VERTICAL
 	 * @generated
 	 * @ordered
@@ -61,7 +64,7 @@ public enum Orientation implements Enumerator {
 	/**
 	 * The '<em><b>Horizontal</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #HORIZONTAL_LITERAL
 	 * @model name="Horizontal"
 	 * @generated
@@ -72,7 +75,7 @@ public enum Orientation implements Enumerator {
 	/**
 	 * The '<em><b>Vertical</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #VERTICAL_LITERAL
 	 * @model name="Vertical"
 	 * @generated
@@ -83,15 +86,15 @@ public enum Orientation implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Orientation</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final Orientation[] VALUES_ARRAY = new Orientation[] { HORIZONTAL_LITERAL, VERTICAL_LITERAL, };
+	private static final Orientation[] VALUES_ARRAY = { HORIZONTAL_LITERAL, VERTICAL_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Orientation</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static final List<Orientation> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -99,7 +102,7 @@ public enum Orientation implements Enumerator {
 	/**
 	 * Returns the '<em><b>Orientation</b></em>' literal with the specified literal
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static Orientation get(String literal) {
@@ -115,7 +118,7 @@ public enum Orientation implements Enumerator {
 	/**
 	 * Returns the '<em><b>Orientation</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static Orientation getByName(String name) {
@@ -131,7 +134,7 @@ public enum Orientation implements Enumerator {
 	/**
 	 * Returns the '<em><b>Orientation</b></em>' literal with the specified integer
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static Orientation get(int value) {
@@ -146,21 +149,21 @@ public enum Orientation implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String literal;
@@ -168,10 +171,10 @@ public enum Orientation implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private Orientation(int value, String name, String literal) {
+	Orientation(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -179,27 +182,30 @@ public enum Orientation implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -207,7 +213,7 @@ public enum Orientation implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override

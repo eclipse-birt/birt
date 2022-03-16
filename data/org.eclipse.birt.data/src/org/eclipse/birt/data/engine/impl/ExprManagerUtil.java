@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,7 +61,7 @@ public class ExprManagerUtil {
 
 	/**
 	 * This method tests whether column bindings in ExprManager is valid or not.
-	 * 
+	 *
 	 * @param exprManager
 	 * @return
 	 * @throws DataException
@@ -74,7 +77,7 @@ public class ExprManagerUtil {
 
 	/**
 	 * Test whether high level group keys are depended on low level group keys.
-	 * 
+	 *
 	 * @param exprManager
 	 * @return
 	 * @throws DataException
@@ -101,25 +104,8 @@ public class ExprManagerUtil {
 	}
 
 	/**
-	 * 
-	 * @param columnName
-	 * @return
-	 * @throws DataException
-	 */
-	private boolean isColumnBindingExist(String columnName) throws DataException {
-		List bindings = exprManager.getBindingExprs();
-
-		for (int i = 0; i < bindings.size(); i++) {
-			GroupBindingColumn gbc = (GroupBindingColumn) bindings.get(i);
-			if (gbc.getExpression(columnName) != null)
-				return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Test whether there are dependency cycles in exprManager.
-	 * 
+	 *
 	 * @param exprManager
 	 * @return
 	 * @throws DataException
@@ -127,7 +113,7 @@ public class ExprManagerUtil {
 	private void checkDependencyCycle() throws DataException {
 		Iterator it = this.getColumnNames().iterator();
 
-		Set<NamedExpression> namedExpressions = new HashSet<NamedExpression>();
+		Set<NamedExpression> namedExpressions = new HashSet<>();
 		while (it.hasNext()) {
 			String name = it.next().toString();
 			IBaseExpression expr = exprManager.getExpr(name);
@@ -142,7 +128,7 @@ public class ExprManagerUtil {
 
 	/**
 	 * Check whether the expression of all the column bindings is valid.
-	 * 
+	 *
 	 * @param exprManager
 	 * @return
 	 * @throws DataException
@@ -189,7 +175,7 @@ public class ExprManagerUtil {
 
 	/**
 	 * Test whether all the column bindings exist.
-	 * 
+	 *
 	 * @param bindingName
 	 * @param binding
 	 * @throws DataException
@@ -201,15 +187,16 @@ public class ExprManagerUtil {
 			return;
 		}
 		for (int i = 0; i < binding.size(); i++) {
-			if (referName.equals(binding.get(i).toString()))
+			if (referName.equals(binding.get(i).toString())) {
 				return;
+			}
 		}
 
 		this.validateInParentQuery(bindingName, baseQueryDefn, referName);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param map
 	 * @param usedBindings
 	 * @throws DataException
@@ -219,8 +206,9 @@ public class ExprManagerUtil {
 		List nameList = this.getColumnNames();
 		for (int i = 0; i < usedBindings.size(); i++) {
 			IColumnBinding cb = (IColumnBinding) usedBindings.get(i);
-			if (useDefinedKeyWord(cb))
+			if (useDefinedKeyWord(cb)) {
 				continue;
+			}
 
 			String name = ((IColumnBinding) usedBindings.get(i)).getResultSetColumnName();
 			if (!nameList.contains(name) && baseQueryDefn != null) {
@@ -231,9 +219,10 @@ public class ExprManagerUtil {
 
 	private void validateInParentQuery(String bindingName, IBaseQueryDefinition baseQueryDefn, String name)
 			throws DataException {
-		if (baseQueryDefn == null)
+		if (baseQueryDefn == null) {
 			throw new DataException(ResourceConstants.COLUMN_BINDING_REFER_TO_INEXIST_BINDING,
 					new Object[] { bindingName, name });
+		}
 		String expr = findExpression(bindingName, name, baseQueryDefn.getParentQuery());
 		if (expr == null) {
 			throw new DataException(ResourceConstants.COLUMN_BINDING_REFER_TO_INEXIST_BINDING,
@@ -245,7 +234,7 @@ public class ExprManagerUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param columnBindingName
 	 * @param queryDefn
 	 * @return
@@ -262,18 +251,20 @@ public class ExprManagerUtil {
 		}
 
 		IBinding binding = (IBinding) queryDefn.getBindings().get(referName);
-		if (binding.getAggrFunction() != null)
+		if (binding.getAggrFunction() != null) {
 			throw new DataException(
 					ResourceConstants.COLUMN_BINDING_REFER_TO_AGGREGATION_COLUMN_BINDING_IN_PARENT_QUERY, bindingName);
+		}
 		IBaseExpression expr = binding.getExpression();
-		if (expr instanceof IScriptExpression)
+		if (expr instanceof IScriptExpression) {
 			return ((IScriptExpression) expr).getText();
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cb
 	 * @return
 	 */
@@ -283,15 +274,14 @@ public class ExprManagerUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private List getColumnNames() {
 		List bindingExprs = exprManager.getBindingExprs();
 		Map autoBindingExprMap = exprManager.getAutoBindingExprMap();
 
-		List l = new ArrayList();
-		l.addAll(autoBindingExprMap.keySet());
+		List l = new ArrayList(autoBindingExprMap.keySet());
 		for (int i = 0; i < bindingExprs.size(); i++) {
 			l.addAll(((GroupBindingColumn) bindingExprs.get(i)).getColumnNames());
 		}
@@ -299,7 +289,7 @@ public class ExprManagerUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private HashMap getGroupKeys() {
@@ -308,15 +298,16 @@ public class ExprManagerUtil {
 		HashMap l = new HashMap();
 		for (int i = 0; i < bindingExprs.size(); i++) {
 			String key = ((GroupBindingColumn) bindingExprs.get(i)).getGroupKey();
-			Integer groupLevel = Integer.valueOf(((GroupBindingColumn) bindingExprs.get(i)).getGroupLevel());
-			if (key != null)
+			Integer groupLevel = ((GroupBindingColumn) bindingExprs.get(i)).getGroupLevel();
+			if (key != null) {
 				l.put(groupLevel, key);
+			}
 		}
 		return l;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param computedColumn
 	 * @param allComputes
 	 * @return

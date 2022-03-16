@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,9 +25,9 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IDynamicFilterParameterModel;
 
 /**
- * 
+ *
  * Represents the dynamic filter parameter types.
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.DynamicFilterParameter
  */
 
@@ -34,7 +37,7 @@ public class DynamicFilterParameterHandle extends AbstractScalarParameterHandle
 	/**
 	 * Constructs a handle for the DynamicFilterParameter with the given design and
 	 * the parameter.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -52,7 +55,7 @@ public class DynamicFilterParameterHandle extends AbstractScalarParameterHandle
 	 * <li><code>DYNAMIC_FILTER_ADVANCED</code>
 	 * <li>
 	 * </ul>
-	 * 
+	 *
 	 * @param displayType
 	 * @throws SemanticException
 	 */
@@ -69,7 +72,7 @@ public class DynamicFilterParameterHandle extends AbstractScalarParameterHandle
 	 * <li><code>DYNAMIC_FILTER_ADVANCED</code>
 	 * <li>
 	 * </ul>
-	 * 
+	 *
 	 * @return the display value.
 	 */
 	public String getDisplayType() {
@@ -78,7 +81,7 @@ public class DynamicFilterParameterHandle extends AbstractScalarParameterHandle
 
 	/**
 	 * Sets the column value.
-	 * 
+	 *
 	 * @param column the column value.
 	 * @throws SemanticException
 	 */
@@ -88,7 +91,7 @@ public class DynamicFilterParameterHandle extends AbstractScalarParameterHandle
 
 	/**
 	 * Gets the column value.
-	 * 
+	 *
 	 * @return the column value.
 	 */
 	public String getColumn() {
@@ -97,21 +100,22 @@ public class DynamicFilterParameterHandle extends AbstractScalarParameterHandle
 
 	/**
 	 * Returns the list containing filter operator.
-	 * 
+	 *
 	 * @return the list containing filter operator.
 	 */
 
 	public List<String> getFilterOperatorList() {
 		List<String> value = getListProperty(FILTER_OPERATOR_PROP);
-		if (value == null || value.isEmpty())
+		if (value == null || value.isEmpty()) {
 			return Collections.emptyList();
+		}
 
 		return value;
 	}
 
 	/**
 	 * Sets the filter operator.
-	 * 
+	 *
 	 * @param list the filter operator list.
 	 * @throws SemanticException
 	 */
@@ -121,7 +125,7 @@ public class DynamicFilterParameterHandle extends AbstractScalarParameterHandle
 
 	/**
 	 * Gets the native data type of the dynamic parameter.
-	 * 
+	 *
 	 * @return the native data type of the dynamic parameter.
 	 */
 	public int getNativeDataType() {
@@ -130,7 +134,7 @@ public class DynamicFilterParameterHandle extends AbstractScalarParameterHandle
 
 	/**
 	 * Sets the native data type of the dynamic parameter.
-	 * 
+	 *
 	 * @param nativeDataType the native data type to set
 	 * @throws SemanticException
 	 */
@@ -141,12 +145,12 @@ public class DynamicFilterParameterHandle extends AbstractScalarParameterHandle
 	/**
 	 * Returns the control type for this parameter. Control types are one of
 	 * constants defined in <code>DesignChoiceConstants</code>:
-	 * 
+	 *
 	 * <ul>
 	 * <li>PARAM_CONTROL_TEXT_BOX
 	 * <li>PARAM_CONTROL_LIST_BOX
 	 * </ul>
-	 * 
+	 *
 	 * @return the control type of the dynamic filter parameter.
 	 */
 	public String getControlType() {
@@ -156,13 +160,13 @@ public class DynamicFilterParameterHandle extends AbstractScalarParameterHandle
 	/**
 	 * Sets the control type for this parameter. The value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li>PARAM_CONTROL_TEXT_BOX
 	 * <li>PARAM_CONTROL_LIST_BOX
-	 * 
+	 *
 	 * </ul>
-	 * 
+	 *
 	 * @param controlType the control type value.
 	 * @throws SemanticException
 	 */
@@ -174,26 +178,30 @@ public class DynamicFilterParameterHandle extends AbstractScalarParameterHandle
 	 * Checks whether there is recursive reference if this dynamic filter parameter
 	 * uses the given data set element handle as its "dataSet" property. True if
 	 * recursive reference exists; otherwise false if no recursive reference exists.
-	 * 
+	 *
 	 * @param dataSetToCheck
 	 * @return true if recursive reference exists otherwise false
 	 */
 	public boolean checkRecursiveDataSet(DataSetHandle dataSetToCheck) {
-		if (dataSetToCheck == null)
+		if (dataSetToCheck == null) {
 			return false;
+		}
 
 		// check all the filterCondition in the data set
 		Iterator iter = dataSetToCheck.filtersIterator();
-		if (iter == null)
+		if (iter == null) {
 			return false;
+		}
 		while (iter.hasNext()) {
 			FilterConditionHandle filterCond = (FilterConditionHandle) iter.next();
 			String dynamicParamName = filterCond.getDynamicFilterParameter();
-			if (StringUtil.isBlank(dynamicParamName))
+			if (StringUtil.isBlank(dynamicParamName)) {
 				return false;
+			}
 
-			if (dynamicParamName.equals(getName()))
+			if (dynamicParamName.equals(getName())) {
 				return true;
+			}
 		}
 
 		return false;

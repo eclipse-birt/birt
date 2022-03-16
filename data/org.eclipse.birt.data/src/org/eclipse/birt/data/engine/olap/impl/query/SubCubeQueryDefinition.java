@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,13 +20,13 @@ import org.eclipse.birt.data.engine.olap.api.query.NamedObject;
  * Default implementation of the
  * {@link org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition}
  * interface.
- * 
+ *
  */
 public class SubCubeQueryDefinition extends NamedObject implements ISubCubeQueryDefinition {
 	private String startingLevelOnColumn, startingLevelOnRow;
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param startingLevelOnColumn
 	 * @param startingLevelOnRow
@@ -35,7 +38,7 @@ public class SubCubeQueryDefinition extends NamedObject implements ISubCubeQuery
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 */
 	public SubCubeQueryDefinition(String name) {
@@ -46,6 +49,7 @@ public class SubCubeQueryDefinition extends NamedObject implements ISubCubeQuery
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition#
 	 * getStartingLevelOnColumn()
 	 */
+	@Override
 	public String getStartingLevelOnColumn() {
 		return startingLevelOnColumn;
 	}
@@ -54,26 +58,29 @@ public class SubCubeQueryDefinition extends NamedObject implements ISubCubeQuery
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition#
 	 * getStartingLevelOnRow()
 	 */
+	@Override
 	public String getStartingLevelOnRow() {
 		return startingLevelOnRow;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition#
 	 * setStartingLevelOnColumn(java.lang.String)
 	 */
+	@Override
 	public void setStartingLevelOnColumn(String level) {
 		this.startingLevelOnColumn = level;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition#
 	 * setStartingLevelOnRow(java.lang.String)
 	 */
+	@Override
 	public void setStartingLevelOnRow(String level) {
 		this.startingLevelOnRow = level;
 	}

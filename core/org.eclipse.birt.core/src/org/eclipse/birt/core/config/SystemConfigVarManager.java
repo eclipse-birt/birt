@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,8 +48,9 @@ public class SystemConfigVarManager {
 			return defaultValue;
 		}
 
-		if (ret == null)
+		if (ret == null) {
 			return defaultValue;
+		}
 		return ret;
 	}
 
@@ -66,8 +70,9 @@ public class SystemConfigVarManager {
 			return false;
 		}
 
-		if (booleanValue == null || booleanValue.compareToIgnoreCase("true") != 0)
+		if (booleanValue == null || booleanValue.compareToIgnoreCase("true") != 0) {
 			return false;
+		}
 		return true;
 	}
 
@@ -84,8 +89,9 @@ public class SystemConfigVarManager {
 			// var from other sources, i.e., a configuration file
 			String intString = getConfigVar(key);
 
-			if (intString != null)
+			if (intString != null) {
 				return Integer.valueOf(intString);
+			}
 			return null;
 		} catch (Exception e) {
 			return null;
@@ -107,9 +113,10 @@ public class SystemConfigVarManager {
 			// var from other sources, i.e., a configuration file
 			String intString = getConfigVar(key);
 
-			if (intString == null)
+			if (intString == null) {
 				return defaultValue;
-			return Integer.valueOf(intString).intValue();
+			}
+			return Integer.parseInt(intString);
 		} catch (Exception e) {
 			return defaultValue;
 		}

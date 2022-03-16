@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -81,9 +84,10 @@ public final class WrappedInstruction implements IRenderInstruction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	@Override
 	public int compareTo(Object o) {
 		Bounds bo = null;
 
@@ -114,10 +118,11 @@ public final class WrappedInstruction implements IRenderInstruction {
 
 	/**
 	 * Returns the associated event.
-	 * 
+	 *
 	 * @return
 	 */
-	public final PrimitiveRenderEvent getEvent() {
+	@Override
+	public PrimitiveRenderEvent getEvent() {
 		return pre;
 	}
 
@@ -128,15 +133,17 @@ public final class WrappedInstruction implements IRenderInstruction {
 	 *         <li>PrimitiveRenderEvent.FILL
 	 *         </ul>
 	 */
-	public final int getInstruction() {
+	@Override
+	public int getInstruction() {
 		return iInstruction;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		return Messages.getString("wrapped.instruction.to.string", //$NON-NLS-1$
 				new Object[] { super.toString(), Boolean.valueOf(isModel()), getBounds() }, ULocale.getDefault());
@@ -147,7 +154,7 @@ public final class WrappedInstruction implements IRenderInstruction {
 	 * rendering order. Under some cases, like core, triangle charts, we don't use
 	 * actual plan to do order comparison, it is difficult. We just sets a compare
 	 * bounds instead of actual bound for comparison.
-	 * 
+	 *
 	 * @param bounds
 	 */
 	public void setCompareBounds(Bounds bounds) {
@@ -156,7 +163,7 @@ public final class WrappedInstruction implements IRenderInstruction {
 
 	/**
 	 * Returns compare bounds.
-	 * 
+	 *
 	 * @return
 	 */
 	public Bounds getCompareBounds() {
@@ -170,7 +177,8 @@ public final class WrappedInstruction implements IRenderInstruction {
 	 * @return Returns the mimimum bounds required to contain the rendering area of
 	 *         associated rendering event.
 	 */
-	public final Bounds getBounds() {
+	@Override
+	public Bounds getBounds() {
 		if (compareBounds != null) {
 			return compareBounds;
 		}
@@ -202,6 +210,7 @@ public final class WrappedInstruction implements IRenderInstruction {
 	/**
 	 * @return Returns if wraps multiple events currently.
 	 */
+	@Override
 	public boolean isModel() {
 		return pre == null;
 	}
@@ -209,6 +218,7 @@ public final class WrappedInstruction implements IRenderInstruction {
 	/**
 	 * @return Returns list of events currently wraps.
 	 */
+	@Override
 	public List getModel() {
 		return alEvents;
 	}
@@ -237,14 +247,15 @@ public final class WrappedInstruction implements IRenderInstruction {
 			}
 		}
 
+		@Override
 		public int compare(Object o1, Object o2) {
-			return Long.valueOf(getZOrder(o1)).compareTo(getZOrder(o2));
+			return Long.compare(getZOrder(o1), getZOrder(o2));
 		}
 	}
 
 	/**
 	 * Set sub-deferred cache instance.
-	 * 
+	 *
 	 * @param dc
 	 */
 	public void setSubDeferredCache(DeferredCache dc) {
@@ -253,7 +264,7 @@ public final class WrappedInstruction implements IRenderInstruction {
 
 	/**
 	 * Returns instance of sub-deferred cache.
-	 * 
+	 *
 	 * @return
 	 */
 	public DeferredCache getSubDeferredCache() {

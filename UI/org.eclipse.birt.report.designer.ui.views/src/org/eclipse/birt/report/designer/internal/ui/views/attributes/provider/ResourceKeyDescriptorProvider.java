@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
@@ -22,19 +34,22 @@ public class ResourceKeyDescriptorProvider extends PropertyDescriptorProvider
 		super(property, element);
 	}
 
+	@Override
 	public String[] getBaseNames() {
 		List<String> resources = SessionHandleAdapter.getInstance().getReportDesignHandle().getIncludeResources();
-		if (resources == null)
+		if (resources == null) {
 			return null;
-		else
+		} else {
 			return resources.toArray(new String[0]);
+		}
 	}
 
+	@Override
 	public URL[] getResourceURLs() {
 		String[] baseNames = getBaseNames();
-		if (baseNames == null)
+		if (baseNames == null) {
 			return null;
-		else {
+		} else {
 			URL[] urls = new URL[baseNames.length];
 			for (int i = 0; i < baseNames.length; i++) {
 				urls[i] = SessionHandleAdapter.getInstance().getReportDesignHandle().findResource(baseNames[i],
@@ -44,24 +59,29 @@ public class ResourceKeyDescriptorProvider extends PropertyDescriptorProvider
 		}
 	}
 
+	@Override
 	public String getBrowseText() {
 		return groupIndex == 0 ? Messages.getString("ResourceKeyDescriptor.text.Browse")
-				: Messages.getString("ResourceKeyDescriptor.text.Browse.Alt"); //$NON-NLS-1$ //$NON-NLS-2$
+				: Messages.getString("ResourceKeyDescriptor.text.Browse.Alt"); //$NON-NLS-1$
 	}
 
+	@Override
 	public String getResetText() {
 		return groupIndex == 0 ? Messages.getString("ResourceKeyDescriptor.text.Reset")
-				: Messages.getString("ResourceKeyDescriptor.text.Reset.Alt"); //$NON-NLS-1$ //$NON-NLS-2$
+				: Messages.getString("ResourceKeyDescriptor.text.Reset.Alt"); //$NON-NLS-1$
 	}
 
+	@Override
 	public boolean isEnable() {
 		return !(DEUtil.getInputSize(input) > 1);
 	}
 
+	@Override
 	public String getBrowseTooltipText() {
 		return Messages.getString("ResourceKeyDescriptor.button.browse.tooltip"); //$NON-NLS-1$
 	}
 
+	@Override
 	public String getResetTooltipText() {
 		return Messages.getString("ResourceKeyDescriptor.button.reset.tooltip"); //$NON-NLS-1$
 	}

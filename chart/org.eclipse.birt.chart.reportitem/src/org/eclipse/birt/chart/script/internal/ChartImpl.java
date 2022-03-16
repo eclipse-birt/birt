@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +39,7 @@ import org.eclipse.birt.report.model.api.extension.MultiRowItem;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 
 /**
- * 
+ *
  */
 
 public abstract class ChartImpl extends MultiRowItem implements IChart {
@@ -51,6 +54,7 @@ public abstract class ChartImpl extends MultiRowItem implements IChart {
 		this.cm = cm;
 	}
 
+	@Override
 	public IText getDescription() {
 		Text desc = cm.getDescription();
 		if (desc == null) {
@@ -60,14 +64,17 @@ public abstract class ChartImpl extends MultiRowItem implements IChart {
 		return ChartComponentUtil.convertText(desc);
 	}
 
+	@Override
 	public ILegend getLegend() {
 		return new LegendImpl(cm.getLegend());
 	}
 
+	@Override
 	public String getOutputType() {
 		return (String) eih.getProperty("outputFormat"); //$NON-NLS-1$
 	}
 
+	@Override
 	public ILabel getTitle() {
 		Label title = cm.getTitle().getLabel();
 		if (title == null) {
@@ -77,10 +84,12 @@ public abstract class ChartImpl extends MultiRowItem implements IChart {
 		return ChartComponentUtil.convertLabel(title);
 	}
 
+	@Override
 	public boolean isColorByCategory() {
 		return cm.getLegend().getItemType() == LegendItemType.CATEGORIES_LITERAL;
 	}
 
+	@Override
 	public void setColorByCategory(boolean byCategory) {
 		cm.getLegend().setItemType(byCategory ? LegendItemType.CATEGORIES_LITERAL : LegendItemType.SERIES_LITERAL);
 	}
@@ -89,15 +98,14 @@ public abstract class ChartImpl extends MultiRowItem implements IChart {
 		cm.setDescription(ChartComponentUtil.convertIText(label));
 	}
 
+	@Override
 	public void setOutputType(String type) {
 		try {
 			if (!ChartUtil.isOutputFormatSupport(type)) {
 				type = "SVG"; //$NON-NLS-1$
 			}
 			eih.setProperty("outputFormat", type);//$NON-NLS-1$
-		} catch (SemanticException e) {
-			logger.log(e);
-		} catch (ChartException e) {
+		} catch (SemanticException | ChartException e) {
 			logger.log(e);
 		}
 	}
@@ -106,14 +114,17 @@ public abstract class ChartImpl extends MultiRowItem implements IChart {
 		cm.getTitle().setLabel(ChartComponentUtil.convertILabel(title));
 	}
 
+	@Override
 	public String getDimension() {
 		return cm.getDimension().getName();
 	}
 
+	@Override
 	public void setDimension(String dimensionName) {
 		cm.setDimension(ChartDimension.getByName(dimensionName));
 	}
 
+	@Override
 	public void setWidth(double dimension) throws SemanticException {
 		super.setWidth(dimension);
 
@@ -124,6 +135,7 @@ public abstract class ChartImpl extends MultiRowItem implements IChart {
 		}
 	}
 
+	@Override
 	public void setWidth(String dimension) throws SemanticException {
 		super.setWidth(dimension);
 
@@ -134,6 +146,7 @@ public abstract class ChartImpl extends MultiRowItem implements IChart {
 		}
 	}
 
+	@Override
 	public void setHeight(double dimension) throws SemanticException {
 		super.setHeight(dimension);
 
@@ -144,6 +157,7 @@ public abstract class ChartImpl extends MultiRowItem implements IChart {
 		}
 	}
 
+	@Override
 	public void setHeight(String dimension) throws SemanticException {
 		super.setHeight(dimension);
 
@@ -173,6 +187,7 @@ public abstract class ChartImpl extends MultiRowItem implements IChart {
 		return 0;
 	}
 
+	@Override
 	public IComponentFactory getFactory() {
 		return new ChartComponentFactory();
 	}

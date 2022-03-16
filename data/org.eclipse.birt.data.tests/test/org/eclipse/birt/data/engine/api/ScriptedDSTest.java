@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -11,8 +14,12 @@
 
 package org.eclipse.birt.data.engine.api;
 
-import java.util.ArrayList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
@@ -28,10 +35,8 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
-
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Test case for scripted data source/data set
@@ -57,14 +62,13 @@ public class ScriptedDSTest extends APITestCase {
 	private String groupName = "_group_count";
 
 	// column name
-	private String[] scriptColumnNames = new String[] { "NUM", "SQUARE", "STR", "ANY" };
-	private int[] scriptColumnTypes = new int[] { DataType.INTEGER_TYPE, DataType.DOUBLE_TYPE, DataType.STRING_TYPE,
+	private String[] scriptColumnNames = { "NUM", "SQUARE", "STR", "ANY" };
+	private int[] scriptColumnTypes = { DataType.INTEGER_TYPE, DataType.DOUBLE_TYPE, DataType.STRING_TYPE,
 			DataType.ANY_TYPE };
-	private String[] scriptColumnTypeNames = new String[] { "INTEGER", "DOUBLE", "STRING", "ANY" };
+	private String[] scriptColumnTypeNames = { "INTEGER", "DOUBLE", "STRING", "ANY" };
 	// column alias name
-	private String[] scriptColumnAliasNames = new String[] { "NUM2", "SQUARE2", "STR2", "ANY2" };
+	private String[] scriptColumnAliasNames = { "NUM2", "SQUARE2", "STR2", "ANY2" };
 
-	private String[] computedColumnNames = new String[] { "CP1", "CP2" };
 	private IScriptExpression[] scriptExprs;
 
 	private IScriptExpression[] aliasScriptExprs;
@@ -81,6 +85,7 @@ public class ScriptedDSTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return null;
 	}
@@ -120,7 +125,7 @@ public class ScriptedDSTest extends APITestCase {
 
 	/**
 	 * Get test ScriptDataSetDesign
-	 * 
+	 *
 	 * @return ScriptDataSetDesign
 	 */
 	private ScriptDataSetDesign newDataSet(String name, boolean dynamicMetadata) {
@@ -166,7 +171,7 @@ public class ScriptedDSTest extends APITestCase {
 
 	/**
 	 * Get test ColumnHints for data set
-	 * 
+	 *
 	 * @return columnHints list
 	 */
 	private List getColumnHints() {
@@ -177,13 +182,12 @@ public class ScriptedDSTest extends APITestCase {
 			col.setAlias(scriptColumnAliasNames[i]);
 			list.add(col);
 		}
-		;
 		return list;
 	}
 
 	/**
 	 * Test getMetaData function of script data set; uses static metadata
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -193,7 +197,7 @@ public class ScriptedDSTest extends APITestCase {
 
 	/**
 	 * Test getMetaData function of script data set; uses dynamic metadata
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -214,23 +218,25 @@ public class ScriptedDSTest extends APITestCase {
 			if (i < scriptColumnNames.length) {
 				assertEquals(metaData.getColumnName(i + 1), "_" + scriptColumnNames[i]);
 				assertEquals(metaData.getColumnType(i + 1), scriptColumnTypes[i]);
-			} else if (i < scriptColumnNames.length + scriptColumnAliasNames.length)
+			} else if (i < scriptColumnNames.length + scriptColumnAliasNames.length) {
 				assertEquals(metaData.getColumnName(i + 1), "_" + scriptColumnAliasNames[i - scriptColumnNames.length]);
+			}
 		}
 	}
 
 	private int getNoneTempColumCount(IResultMetaData metaData) throws BirtException {
 		for (int i = 1; i <= metaData.getColumnCount(); i++) {
 			// TODO The regex should be refined.
-			if (metaData.getColumnName(i).matches("\\Q_{$TEMP\\E.*\\d*\\Q$}_\\E"))
+			if (metaData.getColumnName(i).matches("\\Q_{$TEMP\\E.*\\d*\\Q$}_\\E")) {
 				return i - 1;
+			}
 		}
 		return metaData.getColumnCount();
 	}
 
 	/**
 	 * Test SetMaxRow function of script data set
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -252,7 +258,7 @@ public class ScriptedDSTest extends APITestCase {
 
 	/**
 	 * Test includes filter, sort
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -278,7 +284,7 @@ public class ScriptedDSTest extends APITestCase {
 			String outputStr = "";
 			for (int i = 0; i < scriptColumnNames.length; i++) {
 				Object value = ri.getValue("_" + scriptColumnNames[i]);
-				outputStr += scriptExprs[i].getText().replaceAll("dataSetRow", "row") + " value is:" + value.toString()
+				outputStr += scriptExprs[i].getText().replace("dataSetRow", "row") + " value is:" + value.toString()
 						+ "    ";
 			}
 
@@ -296,7 +302,7 @@ public class ScriptedDSTest extends APITestCase {
 
 	/**
 	 * Test fetch with alias
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -313,7 +319,7 @@ public class ScriptedDSTest extends APITestCase {
 			String outputStr = "";
 			for (int i = 0; i < this.scriptColumnAliasNames.length; i++) {
 				Object value = ri.getValue("_" + scriptColumnAliasNames[i]);
-				outputStr += aliasScriptExprs[i].getText().replaceAll("dataSetRow", "row") + " value is:"
+				outputStr += aliasScriptExprs[i].getText().replace("dataSetRow", "row") + " value is:"
 						+ value.toString() + "    ";
 			}
 
@@ -331,7 +337,7 @@ public class ScriptedDSTest extends APITestCase {
 
 	/**
 	 * Test includes filter, group
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -358,7 +364,7 @@ public class ScriptedDSTest extends APITestCase {
 			String outputStr = "";
 			for (int i = 0; i < scriptColumnNames.length; i++) {
 				Object value = ri.getValue("_" + scriptColumnNames[i]);
-				outputStr += scriptExprs[i].getText().replaceAll("dataSetRow", "row") + " value is:" + value.toString()
+				outputStr += scriptExprs[i].getText().replace("dataSetRow", "row") + " value is:" + value.toString()
 						+ "    ";
 			}
 
@@ -376,7 +382,7 @@ public class ScriptedDSTest extends APITestCase {
 
 	/**
 	 * Test TOP N filter
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -393,7 +399,7 @@ public class ScriptedDSTest extends APITestCase {
 			String outputStr = "";
 			for (int i = 0; i < scriptColumnNames.length; i++) {
 				Object value = ri.getValue("_" + scriptColumnNames[i]);
-				outputStr += scriptExprs[i].getText().replaceAll("dataSetRow", "row") + " value is:" + value.toString()
+				outputStr += scriptExprs[i].getText().replace("dataSetRow", "row") + " value is:" + value.toString()
 						+ "    ";
 			}
 
@@ -411,7 +417,7 @@ public class ScriptedDSTest extends APITestCase {
 
 	/**
 	 * @throws Exception
-	 * 
+	 *
 	 *
 	 */
 	@Test
@@ -421,7 +427,7 @@ public class ScriptedDSTest extends APITestCase {
 
 	/**
 	 * @throws Exception
-	 * 
+	 *
 	 *
 	 */
 	@Test
@@ -431,7 +437,7 @@ public class ScriptedDSTest extends APITestCase {
 
 	/**
 	 * @throws Exception
-	 * 
+	 *
 	 *
 	 */
 	@Test
@@ -441,7 +447,7 @@ public class ScriptedDSTest extends APITestCase {
 
 	/**
 	 * Test setting of RowFetchLimit.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	private void testFetchLimit(int limit) throws Exception {
@@ -458,7 +464,7 @@ public class ScriptedDSTest extends APITestCase {
 			String outputStr = "";
 			for (int i = 0; i < scriptColumnNames.length; i++) {
 				Object value = ri.getValue("_" + scriptColumnNames[i]);
-				outputStr += scriptExprs[i].getText().replaceAll("dataSetRow", "row") + " value is:" + value.toString()
+				outputStr += scriptExprs[i].getText().replace("dataSetRow", "row") + " value is:" + value.toString()
 						+ "    ";
 			}
 
@@ -640,7 +646,7 @@ public class ScriptedDSTest extends APITestCase {
 
 	/**
 	 * Get test ReportQueryDefn
-	 * 
+	 *
 	 * @return ReportQueryDefn
 	 * @throws BirtException
 	 */
@@ -667,7 +673,7 @@ public class ScriptedDSTest extends APITestCase {
 //		rqDefn.getRowExpressions( ).addAll( Arrays.asList( this.aliasScriptExprs ) );
 
 		// add filter
-		String[] filterStr = new String[] { "dataSetRow.NUM > 2" };
+		String[] filterStr = { "dataSetRow.NUM > 2" };
 
 		rqDefn.addResultSetExpression("_filterCol0", new ScriptExpression(filterStr[0]));
 

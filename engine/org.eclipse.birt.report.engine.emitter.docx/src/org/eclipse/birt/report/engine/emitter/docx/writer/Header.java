@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,6 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.wpml.WordUtil;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
-
 import org.eclipse.birt.report.engine.ooxml.IPart;
 import org.eclipse.birt.report.engine.ooxml.ImageManager.ImagePart;
 
@@ -38,6 +40,7 @@ public class Header extends BasicComponent {
 		this.headerWidth = headerWidth;
 	}
 
+	@Override
 	void start() {
 		writer.startWriter();
 		writer.openTag("w:hdr");
@@ -45,6 +48,7 @@ public class Header extends BasicComponent {
 		startHeaderFooterContainer(headerHeight, headerWidth, true);
 	}
 
+	@Override
 	void end() {
 		endHeaderFooterContainer();
 		writer.closeTag("w:hdr");
@@ -52,10 +56,12 @@ public class Header extends BasicComponent {
 		writer.close();
 	}
 
+	@Override
 	protected int getImageID() {
 		return document.getImageID();
 	}
 
+	@Override
 	protected int getMhtTextId() {
 		return document.getMhtTextId();
 	}

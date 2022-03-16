@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.core.framework;
@@ -43,6 +46,7 @@ public class PlatformServletContext implements IPlatformContext {
 	 * @param urlLeadingString
 	 * @deprecated since 2.1
 	 */
+	@Deprecated
 	public PlatformServletContext(ServletContext context, String urlLeadingString) {
 		this.context = context;
 	}
@@ -51,12 +55,14 @@ public class PlatformServletContext implements IPlatformContext {
 		this.context = context;
 	}
 
+	@Override
 	public String getPlatform() {
 		if (platform == null) {
 			synchronized (this) {
 				if (platform == null) {
 					AccessController.doPrivileged(new PrivilegedAction<Object>() {
 
+						@Override
 						public Object run() {
 							deploy();
 							return null;
@@ -103,7 +109,7 @@ public class PlatformServletContext implements IPlatformContext {
 	/**
 	 * copy resource to the platform. If the resources is a folder, make the same
 	 * folder into the platform and copy all resources into the dest folder.
-	 * 
+	 *
 	 * @param resourcePath resource path.
 	 * @param platform     platform folder
 	 */

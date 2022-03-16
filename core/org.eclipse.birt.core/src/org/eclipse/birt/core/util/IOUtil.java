@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -120,7 +123,7 @@ public class IOUtil {
 
 	/**
 	 * Read an int value from an input stream
-	 * 
+	 *
 	 * @param inputStream
 	 * @return int value
 	 * @throws IOException
@@ -137,7 +140,7 @@ public class IOUtil {
 
 	/**
 	 * Write an int value to an output stream
-	 * 
+	 *
 	 * @param outputStream
 	 * @param value
 	 * @throws IOException
@@ -149,7 +152,7 @@ public class IOUtil {
 
 	/**
 	 * Read an int value from an input stream
-	 * 
+	 *
 	 * @param inputStream
 	 * @return int value
 	 * @throws IOException
@@ -168,7 +171,7 @@ public class IOUtil {
 
 	/**
 	 * Write an int value to an output stream
-	 * 
+	 *
 	 * @param outputStream
 	 * @param value
 	 * @throws IOException
@@ -183,7 +186,7 @@ public class IOUtil {
 	/**
 	 * Assemble four bytes to an int value, make sure that the passed bytes length
 	 * is 4.
-	 * 
+	 *
 	 * @param bytes
 	 * @return int value of bytes
 	 */
@@ -201,7 +204,7 @@ public class IOUtil {
 	/**
 	 * Assemble four bytes to an int value, make sure that the passed bytes length
 	 * is larger than 4.
-	 * 
+	 *
 	 * @param bytes
 	 * @return int value of bytes
 	 */
@@ -213,7 +216,7 @@ public class IOUtil {
 	/**
 	 * Assemble eight bytes to an long value, make sure that the passed bytes length
 	 * larger than 8.
-	 * 
+	 *
 	 * @param bytes
 	 * @return int value of bytes
 	 */
@@ -246,7 +249,7 @@ public class IOUtil {
 
 	/**
 	 * Read a bool value from an input stream
-	 * 
+	 *
 	 * @param inputStream
 	 * @return boolean value
 	 * @throws IOException
@@ -261,18 +264,18 @@ public class IOUtil {
 
 	/**
 	 * Write a boolean value to an output stream
-	 * 
+	 *
 	 * @param outputStream
 	 * @param bool
 	 * @throws IOException
 	 */
 	public final static void writeBool(OutputStream outputStream, boolean bool) throws IOException {
-		outputStream.write(bool == false ? 0 : 1);
+		outputStream.write(!bool ? 0 : 1);
 	}
 
 	/**
 	 * Read a float value from an input stream
-	 * 
+	 *
 	 * @param inputStream
 	 * @return int value
 	 * @throws IOException
@@ -283,7 +286,7 @@ public class IOUtil {
 
 	/**
 	 * Write a float value to an output stream
-	 * 
+	 *
 	 * @param outputStream
 	 * @param value
 	 * @throws IOException
@@ -294,7 +297,7 @@ public class IOUtil {
 
 	/**
 	 * Read a double value from an input stream
-	 * 
+	 *
 	 * @param inputStream
 	 * @return int value
 	 * @throws IOException
@@ -305,7 +308,7 @@ public class IOUtil {
 
 	/**
 	 * Write a double value to an output stream
-	 * 
+	 *
 	 * @param outputStream
 	 * @param value
 	 * @throws IOException
@@ -316,7 +319,7 @@ public class IOUtil {
 
 	/**
 	 * Read a long value from an input stream
-	 * 
+	 *
 	 * @param inputStream
 	 * @return int value
 	 * @throws IOException
@@ -327,7 +330,7 @@ public class IOUtil {
 
 	/**
 	 * Write a long value to an output stream
-	 * 
+	 *
 	 * @param outputStream
 	 * @param value
 	 * @throws IOException
@@ -338,7 +341,7 @@ public class IOUtil {
 
 	/**
 	 * Write a byte array to an output stream only with its raw content.
-	 * 
+	 *
 	 * @param dos
 	 * @param bytes , it can not be null
 	 * @throws IOException
@@ -394,13 +397,14 @@ public class IOUtil {
 
 	/**
 	 * from object class to its type index value
-	 * 
+	 *
 	 * @param obValue
 	 * @return
 	 */
 	public static int getTypeIndex(Object obValue) {
-		if (obValue == null)
+		if (obValue == null) {
 			return TYPE_NULL;
+		}
 
 		if (obValue instanceof String) {
 			if (isLongString((String) obValue)) {
@@ -443,10 +447,10 @@ public class IOUtil {
 
 	/**
 	 * Currently these data types are supported.
-	 * 
+	 *
 	 * Integer Float Double BigDecimal Date Time Timestamp Boolean String byte[]
 	 * List Map
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -456,10 +460,10 @@ public class IOUtil {
 
 	/**
 	 * Currently these data types are supported.
-	 * 
+	 *
 	 * Integer Float Double BigDecimal Date Time Timestamp Boolean String byte[]
 	 * List Map
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -507,8 +511,9 @@ public class IOUtil {
 		case TYPE_BYTES:
 			int len = readInt(dis);
 			byte[] bytes = new byte[len];
-			if (len > 0)
+			if (len > 0) {
 				dis.readFully(bytes);
+			}
 			obValue = bytes;
 			break;
 		case TYPE_LIST:
@@ -525,6 +530,7 @@ public class IOUtil {
 				final ClassLoader loader = classLoader;
 				ObjectInputStream oo = new ObjectInputStream(new ByteArrayInputStream(bytes)) {
 
+					@Override
 					protected Class resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
 						return Class.forName(desc.getName(), false, loader);
 					}
@@ -552,7 +558,7 @@ public class IOUtil {
 	/**
 	 * When obValue is not supported te be serialized, an IOException will be
 	 * thrown.
-	 * 
+	 *
 	 * @param dos
 	 * @param obValue
 	 * @throws IOException
@@ -608,8 +614,9 @@ public class IOUtil {
 			byte[] bytes = (byte[]) obValue;
 			int length = bytes.length;
 			writeInt(dos, length);
-			if (length > 0)
+			if (length > 0) {
 				dos.write(bytes);
+			}
 			break;
 		case TYPE_LIST:
 			writeList(dos, (List) obValue);
@@ -661,7 +668,7 @@ public class IOUtil {
 
 	/**
 	 * Read a String from an input stream
-	 * 
+	 *
 	 * @param inputStream
 	 * @return an String
 	 * @throws IOException
@@ -677,11 +684,7 @@ public class IOUtil {
 				return readUTF(dis);
 			}
 			throw new EOFException();
-		} catch (OutOfMemoryError e) {
-			IOException ie = new IOException(e.getMessage());
-			ie.initCause(e);
-			throw ie;
-		} catch (NegativeArraySizeException e) {
+		} catch (OutOfMemoryError | NegativeArraySizeException e) {
 			IOException ie = new IOException(e.getMessage());
 			ie.initCause(e);
 			throw ie;
@@ -690,7 +693,7 @@ public class IOUtil {
 
 	/**
 	 * Write a String value to an output stream
-	 * 
+	 *
 	 * @param outputStream
 	 * @param str
 	 * @throws IOException
@@ -698,21 +701,18 @@ public class IOUtil {
 	public final static void writeString(DataOutputStream dos, String str) throws IOException {
 		if (str == null) {
 			writeInt(dos, TYPE_NULL);
-			return;
+		} else if (isLongString(str)) {
+			writeInt(dos, TYPE_LONG_STRING);
+			writeUTF(dos, str);
 		} else {
-			if (isLongString(str)) {
-				writeInt(dos, TYPE_LONG_STRING);
-				writeUTF(dos, str);
-			} else {
-				writeInt(dos, TYPE_STRING);
-				dos.writeUTF(str);
-			}
+			writeInt(dos, TYPE_STRING);
+			dos.writeUTF(str);
 		}
 	}
 
 	/**
 	 * Read a list from an input stream
-	 * 
+	 *
 	 * @param dos
 	 * @return
 	 * @throws IOException
@@ -720,21 +720,23 @@ public class IOUtil {
 	 */
 	public final static byte[] readBytes(DataInputStream dis) throws IOException {
 		// check null
-		if (readInt(dis) == TYPE_NULL)
+		if (readInt(dis) == TYPE_NULL) {
 			return null;
+		}
 
 		// read bytes size
 		int size = readInt(dis);
 		byte[] bytes = new byte[size];
-		if (size != 0)
+		if (size != 0) {
 			dis.readFully(bytes);
+		}
 
 		return bytes;
 	}
 
 	/**
 	 * Write a bytes to an output stream
-	 * 
+	 *
 	 * @param dos
 	 * @param dataMap
 	 * @throws IOException
@@ -752,14 +754,15 @@ public class IOUtil {
 		// write byte size and its content
 		int size = bytes.length;
 		writeInt(dos, size);
-		if (size == 0)
+		if (size == 0) {
 			return;
+		}
 		dos.write(bytes);
 	}
 
 	/**
 	 * Read a list from an input stream
-	 * 
+	 *
 	 * @param dos
 	 * @return
 	 * @throws IOException
@@ -771,7 +774,7 @@ public class IOUtil {
 
 	/**
 	 * Read a list from an input stream
-	 * 
+	 *
 	 * @param dos
 	 * @return
 	 * @throws IOException
@@ -779,18 +782,21 @@ public class IOUtil {
 	 */
 	public final static List readList(DataInputStream dis, ClassLoader classLoader) throws IOException {
 		// check null
-		if (readInt(dis) == TYPE_NULL)
+		if (readInt(dis) == TYPE_NULL) {
 			return null;
+		}
 
 		// read map size
 		List dataList = new ArrayList();
 		int size = readInt(dis);
-		if (size == 0)
+		if (size == 0) {
 			return dataList;
+		}
 
 		// write real data
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < size; i++) {
 			dataList.add(readObject(dis, classLoader));
+		}
 
 		return dataList;
 	}
@@ -799,19 +805,21 @@ public class IOUtil {
 		// read map size
 		List dataList = new ArrayList();
 		int size = readInt(dis);
-		if (size == 0)
+		if (size == 0) {
 			return dataList;
+		}
 
 		// write real data
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < size; i++) {
 			dataList.add(readInt(dis));
+		}
 
 		return dataList;
 	}
 
 	/**
 	 * Write a list to an output stream
-	 * 
+	 *
 	 * @param dos
 	 * @param dataMap
 	 * @throws IOException
@@ -828,12 +836,14 @@ public class IOUtil {
 		// write map size
 		int size = list.size();
 		writeInt(dos, size);
-		if (size == 0)
+		if (size == 0) {
 			return;
+		}
 
 		// write real data
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < size; i++) {
 			writeObject(dos, list.get(i));
+		}
 	}
 
 	public final static void writeIntList(DataOutputStream dos, List list) throws IOException {
@@ -847,13 +857,14 @@ public class IOUtil {
 		writeInt(dos, size);
 
 		// write real data
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < size; i++) {
 			writeInt(dos, (Integer) list.get(i));
+		}
 	}
 
 	/**
 	 * Read a Map from an input stream
-	 * 
+	 *
 	 * @param dos
 	 * @return
 	 * @throws IOException
@@ -865,7 +876,7 @@ public class IOUtil {
 
 	/**
 	 * Read a Map from an input stream
-	 * 
+	 *
 	 * @param dos
 	 * @return
 	 * @throws IOException
@@ -873,14 +884,16 @@ public class IOUtil {
 	 */
 	public final static Map readMap(DataInputStream dis, ClassLoader loader) throws IOException {
 		// check null
-		if (readInt(dis) == TYPE_NULL)
+		if (readInt(dis) == TYPE_NULL) {
 			return null;
+		}
 
 		// read map size
 		Map dataMap = new HashMap();
 		int size = readInt(dis);
-		if (size == 0)
+		if (size == 0) {
 			return dataMap;
+		}
 
 		// write real data
 		for (int i = 0; i < size; i++) {
@@ -894,7 +907,7 @@ public class IOUtil {
 
 	/**
 	 * Write a Map to an output stream
-	 * 
+	 *
 	 * @param dos
 	 * @param map
 	 * @throws IOException
@@ -912,8 +925,9 @@ public class IOUtil {
 		// write map size
 		int size = map.size();
 		writeInt(dos, size);
-		if (size == 0)
+		if (size == 0) {
 			return;
+		}
 
 		// write real data
 		Iterator it = map.entrySet().iterator();
@@ -928,7 +942,7 @@ public class IOUtil {
 
 	/**
 	 * private utility method to check whether it is a long string
-	 * 
+	 *
 	 * @param str
 	 * @return true if it is a long string
 	 */
@@ -952,7 +966,7 @@ public class IOUtil {
 
 	/**
 	 * private utility method to write a UTF String to a DataOutputStream
-	 * 
+	 *
 	 * @param str
 	 * @throws UTFDataFormatException
 	 */
@@ -965,8 +979,9 @@ public class IOUtil {
 		int i = 0;
 		for (; i < strlen; i++) {
 			c = str.charAt(i);
-			if (!((c >= 0x0001) && (c <= 0x007F)))
+			if (!((c >= 0x0001) && (c <= 0x007F))) {
 				break;
+			}
 			dos.writeByte((byte) c);
 		}
 
@@ -987,7 +1002,7 @@ public class IOUtil {
 
 	/**
 	 * private utility method to read a UTF String
-	 * 
+	 *
 	 * @param str
 	 * @throws UTFDataFormatException
 	 */
@@ -997,11 +1012,7 @@ public class IOUtil {
 			byte[] ret = new byte[length];
 			dis.readFully(ret, 0, length);
 			return convertBytes2String(ret);
-		} catch (OutOfMemoryError e) {
-			IOException ie = new IOException(e.getMessage());
-			ie.initCause(e);
-			throw ie;
-		} catch (NegativeArraySizeException e) {
+		} catch (OutOfMemoryError | NegativeArraySizeException e) {
 			IOException ie = new IOException(e.getMessage());
 			ie.initCause(e);
 			throw ie;
@@ -1010,7 +1021,7 @@ public class IOUtil {
 
 	/**
 	 * private utility method to the size of a string in bytes
-	 * 
+	 *
 	 * @param str
 	 * @throws UTFDataFormatException
 	 */
@@ -1031,7 +1042,7 @@ public class IOUtil {
 
 	/**
 	 * private utility method helping to convert byte[] to a String
-	 * 
+	 *
 	 * @param str
 	 * @throws UTFDataFormatException
 	 */
@@ -1058,24 +1069,28 @@ public class IOUtil {
 			case 13:
 				// 110x xxxx 10xx xxxx
 				count += 2;
-				if (count > utflen)
+				if (count > utflen) {
 					throw new UTFDataFormatException(CoreMessages.getString(ResourceConstants.MALFORMED_INPUT_ERROR));
+				}
 				char2 = (int) bytearr[count - 1];
-				if ((char2 & 0xC0) != 0x80)
+				if ((char2 & 0xC0) != 0x80) {
 					throw new UTFDataFormatException(CoreMessages
 							.getFormattedString(ResourceConstants.MALFORMED_INPUT_AROUND_BYTE, new Object[] { count }));
+				}
 				chararr[chararr_count++] = (char) (((c & 0x1F) << 6) | (char2 & 0x3F));
 				break;
 			case 14:
 				// 1110 xxxx 10xx xxxx 10xx xxxx
 				count += 3;
-				if (count > utflen)
+				if (count > utflen) {
 					throw new UTFDataFormatException(CoreMessages.getString(ResourceConstants.MALFORMED_INPUT_ERROR));
+				}
 				char2 = (int) bytearr[count - 2];
 				char3 = (int) bytearr[count - 1];
-				if (((char2 & 0xC0) != 0x80) || ((char3 & 0xC0) != 0x80))
+				if (((char2 & 0xC0) != 0x80) || ((char3 & 0xC0) != 0x80)) {
 					throw new UTFDataFormatException(CoreMessages.getFormattedString(
 							ResourceConstants.MALFORMED_INPUT_AROUND_BYTE, new Object[] { count - 1 }));
+				}
 				chararr[chararr_count++] = (char) (((c & 0x0F) << 12) | ((char2 & 0x3F) << 6) | ((char3 & 0x3F) << 0));
 				break;
 			default:
@@ -1089,7 +1104,7 @@ public class IOUtil {
 
 	/**
 	 * private utility method to convert a byte[] to String
-	 * 
+	 *
 	 * @param bytearre
 	 * @throws UTFDataFormatException
 	 */
@@ -1102,8 +1117,9 @@ public class IOUtil {
 		int count = 0;
 		while (count < utflen) {
 			c = (int) bytearr[count] & 0xff;
-			if (c > 127)
+			if (c > 127) {
 				break;
+			}
 			count++;
 			chararr[chararr_count++] = (char) c;
 		}

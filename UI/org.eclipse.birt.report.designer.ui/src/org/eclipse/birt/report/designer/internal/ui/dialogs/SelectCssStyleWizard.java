@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,19 +59,21 @@ public class SelectCssStyleWizard extends Wizard {
 		this.selection = selection;
 	}
 
+	@Override
 	public Image getDefaultPageImage() {
 		// return ReportPlatformUIImages.getImage(
 		// IReportGraphicConstants.ICON_ELEMENT_STYLE );
 		return super.getDefaultPageImage();
 	}
 
+	@Override
 	public void addPages() {
 		stylePage = new WizardSelectCssStylePage(WIZARD_PAGE_NAME);
 
 		stylePage.setTitle(WIZARD_PAGE_TITLE);
 
 		String pageDesc = WIZARD_PAGE_DESCRIPTION_REPORT;
-		if (selection != null && selection instanceof DesignElementHandle) {
+		if (selection instanceof DesignElementHandle) {
 			DesignElementHandle element = (DesignElementHandle) selection;
 			if (element instanceof AbstractThemeHandle || element.getContainer() instanceof AbstractThemeHandle) {
 				pageDesc = WIZARD_PAGE_DESCRIPTION_LIBRARY;
@@ -79,25 +84,28 @@ public class SelectCssStyleWizard extends Wizard {
 					theme = ((ReportItemThemeHandle) element.getContainer());
 				}
 
-				if (theme != null)
+				if (theme != null) {
 					stylePage.setTheme(theme);
+				}
 			}
 		}
 		stylePage.setDescription(pageDesc);
 		addPage(stylePage);
 	}
 
+	@Override
 	public boolean canFinish() {
 		return stylePage.isPageComplete();
 	}
 
+	@Override
 	public boolean performFinish() {
 		CssStyleSheetHandle cssHandle = stylePage.getCssHandle();
 		if (cssHandle != null) {
 			List styleList = stylePage.getStyleList();
 			ModuleHandle module = SessionHandleAdapter.getInstance().getReportDesignHandle();
 
-			if (selection != null && selection instanceof DesignElementHandle) {
+			if (selection instanceof DesignElementHandle) {
 				DesignElementHandle element = (DesignElementHandle) selection;
 				if (selection instanceof ThemeHandle)// selection is Theme
 				// node.
@@ -129,14 +137,12 @@ public class SelectCssStyleWizard extends Wizard {
 				{
 					module.importCssStyles(cssHandle, styleList);
 				}
-			} else {
-				// no selection.
-				if (module instanceof LibraryHandle) {
-					LibraryHandle libraryHandle = (LibraryHandle) module;
-					libraryHandle.importCssStyles(cssHandle, styleList);
-				} else if (module instanceof ReportDesignHandle) {
-					module.importCssStyles(cssHandle, styleList);
-				}
+			} else // no selection.
+			if (module instanceof LibraryHandle) {
+				LibraryHandle libraryHandle = (LibraryHandle) module;
+				libraryHandle.importCssStyles(cssHandle, styleList);
+			} else if (module instanceof ReportDesignHandle) {
+				module.importCssStyles(cssHandle, styleList);
 			}
 		}
 		return true;

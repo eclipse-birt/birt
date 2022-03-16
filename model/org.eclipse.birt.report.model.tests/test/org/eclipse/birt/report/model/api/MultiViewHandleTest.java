@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +34,7 @@ public class MultiViewHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests cases about parser and API related.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -97,7 +100,7 @@ public class MultiViewHandleTest extends BaseTestCase {
 	/**
 	 * Tests property search algorithm on bookmark, toc, visibility values for sub
 	 * view elements.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -131,15 +134,17 @@ public class MultiViewHandleTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			if (ev instanceof PropertyEvent) {
-				if (((PropertyEvent) ev).getPropertyName() == IReportItemModel.MULTI_VIEWS_PROP)
+				if (((PropertyEvent) ev).getPropertyName() == IReportItemModel.MULTI_VIEWS_PROP) {
 					propertyChanged = true;
+				}
 			}
 			if (ev instanceof ViewsContentEvent) {
 				propertyChanged = true;

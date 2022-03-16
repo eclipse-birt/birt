@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +32,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * 
+ *
  */
 
 public class JSCompletionProcessor implements IContentAssistProcessor {
@@ -49,6 +52,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor {
 		this.context = context;
 	}
 
+	@Override
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
 		// System.out.println( editor.getModel( ) );
 		// try
@@ -131,7 +135,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor {
 	/**
 	 * Get the JS expression in current position, split the last not complete code
 	 * fragment.
-	 * 
+	 *
 	 * @param document
 	 * @param topOffset Document top offset.
 	 * @param offset    Current offset.
@@ -151,8 +155,9 @@ public class JSCompletionProcessor implements IContentAssistProcessor {
 			currentChar = document.getChar(startOffset);
 			if (currentWord == null && currentChar == '.') {
 				// if behind char is '.', ignore.
-				while ((currentChar = document.getChar(--startOffset)) == '.')
+				while ((currentChar = document.getChar(--startOffset)) == '.') {
 					;
+				}
 				// else reset start offset.
 				currentChar = document.getChar(++startOffset);
 				currentWord = document.get(startOffset + 1, endOffset - startOffset - 1);// ignore '.', because
@@ -160,10 +165,12 @@ public class JSCompletionProcessor implements IContentAssistProcessor {
 				endOffset = startOffset + 1;// inculde '.' for expression parse
 				// use
 			}
-			if (currentChar == ')' || currentChar == ']')
+			if (currentChar == ')' || currentChar == ']') {
 				++bracket;
-			if (currentChar == '(' || currentChar == '[')
+			}
+			if (currentChar == '(' || currentChar == '[') {
 				--bracket;
+			}
 			if (bracket == 0 && (currentChar == '\n' || currentChar == ' ' || currentChar == '=' || currentChar == '+'
 					|| currentChar == '-' || currentChar == '*' || currentChar == '/' || currentChar == '<'
 					|| currentChar == '>' || currentChar == '&' || currentChar == '|' || currentChar == ';')) {
@@ -187,7 +194,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor {
 	}
 
 	protected CompletionProposal[] getCompletionProposals(JSObjectMetaData[] metas, int offset) {
-		List<CompletionProposal> proposals = new ArrayList<CompletionProposal>();
+		List<CompletionProposal> proposals = new ArrayList<>();
 		int wordLength = currentWord == null ? 0 : currentWord.length();
 		for (int i = 0; i < metas.length; i++) {
 			if (currentWord == null || currentWord.equals("") //$NON-NLS-1$
@@ -200,7 +207,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor {
 	}
 
 	protected CompletionProposal[] getCompletionProposals(JSObjectMetaData meta, int offset) {
-		List<CompletionProposal> proposals = new ArrayList<CompletionProposal>();
+		List<CompletionProposal> proposals = new ArrayList<>();
 		int wordLength = currentWord == null ? 0 : currentWord.length();
 
 		JSField[] members = meta.getFields();
@@ -269,51 +276,56 @@ public class JSCompletionProcessor implements IContentAssistProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
 	 * computeContextInformation(org.eclipse.jface.text.ITextViewer, int)
 	 */
+	@Override
 	public IContextInformation[] computeContextInformation(ITextViewer viewer, int offset) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
 	 * getCompletionProposalAutoActivationCharacters()
 	 */
+	@Override
 	public char[] getCompletionProposalAutoActivationCharacters() {
 		return new char[] { '.', '[' };
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
 	 * getContextInformationAutoActivationCharacters()
 	 */
+	@Override
 	public char[] getContextInformationAutoActivationCharacters() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.text.contentassist.IContentAssistProcessor#getErrorMessage
 	 * ()
 	 */
+	@Override
 	public String getErrorMessage() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
 	 * getContextInformationValidator()
 	 */
+	@Override
 	public IContextInformationValidator getContextInformationValidator() {
 		return null;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,6 +40,7 @@ import org.eclipse.swt.SWT;
  */
 public class ImagePage extends GeneralPage {
 
+	@Override
 	protected void buildContent() {
 		// Defines providers.
 
@@ -123,10 +127,12 @@ public class ImagePage extends GeneralPage {
 		addSection(PageSectionId.IMAGE_DISPLAY, displaySection);
 	}
 
+	@Override
 	public boolean canReset() {
 		return false;
 	}
 
+	@Override
 	protected void applyCustomSections() {
 		Object[] helperProviders = ElementAdapterManager.getAdapters(this, ISectionHelperProvider.class);
 		if (helperProviders != null) {
@@ -137,8 +143,9 @@ public class ImagePage extends GeneralPage {
 					if (helper != null) {
 						Section section = helper.createSection(container, ImageHandle.THEME_PROP,
 								ReportDesignConstants.IMAGE_ITEM, true);
-						if (section instanceof SimpleComboSection)
+						if (section instanceof SimpleComboSection) {
 							((SimpleComboSection) section).setWidth(200);
+						}
 						section.setLayoutNum(6);
 						section.setGridPlaceholder(4, true);
 						addSectionAfter(PageSectionId.IMAGE_THEME, section, PageSectionId.IMAGE_DISPLAY);

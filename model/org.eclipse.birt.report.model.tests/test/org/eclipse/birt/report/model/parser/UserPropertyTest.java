@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +46,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testHandlerError()}</td>
  * <td>test the parse errors in design file, such as missing name, duplicate
@@ -51,30 +54,30 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * provided. The value of the user-defined choice is missing.</td>
  * <td>The error count is 6</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testHandler()}</td>
  * <td>parse the design file and check the related content of user-defined
  * property.</td>
  * <td>Content of the property is consistent with the design file</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testWrite()}</td>
  * <td>parse, write and parse, write again. The result of two writer files is
  * the same.</td>
  * <td>The two writer file is the same.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 
 public class UserPropertyTest extends BaseTestCase {
 
 	/**
 	 * Test the exceptions parsing the user-defined properties.
-	 * 
+	 *
 	 */
 
 	public void testHandlerError() {
@@ -97,7 +100,7 @@ public class UserPropertyTest extends BaseTestCase {
 
 	/**
 	 * Test the write for user-defined properties.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -140,7 +143,7 @@ public class UserPropertyTest extends BaseTestCase {
 
 	/**
 	 * Tests parser file with isVisible property.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -155,7 +158,7 @@ public class UserPropertyTest extends BaseTestCase {
 
 	/**
 	 * Tests getProperty/setProperty methods in UserPropertyDefn.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -185,7 +188,7 @@ public class UserPropertyTest extends BaseTestCase {
 
 	/**
 	 * Test the properties for user-defined properties.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -235,7 +238,7 @@ public class UserPropertyTest extends BaseTestCase {
 
 	/**
 	 * Tests GetAllowedType method in UserPropertyDefn.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -248,7 +251,7 @@ public class UserPropertyTest extends BaseTestCase {
 
 	/**
 	 * Tests expression default value
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testParserDefaultExpression() throws Exception {

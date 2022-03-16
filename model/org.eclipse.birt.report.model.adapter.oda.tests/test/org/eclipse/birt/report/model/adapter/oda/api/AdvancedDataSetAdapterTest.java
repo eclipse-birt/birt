@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +57,7 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase {
 
 	/**
 	 * Creates a new <code>DataSetDesign</code>.
-	 * 
+	 *
 	 * @return an object of <code>DataSetDesign</code>.
 	 */
 
@@ -148,7 +151,7 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase {
 
 	/**
 	 * Creates a new <code>DataSourceDesign</code>.
-	 * 
+	 *
 	 * @return an object of <code>DataSourceDesign</code>.
 	 */
 
@@ -174,7 +177,7 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase {
 
 	/**
 	 * Tests the getAmbiguousOption in ModelOdaAdapter.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testGetAmbiguousParameters() throws Exception {
@@ -268,7 +271,7 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase {
 		DataSetDesign setDesign = createDataSetDesign();
 		openDesign("AdvancedDataSetAdapterTest.xml"); //$NON-NLS-1$
 		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle.findDataSet("myDataSet1"); //$NON-NLS-1$
-		List<OdaDataSetParameter> parameterList = new ArrayList<OdaDataSetParameter>();
+		List<OdaDataSetParameter> parameterList = new ArrayList<>();
 		List setDefinedParams = setHandle.getListProperty(OdaDataSetHandle.PARAMETERS_PROP);
 		parameterList.add((OdaDataSetParameter) setDefinedParams.get(0));
 
@@ -280,7 +283,7 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase {
 
 	/**
 	 * Creates a new <code>DataSetDesign</code>.
-	 * 
+	 *
 	 * @return an object of <code>DataSetDesign</code>.
 	 */
 
@@ -397,7 +400,7 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase {
 
 	/**
 	 * Tests the ambiguous result sets part in ambiguous option.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testGetAmbiguousResultSets() throws Exception {
@@ -433,14 +436,14 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase {
 
 	/**
 	 * Tests the updating for result set columns and column hints.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testUpdateResultSets() throws Exception {
 		DataSetDesign setDesign = createDataSetDesign_1();
 		openDesign("AdvancedDataSetAdapterTest_1.xml"); //$NON-NLS-1$
 		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle.findDataSet("myDataSet1"); //$NON-NLS-1$
-		List<OdaResultSetColumn> columnList = new ArrayList<OdaResultSetColumn>();
+		List<OdaResultSetColumn> columnList = new ArrayList<>();
 		List setDefinedColumns = setHandle.getListProperty(OdaDataSetHandle.RESULT_SET_PROP);
 		columnList.add((OdaResultSetColumn) setDefinedColumns.get(0));
 

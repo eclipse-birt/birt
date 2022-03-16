@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,25 +31,29 @@ import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 /**
- * 
+ *
  */
 
 public class LibraryFileChangeResolve implements IRelatedFileChangeResolve {
 
 	protected static final Logger logger = Logger.getLogger(LibraryFileChangeResolve.class.getName());
 
+	@Override
 	public boolean acceptType(int type) {
 		return type == IReportResourceChangeEvent.LibraySaveChange;
 	}
 
+	@Override
 	public boolean isReload(IReportResourceChangeEvent event, ModuleHandle owner) {
 		return ModuleUtil.isInclude(owner, ((LibrarySaveChangeEvent) event).getFileName());
 	}
 
+	@Override
 	public boolean isReset(IReportResourceChangeEvent event, ModuleHandle owner) {
 		return owner.getFileName().equals(((LibrarySaveChangeEvent) event).getFileName());
 	}
 
+	@Override
 	public void notifySaveFile(ModuleHandle owner) {
 		if (owner instanceof LibraryHandle) {
 			IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault().getResourceSynchronizerService();
@@ -59,6 +66,7 @@ public class LibraryFileChangeResolve implements IRelatedFileChangeResolve {
 
 	}
 
+	@Override
 	public boolean reload(ModuleHandle owner) {
 		if (owner.needsSave()) {
 			MessageDialog md = new MessageDialog(UIUtil.getDefaultShell(),
@@ -95,6 +103,7 @@ public class LibraryFileChangeResolve implements IRelatedFileChangeResolve {
 		return false;
 	}
 
+	@Override
 	public boolean reset() {
 		if (MessageDialog.openConfirm(UIUtil.getDefaultShell(),
 				Messages.getString("MultiPageReportEditor.ConfirmVersion.Dialog.Title"), //$NON-NLS-1$

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,6 +49,7 @@ public class GroupPropertyHandleTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		createDesign();
@@ -72,7 +76,7 @@ public class GroupPropertyHandleTest extends BaseTestCase {
 
 	/**
 	 * 1. Same value. 2. different value.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -101,7 +105,7 @@ public class GroupPropertyHandleTest extends BaseTestCase {
 
 	/**
 	 * 1. Same value. 2. different value.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -139,7 +143,7 @@ public class GroupPropertyHandleTest extends BaseTestCase {
 		designHandle.getBody().add(textHandle2);
 		designHandle.getBody().add(textHandle3);
 
-		ArrayList<TextDataHandle> list = new ArrayList<TextDataHandle>();
+		ArrayList<TextDataHandle> list = new ArrayList<>();
 		list.add(textHandle1);
 		list.add(textHandle2);
 		list.add(textHandle3);
@@ -178,7 +182,7 @@ public class GroupPropertyHandleTest extends BaseTestCase {
 
 	/**
 	 * Set value for a string and an dimension property.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -199,7 +203,7 @@ public class GroupPropertyHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the visibility of a group property handle.
-	 * 
+	 *
 	 * <ul>
 	 * <li>dataSet properties in two text elements.</li>
 	 * <li>x properties in two label and one freeform elements.</li>
@@ -290,13 +294,13 @@ public class GroupPropertyHandleTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * test get the reference element value list if the property is a element
 	 * referencable type.
-	 * 
+	 *
 	 * case1: get the data set list. case2: get the data source list. case3: get the
 	 * style list.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -340,7 +344,7 @@ public class GroupPropertyHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the getLocalStringValue.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

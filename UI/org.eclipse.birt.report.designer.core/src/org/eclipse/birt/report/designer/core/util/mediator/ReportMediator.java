@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,9 +24,10 @@ import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 /**
  * Mediator calss to control the interactive between different views. This class
  * is used for selection sychronization and other tasks.
- * 
+ *
  * @deprecated Not used anymore, see {@link IMediator} instead.
  */
+@Deprecated
 public class ReportMediator {
 
 	private boolean isDispatching = false;
@@ -37,7 +41,7 @@ public class ReportMediator {
 
 	/**
 	 * Add global colleague
-	 * 
+	 *
 	 * @param colleague
 	 */
 	public static void addGlobalColleague(IColleague colleague) {
@@ -52,7 +56,7 @@ public class ReportMediator {
 
 	/**
 	 * Add a colleague to mediator.
-	 * 
+	 *
 	 * @param colleague
 	 */
 	public void addColleague(IColleague colleague) {
@@ -66,7 +70,7 @@ public class ReportMediator {
 
 	/**
 	 * Remove colleagure from mediator.
-	 * 
+	 *
 	 * @param colleague
 	 */
 	public void removeColleague(IColleague colleague) {
@@ -78,7 +82,7 @@ public class ReportMediator {
 
 	/**
 	 * Remove colleagure from mediator.
-	 * 
+	 *
 	 * @param colleague
 	 */
 	public static void removeGlobalColleague(IColleague colleague) {
@@ -92,12 +96,13 @@ public class ReportMediator {
 	/**
 	 * Send a request to mediator. Mediator handle and dispatch this request to
 	 * colleaues.
-	 * 
+	 *
 	 * @param request
 	 */
 	public void notifyRequest(ReportRequest request) {
-		if (isDispatching)
+		if (isDispatching) {
 			return;
+		}
 		if (DesignerConstants.TRACING_MEDIATOR_NOTIFY) {
 			System.out.println("ReportMediator >> Notify a " //$NON-NLS-1$
 					+ request.getType() + "request from " //$NON-NLS-1$
@@ -162,7 +167,7 @@ public class ReportMediator {
 
 	/**
 	 * Gets the current state
-	 * 
+	 *
 	 * @return
 	 */
 	public IMediatorState getCurrentState() {
@@ -220,7 +225,7 @@ public class ReportMediator {
 	/**
 	 * Sets all State information to that of the given State, called by
 	 * restoreState()
-	 * 
+	 *
 	 * @param s the State
 	 */
 	protected void restoreState(ReportMediatorState s) {
@@ -242,6 +247,7 @@ public class ReportMediator {
 		private Object source;
 
 		/** @see Object#clone() * */
+		@Override
 		public Object clone() throws CloneNotSupportedException {
 			ReportMediatorState state = new ReportMediatorState();
 			state.setSelectiobObject(getSelectionObject());
@@ -250,7 +256,7 @@ public class ReportMediator {
 
 		/**
 		 * Copies all state information from the given State to this State
-		 * 
+		 *
 		 * @param state The State to copy from
 		 */
 		protected void copyFrom(ReportMediatorState state) {
@@ -260,16 +266,17 @@ public class ReportMediator {
 
 		/**
 		 * Get selected object
-		 * 
+		 *
 		 * @return Returns the selectiobObject.
 		 */
+		@Override
 		public List getSelectionObject() {
 			return selectiobObject;
 		}
 
 		/**
 		 * Set selected object
-		 * 
+		 *
 		 * @param selectiobObject The selectiobObject to set.
 		 */
 		protected void setSelectiobObject(List selectiobObject) {
@@ -279,6 +286,7 @@ public class ReportMediator {
 		/**
 		 * @return Returns the source.
 		 */
+		@Override
 		public Object getSource() {
 			return source;
 		}

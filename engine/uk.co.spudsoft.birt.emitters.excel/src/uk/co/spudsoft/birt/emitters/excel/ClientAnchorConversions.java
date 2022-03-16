@@ -1,11 +1,13 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -26,7 +28,7 @@ package uk.co.spudsoft.birt.emitters.excel;
  * <li>This class contains no public static values, only methods.</li>
  * </ol>
  * <p>
- * 
+ *
  * @author Jim Talbut
  *
  */
@@ -37,13 +39,13 @@ public class ClientAnchorConversions {
 	private static final double PIXELS_PER_MILLIMETRES = 3.78; // MB
 	private static final short EXCEL_COLUMN_WIDTH_FACTOR = 256;
 	private static final int UNIT_OFFSET_LENGTH = 7;
-	private static final int[] UNIT_OFFSET_MAP = new int[] { 0, 36, 73, 109, 146, 182, 219 };
+	private static final int[] UNIT_OFFSET_MAP = { 0, 36, 73, 109, 146, 182, 219 };
 
 	/**
 	 * Convert a measure in column width units (1/256th of a character) to a measure
 	 * in millimetres. <BR>
 	 * Makes assumptions about font size and relevant DPI.
-	 * 
+	 *
 	 * @param widthUnits The size in width units.
 	 * @return The size in millimetres.
 	 */
@@ -56,7 +58,7 @@ public class ClientAnchorConversions {
 
 	/**
 	 * Convert a measure of millimetres to width units.
-	 * 
+	 *
 	 * @param millimetres The size in millimetres.
 	 * @return The size in width units.
 	 */
@@ -69,7 +71,7 @@ public class ClientAnchorConversions {
 
 	/**
 	 * Convert a measure of pixels to millimetres (for column widths).
-	 * 
+	 *
 	 * @param pixels The size in pixels.
 	 * @return The size in millimetres.
 	 */
@@ -79,7 +81,7 @@ public class ClientAnchorConversions {
 
 	/**
 	 * Convert a measure of millimetres to pixels (for column widths)
-	 * 
+	 *
 	 * @param millimetres The size in millimetres.
 	 * @return The size in pixels.
 	 */

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,10 +44,11 @@ public class ClassPathPreferencesPage extends PropertyAndPreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.PreferencePage#createControl(org.eclipse
 	 * .swt.widgets.Composite)
 	 */
+	@Override
 	public void createControl(Composite parent) {
 		// IDE support the provider
 		IClassPathHelperProvider provider = (IClassPathHelperProvider) ElementAdapterManager.getAdapter(this,
@@ -73,20 +77,22 @@ public class ClassPathPreferencesPage extends PropertyAndPreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.preferences.PropertyAndPreferencePage
 	 * #hasProjectSpecificOptions(org.eclipse.core.resources.IProject)
 	 */
+	@Override
 	protected boolean hasProjectSpecificOptions(IProject project) {
 		return block.hasProjectSpecificOptions(project);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.PreferencePage#performApply()
 	 */
+	@Override
 	public void performApply() {
 		if (block != null) {
 			block.performApply();
@@ -95,9 +101,10 @@ public class ClassPathPreferencesPage extends PropertyAndPreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
 	 */
+	@Override
 	public boolean performOk() {
 		if (block != null && !block.performOk()) {
 			return false;
@@ -113,11 +120,12 @@ public class ClassPathPreferencesPage extends PropertyAndPreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.preferences.PropertyAndPreferencePage
 	 * #enableProjectSpecificSettings(boolean)
 	 */
+	@Override
 	protected void enableProjectSpecificSettings(boolean useProjectSpecificSettings) {
 		super.enableProjectSpecificSettings(useProjectSpecificSettings);
 		if (block != null) {
@@ -127,11 +135,12 @@ public class ClassPathPreferencesPage extends PropertyAndPreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.preferences.PropertyAndPreferencePage
 	 * #performDefaults()
 	 */
+	@Override
 	protected void performDefaults() {
 		if (block != null) {
 			block.performDefaults();
@@ -142,9 +151,10 @@ public class ClassPathPreferencesPage extends PropertyAndPreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.DialogPage#dispose()
 	 */
+	@Override
 	public void dispose() {
 		if (block != null) {
 			block.dispose();

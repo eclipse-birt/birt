@@ -1,15 +1,22 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.binding;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +40,9 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpressionUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.junit.Test;
 
 import testutil.ConfigText;
-
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Test for FilterByRow
@@ -47,6 +52,7 @@ public class FilterByRowTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Impl.TestData1.TableName"),
 				ConfigText.getString("Impl.TestData1.TableSQL"),
@@ -55,7 +61,7 @@ public class FilterByRowTest extends APITestCase {
 
 	/**
 	 * Test FilterByRow#testAccept case 1
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -70,8 +76,7 @@ public class FilterByRowTest extends APITestCase {
 		bindingExprFilter[1] = new ScriptExpression("dataSetRow.COL1");
 		bindingExprFilter[2] = new ScriptExpression("dataSetRow.COL2");
 
-		FilterDefinition[] filterDefn = new FilterDefinition[] {
-				new FilterDefinition(new ScriptExpression("row.FILTER_COL0 > 0")),
+		FilterDefinition[] filterDefn = { new FilterDefinition(new ScriptExpression("row.FILTER_COL0 > 0")),
 				new FilterDefinition(new ScriptExpression("row.FILTER_COL1 > 1")),
 				new FilterDefinition(new ScriptExpression("row.FILTER_COL2 > 0")) };
 
@@ -91,7 +96,7 @@ public class FilterByRowTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -106,8 +111,7 @@ public class FilterByRowTest extends APITestCase {
 		bindingExprFilter[1] = new ScriptExpression("dataSetRow.COL1");
 		bindingExprFilter[2] = new ScriptExpression("dataSetRow.COL2");
 
-		FilterDefinition[] filterDefn = new FilterDefinition[] {
-				new FilterDefinition(new ScriptExpression("row.FILTER_COL0 > 0")),
+		FilterDefinition[] filterDefn = { new FilterDefinition(new ScriptExpression("row.FILTER_COL0 > 0")),
 				new FilterDefinition(new ScriptExpression("row.FILTER_COL1 > 1")),
 				new FilterDefinition(new ScriptExpression("row.FILTER_COL2 > 0")) };
 
@@ -130,12 +134,12 @@ public class FilterByRowTest extends APITestCase {
 
 	/**
 	 * Test FilterByRow#testAccept case 2
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testAccept2() throws Exception {
-		FilterDefinition[] filterDefn = new FilterDefinition[] {
+		FilterDefinition[] filterDefn = {
 				new FilterDefinition(new ScriptExpression("row.ROW_COL0 + row.ROW_COL1 > row.ROW_COL2")) };
 
 		IResultIterator resultIterator = getResultIterator(filterDefn, null, null, false);
@@ -151,12 +155,12 @@ public class FilterByRowTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testAccept2WithCache() throws Exception {
-		FilterDefinition[] filterDefn = new FilterDefinition[] {
+		FilterDefinition[] filterDefn = {
 				new FilterDefinition(new ScriptExpression("row.ROW_COL0 + row.ROW_COL1 > row.ROW_COL2")) };
 
 		IResultIterator resultIterator = getResultIterator(filterDefn, null, null, true);
@@ -175,12 +179,12 @@ public class FilterByRowTest extends APITestCase {
 
 	/**
 	 * Test FilterByRow#testAccept case 3
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testAccept3() throws Exception {
-		FilterDefinition[] filterDefn = new FilterDefinition[] {
+		FilterDefinition[] filterDefn = {
 				new FilterDefinition(new ScriptExpression("row.ROW_COL0 * row.ROW_COL1 > row.ROW_COL2")) };
 
 		IResultIterator resultIterator = getResultIterator(filterDefn, null, null, false);
@@ -196,12 +200,12 @@ public class FilterByRowTest extends APITestCase {
 
 	/**
 	 * Test FilterByRow#testAccept case 3
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testAccept3WithCache() throws Exception {
-		FilterDefinition[] filterDefn = new FilterDefinition[] {
+		FilterDefinition[] filterDefn = {
 				new FilterDefinition(new ScriptExpression("row.ROW_COL0 * row.ROW_COL1 > row.ROW_COL2")) };
 
 		IResultIterator resultIterator = getResultIterator(filterDefn, null, null, true);
@@ -220,15 +224,14 @@ public class FilterByRowTest extends APITestCase {
 
 	/**
 	 * Test FilterByRow#testAccept case 4
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testAccept4() throws Exception {
 
-		FilterDefinition[] filterDefn = new FilterDefinition[] {
-				new FilterDefinition(new ConditionalExpression("row.ROW_COL0 * row.ROW_COL1",
-						ConditionalExpression.OP_GT, "row.ROW_COL2")) };
+		FilterDefinition[] filterDefn = { new FilterDefinition(new ConditionalExpression("row.ROW_COL0 * row.ROW_COL1",
+				ConditionalExpression.OP_GT, "row.ROW_COL2")) };
 
 		IResultIterator resultIterator = getResultIterator(filterDefn, null, null, false);
 
@@ -244,15 +247,14 @@ public class FilterByRowTest extends APITestCase {
 
 	/**
 	 * Test FilterByRow#testAccept case 4
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testAccept4WithCache() throws Exception {
 
-		FilterDefinition[] filterDefn = new FilterDefinition[] {
-				new FilterDefinition(new ConditionalExpression("row.ROW_COL0 * row.ROW_COL1",
-						ConditionalExpression.OP_GT, "row.ROW_COL2")) };
+		FilterDefinition[] filterDefn = { new FilterDefinition(new ConditionalExpression("row.ROW_COL0 * row.ROW_COL1",
+				ConditionalExpression.OP_GT, "row.ROW_COL2")) };
 		IResultIterator resultIterator = getResultIterator(filterDefn, null, null, true);
 		String queryResultID = resultIterator.getQueryResults().getID();
 		resultIterator.close();
@@ -269,7 +271,7 @@ public class FilterByRowTest extends APITestCase {
 
 	/**
 	 * Test FilterByRow#test JS filter case
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -279,11 +281,11 @@ public class FilterByRowTest extends APITestCase {
 		bindingNameRow[1] = "ROW_COL1";
 		bindingNameRow[2] = "ROW_COL2";
 		bindingNameRow[3] = "ROW_COL3";
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow.COL0"),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow.COL0"),
 				new ScriptExpression("dataSetRow.COL1"), new ScriptExpression("dataSetRow.COL2"),
 				new ScriptExpression("dataSetRow.COL3"), };
 
-		FilterDefinition[] filterDefn = new FilterDefinition[] {
+		FilterDefinition[] filterDefn = {
 				new FilterDefinition(new ConditionalExpression("Math.log( row[\"ROW_COL0\"])",
 						ConditionalExpression.OP_GE, "Math.log(1)")),
 				new FilterDefinition(new ConditionalExpression(" row[\"ROW_COL0\"].toString() ",
@@ -300,7 +302,7 @@ public class FilterByRowTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -310,11 +312,11 @@ public class FilterByRowTest extends APITestCase {
 		bindingNameRow[1] = "ROW_COL1";
 		bindingNameRow[2] = "ROW_COL2";
 		bindingNameRow[3] = "ROW_COL3";
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow.COL0"),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow.COL0"),
 				new ScriptExpression("dataSetRow.COL1"), new ScriptExpression("dataSetRow.COL2"),
 				new ScriptExpression("dataSetRow.COL3"), };
 
-		FilterDefinition[] filterDefn = new FilterDefinition[] {
+		FilterDefinition[] filterDefn = {
 				new FilterDefinition(new ConditionalExpression("Math.log( row[\"ROW_COL0\"])",
 						ConditionalExpression.OP_GE, "Math.log(1)")),
 				new FilterDefinition(new ConditionalExpression(" row[\"ROW_COL0\"].toString() ",
@@ -334,27 +336,27 @@ public class FilterByRowTest extends APITestCase {
 
 	/**
 	 * Test the Query when there is boolean filter existing
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testBooleanFilterOnDataRows() throws Exception {
 
-		String[] ccName = new String[] { "ccc", "ddd" };
-		String[] ccExpr = new String[] { "true", "false" };
+		String[] ccName = { "ccc", "ddd" };
+		String[] ccExpr = { "true", "false" };
 		for (int i = 0; i < ccName.length; i++) {
 			ComputedColumn computedColumn = new ComputedColumn(ccName[i], ccExpr[i], DataType.BOOLEAN_TYPE);
 			((BaseDataSetDesign) this.dataSet).addComputedColumn(computedColumn);
 		}
 
-		FilterDefinition[] filterDefn = new FilterDefinition[] {
+		FilterDefinition[] filterDefn = {
 				new FilterDefinition(new ConditionalExpression("row.ROW_ccc", ConditionalExpression.OP_EQ, "true")) };
 
 		String[] bindingNameRow = new String[2];
 		bindingNameRow[0] = "ROW_ccc";
 		bindingNameRow[1] = "ROW_ddd";
 
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow." + ccName[0], 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow." + ccName[0], 0),
 				new ScriptExpression("dataSetRow." + ccName[1], 0), };
 
 		IResultIterator resultIt = this.executeQuery(this.createQuery(null, null, null, null, null, null, null, null,
@@ -368,7 +370,7 @@ public class FilterByRowTest extends APITestCase {
 	/**
 	 * test top N filter and common filter on query, the filter's order is
 	 * independent on the result set.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -377,10 +379,10 @@ public class FilterByRowTest extends APITestCase {
 		bindingNameRow[0] = "ROW_COL0";
 		bindingNameRow[1] = "ROW_COL1";
 
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow.COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow.COL0", 0),
 				new ScriptExpression("dataSetRow.COL1", 0), };
 
-		FilterDefinition[] filterDefn1 = new FilterDefinition[] {
+		FilterDefinition[] filterDefn1 = {
 				new FilterDefinition(new ConditionalExpression("row.ROW_COL0", ConditionalExpression.OP_TOP_N, "10")),
 				new FilterDefinition(new ConditionalExpression("row.ROW_COL1", ConditionalExpression.OP_GE, "0")) };
 
@@ -388,7 +390,7 @@ public class FilterByRowTest extends APITestCase {
 				filterDefn1, bindingNameRow, bindingExprRow));
 		outputQueryResult(resultIt1, bindingNameRow);
 
-		FilterDefinition[] filterDefn2 = new FilterDefinition[] {
+		FilterDefinition[] filterDefn2 = {
 				new FilterDefinition(new ConditionalExpression("row.ROW_COL1", ConditionalExpression.OP_GE, "0")),
 				new FilterDefinition(new ConditionalExpression("row.ROW_COL0", ConditionalExpression.OP_TOP_N, "10")) };
 
@@ -400,7 +402,7 @@ public class FilterByRowTest extends APITestCase {
 
 	/**
 	 * test invalid filter definition and it's error code
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -409,10 +411,10 @@ public class FilterByRowTest extends APITestCase {
 		bindingNameRow[0] = "ROW_COL0";
 		bindingNameRow[1] = "ROW_COL1";
 
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow.COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow.COL0", 0),
 				new ScriptExpression("dataSetRow.COL1", 0), };
 
-		FilterDefinition[] filterDefn1 = new FilterDefinition[] {
+		FilterDefinition[] filterDefn1 = {
 				new FilterDefinition(new ConditionalExpression("row.ROW_COL0", ConditionalExpression.OP_EQ, "abc")) };
 
 		try {
@@ -427,7 +429,7 @@ public class FilterByRowTest extends APITestCase {
 
 	/**
 	 * test invalid filter definition and it's error code
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -436,10 +438,10 @@ public class FilterByRowTest extends APITestCase {
 		bindingNameRow[0] = "ROW_COL0";
 		bindingNameRow[1] = "ROW_COL1";
 
-		ScriptExpression[] bindingExprRow = new ScriptExpression[] { new ScriptExpression("dataSetRow.COL0", 0),
+		ScriptExpression[] bindingExprRow = { new ScriptExpression("dataSetRow.COL0", 0),
 				new ScriptExpression("dataSetRow.COL1", 0), };
 
-		FilterDefinition[] filterDefn1 = new FilterDefinition[] { new FilterDefinition(
+		FilterDefinition[] filterDefn1 = { new FilterDefinition(
 				new ConditionalExpression("Total.sum(row.ROW_COL0)", ConditionalExpression.OP_EQ, "100")) };
 
 		try {
@@ -454,7 +456,7 @@ public class FilterByRowTest extends APITestCase {
 
 	/**
 	 * compare the two result sets
-	 * 
+	 *
 	 * @param resultIt1
 	 * @param resultIt2
 	 * @param expressions
@@ -475,18 +477,21 @@ public class FilterByRowTest extends APITestCase {
 		queryDefn.setCacheQueryResults(needCache);
 		queryDefn.setQueryResultsID(queryResultID);
 		if (filterDefn != null) {
-			if (bindingNameFilter != null)
-				for (int i = 0; i < bindingNameFilter.length; i++)
+			if (bindingNameFilter != null) {
+				for (int i = 0; i < bindingNameFilter.length; i++) {
 					queryDefn.addResultSetExpression(bindingNameFilter[i], bindingExprFilter[i]);
-			for (int i = 0; i < filterDefn.length; i++)
+				}
+			}
+			for (int i = 0; i < filterDefn.length; i++) {
 				queryDefn.addFilter(filterDefn[i]);
+			}
 		}
 		return executeQuery(queryDefn);
 	}
 
 	/**
 	 * Execute Query
-	 * 
+	 *
 	 * @return IResultIterator
 	 * @throws Exception
 	 */

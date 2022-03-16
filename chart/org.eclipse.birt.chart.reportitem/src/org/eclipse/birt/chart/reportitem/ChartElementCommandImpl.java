@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -31,7 +34,7 @@ public class ChartElementCommandImpl implements IElementCommand {
 	 * @param newChart
 	 * @param oldChart
 	 * @param impl
-	 * 
+	 *
 	 */
 	public ChartElementCommandImpl(ExtendedItemHandle handle, ChartReportItemImpl impl, Chart oldChart,
 			Chart newChart) {
@@ -43,65 +46,72 @@ public class ChartElementCommandImpl implements IElementCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#execute()
 	 */
+	@Override
 	public void execute() {
 		item.setModel(newChart);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#undo()
 	 */
+	@Override
 	public void undo() {
 		item.setModel(oldChart);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#redo()
 	 */
+	@Override
 	public void redo() {
 		item.setModel(newChart);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#canUndo()
 	 */
+	@Override
 	public boolean canUndo() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#canRedo()
 	 */
+	@Override
 	public boolean canRedo() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#getLabel()
 	 */
+	@Override
 	public String getLabel() {
 		return Messages.getString("ChartElementCommandImpl.editChart"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.extension.IElementCommand#getElementHandle(
 	 * )
 	 */
+	@Override
 	public DesignElementHandle getElementHandle() {
 		return handle;
 	}

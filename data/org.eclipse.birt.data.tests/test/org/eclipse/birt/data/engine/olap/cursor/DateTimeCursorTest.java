@@ -1,14 +1,19 @@
 /*******************************************************************************
  * Copyright (c) 2004 ,2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.cursor;
+
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,15 +35,13 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
 
 import testutil.BaseTestCase;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class DateTimeCursorTest extends BaseTestCase {
 	private Scriptable scope;
@@ -184,8 +187,9 @@ public class DateTimeCursorTest extends BaseTestCase {
 
 		ILevelDefinition mirrorlevel = null;
 		for (int i = 0; i < dateHier.getLevels().size(); i++) {
-			if ((((ILevelDefinition) dateHier.getLevels().get(i)).getName()).equals(mirrorLevelName))
+			if ((((ILevelDefinition) dateHier.getLevels().get(i)).getName()).equals(mirrorLevelName)) {
 				mirrorlevel = (ILevelDefinition) dateHier.getLevels().get(i);
+			}
 		}
 		columnEdge.setMirrorStartingLevel(mirrorlevel);
 		return cqd;

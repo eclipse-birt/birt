@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -63,10 +66,11 @@ public class CategoryPageGenerator extends TabPageGenerator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.views.attributes.TabPageGenerator
 	 * #refresh()
 	 */
+	@Override
 	public void refresh() {
 		// remove this?
 		createTabItems(input);
@@ -78,10 +82,11 @@ public class CategoryPageGenerator extends TabPageGenerator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.views.attributes.IPageGenerator#
 	 * createTabItems(org.eclipse.swt.widgets.TabFolder, java.util.List)
 	 */
+	@Override
 	public void createTabItems(List input) {
 		createTabItems(input, SWT.HORIZONTAL);
 	}
@@ -96,19 +101,21 @@ public class CategoryPageGenerator extends TabPageGenerator {
 			tabItem.setText(ATTRIBUTESTITLE);
 			tabItem.setControl(basicPage.getControl());
 
-			if (customProvider != null)
+			if (customProvider != null) {
 				basicPage.setCategoryProvider(customProvider);
-			else
+			} else {
 				basicPage.setCategoryProvider(factory.getCategoryProvider(input));
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.views.attributes.TabPageGenerator
 	 * #createControl(org.eclipse.swt.widgets.Composite, java.lang.Object)
 	 */
+	@Override
 	public void createControl(Composite parent, Object input) {
 		super.createControl(parent, input);
 	}

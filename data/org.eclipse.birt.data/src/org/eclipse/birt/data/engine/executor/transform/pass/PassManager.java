@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetFromCache;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
@@ -42,7 +46,7 @@ public class PassManager {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param populator
 	 */
 	protected PassManager(ResultSetPopulator populator) {
@@ -50,7 +54,7 @@ public class PassManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param populator
 	 * @param odaResultSet
 	 * @param stopSign
@@ -92,7 +96,7 @@ public class PassManager {
 
 	/**
 	 * Pass the oda result set.
-	 * 
+	 *
 	 * @param odaResultSet
 	 * @param stopSign
 	 * @throws DataException
@@ -103,7 +107,7 @@ public class PassManager {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 */
 	private void prepareFetchEventList() {
@@ -119,14 +123,15 @@ public class PassManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param odaResultSet
 	 * @param stopSign
 	 * @throws DataException
 	 */
 	private void doSinglePass(OdiResultSetWrapper odaResultSet) throws DataException {
-		if (computedColumnHelper != null)
+		if (computedColumnHelper != null) {
 			computedColumnHelper.setModel(TransformationConstants.DATA_SET_MODEL);
+		}
 		PassUtil.pass(this.populator, odaResultSet, false);
 		this.populator.getExpressionProcessor().setDataSetMode(false);
 
@@ -138,8 +143,9 @@ public class PassManager {
 	 * The OnFetchScript should only be calcualted one time.
 	 */
 	private void removeOnFetchScriptHelper() {
-		if (this.populator.getQuery().getFetchEvents() == null)
+		if (this.populator.getQuery().getFetchEvents() == null) {
 			return;
+		}
 		for (Iterator it = this.populator.getQuery().getFetchEvents().iterator(); it.hasNext();) {
 			Object o = it.next();
 			if (o instanceof OnFetchScriptHelper) {
@@ -150,7 +156,7 @@ public class PassManager {
 
 	/**
 	 * Return the fetch event list from the given query.
-	 * 
+	 *
 	 * @param rsp
 	 * @return
 	 */
@@ -194,16 +200,17 @@ public class PassManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param odaResultSet
 	 * @param stopSign
 	 * @throws DataException
 	 */
 	private void populateResultSetCacheInResultSetPopulator(OdiResultSetWrapper odaResultSet) throws DataException {
-		int max = 0;
+		int max;
 
-		if (computedColumnHelper != null)
+		if (computedColumnHelper != null) {
 			computedColumnHelper.setModel(TransformationConstants.PRE_CALCULATE_MODEL);
+		}
 
 		if (filterByRow != null) {
 			filterByRow.setWorkingFilterSet(FilterByRow.NO_FILTER);
@@ -211,8 +218,9 @@ public class PassManager {
 
 		max = this.populator.getQuery().getMaxRows();
 
-		if (filterByRow != null)
+		if (filterByRow != null) {
 			this.populator.getQuery().setMaxRows(0);
+		}
 
 		PassUtil.pass(this.populator, odaResultSet, false);
 		this.removeOnFetchScriptHelper();
@@ -221,14 +229,15 @@ public class PassManager {
 
 	/**
 	 * @throws DataException
-	 * 
+	 *
 	 *
 	 */
 	private void handleEndOfDataSetProcess() throws DataException {
 		IEventHandler eventHandler = this.populator.getEventHandler();
 
-		if (eventHandler != null)
+		if (eventHandler != null) {
 			eventHandler.handleEndOfDataSetProcess(this.populator.getResultIterator());
+		}
 	}
 
 }

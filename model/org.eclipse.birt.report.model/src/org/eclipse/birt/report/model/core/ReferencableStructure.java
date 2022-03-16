@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ import org.eclipse.birt.report.model.metadata.StructRefValue;
  * Represents a structure that can be referenced using a property of name type.
  * This structure maintains a cached set of back-references to the "clients" so
  * that changes can be automatically propagated.
- * 
+ *
  */
 
 public abstract class ReferencableStructure extends Structure implements IReferencable {
@@ -43,7 +46,7 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 	 * The list of cached clients.
 	 */
 
-	protected ArrayList<BackRef> clients = new ArrayList<BackRef>();
+	protected ArrayList<BackRef> clients = new ArrayList<>();
 
 	/**
 	 * The library reference of this structure. It consists of namespace and name of
@@ -56,34 +59,37 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 	 * The list of the cached reference structures.
 	 */
 
-	protected ArrayList<Structure> clientStructures = new ArrayList<Structure>();
+	protected ArrayList<Structure> clientStructures = new ArrayList<>();
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.core.IStructure#isReferencable()
 	 */
 
+	@Override
 	public boolean isReferencable() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IReferencable#addClient(org.eclipse
 	 * .birt.report.model.core.DesignElement, java.lang.String)
 	 */
+	@Override
 	public void addClient(DesignElement client, String propName) {
 		clients.add(new BackRef(client, propName));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IReferencable#dropClient(org.eclipse
 	 * .birt.report.model.core.DesignElement)
 	 */
+	@Override
 	public void dropClient(DesignElement client) {
 		for (int i = 0; i < clients.size(); i++) {
 			if (clients.get(i).getElement() == client) {
@@ -96,20 +102,22 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IReferencable#getClientList()
 	 */
 
+	@Override
 	public List<BackRef> getClientList() {
 		return clients;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.core.IReferencable#hasReferences()
 	 */
 
+	@Override
 	public boolean hasReferences() {
 		return !clients.isEmpty();
 	}
@@ -117,7 +125,7 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 	/**
 	 * Sends the event to all clients in addition to the routing for a design
 	 * element.
-	 * 
+	 *
 	 * @param ev the event to send
 	 */
 
@@ -131,7 +139,7 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 	/**
 	 * Checks whether the member of the input name is the referencable member or
 	 * not.
-	 * 
+	 *
 	 * @param memberName the member name to check
 	 * @return true if the member with the given name is referencable, otherwise
 	 *         false
@@ -141,34 +149,38 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (LIB_REFERENCE_MEMBER.equalsIgnoreCase(propName))
+		if (LIB_REFERENCE_MEMBER.equalsIgnoreCase(propName)) {
 			return this.libReference;
+		}
 		assert false;
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getProperty(org.eclipse.
 	 * birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
+	@Override
 	public Object getProperty(Module module, PropertyDefn propDefn) {
 		assert propDefn != null;
 
 		// return local value first
 
 		Object value = getLocalProperty(module, propDefn);
-		if (value != null)
+		if (value != null) {
 			return value;
+		}
 
 		// first, read property values in local ; second, check the library
 		// reference and load the property values from it; third, read default
@@ -178,12 +190,14 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 			ReferencableStructure refStruct = libReference.getTargetStructure();
 			if (refStruct != null) {
 				Module root = null;
-				if (module != null)
+				if (module != null) {
 					root = module.getLibraryWithNamespace(libReference.getLibraryNamespace(),
 							IAccessControl.DIRECTLY_INCLUDED_LEVEL);
+				}
 				value = refStruct.getProperty(root, propDefn);
-				if (value != null)
+				if (value != null) {
 					return value;
+				}
 			}
 		}
 
@@ -192,13 +206,14 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#getLocalProperty(org.eclipse
 	 * .birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
+	@Override
 	public Object getLocalProperty(Module module, PropertyDefn propDefn) {
 
 		// try to resolve the "libReference" first
@@ -208,8 +223,9 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 			assert libRefDefn != null;
 			StructRefPropertyType type = (StructRefPropertyType) libRefDefn.getType();
 			type.resolve(module, libRefDefn, libReference);
-			if (libReference.isResolved())
+			if (libReference.isResolved()) {
 				libReference.getTargetStructure().addClientStructure(this);
+			}
 		}
 
 		return super.getLocalProperty(module, propDefn);
@@ -217,22 +233,24 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
 		if (LIB_REFERENCE_MEMBER.equalsIgnoreCase(propName)) {
 			updateReference(libReference, (StructRefValue) value);
 			libReference = (StructRefValue) value;
-		} else
+		} else {
 			assert false;
+		}
 	}
 
 	/**
 	 * Implements to cache a back-pointer from a referenced structure.
-	 * 
+	 *
 	 * @param oldRef the old reference, if any
 	 * @param newRef the new reference, if any
 	 */
@@ -245,8 +263,9 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 
 		if (oldRef != null) {
 			target = oldRef.getTargetStructure();
-			if (target != null)
+			if (target != null) {
 				target.dropClientStructure(this);
+			}
 		}
 
 		// Add the new reference. Cache a back pointer from the referenced
@@ -255,20 +274,22 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 
 		if (newRef != null) {
 			target = newRef.getTargetStructure();
-			if (target != null)
+			if (target != null) {
 				target.addClientStructure(this);
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
 	 * .report.model.core.Module, org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public List<SemanticException> validate(Module module, DesignElement element) {
-		List<SemanticException> errors = new ArrayList<SemanticException>();
+		List<SemanticException> errors = new ArrayList<>();
 
 		// if the library reference is un-resolved, fire an error
 
@@ -288,18 +309,20 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#clone()
 	 */
 
+	@Override
 	protected Object clone() throws CloneNotSupportedException {
 		ReferencableStructure struct = (ReferencableStructure) super.clone();
 		struct.libReference = null;
-		struct.clients = new ArrayList<BackRef>();
-		struct.clientStructures = new ArrayList<Structure>();
+		struct.clients = new ArrayList<>();
+		struct.clientStructures = new ArrayList<>();
 
-		if (libReference == null)
+		if (libReference == null) {
 			return struct;
+		}
 
 		// retrieve the member value from the lib reference
 
@@ -310,8 +333,9 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 			// if the structure has the local value already or the member is
 			// "libReference", then return
 
-			if (struct.getLocalProperty(null, prop) != null || LIB_REFERENCE_MEMBER.equals(prop.getName()))
+			if (struct.getLocalProperty(null, prop) != null || LIB_REFERENCE_MEMBER.equals(prop.getName())) {
 				continue;
+			}
 
 			StructRefValue libRef = this.libReference;
 			while (libRef != null) {
@@ -338,7 +362,7 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 
 	/**
 	 * Adds a client structure of this.
-	 * 
+	 *
 	 * @param struct the structure that refers this struct
 	 */
 
@@ -348,7 +372,7 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 
 	/**
 	 * Drops one of the client of this structure.
-	 * 
+	 *
 	 * @param struct the client to drop
 	 */
 
@@ -359,7 +383,7 @@ public abstract class ReferencableStructure extends Structure implements IRefere
 
 	/**
 	 * Returns all the client structures.
-	 * 
+	 *
 	 * @return all the client structures
 	 */
 

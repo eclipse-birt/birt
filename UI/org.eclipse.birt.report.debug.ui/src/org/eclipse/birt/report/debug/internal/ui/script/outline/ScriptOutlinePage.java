@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +51,7 @@ public class ScriptOutlinePage extends ContentOutlinePage {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param reportHandle
 	 */
 	public ScriptOutlinePage(ModuleHandle reportHandle) {
@@ -57,11 +60,12 @@ public class ScriptOutlinePage extends ContentOutlinePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.views.contentoutline.ContentOutlinePage#createControl(org.
 	 * eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public void createControl(Composite parent) {
 		super.createControl(parent);
 		createContextMenu();
@@ -72,6 +76,7 @@ public class ScriptOutlinePage extends ContentOutlinePage {
 		getTreeViewer().setLabelProvider(provider);
 
 		getTreeViewer().addDoubleClickListener(new IDoubleClickListener() {
+			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				Object obj = event.getSelection();
 				ScriptEditAction action = new ScriptEditAction(obj);
@@ -94,6 +99,7 @@ public class ScriptOutlinePage extends ContentOutlinePage {
 
 		tree.addMouseTrackListener(new MouseTrackAdapter() {
 
+			@Override
 			public void mouseHover(MouseEvent event) {
 				Widget widget = event.widget;
 				if (widget == tree) {
@@ -135,12 +141,13 @@ public class ScriptOutlinePage extends ContentOutlinePage {
 
 	/**
 	 * Select the item from the id.
-	 * 
+	 *
 	 * @param id
 	 */
 	public void selectionItem(String id) {
-		if (getTreeViewer() == null || getTreeViewer().getTree() == null)
+		if (getTreeViewer() == null || getTreeViewer().getTree() == null) {
 			return;
+		}
 		Object obj = ModuleUtil.getScriptObject(reportHandle, id);
 		if (obj instanceof PropertyHandle) {
 			PropertyHandle handle = (PropertyHandle) obj;

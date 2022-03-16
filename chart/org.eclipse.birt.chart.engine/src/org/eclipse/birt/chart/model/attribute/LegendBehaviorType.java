@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -18,7 +30,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * '<em><b>Legend Behavior Type</b></em>', and utility methods for working with
  * them. <!-- end-user-doc --> <!-- begin-model-doc --> This type defines the
  * allowed values for Legend behaviors. <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLegendBehaviorType()
  * @model extendedMetaData="name='LegendBehaviorType'"
  * @generated
@@ -27,7 +39,7 @@ public enum LegendBehaviorType implements Enumerator {
 	/**
 	 * The '<em><b>None</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #NONE
 	 * @generated
 	 * @ordered
@@ -36,7 +48,7 @@ public enum LegendBehaviorType implements Enumerator {
 	/**
 	 * The '<em><b>Toggle Serie Visibility</b></em>' literal object. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #TOGGLE_SERIE_VISIBILITY
 	 * @generated
 	 * @ordered
@@ -45,7 +57,7 @@ public enum LegendBehaviorType implements Enumerator {
 	/**
 	 * The '<em><b>Highlight Serie</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #HIGHLIGHT_SERIE
 	 * @generated
 	 * @ordered
@@ -59,7 +71,7 @@ public enum LegendBehaviorType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #NONE_LITERAL
 	 * @model name="None"
 	 * @generated
@@ -75,7 +87,7 @@ public enum LegendBehaviorType implements Enumerator {
 	 * isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #TOGGLE_SERIE_VISIBILITY_LITERAL
 	 * @model name="ToggleSerieVisibility"
 	 * @generated
@@ -90,7 +102,7 @@ public enum LegendBehaviorType implements Enumerator {
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #HIGHLIGHT_SERIE_LITERAL
 	 * @model name="HighlightSerie"
 	 * @generated
@@ -101,16 +113,16 @@ public enum LegendBehaviorType implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Legend Behavior Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final LegendBehaviorType[] VALUES_ARRAY = new LegendBehaviorType[] { NONE_LITERAL,
-			TOGGLE_SERIE_VISIBILITY_LITERAL, HIGHLIGHT_SERIE_LITERAL, };
+	private static final LegendBehaviorType[] VALUES_ARRAY = { NONE_LITERAL, TOGGLE_SERIE_VISIBILITY_LITERAL,
+			HIGHLIGHT_SERIE_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Legend Behavior Type</b></em>'
 	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static final List<LegendBehaviorType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -118,7 +130,7 @@ public enum LegendBehaviorType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Legend Behavior Type</b></em>' literal with the specified
 	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static LegendBehaviorType get(String literal) {
@@ -134,7 +146,7 @@ public enum LegendBehaviorType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Legend Behavior Type</b></em>' literal with the specified
 	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static LegendBehaviorType getByName(String name) {
@@ -150,7 +162,7 @@ public enum LegendBehaviorType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Legend Behavior Type</b></em>' literal with the specified
 	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static LegendBehaviorType get(int value) {
@@ -167,21 +179,21 @@ public enum LegendBehaviorType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String literal;
@@ -189,10 +201,10 @@ public enum LegendBehaviorType implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private LegendBehaviorType(int value, String name, String literal) {
+	LegendBehaviorType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -200,27 +212,30 @@ public enum LegendBehaviorType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -228,7 +243,7 @@ public enum LegendBehaviorType implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override

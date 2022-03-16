@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,17 +35,18 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 
 /**
  * Provider for the data sets node
- * 
+ *
  */
 public class TabularMeasureGroupNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry and adds the action to the given menu.
-	 * 
+	 *
 	 * @param menu   the menu
 	 * @param object the object
 	 */
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		// WizardUtil.createNewCubeMenu( menu );
 		super.createContextMenu(sourceViewer, object, menu);
@@ -63,28 +67,33 @@ public class TabularMeasureGroupNodeProvider extends DefaultNodeProvider {
 
 	}
 
+	@Override
 	public Object[] getChildren(Object model) {
 		return ((MeasureGroupHandle) model).getContents(MeasureGroupHandle.MEASURES_PROP).toArray();
 	}
 
+	@Override
 	public Object getParent(Object model) {
 		MeasureGroupHandle measures = (MeasureGroupHandle) model;
 		DesignElementHandle container = measures.getContainer();
-		if (container != null)
+		if (container != null) {
 			return container.getPropertyHandle(ICubeModel.MEASURE_GROUPS_PROP);
+		}
 		return null;
 	}
 
 	/**
 	 * Gets the display name of the node.
-	 * 
+	 *
 	 * @param model the object
 	 */
+	@Override
 	public String getNodeDisplayName(Object object) {
 		MeasureGroupHandle measures = (MeasureGroupHandle) object;
 		return measures.getName();
 	}
 
+	@Override
 	public Image getNodeIcon(Object model) {
 		if (model instanceof DesignElementHandle && ((DesignElementHandle) model).getSemanticErrors().size() > 0) {
 			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);

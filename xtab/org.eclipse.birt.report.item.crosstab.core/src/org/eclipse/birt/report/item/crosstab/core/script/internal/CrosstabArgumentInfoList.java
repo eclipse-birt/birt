@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,12 +33,13 @@ public class CrosstabArgumentInfoList implements IArgumentInfoList {
 		for (int i = 0; i < paramTypes.length; i++) {
 			CrosstabArgumentInfo argument = new CrosstabArgumentInfo(paramTypes[i], paramNames[i]);
 			if (arguments == null) {
-				arguments = new ArrayList<IArgumentInfo>();
+				arguments = new ArrayList<>();
 			}
 			arguments.add(argument);
 		}
 	}
 
+	@Override
 	public Iterator<IArgumentInfo> argumentsIterator() {
 		if (arguments == null) {
 			return Collections.EMPTY_LIST.iterator();
@@ -44,6 +48,7 @@ public class CrosstabArgumentInfoList implements IArgumentInfoList {
 		return arguments.iterator();
 	}
 
+	@Override
 	public IArgumentInfo getArgument(String argumentName) {
 		if (arguments == null) {
 			return null;

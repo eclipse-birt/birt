@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ abstract public class BTreeTestCase extends TestCase {
 	BTree createBTree() throws Exception {
 		BTree btree = new BTree();
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream(BTREE_INPUT_RESOURCE);
-		try {
+		try (in) {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 			String line = reader.readLine();
 			while (line != null) {
@@ -36,14 +39,12 @@ abstract public class BTreeTestCase extends TestCase {
 				btree.insert(new Integer(value), String.valueOf(value));
 				line = reader.readLine();
 			}
-		} finally {
-			in.close();
 		}
 		return btree;
 	}
 
 	Collection<String> createSampleInput() throws Exception {
-		ArrayList<String> input = new ArrayList<String>(10000);
+		ArrayList<String> input = new ArrayList<>(10000);
 		Random random = new Random();
 		for (int i = 0; i < 10000; i++) {
 			int value = random.nextInt(500);
@@ -54,12 +55,14 @@ abstract public class BTreeTestCase extends TestCase {
 
 	public static class IntegerSerializer implements BTreeSerializer<Integer> {
 
+		@Override
 		public byte[] getBytes(Integer object) throws IOException {
 			byte[] bytes = new byte[4];
 			BTreeUtils.integerToBytes(object.intValue(), bytes);
 			return bytes;
 		}
 
+		@Override
 		public Integer getObject(byte[] bytes) throws IOException, ClassNotFoundException {
 			return new Integer(BTreeUtils.bytesToInteger(bytes));
 		}

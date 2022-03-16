@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -32,34 +44,40 @@ public class TextAndButtonSection extends Section {
 
 	protected TextPropertyDescriptor textField;
 
+	@Override
 	public void createSection() {
-		if (selectList == null)
+		if (selectList == null) {
 			selectList = new ArrayList();
+		}
 		getLabelControl(parent);
 		getTextControl(parent);
 		getButtonControl(parent);
 		getGridPlaceholder(parent);
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) textField.getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - 2 - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 2 - placeholder;
+		}
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillText;
+		}
 
 		gd = (GridData) button.getLayoutData();
 
 		if (buttonWidth > -1) {
-			if (!isComputeSize)
+			if (!isComputeSize) {
 				gd.widthHint = Math.max(button.computeSize(-1, -1).x, buttonWidth);
-			else
+			} else {
 				gd.widthHint = button.computeSize(-1, -1).x;
+			}
 		}
 	}
 
@@ -70,12 +88,14 @@ public class TextAndButtonSection extends Section {
 	protected TextPropertyDescriptor getTextControl(Composite parent) {
 		if (textField == null) {
 			textField = DescriptorToolkit.createTextPropertyDescriptor(true);
-			if (getProvider() != null)
+			if (getProvider() != null) {
 				textField.setDescriptorProvider(getProvider());
+			}
 			textField.createControl(parent);
 			textField.getControl().setLayoutData(new GridData());
 			textField.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					textField = null;
 				}
@@ -110,16 +130,18 @@ public class TextAndButtonSection extends Section {
 
 			button.addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					button = null;
 				}
 			});
 
-			if (!selectList.isEmpty())
+			if (!selectList.isEmpty()) {
 				button.addSelectionListener((SelectionListener) selectList.get(0));
-			else {
+			} else {
 				SelectionListener listener = new SelectionAdapter() {
 
+					@Override
 					public void widgetSelected(SelectionEvent e) {
 						onClickButton();
 					}
@@ -143,8 +165,9 @@ public class TextAndButtonSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (textField != null)
+		if (textField != null) {
 			textField.setDescriptorProvider(provider);
+		}
 	}
 
 	protected List selectList = new ArrayList();
@@ -154,38 +177,45 @@ public class TextAndButtonSection extends Section {
 	 */
 	public void addSelectionListener(SelectionListener listener) {
 		if (!selectList.contains(listener)) {
-			if (!selectList.isEmpty())
+			if (!selectList.isEmpty()) {
 				removeSelectionListener((SelectionListener) selectList.get(0));
+			}
 			selectList.add(listener);
-			if (button != null)
+			if (button != null) {
 				button.addSelectionListener(listener);
+			}
 		}
 	}
 
 	public void removeSelectionListener(SelectionListener listener) {
 		if (selectList.contains(listener)) {
 			selectList.remove(listener);
-			if (button != null)
+			if (button != null) {
 				button.removeSelectionListener(listener);
+			}
 		}
 	}
 
 	protected void onClickButton() {
-	};
+	}
 
 	public void forceFocus() {
 		textField.getControl().forceFocus();
 	}
 
+	@Override
 	public void setInput(Object input) {
 		textField.setInput(input);
 	}
 
+	@Override
 	public void load() {
-		if (textField != null && !textField.getControl().isDisposed())
+		if (textField != null && !textField.getControl().isDisposed()) {
 			textField.load();
-		if (button != null && !button.isDisposed())
+		}
+		if (button != null && !button.isDisposed()) {
 			button.setEnabled(!isReadOnly());
+		}
 	}
 
 	protected int buttonWidth = 60;
@@ -195,7 +225,7 @@ public class TextAndButtonSection extends Section {
 		if (button != null) {
 			GridData data = new GridData();
 			data.widthHint = Math.max(button.computeSize(-1, -1).x, buttonWidth);
-			;
+
 			data.grabExcessHorizontalSpace = false;
 			button.setLayoutData(data);
 		}
@@ -237,34 +267,45 @@ public class TextAndButtonSection extends Section {
 		this.fillText = fillText;
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (textField != null)
+		}
+		if (textField != null) {
 			textField.setHidden(isHidden);
-		if (button != null)
+		}
+		if (button != null) {
 			WidgetUtil.setExcludeGridData(button, isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (textField != null)
+		}
+		if (textField != null) {
 			textField.setVisible(isVisible);
-		if (button != null)
+		}
+		if (button != null) {
 			button.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 
 	private String buttonTooltipText;
 
 	public void setButtonTooltipText(String string) {
 		this.buttonTooltipText = string;
-		if (button != null)
+		if (button != null) {
 			button.setText(buttonTooltipText);
+		}
 
 	}
 
@@ -274,8 +315,9 @@ public class TextAndButtonSection extends Section {
 
 	public void setButtonText(String buttonText) {
 		this.buttonText = buttonText;
-		if (button != null)
+		if (button != null) {
 			button.setText(buttonText);
+		}
 	}
 
 	public String getButtonTooltipText() {

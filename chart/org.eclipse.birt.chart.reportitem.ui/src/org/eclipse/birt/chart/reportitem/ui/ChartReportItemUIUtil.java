@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +51,7 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * ChartReportItemUIUtil
- * 
+ *
  * @since 2.5.3
  */
 
@@ -56,7 +59,7 @@ public class ChartReportItemUIUtil {
 
 	/**
 	 * Creates chart filter factory instance according to specified item handle.
-	 * 
+	 *
 	 * @param item
 	 * @return filter factory
 	 * @throws ExtendedElementException
@@ -81,7 +84,7 @@ public class ChartReportItemUIUtil {
 
 	/**
 	 * Returns the categories list in BIRT chart expression builder
-	 * 
+	 *
 	 * @param builderCommand
 	 * @return category style
 	 */
@@ -136,7 +139,7 @@ public class ChartReportItemUIUtil {
 
 	/**
 	 * Get background image setting from design element handle.
-	 * 
+	 *
 	 * @param handle The handle of design element.
 	 * @return background image
 	 */
@@ -146,7 +149,7 @@ public class ChartReportItemUIUtil {
 
 	/**
 	 * Get background position settings from design element handle.
-	 * 
+	 *
 	 * @param handle The handle of design element.
 	 * @return background position
 	 */
@@ -187,7 +190,7 @@ public class ChartReportItemUIUtil {
 
 	/**
 	 * Get background repeat property from design element handle.
-	 * 
+	 *
 	 * @param handle The handle of design element.
 	 * @return background repeat property
 	 */
@@ -197,7 +200,7 @@ public class ChartReportItemUIUtil {
 
 	/**
 	 * Get repeat identifier according to its value
-	 * 
+	 *
 	 * @param repeat Given string
 	 * @return The repeat value
 	 */
@@ -215,19 +218,19 @@ public class ChartReportItemUIUtil {
 	/**
 	 * Generate computed columns for the given report item with the closest data set
 	 * available.
-	 * 
+	 *
 	 * @param dataSetHandle Data Set. No aggregation created.
-	 * 
+	 *
 	 * @return true if succeed,or fail if no column generated.
 	 * @see DataUtil#generateComputedColumns(ReportItemHandle)
-	 * 
+	 *
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<ComputedColumn> generateComputedColumns(ReportItemHandle handle, DataSetHandle dataSetHandle)
 			throws SemanticException {
 		if (dataSetHandle != null) {
 			List<ResultSetColumnHandle> resultSetColumnList = DataUtil.getColumnList(dataSetHandle);
-			List<ComputedColumn> columnList = new ArrayList<ComputedColumn>();
+			List<ComputedColumn> columnList = new ArrayList<>();
 			for (ResultSetColumnHandle resultSetColumn : resultSetColumnList) {
 				ComputedColumn column = StructureFactory.newComputedColumn(handle, resultSetColumn.getColumnName());
 				column.setDataType(resultSetColumn.getDataType());
@@ -248,7 +251,7 @@ public class ChartReportItemUIUtil {
 
 	/**
 	 * Refresh background including color and image.
-	 * 
+	 *
 	 * @param handle Item handle
 	 * @param figure Element figure
 	 */
@@ -259,7 +262,7 @@ public class ChartReportItemUIUtil {
 
 	/**
 	 * Refresh background image.
-	 * 
+	 *
 	 * @param handle Item handle
 	 * @param figure Element figure
 	 */
@@ -323,7 +326,7 @@ public class ChartReportItemUIUtil {
 
 	/**
 	 * Refresh background color.
-	 * 
+	 *
 	 * @param handle Item handle
 	 * @param figure Figure
 	 */

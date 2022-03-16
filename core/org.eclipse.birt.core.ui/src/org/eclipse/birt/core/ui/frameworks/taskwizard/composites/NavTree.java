@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -27,12 +30,13 @@ public class NavTree extends Tree {
 		super(parent, style);
 	}
 
+	@Override
 	protected void checkSubclass() {
 	}
 
 	/**
 	 * Adds nodes with full path and display name.
-	 * 
+	 *
 	 * @param nodePath    Full path is used to search. Every section of path is
 	 *                    stored in item's data.
 	 * @param displayName Name is used to display only. If null or blank, use
@@ -50,7 +54,7 @@ public class NavTree extends Tree {
 
 	/**
 	 * Adds nodes with full path.
-	 * 
+	 *
 	 * @param nodePath Full path is used to search. Every section of path is stored
 	 *                 in item's data.
 	 */
@@ -111,7 +115,7 @@ public class NavTree extends Tree {
 
 	/**
 	 * Finds tree item according to full path.
-	 * 
+	 *
 	 * @param nodePath Full path with <code>NavTree.SEPARATOR</code>.
 	 * @return TreeItem or null if not found
 	 */
@@ -146,7 +150,7 @@ public class NavTree extends Tree {
 
 	/**
 	 * Returns the full path of the node.
-	 * 
+	 *
 	 * @return Full path of current node with <code>NavTree.SEPARATOR</code>
 	 *         separated
 	 */

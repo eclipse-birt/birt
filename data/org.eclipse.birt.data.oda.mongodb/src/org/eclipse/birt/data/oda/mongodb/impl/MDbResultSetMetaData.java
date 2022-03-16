@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -56,8 +59,9 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 	private void init(List<String> resultFieldNames, boolean isAutoFlattening) {
 		m_resultFieldsMD = mapResultFieldsMetaData(resultFieldNames, m_docsMetaData);
 		m_isAutoFlattening = isAutoFlattening;
-		if (m_isAutoFlattening)
+		if (m_isAutoFlattening) {
 			m_docsMetaData.setFlattenableFields(m_resultFieldsMD, true);
+		}
 	}
 
 	private static Map<String, FieldMetaData> mapResultFieldsMetaData(List<String> resultFieldNames,
@@ -74,20 +78,23 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 
 	private List<String> getFieldFullNames() {
 		if (m_resultFieldFullNames == null) {
-			if (m_resultFieldsMD == null)
+			if (m_resultFieldsMD == null) {
 				return Collections.emptyList();
-			m_resultFieldFullNames = new ArrayList<String>(m_resultFieldsMD.keySet());
+			}
+			m_resultFieldFullNames = new ArrayList<>(m_resultFieldsMD.keySet());
 		}
 		return m_resultFieldFullNames;
 	}
 
 	private List<Integer> getFieldDataTypes() {
 		if (m_resultFieldDataTypes == null) {
-			if (m_resultFieldsMD == null)
+			if (m_resultFieldsMD == null) {
 				return Collections.emptyList();
-			m_resultFieldDataTypes = new ArrayList<Integer>(m_resultFieldsMD.size());
-			for (int i = 0; i < m_resultFieldsMD.size(); i++)
+			}
+			m_resultFieldDataTypes = new ArrayList<>(m_resultFieldsMD.size());
+			for (int i = 0; i < m_resultFieldsMD.size(); i++) {
 				m_resultFieldDataTypes.add(null); // initialize size
+			}
 		}
 		return m_resultFieldDataTypes;
 	}
@@ -96,6 +103,7 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnCount()
 	 */
+	@Override
 	public int getColumnCount() throws OdaException {
 		return m_resultFieldsMD.size();
 	}
@@ -104,10 +112,12 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnName(int)
 	 */
+	@Override
 	public String getColumnName(int index) throws OdaException {
 		int numColumns = getColumnCount();
-		if (numColumns == 0 || index <= 0 || index > numColumns)
+		if (numColumns == 0 || index <= 0 || index > numColumns) {
 			return DriverUtil.EMPTY_STRING;
+		}
 
 		return getFieldFullNames().get(index - 1); // 1-based position
 	}
@@ -129,8 +139,9 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 
 	// For internal use only.
 	public FieldMetaData getColumnMetaData(String columnName) {
-		if (columnName == null || columnName.isEmpty())
+		if (columnName == null || columnName.isEmpty()) {
 			return null;
+		}
 		return m_resultFieldsMD.get(columnName);
 	}
 
@@ -143,6 +154,7 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnLabel(int)
 	 */
+	@Override
 	public String getColumnLabel(int index) throws OdaException {
 		return getColumnName(index); // default
 	}
@@ -151,28 +163,34 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnType(int)
 	 */
+	@Override
 	public int getColumnType(int index) throws OdaException {
-		if (index <= 0 || index > getFieldDataTypes().size())
+		if (index <= 0 || index > getFieldDataTypes().size()) {
 			throw new OdaException(new IndexOutOfBoundsException());
+		}
 
 		// get from cached value, if exists
 		Integer nativeDataType = getFieldDataTypes().get(index - 1); // 1-based position
-		if (nativeDataType != null)
+		if (nativeDataType != null) {
 			return nativeDataType;
+		}
 
 		nativeDataType = doGetColumnType(index);
-		if (nativeDataType != null)
+		if (nativeDataType != null) {
 			getFieldDataTypes().set(index - 1, nativeDataType); // save in cache
+		}
 		return nativeDataType;
 	}
 
 	private int doGetColumnType(int index) throws OdaException {
 		FieldMetaData columnMD = getColumnMetaData(index);
-		if (columnMD == null) // unknown
+		if (columnMD == null) { // unknown
 			return BSON.STRING; // use default data type
+		}
 
-		if (columnMD.hasDocumentDataType())
+		if (columnMD.hasDocumentDataType()) {
 			return columnMD.getPreferredNativeDataType(m_isAutoFlattening);
+		}
 
 		// a child field from a nested document
 		if (columnMD.isDescendantOfArrayField()) {
@@ -182,24 +200,28 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 			// flattening of nested array of array (with scalar values) is not supported
 			// either, and
 			// will be concatenated into a single String value as well.
-			if (!m_isAutoFlattening || columnMD.isArrayOfScalarValues())
+			if (!m_isAutoFlattening || columnMD.isArrayOfScalarValues()) {
 				return BSON.STRING;
+			}
 
 			// flattening of nested collection is supported for only one such field in a
 			// document,
 			// and is tracked in containing DocumentsMetaData
 			String arrayAncestorName = columnMD.getArrayAncestorName();
-			if (arrayAncestorName != null && !isFlattenableNestedField(columnMD))
+			if (arrayAncestorName != null && !isFlattenableNestedField(columnMD)) {
 				return BSON.STRING;
+			}
 		} else if (columnMD.isArrayOfScalarValues()) // top-level array of scalar values
 		{
 			// if no flattening, or already flattening another field,
 			// this array of scalar values will be concatenated to a String value
-			if (!m_isAutoFlattening)
+			if (!m_isAutoFlattening) {
 				return BSON.STRING;
+			}
 			String flattenableFieldName = m_docsMetaData.getFlattenableFieldName();
-			if (flattenableFieldName != null && !flattenableFieldName.equals(columnMD.getFullName()))
+			if (flattenableFieldName != null && !flattenableFieldName.equals(columnMD.getFullName())) {
 				return BSON.STRING;
+			}
 		}
 
 		// return own native data type
@@ -215,6 +237,7 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 	 * org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnTypeName(
 	 * int)
 	 */
+	@Override
 	public String getColumnTypeName(int index) throws OdaException {
 		int nativeTypeCode = getColumnType(index);
 		return MongoDBDriver.getNativeDataTypeName(nativeTypeCode);
@@ -224,6 +247,7 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#
 	 * getColumnDisplayLength(int)
 	 */
+	@Override
 	public int getColumnDisplayLength(int index) throws OdaException {
 		return -1; // unknown
 	}
@@ -232,6 +256,7 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getPrecision(int)
 	 */
+	@Override
 	public int getPrecision(int index) throws OdaException {
 		return -1;
 	}
@@ -239,6 +264,7 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getScale(int)
 	 */
+	@Override
 	public int getScale(int index) throws OdaException {
 		return -1;
 	}
@@ -247,6 +273,7 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IResultSetMetaData#isNullable(int)
 	 */
+	@Override
 	public int isNullable(int index) throws OdaException {
 		// not all fields have data in each document in a collection, thus can be null
 		return IResultSetMetaData.columnNullable;

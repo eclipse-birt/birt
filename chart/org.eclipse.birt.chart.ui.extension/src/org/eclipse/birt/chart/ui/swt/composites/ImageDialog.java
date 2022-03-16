@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -102,7 +105,7 @@ public class ImageDialog extends TrayDialog {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parentShell
 	 */
 	public ImageDialog(Shell parentShell, Fill fCurrent, ChartWizardContext context, boolean bEmbeddedImageEnabled,
@@ -118,7 +121,7 @@ public class ImageDialog extends TrayDialog {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parentShell
 	 */
 	public ImageDialog(Shell parentShell, Fill fCurrent, ChartWizardContext context, boolean bEmbeddedImageEnabled,
@@ -137,7 +140,7 @@ public class ImageDialog extends TrayDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
@@ -233,8 +236,9 @@ public class ImageDialog extends TrayDialog {
 	}
 
 	protected void switchTo(SelectType selectedType) {
-		if (selectedType.equals(this.selectType))
+		if (selectedType.equals(this.selectType)) {
 			return;
+		}
 		this.selectedHandle = getSelectTypeHandle(selectedType);
 		switchTo(selectedHandle);
 	}
@@ -263,6 +267,7 @@ public class ImageDialog extends TrayDialog {
 		uriEditor.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		uriEditor.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				updateButtons();
 			}
@@ -320,7 +325,7 @@ public class ImageDialog extends TrayDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 
@@ -399,7 +404,7 @@ public class ImageDialog extends TrayDialog {
 
 	/**
 	 * Remove the quote if the string enclosed width quote .
-	 * 
+	 *
 	 * @param string
 	 * @return string
 	 */
@@ -466,6 +471,7 @@ public class ImageDialog extends TrayDialog {
 			redraw();
 		}
 
+		@Override
 		public void paintControl(PaintEvent e) {
 			if (imageData == null) {
 				return;
@@ -482,16 +488,14 @@ public class ImageDialog extends TrayDialog {
 					h = srcRect.height;
 					x = (destRect.width - w) / 2;
 					y = (destRect.height - h) / 2;
+				} else if ((1d * srcRect.width / srcRect.height) >= (1d * destRect.width / destRect.height)) {
+					double rate = 1d * w / srcRect.width;
+					h = (int) (srcRect.height * rate + 0.5);
+					y = (destRect.height - h) / 2;
 				} else {
-					if ((1d * srcRect.width / srcRect.height) >= (1d * destRect.width / destRect.height)) {
-						double rate = 1d * w / srcRect.width;
-						h = (int) (srcRect.height * rate + 0.5);
-						y = (destRect.height - h) / 2;
-					} else {
-						double rate = 1d * h / srcRect.height;
-						w = (int) (srcRect.width * rate + 0.5);
-						x = (destRect.width - w) / 2;
-					}
+					double rate = 1d * h / srcRect.height;
+					w = (int) (srcRect.width * rate + 0.5);
+					x = (destRect.width - w) / 2;
 				}
 
 				gc.drawImage(img, 0, 0, srcRect.width, srcRect.height, x, y, w, h);
@@ -506,19 +510,20 @@ public class ImageDialog extends TrayDialog {
 	 */
 	protected interface SelectTypeHandle {
 
-		public void initDialog();
+		void initDialog();
 
-		public void createInputInnerComposite();
+		void createInputInnerComposite();
 
-		public void preview();
+		void preview();
 
-		public boolean isComplete();
+		boolean isComplete();
 
-		public void performOKPressed();
+		void performOKPressed();
 	}
 
 	private class URISelectTypeHandleImpl implements SelectTypeHandle {
 
+		@Override
 		public void createInputInnerComposite() {
 			title.setText(Messages.getString("ImageDialog.label.EnterURL")); //$NON-NLS-1$
 			createURIEditor();
@@ -526,6 +531,7 @@ public class ImageDialog extends TrayDialog {
 			createPreviewButton(innerComp);
 		}
 
+		@Override
 		public void preview() {
 			if (this.isComplete()) {
 				String uri = removeQuote(uriEditor.getText());
@@ -533,6 +539,7 @@ public class ImageDialog extends TrayDialog {
 			}
 		}
 
+		@Override
 		public boolean isComplete() {
 			boolean complete;
 			try {
@@ -546,10 +553,12 @@ public class ImageDialog extends TrayDialog {
 			return complete;
 		}
 
+		@Override
 		public void performOKPressed() {
 			fCurrent = ImageImpl.create(removeQuote(uriEditor.getText().trim()), ImageSourceType.STATIC);
 		}
 
+		@Override
 		public void initDialog() {
 			uri.setSelection(true);
 			switchTo(this);
@@ -562,6 +571,7 @@ public class ImageDialog extends TrayDialog {
 
 	private class ResourceSelectTypeHandleImpl implements SelectTypeHandle {
 
+		@Override
 		public void createInputInnerComposite() {
 			title.setText("Select Image from resource folder"); //$NON-NLS-1$
 			createURIEditor();
@@ -570,6 +580,7 @@ public class ImageDialog extends TrayDialog {
 			createPreviewButton(innerComp);
 		}
 
+		@Override
 		public void preview() {
 			if (this.isComplete()) {
 				String fileName = removeQuote(uriEditor.getText());
@@ -582,14 +593,17 @@ public class ImageDialog extends TrayDialog {
 			}
 		}
 
+		@Override
 		public boolean isComplete() {
 			return checkURIEditorTextIsEmpty();
 		}
 
+		@Override
 		public void performOKPressed() {
 			fCurrent = ImageImpl.create(removeQuote(uriEditor.getText().trim()), ImageSourceType.FILE);
 		}
 
+		@Override
 		public void initDialog() {
 			resource.setSelection(true);
 			switchTo(this);
@@ -602,6 +616,7 @@ public class ImageDialog extends TrayDialog {
 
 	private class EmbeddedSelectTypeHandleImpl implements SelectTypeHandle {
 
+		@Override
 		public void createInputInnerComposite() {
 			title.setText(Messages.getString("ImageDialog.label.EnterEmbed")); //$NON-NLS-1$
 			createURIEditor();
@@ -610,6 +625,7 @@ public class ImageDialog extends TrayDialog {
 			createPreviewButton(innerComp);
 		}
 
+		@Override
 		public void preview() {
 			if (this.isComplete()) {
 				String uri = removeQuote(uriEditor.getText());
@@ -617,6 +633,7 @@ public class ImageDialog extends TrayDialog {
 			}
 		}
 
+		@Override
 		public boolean isComplete() {
 			boolean complete;
 
@@ -633,6 +650,7 @@ public class ImageDialog extends TrayDialog {
 			return complete;
 		}
 
+		@Override
 		public void performOKPressed() {
 			BufferedInputStream bis = null;
 			try {
@@ -664,6 +682,7 @@ public class ImageDialog extends TrayDialog {
 			}
 		}
 
+		@Override
 		public void initDialog() {
 			embedded.setSelection(true);
 			switchTo(this);
@@ -690,7 +709,7 @@ public class ImageDialog extends TrayDialog {
 							String fileName = fileChooser.getFileName();
 							if (fileName != null) {
 								imageData = null;
-								fullPath = new StringBuffer("file:///").append(fullPath).toString(); //$NON-NLS-1$
+								fullPath = new StringBuilder("file:///").append(fullPath).toString(); //$NON-NLS-1$
 								uriEditor.setText(fullPath);
 							}
 						}
@@ -770,7 +789,7 @@ public class ImageDialog extends TrayDialog {
 							String fileName = fileChooser.getFileName();
 							if (fileName != null) {
 								imageData = null;
-								fullPath = new StringBuffer("file:///").append(fullPath).toString(); //$NON-NLS-1$
+								fullPath = new StringBuilder("file:///").append(fullPath).toString(); //$NON-NLS-1$
 								uriEditor.setText(fullPath);
 							}
 						}

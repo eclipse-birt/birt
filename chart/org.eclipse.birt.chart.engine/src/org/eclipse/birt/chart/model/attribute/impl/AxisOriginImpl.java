@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -43,7 +46,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -53,7 +56,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -63,7 +66,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 	/**
 	 * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -72,7 +75,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -81,7 +84,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected AxisOriginImpl() {
@@ -90,7 +93,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -100,64 +103,71 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public IntersectionType getType() {
 		return type;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setType(IntersectionType newType) {
 		IntersectionType oldType = type;
 		type = newType == null ? TYPE_EDEFAULT : newType;
 		boolean oldTypeESet = typeESet;
 		typeESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.AXIS_ORIGIN__TYPE, oldType, type,
 					!oldTypeESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetType() {
 		IntersectionType oldType = type;
 		boolean oldTypeESet = typeESet;
 		type = TYPE_EDEFAULT;
 		typeESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.AXIS_ORIGIN__TYPE, oldType,
 					TYPE_EDEFAULT, oldTypeESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetType() {
 		return typeESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public DataElement getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetValue(DataElement newValue, NotificationChain msgs) {
@@ -166,39 +176,45 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.AXIS_ORIGIN__VALUE, oldValue, newValue);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setValue(DataElement newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;
-			if (value != null)
+			if (value != null) {
 				msgs = ((InternalEObject) value).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.AXIS_ORIGIN__VALUE, null, msgs);
-			if (newValue != null)
+			}
+			if (newValue != null) {
 				msgs = ((InternalEObject) newValue).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.AXIS_ORIGIN__VALUE, null, msgs);
+			}
 			msgs = basicSetValue(newValue, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.AXIS_ORIGIN__VALUE, newValue,
 					newValue));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -212,7 +228,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -228,7 +244,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -246,7 +262,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -264,7 +280,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -280,26 +296,28 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (type: "); //$NON-NLS-1$
-		if (typeESet)
+		if (typeESet) {
 			result.append(type);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/**
-	 * 
+	 *
 	 * @param it
 	 * @param de
 	 * @return
@@ -312,7 +330,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param it
 	 * @param de
 	 * @return
@@ -327,6 +345,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 	/**
 	 * @generated
 	 */
+	@Override
 	public AxisOrigin copyInstance() {
 		AxisOriginImpl dest = new AxisOriginImpl();
 		dest.set(this);

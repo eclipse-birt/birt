@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.querydefn;
@@ -40,17 +43,19 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition {
 
 	/**
 	 * Constructs an unnamed group
-	 * 
+	 *
 	 * @deprecated
 	 */
+	@Deprecated
 	public GroupDefinition() {
 	}
 
 	/**
 	 * Returns the name of the group
-	 * 
+	 *
 	 * @return Name of group. Can be null if group is unnamed.
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -58,10 +63,11 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition {
 	/**
 	 * Returns the interval for grouping on a range of contiguous group key values.
 	 * Interval can be year, months, day, etc.
-	 * 
+	 *
 	 * @return the grouping interval
 	 */
 
+	@Override
 	public int getInterval() {
 		return interval;
 	}
@@ -71,11 +77,12 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition {
 	 * the common case where the groups are ordered by the group key only. To
 	 * specify other types of sort criteria, use the Sorts property. SortDirection
 	 * is ignored if Sorts is defined for this group.
-	 * 
+	 *
 	 * @return The group key sort direction. If no direction is specified,
 	 *         <code>NO_SORT</code> is returned. This means that the data engine can
 	 *         choose any sort order, or no sort order at all, for this group level.
 	 */
+	@Override
 	public int getSortDirection() {
 		return sortDirection;
 	}
@@ -86,6 +93,7 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition {
 	 * is <code>MONTH_INTERVAL</code>, and IntervalRange is 6, each group is defined
 	 * to contain a span of 6 months.
 	 */
+	@Override
 	public double getIntervalRange() {
 		return intervalRange;
 	}
@@ -93,6 +101,7 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition {
 	/**
 	 * Gets the starting value for the first interval
 	 */
+	@Override
 	public Object getIntervalStart() {
 		return intervalStart;
 	}
@@ -101,6 +110,7 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition {
 	 * Returns the name of the column that defines the group key. Either the
 	 * KeyColumn or KeyExpr can be used to define the group key.
 	 */
+	@Override
 	public String getKeyColumn() {
 		return keyColumn;
 	}
@@ -111,9 +121,11 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition {
 	 * used to specify the group key, the expression must be in the form of
 	 * row.column_name, or row["column_name"].
 	 */
+	@Override
 	public String getKeyExpression() {
-		if (keyExpr == null)
+		if (keyExpr == null) {
 			return null;
+		}
 		return keyExpr.getText();
 	}
 

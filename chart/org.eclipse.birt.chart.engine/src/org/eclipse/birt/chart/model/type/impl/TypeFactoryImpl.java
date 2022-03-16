@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -11,10 +14,12 @@
 
 package org.eclipse.birt.chart.model.type.impl;
 
-import org.eclipse.birt.chart.model.type.*;
-
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.type.BubbleSeries;
+import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.type.DifferenceSeries;
+import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
@@ -24,15 +29,13 @@ import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
  * end-user-doc -->
- * 
+ *
  * @generated
  */
 public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
@@ -40,7 +43,7 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 	/**
 	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static TypeFactory init() {
@@ -59,7 +62,7 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 	/**
 	 * Creates an instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public TypeFactoryImpl() {
@@ -68,7 +71,7 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -101,9 +104,10 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public AreaSeries createAreaSeries() {
 		AreaSeriesImpl areaSeries = new AreaSeriesImpl();
 		return areaSeries;
@@ -111,9 +115,10 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public BarSeries createBarSeries() {
 		BarSeriesImpl barSeries = new BarSeriesImpl();
 		return barSeries;
@@ -121,9 +126,10 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public BubbleSeries createBubbleSeries() {
 		BubbleSeriesImpl bubbleSeries = new BubbleSeriesImpl();
 		return bubbleSeries;
@@ -131,9 +137,10 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public DialSeries createDialSeries() {
 		DialSeriesImpl dialSeries = new DialSeriesImpl();
 		return dialSeries;
@@ -141,9 +148,10 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public DifferenceSeries createDifferenceSeries() {
 		DifferenceSeriesImpl differenceSeries = new DifferenceSeriesImpl();
 		return differenceSeries;
@@ -151,9 +159,10 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public GanttSeries createGanttSeries() {
 		GanttSeriesImpl ganttSeries = new GanttSeriesImpl();
 		return ganttSeries;
@@ -161,9 +170,10 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public LineSeries createLineSeries() {
 		LineSeriesImpl lineSeries = new LineSeriesImpl();
 		return lineSeries;
@@ -171,9 +181,10 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public PieSeries createPieSeries() {
 		PieSeriesImpl pieSeries = new PieSeriesImpl();
 		return pieSeries;
@@ -181,9 +192,10 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public ScatterSeries createScatterSeries() {
 		ScatterSeriesImpl scatterSeries = new ScatterSeriesImpl();
 		return scatterSeries;
@@ -191,9 +203,10 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public StockSeries createStockSeries() {
 		StockSeriesImpl stockSeries = new StockSeriesImpl();
 		return stockSeries;
@@ -201,16 +214,17 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public TypePackage getTypePackage() {
 		return (TypePackage) getEPackage();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @deprecated
 	 * @generated
 	 */

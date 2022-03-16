@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,14 +46,17 @@ public class MenuButtonProvider implements IMenuButtonProvider {
 		return optionTypes == null || optionTypes.length == 0 ? null : optionTypes[0];
 	}
 
+	@Override
 	public String[] getMenuItems() {
 		return optionTypes;
 	}
 
+	@Override
 	public Image getMenuItemImage(String type) {
 		return null;
 	}
 
+	@Override
 	public String getMenuItemText(String type) {
 		if (ClassPathElement.RELATIVE_PATH.equals(type)) {
 			return RELATIVE_PATH_MENU;
@@ -58,19 +64,21 @@ public class MenuButtonProvider implements IMenuButtonProvider {
 		return ABSOLUTE_PATH_MENU;
 	}
 
+	@Override
 	public String getTooltipText(String type) {
 		return ClassPathElement.RELATIVE_PATH.equals(type)
 				? Messages.getString("DataSource.button.tooltip.AddRelativeJars") //$NON-NLS-1$
 				: Messages.getString("DataSource.button.tooltip.AddAbsoluteJars");//$NON-NLS-1$
 	}
 
+	@Override
 	public void handleSelectionEvent(String type) {
 		Object value = button.getMenuButtonHelper().getPropertyValue(Constants.RESOURCE_FILE_DIR);
 		String[] fileNames = null;
 		String rootPath = null;
 		boolean isRelative = ClassPathElement.RELATIVE_PATH.equals(type);
 		if (isRelative) {
-			if (value != null && value instanceof File) {
+			if (value instanceof File) {
 				JarsSelectionDialog dialog = new JarsSelectionDialog(button.getControl().getShell(), (File) value);
 				if (dialog.open() == Window.OK) {
 					fileNames = dialog.getSelectedItems();
@@ -90,11 +98,13 @@ public class MenuButtonProvider implements IMenuButtonProvider {
 			}
 		}
 
-		if (fileNames != null)
+		if (fileNames != null) {
 			button.handleSelection(fileNames, rootPath, isRelative);
+		}
 
 	}
 
+	@Override
 	public void setInput(ClassSelectionButton input) {
 		this.button = input;
 	}
@@ -110,10 +120,12 @@ public class MenuButtonProvider implements IMenuButtonProvider {
 
 	}
 
+	@Override
 	public String getButtonImage() {
 		return null;
 	}
 
+	@Override
 	public String getButtonText() {
 		return BUTTON_JAR_TEXT;
 	}

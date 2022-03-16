@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,22 +24,22 @@ import org.eclipse.birt.report.model.core.StructureContext;
  * <dl>
  * <dt><strong>Name </strong></dt>
  * <dd>a result set column has an optional name.</dd>
- * 
+ *
  * <dt><strong>Position </strong></dt>
  * <dd>a result set column has an optional position for it.</dd>
- * 
+ *
  * <dt><strong>Data Type </strong></dt>
  * <dd>a result set column has a choice data type: any, integer, string, data
  * time, decimal, float, structure or table.</dd>
  * </dl>
- * 
+ *
  */
 
 public class ResultSetColumnHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of result set column.
-	 * 
+	 *
 	 * @param valueHandle the value handle for result set column list of one
 	 *                    property
 	 * @param index       the position of this result set column in the list
@@ -52,7 +55,7 @@ public class ResultSetColumnHandle extends StructureHandle {
 
 	/**
 	 * Returns the column name.
-	 * 
+	 *
 	 * @return the column name
 	 */
 
@@ -62,7 +65,7 @@ public class ResultSetColumnHandle extends StructureHandle {
 
 	/**
 	 * Sets the column name.
-	 * 
+	 *
 	 * @param columnName the column name to set
 	 * @throws SemanticException value required exception
 	 */
@@ -85,7 +88,7 @@ public class ResultSetColumnHandle extends StructureHandle {
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 * 
+	 *
 	 * @return the data type of this column.
 	 */
 
@@ -107,7 +110,7 @@ public class ResultSetColumnHandle extends StructureHandle {
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 * 
+	 *
 	 * @param dataType the data type to set
 	 * @throws SemanticException if the dataType is not in the choice list.
 	 */
@@ -118,7 +121,7 @@ public class ResultSetColumnHandle extends StructureHandle {
 
 	/**
 	 * Returns the position that this column is in the result set.
-	 * 
+	 *
 	 * @return the position that this column is in the result set.
 	 */
 
@@ -128,7 +131,7 @@ public class ResultSetColumnHandle extends StructureHandle {
 
 	/**
 	 * Sets the position that this column is in the result set.
-	 * 
+	 *
 	 * @param position the position to set
 	 */
 
@@ -138,7 +141,7 @@ public class ResultSetColumnHandle extends StructureHandle {
 
 	/**
 	 * Returns the native data type.
-	 * 
+	 *
 	 * @return the result set column native data type.
 	 */
 
@@ -148,7 +151,7 @@ public class ResultSetColumnHandle extends StructureHandle {
 
 	/**
 	 * Sets the result set column native data type.
-	 * 
+	 *
 	 * @param dataType the native data type to set.
 	 */
 

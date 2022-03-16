@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +51,7 @@ public class ElementReferenceValidator extends AbstractPropertyValidator {
 
 	/**
 	 * Returns the singleton validator instance.
-	 * 
+	 *
 	 * @return the validator instance
 	 */
 
@@ -58,7 +61,7 @@ public class ElementReferenceValidator extends AbstractPropertyValidator {
 
 	/**
 	 * Validates the element reference value can refer to an actual element.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param element  the element holding the element reference property
 	 * @param propName the name of the element reference property
@@ -66,12 +69,14 @@ public class ElementReferenceValidator extends AbstractPropertyValidator {
 	 *         <code>SemanticException</code>.
 	 */
 
+	@Override
 	public List<SemanticException> validate(Module module, DesignElement element, String propName) {
 		boolean flag = isInTemplateParameterDefinitionSlot(element);
-		if (flag)
+		if (flag) {
 			return Collections.emptyList();
+		}
 
-		List<SemanticException> list = new ArrayList<SemanticException>();
+		List<SemanticException> list = new ArrayList<>();
 
 		ElementPropertyDefn prop = element.getPropertyDefn(propName);
 
@@ -109,7 +114,7 @@ public class ElementReferenceValidator extends AbstractPropertyValidator {
 	 * Attempts to resolve an element reference property. If the property is empty,
 	 * or the reference is already resolved, return true. If the reference is not
 	 * resolved, attempt to resolve it. If it cannot be resolved, return false.
-	 * 
+	 *
 	 * @param module              the module
 	 * @param element             the element holding this element reference
 	 *                            property
@@ -126,8 +131,9 @@ public class ElementReferenceValidator extends AbstractPropertyValidator {
 		// Attempt to resolve the reference.
 
 		ElementRefValue ref = element.resolveElementReference(module, prop);
-		if (ref == null)
+		if (ref == null) {
 			return true;
+		}
 
 		// check reference is resolved and not self-reference
 		return ref.isResolved() && element != ref.getElement();

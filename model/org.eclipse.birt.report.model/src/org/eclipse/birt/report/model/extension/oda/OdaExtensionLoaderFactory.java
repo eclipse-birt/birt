@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.extension.oda;
 
@@ -16,12 +28,13 @@ public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory {
 	/**
 	 * Initializes the factory to set the base factory whcih can return teh real oda
 	 * extension loader.
-	 * 
+	 *
 	 * @param base the base oda extension loader factory.
 	 */
 	public synchronized static void initeFactory(IOdaExtensionLoaderFactory base) {
-		if (baseFactory != null)
+		if (baseFactory != null) {
 			return;
+		}
 
 		baseFactory = base;
 	}
@@ -44,7 +57,7 @@ public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory {
 
 	/**
 	 * returns the oda extension loader factory instance.
-	 * 
+	 *
 	 * @return oda extension loader factory.
 	 */
 	public static OdaExtensionLoaderFactory getInstance() {
@@ -61,10 +74,11 @@ public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.oda.IOdaExtensionLoaderFactory
 	 * #createOdaExtensionLoader()
 	 */
+	@Override
 	public IOdaExtensionLoader createOdaExtensionLoader() {
 		return getFactory().createOdaExtensionLoader();
 	}

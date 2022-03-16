@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -7,7 +19,6 @@
 package org.eclipse.birt.report.model.adapter.oda.model;
 
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -34,7 +45,7 @@ public interface DataSetParameter extends EObject {
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * --> Top-level parameter definition; may be input and/or output mode.
 	 * Parameter may be of scalar or complex type. <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Parameter Definition</em>' containment
 	 *         reference.
 	 * @see #setParameterDefinition(ParameterDefinition)
@@ -51,7 +62,7 @@ public interface DataSetParameter extends EObject {
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter#getParameterDefinition
 	 * <em>Parameter Definition</em>}' containment reference. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Parameter Definition</em>' containment
 	 *              reference.
 	 * @see #getParameterDefinition()
@@ -67,7 +78,7 @@ public interface DataSetParameter extends EObject {
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Dynamic List</em>' containment reference.
 	 * @see #setDynamicList(DynamicList)
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDataSetParameter_DynamicList()
@@ -82,7 +93,7 @@ public interface DataSetParameter extends EObject {
 	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter#getDynamicList
 	 * <em>Dynamic List</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Dynamic List</em>' containment
 	 *              reference.
 	 * @see #getDynamicList()

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +20,7 @@ import java.io.PrintStream;
 
 /**
  * Write css schema
- * 
+ *
  */
 public class CssSchemaWriter implements ISchemaWriter {
 
@@ -34,19 +37,11 @@ public class CssSchemaWriter implements ISchemaWriter {
 	protected final static String OUTPUT_ENCODING = "UTF-8"; //$NON-NLS-1$
 
 	/**
-	 * Protected constructor
-	 * 
-	 */
-
-	private CssSchemaWriter() {
-	}
-
-	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param outputFile file name
 	 * @throws java.io.IOException if write orror occurs
-	 * 
+	 *
 	 */
 	public CssSchemaWriter(File outputFile) throws java.io.IOException {
 		FileOutputStream stream = new FileOutputStream(outputFile);
@@ -55,7 +50,7 @@ public class CssSchemaWriter implements ISchemaWriter {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param outputFile the file to write
 	 * @param signature  the UTF signature
 	 * @throws java.io.IOException if write error occurs
@@ -70,6 +65,7 @@ public class CssSchemaWriter implements ISchemaWriter {
 	 * Close the write at the completion of the file.
 	 */
 
+	@Override
 	public void close() {
 		out.close();
 		out = null;
@@ -78,6 +74,7 @@ public class CssSchemaWriter implements ISchemaWriter {
 	/**
 	 * start writing schema
 	 */
+	@Override
 	public void startHtml() {
 		out.print("<html>"); //$NON-NLS-1$
 		printLine();
@@ -90,7 +87,7 @@ public class CssSchemaWriter implements ISchemaWriter {
 
 	/**
 	 * write table header.
-	 * 
+	 *
 	 */
 	private void initTable() {
 		out.print("<table border = 1> ");//$NON-NLS-1$
@@ -107,6 +104,7 @@ public class CssSchemaWriter implements ISchemaWriter {
 	/**
 	 * close writing schema
 	 */
+	@Override
 	public void closeHtml() {
 		out.print("</table>");//$NON-NLS-1$
 		printLine();
@@ -118,11 +116,12 @@ public class CssSchemaWriter implements ISchemaWriter {
 
 	/**
 	 * Write table row
-	 * 
+	 *
 	 * @param name
 	 * @param allowedValue
 	 * @param defaultValue
 	 */
+	@Override
 	public void writeRow(CssType css) {
 		assert css != null;
 
@@ -149,7 +148,7 @@ public class CssSchemaWriter implements ISchemaWriter {
 	/**
 	 * append '
 	 * <td>' tag with value.
-	 * 
+	 *
 	 * @param buffer
 	 * @param value
 	 */

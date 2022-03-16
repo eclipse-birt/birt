@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ import org.eclipse.birt.data.engine.olap.driver.IEdgeAxis;
 /**
  * An BirtEdgeView is part of the logical layout of a BirtCubeView.It aggregates
  * a set of BirtDimensionView, which defines the shape and content of the edge.
- * 
+ *
  */
 public class BirtEdgeView {
 
@@ -40,7 +43,7 @@ public class BirtEdgeView {
 	private final static String CALCULATED_MEMBER = "CALCULATED_MEMBER";
 
 	/**
-	 * 
+	 *
 	 * @param cubeView
 	 * @param edgeDefn
 	 */
@@ -51,12 +54,13 @@ public class BirtEdgeView {
 		this.pageEndingPosition = -1;
 		this.type = type;
 		populateDimensionView(edgeDefn, cubeView);
-		if (edgeDefn != null)
+		if (edgeDefn != null) {
 			this.name = edgeDefn.getName();
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param calculatedMember
 	 */
 	public BirtEdgeView(CalculatedMember calculatedMember) {
@@ -65,12 +69,13 @@ public class BirtEdgeView {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param edgeDefn
 	 */
 	private void populateDimensionView(IEdgeDefinition edgeDefn, BirtCubeView cubeView) {
-		if (edgeDefn == null)
+		if (edgeDefn == null) {
 			return;
+		}
 		if (cubeView.getPageEdgeView() != null && type != ICubeQueryDefinition.PAGE_EDGE) {
 			dimensionViewList.clear();
 			dimensionViewList.addAll(cubeView.getPageEdgeView().getDimensionViews());
@@ -84,7 +89,7 @@ public class BirtEdgeView {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public EdgeCursor getEdgeCursor() {
@@ -92,7 +97,7 @@ public class BirtEdgeView {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public List getDimensionViews() {
@@ -100,7 +105,7 @@ public class BirtEdgeView {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param edgeCursor
 	 */
 	public void setEdgeCursor(EdgeCursor edgeCursor) {
@@ -116,7 +121,7 @@ public class BirtEdgeView {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public BirtCubeView getOrdinateOwner() {
@@ -128,7 +133,7 @@ public class BirtEdgeView {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public String getName() {

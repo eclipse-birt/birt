@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,7 +24,7 @@ import com.ibm.icu.util.ULocale;
  *
  * <!-- begin-model-doc --> JavaNumberFormatSpecifier extends FormatSpecifier
  * devotedly to represent an instance of NumberFormat.
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -45,9 +48,9 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier {
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
 	 * "Pattern" specifies the pattern string used to establish an instance of
 	 * NumberFormat.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Pattern</em>' attribute.
 	 * @see #setPattern(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getJavaNumberFormatSpecifier_Pattern()
@@ -61,7 +64,7 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getPattern
 	 * <em>Pattern</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Pattern</em>' attribute.
 	 * @see #getPattern()
 	 * @generated
@@ -71,11 +74,11 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier {
 	/**
 	 * Returns the value of the '<em><b>Multiplier</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the multiplier.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Multiplier</em>' attribute.
 	 * @see #isSetMultiplier()
 	 * @see #unsetMultiplier()
@@ -92,7 +95,7 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier {
 	 * '{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier
 	 * <em>Multiplier</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Multiplier</em>' attribute.
 	 * @see #isSetMultiplier()
 	 * @see #unsetMultiplier()
@@ -106,7 +109,7 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier {
 	 * '{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier
 	 * <em>Multiplier</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetMultiplier()
 	 * @see #getMultiplier()
 	 * @see #setMultiplier(double)
@@ -119,7 +122,7 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier {
 	 * '{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier
 	 * <em>Multiplier</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Multiplier</em>' attribute is set.
 	 * @see #unsetMultiplier()
 	 * @see #getMultiplier()
@@ -130,19 +133,20 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier {
 
 	/**
 	 * Formats a value using the internally defined format specifier rules
-	 * 
+	 *
 	 * @param dValue
-	 * 
+	 *
 	 * @return A formatted string representation of the numerical value provided
 	 * @deprecated
 	 */
+	@Deprecated
 	String format(double dValue, Locale lo);
 
 	/**
 	 * Formats a value using the internally defined format specifier rules
-	 * 
+	 *
 	 * @param dValue
-	 * 
+	 *
 	 * @return A formatted string representation of the numerical value provided
 	 * @since 2.1
 	 */
@@ -150,7 +154,7 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier {
 
 	/**
 	 * Returns a formatted string representation of specified number.
-	 * 
+	 *
 	 * @param number
 	 * @param lo
 	 * @return
@@ -161,6 +165,7 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier {
 	/**
 	 * @generated
 	 */
+	@Override
 	JavaNumberFormatSpecifier copyInstance();
 
 } // JavaNumberFormatSpecifier

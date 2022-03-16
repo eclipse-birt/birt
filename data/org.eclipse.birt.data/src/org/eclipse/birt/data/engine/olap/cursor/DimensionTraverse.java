@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +33,7 @@ class DimensionTraverse {
 	private int edgeStart;
 
 	/**
-	 * 
+	 *
 	 * @param axis
 	 * @param relationMap
 	 * @param fetcher
@@ -46,7 +49,7 @@ class DimensionTraverse {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param axis
 	 * @param relationMap
 	 * @param fetcher
@@ -62,7 +65,7 @@ class DimensionTraverse {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param currentPosition
 	 * @return
 	 */
@@ -102,7 +105,7 @@ class DimensionTraverse {
 
 	/**
 	 * move the certain index dimension cursor to the next position.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
@@ -117,7 +120,7 @@ class DimensionTraverse {
 
 	/**
 	 * move the certain dimension cursor to the previous position.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
@@ -136,7 +139,7 @@ class DimensionTraverse {
 
 	/**
 	 * move the certain dimension cursor to the relative offet.
-	 * 
+	 *
 	 * @param offset
 	 * @param dimAxisIndex
 	 * @return
@@ -144,30 +147,34 @@ class DimensionTraverse {
 	boolean relative(int offset, int dimAxisIndex) {
 		int index = offset;
 
-		if (offset > 0)
+		if (offset > 0) {
 			for (; index != 0; index--) {
-				if (this.next(dimAxisIndex))
+				if (this.next(dimAxisIndex)) {
 					continue;
-				else
+				} else {
 					break;
+				}
 			}
-		else
+		} else {
 			for (; index != 0; index++) {
-				if (this.previous(dimAxisIndex))
+				if (this.previous(dimAxisIndex)) {
 					continue;
-				else
+				} else {
 					break;
+				}
 			}
+		}
 
-		if (index == 0)
+		if (index == 0) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
 	 * position the certain dimension cursor to the first row.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
@@ -182,13 +189,14 @@ class DimensionTraverse {
 
 	/**
 	 * position the certain dimension cursor to the last row.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
 	boolean last(int dimAxisIndex) {
-		if (this.relationMap.traverseLength <= 0)
+		if (this.relationMap.traverseLength <= 0) {
 			return false;
+		}
 
 		int range = findFowardOffsetRange(dimAxisIndex);
 		this.dimensionCursorPosition[dimAxisIndex] += range;
@@ -197,7 +205,7 @@ class DimensionTraverse {
 
 	/**
 	 * indicate whether the certain dimension is before the first row.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
@@ -207,7 +215,7 @@ class DimensionTraverse {
 
 	/**
 	 * indicate whether the certain dimension is after the last row.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
@@ -218,7 +226,7 @@ class DimensionTraverse {
 
 	/**
 	 * indicate whether the certain dimension cursor is first position.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
@@ -228,7 +236,7 @@ class DimensionTraverse {
 
 	/**
 	 * indicate whether the certain dimension cursor is last position.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
@@ -239,7 +247,7 @@ class DimensionTraverse {
 
 	/**
 	 * move the certain dimension cursor after the last position.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 */
 	void afterLast(int dimAxisIndex) {
@@ -249,7 +257,7 @@ class DimensionTraverse {
 
 	/**
 	 * move the certain dimension cursor before the first position.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 */
 	void beforeFirst(int dimAxisIndex) {
@@ -258,7 +266,7 @@ class DimensionTraverse {
 
 	/**
 	 * set the position for the certain dimension.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @param position
 	 */
@@ -268,7 +276,7 @@ class DimensionTraverse {
 
 	/**
 	 * get the position for the certain dimension.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
@@ -279,14 +287,15 @@ class DimensionTraverse {
 	/**
 	 * get current row position for the certain dimension according the the position
 	 * value of all dimensions.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
 	int getCurrentRowPosition(int dimAxisIndex) {
 		EdgeInfo currentEdgeInfo = this.findCurrentEdgeInfo(dimAxisIndex);
-		if (currentEdgeInfo == null)
+		if (currentEdgeInfo == null) {
 			return -1;
+		}
 		EdgeInfo outerMost = findOuterMostChildEdgeInfo(dimAxisIndex, currentEdgeInfo);
 
 		return outerMost.firstChild;
@@ -294,21 +303,23 @@ class DimensionTraverse {
 
 	/**
 	 * get the start row index for the certain dimension.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
 	int getEdgeStart(int dimAxisIndex) {
 		if (this.dimensionCursorPosition[dimAxisIndex] < 0
-				|| this.dimensionCursorPosition[dimAxisIndex] > this.relationMap.traverseLength)
+				|| this.dimensionCursorPosition[dimAxisIndex] > this.relationMap.traverseLength) {
 			return -1;
+		}
 
 		int outer = this.dimAxis.length;
 		EdgeInfo edgeInfo = findCurrentEdgeInfo(dimAxisIndex);
-		if (edgeInfo == null)
+		if (edgeInfo == null) {
 			return -1;
 //		if( edgeInfo.isNull ==0 )
 //			return -1;
+		}
 
 		int endPosition = edgeInfo.firstChild, position;
 		EdgeInfo info = edgeInfo;
@@ -321,20 +332,22 @@ class DimensionTraverse {
 
 	/**
 	 * get the end row index for the certain dimension cursor.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
 	int getEdgeEnd(int dimAxisIndex) {
 		if (this.dimensionCursorPosition[dimAxisIndex] < 0
-				|| this.dimensionCursorPosition[dimAxisIndex] > this.relationMap.traverseLength)
+				|| this.dimensionCursorPosition[dimAxisIndex] > this.relationMap.traverseLength) {
 			return -1;
+		}
 
 		EdgeInfo edgeInfo = findCurrentEdgeInfo(dimAxisIndex);
-		if (edgeInfo == null)
+		if (edgeInfo == null) {
 			return -1;
 //		if( edgeInfo.isNull ==0 )
 //			return -1;
+		}
 
 		int endPosition = edgeInfo.firstChild;
 
@@ -362,7 +375,7 @@ class DimensionTraverse {
 
 	/**
 	 * indicate whether the dimension cursors is in initial status.
-	 * 
+	 *
 	 * @return
 	 */
 	boolean isInitialStatus() {
@@ -375,7 +388,7 @@ class DimensionTraverse {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @param attr
 	 * @return
@@ -385,7 +398,7 @@ class DimensionTraverse {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @param attrName
 	 * @return
@@ -393,20 +406,22 @@ class DimensionTraverse {
 	 */
 	Object getCurrentMember(int dimAxisIndex, String attrName) throws OLAPException {
 		int attrIndex = fetcher.getAttributeIndex(dimAxis[dimAxisIndex].getLevelIndex(), attrName);
-		if (attrIndex == -1)
+		if (attrIndex == -1) {
 			throw new OLAPException(ResourceConstants.INVALID_LEVEL_ATTRIBUTE + attrName);
+		}
 		return fetcher.getValue(dimAxis[dimAxisIndex].getLevelIndex(), attrIndex);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @param edgeInfo
 	 * @return
 	 */
 	private EdgeInfo findOuterMostChildEdgeInfo(int dimAxisIndex, EdgeInfo edgeInfo) {
-		if (dimAxisIndex < 0 || dimAxisIndex >= this.dimAxis.length || edgeInfo == null)
+		if (dimAxisIndex < 0 || dimAxisIndex >= this.dimAxis.length || edgeInfo == null) {
 			return null;
+		}
 		int endPosition = edgeInfo.firstChild;
 		EdgeInfo info = edgeInfo;
 		for (int i = dimAxisIndex + 1; i < this.dimAxis.length; i++) {
@@ -418,7 +433,7 @@ class DimensionTraverse {
 
 	/**
 	 * Check whether the cursor on dimAxisIndex has next row.
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
@@ -428,29 +443,33 @@ class DimensionTraverse {
 		// return true.
 		// else if current EdgeInfo is null, return false
 		if (currentEdgeInfo == null) {
-			if (this.dimensionCursorPosition[dimAxisIndex] < 0 && this.relationMap.traverseLength > 0)
+			if (this.dimensionCursorPosition[dimAxisIndex] < 0 && this.relationMap.traverseLength > 0) {
 				return true;
-			else
+			} else {
 				return false;
+			}
 		}
 
 		int index = this.relationMap.currentRelation[dimAxisIndex].indexOf(currentEdgeInfo);
 		EdgeInfo nextEdgeInfo = null;
-		if (this.relationMap.currentRelation[dimAxisIndex].size() > index + 1)
+		if (this.relationMap.currentRelation[dimAxisIndex].size() > index + 1) {
 			nextEdgeInfo = (EdgeInfo) this.relationMap.currentRelation[dimAxisIndex].get(index + 1);
+		}
 
-		if (nextEdgeInfo == null)
+		if (nextEdgeInfo == null) {
 			return false;
+		}
 
-		if (currentEdgeInfo.parent == nextEdgeInfo.parent)
+		if (currentEdgeInfo.parent == nextEdgeInfo.parent) {
 			return true;
+		}
 		return false;
 	}
 
 	/**
 	 * Based on current dimensionCursor position, get current edge info for certain
 	 * dimensionAxis.
-	 * 
+	 *
 	 * @param dimensionAxis
 	 * @return
 	 */
@@ -472,8 +491,9 @@ class DimensionTraverse {
 								|| this.dimensionCursorPosition[index] + endPosition < tempEdgeInfo2.firstChild)) {
 					edgeInfo = (EdgeInfo) this.relationMap.currentRelation[index]
 							.get(this.dimensionCursorPosition[index] + endPosition);
-				} else if (this.dimensionCursorPosition[index] == -1)
+				} else if (this.dimensionCursorPosition[index] == -1) {
 					return null;
+				}
 				break;
 			} else {
 				if (this.dimensionCursorPosition[index] + endPosition < this.relationMap.currentRelation[index].size()
@@ -486,8 +506,9 @@ class DimensionTraverse {
 						tempEdgeInfo2 = (EdgeInfo) this.relationMap.currentRelation[index]
 								.get(this.dimensionCursorPosition[index] + endPosition + 1);
 					}
-				} else
+				} else {
 					return null;
+				}
 				if (tempEdgeInfo1 != null) {
 					endPosition = tempEdgeInfo1.firstChild;
 				}
@@ -497,7 +518,7 @@ class DimensionTraverse {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimensionAxis
 	 * @return
 	 */
@@ -508,24 +529,26 @@ class DimensionTraverse {
 		}
 
 		if (dimensionAxis == 0) {
-			if (this.dimensionCursorPosition[0] < this.relationMap.currentRelation[0].size())
+			if (this.dimensionCursorPosition[0] < this.relationMap.currentRelation[0].size()) {
 				return this.relationMap.currentRelation[0].size() - this.dimensionCursorPosition[dimensionAxis] - 1;
-			else
+			} else {
 				return range;
+			}
 		}
 
 		EdgeInfo currentInfo = this.findCurrentEdgeInfo(dimensionAxis);
-		if (currentInfo == null)
+		if (currentInfo == null) {
 			return range;
-		else {
+		} else {
 			range = 0;
 			while (true) {
 				int index = this.relationMap.currentRelation[dimensionAxis].indexOf(currentInfo);
 				EdgeInfo nextEdgeInfo = null;
-				if (this.relationMap.currentRelation[dimensionAxis].size() > index + 1)
+				if (this.relationMap.currentRelation[dimensionAxis].size() > index + 1) {
 					nextEdgeInfo = (EdgeInfo) this.relationMap.currentRelation[dimensionAxis].get(index + 1);
-				else
+				} else {
 					break;
+				}
 				if (nextEdgeInfo != null && currentInfo.parent == nextEdgeInfo.parent) {
 					range++;
 					currentInfo = nextEdgeInfo;
@@ -539,15 +562,16 @@ class DimensionTraverse {
 
 	/**
 	 * -1 indicate that this is a drilled member
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
 	public int getExtend(int dimAxisIndex) {
 		EdgeInfo edgeInfo = findCurrentEdgeInfo(dimAxisIndex);
-		if (edgeInfo.isNull == 0)
+		if (edgeInfo.isNull == 0) {
 			return -1;
-		else
+		} else {
 			return 0;
+		}
 	}
 }

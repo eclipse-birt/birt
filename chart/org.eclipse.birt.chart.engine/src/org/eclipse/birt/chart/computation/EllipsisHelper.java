@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,16 +24,16 @@ import org.eclipse.birt.chart.model.component.Label;
 public class EllipsisHelper {
 
 	/**
-	 * 
+	 *
 	 * ITester
 	 */
 	public interface ITester {
 
-		public double getWidth() throws ChartException;
+		double getWidth() throws ChartException;
 
-		public double getHeight() throws ChartException;
+		double getHeight() throws ChartException;
 
-		public boolean testLabelVisible(String strNew, Object oPara) throws ChartException;
+		boolean testLabelVisible(String strNew, Object oPara) throws ChartException;
 	}
 
 	public static final String ELLIPSIS_STRING = "..."; //$NON-NLS-1$
@@ -64,7 +67,7 @@ public class EllipsisHelper {
 	 * Returns the visible char count before the ellipsis, 0 if no ellipsis is used.
 	 * e.g. if the text is "abcd..." then 4 will be returned. if the text is
 	 * "abcdefg" then 0 will be returned.
-	 * 
+	 *
 	 * @return count of visible chars.
 	 */
 	public int getVisibleCharCount() {
@@ -97,11 +100,7 @@ public class EllipsisHelper {
 
 		int len = sText.length() - 1;
 
-		if (len < iMinCharToView) {
-			return false;
-		}
-
-		if (!testNthChar(iMinCharToView, oPara)) {
+		if ((len < iMinCharToView) || !testNthChar(iMinCharToView, oPara)) {
 			return false;
 		}
 
@@ -178,6 +177,7 @@ public class EllipsisHelper {
 			return bb.getWidth() <= lblLimit.getMaxWidth() && bb.getHeight() <= lblLimit.getMaxHeight();
 		}
 
+		@Override
 		public boolean testLabelVisible(String strNew, Object para) throws ChartException {
 			LabelLimiter lbLimit = (LabelLimiter) para;
 			la.getCaption().setValue(strNew);
@@ -196,6 +196,7 @@ public class EllipsisHelper {
 			}
 		}
 
+		@Override
 		public double getHeight() throws ChartException {
 			if (bb == null) {
 				computeSize(0);
@@ -203,6 +204,7 @@ public class EllipsisHelper {
 			return bb.getHeight();
 		}
 
+		@Override
 		public double getWidth() throws ChartException {
 			if (bb == null) {
 				computeSize(0);

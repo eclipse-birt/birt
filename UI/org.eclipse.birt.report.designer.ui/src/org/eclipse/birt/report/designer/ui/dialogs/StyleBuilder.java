@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -95,7 +98,7 @@ public class StyleBuilder extends PreferenceDialog {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param parentShell
 	 * @param handle
 	 */
@@ -105,7 +108,7 @@ public class StyleBuilder extends PreferenceDialog {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param parentShell
 	 * @param handle
 	 */
@@ -120,6 +123,7 @@ public class StyleBuilder extends PreferenceDialog {
 
 	}
 
+	@Override
 	protected TreeViewer createTreeViewer(Composite parent) {
 		final Tree tree = new Tree(parent,
 				SWT.FULL_SELECTION | SWT.SINGLE | SWT.HIDE_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL);
@@ -134,6 +138,7 @@ public class StyleBuilder extends PreferenceDialog {
 		columns[1].setWidth(getLastRightWidth());
 		tree.addControlListener(new ControlAdapter() {
 
+			@Override
 			public void controlResized(ControlEvent e) {
 				TreeItem[] items = viewer.getTree().getItems();
 
@@ -168,9 +173,10 @@ public class StyleBuilder extends PreferenceDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.window.Window#open()
 	 */
+	@Override
 	public int open() {
 		setSelectedNode("General"); //$NON-NLS-1$
 		return super.open();
@@ -178,10 +184,11 @@ public class StyleBuilder extends PreferenceDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.window.Window#configureShell(org.eclipse.swt.widgets
 	 * .Shell)
 	 */
+	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText(title);
@@ -191,7 +198,7 @@ public class StyleBuilder extends PreferenceDialog {
 		PreferenceManager preferenceManager = new PreferenceManager('/');
 
 		// Get the pages from the registry
-		List<IPreferenceNode> pageContributions = new ArrayList<IPreferenceNode>();
+		List<IPreferenceNode> pageContributions = new ArrayList<>();
 
 		// adds preference pages into page contributions.
 		pageContributions.add(new StylePreferenceNode("General", //$NON-NLS-1$
@@ -239,6 +246,7 @@ public class StyleBuilder extends PreferenceDialog {
 
 			private boolean invalid;
 
+			@Override
 			public void run() {
 				errorOccurred = false;
 				invalid = false;
@@ -272,6 +280,7 @@ public class StyleBuilder extends PreferenceDialog {
 				}
 			}
 
+			@Override
 			public void handleException(Throwable e) {
 				errorOccurred = true;
 				if (Platform.isRunning()) {
@@ -293,9 +302,10 @@ public class StyleBuilder extends PreferenceDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.PreferenceDialog#okPressed()
 	 */
+	@Override
 	protected void okPressed() {
 		saveAll(true);
 	}
@@ -320,11 +330,13 @@ public class StyleBuilder extends PreferenceDialog {
 	private static final int H_GAP_IMAGE = 5;
 	static {
 		ImageRegistry reg = JFaceResources.getImageRegistry();
-		if (reg.get(DLG_IMG_TITLE_BANNER) == null)
+		if (reg.get(DLG_IMG_TITLE_BANNER) == null) {
 			reg.put(DLG_IMG_TITLE_BANNER,
 					ImageDescriptor.createFromFile(TitleAreaDialog.class, "images/title_banner.gif"));//$NON-NLS-1$
+		}
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		createDialogTitleArea(parent);
 
@@ -357,6 +369,7 @@ public class StyleBuilder extends PreferenceDialog {
 		// add a dispose listener
 		dialogTitleArea.addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				if (titleAreaColor != null) {
 					titleAreaColor.dispose();
@@ -382,10 +395,11 @@ public class StyleBuilder extends PreferenceDialog {
 		// Dialog image @ right
 		titleImageLabel = new Label(dialogTitleArea, SWT.CENTER);
 		titleImageLabel.setBackground(background);
-		if (titleAreaImage == null)
+		if (titleAreaImage == null) {
 			titleImageLabel.setImage(JFaceResources.getImage(DLG_IMG_TITLE_BANNER));
-		else
+		} else {
 			titleImageLabel.setImage(titleAreaImage);
+		}
 
 		FormData imageData = new FormData();
 		imageData.top = new FormAttachment(0, 0);
@@ -447,8 +461,9 @@ public class StyleBuilder extends PreferenceDialog {
 		messageLabelData.right = new FormAttachment(titleImageLabel);
 		messageLabelData.left = new FormAttachment(messageImageLabel, horizontalSpacing);
 		messageLabelData.height = messageLabelHeight;
-		if (titleImageLargest)
+		if (titleImageLargest) {
 			messageLabelData.bottom = new FormAttachment(titleImageLabel, 0, SWT.BOTTOM);
+		}
 		messageLabel.setLayoutData(messageLabelData);
 		FormData fillerData = new FormData();
 		fillerData.left = new FormAttachment(0, horizontalSpacing);
@@ -466,13 +481,15 @@ public class StyleBuilder extends PreferenceDialog {
 	/**
 	 * Display the given error message. The currently displayed message is saved and
 	 * will be redisplayed when the error message is set to <code>null</code>.
-	 * 
+	 *
 	 * @param newErrorMessage the newErrorMessage to display or <code>null</code>
 	 */
+	@Override
 	public void setErrorMessage(String newErrorMessage) {
 		// Any change?
-		if (errorMessage == null ? newErrorMessage == null : errorMessage.equals(newErrorMessage))
+		if (errorMessage == null ? newErrorMessage == null : errorMessage.equals(newErrorMessage)) {
 			return;
+		}
 		errorMessage = newErrorMessage;
 
 		// Clear or set error message.
@@ -485,9 +502,10 @@ public class StyleBuilder extends PreferenceDialog {
 			// avoid calling setMessage in case it is overridden to call
 			// setErrorMessage,
 			// which would result in a recursive infinite loop
-			if (message == null) // this should probably never happen since
-				// setMessage does this conversion....
+			if (message == null) { // this should probably never happen since
+									// setMessage does this conversion....
 				message = ""; //$NON-NLS-1$
+			}
 			updateMessage(message);
 			messageImageLabel.setImage(messageImage);
 			setImageLabelVisible(messageImage != null);
@@ -553,8 +571,9 @@ public class StyleBuilder extends PreferenceDialog {
 			messageLabelData.right = new FormAttachment(titleImageLabel);
 			messageLabelData.left = new FormAttachment(messageImageLabel, 0);
 			messageLabelData.height = messageLabelHeight;
-			if (titleImageLargest)
+			if (titleImageLargest) {
 				messageLabelData.bottom = new FormAttachment(titleImageLabel, 0, SWT.BOTTOM);
+			}
 			messageLabel.setLayoutData(messageLabelData);
 		}
 		// Do not layout before the dialog area has been created
@@ -587,7 +606,7 @@ public class StyleBuilder extends PreferenceDialog {
 
 	/**
 	 * Show the new message and image.
-	 * 
+	 *
 	 * @param newMessage
 	 * @param newImage
 	 */
@@ -597,8 +616,9 @@ public class StyleBuilder extends PreferenceDialog {
 			return;
 		}
 		message = newMessage;
-		if (message == null)
+		if (message == null) {
 			message = "";//$NON-NLS-1$
+		}
 		// Message string to be shown - if there is an image then add in
 		// a space to the message for layout purposes
 		String shownMessage = (newImage == null) ? message : " " + message; //$NON-NLS-1$
@@ -613,12 +633,13 @@ public class StyleBuilder extends PreferenceDialog {
 	}
 
 	private void updateMessage(String newMessage) {
-		if (newMessage != null && newMessage.length() > 0)
+		if (newMessage != null && newMessage.length() > 0) {
 			messageLabel.setText(newMessage);
-		else if (DLG_TITLE_EDIT.equals(title))
+		} else if (DLG_TITLE_EDIT.equals(title)) {
 			setTitleMessage(Messages.getString("StyleBuilder.Edit.Info")); //$NON-NLS-1$
-		else if (DLG_TITLE_NEW.equals(title))
+		} else if (DLG_TITLE_NEW.equals(title)) {
 			setTitleMessage(Messages.getString("StyleBuilder.New.Info")); //$NON-NLS-1$
+		}
 	}
 
 	public void setTitleMessage(String message) {
@@ -661,32 +682,40 @@ public class StyleBuilder extends PreferenceDialog {
 
 	private static class PreferenceTreeLabelProvider implements ITableLabelProvider {
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
-			if (columnIndex == 1)
+			if (columnIndex == 1) {
 				return ((IPreferenceNode) element).getLabelImage();
-			else
+			} else {
 				return null;
+			}
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
-			if (columnIndex == 1)
+			if (columnIndex == 1) {
 				return ((IPreferenceNode) element).getLabelText();
-			else
+			} else {
 				return ""; //$NON-NLS-1$
+			}
 		}
 
+		@Override
 		public void addListener(ILabelProviderListener listener) {
 
 		}
 
+		@Override
 		public void dispose() {
 
 		}
 
+		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
+		@Override
 		public void removeListener(ILabelProviderListener listener) {
 
 		}

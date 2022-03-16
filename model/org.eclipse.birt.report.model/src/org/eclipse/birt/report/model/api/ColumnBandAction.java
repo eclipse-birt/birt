@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +30,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 /**
  * Provides the fundmental operations to column band operations such as:
  * copy/paste, shift a column band, etc.
- * 
+ *
  */
 
 abstract class ColumnBandAction {
@@ -40,7 +43,7 @@ abstract class ColumnBandAction {
 
 	/**
 	 * Constructs a default <code>ColumnBandAction</code>.
-	 * 
+	 *
 	 * @param adapter the adapter to work on tables and grids.
 	 */
 
@@ -50,7 +53,7 @@ abstract class ColumnBandAction {
 
 	/**
 	 * Checks whether copied cells can be integrated into a rectangle.
-	 * 
+	 *
 	 * @param cells     cloned cells
 	 * @param rectWidth the column width
 	 * @return <code>true</code> if the shape of integrated cells is a rectangle,
@@ -65,23 +68,25 @@ abstract class ColumnBandAction {
 			CellContextInfo contextInfo = (CellContextInfo) cells.get(i);
 
 			int colSpan = contextInfo.getColumnSpan();
-			if (colSpan > rectWidth)
+			if (colSpan > rectWidth) {
 				return false;
+			}
 
 			rowCount += contextInfo.getRowSpan();
 		}
 
 		assert rowCount <= numOfRows;
 
-		if (rowCount < numOfRows)
+		if (rowCount < numOfRows) {
 			return false;
+		}
 
 		return true;
 	}
 
 	/**
 	 * Adds all column headers for an element that has no column information.
-	 * 
+	 *
 	 * @param column       the column from the copy operation
 	 * @param columnNumber the column number of <code>column</code>
 	 * @param isInsert     <code>true</code> if this is an insert and paste action.
@@ -96,18 +101,20 @@ abstract class ColumnBandAction {
 		// the execution of table.getColumnCount()
 
 		int columnCount = adapter.getColumnCount();
-		if (isInsert)
+		if (isInsert) {
 			columnCount++;
+		}
 
 		for (int i = 0; i < columnCount; i++) {
 			ColumnHandle toAdd = null;
 
 			// either paste action or insert and paste actions.
 
-			if ((i == columnNumber - 1 && !isInsert) || (isInsert && i == columnNumber))
+			if ((i == columnNumber - 1 && !isInsert) || (isInsert && i == columnNumber)) {
 				toAdd = column.handle(adapter.getModule());
-			else
+			} else {
 				toAdd = adapter.getElementHandle().getElementFactory().newTableColumn();
+			}
 
 			try {
 				columns.add(toAdd);
@@ -119,16 +126,17 @@ abstract class ColumnBandAction {
 
 	/**
 	 * Checks the element after the paste action.
-	 * 
+	 *
 	 * @param content the pasted element
-	 * 
+	 *
 	 * @return a list containing parsing errors. Each element in the list is
 	 *         <code>ErrorDetail</code>.
 	 */
 
 	private List checkElementPostPaste(DesignElementHandle content) {
-		if (content == null)
+		if (content == null) {
 			return Collections.EMPTY_LIST;
+		}
 
 		List exceptionList = content.getElement().validateWithContents(adapter.getModule());
 		List errorDetailList = ErrorDetail.convertExceptionList(exceptionList);
@@ -139,7 +147,7 @@ abstract class ColumnBandAction {
 	/**
 	 * Returns the context information of a cell. The cell must reside in a valid
 	 * row container.
-	 * 
+	 *
 	 * @param cell the cell handle
 	 * @param row  the row that contains the context information
 	 * @return a new <code>CellContextInfo</code> object
@@ -172,7 +180,7 @@ abstract class ColumnBandAction {
 	/**
 	 * Returns the column index that is the start column index of the
 	 * <code>target</code>.
-	 * 
+	 *
 	 * @param target the column to find
 	 * @return a column index
 	 */
@@ -194,7 +202,7 @@ abstract class ColumnBandAction {
 	/**
 	 * Creates a <code>SlotLayoutInfo</code> with the given cell, container name,
 	 * slot id and group id.
-	 * 
+	 *
 	 * @param cells             a list containing cell handles
 	 * @param containerDefnName the definition name of the container
 	 * @param slotId            the slot id
@@ -207,17 +215,18 @@ abstract class ColumnBandAction {
 		for (int i = 0; i < cells.size(); i++) {
 			Object obj = cells.get(i);
 
-			String tmpDefnName = null;
-			int tmpSlotId = IDesignElementModel.NO_SLOT;
-			int tmpGroupId = -1;
+			String tmpDefnName;
+			int tmpSlotId;
+			int tmpGroupId;
 
 			CellContextInfo contextInfo = (CellContextInfo) obj;
 			tmpDefnName = contextInfo.getContainerDefnName();
 			tmpSlotId = contextInfo.getSlotId();
 			tmpGroupId = contextInfo.getGroupId();
 
-			if (containerDefnName.equals(tmpDefnName) && tmpSlotId == slotId && tmpGroupId == groupId)
+			if (containerDefnName.equals(tmpDefnName) && tmpSlotId == slotId && tmpGroupId == groupId) {
 				layoutInfo.addCell(contextInfo.getCell(), contextInfo.getRowSpan());
+			}
 		}
 
 		return layoutInfo;
@@ -227,7 +236,7 @@ abstract class ColumnBandAction {
 	 * Checks whether layouts in source element and destination element are the
 	 * same. It is considered as the same if there are same numbers of rows in
 	 * source and destination elements.
-	 * 
+	 *
 	 * @param copiedCells the copied cells.
 	 * @param targetCells the target cells to be replaced.
 	 * @return <code>true</code> if layouts are exactly same. <code>false</code> if
@@ -253,13 +262,15 @@ abstract class ColumnBandAction {
 				SlotLayoutInfo info1 = getLayoutOfSlot(copiedCells, containerDefnName, slotId, groupId);
 				SlotLayoutInfo info2 = getLayoutOfSlot(targetCells, containerDefnName, slotId, groupId);
 
-				if (!info1.isSameNumOfRows(info2))
+				if (!info1.isSameNumOfRows(info2)) {
 					throw new SemanticError(adapter.getElementHandle().getElement(),
 							new String[] { adapter.getElementHandle().getName() },
 							SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_FORBIDDEN);
+				}
 
-				if (!info1.isSameLayoutOfRows(info2))
+				if (!info1.isSameLayoutOfRows(info2)) {
 					return false;
+				}
 			}
 			oldContainerDefnName = containerDefnName;
 			oldSlotId = slotId;
@@ -272,7 +283,7 @@ abstract class ColumnBandAction {
 	/**
 	 * Pastes the copied column <code>column</code> to the given
 	 * <code>columnNumber</code> in the target element.
-	 * 
+	 *
 	 * @param column       the copied column
 	 * @param columnNumber the column number
 	 * @param isInsert     <code>true</code> if this is an insert and paste action.
@@ -281,11 +292,12 @@ abstract class ColumnBandAction {
 	 */
 
 	protected void pasteColumn(TableColumn column, int columnNumber, boolean isInsert) throws SemanticException {
-		TableColumn targetColumn = null;
+		TableColumn targetColumn;
 		SlotHandle columns = adapter.getColumns();
 
-		if (columns.getCount() == 0 && column == null)
+		if (columns.getCount() == 0 && column == null) {
 			return;
+		}
 
 		if (columns.getCount() == 0 && column != null) {
 			addColumnHeader(column, columnNumber, isInsert);
@@ -305,7 +317,7 @@ abstract class ColumnBandAction {
 	/**
 	 * Replaces the <code>target</code> column with the given <code>source</code>
 	 * column at the given column number.
-	 * 
+	 *
 	 * @param source       the column to replace
 	 * @param target       the column to be replaced
 	 * @param columnNumber the column number
@@ -323,20 +335,22 @@ abstract class ColumnBandAction {
 		int colEndPos = colStartPos + +target.getRepeatCount() - 1;
 
 		ColumnHandle toAdd = null;
-		if (source == null)
+		if (source == null) {
 			toAdd = target.getElementFactory().newTableColumn();
-		else
+		} else {
 			toAdd = (ColumnHandle) source.getHandle(adapter.getModule());
+		}
 
 		int oldPos = columns.findPosn(target);
 
 		// removes the column required.
 
 		if (target.getRepeatCount() == 1) {
-			if (isInsert)
+			if (isInsert) {
 				oldPos++;
-			else
+			} else {
 				columns.drop(target);
+			}
 
 			columns.add(toAdd, oldPos);
 			return;
@@ -350,12 +364,14 @@ abstract class ColumnBandAction {
 				|| (isInsert && (columnNumber == colEndPos))) {
 			// if it is only a paste operation, must tune the repeat count.
 
-			if (!isInsert)
+			if (!isInsert) {
 				target.setRepeatCount(target.getRepeatCount() - 1);
+			}
 
 			int pos = oldPos;
-			if (columnNumber != colStartPos)
+			if (columnNumber != colStartPos) {
 				pos++;
+			}
 
 			columns.add(toAdd, pos);
 			return;
@@ -373,15 +389,17 @@ abstract class ColumnBandAction {
 			// if is a insert and paste operation, do not reduce the repeat
 			// count.
 
-			if (isInsert)
+			if (isInsert) {
 				repeat1++;
+			}
 
 			int repeat2 = target.getRepeatCount() - repeat1;
 
 			// if is a paste operation, reduce the repeat count.
 
-			if (!isInsert)
+			if (!isInsert) {
 				repeat2 -= 1;
+			}
 
 			ColumnHandle newColumn = null;
 
@@ -404,7 +422,7 @@ abstract class ColumnBandAction {
 	/**
 	 * Returns the context information for a list of cells. Cells must reside in a
 	 * valid row container.
-	 * 
+	 *
 	 * @param cells a list of cell handles
 	 * @return a list containing new <code>CellContextInfo</code> objects.
 	 */
@@ -422,10 +440,10 @@ abstract class ColumnBandAction {
 
 	/**
 	 * Checks element references after the paste operation.
-	 * 
+	 *
 	 * @param column the column to check
 	 * @param cells  cells to check
-	 * 
+	 *
 	 * @return a list containing post-parsing errors. Each element in the list is
 	 *         <code>ErrorDetail</code>.
 	 */
@@ -433,8 +451,9 @@ abstract class ColumnBandAction {
 	protected List doPostPasteCheck(TableColumn column, List cells) {
 		List list = Collections.EMPTY_LIST;
 
-		if (column != null)
+		if (column != null) {
 			list = checkElementPostPaste(column.getHandle(adapter.getModule()));
+		}
 
 		for (int i = 0; i < cells.size(); i++) {
 			CellContextInfo contextInfo = (CellContextInfo) cells.get(i);
@@ -477,7 +496,7 @@ abstract class ColumnBandAction {
 
 		/**
 		 * Constructs a <code>SlotLayoutInfo</code> for the given slot.
-		 * 
+		 *
 		 * @param containerDefnName the definition name of the container.
 		 * @param slotId            the slot id
 		 * @param groupId           the group id
@@ -491,7 +510,7 @@ abstract class ColumnBandAction {
 
 		/**
 		 * Adds a cell to the slot layout information.
-		 * 
+		 *
 		 * @param cell    the cell handle
 		 * @param rowSpan the row span
 		 */
@@ -502,18 +521,16 @@ abstract class ColumnBandAction {
 
 		/**
 		 * Checks whether numbers of rows in two <code>SlotLayoutInfo</code> are same.
-		 * 
+		 *
 		 * @param info the slot information
 		 * @return <code>true</code> if two numbers are same. Otherwise
 		 *         <code>false</code>.
 		 */
 
 		public boolean isSameNumOfRows(SlotLayoutInfo info) {
-			if (!containerDefnName.equals(info.containerDefnName))
+			if (!containerDefnName.equals(info.containerDefnName) || slotId != info.slotId || groupId != info.groupId) {
 				return false;
-
-			if (slotId != info.slotId || groupId != info.groupId)
-				return false;
+			}
 
 			int myNumOfRows = getNumOfRows();
 			int targetNumOfRows = info.getNumOfRows();
@@ -524,22 +541,24 @@ abstract class ColumnBandAction {
 		/**
 		 * Checks whether layout information in two <code>SlotLayoutInfo</code> are
 		 * same.
-		 * 
+		 *
 		 * @param info the slot information
 		 * @return <code>true</code> if layout information is same. Otherwise
 		 *         <code>false</code>.
 		 */
 
 		public boolean isSameLayoutOfRows(SlotLayoutInfo info) {
-			if (details.size() != info.details.size())
+			if (details.size() != info.details.size()) {
 				return false;
+			}
 
 			for (int i = 0; i < details.size(); i++) {
 				Integer myRowSpan = (Integer) details.get(i);
 
 				Object targetRowSpan = info.details.get(i);
-				if (!myRowSpan.equals(targetRowSpan))
+				if (!myRowSpan.equals(targetRowSpan)) {
 					return false;
+				}
 			}
 
 			return true;

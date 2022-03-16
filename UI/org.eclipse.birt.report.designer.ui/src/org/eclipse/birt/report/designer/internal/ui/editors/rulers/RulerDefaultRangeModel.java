@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,7 @@ import java.util.List;
 import org.eclipse.draw2d.RangeModel;
 
 /**
- * 
+ *
  */
 
 public class RulerDefaultRangeModel implements RangeModel, PropertyChangeListener {
@@ -38,10 +41,11 @@ public class RulerDefaultRangeModel implements RangeModel, PropertyChangeListene
 
 	/**
 	 * Registers the given listener as a PropertyChangeListener.
-	 * 
+	 *
 	 * @param listener the listener to be added
 	 * @since 2.0
 	 */
+	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		listeners.add(listener);
 	}
@@ -49,7 +53,7 @@ public class RulerDefaultRangeModel implements RangeModel, PropertyChangeListene
 	/**
 	 * Notifies any listening PropertyChangeListeners that the property with the
 	 * given id has changed.
-	 * 
+	 *
 	 * @param string   the property name
 	 * @param oldValue the old value
 	 * @param newValue the new value
@@ -65,6 +69,7 @@ public class RulerDefaultRangeModel implements RangeModel, PropertyChangeListene
 	/**
 	 * @return the extent
 	 */
+	@Override
 	public int getExtent() {
 		return delegate.getExtent();
 	}
@@ -72,6 +77,7 @@ public class RulerDefaultRangeModel implements RangeModel, PropertyChangeListene
 	/**
 	 * @return the maximum value
 	 */
+	@Override
 	public int getMaximum() {
 		return delegate.getMaximum();
 	}
@@ -79,6 +85,7 @@ public class RulerDefaultRangeModel implements RangeModel, PropertyChangeListene
 	/**
 	 * @return the minimum value
 	 */
+	@Override
 	public int getMinimum() {
 		return delegate.getMinimum();
 	}
@@ -86,6 +93,7 @@ public class RulerDefaultRangeModel implements RangeModel, PropertyChangeListene
 	/**
 	 * @return the current value
 	 */
+	@Override
 	public int getValue() {
 		return delegate.getValue();
 	}
@@ -93,15 +101,17 @@ public class RulerDefaultRangeModel implements RangeModel, PropertyChangeListene
 	/**
 	 * @return whether the extent is between the minimum and maximum values
 	 */
+	@Override
 	public boolean isEnabled() {
 		return (getMaximum() - getMinimum()) > getExtent();
 	}
 
 	/**
 	 * Removes the given PropertyChangeListener from the list of listeners.
-	 * 
+	 *
 	 * @param listener the listener to be removed
 	 */
+	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		listeners.remove(listener);
 	}
@@ -109,6 +119,7 @@ public class RulerDefaultRangeModel implements RangeModel, PropertyChangeListene
 	/**
 	 * @see org.eclipse.draw2d.RangeModel#setAll(int, int, int)
 	 */
+	@Override
 	public void setAll(int min, int ext, int max) {
 		delegate.setAll(min, ext, max);
 	}
@@ -116,9 +127,10 @@ public class RulerDefaultRangeModel implements RangeModel, PropertyChangeListene
 	/**
 	 * Sets this RangeModel's extent and fires a property change if the given value
 	 * is different from the current extent.
-	 * 
+	 *
 	 * @param extent the new extent value
 	 */
+	@Override
 	public void setExtent(int extent) {
 		delegate.setExtent(extent);
 	}
@@ -126,9 +138,10 @@ public class RulerDefaultRangeModel implements RangeModel, PropertyChangeListene
 	/**
 	 * Sets this RangeModel's maximum value and fires a property change if the given
 	 * value is different from the current maximum value.
-	 * 
+	 *
 	 * @param maximum the new maximum value
 	 */
+	@Override
 	public void setMaximum(int maximum) {
 		delegate.setMaximum(maximum);
 	}
@@ -136,9 +149,10 @@ public class RulerDefaultRangeModel implements RangeModel, PropertyChangeListene
 	/**
 	 * Sets this RangeModel's minimum value and fires a property change if the given
 	 * value is different from the current minimum value.
-	 * 
+	 *
 	 * @param minimum the new minumum value
 	 */
+	@Override
 	public void setMinimum(int minimum) {
 		delegate.setMinimum(minimum);
 	}
@@ -148,9 +162,10 @@ public class RulerDefaultRangeModel implements RangeModel, PropertyChangeListene
 	 * maximum, the maximum value is used. If the given value is less than the
 	 * minimum, the minimum value is used. If the adjusted value is different from
 	 * the current value, a property change is fired.
-	 * 
+	 *
 	 * @param value the new value
 	 */
+	@Override
 	public void setValue(int value) {
 		delegate.setValue(value);
 	}
@@ -158,12 +173,13 @@ public class RulerDefaultRangeModel implements RangeModel, PropertyChangeListene
 	/**
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		return delegate.toString();
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void dispose() {
 		delegate.removePropertyChangeListener(this);
@@ -173,10 +189,11 @@ public class RulerDefaultRangeModel implements RangeModel, PropertyChangeListene
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
 	 * PropertyChangeEvent)
 	 */
+	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		firePropertyChange(evt);
 	}

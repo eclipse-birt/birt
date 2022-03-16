@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /*
  * Created on 2005-3-25
  *
@@ -27,26 +39,29 @@ public class EclipseBundle implements IBundle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.framework.IBundle#loadClass(java.lang.String)
 	 */
+	@Override
 	public Class loadClass(String name) throws ClassNotFoundException {
 		return bundle.loadClass(name);
 	}
 
+	@Override
 	public URL getEntry(String name) {
 		return bundle.getEntry(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.framework.IBundle#getEntryPaths(java.lang.String)
 	 */
 	public Enumeration getEntryPaths(String path) {
 		return bundle.getEntryPaths(path);
 	}
 
+	@Override
 	public String getStateLocation() {
 		IPath path = Platform.getStateLocation(bundle);
 		if (path != null) {

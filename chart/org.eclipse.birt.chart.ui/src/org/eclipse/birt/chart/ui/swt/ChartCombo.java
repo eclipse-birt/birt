@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +36,7 @@ public class ChartCombo extends Composite implements SelectionListener {
 
 	protected Combo cmbItems;
 
-	protected Vector<SelectionListener> vListeners = new Vector<SelectionListener>();
+	protected Vector<SelectionListener> vListeners = new Vector<>();
 
 	protected String[] data;
 
@@ -145,6 +148,7 @@ public class ChartCombo extends Composite implements SelectionListener {
 		return data[cmbItems.getSelectionIndex()];
 	}
 
+	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		cmbItems.setEnabled(enabled);
@@ -165,6 +169,7 @@ public class ChartCombo extends Composite implements SelectionListener {
 		if (eventType == SWT.Selection) {
 			addSelectionListener(new SelectionListener() {
 
+				@Override
 				public void widgetSelected(SelectionEvent event) {
 					Event e = new Event();
 					e.detail = event.detail;
@@ -183,6 +188,7 @@ public class ChartCombo extends Composite implements SelectionListener {
 					listener.handleEvent(e);
 				}
 
+				@Override
 				public void widgetDefaultSelected(SelectionEvent evt) {
 					// TODO Auto-generated method stub
 
@@ -192,11 +198,13 @@ public class ChartCombo extends Composite implements SelectionListener {
 		super.addListener(eventType, listener);
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent event) {
 		if (event.widget == cmbItems) {
 			Event e = new Event();

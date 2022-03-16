@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,14 +61,16 @@ import org.eclipse.jface.window.Window;
  */
 public class AggregationDropAdapter implements IDropAdapter {
 
+	@Override
 	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		if ((transfer.equals(DesignerPaletteFactory.AGG_TEMPLATE) // $NON-NLS-1$
 				|| transfer.equals(DesignerPaletteFactory.TIMEPERIOD_TEMPLATE)) // $NON-NLS-1$
 				&& target instanceof CrosstabCellEditPart) {
 			CrosstabCellAdapter adapter = (CrosstabCellAdapter) ((CrosstabCellEditPart) target).getModel();
 			if (adapter.getCrosstabCellHandle() != null
-					&& DEUtil.isReferenceElement(adapter.getCrosstabCellHandle().getCrosstabHandle()))
+					&& DEUtil.isReferenceElement(adapter.getCrosstabCellHandle().getCrosstabHandle())) {
 				return DNDService.LOGIC_FALSE;
+			}
 
 			String posType = adapter.getPositionType();
 
@@ -126,6 +131,7 @@ public class AggregationDropAdapter implements IDropAdapter {
 		return DNDService.LOGIC_UNKNOW;
 	}
 
+	@Override
 	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
 
 		if (target instanceof EditPart) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,33 +32,36 @@ public class Label extends ReportItem implements ILabel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.api.script.element.ILabel#getText()
 	 */
 
+	@Override
 	public String getText() {
 		return ((org.eclipse.birt.report.model.api.simpleapi.ILabel) designElementImpl).getText();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.ILabel#getDisplayText()
 	 */
 
+	@Override
 	public String getDisplayText() {
 		return ((org.eclipse.birt.report.model.api.simpleapi.ILabel) designElementImpl).getDisplayText();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.ILabel#setText(java.lang.
 	 * String)
 	 */
 
+	@Override
 	public void setText(String text) throws ScriptException {
 		try {
 			((org.eclipse.birt.report.model.api.simpleapi.ILabel) designElementImpl).setText(text);
@@ -69,22 +72,24 @@ public class Label extends ReportItem implements ILabel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.api.script.element.ILabel#getTextKey()
 	 */
 
+	@Override
 	public String getTextKey() {
 		return ((org.eclipse.birt.report.model.api.simpleapi.ILabel) designElementImpl).getTextKey();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.ILabel#setTextKey(java.lang
 	 * .String)
 	 */
 
+	@Override
 	public void setTextKey(String resourceKey) throws ScriptException {
 		try {
 			((org.eclipse.birt.report.model.api.simpleapi.ILabel) designElementImpl).setTextKey(resourceKey);
@@ -95,22 +100,24 @@ public class Label extends ReportItem implements ILabel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.api.script.element.ILabel#getHelpText()
 	 */
 
+	@Override
 	public String getHelpText() {
 		return ((org.eclipse.birt.report.model.api.simpleapi.ILabel) designElementImpl).getHelpText();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.ILabel#setHelpText(java.
 	 * lang.String)
 	 */
 
+	@Override
 	public void setHelpText(String text) throws ScriptException {
 		try {
 			((org.eclipse.birt.report.model.api.simpleapi.ILabel) designElementImpl).setHelpText(text);
@@ -121,23 +128,25 @@ public class Label extends ReportItem implements ILabel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.ILabel#getHelpTextKey()
 	 */
 
+	@Override
 	public String getHelpTextKey() {
 		return ((org.eclipse.birt.report.model.api.simpleapi.ILabel) designElementImpl).getHelpTextKey();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.ILabel#setHelpTextKey(java.
 	 * lang.String)
 	 */
 
+	@Override
 	public void setHelpTextKey(String resourceKey) throws ScriptException {
 		try {
 			((org.eclipse.birt.report.model.api.simpleapi.ILabel) designElementImpl).setHelpTextKey(resourceKey);
@@ -146,10 +155,12 @@ public class Label extends ReportItem implements ILabel {
 		}
 	}
 
+	@Override
 	public IAction getAction() {
 		return new ActionImpl(((org.eclipse.birt.report.model.api.simpleapi.ILabel) designElementImpl).getAction());
 	}
 
+	@Override
 	public void addAction(IAction action) {
 		// TODO Auto-generated method stub
 

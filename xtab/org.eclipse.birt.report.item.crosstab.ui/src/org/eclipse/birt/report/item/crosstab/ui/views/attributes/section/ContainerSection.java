@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +25,7 @@ import org.eclipse.swt.widgets.Group;
 
 /**
  * @author Administrator
- * 
+ *
  */
 public class ContainerSection extends Section {
 
@@ -36,11 +39,12 @@ public class ContainerSection extends Section {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section
 	 * #createSection()
 	 */
+	@Override
 	public void createSection() {
 		getGroupSection(parent);
 	}
@@ -62,17 +66,20 @@ public class ContainerSection extends Section {
 		return group;
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) group.getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
+		}
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = true;
+		}
 	}
 
 	private int width = -1;
@@ -85,6 +92,7 @@ public class ContainerSection extends Section {
 		this.width = width;
 	}
 
+	@Override
 	public void load() {
 		// if(group!=null && !group.isDisposed( ))group.load( );
 	}
@@ -98,19 +106,24 @@ public class ContainerSection extends Section {
 	public void setProvider(IDescriptorProvider provider) {
 	}
 
+	@Override
 	public void setInput(Object input) {
 
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (group != null)
+		if (group != null) {
 			WidgetUtil.setExcludeGridData(group, isHidden);
+		}
 
 	}
 
+	@Override
 	public void setVisible(boolean isVisable) {
-		if (group != null)
+		if (group != null) {
 			group.setVisible(isVisable);
+		}
 
 	}
 

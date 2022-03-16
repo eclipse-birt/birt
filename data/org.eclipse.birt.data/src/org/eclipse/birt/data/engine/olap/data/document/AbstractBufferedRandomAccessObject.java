@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,8 +35,8 @@ import org.eclipse.birt.data.engine.olap.data.util.Bytes;
  * Extension for the <code>java.io.RandomAccessFile</code>, except for the
  * constructor and <code>flush()</code> .
  * <p>
- * 
- * 
+ *
+ *
  * @see java.io.RandomAccessFile
  */
 public abstract class AbstractBufferedRandomAccessObject implements IRandomDataAccessObject {
@@ -42,7 +45,7 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Constructor for the BufferedRandomAccessFile object
-	 * 
+	 *
 	 * @param file       Description of Parameter
 	 * @param mode       Description of Parameter
 	 * @param bufferSize Description of Parameter
@@ -62,17 +65,18 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	protected abstract long delegateGetFilePointer() throws IOException;
 
 	/**
 	 * Sets the Length attribute of the BufferedRandomAccessFile object
-	 * 
+	 *
 	 * @param newLength The new Length value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void setLength(long newLength) throws IOException {
 		// need to check altBuf, too.
 
@@ -90,16 +94,17 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 	}
 
 	/**
-	 * 
+	 *
 	 * @param newLength
 	 */
 	protected abstract void delegateSetLength(long newLength) throws IOException;
 
 	/**
 	 * Gets the FilePointer attribute of the BufferedRandomAccessFile object
-	 * 
+	 *
 	 * @return The FilePointer value
 	 */
+	@Override
 	public long getFilePointer() {
 		return currBuf.filePos + currBuf.pos;
 	}
@@ -108,20 +113,22 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public boolean readBoolean() throws IOException {
 		return readByte() != 0;
 	}
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public int readUnsignedByte() throws IOException {
 		int b = read();
 		if (b < 0) {
@@ -132,10 +139,11 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public byte readByte() throws IOException {
 		int b = read();
 		if (b < 0) {
@@ -146,10 +154,11 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public short readShort() throws IOException {
 		int ch1 = this.read();
 		int ch2 = this.read();
@@ -161,10 +170,11 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public int readUnsignedShort() throws IOException {
 		int ch1 = this.read();
 		int ch2 = this.read();
@@ -176,20 +186,22 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public char readChar() throws IOException {
 		return (char) readUnsignedShort();
 	}
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public int readInt() throws IOException {
 		byte[] b = new byte[4];
 		readFully(b);
@@ -198,10 +210,11 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public long readLong() throws IOException {
 		byte[] b = new byte[8];
 		readFully(b);
@@ -211,42 +224,46 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
+	@Override
 	public Date readDate() throws IOException {
 		return new Date(readLong());
 	}
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public float readFloat() throws IOException {
 		return Float.intBitsToFloat(readInt());
 	}
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public double readDouble() throws IOException {
 		return Double.longBitsToDouble(readLong());
 	}
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public String readLine() throws IOException {
-		StringBuffer input = new StringBuffer();
+		StringBuilder input = new StringBuilder();
 		int c = -1;
 		boolean eol = false;
 
@@ -275,10 +292,11 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
+	@Override
 	public BigDecimal readBigDecimal() throws IOException {
 		String str = readUTF();
 		return new BigDecimal(str);
@@ -286,10 +304,11 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public String readUTF() throws IOException {
 		// throw new Error("Not implemented yet");
 		return DataInputStream.readUTF(this);
@@ -297,30 +316,33 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param b Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void writeBoolean(boolean b) throws IOException {
 		write(b ? 1 : 0);
 	}
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param b Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void writeByte(int b) throws IOException {
 		write(b);
 	}
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param s Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void writeShort(int s) throws IOException {
 		write((s >>> 8) & 0xFF);
 		write((s >>> 0) & 0xFF);
@@ -328,20 +350,22 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param ch Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void writeChar(int ch) throws IOException {
 		writeShort(ch);
 	}
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param i Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void writeInt(int i) throws IOException {
 		write((i >>> 24) & 0xFF);
 		write((i >>> 16) & 0xFF);
@@ -351,10 +375,11 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param l Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void writeLong(long l) throws IOException {
 		write((int) (l >>> 56) & 0xFF);
 		write((int) (l >>> 48) & 0xFF);
@@ -367,49 +392,54 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 	}
 
 	/**
-	 * 
+	 *
 	 * @param date
 	 * @throws IOException
 	 */
+	@Override
 	public void writeDate(Date date) throws IOException {
 		writeLong(date.getTime());
 	}
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param f Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void writeFloat(float f) throws IOException {
 		writeInt(Float.floatToIntBits(f));
 	}
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param f Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void writeDouble(double f) throws IOException {
 		writeLong(Double.doubleToLongBits(f));
 	}
 
 	/**
-	 * 
+	 *
 	 * @param bigDecimal
 	 * @throws IOException
 	 */
+	@Override
 	public void writeBigDecimal(BigDecimal bigDecimal) throws IOException {
 		writeUTF(bigDecimal.toString());
 	}
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param str Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void writeUTF(String str) throws IOException {
 		int strlen = str.length();
 		int utflen = 0;
@@ -446,22 +476,24 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param b Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void readFully(byte[] b) throws IOException {
 		readFully(b, 0, b.length);
 	}
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param b   Description of Parameter
 	 * @param pos Description of Parameter
 	 * @param len Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void readFully(byte[] b, int pos, int len) throws IOException {
 		int n = 0;
 		while (n < len) {
@@ -475,10 +507,11 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param s Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void writeBytes(String s) throws IOException {
 		byte[] b = s.getBytes();
 		write(b, 0, b.length);
@@ -486,10 +519,11 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param s Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void writeChars(String s) throws IOException {
 		int clen = s.length();
 		int blen = 2 * clen;
@@ -505,10 +539,11 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public long length() throws IOException {
 		long fileLen = delegateLength();
 		if (currBuf.filePos + currBuf.dataLen > fileLen) {
@@ -518,6 +553,7 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 		}
 	}
 
+	@Override
 	public void writeObject(Object o) throws IOException {
 		ByteArrayOutputStream buff = new ByteArrayOutputStream();
 		ObjectOutputStream oo = new ObjectOutputStream(buff);
@@ -527,16 +563,18 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 		writeBytes(new Bytes(bytes));
 	}
 
+	@Override
 	public Object readObject() throws IOException {
 		byte[] bytes = readBytes().bytesValue();
 		final ClassLoader loader = org.eclipse.birt.data.engine.impl.DataEngineSession.getCurrentClassLoader();
 		ObjectInputStream oo = new ObjectInputStream(new ByteArrayInputStream(bytes)) {
+			@Override
 			protected Class resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
 				return Class.forName(desc.getName(), false, loader);
 			}
 		};
 		Object obValue = null;
-		;
+
 		try {
 			obValue = oo.readObject();
 		} catch (ClassNotFoundException e) {
@@ -546,17 +584,18 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	protected abstract long delegateLength() throws IOException;
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public int read() throws IOException {
 		if (currBuf.pos < currBuf.dataLen) {
 			// at least one byte is available in the buffer
@@ -572,6 +611,7 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 		}
 	}
 
+	@Override
 	public Bytes readBytes() throws IOException {
 		byte[] b = new byte[readInt()];
 		read(b, 0, b.length);
@@ -580,24 +620,26 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param b Description of Parameter
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public int read(byte[] b) throws IOException {
 		return read(b, 0, b.length);
 	}
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param b   Description of Parameter
 	 * @param pos Description of Parameter
 	 * @param len Description of Parameter
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public int read(byte[] b, int pos, int len) throws IOException {
 		if (currBuf.pos + len <= currBuf.dataLen) {
 			// enough data available in buffer
@@ -618,32 +660,30 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 				System.arraycopy(currBuf.bytes, currBuf.pos, b, pos, readLen);
 				currBuf.pos += readLen;
 				return readLen;
+			} else if (currBuf.dataLen >= len) {
+				return read(b, pos, len);
+				// recurse: should be trivial this time
 			} else {
-				if (currBuf.dataLen >= len) {
-					return read(b, pos, len);
-					// recurse: should be trivial this time
-				} else {
-					// too big for a buffer: use the delegate's read.
+				// too big for a buffer: use the delegate's read.
 
-					delegateSeek(currBuf.filePos);
-					int readLen = delegateRead(b, pos, len);
-					currBuf.filePos += readLen;
-					currBuf.dataLen = 0;
-					currBuf.pos = 0;
-					return readLen;
-				}
+				delegateSeek(currBuf.filePos);
+				int readLen = delegateRead(b, pos, len);
+				currBuf.filePos += readLen;
+				currBuf.dataLen = 0;
+				currBuf.pos = 0;
+				return readLen;
 			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param pos
 	 */
 	protected abstract void delegateSeek(long pos) throws IOException;
 
 	/**
-	 * 
+	 *
 	 * @param b
 	 * @param pos
 	 * @param len
@@ -653,7 +693,7 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 	protected abstract int delegateRead(byte[] b, int pos, int len) throws IOException;
 
 	/**
-	 * 
+	 *
 	 * @param b
 	 * @return
 	 * @throws IOException
@@ -662,10 +702,11 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param pos Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void seek(long pos) throws IOException {
 		long newBufPos = pos - currBuf.filePos;
 		if (newBufPos >= 0 && newBufPos < currBuf.dataLen) {
@@ -679,18 +720,19 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param n Description of Parameter
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public int skipBytes(int n) throws IOException {
 		return (int) skipBytes((long) n);
 	}
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param n Description of Parameter
 	 * @return Description of the Returned Value
 	 * @exception IOException Description of Exception
@@ -705,10 +747,11 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 	}
 
 	/**
-	 * 
+	 *
 	 * @param b
 	 * @throws IOException
 	 */
+	@Override
 	public void writeBytes(Bytes b) throws IOException {
 		writeInt(b.bytesValue().length);
 		write(b.bytesValue(), 0, b.bytesValue().length);
@@ -716,22 +759,24 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param b Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void write(byte[] b) throws IOException {
 		write(b, 0, b.length);
 	}
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param b   Description of Parameter
 	 * @param pos Description of Parameter
 	 * @param len Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void write(byte[] b, int pos, int len) throws IOException {
 		if (currBuf.pos + len <= currBuf.bytes.length) {
 			System.arraycopy(b, pos, currBuf.bytes, currBuf.pos, len);
@@ -740,23 +785,21 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 			if (currBuf.pos > currBuf.dataLen) {
 				currBuf.dataLen = currBuf.pos;
 			}
+		} else if (len <= currBuf.bytes.length) {
+			syncBuffer(currBuf.filePos + currBuf.pos);
+			write(b, pos, len);
+			// recurse: it should succeed trivially this time.
 		} else {
-			if (len <= currBuf.bytes.length) {
-				syncBuffer(currBuf.filePos + currBuf.pos);
-				write(b, pos, len);
-				// recurse: it should succeed trivially this time.
-			} else {
-				// write more than the buffer can contain: use delegate
+			// write more than the buffer can contain: use delegate
 
-				delegateSeek(currBuf.filePos + currBuf.pos);
-				delegateWrite(b, pos, len);
-				syncBuffer(currBuf.filePos + currBuf.pos + len);
-			}
+			delegateSeek(currBuf.filePos + currBuf.pos);
+			delegateWrite(b, pos, len);
+			syncBuffer(currBuf.filePos + currBuf.pos + len);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param b
 	 * @param pos
 	 * @param len
@@ -766,10 +809,11 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param b Description of Parameter
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void write(int b) throws IOException {
 		if (currBuf.pos < currBuf.bytes.length) {
 			// trivial write
@@ -790,9 +834,10 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 	//
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void flush() throws IOException {
 		commitBuffer();
 		/*
@@ -803,16 +848,17 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @exception IOException Description of Exception
 	 */
+	@Override
 	public void close() throws IOException {
 		flush();
 		delegateClose();
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected abstract void delegateClose() throws IOException;
 
@@ -820,7 +866,7 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 	 * Save any changes and re-read the currBuf.bytes from the given position. Note
 	 * that the read(byte[],int,int) method assumes that this method sets
 	 * currBuf.pos to 0.
-	 * 
+	 *
 	 * @param new_FP Description of Parameter
 	 * @return int - the number of bytes available for reading
 	 * @exception IOException Description of Exception
@@ -835,7 +881,7 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @exception IOException Description of Exception
 	 */
 	protected void fillBuffer() throws IOException {
@@ -849,7 +895,7 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 
 	/**
 	 * If modified, write buffered bytes to the delegate file
-	 * 
+	 *
 	 * @exception IOException Description of Exception
 	 */
 	protected void commitBuffer() throws IOException {

@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -20,7 +23,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc --> DataPoint holds the settings for establishing the
  * label text of a series' datapoints.
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -49,11 +52,11 @@ public interface DataPoint extends IChartObject {
 	 * list. The list contents are of type
 	 * {@link org.eclipse.birt.chart.model.attribute.DataPointComponent}. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the components (values) being shown in the data label.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Components</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDataPoint_Components()
 	 * @model type="org.eclipse.birt.chart.model.attribute.DataPointComponent"
@@ -66,9 +69,9 @@ public interface DataPoint extends IChartObject {
 	 * Returns the value of the '<em><b>Prefix</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
 	 * "Prefix" specifies the prefix of the label text.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Prefix</em>' attribute.
 	 * @see #setPrefix(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDataPoint_Prefix()
@@ -82,7 +85,7 @@ public interface DataPoint extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.DataPoint#getPrefix
 	 * <em>Prefix</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Prefix</em>' attribute.
 	 * @see #getPrefix()
 	 * @generated
@@ -93,9 +96,9 @@ public interface DataPoint extends IChartObject {
 	 * Returns the value of the '<em><b>Suffix</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
 	 * "Suffix" specifies the prefix of the label text.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Suffix</em>' attribute.
 	 * @see #setSuffix(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDataPoint_Suffix()
@@ -109,7 +112,7 @@ public interface DataPoint extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.DataPoint#getSuffix
 	 * <em>Suffix</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Suffix</em>' attribute.
 	 * @see #getSuffix()
 	 * @generated
@@ -119,11 +122,11 @@ public interface DataPoint extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Separator</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the separator used in the data label.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Separator</em>' attribute.
 	 * @see #setSeparator(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDataPoint_Separator()
@@ -137,7 +140,7 @@ public interface DataPoint extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.DataPoint#getSeparator
 	 * <em>Separator</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Separator</em>' attribute.
 	 * @see #getSeparator()
 	 * @generated
@@ -147,6 +150,7 @@ public interface DataPoint extends IChartObject {
 	/**
 	 * @generated
 	 */
+	@Override
 	DataPoint copyInstance();
 
 } // DataPoint

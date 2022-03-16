@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2014 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -48,6 +51,7 @@ public class SaveAsDialog extends BaseTitleAreaDialog {
 
 	private Listener locationModifyListener = new Listener() {
 
+		@Override
 		public void handleEvent(Event e) {
 			setDialogComplete(validatePage());
 		}
@@ -62,7 +66,7 @@ public class SaveAsDialog extends BaseTitleAreaDialog {
 
 	/**
 	 * Sets the original file to use.
-	 * 
+	 *
 	 * @param input the original editorInput
 	 */
 	public void setOriginalFile(IEditorInput input) {
@@ -75,7 +79,7 @@ public class SaveAsDialog extends BaseTitleAreaDialog {
 	 * Set the original file name to use. Used instead of
 	 * <code>setOriginalFile</code> when the original resource is not an IFile. Must
 	 * be called before <code>create</code>.
-	 * 
+	 *
 	 * @param originalName default file name
 	 */
 	public void setOriginalName(String originalName) {
@@ -89,9 +93,10 @@ public class SaveAsDialog extends BaseTitleAreaDialog {
 	 * created. See the <code>IFile.create</code> method and the
 	 * <code>ContainerGenerator</code> class.
 	 * </p>
-	 * 
+	 *
 	 * @return the path, or <code>null</code> if Cancel was pressed
 	 */
+	@Override
 	public IPath getResult() {
 		return result;
 	}
@@ -99,6 +104,7 @@ public class SaveAsDialog extends BaseTitleAreaDialog {
 	/*
 	 * (non-Javadoc) Method declared in Window.
 	 */
+	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(Messages.getString("SaveAsDialog.text")); //$NON-NLS-1$
@@ -107,6 +113,7 @@ public class SaveAsDialog extends BaseTitleAreaDialog {
 	/*
 	 * (non-Javadoc) Method declared in Window.
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		Control contents = super.createContents(parent);
 		setTitle(Messages.getString("SaveAsDialog.title")); //$NON-NLS-1$
@@ -121,6 +128,7 @@ public class SaveAsDialog extends BaseTitleAreaDialog {
 	 * The <code>SaveAsDialog</code> implementation of this <code>Window</code>
 	 * method disposes of the banner image when the dialog is closed.
 	 */
+	@Override
 	public boolean close() {
 		support = null;
 		return super.close();
@@ -129,6 +137,7 @@ public class SaveAsDialog extends BaseTitleAreaDialog {
 	/*
 	 * (non-Javadoc) Method declared on Dialog.
 	 */
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		okButton = createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
@@ -137,6 +146,7 @@ public class SaveAsDialog extends BaseTitleAreaDialog {
 	/*
 	 * (non-Javadoc) Method declared on Dialog.
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		// top level composite
 		Composite parentComposite = (Composite) super.createDialogArea(parent);
@@ -176,7 +186,7 @@ public class SaveAsDialog extends BaseTitleAreaDialog {
 	/**
 	 * Sets the completion state of this dialog and adjusts the enable state of the
 	 * OK button accordingly.
-	 * 
+	 *
 	 * @param value <code>true</code> if this dialog is complete, and
 	 *              <code>false</code> otherwise
 	 */
@@ -187,6 +197,7 @@ public class SaveAsDialog extends BaseTitleAreaDialog {
 	/*
 	 * (non-Javadoc) Method declared on Dialog.
 	 */
+	@Override
 	protected void okPressed() {
 		// Get new path.
 		IPath path = support.getFileLocationFullPath().append(support.getFileName());
@@ -202,8 +213,7 @@ public class SaveAsDialog extends BaseTitleAreaDialog {
 		// If the path already exists then confirm overwrite.
 		File file = path.toFile();
 		if (file.exists()) {
-			String[] buttons = new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL,
-					IDialogConstants.CANCEL_LABEL };
+			String[] buttons = { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.CANCEL_LABEL };
 
 			String question = Messages.getFormattedString("SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
 					new Object[] { path.toOSString() });

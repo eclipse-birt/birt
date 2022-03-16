@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +29,7 @@ public class NameSet {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param prefix
 	 * @param suffix
 	 * @param name
@@ -41,7 +44,7 @@ public class NameSet {
 	/**
 	 * Returns a new NameSet object joined with current one, use current prefix and
 	 * suffix.
-	 * 
+	 *
 	 * @param ns
 	 * @return
 	 */
@@ -66,7 +69,7 @@ public class NameSet {
 
 	/**
 	 * Returns the original name by the display name.
-	 * 
+	 *
 	 * @param displayName
 	 * @return
 	 */
@@ -82,7 +85,7 @@ public class NameSet {
 
 	/**
 	 * Returns the display name by the original name.
-	 * 
+	 *
 	 * @param displayName
 	 * @return
 	 */
@@ -98,7 +101,7 @@ public class NameSet {
 
 	/**
 	 * Returns the display name by the original name.
-	 * 
+	 *
 	 * @param displayName
 	 * @return
 	 * @since 2.3.1
@@ -115,7 +118,7 @@ public class NameSet {
 
 	/**
 	 * Returns an index by given name, if name not found, returns 0.
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
@@ -131,7 +134,7 @@ public class NameSet {
 
 	/**
 	 * Returns an index by given name, if name not found, returns -1.
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
@@ -147,7 +150,7 @@ public class NameSet {
 
 	/**
 	 * Returns the display name array.
-	 * 
+	 *
 	 * @return
 	 */
 	public String[] getDisplayNames() {
@@ -156,7 +159,7 @@ public class NameSet {
 
 	/**
 	 * Returns the original name array.
-	 * 
+	 *
 	 * @return
 	 */
 	public String[] getNames() {

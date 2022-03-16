@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +32,7 @@ public abstract class CubeAggrDefn {
 	private ITimeFunction timeFunction;
 
 	/*
-	 * 
+	 *
 	 */
 	CubeAggrDefn(String name, List aggrLevels, String aggrName, ITimeFunction timeFunction, List arguments,
 			IBaseExpression filterExpression) {
@@ -46,7 +49,7 @@ public abstract class CubeAggrDefn {
 
 	/**
 	 * Return a list of levels that the aggregations is based.
-	 * 
+	 *
 	 * @return
 	 */
 	public List getAggrLevelsInAggregationResult() {
@@ -59,7 +62,7 @@ public abstract class CubeAggrDefn {
 
 	/**
 	 * Return a list of arguments that the aggregations is based.
-	 * 
+	 *
 	 * @return
 	 */
 	public List getArguments() {
@@ -69,7 +72,7 @@ public abstract class CubeAggrDefn {
 	/**
 	 * Return the name of the cube aggregation definition. Usually it is a binding
 	 * name.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getName() {
@@ -78,7 +81,7 @@ public abstract class CubeAggrDefn {
 
 	/**
 	 * Return the name of the aggregation operation.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getAggrName() {
@@ -87,7 +90,7 @@ public abstract class CubeAggrDefn {
 
 	/**
 	 * Return FilterDefinition in aggregation definition
-	 * 
+	 *
 	 * @return
 	 */
 	public IBaseExpression getFilter() {
@@ -97,19 +100,20 @@ public abstract class CubeAggrDefn {
 	public String[] getFirstArgumentInfo() {
 		if (this.arguments == null || this.arguments.isEmpty()) {
 			return new String[0];
-		} else
+		} else {
 			return (String[]) this.arguments.get(0);
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the target measure of IDataSet4Aggregation where this aggregation
 	 *         operates
 	 */
 	public abstract String getMeasure();
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public ITimeFunction getTimeFunction() {

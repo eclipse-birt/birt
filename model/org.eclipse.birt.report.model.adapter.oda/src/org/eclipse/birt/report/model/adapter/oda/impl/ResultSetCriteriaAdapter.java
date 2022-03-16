@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,7 +63,7 @@ import org.eclipse.emf.common.util.EList;
 /**
  * The utility class that converts between ROM filter conditions and ODA filter
  * expression
- * 
+ *
  * @see FilterConditionHandle
  * @see FilterExpression
  */
@@ -120,10 +123,10 @@ public class ResultSetCriteriaAdapter {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param setHandle the data set handle
 	 * @param setDesign the data set design
-	 * 
+	 *
 	 */
 	public ResultSetCriteriaAdapter(OdaDataSetHandle setHandle, DataSetDesign setDesign) {
 		this.setHandle = setHandle;
@@ -136,15 +139,16 @@ public class ResultSetCriteriaAdapter {
 			extensionId = odaContributor.getDeclaringExtensionId();
 			supportsFiltering = supportsOdaResultFiltering(odaContributor);
 			supportsRowOrdering = odaContributor.supportsDynamicRowOrdering();
-			if (supportsFiltering)
+			if (supportsFiltering) {
 				paramAdapter = new DynamicFilterParameterAdapter(setHandle, setDesign);
+			}
 		}
 
 	}
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param setHandle           the data set handle
 	 * @param setDesign           the data set design
 	 * @param extensionId         the extension id
@@ -152,7 +156,7 @@ public class ResultSetCriteriaAdapter {
 	 *                            filtering
 	 * @param supportsRowOrdering the flag which indicates whether it supports
 	 *                            ordering
-	 * 
+	 *
 	 */
 	public ResultSetCriteriaAdapter(OdaDataSetHandle setHandle, DataSetDesign setDesign, String extensionId,
 			boolean supportsFiltering, boolean supportsRowOrdering) {
@@ -164,78 +168,84 @@ public class ResultSetCriteriaAdapter {
 		this.extensionId = extensionId;
 		this.supportsFiltering = supportsFiltering;
 		this.supportsRowOrdering = supportsRowOrdering;
-		if (supportsFiltering)
+		if (supportsFiltering) {
 			paramAdapter = new DynamicFilterParameterAdapter(setHandle, setDesign);
+		}
 	}
 
 	/**
 	 * Gets the result set extension contributor.
-	 * 
+	 *
 	 * @return the extension contributor if existed.
 	 */
 	private ExtensionContributor getResultSetExtensionContributor() {
 		try {
 			ExtensionContributor[] contributors = ResultExtensionExplorer.getInstance().getContributorsOfDataSet(
 					setDesign.getOdaExtensionDataSourceId(), setDesign.getOdaExtensionDataSetId());
-			if (contributors.length > 0)
+			if (contributors.length > 0) {
 				return contributors[0];
-		} catch (IllegalArgumentException e) {
-		} catch (OdaException e) {
+			}
+		} catch (IllegalArgumentException | OdaException e) {
 		}
 		return null;
 	}
 
 	/**
 	 * Checks if the contributor supports filtering.
-	 * 
+	 *
 	 * @param odaContributor the extension contributor
-	 * 
+	 *
 	 * @return true if it supports, otherwise false.
 	 */
 	private boolean supportsOdaResultFiltering(ExtensionContributor odaContributor) {
-		if (odaContributor == null)
+		if (odaContributor == null) {
 			return false;
+		}
 
 		try {
 			return ResultExtensionExplorer.getInstance().getContributedFilterDefinitions(odaContributor).length > 0;
-		} catch (IllegalArgumentException e) {
-		} catch (OdaException e) {
+		} catch (IllegalArgumentException | OdaException e) {
 		}
 		return false;
 	}
 
 	/**
 	 * Updates rom filter and sort hints.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 	public void updateROMSortAndFilter() throws SemanticException {
 		ResultSetDefinition resultSet = setDesign.getPrimaryResultSet();
 
-		if (resultSet == null)
+		if (resultSet == null) {
 			return;
+		}
 
 		ResultSetCriteria criteria = resultSet.getCriteria();
 
-		if (criteria == null)
+		if (criteria == null) {
 			return;
+		}
 
-		if (supportsRowOrdering)
+		if (supportsRowOrdering) {
 			updateROMSortHint(criteria);
+		}
 
-		if (supportsFiltering)
+		if (supportsFiltering) {
 			updateROMFilterCondition(criteria);
+		}
 
 	}
 
 	/**
 	 * Updates oda result set criteria.
-	 * 
+	 *
 	 */
 	public void updateODAResultSetCriteria() {
 		ResultSetDefinition resultSet = setDesign.getPrimaryResultSet();
-		if (resultSet == null)
+		if (resultSet == null) {
 			return;
+		}
 
 		// if criteria is null, a new criteria will be created.
 		ResultSetCriteria criteria = resultSet.getCriteria();
@@ -244,16 +254,18 @@ public class ResultSetCriteriaAdapter {
 			resultSet.setCriteria(criteria);
 		}
 
-		if (supportsRowOrdering)
+		if (supportsRowOrdering) {
 			updateODASortKey(criteria);
+		}
 
-		if (supportsFiltering)
+		if (supportsFiltering) {
 			updateOdaFilterExpression(criteria);
+		}
 	}
 
 	/**
 	 * Updates oda filter expression by ROM filter condition.
-	 * 
+	 *
 	 * @param criteria the result set criteria.
 	 */
 	private void updateOdaFilterExpression(ResultSetCriteria criteria) {
@@ -276,8 +288,9 @@ public class ResultSetCriteriaAdapter {
 				compositeFilterExp.add(filterExpr);
 				filterExpr = compositeFilterExp;
 			default:
-				if (filterExpr instanceof CompositeFilterExpression)
+				if (filterExpr instanceof CompositeFilterExpression) {
 					((CompositeFilterExpression) filterExpr).add(filter);
+				}
 			}
 		}
 		criteria.setFilterSpecification(filterExpr);
@@ -285,7 +298,7 @@ public class ResultSetCriteriaAdapter {
 
 	/**
 	 * Updates oda sort key.
-	 * 
+	 *
 	 */
 	private void updateODASortKey(ResultSetCriteria criteria)
 
@@ -333,7 +346,7 @@ public class ResultSetCriteriaAdapter {
 
 	/**
 	 * Updates null value ordering value in oda.
-	 * 
+	 *
 	 * @param key      the sort key.
 	 * @param ordering the ordering.
 	 */
@@ -349,15 +362,16 @@ public class ResultSetCriteriaAdapter {
 
 	/**
 	 * Updates rom sort hint.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 	private void updateROMSortHint(ResultSetCriteria criteria) throws SemanticException {
 
 		SortSpecification sortSpec = criteria.getRowOrdering();
 
-		if (sortSpec == null)
+		if (sortSpec == null) {
 			return;
+		}
 
 		PropertyHandle propHandle = setHandle.getPropertyHandle(IDataSetModel.SORT_HINTS_PROP);
 
@@ -394,7 +408,7 @@ public class ResultSetCriteriaAdapter {
 
 	/**
 	 * Updates null value ordering value in rom.
-	 * 
+	 *
 	 * @param hint sort hint.
 	 * @param type the null ordering type.
 	 */
@@ -414,12 +428,12 @@ public class ResultSetCriteriaAdapter {
 
 	/**
 	 * Updates rom filter condition by ODA filter expression.
-	 * 
+	 *
 	 * @param criteria result set criteria.
 	 * @throws SemanticException
 	 */
 	private void updateROMFilterCondition(ResultSetCriteria criteria) throws SemanticException {
-		FilterExpression filterExpression = null;
+		FilterExpression filterExpression;
 
 		filterExpression = criteria.getFilterSpecification();
 
@@ -441,12 +455,12 @@ public class ResultSetCriteriaAdapter {
 
 	/**
 	 * Builds the filter expression map to convert
-	 * 
+	 *
 	 * @param filterExpr the filter expression
 	 * @return the map containing filter expression to convert
 	 */
 	private Map<String, Filter> buildFilterExpressionMap(FilterExpression filterExpr) {
-		HashMap<String, Filter> filterExpressions = new LinkedHashMap<String, Filter>();
+		HashMap<String, Filter> filterExpressions = new LinkedHashMap<>();
 		if (filterExpr != null) {
 			if (filterExpr instanceof CompositeFilterExpression) {
 				CompositeFilterExpression compositeFilterExp = (CompositeFilterExpression) filterExpr;
@@ -483,7 +497,7 @@ public class ResultSetCriteriaAdapter {
 
 	/**
 	 * Returns the map key for the given filter.
-	 * 
+	 *
 	 * @param filter the filter
 	 * @return the key for the given filter
 	 */
@@ -493,25 +507,28 @@ public class ResultSetCriteriaAdapter {
 			CustomFilter customFilter = (CustomFilter) filter;
 			if (!StringUtil.isBlank(customFilter.getColumnExpr())) {
 				FilterExpressionType type = customFilter.customFilterExpr.getType();
-				if (type == null)
+				if (type == null) {
 					key = CUSTOM_PREFIX + customFilter.customFilterExpr.toString();
-				else
+				} else {
 					key = CUSTOM_PREFIX + type.getDeclaringExtensionId() + CUSTOM_PREFIX + type.getId() + CUSTOM_PREFIX
 							+ filter.getColumnExpr();
+				}
 			}
 		} else if (filter instanceof DynamicFilter) {
 			String columnExpr = ((DynamicFilter) filter).getColumnExpr();
-			if (!StringUtil.isBlank(columnExpr))
+			if (!StringUtil.isBlank(columnExpr)) {
 				key = DYNAMIC_PREFIX + columnExpr;
-		} else
+			}
+		} else {
 			assert false;
+		}
 
 		return key;
 	}
 
 	/**
 	 * Returns the map key for the given filter condition
-	 * 
+	 *
 	 * @param filterConditionHandle the handle of the filter condition
 	 * @return the key for the given filter handle,or null if the filter condition
 	 *         is not dynamic.
@@ -540,7 +557,7 @@ public class ResultSetCriteriaAdapter {
 
 	/**
 	 * Updates existing filter conditions with the given filters
-	 * 
+	 *
 	 * @param filterMap the map containing the filters to update
 	 * @throws SemanticException
 	 */
@@ -575,7 +592,7 @@ public class ResultSetCriteriaAdapter {
 
 	/**
 	 * Creates new filter conditions by the given filters
-	 * 
+	 *
 	 * @param filterMap the map containing filters
 	 * @throws SemanticException
 	 */
@@ -636,7 +653,7 @@ public class ResultSetCriteriaAdapter {
 
 	/**
 	 * Updates the filter condition by the given custom filter expression
-	 * 
+	 *
 	 * @param filterConditionHandle the handle of the filter condition to update
 	 * @param customFilterExpr      the custom filter expression
 	 * @throws SemanticException
@@ -649,7 +666,7 @@ public class ResultSetCriteriaAdapter {
 
 	/**
 	 * Updates the filter condition by the given dynamic filter
-	 * 
+	 *
 	 * @param filterConditionHandle the handle of the filter condition to update
 	 * @param dynamicFilterExpr     the dynamic filter
 	 * @throws SemanticException
@@ -663,13 +680,13 @@ public class ResultSetCriteriaAdapter {
 
 	/**
 	 * Clears up all unnecessary dynamic filter parameter and filter conditions
-	 * 
+	 *
 	 * @param filterMap the map contains filters
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 	private void cleanUpROMFilterCondition(Map<String, Filter> filterMap) throws SemanticException {
-		ArrayList<FilterCondition> dropList = new ArrayList<FilterCondition>();
+		ArrayList<FilterCondition> dropList = new ArrayList<>();
 		for (Iterator iter = setHandle.filtersIterator(); iter.hasNext();) {
 			FilterConditionHandle filterHandle = (FilterConditionHandle) iter.next();
 			String key = getMapKey(filterHandle);
@@ -680,8 +697,9 @@ public class ResultSetCriteriaAdapter {
 
 				if (!StringUtil.isBlank(dynamicParameterName)) { // Drop related parameter together.
 					ParameterHandle parameterHandle = setHandle.getModuleHandle().findParameter(dynamicParameterName);
-					if (parameterHandle != null)
+					if (parameterHandle != null) {
 						parameterHandle.drop();
+					}
 				}
 				dropList.add((FilterCondition) filterHandle.getStructure());
 			}
@@ -694,7 +712,7 @@ public class ResultSetCriteriaAdapter {
 
 	/**
 	 * Creates the oda filter expression by the given filter condition.
-	 * 
+	 *
 	 * @param filterHandle the handle of the given filter condition
 	 * @return the filter expression created
 	 */
@@ -759,8 +777,9 @@ public class ResultSetCriteriaAdapter {
 				arguments.addDynamicParameter(paramDefn);
 				dynamicFilterExpr.setContextArguments(arguments);
 
-				if (defaultType.getDeclaringExtensionId() != null && defaultType.getId() != null)
+				if (defaultType.getDeclaringExtensionId() != null && defaultType.getId() != null) {
 					dynamicFilterExpr.setDefaultType(defaultType);
+				}
 
 				filterExpr = dynamicFilterExpr;
 			}
@@ -768,11 +787,11 @@ public class ResultSetCriteriaAdapter {
 		return filterExpr;
 	}
 
-	private static interface Filter {
+	private interface Filter {
 
 		/**
 		 * Returns the column expression for the dynamic filter.
-		 * 
+		 *
 		 * @return the column expression for the dynamic filter.
 		 */
 		String getColumnExpr();
@@ -788,10 +807,11 @@ public class ResultSetCriteriaAdapter {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.adapter.oda.impl.ResultSetCriteriaAdapter
 		 * .Filter#getColumnExpr()
 		 */
+		@Override
 		public String getColumnExpr() {
 			ExpressionVariable variable = customFilterExpr.getContextVariable();
 			if (variable != null) {
@@ -813,20 +833,20 @@ public class ResultSetCriteriaAdapter {
 		boolean isOptional;
 
 		/**
-		 * 
+		 *
 		 */
 
 		ExpressionParameterDefinition exprParamDefn;
 
 		/**
-		 * 
+		 *
 		 */
 
 		FilterExpressionType defaultType;
 
 		/**
 		 * The default constructor.
-		 * 
+		 *
 		 * @param exprParamDefn
 		 * @param defaultType
 		 * @param isOptional
@@ -841,7 +861,7 @@ public class ResultSetCriteriaAdapter {
 
 		/**
 		 * Returns the column name for the dynamic filter.
-		 * 
+		 *
 		 * @return the column name for the dynamic filter.
 		 */
 		public String getColumnName() {
@@ -854,10 +874,11 @@ public class ResultSetCriteriaAdapter {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.adapter.oda.impl.ResultSetCriteriaAdapter
 		 * .Filter#getColumnExpr()
 		 */
+		@Override
 		public String getColumnExpr() {
 			String columnName = getColumnName();
 			if (!StringUtil.isBlank(columnName)) {
@@ -868,7 +889,7 @@ public class ResultSetCriteriaAdapter {
 
 		/**
 		 * Returns the native data type code.
-		 * 
+		 *
 		 * @return the native data type code
 		 */
 

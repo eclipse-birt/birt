@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,12 +43,14 @@ public class ScriptDebugHover implements ITextHoverExtension, ITextHover {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.text.ITextHoverExtension#getHoverControlCreator()
 	 */
+	@Override
 	public IInformationControlCreator getHoverControlCreator() {
 		return new IInformationControlCreator() {
 
+			@Override
 			public IInformationControl createInformationControl(Shell parent) {
 				return new DefaultInformationControl(parent, EditorsUI.getTooltipAffordanceString());
 			}
@@ -54,10 +59,11 @@ public class ScriptDebugHover implements ITextHoverExtension, ITextHover {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.text.ITextHover#getHoverInfo(org.eclipse.jface.text.
 	 * ITextViewer, org.eclipse.jface.text.IRegion)
 	 */
+	@Override
 	public String getHoverInfo(ITextViewer textViewer, IRegion hoverRegion) {
 		ScriptStackFrame frame = getFrame();
 		if (frame == null) {
@@ -89,16 +95,17 @@ public class ScriptDebugHover implements ITextHoverExtension, ITextHover {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.text.ITextHover#getHoverRegion(org.eclipse.jface.text.
 	 * ITextViewer, int)
 	 */
+	@Override
 	public IRegion getHoverRegion(ITextViewer textViewer, int offset) {
 		return ScriptDebugUtil.findWord(textViewer.getDocument(), offset);
 	}
 
 	private static String replaceHTMLChars(String variableText) {
-		StringBuffer buffer = new StringBuffer(variableText.length());
+		StringBuilder buffer = new StringBuilder(variableText.length());
 		char[] characters = variableText.toCharArray();
 		for (int i = 0; i < characters.length; i++) {
 			char character = characters[i];
@@ -123,7 +130,7 @@ public class ScriptDebugHover implements ITextHoverExtension, ITextHover {
 	}
 
 	private static String getVariableText(ScriptValue variable) {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		ScriptModelPresentation modelPresentation = new ScriptModelPresentation();
 		buffer.append("<p><pre>"); //$NON-NLS-1$
 		String variableText = modelPresentation.getVariableText(variable);

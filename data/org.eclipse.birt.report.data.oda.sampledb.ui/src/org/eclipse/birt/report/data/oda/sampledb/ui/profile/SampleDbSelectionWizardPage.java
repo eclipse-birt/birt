@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2005, 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -35,14 +38,16 @@ public class SampleDbSelectionWizardPage extends DataSourceWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.profile.wizards.
 	 * DataSourceWizardPage#createPageCustomControl(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	public void createPageCustomControl(Composite parent) {
-		if (m_pageHelper == null)
+		if (m_pageHelper == null) {
 			m_pageHelper = new SampleDbSelectionPageHelper(this);
+		}
 		m_pageHelper.createCustomControl(parent);
 		// in case init was called before create
 		m_pageHelper.initCustomControl(m_folderProperties);
@@ -51,35 +56,40 @@ public class SampleDbSelectionWizardPage extends DataSourceWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.profile.wizards.
 	 * DataSourceWizardPage#initPageCustomControl(java.util.Properties)
 	 */
+	@Override
 	public void setInitialProperties(Properties dataSourceProps) {
 		m_folderProperties = dataSourceProps;
-		if (m_pageHelper == null)
+		if (m_pageHelper == null) {
 			return; // ignore, wait till createPageCustomControl to initialize
+		}
 		m_pageHelper.initCustomControl(m_folderProperties);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.profile.wizards.
 	 * DataSourceWizardPage#collectCustomProperties()
 	 */
+	@Override
 	public Properties collectCustomProperties() {
-		if (m_pageHelper != null)
+		if (m_pageHelper != null) {
 			return m_pageHelper.collectCustomProperties(m_folderProperties);
+		}
 
 		return (m_folderProperties != null) ? m_folderProperties : new Properties();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
 	 */
+	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		getControl().setFocus();

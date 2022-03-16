@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +30,7 @@ import org.eclipse.birt.report.model.api.util.UnicodeUtil;
  * proper closing tags when needed. Provides the ability to "conditionally"
  * start a tag: the tag will be written only if it actually contains attribute
  * or contents.
- * 
+ *
  */
 
 public class XMLWriter {
@@ -60,7 +63,7 @@ public class XMLWriter {
 	 * The stack of open tags.
 	 */
 
-	protected Stack<String> elementStack = new Stack<String>();
+	protected Stack<String> elementStack = new Stack<>();
 
 	/**
 	 * Flag to indicate if a tag is currently "active": the &ltTag portion has been
@@ -80,11 +83,11 @@ public class XMLWriter {
 	 * Stack of conditional attributes to be started only if they contain something.
 	 */
 
-	protected Stack<String> pendingElementStack = new Stack<String>();
+	protected Stack<String> pendingElementStack = new Stack<>();
 
 	/**
 	 * Protected constructor
-	 * 
+	 *
 	 */
 
 	protected XMLWriter() {
@@ -92,7 +95,7 @@ public class XMLWriter {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param outputFile the file to write
 	 * @param signature  the UTF signature
 	 * @throws java.io.IOException if write error occurs
@@ -106,7 +109,7 @@ public class XMLWriter {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param outputFile         the file to write
 	 * @param signature          the UTF signature
 	 * @param needMarkLineNumber control flag, whether need mark line number
@@ -122,7 +125,7 @@ public class XMLWriter {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param os        the output stream to which the design file is written.
 	 * @param signature the UTF signature
 	 * @throws IOException if write error occurs
@@ -136,7 +139,7 @@ public class XMLWriter {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param os                 the output stream to which the design file is
 	 *                           written.
 	 * @param signature          the UTF signature
@@ -152,7 +155,7 @@ public class XMLWriter {
 
 	/**
 	 * Write the header line for the XML file.
-	 * 
+	 *
 	 * @param signature the UTF signature
 	 */
 
@@ -166,7 +169,7 @@ public class XMLWriter {
 	/**
 	 * Writes the unicode signature (BOM) information to the file. Currently only
 	 * UTF-8 is supported.
-	 * 
+	 *
 	 * @param signature the unicode signature in the design file.
 	 */
 
@@ -215,7 +218,7 @@ public class XMLWriter {
 
 	/**
 	 * Starts an XML element.
-	 * 
+	 *
 	 * @param tagName the name of the element
 	 */
 
@@ -227,7 +230,7 @@ public class XMLWriter {
 
 	/**
 	 * Implementation method to write a &ltTag start tag.
-	 * 
+	 *
 	 * @param tagName the tag to write
 	 */
 
@@ -272,14 +275,15 @@ public class XMLWriter {
 	/**
 	 * Write a string attribute. The string is assumed to be valid for an attribute.
 	 * That is, it cannot contain newlines, etc.
-	 * 
+	 *
 	 * @param attrName the name of the attribute
 	 * @param value    the attribute value
 	 */
 
 	public void attribute(String attrName, String value) {
-		if (value == null)
+		if (value == null) {
 			return;
+		}
 		checkAttribute();
 		assert elementActive;
 		out.print(" "); //$NON-NLS-1$
@@ -293,25 +297,26 @@ public class XMLWriter {
 		for (int i = 0; i < len; i++) {
 			char c = value.charAt(i);
 
-			if (c == '&')
+			if (c == '&') {
 				out.print("&amp;"); //$NON-NLS-1$
-			else if (c == '<')
+			} else if (c == '<') {
 				out.print("&lt;"); //$NON-NLS-1$
-			else if (c == '"')
+			} else if (c == '"') {
 				out.print("&quot;"); //$NON-NLS-1$
-			else if (c < 0x20) {
+			} else if (c < 0x20) {
 				out.print("&#x"); //$NON-NLS-1$
 				out.print(Integer.toHexString(c));
 				out.print(';');
-			} else
+			} else {
 				out.print(c);
+			}
 		}
 		out.print("\""); //$NON-NLS-1$
 	}
 
 	/**
 	 * Write a attribute with an integer value.
-	 * 
+	 *
 	 * @param attrName the name of the attribute
 	 * @param value    the integer value
 	 */
@@ -328,7 +333,7 @@ public class XMLWriter {
 
 	/**
 	 * Write an attribute with a floating-point (double) value.
-	 * 
+	 *
 	 * @param attrName the name of the attribute
 	 * @param value    double-precision floating point value
 	 */
@@ -345,7 +350,7 @@ public class XMLWriter {
 
 	/**
 	 * Write an attribute with a boolean value.
-	 * 
+	 *
 	 * @param attrName name of the attribute
 	 * @param value    Boolean value
 	 */
@@ -391,69 +396,67 @@ public class XMLWriter {
 
 	/**
 	 * Write text into the current element.
-	 * 
+	 *
 	 * @param text the text to write
 	 */
 
 	public void text(String text) {
 		closeTextTag();
-		if (text == null)
+		if (text == null) {
 			return;
+		}
 
 		// Write the text character-by-character to encode special characters.
 
 		int len = text.length();
 		for (int i = 0; i < len; i++) {
 			char c = text.charAt(i);
-			if (c == '&')
+			if (c == '&') {
 				out.print("&amp;"); //$NON-NLS-1$
-			else if (c == '<')
+			} else if (c == '<') {
 				out.print("&lt;"); //$NON-NLS-1$
-
-			// according to XML specification
-			// http://www.w3.org/TR/2006/REC-xml11-20060816/#syntax. The right
-			// angle bracket (>) may be represented using the string "&gt;", and
-			// MUST, for compatibility, be escaped using either "&gt;" or a
-			// character reference when it appears in the string "]]>" in
-			// content.
-			else if (c == '>') {
-				if (i - 2 >= 0 && text.charAt(i - 1) == ']' && text.charAt(i - 2) == ']')
+			} else if (c == '>') {
+				if (i - 2 >= 0 && text.charAt(i - 1) == ']' && text.charAt(i - 2) == ']') {
 					out.print("&gt;"); //$NON-NLS-1$
-				else
+				} else {
 					out.print(c);
+				}
 			} else if (c == '\n') {
 				doPrintLine();
 			} else if (c == '\r') {
 				out.print("&#13;"); //$NON-NLS-1$
-			} else
+			} else {
 				out.print(c);
+			}
 		}
 	}
 
 	/**
 	 * Write text into the current element. The text has the CDATA feature.
-	 * 
+	 *
 	 * @param text the text to write
 	 */
 
 	public void textCDATA(String text) {
 		closeTextTag();
-		if (text == null)
+		if (text == null) {
 			return;
+		}
 
 		// Write the text character-by-character to encode special characters.
 		out.print("<![CDATA["); //$NON-NLS-1$
 
-		if (!markLineNumber)
+		if (!markLineNumber) {
 			out.print(text);
-		else {
+		} else {
 			int len = text.length();
 			for (int i = 0; i < len; i++) {
 				char c = text.charAt(i);
-				if (c == '\n')
+				if (c == '\n') {
 					doPrintLine();
-				else
+				} else {
 					out.print(c);
+				}
 			}
 		}
 
@@ -462,7 +465,7 @@ public class XMLWriter {
 
 	/**
 	 * Writes a literal string. No translation is done on the string.
-	 * 
+	 *
 	 * @param text the literal string
 	 */
 
@@ -475,10 +478,11 @@ public class XMLWriter {
 		int len = text.length();
 		for (int i = 0; i < len; i++) {
 			char c = text.charAt(i);
-			if (c == '\n')
+			if (c == '\n') {
 				doPrintLine();
-			else
+			} else {
 				out.print(c);
+			}
 		}
 	}
 
@@ -487,8 +491,9 @@ public class XMLWriter {
 	 */
 
 	private void closeTag() {
-		if (!elementActive)
+		if (!elementActive) {
 			return;
+		}
 		elementActive = false;
 		out.print(">"); //$NON-NLS-1$
 		printLine();
@@ -500,22 +505,24 @@ public class XMLWriter {
 	 */
 
 	protected final void closeTextTag() {
-		if (!elementActive)
+		if (!elementActive) {
 			return;
+		}
 		elementActive = false;
 		out.print(">"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Write text enclosed in the given element.
-	 * 
+	 *
 	 * @param tag  the element tag that encloses the text
 	 * @param text the text to write
 	 */
 
 	public final void taggedText(String tag, String text) {
-		if (text == null)
+		if (text == null) {
 			return;
+		}
 		startElement(tag);
 		text(text);
 		endElement();
@@ -526,7 +533,7 @@ public class XMLWriter {
 	 * it, or one of its children, has content. The element will not appear if
 	 * neither it, nor any of its children, have either an attribute or text. Use
 	 * <code>endElement</code> to close the conditional element.
-	 * 
+	 *
 	 * @param element element name
 	 */
 
@@ -536,7 +543,7 @@ public class XMLWriter {
 
 	/**
 	 * Writes an attribute using an HTML RGB value: #RRGGBB.
-	 * 
+	 *
 	 * @param attrName attribute name
 	 * @param rgb      RGB value
 	 */
@@ -553,7 +560,7 @@ public class XMLWriter {
 
 	/**
 	 * Returns the line number.
-	 * 
+	 *
 	 * @return the line number
 	 */
 
@@ -563,7 +570,7 @@ public class XMLWriter {
 
 	/**
 	 * Writes long text to the output.
-	 * 
+	 *
 	 * @param text the text to write
 	 */
 
@@ -577,8 +584,9 @@ public class XMLWriter {
 
 	protected void doPrintLine() {
 		out.print('\n');
-		if (markLineNumber)
+		if (markLineNumber) {
 			lineCounter++;
+		}
 	}
 
 	/**

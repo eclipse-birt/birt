@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,25 +26,34 @@ import org.eclipse.birt.core.exception.BirtException;
 
 public class ChartUIHelperBase implements IChartUIHelper {
 
+	@Override
 	public boolean isDefaultTitleSupported() {
 		return false;
 	}
 
+	@Override
 	public String getDefaultTitle(ChartWizardContext context) {
 		return ""; //$NON-NLS-1$
 	}
 
+	@Override
 	public void updateDefaultTitle(Chart cm, Object extendedItem) {
 		// Do nothing
 	}
 
+	@Override
 	public boolean canCombine(IChartType type, ChartWizardContext context) {
 		return type.canCombine();
 	}
 
 	@Override
 	public boolean useDataSetRow(Object reportItem, String expression) throws BirtException {
-		// Default implementation, do nothing
-		return false;
+		/*
+		 * Default implementation is a bit simple, this behavior is copied from
+		 * org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent.
+		 * enableAggEditor( String expression ) prior to the refactoring that yielded
+		 * this method. According to the javadoc it should be more comprehensive though.
+		 */
+		return expression.startsWith("data"); //$NON-NLS-1$
 	}
 }

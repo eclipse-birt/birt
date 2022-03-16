@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,21 +28,21 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Tests GroupHandle.
- * 
+ *
  * <p>
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testProperties()}</td>
  * <td>Tests to read and set properties on a list group.</td>
  * <td>Reads expected values and Values are set correctly.</td>
  * </tr>
- * 
+ *
  * </table>
  */
 
@@ -47,7 +50,7 @@ public class GroupHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests Set interval range. value is dependant with locale.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -77,9 +80,9 @@ public class GroupHandleTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * Tests to read and set properties on a GroupElement.
-	 * 
+	 *
 	 * @throws Exception if errors occur when opens the design file
 	 */
 
@@ -162,7 +165,7 @@ public class GroupHandleTest extends BaseTestCase {
 	/**
 	 * Test case for testing whether the header slot and footer slot is existed in
 	 * the group element.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -185,12 +188,12 @@ public class GroupHandleTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * <ul>
 	 * <li>Tests addTOC , getTOC , setTOCExpression, getTOCExpression.
 	 * <li>drop the style set on toc
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

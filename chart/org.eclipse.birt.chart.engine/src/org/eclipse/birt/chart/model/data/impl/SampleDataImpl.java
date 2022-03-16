@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -38,7 +41,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <em>Orthogonal Sample Data</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class SampleDataImpl extends EObjectImpl implements SampleData {
@@ -47,7 +50,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 	 * The cached value of the '{@link #getBaseSampleData() <em>Base Sample
 	 * Data</em>}' containment reference list. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #getBaseSampleData()
 	 * @generated
 	 * @ordered
@@ -58,7 +61,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 	 * The cached value of the '{@link #getOrthogonalSampleData() <em>Orthogonal
 	 * Sample Data</em>}' containment reference list. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #getOrthogonalSampleData()
 	 * @generated
 	 * @ordered
@@ -69,7 +72,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 	 * The cached value of the '{@link #getAncillarySampleData() <em>Ancillary
 	 * Sample Data</em>}' containment reference list. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #getAncillarySampleData()
 	 * @generated
 	 * @ordered
@@ -78,7 +81,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected SampleDataImpl() {
@@ -87,7 +90,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -97,12 +100,13 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public EList<BaseSampleData> getBaseSampleData() {
 		if (baseSampleData == null) {
-			baseSampleData = new EObjectContainmentEList<BaseSampleData>(BaseSampleData.class, this,
+			baseSampleData = new EObjectContainmentEList<>(BaseSampleData.class, this,
 					DataPackage.SAMPLE_DATA__BASE_SAMPLE_DATA);
 		}
 		return baseSampleData;
@@ -110,12 +114,13 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public EList<OrthogonalSampleData> getOrthogonalSampleData() {
 		if (orthogonalSampleData == null) {
-			orthogonalSampleData = new EObjectContainmentEList<OrthogonalSampleData>(OrthogonalSampleData.class, this,
+			orthogonalSampleData = new EObjectContainmentEList<>(OrthogonalSampleData.class, this,
 					DataPackage.SAMPLE_DATA__ORTHOGONAL_SAMPLE_DATA);
 		}
 		return orthogonalSampleData;
@@ -123,12 +128,13 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public EList<BaseSampleData> getAncillarySampleData() {
 		if (ancillarySampleData == null) {
-			ancillarySampleData = new EObjectContainmentEList<BaseSampleData>(BaseSampleData.class, this,
+			ancillarySampleData = new EObjectContainmentEList<>(BaseSampleData.class, this,
 					DataPackage.SAMPLE_DATA__ANCILLARY_SAMPLE_DATA);
 		}
 		return ancillarySampleData;
@@ -136,7 +142,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -154,7 +160,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -172,7 +178,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -197,7 +203,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -218,7 +224,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -237,6 +243,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 	/**
 	 * @generated
 	 */
+	@Override
 	public SampleData copyInstance() {
 		SampleDataImpl dest = new SampleDataImpl();
 		dest.set(this);

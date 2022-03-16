@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -44,8 +44,8 @@ public class TableBreakBuffer implements IPageBuffer {
 	int repeatEnd = 0;
 	boolean isRepeatStatus = false;
 	boolean isRepeatCellContent = false;
-	ArrayList<ContentEvent> repeatEvent = new ArrayList<ContentEvent>();
-	ArrayList<ContentEvent> repeatCellContentEvent = new ArrayList<ContentEvent>();
+	ArrayList<ContentEvent> repeatEvent = new ArrayList<>();
+	ArrayList<ContentEvent> repeatCellContentEvent = new ArrayList<>();
 
 	public TableBreakBuffer(IPageBuffer parentBuffer, HTMLLayoutContext context) {
 		if (parentBuffer != null) {
@@ -56,6 +56,7 @@ public class TableBreakBuffer implements IPageBuffer {
 		this.context = context;
 	}
 
+	@Override
 	public void startContainer(IContent content, boolean isFirst, IContentEmitter emitter, boolean visible)
 			throws BirtException {
 		switch (content.getContentType()) {
@@ -135,8 +136,9 @@ public class TableBreakBuffer implements IPageBuffer {
 					if (currentIndex >= 1) {
 						ICellContent cc = (ICellContent) content;
 						int start = cc.getColumn();
-						if (start > pageBreakIndexs[currentIndex - 1] + 1)
+						if (start > pageBreakIndexs[currentIndex - 1] + 1) {
 							repeatCellContent(emitter);
+						}
 						repeatCellContentEvent.clear();
 						isRepeatCellContent = false;
 					}
@@ -219,6 +221,7 @@ public class TableBreakBuffer implements IPageBuffer {
 		}
 	}
 
+	@Override
 	public void startContent(IContent content, IContentEmitter emitter, boolean visible) throws BirtException {
 		currentBuffer.startContent(content, emitter, visible);
 		if (isRepeatStatus) {
@@ -229,6 +232,7 @@ public class TableBreakBuffer implements IPageBuffer {
 		}
 	}
 
+	@Override
 	public void endContainer(IContent content, boolean finished, IContentEmitter emitter, boolean visible)
 			throws BirtException {
 		switch (content.getContentType()) {
@@ -343,12 +347,14 @@ public class TableBreakBuffer implements IPageBuffer {
 		}
 	}
 
+	@Override
 	public void flush() throws BirtException {
 		for (int i = 0; i < buffers.length; i++) {
 			buffers[i].flush();
 		}
 	}
 
+	@Override
 	public boolean isRepeated() {
 		if (currentBuffer != null) {
 			return currentBuffer.isRepeated();
@@ -359,6 +365,7 @@ public class TableBreakBuffer implements IPageBuffer {
 		return false;
 	}
 
+	@Override
 	public void setRepeated(boolean isRepeated) {
 		if (currentBuffer != null) {
 			currentBuffer.setRepeated(isRepeated);
@@ -386,7 +393,7 @@ public class TableBreakBuffer implements IPageBuffer {
 	}
 
 	protected int[] getPageBreakIndex(ITableContent table) {
-		List<Integer> indexs = new ArrayList<Integer>();
+		List<Integer> indexs = new ArrayList<>();
 		int count = table.getColumnCount();
 		for (int i = 0; i < count; i++) {
 			IColumn column = table.getColumn(i);
@@ -455,20 +462,24 @@ public class TableBreakBuffer implements IPageBuffer {
 
 	}
 
+	@Override
 	public boolean finished() {
 		return currentBuffer.finished();
 	}
 
+	@Override
 	public void closePage(INode[] nodeList) throws BirtException {
 		currentBuffer.closePage(nodeList);
 		nestCount--;
 	}
 
+	@Override
 	public void openPage(INode[] nodeList) throws BirtException {
 		currentBuffer.openPage(nodeList);
 		nestCount++;
 	}
 
+	@Override
 	public INode[] getNodeStack() {
 		return currentBuffer.getNodeStack();
 	}
@@ -479,11 +490,12 @@ public class TableBreakBuffer implements IPageBuffer {
 		 * List columns = new ArrayList( ); int start = 0; int end =
 		 * pageBreakIndex[index]; if ( index != 0 ) { start = pageBreakIndex[index - 1]
 		 * + 1; }
-		 * 
+		 *
 		 * for ( int i = start; i <= end; i++ ) { IColumn column = table.getColumn( i );
 		 * columns.add( column ); } return new TableContentWrapper( table, columns );
 		 */ }
 
+	@Override
 	public void addTableColumnHint(TableColumnHint hint) {
 		if (currentBuffer != null) {
 			currentBuffer.addTableColumnHint(hint);

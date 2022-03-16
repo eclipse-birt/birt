@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,10 +32,12 @@ public class StyleInstance implements IScriptStyle {
 		this.style = style;
 	}
 
+	@Override
 	public String getVisibleFormat() {
 		return style.getVisibleFormat();
 	}
 
+	@Override
 	public void setVisibleFormat(String format) {
 		style.setVisibleFormat(format);
 	}
@@ -40,6 +45,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the letter spacing
 	 */
+	@Override
 	public String getLetterSpacing() {
 		return style.getLetterSpacing();
 	}
@@ -47,6 +53,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the letter spacing
 	 */
+	@Override
 	public void setLetterSpacing(String spacing) {
 		style.setLetterSpacing(spacing);
 	}
@@ -54,6 +61,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the line height
 	 */
+	@Override
 	public String getLineHeight() {
 		return style.getLineHeight();
 	}
@@ -61,6 +69,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the line height
 	 */
+	@Override
 	public void setLineHeight(String lineHeight) {
 		style.setLineHeight(lineHeight);
 	}
@@ -69,6 +78,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Get the text alignment. Valid return types are LEFT, RIGHT, CENTER and
 	 * JUSTIFY.
 	 */
+	@Override
 	public String getTextAlign() {
 		return style.getTextAlign();
 	}
@@ -77,6 +87,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Set the text alignment. Valid return types are LEFT, RIGHT, CENTER and
 	 * JUSTIFY.
 	 */
+	@Override
 	public void setTextAlign(String align) {
 		style.setTextAlign(align);
 	}
@@ -84,6 +95,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the text indent
 	 */
+	@Override
 	public String getTextIndent() {
 		return style.getTextIndent();
 	}
@@ -91,6 +103,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the text indent
 	 */
+	@Override
 	public void setTextIndent(String indent) {
 		style.setTextIndent(indent);
 	}
@@ -99,6 +112,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Get the text transform. Valid return values are NONE, CAPITALIZE, UPPERCASE
 	 * and LOWERCASE.
 	 */
+	@Override
 	public String getTextTransform() {
 		return style.getTextTransform();
 	}
@@ -107,6 +121,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Set the text transform. Valid transform values are NONE, CAPITALIZE,
 	 * UPPERCASE and LOWERCASE.
 	 */
+	@Override
 	public void setTextTransform(String transform) {
 		style.setTextTransform(transform);
 	}
@@ -115,6 +130,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Get the vertical alignment. Valid return values are BASELINE, SUB, SUPER,
 	 * TOP, TEXT_TOP, MIDDLE, BOTTOM and TEXT_BOTTOM
 	 */
+	@Override
 	public String getVerticalAlign() {
 		return style.getVerticalAlign();
 	}
@@ -123,6 +139,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Set the vertical alignment. Valid values are BASELINE, SUB, SUPER, TOP,
 	 * TEXT_TOP, MIDDLE, BOTTOM and TEXT_BOTTOM
 	 */
+	@Override
 	public void setVerticalAlign(String valign) {
 		style.setVerticalAlign(valign);
 	}
@@ -130,6 +147,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the whitespace. Valid return values are NORMAL, PRE and NOWRAP
 	 */
+	@Override
 	public String getWhiteSpace() {
 		return style.getWhiteSpace();
 	}
@@ -137,6 +155,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the whitespace. Valid return values are NORMAL, PRE and NOWRAP
 	 */
+	@Override
 	public void setWhiteSpace(String whitespace) {
 		style.setWhiteSpace(whitespace);
 	}
@@ -144,6 +163,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the word spacing
 	 */
+	@Override
 	public String getWordSpacing() {
 		return style.getWordSpacing();
 	}
@@ -151,6 +171,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the word spacing
 	 */
+	@Override
 	public void setWordSpacing(String wordspacing) {
 		style.setWordSpacing(wordspacing);
 	}
@@ -158,6 +179,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the font color
 	 */
+	@Override
 	public String getColor() {
 		return style.getColor();
 	}
@@ -165,24 +187,29 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the font color
 	 */
+	@Override
 	public void setColor(String color) {
 		style.setColor(color);
 	}
 
 	/**
 	 * Get the attachement type (either SCROLL or FIXED)
-	 * 
+	 *
 	 * @deprecated replaced by getBackgroundAttachment()
 	 */
+	@Deprecated
+	@Override
 	public String getBackgroundAttachement() {
 		return style.getBackgroundAttachment();
 	}
 
 	/**
 	 * Set the attachement type (either SCROLL or FIXED)
-	 * 
+	 *
 	 * @deprecated replaced by setBackgroundAttachment( String attachment )
 	 */
+	@Deprecated
+	@Override
 	public void setBackgroundAttachement(String attachement) {
 		style.setBackgroundAttachment(attachement);
 	}
@@ -190,6 +217,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the attachment type (either SCROLL or FIXED)
 	 */
+	@Override
 	public String getBackgroundAttachment() {
 		return style.getBackgroundAttachment();
 	}
@@ -197,6 +225,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the attachment type (either SCROLL or FIXED)
 	 */
+	@Override
 	public void setBackgroundAttachment(String attachment) {
 		style.setBackgroundAttachment(attachment);
 	}
@@ -204,6 +233,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the background color
 	 */
+	@Override
 	public String getBackgroundColor() {
 		return style.getBackgroundColor();
 	}
@@ -211,6 +241,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the background color
 	 */
+	@Override
 	public void setBackgroundColor(String color) {
 		style.setBackgroundColor(color);
 	}
@@ -218,6 +249,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the background image URI
 	 */
+	@Override
 	public String getBackgroundImage() {
 		return style.getBackgroundImage();
 	}
@@ -225,6 +257,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the background image URI
 	 */
+	@Override
 	public void setBackgroundImage(String imageURI) {
 		style.setBackgroundImage(imageURI);
 	}
@@ -233,6 +266,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Get the background repeat type (valid types are REPEAT, REPEAT_X, REPEAT_Y
 	 * and NO_REPEAT)
 	 */
+	@Override
 	public String getBackgroundRepeat() {
 		return style.getBackgroundRepeat();
 	}
@@ -241,6 +275,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Set the background repeat type (valid types are REPEAT, REPEAT_X, REPEAT_Y
 	 * and NO_REPEAT)
 	 */
+	@Override
 	public void setBackgroundRepeat(String repeat) {
 		style.setBackgroundRepeat(repeat);
 	}
@@ -248,6 +283,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the bottom border color
 	 */
+	@Override
 	public String getBorderBottomColor() {
 		return style.getBorderBottomColor();
 	}
@@ -255,6 +291,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the bottom border color
 	 */
+	@Override
 	public void setBorderBottomColor(String color) {
 		style.setBorderBottomColor(color);
 	}
@@ -262,6 +299,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the top border color
 	 */
+	@Override
 	public String getBorderTopColor() {
 		return style.getBorderTopColor();
 	}
@@ -269,6 +307,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the top border color
 	 */
+	@Override
 	public void setBorderTopColor(String color) {
 		style.setBorderTopColor(color);
 	}
@@ -276,6 +315,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the right border color
 	 */
+	@Override
 	public String getBorderRightColor() {
 		return style.getBorderRightColor();
 	}
@@ -283,6 +323,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the right border color
 	 */
+	@Override
 	public void setBorderRightColor(String color) {
 		style.setBorderRightColor(color);
 	}
@@ -290,6 +331,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the left border color
 	 */
+	@Override
 	public String getBorderLeftColor() {
 		return style.getBorderLeftColor();
 	}
@@ -297,6 +339,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the left border color
 	 */
+	@Override
 	public void setBorderLeftColor(String color) {
 		style.setBorderLeftColor(color);
 	}
@@ -305,6 +348,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Get the bottom border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public String getBorderBottomStyle() {
 		return style.getBorderBottomStyle();
 	}
@@ -313,6 +357,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Set the bottom border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public void setBorderBottomStyle(String borderstyle) {
 		style.setBorderBottomStyle(borderstyle);
 	}
@@ -321,6 +366,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Get the top border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public String getBorderTopStyle() {
 		return style.getBorderTopStyle();
 	}
@@ -329,6 +375,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Set the top border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public void setBorderTopStyle(String borderstyle) {
 		style.setBorderTopStyle(borderstyle);
 	}
@@ -337,6 +384,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Get the left border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public String getBorderLeftStyle() {
 		return style.getBorderLeftStyle();
 	}
@@ -345,6 +393,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Set the left border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public void setBorderLeftStyle(String borderstyle) {
 		style.setBorderLeftStyle(borderstyle);
 	}
@@ -353,6 +402,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Get the right border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public String getBorderRightStyle() {
 		return style.getBorderRightStyle();
 	}
@@ -361,6 +411,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Set the right border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
+	@Override
 	public void setBorderRightStyle(String borderstyle) {
 		style.setBorderRightStyle(borderstyle);
 	}
@@ -368,6 +419,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the bottom border width.
 	 */
+	@Override
 	public String getBorderBottomWidth() {
 		return style.getBorderBottomWidth();
 	}
@@ -375,6 +427,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the bottom border width.
 	 */
+	@Override
 	public void setBorderBottomWidth(String width) {
 		style.setBorderBottomWidth(width);
 	}
@@ -382,6 +435,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the top border width.
 	 */
+	@Override
 	public String getBorderTopWidth() {
 		return style.getBorderTopWidth();
 	}
@@ -389,6 +443,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the top border width.
 	 */
+	@Override
 	public void setBorderTopWidth(String width) {
 		style.setBorderTopWidth(width);
 	}
@@ -396,6 +451,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the left border width.
 	 */
+	@Override
 	public String getBorderLeftWidth() {
 		return style.getBorderLeftWidth();
 	}
@@ -403,6 +459,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the left border width.
 	 */
+	@Override
 	public void setBorderLeftWidth(String width) {
 		style.setBorderLeftWidth(width);
 	}
@@ -410,6 +467,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the right border width.
 	 */
+	@Override
 	public String getBorderRightWidth() {
 		return style.getBorderRightWidth();
 	}
@@ -417,6 +475,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the right border width.
 	 */
+	@Override
 	public void setBorderRightWidth(String width) {
 		style.setBorderRightWidth(width);
 	}
@@ -424,6 +483,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the bottom margin
 	 */
+	@Override
 	public String getMarginBottom() {
 		return style.getMarginBottom();
 	}
@@ -431,6 +491,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the bottom margin
 	 */
+	@Override
 	public void setMarginBottom(String margin) {
 		style.setMarginBottom(margin);
 	}
@@ -438,6 +499,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the top margin
 	 */
+	@Override
 	public String getMarginTop() {
 		return style.getMarginTop();
 	}
@@ -445,6 +507,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the top margin
 	 */
+	@Override
 	public void setMarginTop(String margin) {
 		style.setMarginTop(margin);
 	}
@@ -452,6 +515,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the left margin
 	 */
+	@Override
 	public String getMarginLeft() {
 		return style.getMarginLeft();
 	}
@@ -459,6 +523,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the left margin
 	 */
+	@Override
 	public void setMarginLeft(String margin) {
 		style.setMarginLeft(margin);
 	}
@@ -466,6 +531,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the right margin
 	 */
+	@Override
 	public String getMarginRight() {
 		return style.getMarginRight();
 	}
@@ -473,6 +539,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the right margin
 	 */
+	@Override
 	public void setMarginRight(String margin) {
 		style.setMarginRight(margin);
 	}
@@ -480,6 +547,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the bottom padding.
 	 */
+	@Override
 	public String getPaddingBottom() {
 		return style.getPaddingBottom();
 	}
@@ -487,6 +555,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the bottom padding.
 	 */
+	@Override
 	public void setPaddingBottom(String padding) {
 		style.setPaddingBottom(padding);
 	}
@@ -494,6 +563,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the top padding.
 	 */
+	@Override
 	public String getPaddingTop() {
 		return style.getPaddingTop();
 	}
@@ -501,6 +571,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the top padding.
 	 */
+	@Override
 	public void setPaddingTop(String padding) {
 		style.setPaddingTop(padding);
 	}
@@ -508,6 +579,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the left padding.
 	 */
+	@Override
 	public String getPaddingLeft() {
 		return style.getPaddingLeft();
 	}
@@ -515,6 +587,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the left padding.
 	 */
+	@Override
 	public void setPaddingLeft(String padding) {
 		style.setPaddingLeft(padding);
 	}
@@ -522,6 +595,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the right padding.
 	 */
+	@Override
 	public String getPaddingRight() {
 		return style.getPaddingRight();
 	}
@@ -529,6 +603,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the right padding.
 	 */
+	@Override
 	public void setPaddingRight(String padding) {
 		style.setPaddingRight(padding);
 	}
@@ -536,6 +611,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the display type (valid types are BLOCK, INLINE and NONE)
 	 */
+	@Override
 	public String getDisplay() {
 		return style.getDisplay();
 	}
@@ -543,6 +619,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the display type (valid types are BLOCK, INLINE and NONE)
 	 */
+	@Override
 	public void setDisplay(String display) {
 		style.setDisplay(display);
 	}
@@ -550,6 +627,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the master page
 	 */
+	@Override
 	public String getMasterPage() {
 		return style.getMasterPage();
 	}
@@ -557,6 +635,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the master page
 	 */
+	@Override
 	public void setMasterPage(String masterPage) {
 		style.setMasterPage(masterPage);
 	}
@@ -564,6 +643,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the page break before.
 	 */
+	@Override
 	public String getPageBreakBefore() {
 		return style.getPageBreakBefore();
 	}
@@ -571,6 +651,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the page break before
 	 */
+	@Override
 	public void setPageBreakBefore(String pageBreak) {
 		style.setPageBreakBefore(pageBreak);
 	}
@@ -578,6 +659,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the page break after.
 	 */
+	@Override
 	public String getPageBreakAfter() {
 		return style.getPageBreakAfter();
 	}
@@ -585,6 +667,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the page break after
 	 */
+	@Override
 	public void setPageBreakAfter(String pageBreak) {
 		style.setPageBreakAfter(pageBreak);
 	}
@@ -592,6 +675,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Get the page break inside.
 	 */
+	@Override
 	public String getPageBreakInside() {
 		return style.getPageBreakInside();
 	}
@@ -599,6 +683,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set the page break inside
 	 */
+	@Override
 	public void setPageBreakInside(String pageBreak) {
 		style.setPageBreakInside(pageBreak);
 	}
@@ -606,6 +691,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Show if blank?
 	 */
+	@Override
 	public String getShowIfBlank() {
 		return style.getShowIfBlank();
 	}
@@ -613,6 +699,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Set show if blank
 	 */
+	@Override
 	public void setShowIfBlank(String showIfBlank) {
 		style.setShowIfBlank(showIfBlank);
 	}
@@ -620,6 +707,7 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Can this element shrink?
 	 */
+	@Override
 	public String getCanShrink() {
 		return style.getCanShrink();
 	}
@@ -627,108 +715,127 @@ public class StyleInstance implements IScriptStyle {
 	/**
 	 * Can this element shrink?
 	 */
+	@Override
 	public void setCanShrink(String canShrink) {
 		style.setCanShrink(canShrink);
 	}
 
 	/**
 	 * Get number format
-	 * 
+	 *
 	 * @return the number format
 	 */
+	@Override
 	public String getNumberFormat() {
 		return style.getNumberFormat();
 	}
 
 	/**
 	 * Set the number format
-	 * 
+	 *
 	 * @param numberFormat
 	 */
+	@Override
 	public void setNumberFormat(String numberFormat) {
 		style.setNumberFormat(numberFormat);
 	}
 
 	/**
 	 * Get the date format
-	 * 
+	 *
 	 * @return date format
 	 */
+	@Override
 	public String getDateFormat() {
 		return style.getDateFormat();
 	}
 
 	/**
 	 * Set the date format
-	 * 
+	 *
 	 * @param dateTimeFormat
 	 */
+	@Override
 	public void setDateFormat(String dateTimeFormat) {
 		style.setDateFormat(dateTimeFormat);
 	}
 
 	/**
 	 * Get the string format
-	 * 
+	 *
 	 * @return the string format
 	 */
+	@Override
 	public String getStringFormat() {
 		return style.getStringFormat();
 	}
 
 	/**
 	 * Set the string format
-	 * 
+	 *
 	 * @param stringFormat
 	 */
+	@Override
 	public void setStringFormat(String stringFormat) {
 		style.setStringFormat(stringFormat);
 	}
 
+	@Override
 	public String getFontFamily() {
 		return style.getFontFamily();
 	}
 
+	@Override
 	public void setFontFamily(String fontFamily) {
 		style.setFontFamily(fontFamily);
 	}
 
+	@Override
 	public String getFontStyle() {
 		return style.getFontStyle();
 	}
 
+	@Override
 	public void setFontStyle(String fontStyle) {
 		style.setFontStyle(fontStyle);
 	}
 
+	@Override
 	public String getFontVariant() {
 		return style.getFontVariant();
 	}
 
+	@Override
 	public void setFontVariant(String fontVariant) {
 		style.setFontVariant(fontVariant);
 	}
 
+	@Override
 	public String getFontWeight() {
 		return style.getFontWeight();
 	}
 
+	@Override
 	public void setFontWeight(String fontWeight) {
 		style.setFontWeight(fontWeight);
 	}
 
+	@Override
 	public String getFontSize() {
 		return style.getFontSize();
 	}
 
+	@Override
 	public void setFontSize(String fontSize) {
 		style.setFontSize(fontSize);
 	}
 
+	@Override
 	public String getTextUnderline() {
 		return style.getTextUnderline();
 	}
 
+	@Override
 	public void setTextUnderline(String underline) throws ScriptException {
 		try {
 			style.setTextUnderline(underline);
@@ -737,10 +844,12 @@ public class StyleInstance implements IScriptStyle {
 		}
 	}
 
+	@Override
 	public String getTextOverline() {
 		return style.getTextOverline();
 	}
 
+	@Override
 	public void setTextOverline(String overline) throws ScriptException {
 		try {
 			style.setTextOverline(overline);
@@ -749,10 +858,12 @@ public class StyleInstance implements IScriptStyle {
 		}
 	}
 
+	@Override
 	public String getTextLineThrough() {
 		return style.getTextLineThrough();
 	}
 
+	@Override
 	public void setTextLineThrough(String through) throws ScriptException {
 		try {
 			style.setTextLineThrough(through);
@@ -761,10 +872,12 @@ public class StyleInstance implements IScriptStyle {
 		}
 	}
 
+	@Override
 	public String getBackgroundPositionX() {
 		return style.getBackgroundPositionX();
 	}
 
+	@Override
 	public void setBackgroundPositionX(String x) throws ScriptException {
 		try {
 			style.setBackgroundPositionX(x);
@@ -773,10 +886,12 @@ public class StyleInstance implements IScriptStyle {
 		}
 	}
 
+	@Override
 	public String getBackgroundPositionY() {
 		return style.getBackgroundPositionY();
 	}
 
+	@Override
 	public void setBackgroundPositionY(String y) throws ScriptException {
 		try {
 			style.setBackgroundPositionY(y);
@@ -791,7 +906,7 @@ public class StyleInstance implements IScriptStyle {
 
 	/**
 	 * Get the text direction. Valid return types are LTR and RTL.
-	 * 
+	 *
 	 * @author bidi_hcg
 	 */
 	public String getDirection() {
@@ -800,13 +915,14 @@ public class StyleInstance implements IScriptStyle {
 
 	/**
 	 * Set the text direction. Valid return types are LTR and RTL.
-	 * 
+	 *
 	 * @author bidi_hcg
 	 */
 	public void setDirection(String dir) {
 		style.setDirection(dir);
 	}
 
+	@Override
 	public String getDateLocale() {
 		DataFormatValue value = style.getDataFormat();
 		if (value == null) {
@@ -815,6 +931,7 @@ public class StyleInstance implements IScriptStyle {
 		return value.getDateTimeLocale();
 	}
 
+	@Override
 	public String getNumberLocale() {
 		DataFormatValue value = style.getDataFormat();
 		if (value == null) {
@@ -823,6 +940,7 @@ public class StyleInstance implements IScriptStyle {
 		return value.getNumberLocale();
 	}
 
+	@Override
 	public String getStringLocale() {
 		DataFormatValue value = style.getDataFormat();
 		if (value == null) {
@@ -831,6 +949,7 @@ public class StyleInstance implements IScriptStyle {
 		return value.getStringLocale();
 	}
 
+	@Override
 	public void setDateLocale(String locale) {
 		DataFormatValue oldValue = style.getDataFormat();
 		DataFormatValue value = DataFormatValue.createDataFormatValue(oldValue);
@@ -838,6 +957,7 @@ public class StyleInstance implements IScriptStyle {
 		value.setDateTimeFormat(oldValue == null ? null : oldValue.getDateTimePattern(), locale);
 	}
 
+	@Override
 	public void setNumberLocale(String locale) {
 		DataFormatValue oldValue = style.getDataFormat();
 		DataFormatValue value = DataFormatValue.createDataFormatValue(oldValue);
@@ -845,6 +965,7 @@ public class StyleInstance implements IScriptStyle {
 		value.setNumberFormat(oldValue == null ? null : oldValue.getNumberPattern(), locale);
 	}
 
+	@Override
 	public void setStringLocale(String locale) {
 		DataFormatValue oldValue = style.getDataFormat();
 		DataFormatValue value = DataFormatValue.createDataFormatValue(oldValue);

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +34,7 @@ public class EncryptionUtil {
 	/**
 	 * Gets the decrypted value of the Encryptable property value. Now, in memory,
 	 * we stores the encrypted value, that is what is in the xml.
-	 * 
+	 *
 	 * @param element
 	 * @param propDefn
 	 * @param value
@@ -39,15 +42,16 @@ public class EncryptionUtil {
 	 */
 	public static Object decrypt(DesignElement element, ElementPropertyDefn propDefn, Object value) {
 		String encryption = element.getEncryptionID(propDefn);
-		if (encryption == null)
+		if (encryption == null) {
 			return value;
+		}
 
 		return decrypt(propDefn, encryption, value);
 	}
 
 	/**
 	 * Decrypts the value with the given encryption.
-	 * 
+	 *
 	 * @param propDefn     the element property definition or structure member
 	 *                     definition of the given encrypted value
 	 * @param encryptionID the ID with which the value is encrypted
@@ -57,8 +61,9 @@ public class EncryptionUtil {
 	 */
 	public static Object decrypt(PropertyDefn propDefn, String encryptionID, Object value) {
 		if (!(value instanceof String || value instanceof Expression)
-				|| (!propDefn.isEncryptable() && !isPropertyBindingValueMember(propDefn)))
+				|| (!propDefn.isEncryptable() && !isPropertyBindingValueMember(propDefn))) {
 			return value;
+		}
 
 		String str = null;
 		if (value instanceof String) {
@@ -74,14 +79,15 @@ public class EncryptionUtil {
 
 	private static boolean isPropertyBindingValueMember(PropertyDefn propDefn) {
 		if (propDefn != null && propDefn.equals(MetaDataDictionary.getInstance()
-				.getStructure(PropertyBinding.PROPERTY_BINDING_STRUCT).getMember(PropertyBinding.VALUE_MEMBER)))
+				.getStructure(PropertyBinding.PROPERTY_BINDING_STRUCT).getMember(PropertyBinding.VALUE_MEMBER))) {
 			return true;
+		}
 		return false;
 	}
 
 	/**
 	 * Encrypts the input value.
-	 * 
+	 *
 	 * @param element
 	 * @param propDefn
 	 * @param encryptionID
@@ -89,17 +95,20 @@ public class EncryptionUtil {
 	 * @return the value.
 	 */
 	public static Object encrypt(PropertyDefn propDefn, String encryptionID, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		if (!(value instanceof String || value instanceof Expression)
-				|| (!propDefn.isEncryptable() && !isPropertyBindingValueMember(propDefn)))
+				|| (!propDefn.isEncryptable() && !isPropertyBindingValueMember(propDefn))) {
 			return value;
+		}
 		String str = null;
-		if (value instanceof String)
+		if (value instanceof String) {
 			str = (String) value;
-		else
+		} else {
 			str = ((Expression) value).getStringExpression();
+		}
 		IEncryptionHelper helper = MetaDataDictionary.getInstance().getEncryptionHelper(encryptionID);
 		return helper == null ? value : helper.encrypt(str);
 
@@ -109,15 +118,17 @@ public class EncryptionUtil {
 	 * Determines whether the given property definition can do the encryption or
 	 * not. True if and only if the property is defined as encryptable in ROM.def or
 	 * it is property bound to an encryptable property.
-	 * 
+	 *
 	 * @param propDefn
 	 * @return
 	 */
 	public static boolean canEncrypt(PropertyDefn propDefn) {
-		if (propDefn == null)
+		if (propDefn == null) {
 			return false;
-		if (propDefn.isEncryptable() || isPropertyBindingValueMember(propDefn))
+		}
+		if (propDefn.isEncryptable() || isPropertyBindingValueMember(propDefn)) {
 			return true;
+		}
 		return false;
 	}
 
@@ -132,8 +143,9 @@ public class EncryptionUtil {
 			// property binding exists and then we try to change the value and
 			// call setMember)
 			String encryptionID = propBinding.getEncryption();
-			if (encryptionID != null)
+			if (encryptionID != null) {
 				return encryptionID;
+			}
 
 			// if encryption is not set, then do the searching
 			BigDecimal idDecimal = propBinding.getID();
@@ -166,8 +178,9 @@ public class EncryptionUtil {
 
 	public static void setEncryptionBindingValue(Module module, Structure structure, PropertyDefn memberDefn,
 			Object value) {
-		if (!(structure instanceof PropertyBinding))
+		if (!(structure instanceof PropertyBinding)) {
 			return;
+		}
 
 		// if value is not constant, do nothing and set property directly
 		if (!needEncryption(value)) {
@@ -181,9 +194,9 @@ public class EncryptionUtil {
 			if (dd.getEncryptionHelper(encryptionID) != null) {
 				propBinding.setEncryption(encryptionID);
 				Object encryptedValue = encrypt(memberDefn, encryptionID, value);
-				if (value instanceof String)
+				if (value instanceof String) {
 					propBinding.setProperty(memberDefn, encryptedValue);
-				else {
+				} else {
 					Expression exprValue = (Expression) value;
 					Expression encryptedExprValue = new Expression(encryptedValue, exprValue.getUserDefinedType());
 					propBinding.setProperty(memberDefn, encryptedExprValue);
@@ -198,15 +211,16 @@ public class EncryptionUtil {
 	/**
 	 * Determines whether this value should do the encryption. True if the value is
 	 * constant type.
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 */
 	private static boolean needEncryption(Object value) {
 		if (value instanceof Expression) {
 			Expression exprValue = (Expression) value;
-			if (IExpressionType.CONSTANT.equalsIgnoreCase(exprValue.getType()))
+			if (IExpressionType.CONSTANT.equalsIgnoreCase(exprValue.getType())) {
 				return true;
+			}
 		}
 
 		return false;

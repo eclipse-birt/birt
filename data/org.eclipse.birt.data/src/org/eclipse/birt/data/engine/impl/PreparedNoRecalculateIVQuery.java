@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,10 +48,11 @@ public class PreparedNoRecalculateIVQuery extends PreparedIVQuerySourceQuery {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.PreparedIVQuerySourceQuery#prepareQuery ()
 	 */
+	@Override
 	protected void prepareQuery() throws DataException {
 		// Load previous query.
 		try {
@@ -60,37 +64,42 @@ public class PreparedNoRecalculateIVQuery extends PreparedIVQuerySourceQuery {
 		}
 
 		if (!hasBinding) {
-			IBinding[] bindings = new IBinding[0];
+			IBinding[] bindings = {};
 			if (queryResults != null && queryResults.getPreparedQuery() != null) {
 				IQueryDefinition queryDefinition = queryResults.getPreparedQuery().getReportQueryDefn();
 				bindings = (IBinding[]) queryDefinition.getBindings().values().toArray(new IBinding[0]);
 			}
 			for (int i = 0; i < bindings.length; i++) {
 				IBinding binding = bindings[i];
-				if (!this.queryDefn.getBindings().containsKey(binding.getBindingName()))
+				if (!this.queryDefn.getBindings().containsKey(binding.getBindingName())) {
 					this.queryDefn.addBinding(new Binding(binding.getBindingName(),
 							new ScriptExpression(ExpressionUtil.createJSDataSetRowExpression(binding.getBindingName()),
 									binding.getDataType())));
+				}
 			}
 		}
 	}
 
+	@Override
 	protected void initializeExecution(IBaseQueryResults outerResults, Scriptable scope) throws DataException {
 		String basedID = queryDefn.getQueryResultsID();
 
 		String _1partID = QueryResultIDUtil.get1PartID(basedID);
-		if (_1partID == null)
+		if (_1partID == null) {
 			resultSetId = basedID;
-		else
+		} else {
 			resultSetId = _1partID;
+		}
 	}
 
+	@Override
 	protected IQueryResults produceQueryResults(IBaseQueryResults outerResults, Scriptable scope) throws DataException {
 		QueryResults queryResults = preparedQuery.doPrepare(outerResults, scope, newExecutor(), this);
 		queryResults.setID(resultSetId);
 		return queryResults;
 	}
 
+	@Override
 	protected QueryExecutor newExecutor() {
 		return new NoUpdateAggrFilterIVQuerySourceExecutor(engine.getSession().getSharedScope());
 	}
@@ -101,6 +110,7 @@ public class PreparedNoRecalculateIVQuery extends PreparedIVQuerySourceQuery {
 			ignoreDataSetFilter = true;
 		}
 
+		@Override
 		protected IResultIterator executeOdiQuery(IEventHandler eventHandler) throws DataException {
 			try {
 				org.eclipse.birt.data.engine.impl.document.ResultIterator sourceData = (org.eclipse.birt.data.engine.impl.document.ResultIterator) queryResults

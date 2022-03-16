@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -99,11 +102,6 @@ public class ScriptDebugTarget extends ScriptDebugElement
 	private String fileName = ""; //$NON-NLS-1$
 
 	/**
-	 * Temp folder for create the temp file.
-	 */
-	private String tempFolder;
-
-	/**
 	 * Send and receive port number.
 	 */
 	private int listenPort;
@@ -120,7 +118,7 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/**
 	 * Contructor
-	 * 
+	 *
 	 * @param launch
 	 * @param vm
 	 * @param name
@@ -136,8 +134,6 @@ public class ScriptDebugTarget extends ScriptDebugElement
 		this.reportVM = vm;
 		this.name = name;
 		this.process = process;
-
-		this.tempFolder = tempFolder;
 
 		this.listenPort = listenPort;
 
@@ -172,7 +168,7 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/**
 	 * Gets the module handle
-	 * 
+	 *
 	 * @return
 	 */
 	public ModuleHandle getModuleHandle() {
@@ -182,9 +178,7 @@ public class ScriptDebugTarget extends ScriptDebugElement
 						// No need to close the stream here, the report
 						// design parser will automaically close it.
 						new FileInputStream(getFileName()));
-			} catch (DesignFileException e) {
-
-			} catch (FileNotFoundException e) {
+			} catch (DesignFileException | FileNotFoundException e) {
 			}
 		}
 		return handle;
@@ -196,19 +190,21 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.debug.internal.script.model.ScriptDebugElement#
 	 * getDebugTarget()
 	 */
+	@Override
 	public IDebugTarget getDebugTarget() {
 		return this;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.IDebugTarget#getName()
 	 */
+	@Override
 	public String getName() throws DebugException {
 		if (name == null) {
 			name = getDefaultName();
@@ -237,38 +233,42 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.IDebugTarget#getProcess()
 	 */
+	@Override
 	public IProcess getProcess() {
 		return process;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.IDebugTarget#getThreads()
 	 */
+	@Override
 	public IThread[] getThreads() throws DebugException {
 		return threads;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.IDebugTarget#hasThreads()
 	 */
+	@Override
 	public boolean hasThreads() throws DebugException {
 		return !(isTerminated() || isDisconnected());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.core.model.IDebugTarget#supportsBreakpoint(org.eclipse.
 	 * debug.core.model.IBreakpoint)
 	 */
+	@Override
 	public boolean supportsBreakpoint(IBreakpoint breakpoint) {
 		if (!(breakpoint instanceof ScriptLineBreakpoint)) {
 			return false;
@@ -282,18 +282,20 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.ITerminate#canTerminate()
 	 */
+	@Override
 	public boolean canTerminate() {
 		return !(isTerminated() || isTerminating());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.ITerminate#isTerminated()
 	 */
+	@Override
 	public boolean isTerminated() {
 		return fTerminated;
 	}
@@ -307,9 +309,10 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.ITerminate#terminate()
 	 */
+	@Override
 	public void terminate() throws DebugException {
 		setTerminating(true);
 		try {
@@ -332,27 +335,30 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.ISuspendResume#canResume()
 	 */
+	@Override
 	public boolean canResume() {
 		return !isTerminated() && isSuspended();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.ISuspendResume#canSuspend()
 	 */
+	@Override
 	public boolean canSuspend() {
 		return !isTerminated() && !isSuspended();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.ISuspendResume#isSuspended()
 	 */
+	@Override
 	public boolean isSuspended() {
 		try {
 			return reportVM.isSuspended();
@@ -363,9 +369,10 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.ISuspendResume#resume()
 	 */
+	@Override
 	public void resume() throws DebugException {
 		try {
 			reportVM.resume();
@@ -376,9 +383,10 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.ISuspendResume#suspend()
 	 */
+	@Override
 	public void suspend() throws DebugException {
 		try {
 			reportVM.suspend();
@@ -389,11 +397,12 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.core.IBreakpointListener#breakpointAdded(org.eclipse.debug.
 	 * core.model.IBreakpoint)
 	 */
+	@Override
 	public void breakpointAdded(IBreakpoint breakpoint) {
 		if (!supportsBreakpoint(breakpoint)) {
 			return;
@@ -439,11 +448,12 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.core.IBreakpointListener#breakpointChanged(org.eclipse.
 	 * debug.core.model.IBreakpoint, org.eclipse.core.resources.IMarkerDelta)
 	 */
+	@Override
 	public void breakpointChanged(IBreakpoint breakpoint, IMarkerDelta delta) {
 		if (!supportsBreakpoint(breakpoint)) {
 			return;
@@ -461,11 +471,12 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.core.IBreakpointListener#breakpointRemoved(org.eclipse.
 	 * debug.core.model.IBreakpoint, org.eclipse.core.resources.IMarkerDelta)
 	 */
+	@Override
 	public void breakpointRemoved(IBreakpoint breakpoint, IMarkerDelta delta) {
 		if (!supportsBreakpoint(breakpoint)) {
 			return;
@@ -485,68 +496,75 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.IDisconnect#canDisconnect()
 	 */
+	@Override
 	public boolean canDisconnect() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.IDisconnect#disconnect()
 	 */
+	@Override
 	public void disconnect() throws DebugException {
 		// do nothing now
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.IDisconnect#isDisconnected()
 	 */
+	@Override
 	public boolean isDisconnected() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.IMemoryBlockRetrieval#getMemoryBlock(long,
 	 * long)
 	 */
+	@Override
 	public IMemoryBlock getMemoryBlock(long startAddress, long length) throws DebugException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.core.model.IMemoryBlockRetrieval#supportsStorageRetrieval()
 	 */
+	@Override
 	public boolean supportsStorageRetrieval() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.debug.internal.script.model.ScriptDebugElement#
 	 * getLaunch()
 	 */
+	@Override
 	public ILaunch getLaunch() {
 		return launch;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.debug.internal.core.vm.VMListener#handleEvent(int,
 	 * org.eclipse.birt.report.debug.internal.core.vm.VMContextData)
 	 */
+	@Override
 	public void handleEvent(int eventCode, VMContextData context) {
 		if (eventCode == VMConstants.VM_SUSPENDED_STEP_OVER) {
 			suspended(DebugEvent.STEP_END);
@@ -572,7 +590,7 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/**
 	 * Notification the target has resumed for the given reason
-	 * 
+	 *
 	 * @param detail reason for the resume
 	 */
 	private void resumed(int detail) {
@@ -616,7 +634,7 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/**
 	 * Gets the stack frames.
-	 * 
+	 *
 	 * @return
 	 * @throws DebugException
 	 */
@@ -645,7 +663,7 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/**
 	 * Step into
-	 * 
+	 *
 	 * @throws DebugException
 	 */
 	public void stepInto() throws DebugException {
@@ -660,7 +678,7 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/**
 	 * Step over
-	 * 
+	 *
 	 * @throws DebugException
 	 */
 	public void stepOver() throws DebugException {
@@ -675,7 +693,7 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/**
 	 * Step return
-	 * 
+	 *
 	 * @throws DebugException
 	 */
 	public void stepReturn() throws DebugException {
@@ -690,7 +708,7 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/**
 	 * Gets the variables from the stack frame.
-	 * 
+	 *
 	 * @param frame
 	 * @return
 	 */
@@ -730,7 +748,7 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/**
 	 * Gets teh value from the String throw the VM.
-	 * 
+	 *
 	 * @param frame
 	 * @param expression
 	 * @return
@@ -742,10 +760,7 @@ public class ScriptDebugTarget extends ScriptDebugElement
 		} catch (VMException e) {
 			return null;
 		}
-		if (value == null) {
-			return null;
-		}
-		if (VMConstants.UNDEFINED_TYPE.equals(value.getTypeName())
+		if ((value == null) || VMConstants.UNDEFINED_TYPE.equals(value.getTypeName())
 				|| VMConstants.EXCEPTION_TYPE.equals(value.getTypeName())) {
 			return null;
 		}
@@ -756,7 +771,7 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/**
 	 * Gets the file name.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getFileName() {
@@ -765,7 +780,7 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/**
 	 * Sets the file name.
-	 * 
+	 *
 	 * @param fileName
 	 */
 	public void setFileName(String fileName) {
@@ -774,7 +789,7 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/**
 	 * IF the target is terminating.
-	 * 
+	 *
 	 * @return
 	 */
 	protected boolean isTerminating() {
@@ -797,10 +812,11 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.debug.internal.script.model.ScriptDebugElement#
 	 * getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		try {
 			return getName();
@@ -809,6 +825,7 @@ public class ScriptDebugTarget extends ScriptDebugElement
 		}
 	}
 
+	@Override
 	public void breakpointManagerEnablementChanged(boolean enabled) {
 		if (!isAvailable()) {
 			return;

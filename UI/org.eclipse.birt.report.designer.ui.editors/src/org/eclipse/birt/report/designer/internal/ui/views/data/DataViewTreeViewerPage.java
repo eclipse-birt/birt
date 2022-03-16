@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -79,7 +81,7 @@ import org.eclipse.swt.widgets.Widget;
 
 /**
  * This class represents the tree view page of the data view
- * 
+ *
  */
 public class DataViewTreeViewerPage extends DataViewPage
 		implements IModelEventFactory, IValidationListener, IReportPageBookViewPage {
@@ -89,7 +91,7 @@ public class DataViewTreeViewerPage extends DataViewPage
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param model the handle of the report design
 	 */
 	public DataViewTreeViewerPage(ModuleHandle model) {
@@ -99,9 +101,10 @@ public class DataViewTreeViewerPage extends DataViewPage
 
 	/**
 	 * Creates the tree view
-	 * 
+	 *
 	 * @param parent the parent
 	 */
+	@Override
 	protected TreeViewer createTreeViewer(Composite parent) {
 		TreeViewer treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		return treeViewer;
@@ -110,6 +113,7 @@ public class DataViewTreeViewerPage extends DataViewPage
 	/**
 	 * Initializes the data view page.
 	 */
+	@Override
 	protected void initPage() {
 		createContextMenus();
 
@@ -120,6 +124,7 @@ public class DataViewTreeViewerPage extends DataViewPage
 		getTreeViewer().setSorter(new ItemSorter());
 		getTreeViewer().getTree().addMouseTrackListener(new MouseTrackAdapter() {
 
+			@Override
 			public void mouseHover(MouseEvent event) {
 				Widget widget = event.widget;
 				if (widget == getTreeViewer().getTree()) {
@@ -131,12 +136,14 @@ public class DataViewTreeViewerPage extends DataViewPage
 		});
 		getTreeViewer().getTree().addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// Do nothing
 
 			}
 
 			// Handle double click event
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				if (getSelection() instanceof StructuredSelection) {
 
@@ -165,12 +172,14 @@ public class DataViewTreeViewerPage extends DataViewPage
 			backup.restoreBackup(getTreeViewer());
 			getTreeViewer().getTree().addTreeListener(new TreeListener() {
 
+				@Override
 				public void treeCollapsed(TreeEvent e) {
 					Item item = (Item) e.item;
 					backup.updateCollapsedStatus(getTreeViewer(), item.getData());
 
 				}
 
+				@Override
 				public void treeExpanded(TreeEvent e) {
 					Item item = (Item) e.item;
 					backup.updateExpandedStatus(getTreeViewer(), item.getData());
@@ -189,8 +198,9 @@ public class DataViewTreeViewerPage extends DataViewPage
 					IDataViewerTooltipProvider tooltipProvider = (IDataViewerTooltipProvider) tooltipProviders[i];
 					if (tooltipProvider != null) {
 						String tooltip = tooltipProvider.getNodeTooltip(item);
-						if (tooltip != null)
+						if (tooltip != null) {
 							return tooltip;
+						}
 					}
 				}
 			}
@@ -198,22 +208,25 @@ public class DataViewTreeViewerPage extends DataViewPage
 			if (object instanceof DataSourceHandle || object instanceof ParameterGroupHandle) {
 				return LABEL_DOUBLE_CLICK;
 			}
-			StringBuffer tooltip = new StringBuffer();
+			StringBuilder tooltip = new StringBuilder();
 			boolean canInsert = InsertInLayoutUtil.handleValidateInsertToLayout(object, UIUtil.getCurrentEditPart());
 			String text = "(" + item.getText() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 			if (object instanceof DataSetHandle) {
-				if (canInsert)
+				if (canInsert) {
 					tooltip.append(Messages.getString("DataViewTreeViewerPage.tooltip.DragToInsertDataSetColumns") //$NON-NLS-1$
 							+ text + "; "); //$NON-NLS-1$
+				}
 				tooltip.append(LABEL_DOUBLE_CLICK);
 			}
 			if (object instanceof DataSetItemModel || object instanceof ResultSetColumnHandle) {
-				if (canInsert)
+				if (canInsert) {
 					tooltip.append(Messages.getString("DataViewTreeViewerPage.tooltip.DragToInsertColumn") + text); //$NON-NLS-1$
+				}
 			} else if (object instanceof ParameterHandle || object instanceof VariableElementHandle
 					|| object instanceof CubeHandle) {
-				if (canInsert)
+				if (canInsert) {
 					tooltip.append(Messages.getString("DataViewTreeViewerPage.tooltip.DragToInsertParameter")); //$NON-NLS-1$
+				}
 				tooltip.append(LABEL_DOUBLE_CLICK);
 			}
 			return tooltip.toString();
@@ -237,6 +250,7 @@ public class DataViewTreeViewerPage extends DataViewPage
 	/**
 	 * Configures the tree viewer.
 	 */
+	@Override
 	protected void configTreeViewer() {
 
 		ViewsTreeProvider provider = new ViewsTreeProvider();
@@ -253,7 +267,7 @@ public class DataViewTreeViewerPage extends DataViewPage
 	protected void addDragAndDropListener() {
 		// Adds drag and drop support
 		int ops = DND.DROP_MOVE | DND.DROP_COPY;
-		Transfer[] transfers = new Transfer[] { TemplateTransfer.getInstance() };
+		Transfer[] transfers = { TemplateTransfer.getInstance() };
 		getTreeViewer().addDragSupport(ops, transfers, new DesignerDragListener(getTreeViewer()));
 
 		transfers = new Transfer[] { TemplateTransfer.getInstance() };
@@ -265,6 +279,7 @@ public class DataViewTreeViewerPage extends DataViewPage
 		// nothing can drag into CascadingParameterGroupHandle
 		dropListener.addDropConstraint(CascadingParameterGroupHandle.class, new IDropConstraint() {
 
+			@Override
 			public int validate(Object transfer, Object target) {
 				return RESULT_NO;
 			}
@@ -273,11 +288,13 @@ public class DataViewTreeViewerPage extends DataViewPage
 		// sibling
 		dropListener.addDropConstraint(ScalarParameterHandle.class, new IDropConstraint() {
 
+			@Override
 			public int validate(Object transfer, Object target) {
 				if (target instanceof ScalarParameterHandle) {
 					ScalarParameterHandle targetParameter = (ScalarParameterHandle) target;
-					if (targetParameter.getContainer() instanceof CascadingParameterGroupHandle)
+					if (targetParameter.getContainer() instanceof CascadingParameterGroupHandle) {
 						return RESULT_NO;
+					}
 				}
 				return RESULT_UNKNOW;
 			}
@@ -286,12 +303,14 @@ public class DataViewTreeViewerPage extends DataViewPage
 		// CascadingParameterGroupHandle children can't drag into other slot.
 		IDropConstraint cascadingParameterGroupChildrenConstraint = new IDropConstraint() {
 
+			@Override
 			public int validate(Object transfer, Object target) {
 				if (transfer instanceof Object[] && ((Object[]) transfer).length > 0
 						&& ((Object[]) transfer)[0] instanceof ScalarParameterHandle) {
 					ScalarParameterHandle transferParameter = (ScalarParameterHandle) ((Object[]) transfer)[0];
-					if (transferParameter.getContainer() instanceof CascadingParameterGroupHandle)
+					if (transferParameter.getContainer() instanceof CascadingParameterGroupHandle) {
 						return RESULT_NO;
+					}
 				}
 				return RESULT_UNKNOW;
 			}
@@ -306,7 +325,7 @@ public class DataViewTreeViewerPage extends DataViewPage
 
 	/**
 	 * Initializes the root of the view
-	 * 
+	 *
 	 */
 	protected void initRoot() {
 		getTreeViewer().setInput(new ReportDataHandle(getRoot()));
@@ -318,6 +337,7 @@ public class DataViewTreeViewerPage extends DataViewPage
 	 * disposes of this page's control (if it has one and it has not already been
 	 * disposed). Disposes the visitor of the element
 	 */
+	@Override
 	public void dispose() {
 		getRoot().removeValidationListener(this);
 		super.dispose();
@@ -366,14 +386,15 @@ public class DataViewTreeViewerPage extends DataViewPage
 	/**
 	 * Deletes config variable when parameter is deleted. Config variable is used to
 	 * store default value in the dialogue when preview page
-	 * 
+	 *
 	 * @param ev delete event
 	 */
 	private void deleteConfigVariable(final Map args) {
 		Display.getCurrent().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
-				String variableName = null;
+				String variableName;
 				variableName = (String) args.get(DataViewEventProcessor.VARIABLE_NAME);
 				if (variableName != null) {
 					ConfigVariable cv = getRoot().findConfigVariable(variableName);
@@ -414,11 +435,12 @@ public class DataViewTreeViewerPage extends DataViewPage
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.validators.IValidationListener#
 	 * elementValidated(org.eclipse.birt.report.model.api.DesignElementHandle,
 	 * org.eclipse.birt.report.model.api.validators.ValidationEvent)
 	 */
+	@Override
 	public void elementValidated(DesignElementHandle targetElement, ValidationEvent ev) {
 		getTreeViewer().refresh();
 	}
@@ -433,6 +455,7 @@ public class DataViewTreeViewerPage extends DataViewPage
 		return new DataViewEventProcessor(this);
 	}
 
+	@Override
 	public Runnable createModelEventRunnable(Object focus, final int type, final Map args) {
 		switch (type) {
 		case NotificationEvent.PROPERTY_EVENT:
@@ -440,6 +463,7 @@ public class DataViewTreeViewerPage extends DataViewPage
 		case NotificationEvent.CONTENT_EVENT: {
 			return new ReportEventRunnable(focus, type, args) {
 
+				@Override
 				public void run() {
 					if (isDispose()) {
 						return;
@@ -457,6 +481,7 @@ public class DataViewTreeViewerPage extends DataViewPage
 		default:
 			return new ReportEventRunnable(focus, type, args) {
 
+				@Override
 				public void run() {
 					if (isDispose()) {
 						return;
@@ -471,24 +496,28 @@ public class DataViewTreeViewerPage extends DataViewPage
 		if (obj instanceof IDesignElement) {
 			IDesignElement element = (IDesignElement) obj;
 			getTreeViewer().expandToLevel(element.getHandle(getRoot().getModule()), 0);
-			if (backup != null)
+			if (backup != null) {
 				backup.updateStatus(getTreeViewer());
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.
 	 * DesignerOutlineEventProcessor.IFactConsumerFactory#isDispose()
 	 */
+	@Override
 	public boolean isDispose() {
-		if (getTreeViewer() == null || getTreeViewer().getTree() == null)
+		if (getTreeViewer() == null || getTreeViewer().getTree() == null) {
 			return true;
-		else
+		} else {
 			return getTreeViewer().getTree().isDisposed();
+		}
 	}
 
+	@Override
 	public ISelectionProvider getSelectionProvider() {
 		return getTreeViewer();
 	}

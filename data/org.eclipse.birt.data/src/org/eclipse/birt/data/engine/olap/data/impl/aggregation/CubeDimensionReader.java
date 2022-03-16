@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIter
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 
 /**
- * 
+ *
  */
 
 public class CubeDimensionReader implements ICubeDimensionReader {
@@ -44,11 +47,12 @@ public class CubeDimensionReader implements ICubeDimensionReader {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.ICubeDimensionReader#
 	 * getLevelMember(int, int, int)
 	 */
+	@Override
 	public Member getLevelMember(int dimIndex, int levelIndex, int dimPos) throws IOException, DataException {
 		if (dimResultSet[dimIndex] == null) {
 			populateDimensionResultIterator(dimIndex);
@@ -59,27 +63,30 @@ public class CubeDimensionReader implements ICubeDimensionReader {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.ICubeDimensionReader#
 	 * getDimension(java.lang.String)
 	 */
+	@Override
 	public IDimension getDimension(String dimensionName) {
 		IDimension[] dimensions = cube.getDimesions();
 		for (int i = 0; i < dimensions.length; i++) {
-			if (dimensions[i].getName().equals(dimensionName))
+			if (dimensions[i].getName().equals(dimensionName)) {
 				return dimensions[i];
+			}
 		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.ICubeDimensionReader#
 	 * getLevelMembers(int, int, int)
 	 */
+	@Override
 	public Member[] getLevelMembers(int dimIndex, int endLevelIndex, int dimPos) throws IOException, DataException {
 		if (dimResultSet[dimIndex] == null) {
 			populateDimensionResultIterator(dimIndex);
@@ -93,31 +100,35 @@ public class CubeDimensionReader implements ICubeDimensionReader {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.ICubeDimensionReader#
 	 * getDimensionIndex(java.lang.String)
 	 */
+	@Override
 	public int getDimensionIndex(String dimensionName) {
 		IDimension[] dimensions = cube.getDimesions();
 		for (int i = 0; i < dimensions.length; i++) {
-			if (dimensions[i].getName().equals(dimensionName))
+			if (dimensions[i].getName().equals(dimensionName)) {
 				return i;
+			}
 		}
 		return -1;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.ICubeDimensionReader#
 	 * getLevelIndex(java.lang.String, java.lang.String)
 	 */
+	@Override
 	public int getLevelIndex(String dimensionName, String levelName) {
 		IDimension dimension = getDimension(dimensionName);
-		if (dimension == null)
+		if (dimension == null) {
 			return -1;
+		}
 		ILevel[] levels = dimension.getHierarchy().getLevels();
 		for (int i = 0; i < levels.length; i++) {
 			if (levelName.equals(levels[i].getName())) {
@@ -129,11 +140,12 @@ public class CubeDimensionReader implements ICubeDimensionReader {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.ICubeDimensionReader#
 	 * getlowestLevelIndex(java.lang.String)
 	 */
+	@Override
 	public int getlowestLevelIndex(String dimensionName) {
 		return getDimension(dimensionName).getHierarchy().getLevels().length - 1;
 	}

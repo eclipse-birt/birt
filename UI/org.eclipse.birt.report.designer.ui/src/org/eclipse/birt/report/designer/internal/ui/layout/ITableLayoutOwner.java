@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,14 +25,14 @@ import org.eclipse.gef.EditPartViewer;
 public interface ITableLayoutOwner {
 	/**
 	 * The owner if is active
-	 * 
+	 *
 	 * @return
 	 */
 	boolean isActive();
 
 	/**
 	 * Gets the layout figure
-	 * 
+	 *
 	 * @return
 	 */
 	IFigure getFigure();
@@ -41,7 +44,7 @@ public interface ITableLayoutOwner {
 
 	/**
 	 * gets the viewer
-	 * 
+	 *
 	 * @return
 	 */
 	// The methos maybe change
@@ -49,7 +52,7 @@ public interface ITableLayoutOwner {
 
 	/**
 	 * Gets the heigh infomation form the model
-	 * 
+	 *
 	 * @param number
 	 * @return
 	 */
@@ -57,7 +60,7 @@ public interface ITableLayoutOwner {
 
 	/**
 	 * Gets the column from the model
-	 * 
+	 *
 	 * @param number
 	 * @return
 	 */
@@ -65,49 +68,49 @@ public interface ITableLayoutOwner {
 
 	/**
 	 * Gets the column count
-	 * 
+	 *
 	 * @return
 	 */
 	int getColumnCount();
 
 	/**
 	 * Gets the row count
-	 * 
+	 *
 	 * @return
 	 */
 	int getRowCount();
 
 	/**
 	 * Gets the children
-	 * 
+	 *
 	 * @return
 	 */
 	List getChildren();
 
 	/**
 	 * Gets the define width.
-	 * 
+	 *
 	 * @return
 	 */
 	String getDefinedWidth();
 
 	/**
 	 * If the force set to t he model
-	 * 
+	 *
 	 * @return
 	 */
 	boolean isForceWidth();
 
 	/**
 	 * Gets the define height,return null if the owner don't support the height;
-	 * 
+	 *
 	 * @return
 	 */
 	String getDefinedHeight();
 
 	/**
 	 * Gets the ori column width
-	 * 
+	 *
 	 * @param columNumber
 	 * @return
 	 */
@@ -115,7 +118,7 @@ public interface ITableLayoutOwner {
 
 	/**
 	 * Through the row infomation to cale the height value.
-	 * 
+	 *
 	 * @param number
 	 * @return
 	 */
@@ -123,7 +126,7 @@ public interface ITableLayoutOwner {
 
 	/**
 	 * Through the column infomation to cale the width value.
-	 * 
+	 *
 	 * @param number
 	 * @return
 	 */
@@ -132,7 +135,7 @@ public interface ITableLayoutOwner {
 	/**
 	 * Gets the allow min row hight.If no special request, return
 	 * FixTableLayout.DEFAULT_ROW_HEIGHT;
-	 * 
+	 *
 	 * @return
 	 */
 	int getFixAllowMinRowHight();

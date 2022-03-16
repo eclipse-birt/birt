@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +45,7 @@ import org.eclipse.swt.widgets.ToolBar;
 /**
  * History toolBar to switch between dataset editor tree node pages. It will
  * save the history of jumped pages, and user could switch between tree viwer.
- * 
+ *
  */
 public class HistoryToolBar extends Composite {
 	// toolBar manager
@@ -54,7 +57,7 @@ public class HistoryToolBar extends Composite {
 	private TreeViewer viewer;
 
 	/**
-	 * 
+	 *
 	 * @param parent parent composite
 	 * @param viewer the dataset editor's tree viewer
 	 * @param style
@@ -81,7 +84,7 @@ public class HistoryToolBar extends Composite {
 
 	/**
 	 * Toolbar with backward and forward button
-	 * 
+	 *
 	 * @param historyBar
 	 */
 	private void createHistoryControls(ToolBar historyBar) {
@@ -95,10 +98,12 @@ public class HistoryToolBar extends Composite {
 				super("", IAction.AS_DROP_DOWN_MENU); //$NON-NLS-1$
 			}
 
+			@Override
 			public IMenuCreator getMenuCreator() {
 				return this;
 			}
 
+			@Override
 			public void dispose() {
 				if (lastMenu != null) {
 					lastMenu.dispose();
@@ -106,6 +111,7 @@ public class HistoryToolBar extends Composite {
 				}
 			}
 
+			@Override
 			public Menu getMenu(Control parent) {
 				if (lastMenu != null) {
 					lastMenu.dispose();
@@ -115,6 +121,7 @@ public class HistoryToolBar extends Composite {
 				return lastMenu;
 			}
 
+			@Override
 			public Menu getMenu(Menu parent) {
 				return null;
 			}
@@ -136,6 +143,7 @@ public class HistoryToolBar extends Composite {
 				this.index = index;
 			}
 
+			@Override
 			public void run() {
 				jumpToHistory(index);
 			}
@@ -143,20 +151,24 @@ public class HistoryToolBar extends Composite {
 
 		HistoryNavigationAction backward = new HistoryNavigationAction() {
 
+			@Override
 			public void run() {
 				jumpToHistory(historyIndex - 1);
 			}
 
+			@Override
 			public boolean isEnabled() {
 				boolean enabled = historyIndex > 0;
-				if (enabled)
+				if (enabled) {
 					setToolTipText(getHistoryToolTip(this.getText(), historyIndex - 1));
-				else
+				} else {
 					setToolTipText(this.getText());
+				}
 
 				return enabled;
 			}
 
+			@Override
 			protected void createEntries(Menu menu) {
 				int limit = Math.max(0, historyIndex - MAX_ENTRIES);
 				for (int i = historyIndex - 1; i >= limit; i--) {
@@ -178,20 +190,24 @@ public class HistoryToolBar extends Composite {
 
 		HistoryNavigationAction forward = new HistoryNavigationAction() {
 
+			@Override
 			public void run() {
 				jumpToHistory(historyIndex + 1);
 			}
 
+			@Override
 			public boolean isEnabled() {
 				boolean enabled = historyIndex < history.size() - 1;
-				if (enabled)
+				if (enabled) {
 					setToolTipText(getHistoryToolTip(this.getText(), historyIndex + 1));
-				else
+				} else {
 					setToolTipText(this.getText());
+				}
 
 				return enabled;
 			}
 
+			@Override
 			protected void createEntries(Menu menu) {
 				int limit = Math.min(history.size(), historyIndex + MAX_ENTRIES + 1);
 				for (int i = historyIndex + 1; i < limit; i++) {
@@ -213,21 +229,22 @@ public class HistoryToolBar extends Composite {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private static boolean isBidi() {
 		String lang = (String) System.getProperties().get("osgi.nl.user"); //$NON-NLS-1$
 		if ("iw".equals(lang) || "ar".equals(lang) || "fa".equals(lang) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				|| "ur".equals(lang)) //$NON-NLS-1$
+				|| "ur".equals(lang)) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
 	 * jump to the indexed page node
-	 * 
+	 *
 	 * @param index
 	 */
 	private void jumpToHistory(int index) {
@@ -240,19 +257,20 @@ public class HistoryToolBar extends Composite {
 
 	/**
 	 * whether could leave the current page node
-	 * 
+	 *
 	 * @return
 	 */
 	private boolean canLeave() {
 		if (history.get(historyIndex) != null) {
 			return ((PropertyNode) history.get(historyIndex)).getPage().canLeave();
-		} else
+		} else {
 			return false;
+		}
 	}
 
 	/**
 	 * add history page node in history list
-	 * 
+	 *
 	 * @param node
 	 */
 	public void addHistoryNode(PropertyNode node) {
@@ -279,7 +297,7 @@ public class HistoryToolBar extends Composite {
 
 	/**
 	 * get history toolbar's tooltip
-	 * 
+	 *
 	 * @param toolTipPrefix
 	 * @param index
 	 * @return
@@ -291,7 +309,7 @@ public class HistoryToolBar extends Composite {
 
 	/**
 	 * get indexed history page node
-	 * 
+	 *
 	 * @param index
 	 * @return
 	 */
@@ -306,6 +324,7 @@ public class HistoryToolBar extends Composite {
 	void initAccessible() {
 		getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
+			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
@@ -313,6 +332,7 @@ public class HistoryToolBar extends Composite {
 
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
+			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point testPoint = toControl(new Point(e.x, e.y));
 				if (getBounds().contains(testPoint)) {
@@ -320,6 +340,7 @@ public class HistoryToolBar extends Composite {
 				}
 			}
 
+			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(new Point(location.x, location.y));
@@ -329,14 +350,17 @@ public class HistoryToolBar extends Composite {
 				e.height = location.height;
 			}
 
+			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
+			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_COMBOBOX;
 			}
 
+			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}

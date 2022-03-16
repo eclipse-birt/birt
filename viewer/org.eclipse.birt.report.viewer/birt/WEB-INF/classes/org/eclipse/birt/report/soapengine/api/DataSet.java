@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * DataSet.java
  *
@@ -37,7 +49,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Gets the id value for this DataSet.
-	 * 
+	 *
 	 * @return id
 	 */
 	public long getId() {
@@ -46,7 +58,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Sets the id value for this DataSet.
-	 * 
+	 *
 	 * @param id
 	 */
 	public void setId(long id) {
@@ -55,7 +67,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Gets the name value for this DataSet.
-	 * 
+	 *
 	 * @return name
 	 */
 	public java.lang.String getName() {
@@ -64,7 +76,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Sets the name value for this DataSet.
-	 * 
+	 *
 	 * @param name
 	 */
 	public void setName(java.lang.String name) {
@@ -73,7 +85,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Gets the displayName value for this DataSet.
-	 * 
+	 *
 	 * @return displayName
 	 */
 	public java.lang.String getDisplayName() {
@@ -82,7 +94,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Sets the displayName value for this DataSet.
-	 * 
+	 *
 	 * @param displayName
 	 */
 	public void setDisplayName(java.lang.String displayName) {
@@ -91,7 +103,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Gets the description value for this DataSet.
-	 * 
+	 *
 	 * @return description
 	 */
 	public java.lang.String getDescription() {
@@ -100,7 +112,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Sets the description value for this DataSet.
-	 * 
+	 *
 	 * @param description
 	 */
 	public void setDescription(java.lang.String description) {
@@ -109,7 +121,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Gets the isDeletable value for this DataSet.
-	 * 
+	 *
 	 * @return isDeletable
 	 */
 	public boolean isIsDeletable() {
@@ -118,7 +130,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Sets the isDeletable value for this DataSet.
-	 * 
+	 *
 	 * @param isDeletable
 	 */
 	public void setIsDeletable(boolean isDeletable) {
@@ -127,7 +139,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Gets the isModifiable value for this DataSet.
-	 * 
+	 *
 	 * @return isModifiable
 	 */
 	public boolean isIsModifiable() {
@@ -136,7 +148,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Sets the isModifiable value for this DataSet.
-	 * 
+	 *
 	 * @param isModifiable
 	 */
 	public void setIsModifiable(boolean isModifiable) {
@@ -145,7 +157,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Gets the definition value for this DataSet.
-	 * 
+	 *
 	 * @return definition
 	 */
 	public org.eclipse.birt.report.soapengine.api.DataSetDefinition getDefinition() {
@@ -154,7 +166,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Sets the definition value for this DataSet.
-	 * 
+	 *
 	 * @param definition
 	 */
 	public void setDefinition(org.eclipse.birt.report.soapengine.api.DataSetDefinition definition) {
@@ -163,7 +175,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Gets the dataSource value for this DataSet.
-	 * 
+	 *
 	 * @return dataSource
 	 */
 	public org.eclipse.birt.report.soapengine.api.DataSource getDataSource() {
@@ -172,7 +184,7 @@ public class DataSet implements java.io.Serializable {
 
 	/**
 	 * Sets the dataSource value for this DataSet.
-	 * 
+	 *
 	 * @param dataSource
 	 */
 	public void setDataSource(org.eclipse.birt.report.soapengine.api.DataSource dataSource) {
@@ -181,14 +193,18 @@ public class DataSet implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof DataSet))
+		if (!(obj instanceof DataSet)) {
 			return false;
+		}
 		DataSet other = (DataSet) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -212,6 +228,7 @@ public class DataSet implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

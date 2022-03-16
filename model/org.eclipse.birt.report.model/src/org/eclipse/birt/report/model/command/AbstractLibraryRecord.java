@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +40,7 @@ import org.eclipse.birt.report.model.metadata.StructRefValue;
 /**
  * This class is the base class for all library records. The target of records
  * are always module.
- * 
+ *
  */
 
 abstract class AbstractLibraryRecord extends SimpleRecord {
@@ -56,7 +59,7 @@ abstract class AbstractLibraryRecord extends SimpleRecord {
 
 	/**
 	 * Constructs the library record.
-	 * 
+	 *
 	 * @param module
 	 * @param library
 	 */
@@ -67,7 +70,7 @@ abstract class AbstractLibraryRecord extends SimpleRecord {
 
 	/**
 	 * Constructs the library record.
-	 * 
+	 *
 	 * @param module
 	 */
 	AbstractLibraryRecord(Module module) {
@@ -76,17 +79,18 @@ abstract class AbstractLibraryRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
+	@Override
 	public DesignElement getTarget() {
 		return module;
 	}
 
 	/**
 	 * Updates the style reference using the element in the given library list.
-	 * 
+	 *
 	 * @param updateSize the size of the library that needs to be updated
 	 */
 
@@ -100,7 +104,7 @@ abstract class AbstractLibraryRecord extends SimpleRecord {
 
 	/**
 	 * Updates the theme/style element reference which refers to the given library.
-	 * 
+	 *
 	 * @param library the library whose element references are updated.
 	 */
 
@@ -117,14 +121,16 @@ abstract class AbstractLibraryRecord extends SimpleRecord {
 		// update clients of embedded images
 
 		List<Object> images = library.getListProperty(library, IModuleModel.IMAGES_PROP);
-		if (images == null || images.isEmpty())
+		if (images == null || images.isEmpty()) {
 			return;
+		}
 		boolean sendEvent = false;
 		for (int i = 0; i < images.size(); i++) {
 			EmbeddedImage image = (EmbeddedImage) images.get(i);
 			List<Structure> clients = image.getClientStructures();
-			if (clients == null || clients.isEmpty())
+			if (clients == null || clients.isEmpty()) {
 				continue;
+			}
 			for (int j = 0; j < clients.size(); j++) {
 				Structure client = clients.get(j);
 				StructRefValue value = (StructRefValue) client.getLocalProperty(module,
@@ -136,8 +142,9 @@ abstract class AbstractLibraryRecord extends SimpleRecord {
 			}
 
 			List<BackRef> clientsRef = image.getClientList();
-			if (clientsRef == null || clientsRef.isEmpty())
+			if (clientsRef == null || clientsRef.isEmpty()) {
 				continue;
+			}
 			for (int j = 0; j < clientsRef.size(); j++) {
 				BackRef client = clientsRef.get(j);
 				DesignElement element = client.getElement();
@@ -152,13 +159,14 @@ abstract class AbstractLibraryRecord extends SimpleRecord {
 
 		// send the property event to current module
 
-		if (sendEvent)
+		if (sendEvent) {
 			module.broadcast(new PropertyEvent(module, IModuleModel.IMAGES_PROP));
+		}
 	}
 
 	/**
 	 * Updates the element reference which refers to the given library.
-	 * 
+	 *
 	 * @param target the library whose element references are updated.
 	 * @param slotId the id of themes/styles slot
 	 */

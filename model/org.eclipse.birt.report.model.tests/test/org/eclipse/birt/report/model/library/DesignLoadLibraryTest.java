@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -73,9 +76,9 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests one report design including an inexistent library.
-	 * 
+	 *
 	 * And test status of elements that extends library elements.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -106,7 +109,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests one report design including an invalid library.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -120,7 +123,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests one report design including one library with semantic errors.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -142,7 +145,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests one report design including two library with same namespace.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -166,7 +169,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 	 * Tests extended element with duplicate name in design file and library file.
 	 * Now master page just support grid , so just test gird which contains slot
 	 * handle.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -198,7 +201,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * A design include the same library twice.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -213,7 +216,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests one report design includes three libraries.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -321,7 +324,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests the style resolution.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -338,7 +341,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 	/**
 	 * Tests all operations of finding or getting elements in module name space or
 	 * name space.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -395,10 +398,10 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 * 
+	 *
 	 * Includes a library without given namespace, a default namespace will be
 	 * generated.
-	 * 
+	 *
 	 * @throws SemanticException
 	 * @throws DesignFileException
 	 */
@@ -416,10 +419,10 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Returns an string array containing element names with the given element list.
-	 * 
+	 *
 	 * @param list a list containg elements
 	 * @return an string array containing element names
-	 * 
+	 *
 	 */
 
 	private String[] getNameArray(List list) {
@@ -452,7 +455,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests the style resolution.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -531,7 +534,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests the data source and data set resolution.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -598,7 +601,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests the direct reference to data set.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -673,7 +676,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 	/**
 	 * Tests the property search rules for the design element extending one lib
 	 * element.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -731,7 +734,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests one design element extends one library element.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -831,7 +834,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests one design table extending one library table.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -863,7 +866,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 		row = (RowHandle) detailSlot.get(0);
 
-		CellHandle cell = null;
+		CellHandle cell;
 		cell = (CellHandle) row.getCells().get(0); // Check the first cell
 		assertEquals("label_1_1", cell.getContent().get(0).getName()); //$NON-NLS-1$
 
@@ -885,7 +888,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests adding library.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -958,7 +961,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 	/**
 	 * Tests adding library begin with space. The file name of the library should
 	 * not be trimmed and the name space should be trimmed.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testAddingLibraryBeginWithSpace() throws Exception {
@@ -976,7 +979,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests dropping library.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -1016,8 +1019,8 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 	 * <li>style1 in Lib2 has color with the value, "green"
 	 * <li>style1 in Lib3 has color with the value, "yellow"
 	 * </ul>
-	 * 
-	 * 
+	 *
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -1092,7 +1095,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests the writer.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -1105,7 +1108,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests the structure reference.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -1196,7 +1199,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Test the reference to one custom color.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -1236,7 +1239,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests the element reference update when user adds one library or drops it.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -1304,7 +1307,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 	 * When dopping <strong>lib2</strong>, label1 in the design will be localized.
 	 * While lib2.baseLabel1 will not be affected.
 	 * <p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1412,7 +1415,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests whether the element from the included library is read only.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -1442,7 +1445,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 	/**
 	 * Tests one design file including the library, which also includes another two
 	 * libraries.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -1504,7 +1507,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests opening design file which includes recursive libraries.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -1527,7 +1530,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 	 * <li>Add another Lib1 to design file.
 	 * <li>The exception of duplicate library namespace is reported.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -1633,10 +1636,10 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Test case:
-	 * 
+	 *
 	 * when add a element like style to the design, names in the library do not take
 	 * effect. This is because library and design have different name spaces.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1653,7 +1656,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests the location path related isses.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1712,13 +1715,13 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Test case:
-	 * 
+	 *
 	 * 1. When including a library which includes another library, getAllImages
 	 * method can return all the images in these libraries.
-	 * 
+	 *
 	 * 2. Above condition, the imagesIterator method returns null while there is no
 	 * embedded images in report design.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1759,7 +1762,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests isReadOnly in PropertyHandle.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1779,13 +1782,13 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Tests property value of elements that is extended in multi-level.
-	 * 
+	 *
 	 * cases:
 	 * <ul>
 	 * <li>a table with dataset in library is extended triple times.
 	 * <li>a table with dataset in library is extended two times.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1818,7 +1821,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 
 	/**
 	 * Test get externalized message.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testGetExternalizedMessage() throws Exception {
@@ -1838,7 +1841,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 	/**
 	 * Tests case : a label extends a library label, and the library label has a
 	 * user property, then the label in the design can be dropped.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1855,7 +1858,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 	/**
 	 * Test cases to retrieve script libs/included scripts from the design with its
 	 * included libraries.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1882,7 +1885,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testGetAllIncludeCsses() throws Exception {
@@ -1908,7 +1911,7 @@ public class DesignLoadLibraryTest extends BaseTestCase {
 	 * <p>
 	 * The expect result is libB can be used successfully and liB.Lib1 is valid. see
 	 * bug 276216.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 

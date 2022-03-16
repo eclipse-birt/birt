@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -11,8 +14,8 @@
 
 package org.eclipse.birt.data.engine.executor.transform;
 
-import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetFromCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
@@ -26,7 +29,7 @@ public class OdiResultSetWrapper {
 	private Object resultSource;
 
 	/**
-	 * 
+	 *
 	 * @param rs
 	 */
 	OdiResultSetWrapper(ResultSet rs) {
@@ -34,7 +37,7 @@ public class OdiResultSetWrapper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param rs
 	 */
 	OdiResultSetWrapper(DataSetToCache rs) {
@@ -42,7 +45,7 @@ public class OdiResultSetWrapper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param rs
 	 */
 	OdiResultSetWrapper(DataSetFromCache rs) {
@@ -50,7 +53,7 @@ public class OdiResultSetWrapper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param rs
 	 */
 	OdiResultSetWrapper(ICustomDataSet rs) {
@@ -58,7 +61,7 @@ public class OdiResultSetWrapper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param rs
 	 */
 	public OdiResultSetWrapper(IResultIterator rs) {
@@ -66,7 +69,7 @@ public class OdiResultSetWrapper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param rs
 	 */
 	OdiResultSetWrapper(Object[] rs) {
@@ -74,14 +77,14 @@ public class OdiResultSetWrapper {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	OdiResultSetWrapper(IDataSetPopulator rs) {
 		this.resultSource = rs;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Object getWrappedOdiResultSet() {

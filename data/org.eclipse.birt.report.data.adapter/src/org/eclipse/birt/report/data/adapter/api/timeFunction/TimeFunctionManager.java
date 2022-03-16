@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,13 +53,13 @@ public class TimeFunctionManager {
 	 * day of the first month of 4 quarters, quarter1, month1 31 day; quarter2,
 	 * month4, 30day
 	 */
-	private static int[] quarterDay = new int[] { 31, 30, 31, 31 };
-	private static int[] monthDay = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	private static int[] quarterDay = { 31, 30, 31, 31 };
+	private static int[] monthDay = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 	/**
 	 * get a list of TimeFunction instances for the specified type under specified
 	 * local
-	 * 
+	 *
 	 * @param dim
 	 * @param timeLevelsInXtab
 	 * @param isStaticReferenceDate
@@ -64,9 +67,9 @@ public class TimeFunctionManager {
 	 */
 	public static List<ITimeFunction> getCalculationTypes(DimensionHandle dim, List<String> timeLevelsInXtab,
 			boolean isStaticReferenceDate, ULocale locale) {
-		List<ITimeFunction> availableFunctions = new ArrayList<ITimeFunction>();
+		List<ITimeFunction> availableFunctions = new ArrayList<>();
 
-		List<String> timeType = new ArrayList<String>();
+		List<String> timeType = new ArrayList<>();
 		if (dim != null && dim.isTimeType()) {
 			String startingLevels = null;
 			if (!timeLevelsInXtab.isEmpty() && !isStaticReferenceDate) {
@@ -77,17 +80,17 @@ public class TimeFunctionManager {
 			for (int i = 0, j = 0; i < levels.size(); i++) {
 				TabularLevelHandle level = (TabularLevelHandle) levels.get(i);
 				if (startingLevels != null && level.getName().equals(startingLevels)) {
-					if (!level.getDateTimeLevelType().equalsIgnoreCase(DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR))
+					if (!level.getDateTimeLevelType()
+							.equalsIgnoreCase(DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR)) {
 						return availableFunctions;
+					}
 				}
 				if (timeLevelsInXtab.isEmpty() || isStaticReferenceDate) {
 					timeType.add(level.getDateTimeLevelType());
-				} else {
-					if (level.getName().equals(timeLevelsInXtab.get(j))) {
-						timeType.add(level.getDateTimeLevelType());
-						if (++j >= timeLevelsInXtab.size()) {
-							break;
-						}
+				} else if (level.getName().equals(timeLevelsInXtab.get(j))) {
+					timeType.add(level.getDateTimeLevelType());
+					if (++j >= timeLevelsInXtab.size()) {
+						break;
 					}
 				}
 			}
@@ -99,8 +102,8 @@ public class TimeFunctionManager {
 			return availableFunctions;
 		}
 
-		List<IArgumentInfo.Period_Type> periodType = new ArrayList<IArgumentInfo.Period_Type>();
-		List<IArgumentInfo.Period_Type> periodToDateType = new ArrayList<IArgumentInfo.Period_Type>();
+		List<IArgumentInfo.Period_Type> periodType = new ArrayList<>();
+		List<IArgumentInfo.Period_Type> periodToDateType = new ArrayList<>();
 
 		TimeFunctionHandle handle = TimeFunctionHandle.getInstance(locale);
 
@@ -176,7 +179,7 @@ public class TimeFunctionManager {
 	/**
 	 * get a list of TimeFunction instances for the specified type under default
 	 * local
-	 * 
+	 *
 	 * @param dim
 	 * @param timeLevelsInXtab
 	 * @param isStaticReferenceDate
@@ -189,7 +192,7 @@ public class TimeFunctionManager {
 
 	/**
 	 * get the time function for specified name
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
@@ -262,7 +265,7 @@ public class TimeFunctionManager {
 
 	/**
 	 * get the time function for specified name
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
@@ -272,16 +275,18 @@ public class TimeFunctionManager {
 
 	/**
 	 * get the time type used in time function binding
-	 * 
+	 *
 	 * @param handle
 	 * @return
 	 */
 	public static String[] getTimeType(ComputedColumnHandle handle) {
-		if (handle == null)
+		if (handle == null) {
 			return null;
+		}
 		String calculationType = handle.getCalculationType();
-		if (calculationType == null)
+		if (calculationType == null) {
 			return null;
+		}
 
 		if (IBuildInBaseTimeFunction.CURRENT_YEAR.equals(calculationType)
 				|| IBuildInBaseTimeFunction.PREVIOUS_YEAR.equals(calculationType)
@@ -317,24 +322,7 @@ public class TimeFunctionManager {
 				|| IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR.equals(calculationType)) {
 			return new String[] { DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR };
 		}
-		if (IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO.equals(calculationType)) {
-			Iterator iter = handle.calculationArgumentsIterator();
-			String period1 = null, period2 = null;
-
-			while (iter.hasNext()) {
-				CalculationArgumentHandle argument = (CalculationArgumentHandle) iter.next();
-				if (IArgumentInfo.PERIOD_1.equals(argument.getName())) {
-					period1 = argument.getValue().getStringExpression();
-				}
-				if (IArgumentInfo.PERIOD_2.equals(argument.getName())) {
-					period2 = argument.getValue().getStringExpression();
-				}
-			}
-			return new String[] { DataAdapterUtil.toModelTimeType(DataAdapterUtil.toTimePeriodType(period1)),
-					DataAdapterUtil.toModelTimeType(DataAdapterUtil.toTimePeriodType(period2)) };
-		}
-
-		if (IBuildInBaseTimeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.equals(calculationType)
+		if (IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO.equals(calculationType) || IBuildInBaseTimeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.equals(calculationType)
 				|| IBuildInBaseTimeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.equals(calculationType)
 				|| IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.equals(calculationType)) {
 			Iterator iter = handle.calculationArgumentsIterator();
@@ -410,27 +398,28 @@ public class TimeFunctionManager {
 
 	/**
 	 * get the description for a specific time function
-	 * 
+	 *
 	 * @param column
 	 * @param locale
 	 * @return
 	 * @throws BirtException
 	 */
 	public static String getTooltipForTimeFunction(ComputedColumnHandle column, ULocale locale) throws BirtException {
-		String desc = null;
+		String desc;
 		DataRequestSession session = DataRequestSession
 				.newSession(new DataSessionContext(DataSessionContext.MODE_DIRECT_PRESENTATION));
 		IBinding functionBinding = session.getModelAdaptor().adaptBinding(column);
 		session.shutdown();
-		if (functionBinding == null)
+		if (functionBinding == null) {
 			return getCalculationType(column.getCalculationType(), locale).getDisplayName();
+		}
 		ITimePeriod basePeriod = functionBinding.getTimeFunction().getBaseTimePeriod();
 		ITimePeriod relativePeriod = functionBinding.getTimeFunction().getRelativeTimePeriod();
 
 		Date date = functionBinding.getTimeFunction().getReferenceDate().getDate();
 		Calendar cal = Calendar.getInstance(locale);
 		cal.setTime(date);
-		int[] values = new int[3];
+		int[] values;
 		String[] levelTypes = new String[3];
 		levelTypes[0] = TimeMember.TIME_LEVEL_TYPE_YEAR;
 		levelTypes[1] = TimeMember.TIME_LEVEL_TYPE_MONTH;
@@ -445,7 +434,7 @@ public class TimeFunctionManager {
 		String type = dim.getDefaultHierarchy().getLevel(levelCount - 1).getDateTimeLevelType();
 
 		IPeriodsFunction periodsFunction = null;
-		String toDatelevelType = null;
+		String toDatelevelType;
 		String paralevelType = null;
 
 		toDatelevelType = toLevelType(basePeriod.getType());
@@ -456,8 +445,9 @@ public class TimeFunctionManager {
 		} else {
 			periodsFunction = TimeFunctionCreatorEngine.newTimeFunctionCreator().createTrailingFunction(toDatelevelType,
 					basePeriod.countOfUnit());
-			if (basePeriod.countOfUnit() < 0)
+			if (basePeriod.countOfUnit() < 0) {
 				reverse = true;
+			}
 		}
 		List<TimeMember> list = null;
 		if (relativePeriod != null) {
@@ -470,8 +460,8 @@ public class TimeFunctionManager {
 			list = periodsFunction.getResult(member);
 		}
 
-		TimeMember memberFrom = null;
-		TimeMember memberTo = null;
+		TimeMember memberFrom;
+		TimeMember memberTo;
 		TimeMember tmpMember1 = null;
 		TimeMember tmpMember2 = null;
 		if (reverse) {
@@ -544,7 +534,7 @@ public class TimeFunctionManager {
 
 	private static String constructTimeFunctionToolTip(TimeMember from, TimeMember to, String funcName, ULocale locale)
 			throws BirtException {
-		StringBuffer result = new StringBuffer("");
+		StringBuilder result = new StringBuilder("");
 		result.append(funcName).append(" ( ");
 		result.append(getFormattedDateStringFromTimeMember(from, locale));
 		result.append(" ").append(Message.getMessage(ResourceConstants.TIMEFUNCTION_TOOLTIP_TO, locale)).append(" ");

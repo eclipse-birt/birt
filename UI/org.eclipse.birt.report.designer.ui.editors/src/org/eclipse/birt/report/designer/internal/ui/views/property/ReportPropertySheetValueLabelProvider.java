@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -13,8 +16,8 @@ import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyH
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
+import org.eclipse.jface.viewers.StyledString;
 
 /**
  * Lable provide for property sheet tree view.
@@ -23,12 +26,14 @@ public class ReportPropertySheetValueLabelProvider extends ColumnLabelProvider i
 
 	private static final String PASSWORD_REPLACEMENT = "********";//$NON-NLS-1$
 
+	@Override
 	public String getText(Object element) {
 		String text = getStyledText(element).toString();
 		System.out.println(text);
 		return text;
 	}
 
+	@Override
 	public StyledString getStyledText(Object element) {
 		String value = null;
 		GroupPropertyHandle propertyHandle = null;
@@ -45,8 +50,9 @@ public class ReportPropertySheetValueLabelProvider extends ColumnLabelProvider i
 				}
 			}
 		}
-		if (value == null)
+		if (value == null) {
 			value = ""; //$NON-NLS-1$
+		}
 		StyledString styledString = new StyledString();
 		styledString.append(value);
 		if (propertyHandle != null && propertyHandle.getDisplayValue() != null

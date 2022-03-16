@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +46,7 @@ public class CubeNameContext extends GeneralModuleNameContext {
 
 	/**
 	 * Constructs one cube element name space.
-	 * 
+	 *
 	 * @param module      the attached module
 	 * @param nameSpaceID the name space ID
 	 */
@@ -54,27 +57,31 @@ public class CubeNameContext extends GeneralModuleNameContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.namespace.IModuleNameSpace#resolve
 	 * (org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
+	@Override
 	public ElementRefValue resolve(DesignElement focus, DesignElement element, PropertyDefn propDefn,
 			ElementDefn elementDefn) {
-		if (element == null)
+		if (element == null) {
 			return null;
+		}
 
 		ElementDefn targetDefn = getTargetDefn(propDefn, elementDefn);
-		if (targetDefn == null || isCubeReferred(targetDefn))
+		if (targetDefn == null || isCubeReferred(targetDefn)) {
 			return super.resolve(focus, element, propDefn, elementDefn);
+		}
 
 		// dimension to shared dimension case
 		String nameSpaceID = targetDefn.getNameSpaceID();
 
 		if (Module.DIMENSION_NAME_SPACE.equals(nameSpaceID)) {
-			if (focus instanceof Dimension)
+			if (focus instanceof Dimension) {
 				return super.resolve(focus, element, propDefn, elementDefn);
+			}
 		}
 
 		String namespace = null;
@@ -87,24 +94,27 @@ public class CubeNameContext extends GeneralModuleNameContext {
 		// the focus is data object cube.
 		if (focus != null && focus.canDynamicExtends()) {
 			Cube referredCube = (Cube) focus.getDynamicExtendsElement(focus.getRoot());
-			if (referredCube == null)
+			if (referredCube == null) {
 				return new ElementRefValue(namespace, name);
+			}
 		}
 
 		Cube cube = findTarget(focus);
-		if (cube == null)
+		if (cube == null) {
 			return super.resolve(focus, element, propDefn, elementDefn);
-		else if (cube.canDynamicExtends()) {
+		} else if (cube.canDynamicExtends()) {
 			Cube referredCube = (Cube) cube.getDynamicExtendsElement(cube.getRoot());
 
 			// referred tabular cube is not resolved in data mart cube
-			if (referredCube == null)
+			if (referredCube == null) {
 				return new ElementRefValue(namespace, name);
+			}
 
 			// find local element in data mart cube
 			DesignElement retElement = cube.findLocalElement(name, targetDefn);
-			if (retElement != null)
+			if (retElement != null) {
 				return new ElementRefValue(namespace, retElement);
+			}
 
 			return new ElementRefValue(namespace, name);
 		}
@@ -116,17 +126,20 @@ public class CubeNameContext extends GeneralModuleNameContext {
 				if (tmpRoot instanceof Library) {
 					if (namespace.equals(((Library) tmpRoot).getNamespace())) {
 						tmpName = name;
-					} else
+					} else {
 						// different name spaces.
 						return super.resolve(focus, element, propDefn, elementDefn);
-				} else
+					}
+				} else {
 					// root is report design. but want to find library OLAP.
 					return super.resolve(focus, element, propDefn, elementDefn);
+				}
 			}
 
 			DesignElement retElement = cube.findLocalElement(tmpName, targetDefn);
-			if (retElement != null)
+			if (retElement != null) {
 				return new ElementRefValue(namespace, retElement);
+			}
 
 			return new ElementRefValue(namespace, name);
 		}
@@ -136,27 +149,31 @@ public class CubeNameContext extends GeneralModuleNameContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.namespace.IModuleNameSpace#resolveNative
 	 * (java.lang.String, org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
+	@Override
 	public ElementRefValue resolve(DesignElement focus, String elementName, PropertyDefn propDefn,
 			ElementDefn elementDefn) {
-		if (StringUtil.isBlank(elementName))
+		if (StringUtil.isBlank(elementName)) {
 			return null;
+		}
 
 		ElementDefn targetDefn = getTargetDefn(propDefn, elementDefn);
-		if (targetDefn == null || isCubeReferred(targetDefn))
+		if (targetDefn == null || isCubeReferred(targetDefn)) {
 			return super.resolve(focus, elementName, propDefn, elementDefn);
+		}
 
 		// dimension to shared dimension case
 		String nameSpaceID = targetDefn.getNameSpaceID();
 
 		if (Module.DIMENSION_NAME_SPACE.equals(nameSpaceID)) {
-			if (focus instanceof Dimension)
+			if (focus instanceof Dimension) {
 				return super.resolve(focus, elementName, propDefn, elementDefn);
+			}
 		}
 
 		String[] rets = splitName(elementName, IAccessControl.ARBITARY_LEVEL);
@@ -166,24 +183,27 @@ public class CubeNameContext extends GeneralModuleNameContext {
 		// the focus is data object cube.
 		if (focus != null && focus.canDynamicExtends()) {
 			Cube referredCube = (Cube) focus.getDynamicExtendsElement(focus.getRoot());
-			if (referredCube == null)
+			if (referredCube == null) {
 				return new ElementRefValue(namespace, name);
+			}
 		}
 
 		Cube cube = findTarget(focus);
-		if (cube == null)
+		if (cube == null) {
 			return super.resolve(focus, elementName, propDefn, elementDefn);
-		else if (cube.canDynamicExtends()) {
+		} else if (cube.canDynamicExtends()) {
 			Cube referredCube = (Cube) cube.getDynamicExtendsElement(cube.getRoot());
 
 			// referred tabular cube is not resolved in data mart cube
-			if (referredCube == null)
+			if (referredCube == null) {
 				return new ElementRefValue(namespace, name);
+			}
 
 			// find local element in data mart cube
 			DesignElement retElement = cube.findLocalElement(name, targetDefn);
-			if (retElement != null)
+			if (retElement != null) {
 				return new ElementRefValue(namespace, retElement);
+			}
 
 			return new ElementRefValue(namespace, name);
 		}
@@ -195,17 +215,20 @@ public class CubeNameContext extends GeneralModuleNameContext {
 				if (tmpRoot instanceof Library) {
 					if (namespace.equals(((Library) tmpRoot).getNamespace())) {
 						tmpName = name;
-					} else
+					} else {
 						// different name spaces.
 						return super.resolve(focus, elementName, propDefn, elementDefn);
-				} else
+					}
+				} else {
 					// root is report design. but want to find library OLAP.
 					return super.resolve(focus, elementName, propDefn, elementDefn);
+				}
 			}
 
 			DesignElement retElement = cube.findLocalElement(tmpName, targetDefn);
-			if (retElement != null)
+			if (retElement != null) {
 				return new ElementRefValue(namespace, retElement);
+			}
 
 			return new ElementRefValue(namespace, name);
 		}
@@ -216,27 +239,31 @@ public class CubeNameContext extends GeneralModuleNameContext {
 	private boolean isCubeReferred(IElementDefn targetDefn) {
 		assert targetDefn != null;
 
-		if (targetDefn.isKindOf(MetaDataDictionary.getInstance().getElement(ReportDesignConstants.CUBE_ELEMENT)))
+		if (targetDefn.isKindOf(MetaDataDictionary.getInstance().getElement(ReportDesignConstants.CUBE_ELEMENT))) {
 			return true;
+		}
 
 		return false;
 	}
 
 	private Cube findTarget(DesignElement focus) {
-		if (focus == null)
+		if (focus == null) {
 			return null;
+		}
 
 		// if the focus referred a cube or it is a cube and the cube has dynamic
 		// extends, then do some special resolve
 		DesignElement element = focus;
 		while (element != null) {
-			if (element instanceof Cube)
+			if (element instanceof Cube) {
 				return (Cube) element;
+			}
 			if (element instanceof ReportItem) {
 				ReportItem item = (ReportItem) element;
 				Cube cube = (Cube) item.getCubeElement(item.getRoot());
-				if (cube != null)
+				if (cube != null) {
 					return cube;
+				}
 			}
 
 			element = element.getContainer();
@@ -246,8 +273,9 @@ public class CubeNameContext extends GeneralModuleNameContext {
 	}
 
 	private ElementDefn getTargetDefn(PropertyDefn propDefn, ElementDefn elementDefn) {
-		if (elementDefn != null)
+		if (elementDefn != null) {
 			return elementDefn;
+		}
 		return (ElementDefn) (propDefn == null ? null : propDefn.getTargetElementType());
 	}
 
@@ -256,13 +284,11 @@ public class CubeNameContext extends GeneralModuleNameContext {
 		String name = StringUtil.extractName(elementName);
 
 		Module moduleToSearch = module;
-		if (namespace != null)
+		if (namespace != null) {
 			moduleToSearch = module.getLibraryWithNamespace(namespace, level);
-
-		// check whether the root is library, get the namespace of the library.
-
-		else if (moduleToSearch instanceof Library)
+		} else if (moduleToSearch instanceof Library) {
 			namespace = ((Library) moduleToSearch).getNamespace();
+		}
 
 		String[] names = new String[2];
 		names[NAMESPACE_INDEX] = namespace;

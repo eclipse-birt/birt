@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +41,7 @@ public final class FilterUtil {
 	/**
 	 * Exam whether one filter need multipass. A filter that need multipass is the
 	 * Top/Bottom N filters
-	 * 
+	 *
 	 * @param filter
 	 * @return
 	 */
@@ -49,14 +52,16 @@ public final class FilterUtil {
 
 	/**
 	 * Exam whether one operatorId refer to a multipass filter operator
-	 * 
+	 *
 	 * @param operatorId
 	 * @return
 	 */
 	private static boolean isMultiPassFilterOperator(int operatorId) {
 		if (operatorId == IConditionalExpression.OP_BOTTOM_N || operatorId == IConditionalExpression.OP_BOTTOM_PERCENT
-				|| operatorId == IConditionalExpression.OP_TOP_N || operatorId == IConditionalExpression.OP_TOP_PERCENT)
+				|| operatorId == IConditionalExpression.OP_TOP_N
+				|| operatorId == IConditionalExpression.OP_TOP_PERCENT) {
 			return true;
+		}
 		return false;
 	}
 
@@ -64,7 +69,7 @@ public final class FilterUtil {
 	 * Prepares a filter expression for top(n)/bottom(n) evaluation Each
 	 * top(n)/bottom(n) expression is tagged with a NEvaluator handle TODO: this
 	 * code is temporary
-	 * 
+	 *
 	 * @param expr
 	 */
 	public static void prepareFilterExpression(String tempDir, IBaseExpression expr, FilterPassController filterPass,
@@ -95,24 +100,26 @@ public final class FilterUtil {
 
 	/**
 	 * Return whether there are multipass filters in the query.
-	 * 
+	 *
 	 * @param fetchEventsList
 	 * @return
 	 * @throws DataException
 	 */
 	public static boolean hasMultiPassFilters(FilterByRow filterByRow) throws DataException {
-		if (filterByRow == null)
+		if (filterByRow == null) {
 			return false;
-		if (filterByRow.isFilterSetExist(FilterByRow.GROUP_FILTER))
+		}
+		if (filterByRow.isFilterSetExist(FilterByRow.GROUP_FILTER) || filterByRow.isFilterSetExist(FilterByRow.QUERY_FILTER)) {
 			return true;
-		if (filterByRow.isFilterSetExist(FilterByRow.QUERY_FILTER))
-			return true;
+		}
 		List list = filterByRow.getFilterList(FilterByRow.ALL_ROW_FILTER);
-		if (list == null)
+		if (list == null) {
 			return false;
+		}
 		for (int j = 0; j < list.size(); j++) {
-			if (FilterUtil.isFilterNeedMultiPass((IFilterDefinition) (list.get(j))))
+			if (FilterUtil.isFilterNeedMultiPass((IFilterDefinition) (list.get(j)))) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -124,8 +131,9 @@ public final class FilterUtil {
 	 */
 	public static boolean hasMutipassFilters(List list) {
 		for (int j = 0; j < list.size(); j++) {
-			if (FilterUtil.isFilterNeedMultiPass((IFilterDefinition) (list.get(j))))
+			if (FilterUtil.isFilterNeedMultiPass((IFilterDefinition) (list.get(j)))) {
 				return true;
+			}
 		}
 		return false;
 	}

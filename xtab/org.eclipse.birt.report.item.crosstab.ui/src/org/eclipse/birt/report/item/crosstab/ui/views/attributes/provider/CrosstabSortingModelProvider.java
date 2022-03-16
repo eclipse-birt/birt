@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +52,7 @@ import org.eclipse.jface.dialogs.Dialog;
 import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ *
  */
 
 public class CrosstabSortingModelProvider extends SortingModelProvider {
@@ -58,12 +61,13 @@ public class CrosstabSortingModelProvider extends SortingModelProvider {
 
 	/**
 	 * Edit one item into the given position.
-	 * 
+	 *
 	 * @param item DesignElement object
 	 * @param pos  The position.
 	 * @return True if success, otherwise false.
 	 * @throws SemanticException
 	 */
+	@Override
 	public boolean doEditItem(Object item, int pos) {
 		if (item instanceof ExtendedItemHandle && ((ExtendedItemHandle) item).getExtensionName().equals("Crosstab")) //$NON-NLS-1$
 		{
@@ -96,12 +100,13 @@ public class CrosstabSortingModelProvider extends SortingModelProvider {
 
 	/**
 	 * Deletes an item.
-	 * 
+	 *
 	 * @param item DesignElement object
 	 * @param pos  The item's current position
 	 * @return True if success, otherwise false.
 	 * @throws PropertyValueException
 	 */
+	@Override
 	public boolean deleteItem(Object item, int pos) throws PropertyValueException {
 		List list = new ArrayList();
 		list.add(item);
@@ -124,12 +129,13 @@ public class CrosstabSortingModelProvider extends SortingModelProvider {
 
 	/**
 	 * Inserts one item into the given position.
-	 * 
+	 *
 	 * @param item DesignElement object
 	 * @param pos  The position.
 	 * @return True if success, otherwise false.
 	 * @throws SemanticException
 	 */
+	@Override
 	public boolean doAddItem(Object item, int pos) throws SemanticException {
 		if (item instanceof ExtendedItemHandle && ((ExtendedItemHandle) item).getExtensionName().equals("Crosstab")) //$NON-NLS-1$
 		{
@@ -149,7 +155,7 @@ public class CrosstabSortingModelProvider extends SortingModelProvider {
 
 	/**
 	 * Saves new property value to sort
-	 * 
+	 *
 	 * @param element  DesignElementHandle object.
 	 * @param element  Sort object
 	 * @param key      Property key
@@ -158,6 +164,7 @@ public class CrosstabSortingModelProvider extends SortingModelProvider {
 	 * @throws SemanticException
 	 * @throws NameException
 	 */
+	@Override
 	public boolean setStringValue(Object item, Object element, String key, String newValue) throws SemanticException {
 		// Because user cannot modify the value of table cell directly(User only
 		// modify the value by CrosstabSortKeyBuilder), return true.
@@ -166,15 +173,17 @@ public class CrosstabSortingModelProvider extends SortingModelProvider {
 
 	/**
 	 * Gets property display name of a given element.
-	 * 
+	 *
 	 * @param element Sort object
 	 * @param key     Property key
 	 * @return
 	 */
+	@Override
 	public String getText(Object element, String key) {
 
-		if (!(element instanceof LevelSortKeyHandle))
+		if (!(element instanceof LevelSortKeyHandle)) {
 			return "";//$NON-NLS-1$
+		}
 
 		if (key.equals(ILevelViewConstants.LEVEL_PROP)) {
 			LevelHandle cubeLevel = ((LevelSortKeyHandle) element).getLevelHandle().getCubeLevel();
@@ -186,16 +195,18 @@ public class CrosstabSortingModelProvider extends SortingModelProvider {
 		}
 
 		element = ((LevelSortKeyHandle) element).getSortKeyHandle();
-		String value = null;
+		String value;
 
 		value = ((SortElementHandle) element).getStringProperty(key);
-		if (value == null)
+		if (value == null) {
 			value = "";//$NON-NLS-1$
+		}
 
 		if (key.equals(ISortElementModel.DIRECTION_PROP)) {
 			IChoice choice = choiceSetDirection.findChoice(value);
-			if (choice != null)
+			if (choice != null) {
 				return choice.getDisplayName();
+			}
 		} else if (key.equals(SortKey.LOCALE_MEMBER)) {
 			SortElementHandle sortKey = (SortElementHandle) element;
 			if (sortKey.getLocale() != null) {
@@ -221,10 +232,11 @@ public class CrosstabSortingModelProvider extends SortingModelProvider {
 
 	/**
 	 * Gets the display names of the given property keys.
-	 * 
+	 *
 	 * @param keys Property keys
 	 * @return String array contains display names
 	 */
+	@Override
 	public String[] getColumnNames(String[] keys) {
 		assert keys != null;
 		String[] columnNames = new String[keys.length];
@@ -238,15 +250,17 @@ public class CrosstabSortingModelProvider extends SortingModelProvider {
 
 	/**
 	 * Gets all elements of the given input.
-	 * 
+	 *
 	 * @param input The input object.
 	 * @return Sorts array.
 	 */
+	@Override
 	public Object[] getElements(List input) {
 		List list = new ArrayList();
 		Object obj = input.get(0);
-		if (!(obj instanceof ExtendedItemHandle))
+		if (!(obj instanceof ExtendedItemHandle)) {
 			return EMPTY;
+		}
 		ExtendedItemHandle element = (ExtendedItemHandle) obj;
 		CrosstabReportItemHandle crossTab = null;
 		try {
@@ -306,13 +320,14 @@ public class CrosstabSortingModelProvider extends SortingModelProvider {
 
 	/**
 	 * Moves one item from a position to another.
-	 * 
+	 *
 	 * @param item   DesignElement object
 	 * @param oldPos The item's current position
 	 * @param newPos The item's new position
 	 * @return True if success, otherwise false.
 	 * @throws PropertyValueException
 	 */
+	@Override
 	public boolean moveItem(Object item, int oldPos, int newPos) throws PropertyValueException {
 		// can not move for Crosstab sorting.
 		return false;

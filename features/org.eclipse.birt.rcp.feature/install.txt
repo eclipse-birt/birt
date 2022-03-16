@@ -1513,7 +1513,7 @@ Time to load bundles: 297
 [DEBUG] adding directory META-INF/
 [DEBUG] adding entry META-INF/MANIFEST.MF
 [DEBUG] adding entry eclipse_update_120.jpg
-[DEBUG] adding entry epl-v10.html
+[DEBUG] adding entry epl-2.0.html
 [DEBUG] adding entry license.html
 [DEBUG] adding entry feature.xml
 [DEBUG] adding entry feature.properties

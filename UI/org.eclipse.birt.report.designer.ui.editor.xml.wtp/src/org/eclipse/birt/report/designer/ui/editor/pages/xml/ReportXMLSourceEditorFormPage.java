@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004-2008 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -109,10 +111,11 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.editor.pages.xml.ReportFormPage#init
 	 * (org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
 	 */
+	@Override
 	public void init(IEditorSite site, final IEditorInput input) throws PartInitException {
 		super.init(site, input);
 		try {
@@ -219,7 +222,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 	private int getErrorLineFromModuleHandle(ModuleHandle handle) {
 		handle.checkReport();
 		List list = handle.getErrorList();
-		if (list != null)
+		if (list != null) {
 			for (int i = 0, m = list.size(); i < m; i++) {
 				Object obj = list.get(i);
 				if (obj instanceof ErrorDetail) {
@@ -228,14 +231,16 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 					return errorDetail.getLineNo();
 				}
 			}
+		}
 		return 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#canLeaveThePage()
 	 */
+	@Override
 	public boolean canLeaveThePage() {
 		if (isDirty()) {
 			MessageDialog prefDialog = new MessageDialog(UIUtil.getDefaultShell(),
@@ -288,11 +293,12 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#setInput
 	 * (org.eclipse.ui.IEditorInput)
 	 */
+	@Override
 	public void setInput(IEditorInput input) {
 		super.setInput(input);
 		reportXMLEditor.setInput(input);
@@ -310,10 +316,11 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.editor.pages.xml.ReportFormPage#
 	 * selectReveal(java.lang.Object)
 	 */
+	@Override
 	public boolean selectReveal(Object marker) {
 		int start = MarkerUtilities.getCharStart((IMarker) marker);
 		int end = MarkerUtilities.getCharEnd((IMarker) marker);
@@ -342,9 +349,9 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 		if (selectLine) {
 			int line;
 			try {
-				if (start >= 0)
+				if (start >= 0) {
 					line = document.getLineOfOffset(start);
-				else {
+				} else {
 					line = MarkerUtilities.getLineNumber((IMarker) marker);
 					// Marker line numbers are 1-based
 					if (line >= 1) {
@@ -359,25 +366,28 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 		}
 
 		int length = document.getLength();
-		if (end - 1 < length && start < length)
+		if (end - 1 < length && start < length) {
 			reportXMLEditor.selectAndReveal(start, end - start);
+		}
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getPartControl()
 	 */
+	@Override
 	public Control getPartControl() {
 		return control;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getId()
 	 */
+	@Override
 	public String getId() {
 		return ID;
 	}
@@ -386,6 +396,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 		if (commandStackListener == null) {
 			commandStackListener = new ActivityStackListener() {
 
+				@Override
 				public void stackChanged(ActivityStackEvent event) {
 					if (isActive() && event.getAction() != ActivityStackEvent.ROLL_BACK) {
 						reloadEditorInput();
@@ -398,10 +409,11 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	public void createPartControl(Composite parent) {
 		reportXMLEditor.createPartControl(parent);
 		Control[] children = parent.getChildren();
@@ -420,6 +432,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 
 		reportXMLEditor.getTextViewer().addTextListener(new ITextListener() {
 
+			@Override
 			public void textChanged(TextEvent event) {
 				if (!isTextModified() && event.getOffset() != 0) {
 					markDirty();
@@ -429,6 +442,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 
 		reportXMLEditor.getTextViewer().getTextWidget().addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				markDirty();
 			}
@@ -436,14 +450,16 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 	}
 
 	protected void registerOutlineSwitchAction() {
-		if (registered == true)
+		if (registered) {
 			return;
+		}
 		// Register the switch action onto outline page
 		Page reportMultiBookPage = (Page) ((MultiPageReportEditor) getEditor()).getOutlinePage();
 		if (reportMultiBookPage.getSite() != null) {
 			if (reportMultiBookPage.getSite().getActionBars().getMenuManager()
-					.find(getOutlineSwitchAction().getId()) == null)
+					.find(getOutlineSwitchAction().getId()) == null) {
 				reportMultiBookPage.getSite().getActionBars().getMenuManager().add(getOutlineSwitchAction());
+			}
 			registered = true;
 		}
 	}
@@ -489,17 +505,19 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 		}
 	}
 
+	@Override
 	public boolean isInterested(IMediatorRequest request) {
 		return request instanceof ReportRequest;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
 	 * ( org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest )
 	 */
+	@Override
 	public void performRequest(IMediatorRequest request) {
 		if (ReportRequest.SELECTION.equals(request.getType())
 				&& !(request.getSource() instanceof ReportXMLSourceEditorFormPage) && isActive()
@@ -518,11 +536,12 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop
 	 * (org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
 	 */
+	@Override
 	public boolean onBroughtToTop(IReportEditorPage prePage) {
 		if (getEditorInput() != prePage.getEditorInput()) {
 			setInput(prePage.getEditorInput());
@@ -583,30 +602,33 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale
 	 * (int)
 	 */
+	@Override
 	public void markPageStale(int type) {
 		staleType = type;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType ()
 	 */
+	@Override
 	public int getStaleType() {
 		return staleType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#getAdapter(java.lang.Class)
 	 */
+	@Override
 	public Object getAdapter(Class required) {
 		if (required.equals(ITextEditor.class)) {
 			return reportXMLEditor;
@@ -652,6 +674,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 		// getModelEventManager( ).unhookCommandStack( getCommandStack( ) );
 	}
 
+	@Override
 	protected void finalize() throws Throwable {
 		if (Policy.TRACING_PAGE_CLOSE) {
 			System.out.println("Report source page finalized"); //$NON-NLS-1$
@@ -665,10 +688,11 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#doSave(org.eclipse.core.
 	 * runtime.IProgressMonitor)
 	 */
+	@Override
 	public void doSave(IProgressMonitor progressMonitor) {
 		reportXMLEditor.doSave(progressMonitor);
 		UIUtil.doFinishSave(getModel());
@@ -706,37 +730,41 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
 	 */
+	@Override
 	public void doSaveAs() {
 		// Do nothing, SavaAs is not allowed by default
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.editor.pages.xml.ReportFormPage#
 	 * isSaveAsAllowed()
 	 */
+	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#isDirty()
 	 */
+	@Override
 	public boolean isDirty() {
 		return reportXMLEditor.isDirty();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#dispose()
 	 */
+	@Override
 	public void dispose() {
 		super.dispose();
 		((MultiPageEditorSite) getSite()).dispose();
@@ -768,6 +796,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 			setId(switchAction_ID);
 		}
 
+		@Override
 		public void run() {
 			getReportEditor().outlineSwitch();
 		}
@@ -775,12 +804,13 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements IMe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setActive(boolean)
 	 */
+	@Override
 	public void setActive(boolean active) {
 		super.setActive(active);
-		if (active == false) {
+		if (!active) {
 			removeOutlineSwitchAction();
 		}
 	}

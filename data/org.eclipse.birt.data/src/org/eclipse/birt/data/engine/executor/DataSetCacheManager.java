@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,17 +41,17 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  * data will be saved into cache in the first time and it will be loaded in the
  * later time. Once the configuration of data set is changed, the data needs to
  * be retrieved again.
- * 
+ *
  * Please notice the whole procedure: 1: first check whether data can be loaded
  * from cache 2.1: if yes, then data will be loaded and check whether data needs
  * to be saved into cache will be skipped. 2.2: if no, then data will be
  * retrieved from data set and then whether saving into cache will be checked
  * 2.2.1: if yes, then data will be saved into cache 2.2.2: if no, then nothing
  * will be done
- * 
+ *
  * There are three possible value of cacheRowCount: 1: -1, cache all data set 2:
  * 0, don't cache 3: >0, cache the specified value
- * 
+ *
  * Here whether data will be loaded from cache can be observed by external
  * caller, but about saving into cache is not.
  */
@@ -83,6 +86,7 @@ public class DataSetCacheManager {
 
 		session.getEngine().addShutdownListener(new IShutdownListener() {
 
+			@Override
 			public void dataEngineShutdown() {
 				try {
 					dteLevelCacheMapManager.clearCache();
@@ -94,7 +98,7 @@ public class DataSetCacheManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public IBaseDataSourceDesign getCurrentDataSourceDesign() {
@@ -102,7 +106,7 @@ public class DataSetCacheManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public IBaseDataSetDesign getCurrentDataSetDesign() {
@@ -110,18 +114,19 @@ public class DataSetCacheManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Collection getCurrentParameterHints() {
-		if (this.parameterHints != null)
+		if (this.parameterHints != null) {
 			return this.parameterHints;
-		else
+		} else {
 			return new ArrayList();
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Map getCurrentAppContext() {
@@ -131,7 +136,7 @@ public class DataSetCacheManager {
 	/**
 	 * Remember before requesting any service, this function must be called in
 	 * advance to make sure using current data source and data set.
-	 * 
+	 *
 	 * @param dataSourceDesign
 	 * @param datasetDesign
 	 */
@@ -238,15 +243,16 @@ public class DataSetCacheManager {
 
 	/**
 	 * Clear cache
-	 * 
+	 *
 	 * @param dataSourceDesign
 	 * @param dataSetDesign
 	 * @throws DataException
 	 */
 	public void clearCache(IBaseDataSourceDesign dataSourceDesign, IBaseDataSetDesign dataSetDesign)
 			throws DataException {
-		if (dataSourceDesign == null || dataSetDesign == null)
+		if (dataSourceDesign == null || dataSetDesign == null) {
 			return;
+		}
 
 		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance(dataSourceDesign, dataSetDesign, null, this.cacheID,
 				this.enableSamplePreview);
@@ -257,7 +263,7 @@ public class DataSetCacheManager {
 	}
 
 	public void clearCache(String cacheID) {
-		Set<String> temp = new HashSet<String>();
+		Set<String> temp = new HashSet<>();
 		temp.add(cacheID);
 		jvmLevelCacheMapManager.clearCache(temp);
 	}
@@ -291,7 +297,7 @@ public class DataSetCacheManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dsco
 	 * @throws DataException
 	 */
@@ -332,7 +338,7 @@ public class DataSetCacheManager {
 
 	/**
 	 * only for test
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -362,7 +368,7 @@ public class DataSetCacheManager {
 	/**
 	 * Return the cached result metadata. Please note that parameter hint will not
 	 * change the returned metadata.
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -372,14 +378,15 @@ public class DataSetCacheManager {
 		// meta data is always from jvmLevelCacheMapManager
 		IResultClass resultClass = this.jvmLevelCacheMapManager.getCachedResultClass(
 				DataSourceAndDataSet.newInstance(dataSource, dataSet, null, this.cacheID, this.enableSamplePreview));
-		if (resultClass != null)
+		if (resultClass != null) {
 			return new ResultMetaData(resultClass);
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataSetDesign
 	 * @throws DataException
 	 */

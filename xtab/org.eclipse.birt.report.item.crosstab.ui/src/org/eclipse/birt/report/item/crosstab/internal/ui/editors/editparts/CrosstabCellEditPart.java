@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,7 +60,7 @@ public class CrosstabCellEditPart extends AbstractCellEditPart {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
 	public CrosstabCellEditPart(Object model) {
@@ -66,26 +69,30 @@ public class CrosstabCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
+	@Override
 	protected List getModelChildren() {
 		return getCrosstabCellAdapter().getModelList();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy() {
 
+			@Override
 			protected org.eclipse.gef.commands.Command createDeleteCommand(GroupRequest deleteRequest) {
 				return UnexecutableCommand.INSTANCE;
 			}
 
+			@Override
 			protected Command getOrphanCommand() {
 				return new Command() {
 
@@ -99,11 +106,12 @@ public class CrosstabCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#refreshFigure()
 	 */
 	// TODO now only fresh the border and the background.
+	@Override
 	public void refreshFigure() {
 		CellBorder cborder = new CellBorder();
 
@@ -122,10 +130,11 @@ public class CrosstabCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#activate()
 	 */
+	@Override
 	public void activate() {
 		if (handles == null) {
 			handles = getHandleList();
@@ -142,10 +151,11 @@ public class CrosstabCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#deactivate()
 	 */
+	@Override
 	public void deactivate() {
 		// IFigure layer = getLayer( CrosstabTableEditPart.CELL_HANDLE_LAYER );
 		IFigure layer = getLayer(LayerConstants.HANDLE_LAYER);
@@ -159,7 +169,7 @@ public class CrosstabCellEditPart extends AbstractCellEditPart {
 
 	/**
 	 * Gets the column and rwo drag handle
-	 * 
+	 *
 	 * @return
 	 */
 	protected List getHandleList() {
@@ -191,9 +201,10 @@ public class CrosstabCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		CellFigure figure = new CrosstabCellFigure();
 		ReportFlowLayout rflayout = new ReportFlowLayout();
@@ -212,49 +223,54 @@ public class CrosstabCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell#
 	 * getColSpan()
 	 */
+	@Override
 	public int getColSpan() {
 		return getCrosstabCellAdapter().getColumnSpan();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell#
 	 * getColumnNumber()
 	 */
+	@Override
 	public int getColumnNumber() {
 		return getCrosstabCellAdapter().getColumnNumber();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell#
 	 * getRowNumber()
 	 */
+	@Override
 	public int getRowNumber() {
 		return getCrosstabCellAdapter().getRowNumber();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell#
 	 * getRowSpan()
 	 */
+	@Override
 	public int getRowSpan() {
 		return getCrosstabCellAdapter().getRowSpan();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createChild(java.lang.Object)
 	 */
+	@Override
 	protected EditPart createChild(Object model) {
 		EditPart part = CrosstabGraphicsFactory.INSTANCEOF.createEditPart(this, model);
 		if (part != null) {
@@ -265,14 +281,16 @@ public class CrosstabCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang
 	 * .Class)
 	 */
+	@Override
 	public Object getAdapter(Class key) {
 		if (key == ISelectionFilter.class) {
 			return new ISelectionFilter() {
 
+				@Override
 				public List filterEditpart(List editparts) {
 					int size = editparts.size();
 					List copy = new ArrayList(editparts);
@@ -308,10 +326,11 @@ public class CrosstabCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#contentChange(java.util.Map)
 	 */
+	@Override
 	protected void contentChange(Map info) {
 		((ReportElementEditPart) getParent()).refresh();
 		if (getParent() != null) {
@@ -321,11 +340,12 @@ public class CrosstabCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.editparts.AbstractEditPart#showTargetFeedback(org.eclipse
 	 * .gef.Request)
 	 */
+	@Override
 	public void showTargetFeedback(Request request) {
 		if (this.getSelected() == 0 && isActive() && request.getType() == RequestConstants.REQ_SELECTION) {
 
@@ -340,11 +360,12 @@ public class CrosstabCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.editparts.AbstractEditPart#eraseTargetFeedback(org.eclipse
 	 * .gef.Request)
 	 */
+	@Override
 	public void eraseTargetFeedback(Request request) {
 		if (isActive()) {
 			this.getViewer().setCursor(null);
@@ -354,10 +375,11 @@ public class CrosstabCellEditPart extends AbstractCellEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#isinterestSelection(java.lang.Object)
 	 */
+	@Override
 	public boolean isinterestSelection(Object object) {
 		if (object instanceof DesignElementHandle) {
 			return getCrosstabCellAdapter().getCrosstabCellHandle().getModelHandle() == object;

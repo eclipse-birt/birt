@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +38,7 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  * means that the writer has to do a bit more work to write the design, the the
  * extra work here is well worth the savings to the many customers who will read
  * the design format.
- * 
+ *
  */
 
 class DesignWriterImpl extends ModuleWriter {
@@ -48,7 +51,7 @@ class DesignWriterImpl extends ModuleWriter {
 
 	/**
 	 * Constructs a writer with the specified design.
-	 * 
+	 *
 	 * @param design the internal representation of the design
 	 */
 
@@ -59,10 +62,11 @@ class DesignWriterImpl extends ModuleWriter {
 	/**
 	 * Write the top-level Report tag, and the properties and contents of the report
 	 * itself.
-	 * 
+	 *
 	 * @param obj the object to write
 	 */
 
+	@Override
 	public final void visitReportDesign(ReportDesign obj) {
 		writer.startElement(DesignSchemaConstants.REPORT_TAG);
 
@@ -81,10 +85,11 @@ class DesignWriterImpl extends ModuleWriter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.writer.ModuleWriter#getModule()
 	 */
 
+	@Override
 	public Module getModule() {
 		return design;
 	}
@@ -103,7 +108,7 @@ class DesignWriterImpl extends ModuleWriter {
 
 		if (markLineNumber) {
 			getModule().addLineNo(obj.getPropertyDefn(IModuleModel.THEME_PROP),
-					Integer.valueOf(writer.getLineCounter()));
+					writer.getLineCounter());
 		}
 		property(obj, IModuleModel.THEME_PROP);
 		resourceKey(obj, IDesignElementModel.DISPLAY_NAME_ID_PROP, IDesignElementModel.DISPLAY_NAME_PROP);
@@ -168,14 +173,16 @@ class DesignWriterImpl extends ModuleWriter {
 			if (thumbnail != null) {
 				byte[] data = Base64.encodeBase64(design.getThumbnail(), false);
 				String value = null;
-				if (data != null)
+				if (data != null) {
 					value = new String(data, OdaDesignerState.CHARSET);
+				}
 
-				if (value != null && value.length() < IndentableXMLWriter.MAX_CHARS_PER_LINE)
+				if (value != null && value.length() < IndentableXMLWriter.MAX_CHARS_PER_LINE) {
 					writeEntry(DesignSchemaConstants.PROPERTY_TAG, IReportDesignModel.THUMBNAIL_PROP, null,
 							value.trim(), false);
-				else
+				} else {
 					writeBase64Text(DesignSchemaConstants.PROPERTY_TAG, IReportDesignModel.THUMBNAIL_PROP, value);
+				}
 			}
 		} catch (UnsupportedEncodingException e) {
 			assert false;

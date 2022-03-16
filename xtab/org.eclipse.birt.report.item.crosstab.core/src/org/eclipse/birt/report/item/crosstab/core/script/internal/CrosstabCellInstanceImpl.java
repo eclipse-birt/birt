@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,14 +58,17 @@ public class CrosstabCellInstanceImpl implements ICrosstabCellInstance {
 		}
 	}
 
+	@Override
 	public long getCellID() {
 		return id;
 	}
 
+	@Override
 	public String getCellType() {
 		return type;
 	}
 
+	@Override
 	public Object getDataValue(String bindingName) throws BirtException {
 		if (context != null && bindingName != null) {
 			return context.evaluate(ExpressionUtil.createJSDataExpression(bindingName));
@@ -79,15 +85,18 @@ public class CrosstabCellInstanceImpl implements ICrosstabCellInstance {
 		return content.getName();
 	}
 
+	@Override
 	public Object getNamedExpressionValue(String name) {
 		// TODO need report context support
 		return null;
 	}
 
+	@Override
 	public IScriptStyle getStyle() {
 		return new StyleInstance(content.getStyle());
 	}
 
+	@Override
 	public Object getUserPropertyValue(String name) {
 		if (modelHandle != null) {
 			UserPropertyDefnHandle prop = modelHandle.getUserPropertyDefnHandle(name);
@@ -106,6 +115,7 @@ public class CrosstabCellInstanceImpl implements ICrosstabCellInstance {
 		content.setName(name);
 	}
 
+	@Override
 	public void setUserPropertyValue(String name, Object value) throws ScriptException {
 		if (modelHandle != null) {
 			UserPropertyDefnHandle prop = modelHandle.getUserPropertyDefnHandle(name);

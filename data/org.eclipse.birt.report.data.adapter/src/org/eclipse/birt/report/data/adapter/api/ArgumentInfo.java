@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,6 +34,7 @@ public class ArgumentInfo implements IArgumentInfo {
 	/*
 	 * @see org.eclipse.birt.report.data.adapter.api.IArgumentInfo#getName()
 	 */
+	@Override
 	public String getName() {
 		return this.name;
 	}
@@ -38,6 +42,7 @@ public class ArgumentInfo implements IArgumentInfo {
 	/*
 	 * @see org.eclipse.birt.report.data.adapter.api.IArgumentInfo#isOptional()
 	 */
+	@Override
 	public boolean isOptional() {
 		return this.isOptional;
 	}
@@ -45,6 +50,7 @@ public class ArgumentInfo implements IArgumentInfo {
 	/*
 	 * @see org.eclipse.birt.report.data.adapter.api.IArgumentInfo#getDescription()
 	 */
+	@Override
 	public String getDescription() {
 		return this.description;
 	}
@@ -53,13 +59,14 @@ public class ArgumentInfo implements IArgumentInfo {
 	 * @see
 	 * org.eclipse.birt.report.data.adapter.api.IArgumentInfo#getPeriodChoices()
 	 */
+	@Override
 	public List<Period_Type> getPeriodChoices() {
 		return this.periodType;
 	}
 
 	/**
 	 * set period choice for arguments
-	 * 
+	 *
 	 * @param type
 	 */
 	public void setPeriodChoices(List<Period_Type> type) {
@@ -69,6 +76,7 @@ public class ArgumentInfo implements IArgumentInfo {
 	/**
 	 * get display name for argument
 	 */
+	@Override
 	public String getDisplayName() {
 		return this.displayName;
 	}

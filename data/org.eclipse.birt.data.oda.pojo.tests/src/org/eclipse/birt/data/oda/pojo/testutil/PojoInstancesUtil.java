@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ import org.eclipse.birt.data.oda.pojo.input.pojos.TeacherStudent;
 import org.eclipse.birt.data.oda.pojo.input.pojos.TeacherStudentCourse;
 
 /**
- * 
+ *
  */
 
 public class PojoInstancesUtil {
@@ -44,7 +47,7 @@ public class PojoInstancesUtil {
 			cs[i] = new Course(i + 1, "c" + (i + 1));
 		}
 
-		List<Teacher> result = new ArrayList<Teacher>();
+		List<Teacher> result = new ArrayList<>();
 		Teacher t = new Teacher(1, "t1");
 		t.setDean(ds[0]);
 		t.addStudent(ss[0]);
@@ -76,7 +79,7 @@ public class PojoInstancesUtil {
 	}
 
 	public static List<TeacherStudent> getTeacherStudentCompound(List<Teacher> ts) {
-		List<TeacherStudent> result = new ArrayList<TeacherStudent>();
+		List<TeacherStudent> result = new ArrayList<>();
 		for (Teacher t : ts) {
 			result.addAll(t.getTeacherStudentCompound());
 		}
@@ -84,7 +87,7 @@ public class PojoInstancesUtil {
 	}
 
 	public static List<TeacherStudentCourse> getTeacherStudentCourseCompound(List<Teacher> ts) {
-		List<TeacherStudentCourse> result = new ArrayList<TeacherStudentCourse>();
+		List<TeacherStudentCourse> result = new ArrayList<>();
 		for (Teacher t : ts) {
 			result.addAll(t.getTeacherStudentCourseCompound());
 		}

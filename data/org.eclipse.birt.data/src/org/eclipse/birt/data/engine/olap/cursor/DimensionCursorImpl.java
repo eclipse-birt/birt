@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +21,7 @@ import javax.olap.cursor.EdgeCursor;
 import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
 
 /**
- * 
+ *
  *
  */
 class DimensionCursorImpl extends AbstractCursorSupport implements DimensionCursor {
@@ -27,7 +30,7 @@ class DimensionCursorImpl extends AbstractCursorSupport implements DimensionCurs
 	private DimensionAxis dimensionAxis;
 
 	/**
-	 * 
+	 *
 	 * @param edgeCursor
 	 * @param dimensionAxis
 	 * @param navigator
@@ -43,6 +46,7 @@ class DimensionCursorImpl extends AbstractCursorSupport implements DimensionCurs
 	/*
 	 * @see javax.olap.cursor.DimensionCursor#getEdgeCursor()
 	 */
+	@Override
 	public EdgeCursor getEdgeCursor() throws OLAPException {
 		return this.edgeCursor;
 	}
@@ -50,6 +54,7 @@ class DimensionCursorImpl extends AbstractCursorSupport implements DimensionCurs
 	/*
 	 * @see javax.olap.cursor.DimensionCursor#getEdgeEnd()
 	 */
+	@Override
 	public long getEdgeEnd() throws OLAPException {
 		return dimensionAxis.getEdgeEnd();
 	}
@@ -57,6 +62,7 @@ class DimensionCursorImpl extends AbstractCursorSupport implements DimensionCurs
 	/*
 	 * @see javax.olap.cursor.DimensionCursor#getEdgeStart()
 	 */
+	@Override
 	public long getEdgeStart() throws OLAPException {
 		return dimensionAxis.getEdgeStart();
 
@@ -66,6 +72,7 @@ class DimensionCursorImpl extends AbstractCursorSupport implements DimensionCurs
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.cursor.AbstractCursorSupport#getExtent()
 	 */
+	@Override
 	public long getExtent() throws OLAPException {
 		return dimensionAxis.getExtend();
 	}
@@ -74,20 +81,23 @@ class DimensionCursorImpl extends AbstractCursorSupport implements DimensionCurs
 	 * @see
 	 * javax.olap.cursor.DimensionCursor#setEdgeCursor(javax.olap.cursor.EdgeCursor)
 	 */
+	@Override
 	public void setEdgeCursor(EdgeCursor value) throws OLAPException {
 		this.edgeCursor = value;
 	}
 
 	/**
-	 * 
+	 *
 	 */
+	@Override
 	public void setEdgeEnd(long value) throws OLAPException {
 		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 * 
+	 *
 	 */
+	@Override
 	public void setEdgeStart(long value) throws OLAPException {
 		throw new UnsupportedOperationException();
 

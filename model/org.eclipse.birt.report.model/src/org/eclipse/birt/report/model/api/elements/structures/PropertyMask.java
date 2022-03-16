@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,9 +32,9 @@ import org.eclipse.birt.report.model.core.Structure;
 /**
  * This class provides property masks of system or user defined properties. Name
  * and Value members in <code>PropertyMask</code> are all intrinsic properties.
- * 
+ *
  * Choices for the mask value are defined in <code>DesignChoiceConstants</code>.
- * 
+ *
  * @see DesignChoiceConstants
  */
 
@@ -77,26 +80,30 @@ public class PropertyMask extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return STRUCTURE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (NAME_MEMBER.equals(propName))
+		if (NAME_MEMBER.equals(propName)) {
 			return name;
-		if (MASK_MEMBER.equals(propName))
+		}
+		if (MASK_MEMBER.equals(propName)) {
 			return mask;
+		}
 
 		assert false;
 		return null;
@@ -104,23 +111,25 @@ public class PropertyMask extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (NAME_MEMBER.equals(propName))
+		if (NAME_MEMBER.equals(propName)) {
 			name = (String) value;
-		else if (MASK_MEMBER.equals(propName))
+		} else if (MASK_MEMBER.equals(propName)) {
 			mask = (String) value;
-		else
+		} else {
 			assert false;
+		}
 	}
 
 	/**
 	 * Returns the property name.
-	 * 
+	 *
 	 * @return the property name
 	 */
 
@@ -136,7 +145,7 @@ public class PropertyMask extends Structure {
 	 * <li>PROPERTY_MASK_TYPE_LOCK
 	 * <li>PROPERTY_MASK_TYPE_HIDE
 	 * </ul>
-	 * 
+	 *
 	 * @return the mask of the property
 	 */
 
@@ -146,10 +155,11 @@ public class PropertyMask extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
+	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new PropertyMaskHandle(valueHandle, index);
 	}
@@ -162,7 +172,7 @@ public class PropertyMask extends Structure {
 	 * <li>PROPERTY_MASK_TYPE_LOCK
 	 * <li>PROPERTY_MASK_TYPE_HIDE
 	 * </ul>
-	 * 
+	 *
 	 * @param mask the proeprty mask to set
 	 */
 
@@ -172,7 +182,7 @@ public class PropertyMask extends Structure {
 
 	/**
 	 * Sets the property name.
-	 * 
+	 *
 	 * @param name the property name to set
 	 */
 
@@ -182,13 +192,14 @@ public class PropertyMask extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
 	 * .report.model.elements.ReportDesign,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
+	@Override
 	public List<SemanticException> validate(Module module, DesignElement element) {
-		ArrayList<SemanticException> list = new ArrayList<SemanticException>();
+		ArrayList<SemanticException> list = new ArrayList<>();
 
 		if (StringUtil.isBlank(getName())) {
 			list.add(new PropertyValueException(element, getDefn().getMember(NAME_MEMBER), null,

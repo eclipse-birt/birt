@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -35,9 +38,9 @@ import org.eclipse.birt.report.model.core.Module;
  * <p>
  * The record stack imposes a limit on the undo stack. When the undo stack grows
  * beyond this limit, the oldest record is flushed.
- * 
+ *
  * <h3>Theory of Operation</h3>
- * 
+ *
  * The record mechanism relies on accurate implementation of each record.
  * Records change the state of the model, and rely on accurate model state
  * transitions so that undo and redo can be done The following rules must hold:
@@ -50,14 +53,14 @@ import org.eclipse.birt.report.model.core.Module;
  * will have S0 as its initial state. ActivityRecord C1 moves the model into
  * state S1, the final state of record C1. A later record C2 will move the model
  * into a new state, S2, and so on.</li>
- * 
+ *
  * <li>Both the initial and final states must be <em>valid</em> model states. A
  * valid state is one that satisfies all the semantic constraints of the model.
  * (For example that if an element has a value for property P, then P is a
  * property defined on that element.) Therefore, the record should assume that
  * the model starts out in a valid form, and must leave the model in a valid
  * form.</li>
- * 
+ *
  * <li>While the record executes, is undone, or is redone, the model may
  * temporarily be in an invalid <em>transition</em> state. No application logic
  * should execute during the transition state. This state must be seen
@@ -65,16 +68,16 @@ import org.eclipse.birt.report.model.core.Module;
  * understands this state.</li>
  * <li>The undo of a record must transition the model from the final state back
  * to the initial state.</li>
- * 
+ *
  * <li>The redo of a record must again transition the model from the initial
  * state to the final state.</li>
- * 
+ *
  * <li>Suppose the application issues three records in succession: C1, C2 and
  * C3. Then the final state of C1 is the initial state of C2. And the final
  * state of C2 is the initial state of C3.</li>
- * 
+ *
  * <li>Whenever a new record is executed, the redo stack is flushed.</li>
- * 
+ *
  * <li><strong>All </strong> changes to the model are done by records.</li>
  * </ul>
  * <p>
@@ -109,9 +112,9 @@ import org.eclipse.birt.report.model.core.Module;
  * result is that the model has changed from state Sn to state Sn+1. However,
  * the record at the top of the undo state still expects the model to be in its
  * final state: state Sn.
- * 
+ *
  * <h3>Notifications</h3>
- * 
+ *
  * The stack is responsible for sending out notification events as records
  * execute (do, undo or redo). Each record sends out a notification event at the
  * request of the stack. ActivityRecord in the stacks have a state that must
@@ -132,9 +135,9 @@ import org.eclipse.birt.report.model.core.Module;
  * notifications. The {@link AbstractElementRecord simple record}class automates
  * notifications for this case. More complex implementations are possible, but
  * the use of a transaction (or compound record) may be simpler in many cases.
- * 
+ *
  * <h3>Scope of Change and Transactions</h3>
- * 
+ *
  * Each record affects a single element. However, many application-level
  * operations affect multiple elements. For example, an element may be
  * referenced by multiple elements. If the application wants to delete this
@@ -171,9 +174,9 @@ import org.eclipse.birt.report.model.core.Module;
  * is part of a transaction or not, the effect on the model state is identical.
  * This model is important to allow code to work directly with the model,
  * knowing that the model reflects the series of records executed previously.
- * 
+ *
  * <h3>Error Handling</h3>
- * 
+ *
  * The record stack is a low-level operation primarily responsible for managing
  * record history. Records are defined to always work. That is, when a record is
  * told to execute, undo or redo, the record operation must succeed. If there
@@ -188,15 +191,15 @@ import org.eclipse.birt.report.model.core.Module;
  * application-level exceptions: they must succeed. Any exceptions thrown would
  * be system-level exceptions such as null- pointer violations, out-of-memory
  * errors and other generic problems.
- * 
+ *
  * <h3>Persistence Support</h3>
- * 
+ *
  * The record stack contains a dirty property. This property can be used to
  * determine when persisting the Records' changes is required. Upon
  * construction, the undo stack is empty, and is not dirty.
- * 
+ *
  * <h3>Dirty State Support</h3>
- * 
+ *
  * A design is considered <em>dirty</em> if the in-memory state differs from
  * that on disk. There are three primary considerations:
  * <p>
@@ -228,9 +231,9 @@ import org.eclipse.birt.report.model.core.Module;
  * <p>
  * With the above, it is very easy to detect a dirty design: a design is dirty
  * if and only if its save state differs from the current transaction number.
- * 
+ *
  * <h3>Notification</h3>
- * 
+ *
  * Any class interested in the activity stack can implement the interface
  * <code>ActivityStackListener</code>. And {@link #addListener}and
  * {@link #removeListener}methods add and remove listeners. The listener class
@@ -238,7 +241,7 @@ import org.eclipse.birt.report.model.core.Module;
  * {@link #undo()}, or {@link #redo()}is called. The event
  * <code>ActivityStackEvent</code> contains the cause of the activity stack
  * change.
- * 
+ *
  */
 
 public class ActivityStack implements CommandStack {
@@ -253,19 +256,19 @@ public class ActivityStack implements CommandStack {
 	 * The undo stack. Entries are of type ActivityRecord.
 	 */
 
-	protected Stack<ActivityRecord> undoStack = new Stack<ActivityRecord>();
+	protected Stack<ActivityRecord> undoStack = new Stack<>();
 
 	/**
 	 * The redo stack. Entries are of type ActivityRecord.
 	 */
 
-	protected Stack<ActivityRecord> redoStack = new Stack<ActivityRecord>();
+	protected Stack<ActivityRecord> redoStack = new Stack<>();
 
 	/**
 	 * The active transaction stack. Entries are of type CompoundCommand.
 	 */
 
-	protected Stack<CompoundRecord> transStack = new Stack<CompoundRecord>();
+	protected Stack<CompoundRecord> transStack = new Stack<>();
 
 	/**
 	 * The adapter for the specified compound records.
@@ -314,10 +317,11 @@ public class ActivityStack implements CommandStack {
 	 * Executes the specified extended element command. The command must be ready to
 	 * execute. As noted above, any required checks must have already been done.
 	 * Flushes the redo stack.
-	 * 
+	 *
 	 * @param command the ActivityRecord to execute
 	 */
 
+	@Override
 	public void execute(IElementCommand command) {
 		ExtensionActivityRecord record = new ExtensionActivityRecord(command);
 
@@ -330,10 +334,11 @@ public class ActivityStack implements CommandStack {
 	 * Executes the specified record. The record must be ready to execute. As noted
 	 * above, any required checks must have already been done. Flushes the redo
 	 * stack.
-	 * 
+	 *
 	 * @param executeRecord the ActivityRecord to execute
 	 */
 
+	@Override
 	public void execute(IActivityRecord executeRecord) {
 		ActivityRecord record = (ActivityRecord) executeRecord;
 
@@ -399,6 +404,7 @@ public class ActivityStack implements CommandStack {
 	 * feature.</em>
 	 */
 
+	@Override
 	public void undo() {
 		// Should only be called when there is a record to redo.
 
@@ -431,6 +437,7 @@ public class ActivityStack implements CommandStack {
 	 * {@link #canUndo()}returns <code>true</code>.
 	 */
 
+	@Override
 	public void redo() {
 		// Should only be called when there is a record to redo.
 
@@ -467,16 +474,17 @@ public class ActivityStack implements CommandStack {
 	 * <li>the undo stack is not empty, and
 	 * <li>the top record can be undone.</li>
 	 * </nl>
-	 * 
+	 *
 	 * @return <code>true</code> if {@link #undo()}can be called
 	 */
 
+	@Override
 	public boolean canUndo() {
-		if (!transStack.isEmpty())
+		if (!transStack.isEmpty()) {
 			return false;
-		else if (undoStack.size() == 0)
+		} else if (undoStack.size() == 0) {
 			return false;
-		else {
+		} else {
 			ActivityRecord record = undoStack.lastElement();
 			return record.canUndo();
 		}
@@ -490,16 +498,17 @@ public class ActivityStack implements CommandStack {
 	 * <li>the redo stack is not empty, and</li>
 	 * <li>the top record can be redone.</li>
 	 * </nl>
-	 * 
+	 *
 	 * @return <code>true</code> if {@link #redo()}can be called.
 	 */
 
+	@Override
 	public boolean canRedo() {
-		if (!transStack.isEmpty())
+		if (!transStack.isEmpty()) {
 			return false;
-		else if (redoStack.size() == 0)
+		} else if (redoStack.size() == 0) {
 			return false;
-		else {
+		} else {
 			ActivityRecord record = redoStack.lastElement();
 			return record.canUndo();
 		}
@@ -522,6 +531,7 @@ public class ActivityStack implements CommandStack {
 	 * Clears the record stack.
 	 */
 
+	@Override
 	public void flush() {
 		destroyRecords(redoStack);
 		destroyRecords(undoStack);
@@ -529,7 +539,7 @@ public class ActivityStack implements CommandStack {
 
 	/**
 	 * Private method to remove all records on a stack.
-	 * 
+	 *
 	 * @param stack
 	 */
 
@@ -547,10 +557,11 @@ public class ActivityStack implements CommandStack {
 	/**
 	 * Sets the stack size limit. If the stack already exceeds the new limit then
 	 * the excess records are flushed.
-	 * 
+	 *
 	 * @param limit The new stack size limit.
 	 */
 
+	@Override
 	public void setStackLimit(int limit) {
 		assert limit >= 0;
 		stackLimit = limit;
@@ -561,12 +572,12 @@ public class ActivityStack implements CommandStack {
 	 * Returns an array of the records in the order they were executed. This method
 	 * is useful for debugging only, since the list contains no marker to note which
 	 * records have been undone.
-	 * 
+	 *
 	 * @return An array containing all records in the order they were executed.
 	 */
 
 	public Object[] getRecords() {
-		List<ActivityRecord> records = new ArrayList<ActivityRecord>(undoStack);
+		List<ActivityRecord> records = new ArrayList<>(undoStack);
 		for (int i = redoStack.size() - 1; i >= 0; i--) {
 			records.add(redoStack.get(i));
 		}
@@ -575,22 +586,24 @@ public class ActivityStack implements CommandStack {
 
 	/**
 	 * Peeks at the top of the redo stack.
-	 * 
+	 *
 	 * @return The record at the top of the redo stack, or null if there is no such
 	 *         record.
 	 */
 
+	@Override
 	public IActivityRecord getRedoRecord() {
 		return redoStack.isEmpty() ? null : redoStack.peek();
 	}
 
 	/**
 	 * Peeks at the top of the undo stack.
-	 * 
+	 *
 	 * @return The record at the top of the undo stack, or null if there is no such
 	 *         record.
 	 */
 
+	@Override
 	public IActivityRecord getUndoRecord() {
 		return undoStack.isEmpty() ? null : undoStack.peek();
 	}
@@ -598,14 +611,16 @@ public class ActivityStack implements CommandStack {
 	/**
 	 * Returns the label of the record at the top of the undo stack. The label
 	 * describes the next operation to be undone.
-	 * 
+	 *
 	 * @return The undo label, or null if there is no record to be undone.
 	 */
 
+	@Override
 	public String getUndoLabel() {
 		IActivityRecord cmd = getUndoRecord();
-		if (cmd == null)
+		if (cmd == null) {
 			return null;
+		}
 
 		// Get the label. The label cannot be null when a record
 		// is available to undo.
@@ -618,14 +633,16 @@ public class ActivityStack implements CommandStack {
 	/**
 	 * Returns the label of the record at the top of the redo stack. The label
 	 * describes the next operation to be redone.
-	 * 
+	 *
 	 * @return The redo label, or null if there is no record to be redone.
 	 */
 
+	@Override
 	public String getRedoLabel() {
 		IActivityRecord cmd = getRedoRecord();
-		if (cmd == null)
+		if (cmd == null) {
 			return null;
+		}
 
 		// Get the label. The label cannot be null when a record
 		// is available to redo.
@@ -638,12 +655,13 @@ public class ActivityStack implements CommandStack {
 	/**
 	 * Starts a transaction. The application provides the message ID for a label to
 	 * associate with the transaction.
-	 * 
+	 *
 	 * @param label localized label for the transaction
-	 * 
+	 *
 	 * @see #commit
 	 */
 
+	@Override
 	public void startTrans(String label) {
 		// Create a compound record to implement the transaction.
 
@@ -654,10 +672,10 @@ public class ActivityStack implements CommandStack {
 	/**
 	 * Starts a transaction. The application provides the message ID for a label to
 	 * associate with the transaction.
-	 * 
+	 *
 	 * @param label   localized label for the transaction
 	 * @param options the transaction options
-	 * 
+	 *
 	 * @see #commit
 	 */
 
@@ -672,12 +690,13 @@ public class ActivityStack implements CommandStack {
 	 * Commits the current transaction. There must be an active transaction. If
 	 * nested transactions are active, this method will finish the inner- most
 	 * transaction.
-	 * 
+	 *
 	 * @see #startTrans()
 	 * @see #startTrans(String)
 	 * @see #rollback
 	 */
 
+	@Override
 	public void commit() {
 		assert (!transStack.empty());
 		CompoundRecord transaction = transStack.pop();
@@ -727,6 +746,7 @@ public class ActivityStack implements CommandStack {
 	 * any parent transactions.
 	 */
 
+	@Override
 	public void rollback() {
 		assert transStack.size() > 0;
 		CompoundRecord trans = transStack.pop();
@@ -754,22 +774,25 @@ public class ActivityStack implements CommandStack {
 	 * made so far in that transaction.
 	 */
 
+	@Override
 	public void rollbackAll() {
-		while (!transStack.isEmpty())
+		while (!transStack.isEmpty()) {
 			rollback();
+		}
 	}
 
 	/**
 	 * Returns the current transaction number. This is either the command just
 	 * completed (the one on the top of the undo stack),or <code>0</code> if the
 	 * undo stack is empty.
-	 * 
+	 *
 	 * @return the current transaction number
 	 */
 
 	public int getCurrentTransNo() {
-		if (undoStack.isEmpty())
+		if (undoStack.isEmpty()) {
 			return 0;
+		}
 		return (undoStack.lastElement()).getTransNo();
 	}
 
@@ -778,15 +801,18 @@ public class ActivityStack implements CommandStack {
 	 * will receive each event only once.
 	 * <p>
 	 * Part of: Notification system.
-	 * 
+	 *
 	 * @param obj the activity stack listener to register
 	 */
 
+	@Override
 	public void addListener(ActivityStackListener obj) {
-		if (listeners == null)
-			listeners = new ArrayList<ActivityStackListener>();
-		if (obj != null && !listeners.contains(obj))
+		if (listeners == null) {
+			listeners = new ArrayList<>();
+		}
+		if (obj != null && !listeners.contains(obj)) {
 			listeners.add(obj);
+		}
 	}
 
 	/**
@@ -794,22 +820,25 @@ public class ActivityStack implements CommandStack {
 	 * the item is not in the list, then the request is silently ignored.
 	 * <p>
 	 * Part of: Notification system.
-	 * 
+	 *
 	 * @param obj the activity stack listener to remove
 	 */
 
+	@Override
 	public void removeListener(ActivityStackListener obj) {
-		if (listeners == null)
+		if (listeners == null) {
 			return;
+		}
 		int posn = listeners.indexOf(obj);
-		if (posn != -1)
+		if (posn != -1) {
 			listeners.remove(posn);
+		}
 	}
 
 	/**
 	 * Sends the notifications. This method check the current record state, and fire
 	 * event to corresponding method of listener.
-	 * 
+	 *
 	 * @param event activity stack event.
 	 */
 
@@ -817,9 +846,7 @@ public class ActivityStack implements CommandStack {
 		// Send to all direct listeners.
 
 		if (listeners != null) {
-			List<ActivityStackListener> tmpList = new ArrayList<ActivityStackListener>();
-			tmpList.addAll(listeners);
-
+			List<ActivityStackListener> tmpList = new ArrayList<>(listeners);
 			Iterator<ActivityStackListener> iter = tmpList.iterator();
 			while (iter.hasNext()) {
 				ActivityStackListener listener = iter.next();
@@ -836,11 +863,12 @@ public class ActivityStack implements CommandStack {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.CommandStack#startPersistentTrans(java
 	 * .lang.String)
 	 */
 
+	@Override
 	public void startPersistentTrans(String label) {
 		transStack.push(adapter.createNewRecord(TransactionAdapter.PERSISTENT_RECORD, label));
 	}
@@ -858,7 +886,7 @@ public class ActivityStack implements CommandStack {
 	/**
 	 * Starts a silent transaction. All events in the transaction will not be sent
 	 * out.
-	 * 
+	 *
 	 * @param label localized label for the transaction
 	 */
 	public void startSilentTrans(String label) {
@@ -868,9 +896,9 @@ public class ActivityStack implements CommandStack {
 	/**
 	 * Starts a silent transaction. All events in the transaction will not be sent
 	 * out.
-	 * 
+	 *
 	 * @param filterAll status to filter all events or not
-	 * 
+	 *
 	 */
 
 	public void startSilentTrans(boolean filterAll) {
@@ -880,7 +908,7 @@ public class ActivityStack implements CommandStack {
 	/**
 	 * Starts a silent transaction. All events in the transaction will not be sent
 	 * out.
-	 * 
+	 *
 	 * @param label     localized label for the transaction
 	 * @param filterAll
 	 */
@@ -898,7 +926,7 @@ public class ActivityStack implements CommandStack {
 	 * Starts a filter events transaction, all the events within the transaction
 	 * will be holden. They will be filtered and sent out once the transaction is
 	 * committed.
-	 * 
+	 *
 	 * @param label localized label for the transaction
 	 */
 
@@ -909,7 +937,7 @@ public class ActivityStack implements CommandStack {
 	/**
 	 * Starts a non-undo/redo compound record. This is primary to use in the simple
 	 * api script environment.
-	 * 
+	 *
 	 * @param label localized label for the transaction
 	 */
 
@@ -921,15 +949,17 @@ public class ActivityStack implements CommandStack {
 	 * Removes all listeners on the ActivityStack.
 	 */
 
+	@Override
 	public void clearListeners() {
-		if (listeners != null)
+		if (listeners != null) {
 			listeners.clear();
+		}
 		listeners = null;
 	}
 
 	/**
 	 * Increase the transaction count for the transaction stack.
-	 * 
+	 *
 	 * @return the increased transaction count
 	 */
 
@@ -939,7 +969,7 @@ public class ActivityStack implements CommandStack {
 
 	/**
 	 * Returns the last element from transaction stack
-	 * 
+	 *
 	 * @return
 	 */
 	public CompoundRecord getTopTransaction() {

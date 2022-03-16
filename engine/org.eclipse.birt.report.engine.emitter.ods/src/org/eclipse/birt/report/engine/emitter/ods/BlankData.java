@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -12,9 +15,9 @@ package org.eclipse.birt.report.engine.emitter.ods;
 
 public class BlankData extends Data {
 
-	public static enum Type {
+	public enum Type {
 		VERTICAL, HORIZONTAL, NONE
-	};
+	}
 
 	private SheetData data;
 
@@ -28,6 +31,7 @@ public class BlankData extends Data {
 	public BlankData() {
 	}
 
+	@Override
 	public boolean isBlank() {
 		return true;
 	}
@@ -36,6 +40,7 @@ public class BlankData extends Data {
 		return data;
 	}
 
+	@Override
 	public int getRowSpan() {
 		if (data != null) {
 			return data.getRowSpan();
@@ -43,12 +48,14 @@ public class BlankData extends Data {
 		return 0;
 	}
 
+	@Override
 	public void setRowSpan(int rowSpan) {
 		if (data != null) {
 			data.setRowSpan(rowSpan);
 		}
 	}
 
+	@Override
 	public int getRowSpanInDesign() {
 		if (data != null) {
 			return data.getRowSpanInDesign();
@@ -56,12 +63,14 @@ public class BlankData extends Data {
 		return 0;
 	}
 
+	@Override
 	public void decreasRowSpanInDesign() {
 		if (data != null) {
 			data.decreasRowSpanInDesign();
 		}
 	}
 
+	@Override
 	public float getHeight() {
 		if (data != null) {
 			return data.getHeight();
@@ -69,6 +78,7 @@ public class BlankData extends Data {
 		return super.getHeight();
 	}
 
+	@Override
 	public void setHeight(float height) {
 		if (data != null) {
 			data.setHeight(height);

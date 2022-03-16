@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,10 +59,11 @@ class BIRTGotoMarker implements IGotoMarker {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.ide.IGotoMarker#gotoMarker(org.eclipse.core.resources.IMarker)
 	 */
+	@Override
 	public void gotoMarker(IMarker marker) {
 		assert editorPart != null;
 
@@ -72,32 +76,30 @@ class BIRTGotoMarker implements IGotoMarker {
 		if (reportElementHandle == null
 				|| (reportElementHandle != null && isElementTemplateParameterDefinition(reportElementHandle))) {
 			gotoXMLSourcePage(marker);
-		} else {
-			if (moduleHandle instanceof ReportDesignHandle) {
-				// go to master page
-				if (isElementInMasterPage(reportElementHandle)) {
-					gotoLayoutPage(ReportMasterPageEditorFormPage.ID, marker, reportElementHandle);
-				} else
-				// go to Layout Page
-				{
-					gotoLayoutPage(ReportLayoutEditorFormPage.ID, marker, reportElementHandle);
-				}
-			} else if (moduleHandle instanceof LibraryHandle) {
-				// go to master page
-				if (isElementInMasterPage(reportElementHandle)) {
-					gotoLayoutPage(LibraryMasterPageEditorFormPage.ID, marker, reportElementHandle);
-				} else
-				// go to Layout Page
-				{
-					gotoLibraryLayoutPage(marker, reportElementHandle);
-				}
+		} else if (moduleHandle instanceof ReportDesignHandle) {
+			// go to master page
+			if (isElementInMasterPage(reportElementHandle)) {
+				gotoLayoutPage(ReportMasterPageEditorFormPage.ID, marker, reportElementHandle);
+			} else
+			// go to Layout Page
+			{
+				gotoLayoutPage(ReportLayoutEditorFormPage.ID, marker, reportElementHandle);
+			}
+		} else if (moduleHandle instanceof LibraryHandle) {
+			// go to master page
+			if (isElementInMasterPage(reportElementHandle)) {
+				gotoLayoutPage(LibraryMasterPageEditorFormPage.ID, marker, reportElementHandle);
+			} else
+			// go to Layout Page
+			{
+				gotoLibraryLayoutPage(marker, reportElementHandle);
 			}
 		}
 	}
 
 	protected void gotoLibraryLayoutPage(IMarker marker, ReportElementHandle reportElementHandle) {
 		String pageId = LibraryLayoutEditorFormPage.ID;
-		if (activatePage(pageId) == false) {
+		if (!activatePage(pageId)) {
 			return;
 		}
 		ModuleHandle moduleHandle = editorPart.getModel();
@@ -115,12 +117,13 @@ class BIRTGotoMarker implements IGotoMarker {
 	}
 
 	protected void gotoLayoutPage(String pageId, final IMarker marker, final ReportElementHandle reportElementHandle) {
-		if (activatePage(pageId) == false) {
+		if (!activatePage(pageId)) {
 			return;
 		}
 
 		Display.getCurrent().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				gotoLayoutMarker(marker, reportElementHandle);
 			}
@@ -128,13 +131,14 @@ class BIRTGotoMarker implements IGotoMarker {
 	}
 
 	protected void gotoXMLSourcePage(final IMarker marker) {
-		if (activatePage(MultiPageReportEditor.XMLSourcePage_ID) == false) {
+		if (!activatePage(MultiPageReportEditor.XMLSourcePage_ID)) {
 			return;
 		}
 
 		final IReportEditorPage reportXMLSourcePage = (IReportEditorPage) editorPart.getActivePageInstance();
 		Display.getCurrent().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				gotoXMLSourceMarker(reportXMLSourcePage, marker);
 			}
@@ -158,7 +162,7 @@ class BIRTGotoMarker implements IGotoMarker {
 	}
 
 	protected ReportElementHandle getReportElementHandle(ModuleHandle moduleHandle, IMarker marker) {
-		Integer elementId = Integer.valueOf(0);
+		Integer elementId = 0;
 		try {
 			elementId = (Integer) marker.getAttribute(IDEMultiPageReportEditor.ELEMENT_ID);
 		} catch (CoreException e) {
@@ -180,7 +184,7 @@ class BIRTGotoMarker implements IGotoMarker {
 
 	/**
 	 * Select the report element in the layout(including report design and library)
-	 * 
+	 *
 	 * @param marker the marker to go to
 	 */
 	protected void gotoLayoutMarker(IMarker marker, ReportElementHandle reportElementHandle) {
@@ -201,11 +205,12 @@ class BIRTGotoMarker implements IGotoMarker {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert#
 			 * convertSelectionToModelLisr(java.util.List)
 			 */
+			@Override
 			public List convertSelectionToModelLisr(List list) {
 				List lst = new ArrayList();
 

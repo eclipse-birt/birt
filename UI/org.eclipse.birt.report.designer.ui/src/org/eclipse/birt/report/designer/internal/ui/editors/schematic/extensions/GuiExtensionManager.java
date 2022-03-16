@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +50,7 @@ import com.ibm.icu.text.Collator;
 
 /**
  * Deal with the extension element
- * 
+ *
  */
 public class GuiExtensionManager {
 
@@ -114,7 +117,7 @@ public class GuiExtensionManager {
 
 	/**
 	 * Get display name
-	 * 
+	 *
 	 * @param obj
 	 * @return
 	 */
@@ -139,8 +142,9 @@ public class GuiExtensionManager {
 		List list = root.getChildren();
 		List exts = ExtensionPointManager.getInstance().getExtendedElementPoints();
 
-		Comparator<CombinedTemplateCreationEntry> entryComparator = new Comparator<CombinedTemplateCreationEntry>() {
+		Comparator<CombinedTemplateCreationEntry> entryComparator = new Comparator<>() {
 
+			@Override
 			public int compare(CombinedTemplateCreationEntry o1, CombinedTemplateCreationEntry o2) {
 				return Collator.getInstance().compare(o1.getLabel(), o2.getLabel());
 			}
@@ -151,7 +155,7 @@ public class GuiExtensionManager {
 		}
 
 		// sort containers and entries
-		Map<String, SortedSet<CombinedTemplateCreationEntry>> containerEntriesMap = new HashMap<String, SortedSet<CombinedTemplateCreationEntry>>();
+		Map<String, SortedSet<CombinedTemplateCreationEntry>> containerEntriesMap = new HashMap<>();
 
 		for (Iterator itor = exts.iterator(); itor.hasNext();) {
 			ExtendedElementUIPoint point = (ExtendedElementUIPoint) itor.next();
@@ -166,8 +170,9 @@ public class GuiExtensionManager {
 			}
 
 			if (PALETTE_DESIGNER.equals(type)) {
-				if (!UIUtil.isVisibleExtensionElement(point))
+				if (!UIUtil.isVisibleExtensionElement(point)) {
 					continue;
+				}
 			} else if (PALETTE_MASTERPAGE.equals(type)) {
 				Boolean bool = (Boolean) point.getAttribute(IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_MASTERPAGE);
 				// if ( !bool.booleanValue( ) )
@@ -205,7 +210,7 @@ public class GuiExtensionManager {
 			}
 			// entry.add( combined );
 			if (!containerEntriesMap.containsKey(category)) {
-				containerEntriesMap.put(category, new TreeSet<CombinedTemplateCreationEntry>(entryComparator));
+				containerEntriesMap.put(category, new TreeSet<>(entryComparator));
 			}
 			containerEntriesMap.get(category).add(combined);
 		}
@@ -231,7 +236,7 @@ public class GuiExtensionManager {
 			CombinedTemplateCreationEntry combined = new CommandCombinedTemplateCreationEntry(entries[i]);
 			// entry.add( combined );
 			if (!containerEntriesMap.containsKey(category)) {
-				containerEntriesMap.put(category, new TreeSet<CombinedTemplateCreationEntry>(entryComparator));
+				containerEntriesMap.put(category, new TreeSet<>(entryComparator));
 			}
 			containerEntriesMap.get(category).add(combined);
 		}

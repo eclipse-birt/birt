@@ -1,9 +1,9 @@
 /*******************************************************************************
   * Copyright (c) 2012 Megha Nidhi Dahal and others.
   * All rights reserved. This program and the accompanying materials
-  * are made available under the terms of the Eclipse Public License v1.0
+  * are made available under the terms of the Eclipse Public License v2.0
   * which accompanies this distribution, and is available at
-  * http://www.eclipse.org/legal/epl-v10.html
+  * http://www.eclipse.org/legal/epl-2.0.html
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
@@ -28,11 +28,12 @@ public class ExcelDataSourcePropertyPage extends DataSourceEditorPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceEditorPage
 	 * #collectCustomProperties(java.util.Properties)
 	 */
+	@Override
 	public Properties collectCustomProperties(Properties profileProps) {
 		/*
 		 * Optionally assigns a custom designer state, for inclusion in the ODA design
@@ -40,23 +41,26 @@ public class ExcelDataSourcePropertyPage extends DataSourceEditorPage {
 		 * );
 		 */
 
-		if (pageHelper == null)
+		if (pageHelper == null) {
 			return profileProps;
+		}
 
 		return pageHelper.collectCustomProperties(profileProps);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceEditorPage
 	 * #createAndInitCustomControl(org.eclipse.swt.widgets.Composite,
 	 * java.util.Properties)
 	 */
+	@Override
 	protected void createAndInitCustomControl(Composite parent, Properties profileProps) {
-		if (pageHelper == null)
+		if (pageHelper == null) {
 			pageHelper = new ExcelDataSourcePageHelper(this);
+		}
 		pageHelper.setResourceIdentifiers(getHostResourceIdentifiers());
 		pageHelper.createCustomControl(parent);
 
@@ -75,14 +79,16 @@ public class ExcelDataSourcePropertyPage extends DataSourceEditorPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceEditorPage
 	 * #refresh(java.util.Properties)
 	 */
+	@Override
 	protected void refresh(Properties customConnectionProps) {
-		if (pageHelper != null)
+		if (pageHelper != null) {
 			pageHelper.initCustomControl(customConnectionProps);
+		}
 
 		// enable/disable all controls on page in respect of the editable session state
 		enableAllControls(getControl(), isSessionEditable());
@@ -90,11 +96,12 @@ public class ExcelDataSourcePropertyPage extends DataSourceEditorPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.
 	 * DataSourceEditorPageCore#createTestConnectionRunnable(org.eclipse.datatools.
 	 * connectivity.IConnectionProfile)
 	 */
+	@Override
 	protected Runnable createTestConnectionRunnable(IConnectionProfile profile) {
 		return pageHelper.createTestConnectionRunnable(profile);
 	}

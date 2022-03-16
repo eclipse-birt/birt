@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.chart.device.image;
 
@@ -13,7 +25,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.util.SecurityUtil;
 
 /**
- * 
+ *
  */
 public final class BmpRendererImpl extends JavaxImageIOWriter {
 
@@ -21,37 +33,41 @@ public final class BmpRendererImpl extends JavaxImageIOWriter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.image.JavaxImageIOWriter#getFormat()
 	 */
-	public final String getFormat() {
+	@Override
+	public String getFormat() {
 		return "bmp"; //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IImageMapEmitter#getMimeType()
 	 */
-	public final String getMimeType() {
+	@Override
+	public String getMimeType() {
 		return "image/bmp"; //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.image.JavaxImageIOWriter#getImageType()
 	 */
-	public final int getImageType() {
+	@Override
+	public int getImageType() {
 		return BufferedImage.TYPE_3BYTE_BGR;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#after()
 	 */
-	public final void after() throws ChartException {
+	@Override
+	public void after() throws ChartException {
 		try {
 			super.after();
 		} catch (ChartException e) {
@@ -90,6 +106,7 @@ public final class BmpRendererImpl extends JavaxImageIOWriter {
 
 	}
 
+	@Override
 	protected boolean supportsTransparency() {
 		return false;
 	}

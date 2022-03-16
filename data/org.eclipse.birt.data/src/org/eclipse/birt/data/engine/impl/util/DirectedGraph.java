@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -37,15 +40,15 @@ public class DirectedGraph {
 	 * If node1 depends on node2 and node2 depends on node1, throw
 	 * <code>CycleFoundException</code> If node1 depends on node2 and node1 does not
 	 * depend on nodes2, then node2 locates before node1
-	 * 
+	 *
 	 * @return the flattened graph nodes in terms of dependency
 	 * @throws CycleFoundException
 	 */
 	public GraphNode[] flattenNodesByDependency() throws CycleFoundException {
-		List<GraphNode> result = new ArrayList<GraphNode>();
+		List<GraphNode> result = new ArrayList<>();
 
 		// In fact, it's a copy set of <code>result</code>, used to speed up search
-		Set<GraphNode> flatteneds = new HashSet<GraphNode>();
+		Set<GraphNode> flatteneds = new HashSet<>();
 
 		// grouped edges by from node
 		Map<GraphNode, Set<DirectedGraphEdge>> groupedEdgesByFromNode = groupEdgesByFromNode();
@@ -60,7 +63,7 @@ public class DirectedGraph {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param node1
 	 * @param node2
 	 * @return true if node1 depends on node2, i.e. node2 is reachable from node1
@@ -79,10 +82,7 @@ public class DirectedGraph {
 		}
 
 		for (DirectedGraphEdge edge : nextEdges) {
-			if (node2.equals(edge.getTo())) {
-				return true;
-			}
-			if (isDependOn(edge.getTo(), node2)) {
+			if (node2.equals(edge.getTo()) || isDependOn(edge.getTo(), node2)) {
 				return true;
 			}
 		}
@@ -120,7 +120,7 @@ public class DirectedGraph {
 
 	/**
 	 * validate graph has no cycle
-	 * 
+	 *
 	 * @throws CycleFoundException if a cycle is found
 	 */
 	public void validateCycle() throws CycleFoundException {
@@ -128,7 +128,7 @@ public class DirectedGraph {
 		Map<GraphNode, Set<DirectedGraphEdge>> groupedEdgesByFromNode = groupEdgesByFromNode();
 
 		// nodes that are already verified as not involved in cycle
-		Set<GraphNode> checkedNodes = new HashSet<GraphNode>();
+		Set<GraphNode> checkedNodes = new HashSet<>();
 		for (GraphNode fromNode : groupedEdgesByFromNode.keySet()) {
 			if (!checkedNodes.contains(fromNode)) // not checked yet
 			{
@@ -144,7 +144,7 @@ public class DirectedGraph {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param fromNode
 	 * @param transitions:  current checked nodes from which fromNode is reachable
 	 * @param groupedEdges: grouped edges
@@ -154,7 +154,7 @@ public class DirectedGraph {
 	 */
 	private Set<GraphNode> getReachableNodes(GraphNode fromNode, Set<GraphNode> transitions,
 			Map<GraphNode, Set<DirectedGraphEdge>> groupedEdges) throws CycleFoundException {
-		Set<GraphNode> reachables = new HashSet<GraphNode>();
+		Set<GraphNode> reachables = new HashSet<>();
 
 		// All the edges with fromNode as its from node
 		Set<DirectedGraphEdge> nextEdges = groupedEdges.get(fromNode);
@@ -177,7 +177,7 @@ public class DirectedGraph {
 				if (!reachables.contains(reachable)) {
 					reachables.add(reachable);
 
-					Set<GraphNode> newTransitons = new HashSet<GraphNode>(transitions);
+					Set<GraphNode> newTransitons = new HashSet<>(transitions);
 					newTransitons.add(fromNode);
 
 					// apply depth traverse
@@ -193,12 +193,12 @@ public class DirectedGraph {
 	 */
 	private Map<GraphNode, Set<DirectedGraphEdge>> groupEdgesByFromNode() {
 		if (groupedEdgesByFromNode == null) {
-			groupedEdgesByFromNode = new HashMap<GraphNode, Set<DirectedGraphEdge>>();
+			groupedEdgesByFromNode = new HashMap<>();
 			for (DirectedGraphEdge edge : edges) {
 				Set<DirectedGraphEdge> group = groupedEdgesByFromNode.get(edge.getFrom());
 				if (group == null) // this from node is first encountered
 				{
-					group = new HashSet<DirectedGraphEdge>();
+					group = new HashSet<>();
 					groupedEdgesByFromNode.put(edge.getFrom(), group);
 				}
 				group.add(edge);

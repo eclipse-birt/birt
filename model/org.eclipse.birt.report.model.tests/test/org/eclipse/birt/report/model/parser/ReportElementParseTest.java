@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,48 +36,49 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test ReportElement Handle for reading/writing property masks.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>testPropertyMask</td>
  * <td>Gets the valid property mask.</td>
  * <td>The value is gotten correctly.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Sets the valid property mask.</td>
  * <td>The output file matches the golden file.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 
 public class ReportElementParseTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Tests property masks of an element. Following methods have been tested:
-	 * 
+	 *
 	 * <ul>
 	 * <li>{@link ReportElementHandle#propertyMaskIterator()}
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -86,8 +90,9 @@ public class ReportElementParseTest extends BaseTestCase {
 		// get masks from the design file.
 
 		int count = 0;
-		for (Iterator iterator = handle.propertyMaskIterator(); iterator.hasNext(); iterator.next())
+		for (Iterator iterator = handle.propertyMaskIterator(); iterator.hasNext(); iterator.next()) {
 			count++;
+		}
 
 		assertEquals(5, count);
 
@@ -163,7 +168,7 @@ public class ReportElementParseTest extends BaseTestCase {
 
 	/**
 	 * Test semantic check for proerpty mask.
-	 * 
+	 *
 	 * @throws DesignFileException if syntax error in design file.
 	 */
 

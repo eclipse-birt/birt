@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -63,7 +66,7 @@ public class ContentNodeState extends AbstractParseState {
 	/**
 	 * Constructs the design parse state with the design file parser handler. This
 	 * constructor is used when this property to parse is a property of one element.
-	 * 
+	 *
 	 * @param tagName    the tag name of this state
 	 * @param theHandler the design file parser handler
 	 * @param element    the element which holds this property
@@ -79,7 +82,7 @@ public class ContentNodeState extends AbstractParseState {
 	/**
 	 * Constructs the design parse state with the design file parser handler. This
 	 * constructor is used when this property to parse is a property of one element.
-	 * 
+	 *
 	 * @param tagName    the tag name of this state
 	 * @param theHandler the design file parser handler
 	 * @param element    the element which holds this property
@@ -98,20 +101,22 @@ public class ContentNodeState extends AbstractParseState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
 	 */
 
+	@Override
 	public XMLParserHandler getHandler() {
 		return this.handler;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		super.parseAttrs(attrs);
 		node = new ContentNode(nodeName);
@@ -121,7 +126,7 @@ public class ContentNodeState extends AbstractParseState {
 
 	/**
 	 * Sets all the attributes to the node.
-	 * 
+	 *
 	 * @param attrs the attributes to set
 	 */
 
@@ -139,14 +144,16 @@ public class ContentNodeState extends AbstractParseState {
 			String idString = (String) node.getAttribute(DesignSchemaConstants.ID_ATTRIB);
 
 			// handler name
-			if (!StringUtil.isBlank(name))
+			if (!StringUtil.isBlank(name)) {
 				handler.module.getNameHelper().addContentName(elementDefn.getNameSpaceID(), name);
+			}
 			// handler id
 			if (!StringUtil.isBlank(idString)) {
 				try {
 					long id = Long.parseLong(idString);
-					if (id > DesignElement.NO_ID)
+					if (id > DesignElement.NO_ID) {
 						handler.module.addElementID(id);
+					}
 				} catch (NumberFormatException e) {
 					// do nothing
 				}
@@ -157,20 +164,22 @@ public class ContentNodeState extends AbstractParseState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
 
+	@Override
 	public AbstractParseState startElement(String tagName) {
 		return new ContentNodeState(tagName, handler, node);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
+	@Override
 	public void end() throws SAXException {
 		node.setValue(text.toString());
 		node.setCDATASection(isCDataSection);
@@ -180,11 +189,12 @@ public class ContentNodeState extends AbstractParseState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#setIsCDataSection
 	 * (boolean)
 	 */
 
+	@Override
 	public void setIsCDataSection(boolean isCDataSection) {
 		this.isCDataSection = isCDataSection;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ import org.eclipse.birt.report.model.core.Module;
 /**
  * Represents the property type for a list of objects (elements) or a simple
  * element.
- * 
+ *
  */
 
 public class ElementPropertyType extends PropertyType {
@@ -49,30 +52,33 @@ public class ElementPropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#getName()
 	 */
+	@Override
 	public String getName() {
 		return ELEMENT_TYPE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#getTypeCode()
 	 */
+	@Override
 	public int getTypeCode() {
 		return ELEMENT_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
 	 * .eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
+	@Override
 	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
 		if (value == null) {
@@ -102,32 +108,37 @@ public class ElementPropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#toString(org.eclipse
 	 * .birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
+	@Override
 	public String toString(Module module, PropertyDefn defn, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		return value.toString();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyType#toInteger(org.eclipse
 	 * .birt.report.model.core.Module, java.lang.Object)
 	 */
+	@Override
 	public int toInteger(Module module, Object value) {
 		// Return the list size as the int value.
 
-		if (value == null)
+		if (value == null) {
 			return 0;
-		if (value instanceof ArrayList)
+		}
+		if (value instanceof ArrayList) {
 			return ((ArrayList<Object>) value).size();
+		}
 		return 1;
 	}
 

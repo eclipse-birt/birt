@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,86 +36,86 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
- * 
+ *
+ *
  * <tr>
  * <td>{@link #testAddDrillthroughParameter()}</td>
  * <td>Add a new DrillthroughParameter to an Action.</td>
  * <td>The Parameter should be added to the Element that contains Action.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testaddDrillthroughSearchKeys()}</td>
  * <td>Add a new DrillthroughSearchKey to an Action.</td>
  * <td>The SearchKey should be added to the Element that contains Action.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetDrillthroughParameters()}</td>
  * <td>The Action is of Drillthrough type and containing 2 parameters.</td>
  * <td>A list contains 2 DrillthroughParameters. And the Expression value of the
  * Parameter is correct</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetDrillthroughSearchKeys()}</td>
  * <td>The Action is of Drillthrough type and containing 2 searchKeys.</td>
  * <td>A list conains 2 SearchKeys. And the Expression value of the SearchKey is
  * correct</td>
  * </tr>
- * 
- * 
+ *
+ *
  * <tr>
  * <td>{@link #testGetLinkExpr()}</td>
  * <td>Action is represented by a Hyperlink.</td>
  * <td>LinkExpression should be the value of the Hyperlink.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Action is represented by a Drillthrough.</td>
  * <td>LinkExpression should be the value of the BookmarkLink for the
  * Drillthrough.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Action is represented by a BookmarkLink.</td>
  * <td>LinkExpression should be the value of the BookmarkLink.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetLinkType()}</td>
  * <td>Action is represented by a Hyperlink.</td>
  * <td>LinkType should be Hyperlink.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Action is represented by a Drillthrough.</td>
  * <td>LinkType should be Drillthrough.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Action is represented by a BookmarkLink.</td>
  * <td>LinkType should be BookmarkLink.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSetLinkExpr()}</td>
  * <td>Action is represented by a Hyperlink. Set its Link Expression.</td>
  * <td>Value of the Expression is properly set.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 public class ActionHandleTest extends BaseTestCase {
 
 	ActionHandle actionHandle = null;
-	private static final String fileName = "ActionHandleTest_5.xml"; //$NON-NLS-1$
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign("ActionHandleTest.xml"); //$NON-NLS-1$
@@ -130,7 +133,7 @@ public class ActionHandleTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testAdd() throws Exception {
@@ -187,7 +190,7 @@ public class ActionHandleTest extends BaseTestCase {
 	 * <p>
 	 * Case3: Action is represented by a BookmarkLink. LinkExpression should be the
 	 * value of the BookmarkLink.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -215,7 +218,7 @@ public class ActionHandleTest extends BaseTestCase {
 
 	/**
 	 * test setLinkExpr().
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -252,7 +255,7 @@ public class ActionHandleTest extends BaseTestCase {
 	 * <p>
 	 * Case3: Action is represented by a BookmarkLink. LinkType should be
 	 * BookmarkLink.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testGetLinkType() throws Exception {
@@ -273,7 +276,7 @@ public class ActionHandleTest extends BaseTestCase {
 	/**
 	 * Test getDrillthroughParameters(). Get a List from the element that conains
 	 * the Action. The list conains 2 DrillthroughParameters.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -300,7 +303,7 @@ public class ActionHandleTest extends BaseTestCase {
 	/**
 	 * test addDrillthroughtParameter(). Add a new DrillthroughParameter to an
 	 * Action.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -332,7 +335,7 @@ public class ActionHandleTest extends BaseTestCase {
 
 	/**
 	 * test getDrillthroughSearchKeys().
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -354,7 +357,7 @@ public class ActionHandleTest extends BaseTestCase {
 	/**
 	 * test addDrillthroughtSearchKeys(). Add a new DrillthroughSearchKey to an
 	 * Action.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testaddDrillthroughSearchKeys() throws Exception {
@@ -372,15 +375,16 @@ public class ActionHandleTest extends BaseTestCase {
 		Iterator iter = actionHandle.searchIterator();
 
 		int count = 0;
-		for (; iter.hasNext(); iter.next())
+		for (; iter.hasNext(); iter.next()) {
 			count++;
+		}
 		assertEquals(3, count);
 
 	}
 
 	/**
 	 * Test methods like get/set targetwindow.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -398,9 +402,9 @@ public class ActionHandleTest extends BaseTestCase {
 	/**
 	 * The member "actionFormatType" is new added. Test the type of this member is
 	 * list: pdf, html.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	public void testActionFormatType() throws Exception {
 		openDesign("ActionHandleTest3.xml"); //$NON-NLS-1$
@@ -423,7 +427,7 @@ public class ActionHandleTest extends BaseTestCase {
 	/**
 	 * The member "targetFileType" is new added. Test the type of this member is in
 	 * list: report-design, report-document.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -460,8 +464,9 @@ public class ActionHandleTest extends BaseTestCase {
 		int i = 1;
 		while (iter.hasNext()) {
 			ColumnHintHandle hintHandle = (ColumnHintHandle) iter.next();
-			if (i == posn)
+			if (i == posn) {
 				return hintHandle.getActionHandle();
+			}
 			i++;
 		}
 		return null;
@@ -476,7 +481,7 @@ public class ActionHandleTest extends BaseTestCase {
 	 * <p>
 	 * Case3: Action is represented by a BookmarkLink. LinkExpression should be the
 	 * value of the BookmarkLink.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -506,7 +511,7 @@ public class ActionHandleTest extends BaseTestCase {
 
 	/**
 	 * test setLinkExpr().
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -544,7 +549,7 @@ public class ActionHandleTest extends BaseTestCase {
 	 * <p>
 	 * Case3: Action is represented by a BookmarkLink. LinkType should be
 	 * BookmarkLink.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testGetLinkTypeForHint() throws Exception {
@@ -567,7 +572,7 @@ public class ActionHandleTest extends BaseTestCase {
 	/**
 	 * Test getDrillthroughParameters(). Get a List from the element that conains
 	 * the Action. The list conains 2 DrillthroughParameters.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -595,7 +600,7 @@ public class ActionHandleTest extends BaseTestCase {
 	/**
 	 * test addDrillthroughtParameter(). Add a new DrillthroughParameter to an
 	 * Action.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -628,7 +633,7 @@ public class ActionHandleTest extends BaseTestCase {
 
 	/**
 	 * test getDrillthroughSearchKeys().
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -651,7 +656,7 @@ public class ActionHandleTest extends BaseTestCase {
 	/**
 	 * test addDrillthroughtSearchKeys(). Add a new DrillthroughSearchKey to an
 	 * Action.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testaddDrillthroughSearchKeysForHint() throws Exception {
@@ -670,15 +675,16 @@ public class ActionHandleTest extends BaseTestCase {
 		Iterator iter = actionHandle.searchIterator();
 
 		int count = 0;
-		for (; iter.hasNext(); iter.next())
+		for (; iter.hasNext(); iter.next()) {
 			count++;
+		}
 		assertEquals(3, count);
 
 	}
 
 	/**
 	 * Test methods like get/set targetwindow.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

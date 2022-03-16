@@ -1,11 +1,14 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ *
+ * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.impl.query;
@@ -39,7 +42,7 @@ public class SubCubeQueryResults implements ICubeQueryResults {
 	private ScriptContext cx;
 
 	/**
-	 * 
+	 *
 	 * @param cubeCursor
 	 * @throws DataException
 	 */
@@ -88,12 +91,14 @@ public class SubCubeQueryResults implements ICubeQueryResults {
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.api.ICubeQueryResults#cancel()
 	 */
+	@Override
 	public void cancel() {
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.api.ICubeQueryResults#getCubeCursor()
 	 */
+	@Override
 	public ICubeCursor getCubeCursor() throws DataException {
 		return cubeCursor;
 	}
@@ -101,31 +106,35 @@ public class SubCubeQueryResults implements ICubeQueryResults {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IBaseQueryResults#close()
 	 */
+	@Override
 	public void close() throws BirtException {
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IBaseQueryResults#getID()
 	 */
+	@Override
 	public String getID() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IBaseQueryResults#setName(java.lang.String)
 	 */
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.INamedObject#getName()
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}

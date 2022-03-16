@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -17,19 +19,21 @@ import org.eclipse.jst.j2ee.internal.actions.AbstractOpenWizardWorkbenchAction;
 
 /**
  * Action for new Birt Web Module
- * 
+ *
  */
 public class NewBirtWebComponentAction extends AbstractOpenWizardWorkbenchAction {
 
 	/**
 	 * Create Wizard
-	 * 
+	 *
 	 * @see org.eclipse.jst.j2ee.internal.actions.AbstractOpenWizardAction#createWizard()
 	 */
+	@Override
 	protected Wizard createWizard() {
 		return new BirtWebProjectWizard();
 	}
 
+	@Override
 	protected boolean shouldAcceptElement(Object obj) {
 		return true;
 	}

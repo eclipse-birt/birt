@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,14 +32,14 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  */
 class ComputedColumnCalculator {
 	/**
-	 * 
+	 *
 	 */
 	private ResultSetPopulator populator;
 	private ComputedColumnsState iccState;
 	private ComputedColumnHelper computedColumnHelper;
 
 	/**
-	 * 
+	 *
 	 * @param populator
 	 * @param singlePassRowProcessor
 	 */
@@ -49,7 +52,7 @@ class ComputedColumnCalculator {
 
 	/**
 	 * This method is used to populate computed columns.
-	 * 
+	 *
 	 * @param odaResultSet
 	 * @param iccState
 	 * @param computedColumnHelper
@@ -64,7 +67,7 @@ class ComputedColumnCalculator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param isCustomDataSet
 	 * @param stopSign
 	 * @throws DataException
@@ -79,23 +82,25 @@ class ComputedColumnCalculator {
 	 * Detect whether should one more pass being carried out.If there are still one
 	 * or more than one computed columns in iccState are marked as "unavailable"
 	 * then the method return false else return true.
-	 * 
+	 *
 	 * @param iccState
 	 * @return
 	 */
 	private boolean needMoreExpressionProcessOnComputedColumns() {
-		if (iccState == null)
+		if (iccState == null) {
 			return false;
+		}
 		for (int i = 0; i < iccState.getCount(); i++) {
-			if (iccState.isValueAvailable(i) == false)
+			if (!iccState.isValueAvailable(i)) {
 				return true;
+			}
 		}
 		return false;
 	}
 
 	/**
 	 * Make a Pass. Populate all achievable computed column values.
-	 * 
+	 *
 	 * @param iccState
 	 * @param computedColumnHelper
 	 * @param backupFetchEvents
@@ -103,14 +108,16 @@ class ComputedColumnCalculator {
 	 */
 	private void makeAPassToComputedColumn(boolean isCustomDataSet) throws DataException {
 		// ICustomDataSet need special treatment.
-		if (isCustomDataSet)
+		if (isCustomDataSet) {
 			populator.setResultSetMetadata(rebuildCustomedResultClass(populator.getResultSetMetadata(), false));
+		}
 
 		populateComputedColumns();
 
 		// ICustomDataSet need special treatment.
-		if (isCustomDataSet)
+		if (isCustomDataSet) {
 			populator.setResultSetMetadata(rebuildCustomedResultClass(populator.getResultSetMetadata(), true));
+		}
 
 		PassUtil.pass(populator, new OdiResultSetWrapper(populator.getResultIterator()), true);
 	}
@@ -124,7 +131,7 @@ class ComputedColumnCalculator {
 	 * that it can properly servers the ExpressionProcessor implemention. This
 	 * method, however, makes this class coupling with certain IExpressionProcessor
 	 * instance, that is ,ExpressionProcessor. And should be refactor in future.
-	 * 
+	 *
 	 * @param meta
 	 * @param returnToOriginalValue if true, then reset the metaData to the state
 	 *                              when it is passed to this CachedResultSet, if
@@ -149,7 +156,7 @@ class ComputedColumnCalculator {
 
 	/**
 	 * Populate the computed columns to be used in current pass.
-	 * 
+	 *
 	 * @param iccState             The object which indicate the status of computed
 	 *                             columns.
 	 * @param computedColumnHelper
@@ -171,15 +178,16 @@ class ComputedColumnCalculator {
 				computedColumnHelper.getComputedColumnList().add(iccState.getComputedColumn(i));
 				iccState.setLastAccessedComputedColumnId(i);
 
-			} else
+			} else {
 				break;
+			}
 		}
 		computedColumnHelper.setRePrepare(true);
 	}
 
 	/**
 	 * Calculate the aggregation in computed columns
-	 * 
+	 *
 	 * @param iccState
 	 * @throws DataException
 	 */

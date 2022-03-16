@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,9 +43,9 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// TODO Change these values according to the locale.
-	static private ThreadLocal<List<SimpleDateFormat>> threadSDFArray = new ThreadLocal<List<SimpleDateFormat>>();
-	private static ThreadLocal<ULocale> threadLocale = new ThreadLocal<ULocale>();
-	private static ThreadLocal<TimeZone> threadTimeZone = new ThreadLocal<TimeZone>();
+	static private ThreadLocal<List<SimpleDateFormat>> threadSDFArray = new ThreadLocal<>();
+	private static ThreadLocal<ULocale> threadLocale = new ThreadLocal<>();
+	private static ThreadLocal<TimeZone> threadTimeZone = new ThreadLocal<>();
 
 	private IScriptFunctionExecutor executor;
 
@@ -91,106 +94,106 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	 *
 	 */
 	BirtDateTime(String functionName) throws BirtException {
-		if ("year".equals(functionName))
+		if ("year".equals(functionName)) {
 			this.executor = new Function_Year();
-		else if ("quarter".equals(functionName))
+		} else if ("quarter".equals(functionName)) {
 			this.executor = new Function_Quarter();
-		else if ("month".equals(functionName))
+		} else if ("month".equals(functionName)) {
 			this.executor = new Function_Month();
-		else if ("week".equals(functionName))
+		} else if ("week".equals(functionName)) {
 			this.executor = new Function_Week();
-		else if ("weekOfMonth".equals(functionName))
+		} else if ("weekOfMonth".equals(functionName)) {
 			this.executor = new Function_WeekOfMonth();
-		else if ("day".equals(functionName))
+		} else if ("day".equals(functionName)) {
 			this.executor = new Function_Day();
-		else if ("weekDay".equals(functionName))
+		} else if ("weekDay".equals(functionName)) {
 			this.executor = new Function_WeekDay();
-		else if ("dayOfWeek".equals(functionName))
+		} else if ("dayOfWeek".equals(functionName)) {
 			this.executor = new Function_DayOfWeek();
-		else if ("dayOfYear".equals(functionName))
+		} else if ("dayOfYear".equals(functionName)) {
 			this.executor = new Function_DayOfYear();
-		else if ("today".equals(functionName))
+		} else if ("today".equals(functionName)) {
 			this.executor = new Function_Today();
-		else if ("now".equals(functionName))
+		} else if ("now".equals(functionName)) {
 			this.executor = new Function_Now();
-		else if ("diffYear".equals(functionName))
+		} else if ("diffYear".equals(functionName)) {
 			this.executor = new Function_DiffYear();
-		else if ("diffMonth".equals(functionName))
+		} else if ("diffMonth".equals(functionName)) {
 			this.executor = new Function_DiffMonth();
-		else if ("diffQuarter".equals(functionName))
+		} else if ("diffQuarter".equals(functionName)) {
 			this.executor = new Function_DiffQuarter();
-		else if ("diffWeek".equals(functionName))
+		} else if ("diffWeek".equals(functionName)) {
 			this.executor = new Function_DiffWeek();
-		else if ("diffDay".equals(functionName))
+		} else if ("diffDay".equals(functionName)) {
 			this.executor = new Function_DiffDay();
-		else if ("diffHour".equals(functionName))
+		} else if ("diffHour".equals(functionName)) {
 			this.executor = new Function_DiffHour();
-		else if ("diffMinute".equals(functionName))
+		} else if ("diffMinute".equals(functionName)) {
 			this.executor = new Function_DiffMinute();
-		else if ("diffSecond".equals(functionName))
+		} else if ("diffSecond".equals(functionName)) {
 			this.executor = new Function_DiffSecond();
-		else if ("addYear".equals(functionName))
+		} else if ("addYear".equals(functionName)) {
 			this.executor = new Function_AddYear();
-		else if ("addMonth".equals(functionName))
+		} else if ("addMonth".equals(functionName)) {
 			this.executor = new Function_AddMonth();
-		else if ("addQuarter".equals(functionName))
+		} else if ("addQuarter".equals(functionName)) {
 			this.executor = new Function_AddQuarter();
-		else if ("addWeek".equals(functionName))
+		} else if ("addWeek".equals(functionName)) {
 			this.executor = new Function_AddWeek();
-		else if ("addDay".equals(functionName))
+		} else if ("addDay".equals(functionName)) {
 			this.executor = new Function_AddDay();
-		else if ("addHour".equals(functionName))
+		} else if ("addHour".equals(functionName)) {
 			this.executor = new Function_AddHour();
-		else if ("addMinute".equals(functionName))
+		} else if ("addMinute".equals(functionName)) {
 			this.executor = new Function_AddMinute();
-		else if ("addSecond".equals(functionName))
+		} else if ("addSecond".equals(functionName)) {
 			this.executor = new Function_AddSecond();
-		else if ("firstDayOfYear".equals(functionName))
+		} else if ("firstDayOfYear".equals(functionName)) {
 			this.executor = new Function_FirstDayOfYear();
-		else if ("firstDayOfQuarter".equals(functionName))
+		} else if ("firstDayOfQuarter".equals(functionName)) {
 			this.executor = new Function_FirstDayOfQuarter();
-		else if ("firstDayOfMonth".equals(functionName))
+		} else if ("firstDayOfMonth".equals(functionName)) {
 			this.executor = new Function_FirstDayOfMonth();
-		else if ("firstDayOfWeek".equals(functionName))
+		} else if ("firstDayOfWeek".equals(functionName)) {
 			this.executor = new Function_FirstDayOfWeek();
-		else if ("date".equals(functionName))
+		} else if ("date".equals(functionName)) {
 			this.executor = new Function_Date();
-
-		else if ("fiscalYear".equals(functionName))
+		} else if ("fiscalYear".equals(functionName)) {
 			this.executor = new Function_FiscalYear();
-		else if ("fiscalQuarter".equals(functionName))
+		} else if ("fiscalQuarter".equals(functionName)) {
 			this.executor = new Function_FiscalQuarter();
-		else if ("fiscalMonth".equals(functionName))
+		} else if ("fiscalMonth".equals(functionName)) {
 			this.executor = new Function_FiscalMonth();
-		else if ("fiscalWeek".equals(functionName))
+		} else if ("fiscalWeek".equals(functionName)) {
 			this.executor = new Function_FiscalWeek();
-		else if ("fiscalDay".equals(functionName))
+		} else if ("fiscalDay".equals(functionName)) {
 			this.executor = new Function_FiscalDay();
-		else if ("firstDayOfFiscalYear".equals(functionName))
+		} else if ("firstDayOfFiscalYear".equals(functionName)) {
 			this.executor = new Function_FirstDayOfFiscalYear();
-		else if ("firstDayOfFiscalQuarter".equals(functionName))
+		} else if ("firstDayOfFiscalQuarter".equals(functionName)) {
 			this.executor = new Function_FirstDayOfFiscalQuarter();
-		else if ("firstDayOfFiscalMonth".equals(functionName))
+		} else if ("firstDayOfFiscalMonth".equals(functionName)) {
 			this.executor = new Function_FirstDayOfFiscalMonth();
-		else if ("firstDayOfFiscalWeek".equals(functionName))
+		} else if ("firstDayOfFiscalWeek".equals(functionName)) {
 			this.executor = new Function_FirstDayOfFiscalWeek();
-		else if ("hour".equals(functionName))
+		} else if ("hour".equals(functionName)) {
 			this.executor = new Function_Hour();
-		else if ("minute".equals(functionName))
+		} else if ("minute".equals(functionName)) {
 			this.executor = new Function_Minute();
-		else if ("second".equals(functionName))
+		} else if ("second".equals(functionName)) {
 			this.executor = new Function_Second();
-		else if ("weekOfYear".equals(functionName))
+		} else if ("weekOfYear".equals(functionName)) {
 			this.executor = new Function_WeekOfYear();
-		else if ("weekOfQuarter".equals(functionName))
+		} else if ("weekOfQuarter".equals(functionName)) {
 			this.executor = new Function_WeekOfQuarter();
-		else if ("dayOfQuarter".equals(functionName))
+		} else if ("dayOfQuarter".equals(functionName)) {
 			this.executor = new Function_DayOfQuarter();
-		else if ("dayOfMonth".equals(functionName))
+		} else if ("dayOfMonth".equals(functionName)) {
 			this.executor = new Function_DayOfMonth();
-		else
+		} else {
 			throw new BirtException("org.eclipse.birt.core.script.function.bre", null,
 					Messages.getString("invalid.function.name") + "BirtDateTime." + functionName);
+		}
 	}
 
 	private static class Function_Year extends Function_temp {
@@ -204,6 +207,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 		 */
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -219,8 +223,9 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	 * @return
 	 */
 	private static int year(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException("date value is null!");
+		}
 
 		return getCalendar(d).get(Calendar.YEAR);
 	}
@@ -236,14 +241,16 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
 			}
-			if (args[0] instanceof Date)
+			if (args[0] instanceof Date) {
 				return Integer.valueOf(quarter((Date) args[0]));
-			else
+			} else {
 				return Integer.valueOf(quarter(DataTypeUtil.toDate(args[0])));
+			}
 		}
 	}
 
@@ -254,9 +261,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	 * @return
 	 */
 	private static int quarter(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		int month = getCalendar(d).get(Calendar.MONTH);
 		switch (month) {
@@ -293,21 +301,24 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
 			}
-			if (args[0] instanceof Date)
+			if (args[0] instanceof Date) {
 				return Integer.valueOf(weekOfQuarter((Date) args[0]));
-			else
+			} else {
 				return Integer.valueOf(weekOfQuarter(DataTypeUtil.toDate(args[0])));
+			}
 		}
 	}
 
 	private static int weekOfQuarter(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		int dayOfWeek = getCalendar(d).get(Calendar.DAY_OF_WEEK);
 		int dayOfQtr = getDayOfQuarter(d);
@@ -337,21 +348,24 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
 			}
-			if (args[0] instanceof Date)
+			if (args[0] instanceof Date) {
 				return Integer.valueOf(dayOfQuarter((Date) args[0]));
-			else
+			} else {
 				return Integer.valueOf(dayOfQuarter(DataTypeUtil.toDate(args[0])));
+			}
 		}
 	}
 
 	private static int dayOfQuarter(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		int dayOfYear = getCalendar(d).get(Calendar.DAY_OF_YEAR);
 		int quarter = quarter(d);
@@ -377,7 +391,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 		}
 
 		int totalDaysTillQtr = 0;
-		int dayOfQuarter = 0;
+		int dayOfQuarter;
 		for (int i = 0; i < quarter - 1; i++) {
 			totalDaysTillQtr += dayCountPerQtr[i];
 		}
@@ -389,9 +403,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	}
 
 	private static int getDayOfQuarter(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		int dayOfYear = getCalendar(d).get(Calendar.DAY_OF_YEAR);
 		int quarter = quarter(d);
@@ -417,7 +432,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 		}
 
 		int totalDaysTillQtr = 0;
-		int dayOfQuarter = 0;
+		int dayOfQuarter;
 		for (int i = 0; i < quarter - 1; i++) {
 			totalDaysTillQtr += dayCountPerQtr[i];
 		}
@@ -436,19 +451,22 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
 			}
 			Date date = null;
-			if (args[0] instanceof Date)
+			if (args[0] instanceof Date) {
 				date = (Date) args[0];
-			else
+			} else {
 				date = DataTypeUtil.toDate(args[0]);
-			if (args.length == 1)
+			}
+			if (args.length == 1) {
 				return Integer.valueOf(month(date));
-			else
+			} else {
 				return month(date, ((Number) args[1]).intValue());
+			}
 		}
 	}
 
@@ -459,9 +477,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	 * @return
 	 */
 	private static int month(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		return getCalendar(d).get(Calendar.MONTH) + 1;
 	}
@@ -478,9 +497,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	 */
 	private static String month(Date d, int option) {
 		// TODO: finish me.
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		Calendar c = getCalendar(d);
 		int month = c.get(Calendar.MONTH);
@@ -505,6 +525,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -520,9 +541,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	 * @return
 	 */
 	private static int week(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		return getCalendar(d).get(Calendar.WEEK_OF_YEAR);
 	}
@@ -538,6 +560,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -553,9 +576,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	 * @return
 	 */
 	private static int weekOfMonth(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		return getCalendar(d).get(Calendar.WEEK_OF_MONTH);
 	}
@@ -571,6 +595,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -586,9 +611,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	 * @return
 	 */
 	private static int weekOfYear(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		return getCalendar(d).get(Calendar.WEEK_OF_YEAR);
 	}
@@ -604,6 +630,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -619,9 +646,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	 * @return
 	 */
 	private static int day(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		return getCalendar(d).get(Calendar.DAY_OF_MONTH);
 	}
@@ -637,14 +665,16 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
 			}
-			if (args.length == 1)
+			if (args.length == 1) {
 				return weekDay(DataTypeUtil.toDate(args[0]));
-			else
+			} else {
 				return weekDay(DataTypeUtil.toDate(args[0]), ((Number) args[1]).intValue());
+			}
 		}
 	}
 
@@ -655,9 +685,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	 * @return
 	 */
 	private static String weekDay(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		return String.valueOf(getCalendar(d).get(Calendar.DAY_OF_WEEK));
 	}
@@ -674,9 +705,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	 * @return
 	 */
 	private static String weekDay(Date d, int option) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 		switch (option) {
 		case 1:
 			return String.valueOf(getWeekDay(d, Calendar.SUNDAY));
@@ -704,6 +736,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -719,9 +752,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	 * @return
 	 */
 	private static int dayOfYear(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		return getCalendar(d).get(Calendar.DAY_OF_YEAR);
 	}
@@ -737,6 +771,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -752,9 +787,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	 * @return
 	 */
 	private static int dayOfMonth(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		return getCalendar(d).get(Calendar.DAY_OF_MONTH);
 	}
@@ -770,6 +806,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 		 */
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -779,9 +816,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	}
 
 	private static int hour(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		return getCalendar(d).get(Calendar.HOUR);
 	}
@@ -797,6 +835,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 		 */
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -806,9 +845,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	}
 
 	private static int minute(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		return getCalendar(d).get(Calendar.MINUTE);
 	}
@@ -824,6 +864,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 		 */
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -833,9 +874,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	}
 
 	private static int second(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		return getCalendar(d).get(Calendar.SECOND);
 	}
@@ -851,6 +893,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -866,9 +909,10 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	 * @return
 	 */
 	private static int dayOfWeek(Date d) {
-		if (d == null)
+		if (d == null) {
 			throw new java.lang.IllegalArgumentException(
 					Messages.getString("error.BirtDateTime.cannotBeNull.DateValue"));
+		}
 
 		return getCalendar(d).get(Calendar.DAY_OF_WEEK);
 	}
@@ -884,6 +928,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 0;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -918,6 +963,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 0;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			return now();
 		}
@@ -944,6 +990,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -981,6 +1028,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1019,6 +1067,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1057,6 +1106,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1084,7 +1134,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	 * @return
 	 */
 	static public Date getWeekStartDay(Date date) {
-		int diffDay = 1 - Integer.valueOf(weekDay(date)).intValue();
+		int diffDay = 1 - Integer.parseInt(weekDay(date));
 
 		return addDay(date, diffDay);
 	}
@@ -1100,6 +1150,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1156,6 +1207,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1186,6 +1238,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1221,6 +1274,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1257,6 +1311,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1291,6 +1346,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1325,6 +1381,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1355,6 +1412,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1385,6 +1443,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1419,6 +1478,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1453,6 +1513,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1487,6 +1548,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1506,6 +1568,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1527,6 +1590,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1552,6 +1616,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1573,6 +1638,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 1;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1595,6 +1661,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 6;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1604,19 +1671,20 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 					args[i] = Double.parseDouble((String) args[i]);
 				}
 			}
-			if (args.length == 3)
+			if (args.length == 3) {
 				return getDate(((Number) args[0]).intValue(), ((Number) args[1]).intValue(),
 						((Number) args[2]).intValue(), 0, 0, 0);
-			else if (args.length == 4)
+			} else if (args.length == 4) {
 				return getDate(((Number) args[0]).intValue(), ((Number) args[1]).intValue(),
 						((Number) args[2]).intValue(), ((Number) args[3]).intValue(), 0, 0);
-			else if (args.length == 5)
+			} else if (args.length == 5) {
 				return getDate(((Number) args[0]).intValue(), ((Number) args[1]).intValue(),
 						((Number) args[2]).intValue(), ((Number) args[3]).intValue(), ((Number) args[4]).intValue(), 0);
-			else
+			} else {
 				return getDate(((Number) args[0]).intValue(), ((Number) args[1]).intValue(),
 						((Number) args[2]).intValue(), ((Number) args[3]).intValue(), ((Number) args[4]).intValue(),
 						((Number) args[5]).intValue());
+			}
 		}
 	}
 
@@ -1629,6 +1697,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args, IScriptFunctionContext context) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1654,6 +1723,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args, IScriptFunctionContext context) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1675,6 +1745,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args, IScriptFunctionContext context) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1696,6 +1767,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args, IScriptFunctionContext context) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1731,6 +1803,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args, IScriptFunctionContext context) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1751,6 +1824,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args, IScriptFunctionContext context) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1780,6 +1854,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args, IScriptFunctionContext context) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1811,6 +1886,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args, IScriptFunctionContext context) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1837,6 +1913,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args, IScriptFunctionContext context) throws BirtException {
 			if (existNullValue(args)) {
 				return null;
@@ -1949,13 +2026,15 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 	private static boolean existNullValue(Object[] args) {
 		if (args != null) {
 			for (int i = 0; i < args.length; i++) {
-				if (args[i] == null)
+				if (args[i] == null) {
 					return true;
+				}
 			}
 		}
 		return false;
 	}
 
+	@Override
 	public Object execute(Object[] arguments, IScriptFunctionContext scriptContext) throws BirtException {
 		if (scriptContext != null) {
 			Object locale = scriptContext
@@ -1965,7 +2044,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable {
 			}
 			if (threadLocale.get() != locale) {
 				threadLocale.set((ULocale) locale);
-				List<SimpleDateFormat> sdfList = new ArrayList<SimpleDateFormat>();
+				List<SimpleDateFormat> sdfList = new ArrayList<>();
 				sdfList.add(new SimpleDateFormat("MMM", threadLocale.get()));
 				sdfList.add(new SimpleDateFormat("MMMM", threadLocale.get()));
 				sdfList.add(new SimpleDateFormat("EEE", threadLocale.get()));

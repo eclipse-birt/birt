@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +50,7 @@ import org.mozilla.javascript.Scriptable;
 public class QueryExecutorUtil {
 	/**
 	 * apply filter on nested aggregation
-	 * 
+	 *
 	 * @param view
 	 * @param stopSign
 	 * @param executor
@@ -79,7 +82,7 @@ public class QueryExecutorUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cubeQueryDefinition
 	 * @param cubeQueryExcutorHelper
 	 * @throws DataException
@@ -114,8 +117,9 @@ public class QueryExecutorUtil {
 						executor.getSession().getEngineContext().getScriptContext());
 			} else {
 				String bindingName = OlapExpressionUtil.getBindingName(expr);
-				if (bindingName == null)
+				if (bindingName == null) {
 					continue;
+				}
 				List bindings = queryDefn.getBindings();
 				List aggrOns = null;
 				IBinding binding = null;
@@ -130,8 +134,9 @@ public class QueryExecutorUtil {
 				DimLevel[] aggrOnLevels = null;
 
 				if (aggrOns == null || aggrOns.size() == 0) {
-					if (binding == null)
+					if (binding == null) {
 						continue;
+					}
 
 					String measureName = OlapExpressionCompiler.getReferencedScriptObject(binding.getExpression(),
 							ScriptConstants.MEASURE_SCRIPTABLE);
@@ -182,7 +187,7 @@ public class QueryExecutorUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cube
 	 * @param query
 	 * @return
@@ -197,7 +202,7 @@ public class QueryExecutorUtil {
 		IEdgeDefinition pageEdgeDefn = query.getEdge(ICubeQueryDefinition.PAGE_EDGE);
 		ILevelDefinition[] levelsOnPage = CubeQueryDefinitionUtil.getLevelsOnEdge(pageEdgeDefn);
 
-		List<AggregationDefinition> aggregations = new ArrayList<AggregationDefinition>();
+		List<AggregationDefinition> aggregations = new ArrayList<>();
 
 		int[] sortType;
 		if (columnEdgeDefn != null) {
@@ -252,7 +257,7 @@ public class QueryExecutorUtil {
 
 	/**
 	 * If the length of edge cursor exceed the limit setting, throw exception.
-	 * 
+	 *
 	 * @param cubeView
 	 * @param rsArray
 	 * @throws DataException
@@ -285,7 +290,7 @@ public class QueryExecutorUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param propValue
 	 * @return
 	 */
@@ -293,8 +298,9 @@ public class QueryExecutorUtil {
 		int fetchLimit = -1;
 		String fetchLimitSize = propValue == null ? "-1" : propValue.toString();
 
-		if (fetchLimitSize != null)
+		if (fetchLimitSize != null) {
 			fetchLimit = Integer.parseInt(fetchLimitSize);
+		}
 
 		return fetchLimit;
 	}

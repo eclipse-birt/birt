@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -28,7 +31,7 @@ public interface IDataSourceFactory {
 	 * Instantiates a dedicated data source instance with the specified driver name.
 	 * The driver name is required to find corresponding driver to load and submit
 	 * data access requests.
-	 * 
+	 *
 	 * @param driverName The name of a data source driver.
 	 * @return A new instance of IDataSource.
 	 */
@@ -36,7 +39,7 @@ public interface IDataSourceFactory {
 
 	/**
 	 */
-	public IDataSource getEmptyDataSource(DataEngineSession session);
+	IDataSource getEmptyDataSource(DataEngineSession session);
 
 	/**
 	 * Obtains a dedicated data source instance with the specified driver name and
@@ -49,12 +52,11 @@ public interface IDataSourceFactory {
 	 * sources. <br>
 	 * If no existing data source instance with the specified properties is
 	 * available, a new instance will be instantiated.
-	 * 
+	 *
 	 * @param driverName     The name of a data source driver.
 	 * @param connProperties The connection properties as a Map of name-set pairs.
 	 * @return An instance of IDataSource.
 	 */
-	public IDataSource getDataSource(String driverName, Map connProperties, DataEngineSession session)
-			throws DataException;
+	IDataSource getDataSource(String driverName, Map connProperties, DataEngineSession session) throws DataException;
 
 }

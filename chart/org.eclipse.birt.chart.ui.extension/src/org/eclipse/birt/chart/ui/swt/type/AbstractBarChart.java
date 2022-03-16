@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -92,7 +95,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl {
 
 	/**
 	 * Constructor of the class.
-	 * 
+	 *
 	 * @param chartTypePrefix the prefix string of chart type.
 	 * @param typeLiteral     comment for type literal.
 	 * @param riserType       riser type of bar series.
@@ -110,7 +113,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getTypeName()
 	 */
 	@Override
@@ -120,7 +123,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getTypeName()
 	 */
 	@Override
@@ -130,7 +133,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl {
 
 	/**
 	 * Returns the icons for subtypes.
-	 * 
+	 *
 	 * @param sDimension
 	 * @param orientation
 	 * @param subtype
@@ -195,7 +198,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getHelp()
 	 */
 	@Override
@@ -205,13 +208,13 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(
 	 * java.lang.String)
 	 */
 	@Override
 	public Collection<IChartSubType> getChartSubtypes(String sDimension, Orientation orientation) {
-		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>();
+		Vector<IChartSubType> vSubTypes = new Vector<>();
 		if (sDimension.equals(TWO_DIMENSION_TYPE)
 				|| sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName())) {
 			vSubTypes.add(new DefaultChartSubTypeImpl(SIDE_SUBTYPE_LITERAL,
@@ -268,7 +271,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang
 	 * .String, java.lang.String, java.lang.String)
 	 */
@@ -382,7 +385,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl {
 					title.setValue(getDefaultTitle());
 				}
 
-				List<AxisType> axisTypes = new ArrayList<AxisType>();
+				List<AxisType> axisTypes = new ArrayList<>();
 				EList<Axis> axes = ((ChartWithAxes) currentChart).getAxes().get(0).getAssociatedAxes();
 				for (int i = 0, seriesIndex = 0; i < axes.size(); i++) {
 					if (!ChartPreviewPainterBase.isLivePreviewActive() && axes.get(i).isSetType()
@@ -595,7 +598,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions ()
 	 */
@@ -606,7 +609,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
 	 */
@@ -617,7 +620,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition ()
 	 */
@@ -628,7 +631,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition
 	 * (java.lang.String)
@@ -650,7 +653,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
 	 */
 	@Override
@@ -673,7 +676,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
 	 */
 	@Override
@@ -683,9 +686,10 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
 	 */
+	@Override
 	public Series getSeries(boolean needInitialing) {
 		if (needInitialing) {
 			BarSeries barseries = (BarSeries) BarSeriesImpl.create();

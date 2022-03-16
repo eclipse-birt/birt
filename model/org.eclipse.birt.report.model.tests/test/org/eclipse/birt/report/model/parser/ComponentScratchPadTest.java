@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,45 +28,45 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 /**
  * The test case of component and scratch-pad slot parse and writer.
  * <p>
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testParse()}</td>
  * <td>Test the slot information of the component and scratch-pad slot</td>
  * <td>All information is right.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Add some new element into the component slot and set the extend name of
  * them.</td>
  * <td>The out put file is in the right order of derivation.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testWriter()}</td>
  * <td>Compare the written file with the golden file</td>
  * <td>Two files are same</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testParseError()}</td>
  * <td>Super element is not found.</td>
  * <td>Error found</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Super element is not in component slot.</td>
  * <td>Error found</td>
  * </tr>
  * </table>
- * 
+ *
  */
 
 public class ComponentScratchPadTest extends BaseTestCase {
@@ -71,15 +74,16 @@ public class ComponentScratchPadTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * This test writes the design file and compare it with golden file.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testWriter() throws Exception {
@@ -95,7 +99,7 @@ public class ComponentScratchPadTest extends BaseTestCase {
 
 	/**
 	 * Test parsing elements from ScratchPad.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -106,7 +110,7 @@ public class ComponentScratchPadTest extends BaseTestCase {
 		SlotHandle components = designHandle.getComponents();
 		assertEquals(2, components.getCount());
 
-		GridHandle grid = null;
+		GridHandle grid;
 
 		// if the element in component slot has children, then the operation of
 		// moving it from the slot operation is forbidden.

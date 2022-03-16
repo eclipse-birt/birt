@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,23 +29,25 @@ import java.security.PrivilegedExceptionAction;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ *
  */
 
 public class FileSecurity {
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 * @throws IOException
 	 */
 	public static boolean createNewFile(final File file) throws IOException {
-		if (file == null)
+		if (file == null) {
 			return false;
+		}
 
 		try {
 			return AccessController.doPrivileged(new PrivilegedExceptionAction<Boolean>() {
 
+				@Override
 				public Boolean run() throws IOException {
 					return file.createNewFile();
 				}
@@ -57,7 +62,7 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param path
 	 * @param type
 	 * @return
@@ -69,6 +74,7 @@ public class FileSecurity {
 		try {
 			return AccessController.doPrivileged(new PrivilegedExceptionAction<RandomAccessFile>() {
 
+				@Override
 				public RandomAccessFile run() throws FileNotFoundException {
 					return new RandomAccessFile(path, type);
 				}
@@ -83,7 +89,7 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @param type
 	 * @return
@@ -94,6 +100,7 @@ public class FileSecurity {
 		try {
 			return AccessController.doPrivileged(new PrivilegedExceptionAction<RandomAccessFile>() {
 
+				@Override
 				public RandomAccessFile run() throws FileNotFoundException {
 					return new RandomAccessFile(file, type);
 				}
@@ -108,7 +115,7 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 * @throws FileNotFoundException
@@ -118,6 +125,7 @@ public class FileSecurity {
 		try {
 			return AccessController.doPrivileged(new PrivilegedExceptionAction<FileReader>() {
 
+				@Override
 				public FileReader run() throws FileNotFoundException {
 					return new FileReader(file);
 				}
@@ -132,7 +140,7 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 * @throws FileNotFoundException
@@ -143,7 +151,7 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @param append
 	 * @return
@@ -155,6 +163,7 @@ public class FileSecurity {
 		try {
 			return AccessController.doPrivileged(new PrivilegedExceptionAction<FileOutputStream>() {
 
+				@Override
 				public FileOutputStream run() throws FileNotFoundException {
 					return new FileOutputStream(file, append);
 				}
@@ -169,7 +178,7 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 * @throws FileNotFoundException
@@ -179,6 +188,7 @@ public class FileSecurity {
 		try {
 			return AccessController.doPrivileged(new PrivilegedExceptionAction<FileInputStream>() {
 
+				@Override
 				public FileInputStream run() throws FileNotFoundException {
 					return new FileInputStream(file);
 				}
@@ -193,15 +203,17 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 */
 	public static boolean fileExist(final File file) {
-		if (file == null)
+		if (file == null) {
 			return false;
+		}
 		return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
 
+			@Override
 			public Boolean run() {
 				return file.exists();
 			}
@@ -209,15 +221,17 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 */
 	public static boolean fileIsFile(final File file) {
-		if (file == null)
+		if (file == null) {
 			return false;
+		}
 		return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
 
+			@Override
 			public Boolean run() {
 				return file.isFile();
 			}
@@ -225,15 +239,17 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 */
 	public static File[] fileListFiles(final File file) {
-		if (file == null)
+		if (file == null) {
 			return new File[0];
+		}
 		return AccessController.doPrivileged(new PrivilegedAction<File[]>() {
 
+			@Override
 			public File[] run() {
 				return file.listFiles();
 			}
@@ -241,15 +257,17 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 */
 	public static boolean fileIsDirectory(final File file) {
-		if (file == null)
+		if (file == null) {
 			return false;
+		}
 		return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
 
+			@Override
 			public Boolean run() {
 				return file.isDirectory();
 			}
@@ -257,15 +275,17 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 */
 	public static String fileGetAbsolutePath(final File file) {
-		if (file == null)
+		if (file == null) {
 			return null;
+		}
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 
+			@Override
 			public String run() {
 				return file.getAbsolutePath();
 			}
@@ -273,18 +293,20 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 * @throws IOException
 	 * @throws DataException
 	 */
 	public static String fileGetCanonicalPath(final File file) throws IOException, DataException {
-		if (file == null)
+		if (file == null) {
 			return null;
+		}
 		try {
 			return AccessController.doPrivileged(new PrivilegedExceptionAction<String>() {
 
+				@Override
 				public String run() throws IOException {
 					return file.getCanonicalPath();
 				}
@@ -300,15 +322,17 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 */
 	public static boolean fileDelete(final File file) {
-		if (file == null)
+		if (file == null) {
 			return true;
+		}
 		return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
 
+			@Override
 			public Boolean run() {
 				return file.delete();
 			}
@@ -316,14 +340,16 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 */
 	public static void fileDeleteOnExit(final File file) {
-		if (file == null)
+		if (file == null) {
 			return;
+		}
 		AccessController.doPrivileged(new PrivilegedAction<Object>() {
 
+			@Override
 			public Object run() {
 				file.deleteOnExit();
 				return null;
@@ -332,15 +358,17 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 */
 	public static boolean fileMakeDirs(final File file) {
-		if (file == null)
+		if (file == null) {
 			return false;
+		}
 		return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
 
+			@Override
 			public Boolean run() {
 				return file.mkdirs();
 			}
@@ -348,18 +376,20 @@ public class FileSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 * @throws IOException
 	 * @throws DataException
 	 */
 	public static File fileGetCanonicalFile(final File file) throws IOException, DataException {
-		if (file == null)
+		if (file == null) {
 			return null;
+		}
 		try {
 			return AccessController.doPrivileged(new PrivilegedExceptionAction<File>() {
 
+				@Override
 				public File run() throws IOException {
 					return file.getCanonicalFile();
 				}

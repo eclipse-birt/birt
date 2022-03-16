@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.interactivity;
@@ -108,12 +111,12 @@ public final class PrimitiveCharts extends ChartTestCase {
 
 	/**
 	 * Creates a area chart model as a reference implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
 
-	public static final Chart showTooltip_AreaChart() {
+	public static Chart showTooltip_AreaChart() {
 		ChartWithAxes cwaArea = ChartWithAxesImpl.create();
 
 		// Chart Type
@@ -218,12 +221,12 @@ public final class PrimitiveCharts extends ChartTestCase {
 
 	/**
 	 * Creates a bar chart model as a reference implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
 
-	public static final Chart showTooltip_BarChart() {
+	public static Chart showTooltip_BarChart() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// Chart Type
@@ -316,12 +319,12 @@ public final class PrimitiveCharts extends ChartTestCase {
 
 	/**
 	 * Creates a line chart model as a reference implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
 
-	public static final Chart showTooltip_LineChart() {
+	public static Chart showTooltip_LineChart() {
 		ChartWithAxes cwaLine = ChartWithAxesImpl.create();
 
 		// Chart Type
@@ -436,12 +439,12 @@ public final class PrimitiveCharts extends ChartTestCase {
 
 	/**
 	 * Creates a meter chart model as a reference implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
 
-	public static final Chart showTooltip_MeterChart() {
+	public static Chart showTooltip_MeterChart() {
 		DialChart dChart = (DialChart) DialChartImpl.create();
 		dChart.setDialSuperimposition(false);
 		dChart.setGridColumnCount(2);
@@ -606,12 +609,12 @@ public final class PrimitiveCharts extends ChartTestCase {
 
 	/**
 	 * Creates a pie chart model as a reference implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
 
-	public static final Chart showTooltip_PieChart() {
+	public static Chart showTooltip_PieChart() {
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create();
 
 		// Chart Type
@@ -683,11 +686,11 @@ public final class PrimitiveCharts extends ChartTestCase {
 
 	/**
 	 * Creates a scatter chart model as a reference implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart showTooltip_ScatterChart() {
+	public static Chart showTooltip_ScatterChart() {
 		ChartWithAxes cwaScatter = ChartWithAxesImpl.create();
 
 		// Title
@@ -771,12 +774,12 @@ public final class PrimitiveCharts extends ChartTestCase {
 
 	/**
 	 * Creates a stock chart model as a reference implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
 
-	public static final Chart showTooltip_StockChart() {
+	public static Chart showTooltip_StockChart() {
 		ChartWithAxes cwaStock = ChartWithAxesImpl.create();
 
 		// Title
@@ -877,7 +880,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 		return cwaStock;
 	}
 
-	public static final Chart toggleVisibility_AreaChart() {
+	public static Chart toggleVisibility_AreaChart() {
 		ChartWithAxes cwaArea = ChartWithAxesImpl.create();
 
 		// Chart Type
@@ -1004,7 +1007,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 		return cwaArea;
 	}
 
-	public static final Chart toggleVisibility_BarChart() {
+	public static Chart toggleVisibility_BarChart() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// Chart Type
@@ -1106,7 +1109,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 		return cwaBar;
 	}
 
-	public static final Chart toggleVisibility_3DLineChart() {
+	public static Chart toggleVisibility_3DLineChart() {
 		ChartWithAxes cwaLine = ChartWithAxesImpl.create();
 
 		// Chart Type
@@ -1260,7 +1263,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 
 	}
 
-	public static final Chart toggleVisibility_MeterChart() {
+	public static Chart toggleVisibility_MeterChart() {
 		DialChart dChart = (DialChart) DialChartImpl.create();
 		dChart.setDialSuperimposition(false);
 		dChart.setGridColumnCount(2);
@@ -1419,7 +1422,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 
 	}
 
-	public static final Chart toggleVisibility_PieChart() {
+	public static Chart toggleVisibility_PieChart() {
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create();
 
 		// Chart Type
@@ -1489,7 +1492,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 
 	}
 
-	public static final Chart toggleVisibility_ScatterChart() {
+	public static Chart toggleVisibility_ScatterChart() {
 		ChartWithAxes cwaScatter = ChartWithAxesImpl.create();
 
 		// Chart Type
@@ -1613,7 +1616,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 
 	}
 
-	public static final Chart toggleVisibility_StockChart() {
+	public static Chart toggleVisibility_StockChart() {
 		ChartWithAxes cwaStock = ChartWithAxesImpl.create();
 
 		// Title
@@ -1720,7 +1723,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 		return cwaStock;
 	}
 
-	public static final Chart highlight_BarChart() {
+	public static Chart highlight_BarChart() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// Chart Type
@@ -1820,7 +1823,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 		return cwaBar;
 	}
 
-	public static final Chart highlight_PieChart() {
+	public static Chart highlight_PieChart() {
 
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create();
 
@@ -1876,7 +1879,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 		return cwoaPie;
 	}
 
-	public static final Chart highlight_AreaChart() {
+	public static Chart highlight_AreaChart() {
 		ChartWithAxes cwaArea = ChartWithAxesImpl.create();
 
 		// Chart Type
@@ -1980,7 +1983,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 		return cwaArea;
 	}
 
-	public static final Chart highlight_3DLineChart() {
+	public static Chart highlight_3DLineChart() {
 		ChartWithAxes cwaLine = ChartWithAxesImpl.create();
 
 		// Chart Type
@@ -2139,7 +2142,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 
 	}
 
-	public static final Chart highlight_MeterChart() {
+	public static Chart highlight_MeterChart() {
 		DialChart dChart = (DialChart) DialChartImpl.create();
 		dChart.setDialSuperimposition(false);
 		dChart.setGridColumnCount(2);
@@ -2298,7 +2301,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 
 	}
 
-	public static final Chart highlight_ScatterChart() {
+	public static Chart highlight_ScatterChart() {
 		ChartWithAxes cwaScatter = ChartWithAxesImpl.create();
 
 		// Title
@@ -2411,7 +2414,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 		return cwaScatter;
 	}
 
-	public static final Chart highlight_StockChart() {
+	public static Chart highlight_StockChart() {
 		ChartWithAxes cwaStock = ChartWithAxesImpl.create();
 
 		// Title
@@ -2518,7 +2521,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 		return cwaStock;
 	}
 
-	public static final Chart URLRedirect_PieChart() {
+	public static Chart URLRedirect_PieChart() {
 
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create();
 
@@ -2575,7 +2578,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 		return cwoaPie;
 	}
 
-	public static final Chart URLRedirect_AreaChart() {
+	public static Chart URLRedirect_AreaChart() {
 		ChartWithAxes cwaArea = ChartWithAxesImpl.create();
 
 		// Chart Type
@@ -2684,7 +2687,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 		return cwaArea;
 	}
 
-	public static final Chart URLRedirect_BarChart() {
+	public static Chart URLRedirect_BarChart() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// Chart Type
@@ -2779,7 +2782,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 		return cwaBar;
 	}
 
-	public static final Chart URLRedirect_LineChart() {
+	public static Chart URLRedirect_LineChart() {
 		ChartWithAxes cwaLine = ChartWithAxesImpl.create();
 
 		// Chart Type
@@ -2886,7 +2889,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 		return cwaLine;
 	}
 
-	public static final Chart URLRedirect_MeterChart() {
+	public static Chart URLRedirect_MeterChart() {
 		DialChart dChart = (DialChart) DialChartImpl.create();
 		dChart.setDialSuperimposition(false);
 		dChart.setGridColumnCount(2);
@@ -3051,7 +3054,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 
 	}
 
-	public static final Chart URLRedirect_ScatterChart() {
+	public static Chart URLRedirect_ScatterChart() {
 		ChartWithAxes cwaScatter = ChartWithAxesImpl.create();
 
 		// Title
@@ -3139,7 +3142,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 		return cwaScatter;
 	}
 
-	public static final Chart URLRedirect_StockChart() {
+	public static Chart URLRedirect_StockChart() {
 		ChartWithAxes cwaStock = ChartWithAxesImpl.create();
 
 		// Title
@@ -3244,7 +3247,7 @@ public final class PrimitiveCharts extends ChartTestCase {
 		return cwaStock;
 	}
 
-	public static final Chart showTooltipURLRedirect_BarChart() {
+	public static Chart showTooltipURLRedirect_BarChart() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// Chart Type

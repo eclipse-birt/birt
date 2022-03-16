@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,7 +55,7 @@ public class DataSetFromCache {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param stopSign
 	 * @return next data
 	 * @throws DataException
@@ -88,13 +91,14 @@ public class DataSetFromCache {
 			} else {
 				return cacheObject;
 			}
-		} else
+		} else {
 			return null;
+		}
 	}
 
 	/**
 	 * get all new field objects from a cacheObject
-	 * 
+	 *
 	 * @param cacheObject
 	 * @return
 	 * @throws DataException
@@ -112,8 +116,9 @@ public class DataSetFromCache {
 	 * @throws DataException
 	 */
 	private IResultClass loadResultClass() throws DataException {
-		if (loadUtil == null)
+		if (loadUtil == null) {
 			loadUtil = CacheUtilFactory.createLoadUtil(getCacheObject(), this.session);
+		}
 
 		return loadUtil.loadResultClass();
 	}
@@ -133,8 +138,9 @@ public class DataSetFromCache {
 	public IResultClass getResultClass() throws DataException {
 		if (rsMeta == null) {
 			rsMeta = loadResultClass();
-			if (addedTempComputedColumn != null && addedTempComputedColumn.size() > 0)
+			if (addedTempComputedColumn != null && addedTempComputedColumn.size() > 0) {
 				processResultClass();
+			}
 		}
 
 		return rsMeta;
@@ -143,7 +149,7 @@ public class DataSetFromCache {
 	/**
 	 * Remove old temp computed column metadatas from cache file and add new
 	 * metadatas.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	private void processResultClass() throws DataException {
@@ -177,7 +183,7 @@ public class DataSetFromCache {
 
 	/**
 	 * Return whether a clumn is a temp computed column.
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
@@ -188,7 +194,7 @@ public class DataSetFromCache {
 
 	/**
 	 * set new temp computed columns
-	 * 
+	 *
 	 * @param addedTempComputedColumn
 	 */
 	public void setTempComputedColumn(List addedTempComputedColumn) {

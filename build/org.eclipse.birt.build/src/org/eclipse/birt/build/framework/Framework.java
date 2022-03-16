@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.build.framework;
 
 import java.io.File;
@@ -8,8 +20,8 @@ public class Framework {
 
 	File pluginFolder;
 
-	ArrayList<Bundle> bundles = new ArrayList<Bundle>();
-	ArrayList<Bundle> fragments = new ArrayList<Bundle>();
+	ArrayList<Bundle> bundles = new ArrayList<>();
+	ArrayList<Bundle> fragments = new ArrayList<>();
 
 	public Bundle addBundle(File bundleFile) throws FrameworkException {
 		Bundle bundle = new Bundle(bundleFile);
@@ -40,7 +52,7 @@ public class Framework {
 	}
 
 	public List<Bundle> getAllBundles() {
-		ArrayList<Bundle> allBundles = new ArrayList<Bundle>(bundles);
+		ArrayList<Bundle> allBundles = new ArrayList<>(bundles);
 		for (Bundle fragment : fragments) {
 			String hostId = fragment.getHostID();
 			if (getBundle(hostId) == null) {

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,33 +31,36 @@ public class LineBorder extends BaseBorder {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Border#getInsets(org.eclipse.draw2d.IFigure)
 	 */
+	@Override
 	public Insets getInsets(IFigure figure) {
 		return getTrueBorderInsets().add(paddingInsets);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.
 	 * BaseBorder#getBorderInsets()
 	 */
+	@Override
 	public Insets getBorderInsets() {
 		return getTrueBorderInsets();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.
 	 * BaseBorder#getTrueBorderInsets()
 	 */
+	@Override
 	public Insets getTrueBorderInsets() {
 		int t = 1, b = 1, l = 1, r = 1;
 
-		int style = 0;
+		int style;
 
 		style = getBorderStyle(bottomStyle);
 		if (style != 0) {
@@ -81,10 +87,11 @@ public class LineBorder extends BaseBorder {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.
 	 * BaseBorder#setPaddingInsets(org.eclipse.draw2d.geometry.Insets)
 	 */
+	@Override
 	public void setPaddingInsets(Insets padding) {
 		if (padding != null) {
 			if (padding.top >= 0) {
@@ -105,10 +112,11 @@ public class LineBorder extends BaseBorder {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Border#paint(org.eclipse.draw2d.IFigure,
 	 * org.eclipse.draw2d.Graphics, org.eclipse.draw2d.geometry.Insets)
 	 */
+	@Override
 	public void paint(IFigure figure, Graphics g, Insets insets) {
 		i_bottom_style = getBorderStyle(bottomStyle);
 		i_bottom_width = getBorderWidth(bottomWidth);
@@ -169,7 +177,7 @@ public class LineBorder extends BaseBorder {
 
 	/**
 	 * Gets the padding
-	 * 
+	 *
 	 * @return
 	 */
 	public Insets getPaddingInsets() {

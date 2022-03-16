@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +36,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * hierarchy elements and a foreign key. Use the
  * {@link org.eclipse.birt.report.model.api.olap.DimensionHandle}class to change
  * the properties.
- * 
+ *
  */
 
 public abstract class Dimension extends ReferenceableElement implements IDimensionModel, INameContainer {
@@ -47,7 +50,7 @@ public abstract class Dimension extends ReferenceableElement implements IDimensi
 
 	/**
 	 * Default constructor.
-	 * 
+	 *
 	 */
 
 	public Dimension() {
@@ -56,7 +59,7 @@ public abstract class Dimension extends ReferenceableElement implements IDimensi
 
 	/**
 	 * Constructs the dimension with the given name.
-	 * 
+	 *
 	 * @param name name given for this dimension
 	 */
 
@@ -67,26 +70,28 @@ public abstract class Dimension extends ReferenceableElement implements IDimensi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
+	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitDimension(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
+	@Override
 	public String getElementName() {
 		return ReportDesignConstants.DIMENSION_ELEMENT;
 	}
 
 	/**
 	 * Gets the default hierarchy in this dimension.
-	 * 
+	 *
 	 * @param module
 	 * @return
 	 */
@@ -94,8 +99,9 @@ public abstract class Dimension extends ReferenceableElement implements IDimensi
 		DesignElement hierarchy = getReferenceProperty(module, DEFAULT_HIERARCHY_PROP);
 		// if hierarchy is not set or resolved, or the hierarchy does not reside
 		// in this dimension, then return null
-		if (hierarchy == null || !isValidHierarchy(hierarchy, module))
+		if (hierarchy == null || !isValidHierarchy(hierarchy, module)) {
 			return null;
+		}
 		return hierarchy;
 	}
 
@@ -110,7 +116,7 @@ public abstract class Dimension extends ReferenceableElement implements IDimensi
 
 	/**
 	 * Sets the default hierarchy for this dimension.
-	 * 
+	 *
 	 * @param defaultHierarchy
 	 */
 	public void setDefaultHierarchy(Hierarchy defaultHierarchy) {
@@ -119,25 +125,28 @@ public abstract class Dimension extends ReferenceableElement implements IDimensi
 
 	/**
 	 * Sets the hierarchy at the specified position to be default.
-	 * 
+	 *
 	 * @param index
 	 */
 	public void setDefaultHierarchy(int index) {
 		List hierarchies = (List) getLocalProperty(getRoot(), HIERARCHIES_PROP);
-		if (hierarchies == null || hierarchies.isEmpty())
+		if (hierarchies == null || hierarchies.isEmpty()) {
 			return;
-		if (index >= 0 && index < hierarchies.size())
+		}
+		if (index >= 0 && index < hierarchies.size()) {
 			setProperty(Dimension.DEFAULT_HIERARCHY_PROP,
 					new ElementRefValue(null, (DesignElement) hierarchies.get(index)));
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.ReferenceableElement#doClone(org.eclipse
 	 * .birt.report.model.elements.strategy.CopyPolicy)
 	 */
+	@Override
 	public Object doClone(CopyPolicy policy) throws CloneNotSupportedException {
 		DesignElement element = (DesignElement) super.doClone(policy);
 		Dimension clonedDimension = (Dimension) element;
@@ -160,8 +169,9 @@ public abstract class Dimension extends ReferenceableElement implements IDimensi
 				if (levels != null) {
 					for (int j = 0; j < levels.size(); j++) {
 						Level level = (Level) levels.get(j);
-						if (level.getName() != null)
+						if (level.getName() != null) {
 							nHelper.addElement(level);
+						}
 					}
 				}
 			}
@@ -177,33 +187,37 @@ public abstract class Dimension extends ReferenceableElement implements IDimensi
 
 			// for cube dimension that refers a shared dimension, at this time,
 			// the clonedHierarchy may be null for the layout is not generated
-			if (clonedHierarchy != null)
+			if (clonedHierarchy != null) {
 				element.setProperty(DEFAULT_HIERARCHY_PROP, new ElementRefValue(null, clonedHierarchy));
+			}
 		}
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.namespace.INameContainer#getNameHelper ()
 	 */
+	@Override
 	public INameHelper getNameHelper() {
 		return this.nameHelper;
 	}
 
+	@Override
 	public void makeUniqueName(DesignElement element) {
 		new NameExecutor(getRoot(), this, element).makeUniqueName();
 	}
 
+	@Override
 	public void rename(DesignElement element) {
 		new NameExecutor(getRoot(), this, element).rename();
 	}
 
 	/**
 	 * Gets the default hierarchy in this dimension.
-	 * 
+	 *
 	 * @param module
 	 * @return
 	 */
@@ -211,13 +225,15 @@ public abstract class Dimension extends ReferenceableElement implements IDimensi
 		List<DesignElement> hierarchies = (List<DesignElement>) super.getLocalProperty(module,
 				Dimension.HIERARCHIES_PROP);
 
-		if (hierarchies == null || hierarchies.isEmpty())
+		if (hierarchies == null || hierarchies.isEmpty()) {
 			return null;
+		}
 
 		for (int i = 0; i < hierarchies.size(); i++) {
 			DesignElement tmpElement = hierarchies.get(i);
-			if (hierarchyName.equalsIgnoreCase(tmpElement.getName()))
+			if (hierarchyName.equalsIgnoreCase(tmpElement.getName())) {
 				return tmpElement;
+			}
 		}
 
 		return null;

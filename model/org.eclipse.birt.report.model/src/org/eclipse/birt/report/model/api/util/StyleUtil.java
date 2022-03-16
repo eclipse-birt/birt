@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.api.util;
 
@@ -25,7 +37,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 /**
  * Utility class to provide some methods about the style element, styled element
  * and style properties.
- * 
+ *
  */
 public class StyleUtil {
 
@@ -34,7 +46,7 @@ public class StyleUtil {
 	 * the returned value. If <code>isCascaded</code> is set to TRUE, the copied
 	 * style property value will be the cascaded value, otherwise will be the
 	 * factory value.
-	 * 
+	 *
 	 * @param source
 	 * @param isCascaded
 	 * @return
@@ -48,7 +60,7 @@ public class StyleUtil {
 	 * Gets the design element handle with all the style properties are copied to
 	 * the returned value. The copied style property value will be the factory value
 	 * and not cascaded.
-	 * 
+	 *
 	 * @param source
 	 * @return
 	 */
@@ -61,7 +73,7 @@ public class StyleUtil {
 	 * the returned value. If <code>isCascaded</code> is set to TRUE, the copied
 	 * style property value will be the cascaded value, otherwise will be the
 	 * factory value.
-	 * 
+	 *
 	 * @param source
 	 * @param isCascaded
 	 * @return
@@ -75,7 +87,7 @@ public class StyleUtil {
 	 * the returned value. If <code>isCascaded</code> is set to TRUE, the copied
 	 * style property value will be the cascaded value, otherwise will be the
 	 * factory value.
-	 * 
+	 *
 	 * @param source
 	 * @param isCascaded
 	 * @return
@@ -93,12 +105,8 @@ public class StyleUtil {
 
 		// if the two elements are different types or same element, do nothing
 		// and return directly
-		if (target.getDefn() != elementDefn || source == target) {
-			return target;
-		}
-
 		// if this element can not define style properties, return directly
-		if (!elementDefn.hasStyle()) {
+		if (target.getDefn() != elementDefn || source == target || !elementDefn.hasStyle()) {
 			return target;
 		}
 
@@ -115,8 +123,9 @@ public class StyleUtil {
 		List<IElementPropertyDefn> styleProps = styleDefn.getProperties();
 		for (int i = 0; i < styleProps.size(); i++) {
 			propDefn = (ElementPropertyDefn) styleProps.get(i);
-			if (!propDefn.isStyleProperty())
+			if (!propDefn.isStyleProperty()) {
 				continue;
+			}
 
 			// must get the property definition by element itself, for the
 			// element may be extended-item or it defines override attribute for
@@ -124,8 +133,9 @@ public class StyleUtil {
 			ElementPropertyDefn sourcePropDefn = sourceElement.getPropertyDefn(propDefn.getName());
 			ElementPropertyDefn targetPropDefn = copiedElement.getPropertyDefn(propDefn.getName());
 
-			if (sourcePropDefn == null || targetPropDefn == null)
+			if (sourcePropDefn == null || targetPropDefn == null) {
 				continue;
+			}
 
 			Object value = null;
 			if (isLocal) {
@@ -139,9 +149,9 @@ public class StyleUtil {
 			// set the value to the copied one
 			if (value != null) {
 				boolean needCopy = false;
-				if (value instanceof IStructure)
+				if (value instanceof IStructure) {
 					needCopy = true;
-				else if (value instanceof List) {
+				} else if (value instanceof List) {
 					needCopy = !((List) value).isEmpty();
 					for (Object item : (List) value) {
 						if (!(item instanceof Structure)) {
@@ -150,8 +160,9 @@ public class StyleUtil {
 						}
 					}
 				}
-				if (needCopy)
+				if (needCopy) {
 					value = ModelUtil.copyValue(targetPropDefn, value);
+				}
 				copiedElement.setProperty(targetPropDefn, value);
 			}
 		}
@@ -163,12 +174,13 @@ public class StyleUtil {
 	 * Adds selectors for extended elements to the report design. This action will
 	 * be non-undoable, that is, once the selectors are inserted to the design
 	 * handle, it will not be removed by undo action.
-	 * 
+	 *
 	 * @param designHandle
 	 */
 	public static void addExtensionSelectors(ReportDesignHandle designHandle) {
-		if (designHandle == null)
+		if (designHandle == null) {
 			return;
+		}
 
 		DesignSession.addExtensionDefaultStyles((ReportDesign) designHandle.getModule(), true);
 	}

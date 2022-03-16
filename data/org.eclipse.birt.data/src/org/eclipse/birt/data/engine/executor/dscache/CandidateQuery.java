@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,6 +40,7 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#getResultClass()
 	 */
+	@Override
 	public IResultClass getResultClass() throws DataException {
 		return getOdaCacheResultSet().getResultClass();
 	}
@@ -44,6 +48,7 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#execute()
 	 */
+	@Override
 	public IResultIterator execute(IEventHandler eventHandler) throws DataException {
 		return new CachedResultSet(this, getOdaCacheResultSet().getResultClass(), getOdaCacheResultSet(), eventHandler,
 				session);
@@ -54,6 +59,7 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery {
 	 * org.eclipse.birt.data.engine.odi.ICandidateQuery#setCandidates(org.eclipse.
 	 * birt.data.engine.odi.IResultIterator, int)
 	 */
+	@Override
 	public void setCandidates(IResultIterator resultObjsIterator, int groupingLevel) throws DataException {
 		// do nothing
 	}
@@ -63,6 +69,7 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery {
 	 * org.eclipse.birt.data.engine.odi.ICandidateQuery#setCandidates(org.eclipse.
 	 * birt.data.engine.odi.ICustomDataSet)
 	 */
+	@Override
 	public void setCandidates(ICustomDataSet customDataSet) throws DataException {
 		// do nothing
 	}
@@ -70,6 +77,7 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IQuery#close()
 	 */
+	@Override
 	public void close() {
 		try {
 			if (datasetFromCache != null) {
@@ -82,7 +90,7 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param columns
 	 */
 	public void setTempComputedColumn(List columns) {
@@ -93,8 +101,9 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery {
 	 * @return OdaCacheResultSet
 	 */
 	private DataSetFromCache getOdaCacheResultSet() {
-		if (datasetFromCache == null)
+		if (datasetFromCache == null) {
 			datasetFromCache = new DataSetFromCache(session);
+		}
 
 		return datasetFromCache;
 	}

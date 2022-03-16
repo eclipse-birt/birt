@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.impl.DrillThroughAction;
 
 /**
- * 
+ *
  */
 
 public class ActionInstance implements IActionInstance {
@@ -36,18 +36,20 @@ public class ActionInstance implements IActionInstance {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IActionInstance#getType()
 	 */
+	@Override
 	public int getType() {
 		return hyperlink.getType();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IActionInstance#getBookmark()
 	 */
+	@Override
 	public String getBookmark() {
 		if (getType() == org.eclipse.birt.report.engine.content.IHyperlinkAction.ACTION_BOOKMARK) {
 			return hyperlink.getBookmark();
@@ -57,10 +59,11 @@ public class ActionInstance implements IActionInstance {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setBookmark(
 	 * java.lang.String )
 	 */
+	@Override
 	public void setBookmark(String bookmark) {
 		if (bookmark != null && !bookmark.equals("")) {
 			hyperlink.setBookmark(bookmark);
@@ -71,9 +74,10 @@ public class ActionInstance implements IActionInstance {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IActionInstance#getHyperlink()
 	 */
+	@Override
 	public String getHyperlink() {
 		if (getType() == org.eclipse.birt.report.engine.content.IHyperlinkAction.ACTION_HYPERLINK) {
 			return hyperlink.getHyperlink();
@@ -83,10 +87,11 @@ public class ActionInstance implements IActionInstance {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setHyperlink(
 	 * java.lang.String, java.lang.String )
 	 */
+	@Override
 	public void setHyperlink(String hyperlink, String target) {
 		if (hyperlink != null && !hyperlink.equals("")) {
 			this.hyperlink.setHyperlink(hyperlink, target);
@@ -97,9 +102,10 @@ public class ActionInstance implements IActionInstance {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IActionInstance#getTargetWindow()
 	 */
+	@Override
 	public String getTargetWindow() {
 		if (getType() == org.eclipse.birt.report.engine.content.IHyperlinkAction.ACTION_HYPERLINK
 				|| getType() == org.eclipse.birt.report.engine.content.IHyperlinkAction.ACTION_HYPERLINK) {
@@ -112,9 +118,11 @@ public class ActionInstance implements IActionInstance {
 
 	/**
 	 * @deprecated (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setDrillThrough()
 	 */
+	@Deprecated
+	@Override
 	public IDrillThroughInstance createDrillThrough(String bookmark, boolean isBookmark, String reportName,
 			Map parameterBindings, Map searchCriteria, String target, String format) {
 		return createDrillThrough(bookmark, isBookmark, reportName, parameterBindings, searchCriteria, target, format,
@@ -123,9 +131,10 @@ public class ActionInstance implements IActionInstance {
 
 	/**
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setDrillThrough()
 	 */
+	@Override
 	public IDrillThroughInstance createDrillThrough(String bookmark, boolean isBookmark, String reportName,
 			Map parameterBindings, Map searchCriteria, String target, String format, String targetFileType) {
 		IDrillThroughAction drillThrough = new DrillThroughAction(bookmark, isBookmark, reportName, parameterBindings,
@@ -133,6 +142,7 @@ public class ActionInstance implements IActionInstance {
 		return new DrillThroughInstance(drillThrough);
 	}
 
+	@Override
 	public IDrillThroughInstance createDrillThrough() {
 		IDrillThroughAction drillThrough = new DrillThroughAction();
 		return new DrillThroughInstance(drillThrough);
@@ -140,10 +150,11 @@ public class ActionInstance implements IActionInstance {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IActionInstance#getDrillThrough(
 	 * )
 	 */
+	@Override
 	public IDrillThroughInstance getDrillThrough() {
 		if (getType() == org.eclipse.birt.report.engine.content.IHyperlinkAction.ACTION_DRILLTHROUGH) {
 			IDrillThroughAction drillThrough = hyperlink.getDrillThrough();
@@ -159,10 +170,11 @@ public class ActionInstance implements IActionInstance {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setDrillThrough(
 	 * )
 	 */
+	@Override
 	public void setDrillThrough(IDrillThroughInstance drillThrough) {
 		if (drillThrough != null) {
 			if (drillThrough instanceof DrillThroughInstance) {
@@ -183,10 +195,12 @@ public class ActionInstance implements IActionInstance {
 		return hyperlink;
 	}
 
+	@Override
 	public void setTooltip(String tooltip) {
 		hyperlink.setTooltip(tooltip);
 	}
 
+	@Override
 	public String getTooltip() {
 
 		return hyperlink.getTooltip();

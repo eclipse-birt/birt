@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -77,12 +80,7 @@ public class IDEOpenSampleReportAction extends Action implements IOpenSampleRepo
 
 	private static final String SCRIPTING_CATEGORY = "Scripted Data Source"; //$NON-NLS-1$
 
-	private static final String EXTENDING_CATEGORY = "Extending BIRT"; //$NON-NLS-1$
-
 	private static final String DRILL_TO_DETAILS_CATEGORY = "Drill to Details"; //$NON-NLS-1$
-
-	private static final String[] EXTENDING_PLUGIN_PATTERN = new String[] { "*.zip" //$NON-NLS-1$
-	};
 
 	private ReportExamples composite;
 
@@ -97,17 +95,20 @@ public class IDEOpenSampleReportAction extends Action implements IOpenSampleRepo
 		setEnabled(false);
 	}
 
+	@Override
 	public void setMainComposite(ReportExamples composite) {
 		this.composite = composite;
 		composite.addSelectedListener(this);
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void run() {
 		TreeItem item = (TreeItem) composite.getSelectedElement();
 		final Object selectedElement = item.getData();
-		if (selectedElement == null || !(selectedElement instanceof ReportDesignHandle))
+		if (selectedElement == null || !(selectedElement instanceof ReportDesignHandle)) {
 			return;
+		}
 
 		/*
 		 * 1.Create a report project
@@ -131,8 +132,6 @@ public class IDEOpenSampleReportAction extends Action implements IOpenSampleRepo
 				createSourceAndOutputFolder(reportProject);
 				try {
 					setClasspath(reportProject);
-				} catch (JavaModelException e) {
-					ExceptionUtil.handle(e);
 				} catch (CoreException e) {
 					ExceptionUtil.handle(e);
 				}
@@ -147,8 +146,9 @@ public class IDEOpenSampleReportAction extends Action implements IOpenSampleRepo
 							.getLocation().toOSString(), desFileName, javaObjectURL);
 				}
 			}
-		} else
+		} else {
 			reportProject = createProject(item.getText().substring(0, item.getText().lastIndexOf(".")), false); //$NON-NLS-1$
+		}
 		/*
 		 * 2.Place the sample report into project folder
 		 */
@@ -182,11 +182,13 @@ public class IDEOpenSampleReportAction extends Action implements IOpenSampleRepo
 
 		ISafeRunnable op = new ISafeRunnable() {
 
+			@Override
 			public void run() {
 				String fileName = ((ReportDesignHandle) selectedElement).getFileName();
 				doFinish(reportProject, fileName.substring(fileName.lastIndexOf('/') + 1));
 			}
 
+			@Override
 			public void handleException(Throwable exception) {
 				ExceptionUtil.handle(exception);
 			}
@@ -199,6 +201,7 @@ public class IDEOpenSampleReportAction extends Action implements IOpenSampleRepo
 
 		Display.getDefault().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				IWorkbench workbench = PlatformUI.getWorkbench();
 				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
@@ -256,7 +259,7 @@ public class IDEOpenSampleReportAction extends Action implements IOpenSampleRepo
 		final IProject projectHandle = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 
 		if (projectHandle.exists()) {
-			String[] buttonLabels = new String[] { IDialogConstants.PROCEED_LABEL,
+			String[] buttonLabels = { IDialogConstants.PROCEED_LABEL,
 					Messages.getString("IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText"),
 					IDialogConstants.CANCEL_LABEL };
 			MessageDialog messageDlg = new MessageDialog(UIUtil.getDefaultShell(),
@@ -290,14 +293,13 @@ public class IDEOpenSampleReportAction extends Action implements IOpenSampleRepo
 		final IProjectDescription description = ResourcesPlugin.getWorkspace()
 				.newProjectDescription(projectHandle.getName());
 
-		if (isJavaProject == true) {
-			String[] natures = new String[] { JavaCore.NATURE_ID,
-					"org.eclipse.birt.report.designer.ui.reportprojectnature", //$NON-NLS-1$
+		if (isJavaProject) {
+			String[] natures = { JavaCore.NATURE_ID, "org.eclipse.birt.report.designer.ui.reportprojectnature", //$NON-NLS-1$
 			};
 			description.setNatureIds(natures);
 			addJavaBuildSpec(description);
 		} else {
-			String[] natures = new String[] { "org.eclipse.birt.report.designer.ui.reportprojectnature", //$NON-NLS-1$
+			String[] natures = { "org.eclipse.birt.report.designer.ui.reportprojectnature", //$NON-NLS-1$
 			};
 			description.setNatureIds(natures);
 		}
@@ -305,6 +307,7 @@ public class IDEOpenSampleReportAction extends Action implements IOpenSampleRepo
 		// create the new project operation
 		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
 
+			@Override
 			protected void execute(IProgressMonitor monitor) throws CoreException {
 				create(description, projectHandle, monitor);
 			}
@@ -351,8 +354,9 @@ public class IDEOpenSampleReportAction extends Action implements IOpenSampleRepo
 		try {
 			monitor.beginTask("", 2000);//$NON-NLS-1$
 			projectHandle.create(description, new SubProgressMonitor(monitor, 1000));
-			if (monitor.isCanceled())
+			if (monitor.isCanceled()) {
 				throw new OperationCanceledException();
+			}
 			projectHandle.open(new SubProgressMonitor(monitor, 1000));
 
 		} finally {
@@ -363,6 +367,7 @@ public class IDEOpenSampleReportAction extends Action implements IOpenSampleRepo
 	private void refreshReportProject(final IProject project) {
 		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
 
+			@Override
 			protected void execute(IProgressMonitor monitor) throws CoreException {
 				project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			}
@@ -384,20 +389,22 @@ public class IDEOpenSampleReportAction extends Action implements IOpenSampleRepo
 	private void createSourceAndOutputFolder(IProject project) {
 
 		IFolder srcFolder = project.getFolder("src"); //$NON-NLS-1$
-		if (!srcFolder.exists())
+		if (!srcFolder.exists()) {
 			try {
 				createFolder(srcFolder);
 			} catch (CoreException e) {
 				ExceptionUtil.handle(e);
 			}
+		}
 
 		IFolder outputFolder = project.getFolder("bin"); //$NON-NLS-1$
-		if (!outputFolder.exists())
+		if (!outputFolder.exists()) {
 			try {
 				createFolder(outputFolder);
 			} catch (CoreException e) {
 				ExceptionUtil.handle(e);
 			}
+		}
 
 	}
 
@@ -436,19 +443,22 @@ public class IDEOpenSampleReportAction extends Action implements IOpenSampleRepo
 		return entries;
 	}
 
+	@Override
 	public void handleEvent(Event event) {
-		if (event.widget == null || !(event.widget instanceof TreeItem))
+		if (event.widget == null || !(event.widget instanceof TreeItem)) {
 			setEnabled(false);
+		}
 		TreeItem item = (TreeItem) event.widget;
 		if (item == null) {
 			super.setEnabled(false);
 			return;
 		}
 		Object selectedElement = item.getData();
-		if (selectedElement == null)
+		if (selectedElement == null) {
 			super.setEnabled(false);
-		else
+		} else {
 			super.setEnabled(selectedElement instanceof ReportDesignHandle);
+		}
 	}
 
 	static class ProjectNameDialog extends Dialog {
@@ -474,6 +484,7 @@ public class IDEOpenSampleReportAction extends Action implements IOpenSampleRepo
 			return projectName;
 		}
 
+		@Override
 		protected Control createDialogArea(Composite parent) {
 			getShell().setText(title);
 
@@ -492,6 +503,7 @@ public class IDEOpenSampleReportAction extends Action implements IOpenSampleRepo
 			return parentComposite;
 		}
 
+		@Override
 		protected void okPressed() {
 			this.projectName = text.getText().trim();
 			super.okPressed();

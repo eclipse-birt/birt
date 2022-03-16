@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ public class WizardDialog extends org.eclipse.jface.wizard.WizardDialog {
 
 	/**
 	 * Creates a new wizard dialog for the given wizard.
-	 * 
+	 *
 	 * @param parentShell the parent shell
 	 * @param newWizard   the wizard this dialog is working on
 	 */
@@ -41,7 +44,7 @@ public class WizardDialog extends org.eclipse.jface.wizard.WizardDialog {
 
 	/**
 	 * Sets the label of Finish button
-	 * 
+	 *
 	 * @param text the new label of the Finish button
 	 */
 	public void setFinishLabel(String text) {
@@ -55,10 +58,11 @@ public class WizardDialog extends org.eclipse.jface.wizard.WizardDialog {
 	 * prevents the buttons from aligning with the same direction in order to make
 	 * Help button split with other buttons.
 	 * </p>
-	 * 
+	 *
 	 * @param parent the parent composite to contain the button bar
 	 * @return the button bar control
 	 */
+	@Override
 	protected Control createButtonBar(Composite parent) {
 		Composite composite = (Composite) super.createButtonBar(parent);
 		composite.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_CENTER));
@@ -71,9 +75,10 @@ public class WizardDialog extends org.eclipse.jface.wizard.WizardDialog {
 	 * <p>
 	 * The <code>WizardDialog</code> override the method in order to make Help
 	 * button split with other buttons.
-	 * 
+	 *
 	 * @param button the button to be set layout data to
 	 */
+	@Override
 	protected void setButtonLayoutData(Button button) {
 		GridData data;
 		if (button.getText().equals(IDialogConstants.HELP_LABEL)) {
@@ -90,12 +95,13 @@ public class WizardDialog extends org.eclipse.jface.wizard.WizardDialog {
 
 	/**
 	 * The Next button has been pressed.
-	 * 
+	 *
 	 * The <code>WizardDialog</code> override the method in order to save current
 	 * result and when pages are switched
-	 * 
-	 * 
+	 *
+	 *
 	 */
+	@Override
 	protected void nextPressed() {
 		ElementWizardPage page = (ElementWizardPage) getCurrentPage();
 		((AbstractWizard) getWizard()).savePage(page);

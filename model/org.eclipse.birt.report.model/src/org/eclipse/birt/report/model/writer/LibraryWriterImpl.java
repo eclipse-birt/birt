@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +21,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
- * 
+ *
  */
 
 public abstract class LibraryWriterImpl extends ModuleWriter {
@@ -29,10 +32,12 @@ public abstract class LibraryWriterImpl extends ModuleWriter {
 		super();
 	}
 
+	@Override
 	protected Module getModule() {
 		return library;
 	}
 
+	@Override
 	public void visitLibrary(Library obj) {
 		writer.startElement(DesignSchemaConstants.LIBRARY_TAG);
 		super.visitLibrary(obj);
@@ -40,7 +45,7 @@ public abstract class LibraryWriterImpl extends ModuleWriter {
 
 		if (markLineNumber) {
 			getModule().addLineNo(obj.getPropertyDefn(IModuleModel.THEME_PROP),
-					Integer.valueOf(writer.getLineCounter()));
+					writer.getLineCounter());
 		}
 		property(obj, IModuleModel.THEME_PROP);
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,8 +59,8 @@ import org.eclipse.swt.widgets.TableColumn;
  * provides all table-based operations such as moving, adding, deleting. The
  * Filters, Sorting, Groups and Hight-lights will use FormPage as UI and
  * provides corresponding Model processors.
- * 
- * 
+ *
+ *
  */
 public class SortingFormPage extends Composite implements Listener {
 
@@ -129,7 +132,7 @@ public class SortingFormPage extends Composite implements Listener {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param parent   A widget which will be the parent of the new instance (cannot
 	 *                 be null)
 	 * @param style    The style of widget to construct
@@ -150,7 +153,7 @@ public class SortingFormPage extends Composite implements Listener {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param parent   A widget which will be the parent of the new instance (cannot
 	 *                 be null)
 	 * @param style    The style of widget to construct
@@ -193,7 +196,7 @@ public class SortingFormPage extends Composite implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TabPage
 	 * #setInput(java.util.List)
@@ -225,6 +228,7 @@ public class SortingFormPage extends Composite implements Listener {
 
 		org.eclipse.swt.widgets.Listener sortListener = new org.eclipse.swt.widgets.Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
 				int modelPos = -1;
 				if (table.getSelectionIndex() > -1) {
@@ -261,8 +265,9 @@ public class SortingFormPage extends Composite implements Listener {
 		String[] columnNames = provider.getColumnNames();
 		for (int i = 0; i < columnNames.length; i++) {
 			TableColumn column = new TableColumn(table, SWT.LEFT);
-			if (i == 0)
+			if (i == 0) {
 				table.setSortColumn(column);
+			}
 			column.setText(columnNames[i]);
 			column.setWidth(provider.getColumnWidths()[i]);
 			column.addListener(SWT.Selection, sortListener);
@@ -272,9 +277,11 @@ public class SortingFormPage extends Composite implements Listener {
 
 		table.addKeyListener(new KeyAdapter() {
 
+			@Override
 			public void keyPressed(KeyEvent e) {
-				if (!provider.isEditable())
+				if (!provider.isEditable()) {
 					return;
+				}
 				if (e.keyCode == SWT.DEL) {
 					int itemCount = table.getItemCount();
 					int pos = table.getSelectionIndex();
@@ -297,6 +304,7 @@ public class SortingFormPage extends Composite implements Listener {
 
 		table.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				selectIndex = table.getSelectionIndex();
 				updateArraw();
@@ -304,9 +312,11 @@ public class SortingFormPage extends Composite implements Listener {
 		});
 		table.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
-				if (!provider.isEditable())
+				if (!provider.isEditable()) {
 					return;
+				}
 				if (style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL) {
 					edit();
 				}
@@ -319,6 +329,7 @@ public class SortingFormPage extends Composite implements Listener {
 
 		btnDel.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (tableViewer.isCellEditorActive()) {
 					tableViewer.cancelEditing();
@@ -342,7 +353,7 @@ public class SortingFormPage extends Composite implements Listener {
 			}
 		});
 		btnAdd = new Button(this, SWT.PUSH);
-		if (bAddWithDialog == true) {
+		if (bAddWithDialog) {
 			btnAdd.setText(Messages.getString("FormPage.Button.AddWithDialog")); //$NON-NLS-1$
 		} else {
 			btnAdd.setText(Messages.getString("FormPage.Button.Add")); //$NON-NLS-1$
@@ -350,6 +361,7 @@ public class SortingFormPage extends Composite implements Listener {
 
 		btnAdd.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				CommandStack stack = getActionStack();
 				stack.startTrans(Messages.getString("FormPage.Menu.ModifyProperty")); //$NON-NLS-1$
@@ -375,7 +387,7 @@ public class SortingFormPage extends Composite implements Listener {
 
 		if (style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL) {
 			btnEdit = new Button(this, SWT.PUSH);
-			if (bAddWithDialog == true) {
+			if (bAddWithDialog) {
 				btnEdit.setText(Messages.getString("FormPage.Button.EditWithDialog")); //$NON-NLS-1$
 			} else {
 				btnEdit.setText(Messages.getString("FormPage.Button.Edit")); //$NON-NLS-1$
@@ -383,6 +395,7 @@ public class SortingFormPage extends Composite implements Listener {
 
 			btnEdit.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					edit();
 				}
@@ -423,9 +436,7 @@ public class SortingFormPage extends Composite implements Listener {
 	}
 
 	private void updateArraw() {
-		if (!provider.isEditable())
-			return;
-		if (style == SIMPLE_FUNCTION) {
+		if (!provider.isEditable() || (style == SIMPLE_FUNCTION)) {
 			return;
 		}
 		int selectIndex = table.getSelectionIndex();
@@ -437,12 +448,14 @@ public class SortingFormPage extends Composite implements Listener {
 		// }
 		if ((min <= selectIndex) && (selectIndex <= max)) {
 			btnDel.setEnabled(true);
-			if (btnEdit != null)
+			if (btnEdit != null) {
 				btnEdit.setEnabled(true);
+			}
 		} else {
 			btnDel.setEnabled(false);
-			if (btnEdit != null)
+			if (btnEdit != null) {
 				btnEdit.setEnabled(false);
+			}
 		}
 	}
 
@@ -466,7 +479,7 @@ public class SortingFormPage extends Composite implements Listener {
 
 	/**
 	 * Creates the TableViewer and set all kinds of processors.
-	 * 
+	 *
 	 */
 	private void createTableViewer() {
 		tableViewer = new TableViewer(table);
@@ -509,7 +522,7 @@ public class SortingFormPage extends Composite implements Listener {
 
 	/**
 	 * Layouts widgets for simple UI type.
-	 * 
+	 *
 	 */
 	protected void normallLayout() {
 		FormLayout layout = new FormLayout();
@@ -567,7 +580,7 @@ public class SortingFormPage extends Composite implements Listener {
 
 	/**
 	 * Layouts widgets for Full UI type.
-	 * 
+	 *
 	 */
 	protected void fullLayout() {
 		FormLayout layout = new FormLayout();
@@ -606,14 +619,16 @@ public class SortingFormPage extends Composite implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.
 	 * model.core.DesignElement, org.eclipse.birt.model.activity.NotificationEvent)
 	 */
+	@Override
 	public void elementChanged(DesignElementHandle arg0, NotificationEvent event) {
 		if (provider.needRefreshed(event)) {
-			if (!this.isDisposed())
+			if (!this.isDisposed()) {
 				refresh();
+			}
 		}
 	}
 
@@ -631,20 +646,22 @@ public class SortingFormPage extends Composite implements Listener {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
 		 * .lang.Object, int)
 		 */
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
 		 * lang.Object, int)
 		 */
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			return provider.getColumnText(element, columnIndex);
 		}
@@ -654,10 +671,11 @@ public class SortingFormPage extends Composite implements Listener {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
 		 * java.lang.Object)
 		 */
+		@Override
 		public Object[] getElements(Object inputElement) {
 			Object[] elements = provider.getElements(inputElement);
 			for (int i = 0; i < elements.length; i++) {
@@ -672,13 +690,15 @@ public class SortingFormPage extends Composite implements Listener {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
+		@Override
 		public void dispose() {
 
-			if (!(provider instanceof GroupHandleProvider))
+			if (!(provider instanceof GroupHandleProvider)) {
 				return;
+			}
 
 			Object[] elements = provider.getElements(input);
 
@@ -695,17 +715,18 @@ public class SortingFormPage extends Composite implements Listener {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * AttributePage#buildUI()
 	 */
@@ -715,7 +736,7 @@ public class SortingFormPage extends Composite implements Listener {
 
 	/**
 	 * Gets the DE CommandStack instance
-	 * 
+	 *
 	 * @return CommandStack instance
 	 */
 	private CommandStack getActionStack() {
@@ -723,8 +744,9 @@ public class SortingFormPage extends Composite implements Listener {
 	}
 
 	protected void registerListeners() {
-		if (input == null)
+		if (input == null) {
 			return;
+		}
 		for (int i = 0; i < input.size(); i++) {
 			Object obj = input.get(i);
 			if (obj instanceof DesignElementHandle) {
@@ -735,8 +757,9 @@ public class SortingFormPage extends Composite implements Listener {
 	}
 
 	protected void deRegisterListeners() {
-		if (input == null)
+		if (input == null) {
 			return;
+		}
 		for (int i = 0; i < input.size(); i++) {
 			Object obj = input.get(i);
 			if (obj instanceof DesignElementHandle) {

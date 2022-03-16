@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,8 +57,9 @@ public class SimpleCubeBuilder extends TitleAreaDialog {
 		} catch (SemanticException e) {
 			ExceptionUtil.handle(e);
 		}
-	};
+	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite area = (Composite) super.createDialogArea(parent);
 		Composite container = new Composite(area, SWT.NONE);
@@ -115,6 +119,7 @@ public class SimpleCubeBuilder extends TitleAreaDialog {
 		nameText.setLayoutData(gd);
 		nameText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				Button finishButton = getButton(IDialogConstants.OK_ID);
 				if (!nameText.getText().trim().equals("")) //$NON-NLS-1$
@@ -122,20 +127,21 @@ public class SimpleCubeBuilder extends TitleAreaDialog {
 					String name = nameText.getText().trim();
 					try {
 						cube.setName(name);
-						if (finishButton != null)
+						if (finishButton != null) {
 							finishButton.setEnabled(true);
+						}
 						SimpleCubeBuilder.this.setErrorMessage(null);
 						SimpleCubeBuilder.this.setMessage(Messages.getString("SimpleCubeBuilder.Title.Message")); //$NON-NLS-1$
 					} catch (NameException e1) {
 						SimpleCubeBuilder.this.setErrorMessage(e1.getMessage());
-						if (finishButton != null)
+						if (finishButton != null) {
 							finishButton.setEnabled(false);
+						}
 					}
 					group.refresh();
 
-				} else {
-					if (finishButton != null)
-						finishButton.setEnabled(false);
+				} else if (finishButton != null) {
+					finishButton.setEnabled(false);
 				}
 			}
 
@@ -148,11 +154,13 @@ public class SimpleCubeBuilder extends TitleAreaDialog {
 
 	}
 
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
 		getButton(IDialogConstants.OK_ID).setText(IDialogConstants.FINISH_LABEL);
 	}
 
+	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(Messages.getString("SimpleCubeBuilder.Title")); //$NON-NLS-1$

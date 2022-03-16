@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ import org.eclipse.birt.report.model.metadata.validators.PositiveValueValidator;
 
 /**
  * Test case for MetaDataDictionary.
- * 
+ *
  */
 public class MetaDataDictionaryTest extends AbstractMetaTest {
 
@@ -35,6 +38,7 @@ public class MetaDataDictionaryTest extends AbstractMetaTest {
 	 * @see TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		dict = MetaDataDictionary.getInstance();
@@ -42,7 +46,7 @@ public class MetaDataDictionaryTest extends AbstractMetaTest {
 
 	/**
 	 * Tests both ChoiceSet and ExtendedChoiceSet from rom.def.
-	 * 
+	 *
 	 */
 	public void testChoiceSet() {
 		assertNotNull(dict.getPropertyType(PropertyType.CHOICE_TYPE));
@@ -114,7 +118,7 @@ public class MetaDataDictionaryTest extends AbstractMetaTest {
 
 	/**
 	 * test adding one valid element.
-	 * 
+	 *
 	 * @throws MetaDataException
 	 */
 	public void testAddOneElement() throws MetaDataException {
@@ -175,7 +179,7 @@ public class MetaDataDictionaryTest extends AbstractMetaTest {
 
 	/**
 	 * test adding one valid standard style.
-	 * 
+	 *
 	 * @throws MetaDataException
 	 */
 	public void testAddOnePredefinedStyle() throws MetaDataException {
@@ -188,7 +192,7 @@ public class MetaDataDictionaryTest extends AbstractMetaTest {
 
 	/**
 	 * test adding the duplicated standard style with same name.
-	 * 
+	 *
 	 * @throws MetaDataException
 	 */
 	public void testAddSamePredefinedtyle() throws MetaDataException {
@@ -261,7 +265,7 @@ public class MetaDataDictionaryTest extends AbstractMetaTest {
 
 	/**
 	 * test Get functions.
-	 * 
+	 *
 	 */
 
 	public void testGetFunctions() {

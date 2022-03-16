@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +42,7 @@ import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 public final class PLSUtil {
 	/**
 	 * Determine whether a query is PLSEnabled.
-	 * 
+	 *
 	 * @param queryDefn
 	 * @return
 	 */
@@ -50,7 +53,7 @@ public final class PLSUtil {
 
 	/**
 	 * Indicates whether need to update the data set data in report document.
-	 * 
+	 *
 	 * @param queryDefn
 	 * @param manager
 	 * @return
@@ -59,8 +62,9 @@ public final class PLSUtil {
 	public static boolean needUpdateDataSet(IQueryDefinition queryDefn, StreamManager manager) throws DataException {
 		assert queryDefn != null;
 		assert queryDefn.getQueryExecutionHints() != null;
-		if (queryDefn.getQueryExecutionHints().getTargetGroupInstances().size() == 0)
+		if (queryDefn.getQueryExecutionHints().getTargetGroupInstances().size() == 0) {
 			return false;
+		}
 		PLSInfo plsInfo = readPLSInfo(manager);
 		int currentRequestedGroupLevel = getOutmostPlsGroupLevel(queryDefn);
 		return plsInfo.groupLevel == null || plsInfo.groupLevel < currentRequestedGroupLevel;
@@ -75,9 +79,10 @@ public final class PLSUtil {
 		RAInputStream in = null;
 		try {
 			if (manager.hasInStream(DataEngineContext.PLS_GROUPLEVEL_STREAM, StreamManager.ROOT_STREAM,
-					StreamManager.BASE_SCOPE))
+					StreamManager.BASE_SCOPE)) {
 				in = manager.getInStream(DataEngineContext.PLS_GROUPLEVEL_STREAM, StreamManager.ROOT_STREAM,
 						StreamManager.BASE_SCOPE);
+			}
 			if (in != null) {
 				plsInfo.groupLevel = IOUtil.readInt(in);
 				try {
@@ -109,7 +114,7 @@ public final class PLSUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param queryDefn
 	 * @return
 	 */
@@ -125,7 +130,7 @@ public final class PLSUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param query
 	 * @param targetGroups
 	 * @return
@@ -133,12 +138,13 @@ public final class PLSUtil {
 	private static List<String> getReCalGroupNames(IQueryDefinition query, List<IGroupInstanceInfo> targetGroups) {
 		int groupLevel = Integer.MAX_VALUE;
 		for (IGroupInstanceInfo instance : targetGroups) {
-			if (groupLevel > instance.getGroupLevel())
+			if (groupLevel > instance.getGroupLevel()) {
 				groupLevel = instance.getGroupLevel();
+			}
 		}
 
 		List groups = query.getGroups();
-		List<String> reCalGroups = new ArrayList<String>();
+		List<String> reCalGroups = new ArrayList<>();
 		for (int i = groupLevel - 1; i < groups.size(); i++) {
 			reCalGroups.add(((IGroupDefinition) groups.get(i)).getName());
 		}
@@ -147,7 +153,7 @@ public final class PLSUtil {
 
 	/**
 	 * Construct a binding's representative in ResultClass.
-	 * 
+	 *
 	 * @param originalBindingName
 	 * @return
 	 */
@@ -158,7 +164,7 @@ public final class PLSUtil {
 	/**
 	 * The binding expression should have been processed in
 	 * PreparedIVDataSourceQuery.
-	 * 
+	 *
 	 * @param binding
 	 * @return
 	 */
@@ -168,8 +174,9 @@ public final class PLSUtil {
 				String columnName = ExpressionUtil
 						.getColumnName(((IScriptExpression) binding.getExpression()).getText());
 
-				if (columnName != null && columnName.startsWith("${RE_CAL:"))
+				if (columnName != null && columnName.startsWith("${RE_CAL:")) {
 					return true;
+				}
 			}
 		} catch (BirtException e) {
 			// Igonre
@@ -180,7 +187,7 @@ public final class PLSUtil {
 
 	/**
 	 * Prepare the binding for a query definition.
-	 * 
+	 *
 	 * @param queryDefn
 	 * @return
 	 * @throws DataException
@@ -198,13 +205,12 @@ public final class PLSUtil {
 						|| !reCalGroupNames.contains(binding.getAggregatOns().get(0))) {
 					if (binding.getExpression() instanceof IScriptExpression && binding.getAggrFunction() == null) {
 						String text = ((IScriptExpression) binding.getExpression()).getText();
-						if (ExpressionUtil.getColumnName(text) != null
-								|| ExpressionUtil.getColumnBindingName(text) == null)
-							continue;
 						// If refer to an aggr binding that need to be
 						// recalculated, we need also recalculate this binding.
-						if (!referToRecAggrBinding(queryDefn, reCalGroupNames, text))
+						if (ExpressionUtil.getColumnName(text) != null
+								|| ExpressionUtil.getColumnBindingName(text) == null || !referToRecAggrBinding(queryDefn, reCalGroupNames, text)) {
 							continue;
+						}
 					}
 
 					String expr = ExpressionUtil.createJSDataSetRowExpression(
@@ -222,7 +228,7 @@ public final class PLSUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param queryDefn
 	 * @param reCalGroupNames
 	 * @param exprText

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,17 +35,18 @@ public class ParameterValueUtil {
 	/**
 	 * Converts the specified string value to a JS expression so its evaluation gets
 	 * handled as a literal value.
-	 * 
+	 *
 	 * @param literalValue  the string constant
 	 * @param quotationMark
 	 * @return the js expression.
 	 */
 
 	public static String toJsExprValue(String literalValue, String quotationMark) {
-		if (literalValue == null)
+		if (literalValue == null) {
 			return literalValue;
+		}
 
-		StringBuffer value = new StringBuffer(literalValue);
+		StringBuilder value = new StringBuilder(literalValue);
 
 		// escape any literal quote character
 		int index = 0;
@@ -52,8 +56,9 @@ public class ParameterValueUtil {
 			// next search
 		}
 
-		if (quotationMark == null)
+		if (quotationMark == null) {
 			quotationMark = QUOTE_DELIMITER;
+		}
 
 		// wraps value with begin and end quote delimiters
 		value.insert(0, quotationMark);
@@ -65,17 +70,18 @@ public class ParameterValueUtil {
 	/**
 	 * Converts the specified JS expression to a literal string value if quote
 	 * delimiters are found.
-	 * 
+	 *
 	 * @param jsExprValue
 	 * @return the literal value without quotation marks.
 	 */
 
 	public static String toLiteralValue(String jsExprValue) {
-		if (!isQuoted(jsExprValue))
+		if (!isQuoted(jsExprValue)) {
 			return jsExprValue;
+		}
 
 		// remove quote delimiters
-		StringBuffer value = new StringBuffer(jsExprValue);
+		StringBuilder value = new StringBuilder(jsExprValue);
 		value.deleteCharAt(jsExprValue.length() - 1);
 		value.deleteCharAt(0);
 
@@ -92,7 +98,7 @@ public class ParameterValueUtil {
 	/**
 	 * Checks whether the expression is the string constant. If it is the string
 	 * constant, it must be quoted with single/double quotation marks.
-	 * 
+	 *
 	 * @param jsExprValue the js expression value
 	 * @return <code>true</code> if it is string constant.
 	 */
@@ -104,20 +110,22 @@ public class ParameterValueUtil {
 	/**
 	 * Checks whether the expression is the string constant. If it is the string
 	 * constant, it must be quoted with given quotation marks.
-	 * 
+	 *
 	 * @param jsExprValue the js expression value
 	 * @param quotation   the quote mark, may be QUOTE_CHAR or DOUBLE_QUOTE_CHAR
 	 * @return <code>true</code> if it is string constant.
 	 */
 
 	public static boolean isQuoted(String jsExprValue, char quotation) {
-		if (jsExprValue == null || jsExprValue.length() < 2)
+		if (jsExprValue == null || jsExprValue.length() < 2) {
 			return false;
+		}
 
 		boolean isQuoted = jsExprValue.startsWith(String.valueOf(quotation));
 
-		if (!isQuoted)
+		if (!isQuoted) {
 			return false;
+		}
 
 		// has start quote, checks if it ends with quote delimiter
 
@@ -125,8 +133,9 @@ public class ParameterValueUtil {
 
 		int start = searchQuotationMark(newStr, quotation);
 
-		if (start == newStr.length())
+		if (start == newStr.length()) {
 			return true;
+		}
 
 		return false;
 
@@ -138,7 +147,7 @@ public class ParameterValueUtil {
 	 * <p>
 	 * This method is to find the first quotation mark that is not proceeded by an
 	 * escape character.
-	 * 
+	 *
 	 * @param str
 	 * @param quotation
 	 * @return
@@ -147,16 +156,15 @@ public class ParameterValueUtil {
 	private static int searchQuotationMark(String str, char quotation) {
 		String tmpStr = str;
 		int index = tmpStr.indexOf(quotation);
-		if (index == 0)
+		if (index == 0) {
 			return index + 1;
+		}
 
 		while (index != -1) {
 			char beforeChar = tmpStr.charAt(index - 1);
-			if (beforeChar != ESCAPE_QUOTE_CHAR)
+			if ((beforeChar != ESCAPE_QUOTE_CHAR) || (index == tmpStr.length() - 1)) {
 				break;
-
-			if (index == tmpStr.length() - 1)
-				break;
+			}
 
 			index = tmpStr.indexOf(quotation, index + 1);
 		}
@@ -168,10 +176,10 @@ public class ParameterValueUtil {
 	 * Converts ODA parameter value to ROM value. If the parameter type is string or
 	 * date/time, the returned value will be surrounded with quotes, or the original
 	 * value will be returned.
-	 * 
+	 *
 	 * @param originalValue the original parameter value
 	 * @param parameterType the type of the parameter
-	 * 
+	 *
 	 * @return the ROM value
 	 */
 	public static String toROMValue(String originalValue, String parameterType) {
@@ -187,10 +195,10 @@ public class ParameterValueUtil {
 	/**
 	 * Converts ROM parameter value to ODA value. If the parameter type is string or
 	 * date/time, the surrounded quotes will be removed.
-	 * 
+	 *
 	 * @param originalValue the original parameter value
 	 * @param parameterType the type of the parameter
-	 * 
+	 *
 	 * @return the ODA value
 	 */
 	public static String toODAValue(String originalValue, String parameterType) {
@@ -198,8 +206,9 @@ public class ParameterValueUtil {
 				|| DesignChoiceConstants.PARAM_TYPE_DATE.equals(parameterType)
 				|| DesignChoiceConstants.PARAM_TYPE_TIME.equals(parameterType)
 				|| DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(parameterType)) {
-			if (isQuoted(originalValue))
+			if (isQuoted(originalValue)) {
 				return originalValue.substring(1, originalValue.length() - 1);
+			}
 		}
 		return originalValue;
 	}

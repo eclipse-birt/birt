@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,12 +21,12 @@ import junit.framework.TestCase;
 public class LogicalPageSequenceTest extends TestCase {
 
 	public void testMerge() {
-		long[][] pages1 = new long[][] { new long[] { 200, 700 }, new long[] { 900, 1200 }, new long[] { 1500, 1600 } };
+		long[][] pages1 = { new long[] { 200, 700 }, new long[] { 900, 1200 }, new long[] { 1500, 1600 } };
 
-		long[][] pages2 = new long[][] { new long[] { 100, 300 }, new long[] { 400, 500 }, new long[] { 600, 800 },
+		long[][] pages2 = { new long[] { 100, 300 }, new long[] { 400, 500 }, new long[] { 600, 800 },
 				new long[] { 1000, 1100 }, new long[] { 1300, 1400 } };
 
-		ArrayList<long[][]> pages = new ArrayList<long[][]>();
+		ArrayList<long[][]> pages = new ArrayList<>();
 		pages.add(pages1);
 		pages.add(pages2);
 
@@ -33,12 +36,12 @@ public class LogicalPageSequenceTest extends TestCase {
 	}
 
 	public void testMergeWithMax() {
-		long[][] pages1 = new long[][] { new long[] { 200, 700 }, new long[] { 900, 1200 }, new long[] { 1500, 1600 } };
+		long[][] pages1 = { new long[] { 200, 700 }, new long[] { 900, 1200 }, new long[] { 1500, 1600 } };
 
-		long[][] pages2 = new long[][] { new long[] { 100, 300 }, new long[] { 400, 500 }, new long[] { 600, 800 },
+		long[][] pages2 = { new long[] { 100, 300 }, new long[] { 400, 500 }, new long[] { 600, 800 },
 				new long[] { 1000, 1100 }, new long[] { 1300, 1400 } };
 
-		ArrayList<long[][]> pages = new ArrayList<long[][]>();
+		ArrayList<long[][]> pages = new ArrayList<>();
 		pages.add(pages1);
 		pages.add(pages2);
 

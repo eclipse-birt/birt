@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -90,13 +93,13 @@ public class ExcelLayoutEngine {
 	/**
 	 * Bookmarks linked by existing element but not defined on any elements yet.
 	 */
-	private HashMap<String, String> cachedBookmarks = new HashMap<String, String>();
+	private HashMap<String, String> cachedBookmarks = new HashMap<>();
 
 	protected StyleEngine engine;
 
-	private Stack<XlsContainer> containers = new Stack<XlsContainer>();
+	private Stack<XlsContainer> containers = new Stack<>();
 
-	private Stack<XlsTable> tables = new Stack<XlsTable>();
+	private Stack<XlsTable> tables = new Stack<>();
 
 	protected ExcelContext context = null;
 
@@ -104,13 +107,13 @@ public class ExcelLayoutEngine {
 	private String messageReportItemNotSupported;
 
 	private ULocale locale;
-	private HashMap<String, BookmarkDef> bookmarks = new HashMap<String, BookmarkDef>();
-	protected Stack<Boolean> rowVisibilities = new Stack<Boolean>();
+	private HashMap<String, BookmarkDef> bookmarks = new HashMap<>();
+	protected Stack<Boolean> rowVisibilities = new Stack<>();
 	protected Page page;
 	protected IExcelWriter writer;
 	protected ContentEmitterVisitor contentVisitor;
 
-	private HashMap<String, Image> imageCache = new HashMap<String, Image>();
+	private HashMap<String, Image> imageCache = new HashMap<>();
 	// We only needs to apply page width when first non-auto-extend element is
 	// output.
 	protected boolean pageWidthApplied = false;
@@ -277,7 +280,7 @@ public class ExcelLayoutEngine {
 	}
 
 	private boolean isRightAligned(XlsContainer currentContainer) {
-		boolean isRightAligned = false;
+		boolean isRightAligned;
 		String align = (String) currentContainer.getStyle().getProperty(StyleConstant.H_ALIGN_PROP);
 		isRightAligned = "Right".equalsIgnoreCase(align);
 		return isRightAligned;
@@ -328,8 +331,9 @@ public class ExcelLayoutEngine {
 			for (int i = 1; i <= columnCount; i++) {
 				if (!autoExtend && (columnStartCoordinates[i - 1] + table.getColumnWidth(i - 1)) > endCoordinate) {
 					columnStartCoordinates[i] = endCoordinate;
-				} else
+				} else {
 					columnStartCoordinates[i] = columnStartCoordinates[i - 1] + table.getColumnWidth(i - 1);
+				}
 			}
 		}
 		return columnStartCoordinates;
@@ -477,8 +481,9 @@ public class ExcelLayoutEngine {
 	private void setParentContainerIndex() {
 		XlsContainer container = getCurrentContainer();
 		XlsContainer parent = container.getParent();
-		if (parent != null)
+		if (parent != null) {
 			parent.setEndRow(container.getEndRow());
+		}
 	}
 
 	public void endNormalContainer() {
@@ -892,7 +897,7 @@ public class ExcelLayoutEngine {
 
 	/**
 	 * @throws IOException
-	 * 
+	 *
 	 */
 	public void outputCacheData(Page page) throws IOException {
 		complete(page);
@@ -920,9 +925,9 @@ public class ExcelLayoutEngine {
 			data.setLinkedBookmark(linkedBookmark);
 		} else {
 			BookmarkDef newBookmark;
-			if (ExcelUtil.isValidBookmarkName(bookmarkName))
+			if (ExcelUtil.isValidBookmarkName(bookmarkName)) {
 				newBookmark = new BookmarkDef(bookmarkName);
-			else {
+			} else {
 				String generateBookmarkName = getGenerateBookmark(bookmarkName);
 				newBookmark = new BookmarkDef(generateBookmarkName);
 				cachedBookmarks.put(bookmarkName, generateBookmarkName);
@@ -971,13 +976,15 @@ public class ExcelLayoutEngine {
 			rowIterator = page.getRowIterator(filter, rowIndexAdjuster);
 		}
 
+		@Override
 		public boolean hasNext() {
 			return rowIterator.hasNext();
 		}
 
+		@Override
 		public RowData next() {
 			SheetData[] row = rowIterator.next();
-			List<SheetData> data = new ArrayList<SheetData>();
+			List<SheetData> data = new ArrayList<>();
 			int width = Math.min(row.length, maxCol);
 			int rowIndex = 0;
 			for (int i = 0; i < width; i++) {
@@ -994,6 +1001,7 @@ public class ExcelLayoutEngine {
 			return new RowData(page, rowdata, rowHeight);
 		}
 
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}
@@ -1017,11 +1025,8 @@ public class ExcelLayoutEngine {
 	}
 
 	protected BookmarkDef getBookmark(String bookmarkName) {
-		if (bookmarkName == null)
-			return null;
-
 		// if bookmark was already found before, skip it
-		if (bookmarks.containsKey(bookmarkName)) {
+		if ((bookmarkName == null) || bookmarks.containsKey(bookmarkName)) {
 			return null;
 		}
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,29 +18,29 @@ import java.util.List;
 public interface ITimeFunction {
 	/**
 	 * Get the function name, see<code>IBuildInTimeFunction<code>
-	 * 
+	 *
 	 * @return
 	 */
-	public String getName();
+	String getName();
 
 	/**
 	 * Get the function display name.
-	 * 
+	 *
 	 * @return
 	 */
-	public String getDisplayName();
+	String getDisplayName();
 
 	/**
 	 * Get the function's description.
-	 * 
+	 *
 	 * @return
 	 */
-	public String getDescription();
+	String getDescription();
 
 	/**
 	 * Get argument info
-	 * 
+	 *
 	 * @return
 	 */
-	public List<IArgumentInfo> getArguments();
+	List<IArgumentInfo> getArguments();
 }

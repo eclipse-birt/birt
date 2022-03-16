@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +25,7 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 /**
- * 
+ *
  */
 
 public class OLAPExpressionHandler extends CompiledExpression {
@@ -35,10 +38,11 @@ public class OLAPExpressionHandler extends CompiledExpression {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.expression.CompiledExpression#evaluate(org.
 	 * mozilla.javascript.Context, org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	public Object evaluate(ScriptContext context, Scriptable scope) throws DataException {
 		Object temp = null;
 		try {
@@ -55,6 +59,7 @@ public class OLAPExpressionHandler extends CompiledExpression {
 		return temp;
 	}
 
+	@Override
 	public int getType() {
 		return 0;
 	}

@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -36,7 +39,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 	/**
 	 * The default value of the '{@link #getValues() <em>Values</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getValues()
 	 * @generated
 	 * @ordered
@@ -46,7 +49,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 	/**
 	 * The cached value of the '{@link #getValues() <em>Values</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getValues()
 	 * @generated
 	 * @ordered
@@ -55,7 +58,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected DataSetImpl() {
@@ -64,7 +67,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -74,28 +77,31 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public Object getValues() {
 		return values;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setValues(Object newValues) {
 		Object oldValues = values;
 		values = newValues;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.DATA_SET__VALUES, oldValues, values));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -109,7 +115,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -124,7 +130,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -139,7 +145,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -151,6 +157,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 		return super.eIsSet(featureID);
 	}
 
+	@Override
 	public DataSet copyInstance() {
 		DataSetImpl dest = new DataSetImpl();
 		dest.set(this);
@@ -164,15 +171,16 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (values: "); //$NON-NLS-1$
 		result.append(values);
 		result.append(')');
@@ -183,7 +191,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * Sets true/false to indicate if the values in data set are big number.
-	 * 
+	 *
 	 * @param isBigNumber
 	 */
 	public void setIsBigNumber(boolean isBigNumber) {
@@ -192,9 +200,10 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.data.DataSet#isBigNumber()
 	 */
+	@Override
 	public boolean isBigNumber() {
 		return this.isBigNumber;
 	}

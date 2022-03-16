@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -65,7 +68,7 @@ public class RadarChart extends DefaultChartTypeImpl {
 
 	private static final String sBullseyeDescription = Messages.getString("RadarChart.Txt.BullseyeDescription"); //$NON-NLS-1$
 
-	private static final String[] saDimensions = new String[] { TWO_DIMENSION_TYPE };
+	private static final String[] saDimensions = { TWO_DIMENSION_TYPE };
 
 	public static final String TYPE_LITERAL = "Radar Chart"; //$NON-NLS-1$
 
@@ -75,7 +78,7 @@ public class RadarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getTypeName()
 	 */
 	@Override
@@ -85,7 +88,7 @@ public class RadarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getTypeName()
 	 */
 	@Override
@@ -95,7 +98,7 @@ public class RadarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getHelp()
 	 */
 	@Override
@@ -105,13 +108,13 @@ public class RadarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(
 	 * java.lang.String)
 	 */
 	@Override
 	public Collection<IChartSubType> getChartSubtypes(String sDimension, Orientation orientation) {
-		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>();
+		Vector<IChartSubType> vSubTypes = new Vector<>();
 		// Do not respond to requests for unknown orientations
 		if (!orientation.equals(Orientation.VERTICAL_LITERAL)) {
 			return vSubTypes;
@@ -137,7 +140,7 @@ public class RadarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang
 	 * .String, java.lang.String, java.lang.String)
 	 */
@@ -226,7 +229,7 @@ public class RadarChart extends DefaultChartTypeImpl {
 			// Copy series definitions from old chart
 			((ChartWithoutAxes) currentChart).getSeriesDefinitions()
 					.add((((ChartWithAxes) helperModel).getAxes().get(0)).getSeriesDefinitions().get(0));
-			Vector<SeriesDefinition> vOSD = new Vector<SeriesDefinition>();
+			Vector<SeriesDefinition> vOSD = new Vector<>();
 
 			// Only convert series in primary orthogonal axis.
 			Axis primaryOrthogonalAxis = ((ChartWithAxes) helperModel).getAxes().get(0).getAssociatedAxes().get(0);
@@ -315,7 +318,7 @@ public class RadarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions ()
 	 */
@@ -326,7 +329,7 @@ public class RadarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
 	 */
@@ -337,7 +340,7 @@ public class RadarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition ()
 	 */
@@ -358,7 +361,7 @@ public class RadarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
 	 */
 	@Override
@@ -368,7 +371,7 @@ public class RadarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
 	 */
 	@Override
@@ -378,9 +381,10 @@ public class RadarChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
 	 */
+	@Override
 	public Series getSeries(boolean needInitialing) {
 		if (needInitialing) {
 			return RadarSeriesImpl.create();
@@ -389,6 +393,7 @@ public class RadarChart extends DefaultChartTypeImpl {
 		}
 	}
 
+	@Override
 	public String getValueDefinitionName() {
 		return Messages.getString("RadarSeriesUIProvider.Label.ValueDefinition"); //$NON-NLS-1$
 	}

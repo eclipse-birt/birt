@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008,2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +36,7 @@ public class BTreeCursor<K, V> {
 
 	/**
 	 * return the entry count in the cursor.
-	 * 
+	 *
 	 * @return
 	 */
 	public int getTotalKeys() {
@@ -130,7 +133,7 @@ public class BTreeCursor<K, V> {
 	 * move to the first entry which value equals to the key. If there is no equals
 	 * keys, return the position which just before the insert key. It may move the
 	 * cursor to before the first.
-	 * 
+	 *
 	 * @param key key value
 	 * @return true if the current key equals to the key.
 	 * @throws IOException
@@ -266,7 +269,7 @@ public class BTreeCursor<K, V> {
 			throw new IOException(CoreMessages.getString(ResourceConstants.INVALID_CURSOR));
 		}
 		BTreeValues<V> values = entry.getValues();
-		ArrayList<V> list = new ArrayList<V>(values.getValueCount());
+		ArrayList<V> list = new ArrayList<>(values.getValueCount());
 		BTreeValues.Value<V> value = values.getFirstValue();
 		while (value != null) {
 			BTreeValue<V> bv = value.getValue();
@@ -280,7 +283,7 @@ public class BTreeCursor<K, V> {
 	/**
 	 * insert the key/value pair to the btree, move the current position to the
 	 * insert point
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 * @throws IOException
@@ -297,7 +300,7 @@ public class BTreeCursor<K, V> {
 	/**
 	 * insert the key/values pair to the btree, move the current position to the
 	 * insert point
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 * @throws IOException
@@ -313,7 +316,7 @@ public class BTreeCursor<K, V> {
 
 	/**
 	 * remove the current entry. the cursor is moved to the next entry.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void remove() throws IOException {
@@ -322,7 +325,7 @@ public class BTreeCursor<K, V> {
 
 	/**
 	 * change the current entry's value.
-	 * 
+	 *
 	 * @param value
 	 * @throws IOException
 	 */

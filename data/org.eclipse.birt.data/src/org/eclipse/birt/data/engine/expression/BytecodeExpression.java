@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +32,7 @@ public abstract class BytecodeExpression extends CompiledExpression {
 	/**
 	 * Sets the compiled Javascript bytecode for this
 	 * <code>BytecodeExpression</code>.
-	 * 
+	 *
 	 * @param script the compiled Javascript bytecode.
 	 */
 	void setScript(Script script) {
@@ -40,6 +43,7 @@ public abstract class BytecodeExpression extends CompiledExpression {
 	/**
 	 * Evaluates the compiled byte code
 	 */
+	@Override
 	public Object evaluate(ScriptContext context, Scriptable scope) throws DataException {
 		try {
 			Object result = JavascriptEvalUtil
@@ -52,7 +56,7 @@ public abstract class BytecodeExpression extends CompiledExpression {
 
 	/**
 	 * Return the group level of the bytecode expression.
-	 * 
+	 *
 	 * @return
 	 */
 	public abstract int getGroupLevel();

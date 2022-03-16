@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.core.data;
 
@@ -14,7 +26,7 @@ import junit.framework.TestCase;
  */
 public class ExpressionParserUtilityTest extends TestCase {
 
-	String[] oldExpressions = new String[] { null, "   " + Messages.getString("ExpressionUtilTest.old.0"),
+	String[] oldExpressions = { null, "   " + Messages.getString("ExpressionUtilTest.old.0"),
 			Messages.getString("ExpressionUtilTest.old.1"), Messages.getString("ExpressionUtilTest.old.2"),
 			Messages.getString("ExpressionUtilTest.old.3"), Messages.getString("ExpressionUtilTest.old.4"),
 			Messages.getString("ExpressionUtilTest.old.5"), Messages.getString("ExpressionUtilTest.old.6"),

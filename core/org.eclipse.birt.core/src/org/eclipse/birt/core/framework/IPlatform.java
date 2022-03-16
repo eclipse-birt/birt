@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,19 +22,19 @@ import org.eclipse.core.runtime.IAdapterManager;
 /**
  * Defines the Platform interface that allows BIRT to be run in Eclipse and
  * server environments
- * 
+ *
  */
 public interface IPlatform {
-	static final String EXTENSION_POINT_FACTORY_SERVICE = "FactoryService";
+	String EXTENSION_POINT_FACTORY_SERVICE = "FactoryService";
 	// those constant are copied from the org.eclipse.core.runtime.Platform
-	public static final String OS_WIN32 = "win32";//$NON-NLS-1$
-	public static final String OS_LINUX = "linux";//$NON-NLS-1$
-	public static final String OS_AIX = "aix";//$NON-NLS-1$
-	public static final String OS_SOLARIS = "solaris";//$NON-NLS-1$
-	public static final String OS_HPUX = "hpux";//$NON-NLS-1$
-	public static final String OS_QNX = "qnx";//$NON-NLS-1$
-	public static final String OS_MACOSX = "macosx";//$NON-NLS-1$
-	public static final String OS_UNKNOWN = "unknown";//$NON-NLS-1$
+	String OS_WIN32 = "win32";//$NON-NLS-1$
+	String OS_LINUX = "linux";//$NON-NLS-1$
+	String OS_AIX = "aix";//$NON-NLS-1$
+	String OS_SOLARIS = "solaris";//$NON-NLS-1$
+	String OS_HPUX = "hpux";//$NON-NLS-1$
+	String OS_QNX = "qnx";//$NON-NLS-1$
+	String OS_MACOSX = "macosx";//$NON-NLS-1$
+	String OS_UNKNOWN = "unknown";//$NON-NLS-1$
 
 	/**
 	 * @return the global extension registry
@@ -41,14 +44,14 @@ public interface IPlatform {
 	IAdapterManager getAdapterManager();
 
 	/**
-	 * 
+	 *
 	 * @param symblicName
 	 * @return
 	 */
 	IBundle getBundle(String symblicName);
 
 	/**
-	 * 
+	 *
 	 * @param bundle
 	 * @param path
 	 * @return
@@ -56,7 +59,7 @@ public interface IPlatform {
 	URL find(IBundle bundle, IPlatformPath path);
 
 	/**
-	 * 
+	 *
 	 * @param url
 	 * @return
 	 * @throws IOException
@@ -64,20 +67,20 @@ public interface IPlatform {
 	URL asLocalURL(URL url) throws IOException;
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
 	String getDebugOption(String name);
 
 	/**
-	 * 
+	 *
 	 * @param pluginName
 	 */
 	void initializeTracing(String pluginName);
 
 	/**
-	 * 
+	 *
 	 * @param factory
 	 * @return
 	 */

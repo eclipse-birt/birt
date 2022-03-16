@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,9 +37,10 @@ public class InsertPasteColumnAction extends AbstractViewAction {
 
 	/*
 	 * Returns whether the InsertPasteColumn Action is enabled
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
+	@Override
 	public boolean isEnabled() {
 		return getClipBoardContents() instanceof ColumnBandData && getSelection() instanceof ColumnHandle
 				&& DNDUtil.handleValidateContainColumnPaste((ColumnHandle) getSelection(),
@@ -53,11 +57,12 @@ public class InsertPasteColumnAction extends AbstractViewAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractViewAction
 	 * #getSelection()
 	 */
+	@Override
 	public Object getSelection() {
 		Object selection = super.getSelection();
 		if (selection instanceof StructuredSelection) {
@@ -68,9 +73,10 @@ public class InsertPasteColumnAction extends AbstractViewAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
+	@Override
 	public void run() {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println("Insert paste column action >> Run ..."); //$NON-NLS-1$

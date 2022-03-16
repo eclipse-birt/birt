@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * 
+ *
  */
 
 public class ChartWithoutAxesImpl extends ChartImpl implements IChartWithoutAxes {
@@ -33,6 +36,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements IChartWithoutAxes
 		super(eih, cm);
 	}
 
+	@Override
 	public IValueSeries[] getValueSeries() {
 		SeriesDefinition bsd = (SeriesDefinition) getChartWithoutAxes().getSeriesDefinitions().get(0);
 		EList osds = bsd.getSeriesDefinitions();
@@ -44,6 +48,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements IChartWithoutAxes
 		return valueSeries;
 	}
 
+	@Override
 	public ICategory getCategory() {
 		SeriesDefinition bsd = (SeriesDefinition) getChartWithoutAxes().getSeriesDefinitions().get(0);
 		return new CategoryImpl(bsd, cm);
@@ -53,6 +58,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements IChartWithoutAxes
 		return (ChartWithoutAxes) cm;
 	}
 
+	@Override
 	public void setDimension(String dimensionName) {
 		if (ChartDimension.THREE_DIMENSIONAL_LITERAL.getName().equals(dimensionName)) {
 			throw new IllegalArgumentException(Messages.getString("ChartWithoutAxesImpl.exception.3DNotSupported")); //$NON-NLS-1$

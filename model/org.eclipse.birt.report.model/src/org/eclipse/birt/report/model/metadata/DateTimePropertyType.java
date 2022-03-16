@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +32,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * Date-time property type. Date-time property is stored as
  * <code>java.util.Date</code>
- * 
+ *
  */
 
 public class DateTimePropertyType extends PropertyType {
@@ -74,10 +77,11 @@ public class DateTimePropertyType extends PropertyType {
 	 * <p>
 	 * Date-time property is stored as <code>java.util.Date</code>
 	 * <p>
-	 * 
+	 *
 	 * @return object of type Date or null if <code>value</code> is null.
 	 */
 
+	@Override
 	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
 
@@ -99,10 +103,11 @@ public class DateTimePropertyType extends PropertyType {
 	/**
 	 * Validates the XML representation of the date property value. Xml date time
 	 * format should in the fixed pattern "yyyy-MM-dd HH:mm:ss".
-	 * 
+	 *
 	 * @return object of type Date or null if <code>value</code> is null.
 	 */
 
+	@Override
 	public Object validateXml(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
 		assert value == null || value instanceof String;
@@ -126,13 +131,15 @@ public class DateTimePropertyType extends PropertyType {
 
 	/**
 	 * Returns the display string for the Date object in the current locale.
-	 * 
+	 *
 	 * @return display string for the date object in the current locale.
 	 */
 
+	@Override
 	public String toDisplayString(Module module, PropertyDefn defn, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		assert value instanceof Date;
 
@@ -144,20 +151,22 @@ public class DateTimePropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
+	@Override
 	public int getTypeCode() {
 		return DATE_TIME_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
+	@Override
 	public String getName() {
 		return DATE_TIME_TYPE_NAME;
 	}
@@ -166,10 +175,11 @@ public class DateTimePropertyType extends PropertyType {
 	 * Validates the locale-dependent value for the date time type, validate the
 	 * <code>value</code> in the locale-dependent way and convert the
 	 * <code>value</code> into a Date object.
-	 * 
+	 *
 	 * @return object of type Date or null if <code>value</code> is null.
 	 */
 
+	@Override
 	public Object validateInputString(Module module, DesignElement element, PropertyDefn defn, String value)
 			throws PropertyValueException {
 		if (StringUtil.isBlank(value)) {
@@ -193,12 +203,15 @@ public class DateTimePropertyType extends PropertyType {
 	 * "yyyy-MM-dd HH:mm:ss".
 	 */
 
+	@Override
 	public String toString(Module module, PropertyDefn defn, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
-		if (value instanceof String)
+		if (value instanceof String) {
 			return (String) value;
+		}
 
 		return formatter.format((Date) value);
 	}

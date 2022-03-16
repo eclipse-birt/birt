@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +24,7 @@ import org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl;
 import org.eclipse.birt.chart.script.api.scale.ITimeScale;
 
 /**
- * 
+ *
  */
 
 public class TimeScaleImpl extends ScaleImpl implements ITimeScale {
@@ -30,6 +33,7 @@ public class TimeScaleImpl extends ScaleImpl implements ITimeScale {
 		super(axis);
 	}
 
+	@Override
 	public Date getMax() {
 		DataElement data = scale.getMax();
 		if (data instanceof DateTimeDataElement) {
@@ -38,6 +42,7 @@ public class TimeScaleImpl extends ScaleImpl implements ITimeScale {
 		return null;
 	}
 
+	@Override
 	public Date getMin() {
 		DataElement data = scale.getMin();
 		if (data instanceof DateTimeDataElement) {
@@ -46,26 +51,32 @@ public class TimeScaleImpl extends ScaleImpl implements ITimeScale {
 		return null;
 	}
 
+	@Override
 	public int getStepSize() {
 		return (int) scale.getStep();
 	}
 
+	@Override
 	public String getStepTimeUnit() {
 		return scale.getUnit().getName();
 	}
 
+	@Override
 	public void setMax(Date max) {
 		scale.setMax(max != null ? DateTimeDataElementImpl.create(max.getTime()) : null);
 	}
 
+	@Override
 	public void setMin(Date min) {
 		scale.setMin(min != null ? DateTimeDataElementImpl.create(min.getTime()) : null);
 	}
 
+	@Override
 	public void setStepSize(int size) {
 		scale.setStep(size);
 	}
 
+	@Override
 	public void setStepTimeUnit(String unit) {
 		scale.setUnit(ScaleUnitType.getByName(unit));
 	}

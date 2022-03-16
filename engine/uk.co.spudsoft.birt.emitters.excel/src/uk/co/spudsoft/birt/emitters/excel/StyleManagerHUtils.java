@@ -1,11 +1,13 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -40,7 +42,7 @@ import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 /**
  * StyleManagerHUtils is an extension of the StyleManagerUtils to provide
  * HSSFWorkbook specific functionality.
- * 
+ *
  * @author Jim Talbut
  *
  */
@@ -49,6 +51,7 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 	private static short minPaletteIndex = 40;
 
 	private static Factory factory = new StyleManagerUtils.Factory() {
+		@Override
 		public StyleManagerUtils create(Logger log) {
 			return new StyleManagerHUtils(log);
 		}
@@ -73,7 +76,7 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 	/**
 	 * Converts a BIRT border style into a POI border style (short constant defined
 	 * in CellStyle).
-	 * 
+	 *
 	 * @param birtBorder The BIRT border style.
 	 * @param width      The width of the border as understood by BIRT.
 	 * @return One of the CellStyle BORDER constants.
@@ -116,7 +119,7 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 	/**
 	 * Get an HSSFPalette index for a workbook that closely approximates the passed
 	 * in colour.
-	 * 
+	 *
 	 * @param workbook The workbook for which the colour is being sought.
 	 * @param colour   The colour, in the form "rgb(<i>r</i>, <i>g</i>, <i>b</i>)".
 	 * @return The index into the HSSFPallete for the workbook for a colour that
@@ -128,7 +131,7 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 			return 0;
 		}
 
-		byte[] rgbByte = new byte[] { (byte) rgbInt[0], (byte) rgbInt[1], (byte) rgbInt[2] };
+		byte[] rgbByte = { (byte) rgbInt[0], (byte) rgbInt[1], (byte) rgbInt[2] };
 		HSSFPalette palette = workbook.getCustomPalette();
 
 		HSSFColor result = palette.findColor(rgbByte[0], rgbByte[1], rgbByte[2]);
@@ -193,11 +196,8 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 
 	@Override
 	public void addColourToFont(Workbook workbook, Font font, String colour) {
-		if (colour == null) {
-			return;
-		}
 		// if (IStyle.TRANSPARENT_VALUE.equals(colour)) {
-		if(IStyle.TRANSPARENT_VALUE.getCssText().equals(colour)) {
+		if ((colour == null) || IStyle.TRANSPARENT_VALUE.getCssText().equals(colour)) {
 			return;
 		}
 		if (font instanceof HSSFFont) {
@@ -211,10 +211,7 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 
 	@Override
 	public void addBackgroundColourToStyle(Workbook workbook, CellStyle style, String colour) {
-		if (colour == null) {
-			return;
-		}
-		if (IStyle.TRANSPARENT_VALUE.equals(colour)) {
+		if ((colour == null) || IStyle.TRANSPARENT_VALUE.equals(colour)) {
 			return;
 		}
 		if (style instanceof HSSFCellStyle) {

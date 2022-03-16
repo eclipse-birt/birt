@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010,2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,8 +33,8 @@ public class Bundle implements IBundle {
 	protected Extension[] extensions;
 	protected ExtensionPoint[] extensionPoints;
 	protected String stateLocation;
-	static final Extension[] EMPTY_EXTENSIONS = new Extension[] {};
-	static final ExtensionPoint[] EMPTY_EXTENSION_POINTS = new ExtensionPoint[] {};
+	static final Extension[] EMPTY_EXTENSIONS = {};
+	static final ExtensionPoint[] EMPTY_EXTENSION_POINTS = {};
 
 	Bundle(ServicePlatform platform, URL root, String name) {
 		this.platform = platform;
@@ -51,6 +54,7 @@ public class Bundle implements IBundle {
 		return version;
 	}
 
+	@Override
 	public URL getEntry(String path) {
 		try {
 			return new URL(root, path);
@@ -60,7 +64,7 @@ public class Bundle implements IBundle {
 	}
 
 	public Enumeration<URL> getEntryPaths(String path) {
-		ArrayList<URL> urls = new ArrayList<URL>();
+		ArrayList<URL> urls = new ArrayList<>();
 
 		// try
 		// {
@@ -88,6 +92,7 @@ public class Bundle implements IBundle {
 		return extensionPoints;
 	}
 
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(contributor.getName());
@@ -96,10 +101,12 @@ public class Bundle implements IBundle {
 		return sb.toString();
 	}
 
+	@Override
 	public Class loadClass(String name) throws ClassNotFoundException {
 		return this.getClass().getClassLoader().loadClass(name);
 	}
 
+	@Override
 	public synchronized String getStateLocation() {
 		if (stateLocation == null) {
 			File workspace = platform.getWorkspace();

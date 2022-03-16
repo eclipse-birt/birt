@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -82,9 +85,9 @@ class DropStrategy {
 
 	/**
 	 * Constructs a <code>DropStrategy</code> with the given table.
-	 * 
+	 *
 	 * @param layoutTable the layout table
-	 * 
+	 *
 	 */
 
 	public DropStrategy(LayoutTable layoutTable) {
@@ -109,7 +112,7 @@ class DropStrategy {
 
 	/**
 	 * Resolves drop in the given group header slot.
-	 * 
+	 *
 	 * @param group      the table group
 	 * @param groupLevel the group level
 	 * @param layoutGH   the layout slot that maps the corresponding group header
@@ -118,8 +121,9 @@ class DropStrategy {
 
 	private void resolveDropInSlot(TableGroup group, int groupLevel, LayoutSlot layoutGH) {
 		ContainerSlot groupHeader = group.getSlot(IGroupElementModel.HEADER_SLOT);
-		if (groupHeader.getCount() < 1)
+		if (groupHeader.getCount() < 1) {
 			return;
+		}
 
 		int rowId = groupHeader.getCount() - 1;
 		TableRow row = (TableRow) groupHeader.getContent(rowId);
@@ -129,7 +133,7 @@ class DropStrategy {
 
 	/**
 	 * Resolves drop in the given row.
-	 * 
+	 *
 	 * @param row        the table row element
 	 * @param rowId      the 0-based row index
 	 * @param groupLevel the group level
@@ -146,7 +150,7 @@ class DropStrategy {
 
 	/**
 	 * Resolves drop for the given cell.
-	 * 
+	 *
 	 * @param cell       the cell element to resolve
 	 * @param rowId      the 0-based row index
 	 * @param groupLevel the group level
@@ -155,13 +159,15 @@ class DropStrategy {
 
 	private void resolveDropForCell(Cell cell, int rowId, int groupLevel, LayoutRow layoutRow) {
 		String drop = (String) cell.getLocalProperty(null, ICellModel.DROP_PROP);
-		if (drop == null || DesignChoiceConstants.DROP_TYPE_NONE.equalsIgnoreCase(drop))
+		if (drop == null || DesignChoiceConstants.DROP_TYPE_NONE.equalsIgnoreCase(drop)) {
 			return;
+		}
 
 		int colId = layoutRow.findCellColumnPos(cell) - 1;
 		LayoutCell original = layoutRow.getLayoutCell(colId);
-		if (!original.isCellStartPosition())
+		if (!original.isCellStartPosition()) {
 			return;
+		}
 
 		int colSpan = cell.getColSpan(layoutTable.getModule());
 		List layoutSlots = getSpanSlots(groupLevel, colId, colSpan, drop);
@@ -172,7 +178,7 @@ class DropStrategy {
 
 	/**
 	 * Returns layout rows that can be spanned by the "drop" of a cell element.
-	 * 
+	 *
 	 * @param groupLevel the 1-based group level
 	 * @param colId      the 0-based column index
 	 * @param colSpan    the column span
@@ -188,11 +194,13 @@ class DropStrategy {
 		LayoutGroupBand groups = layoutTable.getGroupHeaders();
 		for (int i = 0; i < groups.getGroupCount(); i++) {
 			LayoutSlot slot = groups.getLayoutSlot(i);
-			if (slot.getGroupLevel() <= groupLevel)
+			if (slot.getGroupLevel() <= groupLevel) {
 				continue;
+			}
 
-			if (isConflictArea(slot, colId, colSpan, true))
+			if (isConflictArea(slot, colId, colSpan, true)) {
 				return Collections.EMPTY_LIST;
+			}
 
 			layoutSlots.add(slot);
 		}
@@ -200,8 +208,9 @@ class DropStrategy {
 		// check the detail
 
 		LayoutSlot detail = layoutTable.getDetail();
-		if (isConflictArea(detail, colId, colSpan, false))
+		if (isConflictArea(detail, colId, colSpan, false)) {
 			return Collections.EMPTY_LIST;
+		}
 
 		layoutSlots.add(detail);
 
@@ -211,11 +220,13 @@ class DropStrategy {
 		if (DesignChoiceConstants.DROP_TYPE_ALL.equalsIgnoreCase(drop)) {
 			for (int i = 0; i < groups.getGroupCount(); i++) {
 				LayoutSlot slot = groups.getLayoutSlot(i);
-				if (slot.getGroupLevel() < groupLevel)
+				if (slot.getGroupLevel() < groupLevel) {
 					continue;
+				}
 
-				if (isConflictArea(slot, colId, colSpan, false))
+				if (isConflictArea(slot, colId, colSpan, false)) {
 					return Collections.EMPTY_LIST;
+				}
 
 				layoutSlots.add(slot);
 			}
@@ -227,7 +238,7 @@ class DropStrategy {
 	/**
 	 * Updates information of <code>LayoutCells</code>s that is used by the
 	 * <code>cell</code>. <code>rowSpanForDrop</code> is set in this method.
-	 * 
+	 *
 	 * @param row          the list containing layout rows that can be spanned by
 	 *                     "drop"
 	 * @param colId        the 0-based column index
@@ -237,8 +248,9 @@ class DropStrategy {
 
 	private void updateUsedLayoutCell(LayoutRow row, int colId, Cell cell, List spannedSlots) {
 		int rowSpanForDrop = 0;
-		for (int i = 0; i < spannedSlots.size(); i++)
+		for (int i = 0; i < spannedSlots.size(); i++) {
 			rowSpanForDrop += ((LayoutSlot) spannedSlots.get(i)).getRowCount();
+		}
 
 		for (int i = 0; i < cell.getColSpan(layoutTable.getModule()); i++) {
 			LayoutCell layoutCell = (LayoutCell) row.getLayoutCell(i + colId);
@@ -253,7 +265,7 @@ class DropStrategy {
 	/**
 	 * Updates information of <code>LayoutCells</code>s that is spanned by the
 	 * <code>cell</code>.
-	 * 
+	 *
 	 * @param layoutSlots slots that a drop cell can span into
 	 * @param colId       the 0-based column index
 	 * @param cell        the cell element
@@ -270,7 +282,7 @@ class DropStrategy {
 	/**
 	 * Checks whether the area in <code>slot</code> is good for "drop" spanned
 	 * effect or not.
-	 * 
+	 *
 	 * @param slot    the layout slot
 	 * @param colId   the 0-based column index
 	 * @param colSpan the 1-based column span
@@ -284,11 +296,9 @@ class DropStrategy {
 		List retValue = slot.checkOverlappedLayoutCells(0, colId, slot.getRowCount(), colSpan);
 		for (int i = 0; i < retValue.size(); i++) {
 			LayoutCell cell = (LayoutCell) retValue.get(i);
-			if (!cell.isEmptyContent())
+			if (!cell.isEmptyContent() || (inGH && cell.isDropSet())) {
 				return true;
-
-			if (inGH && cell.isDropSet())
-				return true;
+			}
 		}
 
 		return false;

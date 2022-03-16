@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ public class FormatFixedNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param category
 	 */
 	public FormatFixedNumPattern(String category) {
@@ -35,13 +38,14 @@ public class FormatFixedNumPattern extends FormatNumberPattern {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
 	 * #getPattern()
 	 */
+	@Override
 	public String getPattern() {
 		String numStr = "###0"; //$NON-NLS-1$
-		String decStr = ""; //$NON-NLS-1$
+		String decStr; //$NON-NLS-1$
 
 		String positivePatt = numStr;
 		String negativePatt = null;
@@ -84,10 +88,11 @@ public class FormatFixedNumPattern extends FormatNumberPattern {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
 	 * #setPattern(java.lang.String)
 	 */
+	@Override
 	public void setPattern(String patternStr) {
 		String patt = valPattern(patternStr);
 
@@ -101,22 +106,22 @@ public class FormatFixedNumPattern extends FormatNumberPattern {
 		{
 			this.decPlaces = patt.lastIndexOf("0") - patt.lastIndexOf("."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		return;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPattern
 	 * #getDefaultPatt()
 	 */
+	@Override
 	protected String getDefaultPatt() {
 		return DEFAULT_FIXED_PATTERN;
 	}
 
 	/**
 	 * Get DecPlaces
-	 * 
+	 *
 	 * @return Returns the decPlaces.
 	 */
 	public int getDecPlaces() {
@@ -125,7 +130,7 @@ public class FormatFixedNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Set DecPlaces
-	 * 
+	 *
 	 * @param decPlaces The decPlaces to set.
 	 */
 	public void setDecPlaces(int decPlaces) {
@@ -141,7 +146,7 @@ public class FormatFixedNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Set useSep
-	 * 
+	 *
 	 * @param useSep The useSep to set.
 	 */
 	public void setUseSep(boolean useSep) {
@@ -157,7 +162,7 @@ public class FormatFixedNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Set useBracket
-	 * 
+	 *
 	 * @param useBracket The useBracket to set.
 	 */
 	public void setUseBracket(boolean useBracket) {

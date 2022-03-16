@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -28,7 +30,7 @@ public class WebappAccessor {
 	/**
 	 * indicate whether startup application
 	 */
-	private static Vector<String> applicationsStarted = new Vector<String>();
+	private static Vector<String> applicationsStarted = new Vector<>();
 
 	/**
 	 * Startup web application on the server.
@@ -36,12 +38,13 @@ public class WebappAccessor {
 	 * It is assumed that webapp names are unique. It is suggested to create unique
 	 * web app names.
 	 * </p>
-	 * 
+	 *
 	 * @param webappName
 	 * @throws CoreException
-	 * 
+	 *
 	 * @deprecated use {@link #start(String, String)}
 	 */
+	@Deprecated
 	public synchronized static void start(String webappName) throws CoreException {
 		start(webappName, ViewerPlugin.PLUGIN_ID);
 	}
@@ -52,7 +55,7 @@ public class WebappAccessor {
 	 * It is assumed that webapp names are unique. It is suggested to create unique
 	 * web app names.
 	 * </p>
-	 * 
+	 *
 	 * @param webappName
 	 * @throws CoreException
 	 */
@@ -80,7 +83,7 @@ public class WebappAccessor {
 	 * It is assumed that webapp names are unique. It is suggested to create unique
 	 * web app names by prefixing them with the plugin id.
 	 * </p>
-	 * 
+	 *
 	 * @param webappName the name of the web app (also knowns as application
 	 *                   context)
 	 * @param pluginId   plugin that defines the webapp
@@ -88,13 +91,14 @@ public class WebappAccessor {
 	 * @deprecated
 	 * @exception CoreException
 	 */
+	@Deprecated
 	public synchronized static void start(String webappName, String pluginId, IPath path) throws CoreException {
 		start(webappName, pluginId);
 	}
 
 	/**
 	 * Stops the specified web application.
-	 * 
+	 *
 	 * @param webappName web application name
 	 * @exception CoreException
 	 */
@@ -126,7 +130,7 @@ public class WebappAccessor {
 
 	/**
 	 * Returns the port number the app server listens on.
-	 * 
+	 *
 	 * @return integer port number, 0 if server not started
 	 */
 	public static int getPort(String webappName) {
@@ -135,7 +139,7 @@ public class WebappAccessor {
 
 	/**
 	 * Returns the host name or ip the app server runs on.
-	 * 
+	 *
 	 * @return String representation of host name of IP, null if server not started
 	 *         yet
 	 */

@@ -1,9 +1,12 @@
 /**
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,7 @@ import org.eclipse.birt.report.model.core.Module;
 /**
  * Represents an object for copy/paste in Gird/Table. The copy/paste between
  * Grid/Table must follow the following rules:
- * 
+ *
  * <ul>
  * <li>Copy/paste operations must occur among the same type of elements, like
  * among grid elements. A copy/paste operation between Grid/Table is not
@@ -30,14 +33,14 @@ import org.eclipse.birt.report.model.core.Module;
  * <li>Slot layouts between the source grid/table and the target grid/table must
  * be same.
  * </ul>
- * 
+ *
  */
 
 abstract class ColumnBandAdapter {
 
 	/**
 	 * Returns the element where the copy/paste operation occurs.
-	 * 
+	 *
 	 * @return the element
 	 */
 
@@ -45,7 +48,7 @@ abstract class ColumnBandAdapter {
 
 	/**
 	 * Returns the module where the element belongs to.
-	 * 
+	 *
 	 * @return the module
 	 */
 
@@ -55,7 +58,7 @@ abstract class ColumnBandAdapter {
 
 	/**
 	 * Returns the column slot.
-	 * 
+	 *
 	 * @return the column slot
 	 */
 
@@ -63,14 +66,14 @@ abstract class ColumnBandAdapter {
 
 	/**
 	 * Returns the number of columns in the element.
-	 * 
+	 *
 	 * @return the number of columns in the element
 	 */
 
 	protected abstract int getColumnCount();
 
 	/**
-	 * 
+	 *
 	 */
 
 	ColumnBandAdapter() {
@@ -79,7 +82,7 @@ abstract class ColumnBandAdapter {
 	/**
 	 * Returns the column index that is the start column index of the
 	 * <code>target</code>.
-	 * 
+	 *
 	 * @param target the column to find
 	 * @return a column index
 	 */
@@ -99,7 +102,7 @@ abstract class ColumnBandAdapter {
 
 	/**
 	 * Returns the row with the given slot id, group id and the row number.
-	 * 
+	 *
 	 * @param slotId    the slot id
 	 * @param groupId   the group id
 	 * @param rowNumber the row number
@@ -110,7 +113,7 @@ abstract class ColumnBandAdapter {
 
 	/**
 	 * Returns the position where the cell resides in the row.
-	 * 
+	 *
 	 * @param row            the row handle
 	 * @param columnToInsert the column number to insert, count from 1
 	 * @param insert         whether insert mode
@@ -125,12 +128,11 @@ abstract class ColumnBandAdapter {
 			int cellPos = getCellPosition(cell);
 
 			// found the cell
-			if (columnToInsert == cellPos)
+			if (columnToInsert == cellPos) {
 				return insert ? (i + 1) : i;
-			// there was no corresponding cell on this row, should paste/insert
-			// on this position.
-			else if (columnToInsert < cellPos)
+			} else if (columnToInsert < cellPos) {
 				return i;
+			}
 		}
 
 		// not return yet, paste/insert to the end of this row.
@@ -139,7 +141,7 @@ abstract class ColumnBandAdapter {
 
 	/**
 	 * Returns the number of rows in the element.
-	 * 
+	 *
 	 * @return the number or rows in the element.
 	 */
 
@@ -149,7 +151,7 @@ abstract class ColumnBandAdapter {
 	 * Checks whether any cell in <code>cells</code> has a value of
 	 * <code>DesignChoiceConstants#DROP_TYPE_DETAIL</code> or
 	 * <code>DesignChoiceConstants#DROP_TYPE_ALL</code> for the "drop" property.
-	 * 
+	 *
 	 * @param cells a list containing cell handles
 	 * @return <code>true</code> if any cell has the "drop" property, otherwise
 	 *         <code>false</code>.
@@ -161,7 +163,7 @@ abstract class ColumnBandAdapter {
 
 	/**
 	 * Returns copied cells with the column number.
-	 * 
+	 *
 	 * @param columnNumber the column number
 	 * @return new cell instances
 	 */
@@ -173,8 +175,8 @@ abstract class ColumnBandAdapter {
 	/**
 	 * Returns copied cells with the column number regardless whether the current
 	 * position is where the cell element begins to span.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param columnNumber        the column number
 	 * @param mustBeStartPosition <code>true</code> if it is. Otherwise
 	 *                            <code>false</code>.
@@ -185,7 +187,7 @@ abstract class ColumnBandAdapter {
 
 	/**
 	 * Returns copied cells with the given slot and column number.
-	 * 
+	 *
 	 * @param handle              the slot
 	 * @param columnIndex         the column number
 	 * @param mustBeStartPosition <code>true</code> if it is. Otherwise
@@ -199,15 +201,16 @@ abstract class ColumnBandAdapter {
 		for (int i = 0; i < handle.getCount(); i++) {
 			RowHandle row = (RowHandle) handle.get(i);
 			CellHandle cell = getCellsInRow(row, columnIndex, mustBeStartPosition);
-			if (cell != null)
+			if (cell != null) {
 				retValue.add(cell);
+			}
 		}
 		return retValue;
 	}
 
 	/**
 	 * Returns the column number with a given cell.
-	 * 
+	 *
 	 * @param cell the cell to find.
 	 * @return the column number of the given cell.
 	 */
@@ -216,7 +219,7 @@ abstract class ColumnBandAdapter {
 
 	/**
 	 * Returns a copied cell with the given row and column number.
-	 * 
+	 *
 	 * @param row                 the row
 	 * @param columnIndex         the column number
 	 * @param mustBeStartPosition <code>true</code> if it is. Otherwise
@@ -231,12 +234,10 @@ abstract class ColumnBandAdapter {
 			CellHandle cell = (CellHandle) cells.get(i);
 			int cellColumnIndex = getCellPosition(cell);
 
-			if (cellColumnIndex == columnIndex)
+			if ((cellColumnIndex == columnIndex) || (!mustBeStartPosition && cellColumnIndex < columnIndex
+					&& cellColumnIndex + cell.getColumnSpan() >= columnIndex)) {
 				return cell;
-
-			if (!mustBeStartPosition && cellColumnIndex < columnIndex
-					&& cellColumnIndex + cell.getColumnSpan() >= columnIndex)
-				return cell;
+			}
 		}
 
 		return null;
@@ -244,7 +245,7 @@ abstract class ColumnBandAdapter {
 
 	/**
 	 * Returns a list containing rows.
-	 * 
+	 *
 	 * @return a list containing rows.
 	 */
 
@@ -252,7 +253,7 @@ abstract class ColumnBandAdapter {
 
 	/**
 	 * Checks element has parent or not.
-	 * 
+	 *
 	 * @return <code>true</code>if has parent, else return <code>false</code>
 	 */
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +39,7 @@ import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 /**
- * 
+ *
  */
 
 public class ClassFoldersSelectionDialog extends ElementTreeSelectionDialog {
@@ -70,6 +73,7 @@ public class ClassFoldersSelectionDialog extends ElementTreeSelectionDialog {
 
 	private static class ContentProvider implements ITreeContentProvider {
 
+		@Override
 		public Object[] getChildren(Object arg0) {
 			if (arg0 instanceof File) {
 				File f = (File) arg0;
@@ -78,10 +82,12 @@ public class ClassFoldersSelectionDialog extends ElementTreeSelectionDialog {
 			return null;
 		}
 
+		@Override
 		public Object getParent(Object arg0) {
 			return null;
 		}
 
+		@Override
 		public boolean hasChildren(Object arg0) {
 			if (arg0 instanceof File) {
 				File f = (File) arg0;
@@ -90,6 +96,7 @@ public class ClassFoldersSelectionDialog extends ElementTreeSelectionDialog {
 			return false;
 		}
 
+		@Override
 		public Object[] getElements(Object arg0) {
 			if (arg0 instanceof String) {
 				return new Object[] { new File((String) arg0) };
@@ -97,10 +104,12 @@ public class ClassFoldersSelectionDialog extends ElementTreeSelectionDialog {
 			return null;
 		}
 
+		@Override
 		public void dispose() {
 
 		}
 
+		@Override
 		public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
 
 		}
@@ -108,10 +117,12 @@ public class ClassFoldersSelectionDialog extends ElementTreeSelectionDialog {
 
 	private static class LabelProvider implements ILabelProvider {
 
+		@Override
 		public Image getImage(Object arg0) {
 			return IMG_FOLDER;
 		}
 
+		@Override
 		public String getText(Object arg0) {
 			if (arg0 instanceof File) {
 				File f = (File) arg0;
@@ -125,18 +136,22 @@ public class ClassFoldersSelectionDialog extends ElementTreeSelectionDialog {
 			return ""; //$NON-NLS-1$
 		}
 
+		@Override
 		public void addListener(ILabelProviderListener arg0) {
 
 		}
 
+		@Override
 		public void dispose() {
 
 		}
 
+		@Override
 		public boolean isLabelProperty(Object arg0, String arg1) {
 			return false;
 		}
 
+		@Override
 		public void removeListener(ILabelProviderListener arg0) {
 
 		}
@@ -145,6 +160,7 @@ public class ClassFoldersSelectionDialog extends ElementTreeSelectionDialog {
 
 	private static class SelectionValidator implements ISelectionStatusValidator {
 
+		@Override
 		public IStatus validate(Object[] selections) {
 			if (selections != null && selections.length > 0) {
 				return new Status(IStatus.OK, Activator.PLUGIN_ID, IStatus.OK, "", //$NON-NLS-1$
@@ -161,6 +177,7 @@ public class ClassFoldersSelectionDialog extends ElementTreeSelectionDialog {
 			return new File[0];
 		}
 		File[] result = f.listFiles(new FileFilter() {
+			@Override
 			public boolean accept(File child) {
 				return child.isDirectory();
 			}
@@ -172,7 +189,7 @@ public class ClassFoldersSelectionDialog extends ElementTreeSelectionDialog {
 	}
 
 	public String[] getSelectedItems() {
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		Object[] selected = this.getResult() == null ? new Object[0] : this.getResult();
 		for (Object o : selected) {
 			File f = (File) o;

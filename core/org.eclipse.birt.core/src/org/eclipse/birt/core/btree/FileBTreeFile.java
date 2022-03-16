@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,6 +30,7 @@ public class FileBTreeFile implements BTreeFile, Closeable {
 		this.totalBlock = (int) ((file.length() + BLOCK_SIZE - 1) / BLOCK_SIZE);
 	}
 
+	@Override
 	public void close() throws IOException {
 		if (file != null) {
 			try {
@@ -37,20 +41,24 @@ public class FileBTreeFile implements BTreeFile, Closeable {
 		}
 	}
 
+	@Override
 	public int allocBlock() throws IOException {
 		int blockId = totalBlock++;
 		file.setLength((long) blockId * BLOCK_SIZE);
 		return blockId;
 	}
 
+	@Override
 	public int getTotalBlock() throws IOException {
 		return totalBlock;
 	}
 
+	@Override
 	public Object lock() throws IOException {
 		return this;
 	}
 
+	@Override
 	public void readBlock(int blockId, byte[] bytes) throws IOException {
 		file.seek((long) blockId * BLOCK_SIZE);
 		int readSize = bytes.length;
@@ -60,9 +68,11 @@ public class FileBTreeFile implements BTreeFile, Closeable {
 		file.read(bytes, 0, readSize);
 	}
 
+	@Override
 	public void unlock(Object lock) throws IOException {
 	}
 
+	@Override
 	public void writeBlock(int blockId, byte[] bytes) throws IOException {
 		int writeSize = bytes.length;
 		if (writeSize > BLOCK_SIZE) {

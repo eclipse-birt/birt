@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -40,6 +40,8 @@ import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
+import org.eclipse.birt.report.engine.internal.util.DataProtocolUtil;
+import org.eclipse.birt.report.engine.internal.util.DataProtocolUtil.DataUrlInfo;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.util.FileUtil;
@@ -302,7 +304,7 @@ import org.w3c.dom.css.CSSValue;
  * <li>display</li>
  * <li>visibility</li>
  * </ul>
- * 
+ *
  * Supported css shorthand as following
  * <table border=1>
  * <tr>
@@ -414,7 +416,7 @@ public class HTML2Content implements HTMLConstants {
 
 	}
 
-	protected static char[] listChar = new char[] { '\u2022', '\u25E6', '\u25AA' };
+	protected static char[] listChar = { '\u2022', '\u25E6', '\u25AA' };
 
 	public static char getListChar(int nestCount) {
 		if (nestCount <= 2) {
@@ -477,12 +479,12 @@ public class HTML2Content implements HTMLConstants {
 
 	/**
 	 * Visits the children nodes of the specific node
-	 * 
+	 *
 	 * @param ele        the specific node
 	 * @param needEscape the flag indicating the content needs escaping
 	 * @param cssStyles
 	 * @param content    the parent content of the element
-	 * 
+	 *
 	 */
 	static void processNodes(Element ele, Map cssStyles, IContent content, ActionContent action, int nestCount) {
 		int level = 0;
@@ -499,7 +501,6 @@ public class HTML2Content implements HTMLConstants {
 				}
 			} else if (node.getNodeName().equals(TAG_SCRIPT)) // $NON-NLS-1$
 			{
-				continue;
 			} else if (node.getNodeType() == Node.TEXT_NODE) {
 				ILabelContent label = createLabel(node.getNodeValue(), content);
 				if (action != null) {
@@ -598,13 +599,15 @@ public class HTML2Content implements HTMLConstants {
 			}
 			Object value = cssStyles.get(ele.getParentNode()).getProperty(LIST_STYLE_TYPE);
 			String styleType = "";
-			if (value != null)
+			if (value != null) {
 				styleType = value.toString();
+			}
 			if (ele.getParentNode().getNodeName().equals(TAG_OL) && !nestList) // $NON-NLS-1$
 			{
 				// set default style type to the <ol> tag;
-				if ("".equals(styleType))
+				if ("".equals(styleType)) {
 					styleType = BulletFrame.CSS_LISTSTYLETYPE_DECIMAL;
+				}
 				BulletFrame frame = new BulletFrame(styleType);
 				// index mean the order in the list
 				text.setText(frame.paintBullet(index) + "."); //$NON-NLS-1$
@@ -628,7 +631,7 @@ public class HTML2Content implements HTMLConstants {
 			processNodes(ele, cssStyles, childCell, action, nestCount + 1);
 		}
 
-		else if (lTagName.equals(TAG_DD) || lTagName.equals(TAG_DT)) // $NON-NLS-1$ //$NON-NLS-2$
+		else if (lTagName.equals(TAG_DD) || lTagName.equals(TAG_DT)) // $NON-NLS-1$
 		{
 			IContainerContent container = content.getReportContent().createContainerContent();
 			addChild(content, container);
@@ -673,23 +676,8 @@ public class HTML2Content implements HTMLConstants {
 	}
 
 	/**
-	 * Checks if the content inside the DOM should be escaped.
-	 * 
-	 * @param doc the root of the DOM tree
-	 * @return true if the content needs escaping, otherwise false.
-	 */
-	private static boolean checkEscapeSpace(Node doc) {
-		String textType = null;
-		if (doc != null && doc.getFirstChild() != null && doc.getFirstChild() instanceof Element) {
-			textType = ((Element) doc.getFirstChild()).getAttribute("text-type"); //$NON-NLS-1$
-			return (!TextParser.TEXT_TYPE_HTML.equalsIgnoreCase(textType));
-		}
-		return true;
-	}
-
-	/**
 	 * Outputs the A element
-	 * 
+	 *
 	 * @param ele the A element instance
 	 */
 	protected static ActionContent handleAnchor(Element ele, IContent content, ActionContent defaultAction) {
@@ -743,7 +731,7 @@ public class HTML2Content implements HTMLConstants {
 
 	/**
 	 * Outputs the embed content. Currently only support flash.
-	 * 
+	 *
 	 * @param ele
 	 * @param cssStyles
 	 * @param content
@@ -757,7 +745,7 @@ public class HTML2Content implements HTMLConstants {
 
 	/**
 	 * Outputs the flash.
-	 * 
+	 *
 	 * @param ele
 	 * @param cssStyles
 	 * @param content
@@ -807,11 +795,11 @@ public class HTML2Content implements HTMLConstants {
 				flash.setHeight(foreign.getHeight());
 			}
 
-			if (flashVars != null && !"".equals(flashVars)) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			if (flashVars != null && !"".equals(flashVars)) //$NON-NLS-1$
 			{
 				flash.addParam("FlashVars", flashVars); //$NON-NLS-1$
 			}
-			if (alt == null) // $NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			if (alt == null) // $NON-NLS-1$
 			{
 				alt = ele.getAttribute(PROPERTY_ALT);
 			}
@@ -824,18 +812,19 @@ public class HTML2Content implements HTMLConstants {
 	private static IForeignContent getForeignRoot(IContent content) {
 		while (!(content instanceof IForeignContent)) {
 			content = (IContent) content.getParent();
-			if (content == null)
+			if (content == null) {
 				return null;
+			}
 		}
 		return (IForeignContent) content;
 	}
 
 	/**
 	 * Outputs the image
-	 * 
+	 *
 	 * @param ele the IMG element instance
 	 */
-	protected static void outputImg(Element ele, Map cssStyles, IContent content) {
+	protected static void outputImg(Element ele, Map<Element, StyleProperties> cssStyles, IContent content) {
 		String src = ele.getAttribute("src"); //$NON-NLS-1$
 		if (src != null) {
 			IImageContent image = content.getReportContent().createImageContent();
@@ -844,6 +833,11 @@ public class HTML2Content implements HTMLConstants {
 
 			if (!FileUtil.isLocalResource(src)) {
 				image.setImageSource(IImageContent.IMAGE_URL);
+				image.setURI(src);
+			} else if (src.startsWith(DataProtocolUtil.DATA_PROTOCOL)) {
+				DataUrlInfo parseDataUrl = DataProtocolUtil.parseDataUrl(src);
+				image.setImageSource(IImageContent.IMAGE_URL);
+				image.setMIMEType(parseDataUrl.getMediaType());
 				image.setURI(src);
 			} else {
 				ReportDesignHandle handle = content.getReportContent().getDesign().getReportDesign();
@@ -857,17 +851,17 @@ public class HTML2Content implements HTMLConstants {
 				image.setURI(src);
 			}
 
-			if (null != ele.getAttribute(PROPERTY_WIDTH) && !"".equals(ele.getAttribute(PROPERTY_WIDTH))) //$NON-NLS-1$ //$NON-NLS-2$
+			if (null != ele.getAttribute(PROPERTY_WIDTH) && !"".equals(ele.getAttribute(PROPERTY_WIDTH))) //$NON-NLS-1$
 																											// //$NON-NLS-3$
 			{
 				image.setWidth(PropertyUtil.getDimensionAttribute(ele, PROPERTY_WIDTH)); // $NON-NLS-1$
 			}
-			if (ele.getAttribute(PROPERTY_HEIGHT) != null && !"".equals(ele.getAttribute(PROPERTY_HEIGHT))) //$NON-NLS-1$ //$NON-NLS-2$
+			if (ele.getAttribute(PROPERTY_HEIGHT) != null && !"".equals(ele.getAttribute(PROPERTY_HEIGHT))) //$NON-NLS-1$
 																											// //$NON-NLS-3$
 			{
 				image.setHeight(PropertyUtil.getDimensionAttribute(ele, PROPERTY_HEIGHT)); // $NON-NLS-1$
 			}
-			if (ele.getAttribute(PROPERTY_ALT) != null && !"".equals(ele.getAttribute(PROPERTY_ALT))) //$NON-NLS-1$ //$NON-NLS-2$
+			if (ele.getAttribute(PROPERTY_ALT) != null && !"".equals(ele.getAttribute(PROPERTY_ALT))) //$NON-NLS-1$
 																										// //$NON-NLS-3$
 			{
 				image.setAltText(ele.getAttribute(PROPERTY_ALT)); // $NON-NLS-1$
@@ -912,10 +906,8 @@ public class HTML2Content implements HTMLConstants {
 						clonedStyle.setProperty(IStyle.STYLE_DISPLAY, CSSValueConstants.BLOCK_VALUE);
 						clonedBlock.setInlineStyle(clonedStyle);
 						clonedBlock.getChildren().add(child);
-					} else {
-						if (!isContainer) {
-							contentChildren.add(child);
-						}
+					} else if (!isContainer) {
+						contentChildren.add(child);
 					}
 				} else {
 					iter.remove();

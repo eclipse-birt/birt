@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,70 +26,70 @@ import org.eclipse.swt.graphics.Image;
 public interface IExpressionProvider {
 
 	/** The operator separator */
-	public static final Operator OPERATOR_SEPARATOR = new Operator("operatorSeparator", null); //$NON-NLS-1$
+	Operator OPERATOR_SEPARATOR = new Operator("operatorSeparator", null); //$NON-NLS-1$
 
 	/**
 	 * Returns the operators which show on the operator bar.
-	 * 
+	 *
 	 * @return an array of operators, or null there is no operator bar.
 	 */
 
-	public Operator[] getOperators();
+	Operator[] getOperators();
 
 	/**
 	 * Returns the elements for category.
-	 * 
+	 *
 	 * @return an array of elements for category.
 	 */
 
-	public Object[] getCategory();
+	Object[] getCategory();
 
 	/**
 	 * Returns the elements to show in the next list with the given input element.
-	 * 
+	 *
 	 * @param parentElement the parent element
-	 * 
+	 *
 	 * @return an array of child elements
 	 */
 
-	public Object[] getChildren(Object parentElement);
+	Object[] getChildren(Object parentElement);
 
 	/**
 	 * Returns the image for the given element.
-	 * 
+	 *
 	 * @param element the given element
-	 * 
+	 *
 	 * @return Image or null if there is no image for the given element
 	 */
-	public Image getImage(Object element);
+	Image getImage(Object element);
 
 	/**
 	 * Returns the display text for the given element.
-	 * 
+	 *
 	 * @param element the given element
-	 * 
+	 *
 	 * @return String or null if there is no display text for the given element
 	 */
-	public String getDisplayText(Object element);
+	String getDisplayText(Object element);
 
 	/**
 	 * Returns the tooltip text for the given element.
-	 * 
+	 *
 	 * @param element the given element
-	 * 
+	 *
 	 * @return String or null if there is no tooltip text for the given element
 	 */
-	public String getTooltipText(Object element);
+	String getTooltipText(Object element);
 
 	/**
 	 * Returns the text to insert into the source editor when the given element is
 	 * double-clicked.
-	 * 
+	 *
 	 * @param element the given element
-	 * 
+	 *
 	 * @return String or null if there is no text to insert for the given element
 	 */
-	public String getInsertText(Object element);
+	String getInsertText(Object element);
 
-	public boolean hasChildren(Object element);
+	boolean hasChildren(Object element);
 }

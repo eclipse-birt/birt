@@ -1,13 +1,25 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 //import org.eclipse.birt.report.tests.chart.acceptance.AllAcceptanceTests;
 import org.eclipse.birt.report.tests.chart.regression.AllRegressionTests;
 //import org.eclipse.birt.report.tests.chart.smoke.AllSmokeTests;
 import org.eclipse.birt.report.tests.chart.test.imageCompare;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  *
@@ -29,11 +41,11 @@ public class AllTests {
 		// produce the image compare html
 		suite.addTestSuite(imageCompare.class);
 
-//		
+//
 		return suite;
 		/*
 		 * AreaChart_3D st1 = new AreaChart_3D( );
-		 * 
+		 *
 		 * OverlayAreaChart_2D st3 = new OverlayAreaChart_2D( );
 		 * OverlayAreaChart_2DWithDepth st4 = new OverlayAreaChart_2DWithDepth( );
 		 * OverlayLineChart_2D st5 = new OverlayLineChart_2D( );

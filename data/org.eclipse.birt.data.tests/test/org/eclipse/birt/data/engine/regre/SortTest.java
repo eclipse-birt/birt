@@ -1,25 +1,28 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.regre;
 
+import static org.junit.Assert.fail;
+
 import org.eclipse.birt.data.engine.api.APITestCase;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.junit.Test;
 
 import testutil.ConfigText;
-
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * SCR#78081: Sorting on Date time column doesn't take effect
@@ -29,6 +32,7 @@ public class SortTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestDataCalls.TableName"),
 				ConfigText.getString("Api.TestDataCalls.TableSQL"), "testSort.txt");
@@ -57,10 +61,11 @@ public class SortTest extends APITestCase {
 			IResultIterator ri = executeQuery(qd);
 			while (ri.next()) {
 				Object ob = ri.getValue("NAME");
-				if (ob == null)
+				if (ob == null) {
 					testPrintln("null");
-				else
+				} else {
 					testPrintln(ob.toString());
+				}
 			}
 			ri.close();
 

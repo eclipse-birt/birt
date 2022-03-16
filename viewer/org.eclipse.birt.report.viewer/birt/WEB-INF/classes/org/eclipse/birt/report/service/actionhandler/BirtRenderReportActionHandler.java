@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -32,7 +34,7 @@ public class BirtRenderReportActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param context
 	 * @param operation
 	 */
@@ -45,10 +47,11 @@ public class BirtRenderReportActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Local execution.
-	 * 
+	 *
 	 * @exception ReportServiceException
 	 * @return
 	 */
+	@Override
 	public void __execute() throws Exception {
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
 		assert attrBean != null;
@@ -60,6 +63,7 @@ public class BirtRenderReportActionHandler extends AbstractBaseActionHandler {
 		getReportService().renderReport(docName, attrBean.getReportPage(), attrBean.getReportPageRange(), options, os);
 	}
 
+	@Override
 	protected IViewerReportService getReportService() {
 		return BirtReportServiceFactory.getReportService();
 	}

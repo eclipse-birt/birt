@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -46,7 +58,7 @@ public interface Angle3D extends IChartObject {
 	 * should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>XAngle</em>' attribute.
 	 * @see #isSetXAngle()
 	 * @see #unsetXAngle()
@@ -63,7 +75,7 @@ public interface Angle3D extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Angle3D#getXAngle
 	 * <em>XAngle</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>XAngle</em>' attribute.
 	 * @see #isSetXAngle()
 	 * @see #unsetXAngle()
@@ -76,7 +88,7 @@ public interface Angle3D extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Angle3D#getXAngle
 	 * <em>XAngle</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetXAngle()
 	 * @see #getXAngle()
 	 * @see #setXAngle(double)
@@ -89,7 +101,7 @@ public interface Angle3D extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Angle3D#getXAngle
 	 * <em>XAngle</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>XAngle</em>' attribute is set.
 	 * @see #unsetXAngle()
 	 * @see #getXAngle()
@@ -106,7 +118,7 @@ public interface Angle3D extends IChartObject {
 	 * should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>YAngle</em>' attribute.
 	 * @see #isSetYAngle()
 	 * @see #unsetYAngle()
@@ -123,7 +135,7 @@ public interface Angle3D extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Angle3D#getYAngle
 	 * <em>YAngle</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>YAngle</em>' attribute.
 	 * @see #isSetYAngle()
 	 * @see #unsetYAngle()
@@ -136,7 +148,7 @@ public interface Angle3D extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Angle3D#getYAngle
 	 * <em>YAngle</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetYAngle()
 	 * @see #getYAngle()
 	 * @see #setYAngle(double)
@@ -149,7 +161,7 @@ public interface Angle3D extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Angle3D#getYAngle
 	 * <em>YAngle</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>YAngle</em>' attribute is set.
 	 * @see #unsetYAngle()
 	 * @see #getYAngle()
@@ -166,7 +178,7 @@ public interface Angle3D extends IChartObject {
 	 * should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>ZAngle</em>' attribute.
 	 * @see #isSetZAngle()
 	 * @see #unsetZAngle()
@@ -183,7 +195,7 @@ public interface Angle3D extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Angle3D#getZAngle
 	 * <em>ZAngle</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>ZAngle</em>' attribute.
 	 * @see #isSetZAngle()
 	 * @see #unsetZAngle()
@@ -196,7 +208,7 @@ public interface Angle3D extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Angle3D#getZAngle
 	 * <em>ZAngle</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetZAngle()
 	 * @see #getZAngle()
 	 * @see #setZAngle(double)
@@ -209,7 +221,7 @@ public interface Angle3D extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Angle3D#getZAngle
 	 * <em>ZAngle</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>ZAngle</em>' attribute is set.
 	 * @see #unsetZAngle()
 	 * @see #getZAngle()
@@ -231,9 +243,9 @@ public interface Angle3D extends IChartObject {
 	 * will the angle values be used. It can be X, Y, Z or None, which indicate that
 	 * the angle value is devoted to representing an angle corresponding to x,y or z
 	 * axis or a 3D angle.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Type</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.AngleType
 	 * @see #isSetType()
@@ -250,7 +262,7 @@ public interface Angle3D extends IChartObject {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Angle3D#getType
 	 * <em>Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Type</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.AngleType
 	 * @see #isSetType()
@@ -264,7 +276,7 @@ public interface Angle3D extends IChartObject {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.Angle3D#getType
 	 * <em>Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetType()
 	 * @see #getType()
 	 * @see #setType(AngleType)
@@ -277,7 +289,7 @@ public interface Angle3D extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Angle3D#getType
 	 * <em>Type</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Type</em>' attribute is set.
 	 * @see #unsetType()
 	 * @see #getType()
@@ -288,7 +300,7 @@ public interface Angle3D extends IChartObject {
 
 	/**
 	 * Sets the x,y,z angle in one punch.
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @param z
@@ -298,7 +310,7 @@ public interface Angle3D extends IChartObject {
 	/**
 	 * Returns the specific axis angle value if axis type specified, or just returns
 	 * Zero.
-	 * 
+	 *
 	 * @return
 	 */
 	double getAxisAngle();
@@ -306,6 +318,7 @@ public interface Angle3D extends IChartObject {
 	/**
 	 * @generated
 	 */
+	@Override
 	Angle3D copyInstance();
 
 } // Angle3D

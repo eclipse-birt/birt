@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
@@ -22,6 +34,7 @@ public abstract class AbstractFormHandleProvider extends AbstractDescriptorProvi
 
 	protected Object input;
 
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 
@@ -31,13 +44,16 @@ public abstract class AbstractFormHandleProvider extends AbstractDescriptorProvi
 		return input;
 	}
 
+	@Override
 	public boolean isEnable() {
-		if (isReadOnly)
+		if (isReadOnly) {
 			return false;
-		if (DEUtil.getInputSize(input) != 1)
+		}
+		if (DEUtil.getInputSize(input) != 1) {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	}
 
 	private boolean isReadOnly = true;
@@ -50,6 +66,7 @@ public abstract class AbstractFormHandleProvider extends AbstractDescriptorProvi
 		return isReadOnly;
 	}
 
+	@Override
 	public boolean isEditable() {
 		return true;
 	}
@@ -115,10 +132,11 @@ public abstract class AbstractFormHandleProvider extends AbstractDescriptorProvi
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
 		 * java.lang.Object)
 		 */
+		@Override
 		public Object[] getElements(Object inputElement) {
 			assert provider instanceof AbstractFormHandleProvider;
 			Object[] elements = ((AbstractFormHandleProvider) provider).getElements(inputElement);
@@ -129,12 +147,14 @@ public abstract class AbstractFormHandleProvider extends AbstractDescriptorProvi
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
+		@Override
 		public void dispose() {
-			if (!(((IFormProvider) provider) instanceof GroupHandleProvider))
+			if (!(((IFormProvider) provider) instanceof GroupHandleProvider)) {
 				return;
+			}
 
 			Object[] elements = ((IFormProvider) provider).getElements(input);
 
@@ -146,75 +166,91 @@ public abstract class AbstractFormHandleProvider extends AbstractDescriptorProvi
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
 		protected void deRegisterEventManager() {
-			if (UIUtil.getModelEventManager() != null)
+			if (UIUtil.getModelEventManager() != null) {
 				UIUtil.getModelEventManager().removeModelEventProcessor(listener);
+			}
 		}
 
 		/**
 		 * Registers model change listener to DE elements.
 		 */
 		protected void registerEventManager() {
-			if (UIUtil.getModelEventManager() != null)
+			if (UIUtil.getModelEventManager() != null) {
 				UIUtil.getModelEventManager().addModelEventProcessor(listener);
+			}
 		}
 	}
 
+	@Override
 	public Object load() {
 		return null;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 
 	}
 
+	@Override
 	public boolean isAddEnable(Object selectedObject) {
 		return true;
 	}
 
+	@Override
 	public boolean isEditEnable(Object selectedObject) {
 		return true;
 	}
 
+	@Override
 	public boolean isDeleteEnable(Object selectedObject) {
 		return true;
 	}
 
+	@Override
 	public boolean isUpEnable(Object selectedObject) {
 		return true;
 	}
 
+	@Override
 	public boolean isDownEnable(Object selectedObject) {
 		return true;
 	}
 
+	@Override
 	public boolean needRebuilded(NotificationEvent event) {
 		return false;
 	}
 
+	@Override
 	public boolean doMoveItem(int oldPos, int newPos) throws Exception {
 		return false;
 	}
 
+	@Override
 	public Image getImage(Object element, int columnIndex) {
 		return null;
 	}
 
+	@Override
 	public boolean modify(Object data, String property, Object value) throws Exception {
 		return false;
 	}
 
+	@Override
 	public boolean needRefreshed(NotificationEvent event) {
 		return false;
 	}
 
+	@Override
 	public boolean canModify(Object element, String property) {
 		return false;
 	}

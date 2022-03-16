@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,15 +27,18 @@ public class MongoDBDataSourcePropertyPage extends DefaultDataSourcePropertyPage
 		super();
 	}
 
+	@Override
 	protected void createAndInitCustomControl(Composite parent, Properties profileProps) {
 		pageHelper = new MongoDBDataSourcePageHelper(this);
 		pageHelper.createPageControls(parent);
 		pageHelper.initPageControls(profileProps);
 	}
 
+	@Override
 	protected void refresh(Properties customConnectionProps) {
-		if (pageHelper != null)
+		if (pageHelper != null) {
 			pageHelper.initPageControls(customConnectionProps);
+		}
 
 		// enable/disable all controls on page based on the editable session state
 		boolean isSessionEditable = isSessionEditable();
@@ -43,9 +49,11 @@ public class MongoDBDataSourcePropertyPage extends DefaultDataSourcePropertyPage
 		}
 	}
 
+	@Override
 	public Properties collectCustomProperties(Properties profileProps) {
-		if (pageHelper == null)
+		if (pageHelper == null) {
 			return profileProps;
+		}
 
 		if (isSessionEditable()) {
 			return pageHelper.collectCustomProperties(profileProps);

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -67,7 +70,7 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle
 	 */
 	public AddMeasureViewHandleAction(DesignElementHandle handle) {
@@ -82,6 +85,7 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction {
 		setImageDescriptor(ImageDescriptor.createFromImage(image));
 	}
 
+	@Override
 	public boolean isEnabled() {
 		CubeHandle cubeHandle = measureViewHandle.getCrosstab().getCube();
 		if (cubeHandle == null) {
@@ -103,16 +107,17 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
+	@Override
 	public void run() {
 		transStar(ACTION_MSG_MERGE);
 		try {
 			CrosstabReportItemHandle reportHandle = measureViewHandle.getCrosstab();
 			ShowSummaryFieldDialog dialog = new ShowSummaryFieldDialog(UIUtil.getDefaultShell(), reportHandle);
 			List list = getDimensionHandles();
-			List<MeasureInfo> input = new ArrayList<MeasureInfo>();
+			List<MeasureInfo> input = new ArrayList<>();
 			for (int i = 0; i < list.size(); i++) {
 				MeasureHandle handle = (MeasureHandle) list.get(i);
 				MeasureInfo info = new MeasureInfo();
@@ -189,10 +194,6 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction {
 		return ret;
 	}
 
-	private MeasureViewHandle findMeasureViewHandle(MeasureHandle measure) {
-		return measureViewHandle.getCrosstab().getMeasure(measure.getQualifiedName());
-	}
-
 	private boolean processor(List list, List result, boolean doChange) throws SemanticException {
 		initializeProviders();
 
@@ -204,7 +205,7 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction {
 			MeasureInfo originalOne = getOriMeasureInfo(resultOne, list);
 			if (resultOne.isShow() == originalOne.isShow()) {
 				MeasureInfo info = (MeasureInfo) result.get(i);
-				if (info.isShow() == true && info.getExpectedView() != null && info.getExpectedView().length() != 0) {
+				if (info.isShow() && info.getExpectedView() != null && info.getExpectedView().length() != 0) {
 					// MeasureViewHandle handle = findMeasureViewHandle(
 					// info.getMeasure( ) );
 					// updateShowStatus( handle, info );

@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -32,11 +34,12 @@ public class ReportExamplesView extends ViewPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	public void createPartControl(Composite parent) {
 		instance = new ReportExamples(parent);
 		registerActions();
@@ -45,10 +48,12 @@ public class ReportExamplesView extends ViewPart {
 
 	private void createContextMenus() {
 		SampleContextMenuProvider menuManager = new SampleContextMenuProvider(ReportExamplesView.this);
-		if (exportAction != null)
+		if (exportAction != null) {
 			menuManager.addAction(exportAction);
-		if (importAction != null)
+		}
+		if (importAction != null) {
 			menuManager.addAction((Action) importAction);
+		}
 		Menu menu = menuManager.createContextMenu(instance.getTreeViewer().getControl());
 		instance.getTreeViewer().getControl().setMenu(menu);
 	}
@@ -80,9 +85,10 @@ public class ReportExamplesView extends ViewPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
+	@Override
 	public void setFocus() {
 		instance.setFocus();
 	}
@@ -90,6 +96,7 @@ public class ReportExamplesView extends ViewPart {
 	/**
 	 * Called when the View is to be disposed
 	 */
+	@Override
 	public void dispose() {
 		instance.dispose();
 		instance = null;

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,17 +48,17 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
- * 
+ *
  */
 
 public class SubTotalProvider extends AbstractFormHandleProvider {
 	protected static final Logger logger = Logger.getLogger(SubTotalProvider.class.getName());
 
 	private CellEditor[] editors;
-	private String[] columnNames = new String[] { Messages.getString("CrosstabSubToatalProvider.Column.AggregateOn"), //$NON-NLS-1$
+	private String[] columnNames = { Messages.getString("CrosstabSubToatalProvider.Column.AggregateOn"), //$NON-NLS-1$
 			Messages.getString("CrosstabSubToatalProvider.Column.DataField"), };
 
-	private int[] columnWidths = new int[] { 160, 160, 200 };
+	private int[] columnWidths = { 160, 160, 200 };
 
 	private int axis;
 
@@ -65,10 +68,11 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IFormProvider#canModify(java.lang.Object, java.lang.String)
 	 */
+	@Override
 	public boolean canModify(Object element, String property) {
 		// TODO Auto-generated method stub
 		return false;
@@ -76,10 +80,11 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IFormProvider#doAddItem(int)
 	 */
+	@Override
 	public boolean doAddItem(int pos) throws Exception {
 		// TODO Auto-generated method stub
 		CrosstabReportItemHandle reportHandle = null;
@@ -98,10 +103,11 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IFormProvider#doDeleteItem(int)
 	 */
+	@Override
 	public boolean doDeleteItem(int pos) throws Exception {
 		// TODO Auto-generated method stub
 		SubTotalInfo subTotalInfo = (SubTotalInfo) getElements(input)[pos];
@@ -133,22 +139,25 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 			ExceptionUtil.handle(e);
 			return false;
 		}
-		if (crossTab == null)
+		if (crossTab == null) {
 			return false;
+		}
 
-		if (CrosstabUtil.isAggregationAffectAllMeasures(crossTab, axis))
+		if (CrosstabUtil.isAggregationAffectAllMeasures(crossTab, axis)) {
 			levelViewHandle.removeSubTotal();
-		else
+		} else {
 			levelViewHandle.removeSubTotal(measureIndex);
+		}
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IFormProvider#doEditItem(int)
 	 */
+	@Override
 	public boolean doEditItem(int pos) {
 		// TODO Auto-generated method stub
 		CrosstabReportItemHandle reportHandle = null;
@@ -168,10 +177,11 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IFormProvider#doMoveItem(int, int)
 	 */
+	@Override
 	public boolean doMoveItem(int oldPos, int newPos) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
@@ -179,10 +189,11 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IFormProvider#getColumnNames()
 	 */
+	@Override
 	public String[] getColumnNames() {
 		// TODO Auto-generated method stub
 		return columnNames;
@@ -190,10 +201,11 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IFormProvider#getColumnText(java.lang.Object, int)
 	 */
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
 		SubTotalInfo info = (SubTotalInfo) element;
@@ -204,8 +216,9 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 			return info.measureName == null ? "" : info.measureName; //$NON-NLS-1$
 
 		case 2:
-			if (info.function == null || info.function.trim().equals("")) //$NON-NLS-1$
+			if (info.function == null || info.function.trim().equals("")) { //$NON-NLS-1$
 				info.function = getFunctionNames()[0];
+			}
 			return getFunctionDisplayName(info.function);
 		default:
 			break;
@@ -215,10 +228,11 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IFormProvider#getColumnWidths()
 	 */
+	@Override
 	public int[] getColumnWidths() {
 		// TODO Auto-generated method stub
 		return columnWidths;
@@ -226,10 +240,11 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IFormProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
+	@Override
 	public CellEditor[] getEditors(Table table) {
 		// TODO Auto-generated method stub
 		if (editors == null) {
@@ -243,10 +258,11 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IFormProvider#getElements(java.lang.Object)
 	 */
+	@Override
 	public Object[] getElements(Object inputElement) {
 		// TODO Auto-generated method stub
 		input = inputElement;
@@ -258,8 +274,9 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 		}
 
 		List list = new ArrayList();
-		if (!(obj instanceof ExtendedItemHandle))
+		if (!(obj instanceof ExtendedItemHandle)) {
 			return new Object[0];
+		}
 		ExtendedItemHandle element = (ExtendedItemHandle) obj;
 		CrosstabReportItemHandle crossTab = null;
 		try {
@@ -348,10 +365,11 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IFormProvider#getImagePath(java.lang.Object, int)
 	 */
+	@Override
 	public Image getImage(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
 		return null;
@@ -359,10 +377,11 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IFormProvider#getValue(java.lang.Object, java.lang.String)
 	 */
+	@Override
 	public Object getValue(Object element, String property) {
 		// TODO Auto-generated method stub
 		return null;
@@ -370,10 +389,11 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IFormProvider#modify(java.lang.Object, java.lang.String, java.lang.Object)
 	 */
+	@Override
 	public boolean modify(Object data, String property, Object value) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
@@ -381,11 +401,12 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IFormProvider#needRefreshed(org.eclipse.birt.report.model.api.activity.
 	 * NotificationEvent)
 	 */
+	@Override
 	public boolean needRefreshed(NotificationEvent event) {
 		if (event instanceof ContentEvent || event instanceof PropertyEvent) {
 			return true;
@@ -395,10 +416,11 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IDescriptorProvider#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
 		return Messages.getString("CrosstabPageGenerator.List.SubTotals"); //$NON-NLS-1$
@@ -406,8 +428,9 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	public String[] getFunctionNames() {
 		IChoice[] choices = getFunctions();
-		if (choices == null)
+		if (choices == null) {
 			return new String[0];
+		}
 
 		String[] displayNames = new String[choices.length];
 		for (int i = 0; i < choices.length; i++) {
@@ -446,6 +469,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 
 	}
 
+	@Override
 	public boolean isAddEnable(Object selectedObject) {
 		return isAddEnable();
 	}
@@ -459,19 +483,22 @@ public class SubTotalProvider extends AbstractFormHandleProvider {
 			ExceptionUtil.handle(e);
 			return false;
 		}
-		if (crossTab == null)
+		if (crossTab == null) {
 			return false;
+		}
 		CrosstabViewHandle crosstabView = crossTab.getCrosstabView(axis);
-		if ((getAllLevelCount(crossTab) - 1) * getMeasureCount(crossTab) - getLevel(crosstabView).size() > 0)
+		if ((getAllLevelCount(crossTab) - 1) * getMeasureCount(crossTab) - getLevel(crosstabView).size() > 0) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	private int getAllLevelCount(CrosstabReportItemHandle crosstab) {
 		CrosstabViewHandle crosstabView = crosstab.getCrosstabView(axis);
-		if (crosstabView == null)
+		if (crosstabView == null) {
 			return 0;
+		}
 		int dimCount = crosstabView.getDimensionCount();
 		int result = 0;
 		for (int i = 0; i < dimCount; i++) {

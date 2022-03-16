@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.utility;
 
@@ -21,12 +33,12 @@ public class UrlUtility {
 
 	/**
 	 * Makes an URI string based on the given parameters.
-	 * 
+	 *
 	 * @param parameters map of parameters to values (must be String)
 	 * @return URI string
 	 */
 	public static String makeUriString(Map parameters) {
-		StringBuffer output = new StringBuffer();
+		StringBuilder output = new StringBuilder();
 
 		for (Iterator i = parameters.entrySet().iterator(); i.hasNext();) {
 			Map.Entry entry = (Map.Entry) i.next();
@@ -48,7 +60,7 @@ public class UrlUtility {
 
 	/**
 	 * Extracts the URI parameters from the given URI string into a Map.
-	 * 
+	 *
 	 * @param uriString URI string to decode
 	 * @return map of URI parameters
 	 */
@@ -87,7 +99,7 @@ public class UrlUtility {
 
 	/**
 	 * Decodes the url parameter value
-	 * 
+	 *
 	 * @param s string to decode
 	 * @return
 	 */
@@ -103,7 +115,7 @@ public class UrlUtility {
 
 	/**
 	 * Encode the url parameter value
-	 * 
+	 *
 	 * @param s string to encode
 	 * @return
 	 */
@@ -120,7 +132,7 @@ public class UrlUtility {
 
 	/**
 	 * Encode the url parameter value
-	 * 
+	 *
 	 * @param plain
 	 * @return
 	 */
@@ -134,7 +146,7 @@ public class UrlUtility {
 	/**
 	 * Extracts the base URL from the given URL by stripping the query and anchor
 	 * part.
-	 * 
+	 *
 	 * @param url URL
 	 * @return URL without the query part
 	 */
@@ -154,7 +166,7 @@ public class UrlUtility {
 
 	/**
 	 * Returns the anchor value of the given URL.
-	 * 
+	 *
 	 * @param url URL
 	 * @return anchor value, or null if none was defined
 	 */
@@ -170,7 +182,7 @@ public class UrlUtility {
 
 	/**
 	 * Builds an URL.
-	 * 
+	 *
 	 * @param baseUrl     base URL
 	 * @param queryParams query parameters
 	 * @param anchor      anchor
@@ -178,7 +190,7 @@ public class UrlUtility {
 	 */
 	public static String buildUrl(String baseUrl, Map queryParams, String anchor) {
 		// Save the URL String
-		StringBuffer url = new StringBuffer();
+		StringBuilder url = new StringBuilder();
 		url.append(baseUrl);
 		if (queryParams != null && !queryParams.isEmpty()) {
 			url.append(QUERY_CHAR);

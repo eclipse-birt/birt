@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +32,7 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
 
 /**
- * 
+ *
  */
 
 public class ShowDragInfomationProcessor {
@@ -58,6 +61,7 @@ public class ShowDragInfomationProcessor {
 		if (labelFigure == null) {
 			labelFigure = new Label();
 			labelFigure.setBorder(new MarginBorder(new Insets(0, 3, 0, 0)) {
+				@Override
 				public void paint(IFigure figure, Graphics graphics, Insets insets) {
 					tempRect.setBounds(getPaintRectangle(figure, insets));
 					if (getWidth() % 2 != 0) {
@@ -100,8 +104,9 @@ public class ShowDragInfomationProcessor {
 	public void removeLabelFigue() {
 		if (labelFigure != null) {
 			LayerManager lm = (LayerManager) editpart.getViewer().getEditPartRegistry().get(LayerManager.ID);
-			if (lm == null)
+			if (lm == null) {
 				return;
+			}
 			lm.getLayer(LayerConstants.FEEDBACK_LAYER).remove(labelFigure);
 			labelFigure = null;
 		}
@@ -165,8 +170,9 @@ public class ShowDragInfomationProcessor {
 
 	protected void addFeedback(IFigure figure) {
 		LayerManager lm = (LayerManager) editpart.getViewer().getEditPartRegistry().get(LayerManager.ID);
-		if (lm == null)
+		if (lm == null) {
 			return;
+		}
 		lm.getLayer(LayerConstants.FEEDBACK_LAYER).add(figure);
 	}
 }

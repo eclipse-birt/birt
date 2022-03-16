@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -39,7 +42,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * Connection implements IConnection interface of ODA. It is a wrapper of JDBC
  * Connection.
- * 
+ *
  */
 public class Connection implements IConnection {
 	/** The JDBC Connection instance. */
@@ -59,6 +62,7 @@ public class Connection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
 	 */
+	@Override
 	public boolean isOpen() throws OdaException {
 		return (jdbcConn != null);
 	}
@@ -67,6 +71,7 @@ public class Connection implements IConnection {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#open(java.util.Properties)
 	 */
+	@Override
 	public void open(Properties connProperties) throws OdaException {
 		if (this.appContext != null) {
 			Object value = this.appContext.get(IConnectionFactory.PASS_IN_CONNECTION);
@@ -83,16 +88,16 @@ public class Connection implements IConnection {
 		}
 		// Log connection information
 		if (logger.isLoggable(Level.FINE)) {
-			StringBuffer logMsg = new StringBuffer("Connection.open(Properties). connProperties = "); //$NON-NLS-1$
+			StringBuilder logMsg = new StringBuilder("Connection.open(Properties). connProperties = "); //$NON-NLS-1$
 			for (Enumeration enumeration = connProperties.propertyNames(); enumeration.hasMoreElements();) {
 				String propName = (String) enumeration.nextElement();
 				// Don't log value of any property that looks like a password
 				String lcPropName = propName.toLowerCase();
 				String propVal;
 				if (lcPropName.indexOf("password") >= 0 //$NON-NLS-1$
-						|| lcPropName.indexOf("pwd") >= 0) //$NON-NLS-1$
+						|| lcPropName.indexOf("pwd") >= 0) {
 					propVal = "***"; //$NON-NLS-1$
-				else {
+				} else {
 					propVal = connProperties.getProperty(propName);
 					if (lcPropName.equals("odaurl")) //$NON-NLS-1$
 					{
@@ -147,20 +152,22 @@ public class Connection implements IConnection {
 
 	private boolean hasBidiProperties(Properties connProperties) {
 		if ((connProperties.containsKey(BidiConstants.CONTENT_FORMAT_PROP_NAME))
-				|| (connProperties.containsKey(BidiConstants.METADATA_FORMAT_PROP_NAME)))
+				|| (connProperties.containsKey(BidiConstants.METADATA_FORMAT_PROP_NAME))) {
 			return true;
+		}
 		return false;
 	}
 
 	private void updateAppContext(Properties connProperties) {
-		if (appContext == null)
+		if (appContext == null) {
 			appContext = new HashMap();
+		}
 		appContext.put(Constants.CONNECTION_PROPERTIES_STR, connProperties);
 	}
 
 	/**
 	 * Opens a JDBC connection using the specified url and connection properties
-	 * 
+	 *
 	 * @param connProperies
 	 */
 	protected void connectByUrl(String url, Properties connProperties) throws OdaException {
@@ -200,8 +207,9 @@ public class Connection implements IConnection {
 						+ " Message:" + e1.getLocalizedMessage());
 				// First try to identify the authorization info. 28000 is xOpen standard for
 				// login failure
-				if ("28000".equals(e1.getSQLState()))
+				if ("28000".equals(e1.getSQLState())) {
 					throw new JDBCException(ResourceConstants.CONN_CANNOT_GET, e1);
+				}
 			} else {
 				logger.log(Level.SEVERE, "JDBC connection throws exception: " + e.getLocalizedMessage());
 			}
@@ -221,39 +229,37 @@ public class Connection implements IConnection {
 
 	private void populateConnectionProp() throws SQLException {
 		if (jdbcConn != null) {
-			if (this.autoCommit != null)
+			if (this.autoCommit != null) {
 				jdbcConn.setAutoCommit(this.autoCommit);
-			else {
-				if (DBConfig.getInstance().qualifyPolicy(jdbcConn.getMetaData().getDriverName(),
-						DBConfig.SET_COMMIT_TO_FALSE)) {
-					this.autoCommit = false;
-					jdbcConn.setAutoCommit(false);
-				}
+			} else if (DBConfig.getInstance().qualifyPolicy(jdbcConn.getMetaData().getDriverName(),
+					DBConfig.SET_COMMIT_TO_FALSE)) {
+				this.autoCommit = false;
+				jdbcConn.setAutoCommit(false);
 			}
-			if (this.isolationMode != Constants.TRANSCATION_ISOLATION_DEFAULT)
+			if (this.isolationMode != Constants.TRANSCATION_ISOLATION_DEFAULT) {
 				jdbcConn.setTransactionIsolation(this.isolationMode);
+			}
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	protected Collection<String> getDriverClassPath() {
-		if (this.appContext == null)
+		if ((this.appContext == null) || (this.appContext.get(IConnectionFactory.DRIVER_CLASSPATH) == null)) {
 			return null;
-
-		if (this.appContext.get(IConnectionFactory.DRIVER_CLASSPATH) == null)
-			return null;
+		}
 
 		Object classPath = this.appContext.get(IConnectionFactory.DRIVER_CLASSPATH);
 
 		if (classPath instanceof String) {
-			ArrayList<String> result = new ArrayList<String>();
+			ArrayList<String> result = new ArrayList<>();
 			result.add(classPath.toString());
 			return result;
 		} else if (classPath instanceof Collection) {
-			ArrayList<String> result = new ArrayList<String>();
+			ArrayList<String> result = new ArrayList<>();
 			for (Object aClassPath : (Collection) classPath) {
-				if (aClassPath != null)
+				if (aClassPath != null) {
 					result.add(aClassPath.toString());
+				}
 			}
 			return result;
 		}
@@ -266,6 +272,7 @@ public class Connection implements IConnection {
 	 * org.eclipse.datatools.connectivity.oda.IConnection#getMetaData(java.lang.
 	 * String)
 	 */
+	@Override
 	public IDataSetMetaData getMetaData(String dataSetType) throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, Connection.class.getName(), "getMetaData",
 				"Connection.getMetaData(" + dataSetType + ")");
@@ -285,23 +292,26 @@ public class Connection implements IConnection {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#newQuery(java.lang.String)
 	 */
+	@Override
 	public IQuery newQuery(String dataSourceType) throws OdaException {
 		logger.logp(java.util.logging.Level.FINER, Connection.class.getName(), "createStatement",
 				"Connection.createStatement(" + dataSourceType + ")");
 
 		// only one data source type, ignoring the argument.
 		assertOpened();
-		if (dataSourceType != null && dataSourceType.equalsIgnoreCase(advancedDataType))
+		if (dataSourceType != null && dataSourceType.equalsIgnoreCase(advancedDataType)) {
 			return createCallStatement(jdbcConn);
-		else
+		} else {
 			return createStatement(jdbcConn);
+		}
 	}
 
 	private IQuery createCallStatement(java.sql.Connection jdbcConn2) throws OdaException {
 		if ((appContext != null) && (appContext.get(Constants.CONNECTION_PROPERTIES_STR) != null)) {
 			Properties props = (Properties) appContext.get(Constants.CONNECTION_PROPERTIES_STR);
-			if (hasBidiProperties(props))
+			if (hasBidiProperties(props)) {
 				return new BidiCallStatement(jdbcConn, props);
+			}
 		}
 		return new CallStatement(jdbcConn);
 	}
@@ -309,8 +319,9 @@ public class Connection implements IConnection {
 	protected IQuery createStatement(java.sql.Connection jdbcConn) throws OdaException {
 		if ((appContext != null) && (appContext.get(Constants.CONNECTION_PROPERTIES_STR) != null)) {
 			Properties props = (Properties) appContext.get(Constants.CONNECTION_PROPERTIES_STR);
-			if (hasBidiProperties(props))
+			if (hasBidiProperties(props)) {
 				return new BidiStatement(jdbcConn, props);
+			}
 		}
 		return new Statement(jdbcConn);
 	}
@@ -318,6 +329,7 @@ public class Connection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#commit()
 	 */
+	@Override
 	public void commit() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, Connection.class.getName(), "commit", "Connection.commit()");
 		assertOpened();
@@ -331,6 +343,7 @@ public class Connection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#rollback()
 	 */
+	@Override
 	public void rollback() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, Connection.class.getName(), "rollback", "Connection.rollback()");
 		assertOpened();
@@ -344,18 +357,20 @@ public class Connection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#getMaxQueries()
 	 */
+	@Override
 	public int getMaxQueries() throws OdaException {
 		if (jdbcConn != null) {
 			try {
 				DatabaseMetaData dbMetadata = jdbcConn.getMetaData();
 				int maxstmts = dbMetadata.getMaxStatements();
 				int maxconns = dbMetadata.getMaxConnections();
-				if (maxstmts == 0 && maxconns == 0)
+				if (maxstmts == 0 && maxconns == 0) {
 					return 0;
-				else if (maxconns == 0 || maxstmts < maxconns)
+				} else if (maxconns == 0 || maxstmts < maxconns) {
 					return 1;
-				else
+				} else {
 					return maxstmts / maxconns;
+				}
 			} catch (SQLException e) {
 				return 1;
 			}
@@ -367,6 +382,7 @@ public class Connection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#close()
 	 */
+	@Override
 	public void close() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, Connection.class.getName(), "close", //$NON-NLS-1$
 				"Connection closed."); //$NON-NLS-1$
@@ -377,11 +393,12 @@ public class Connection implements IConnection {
 			if (this.appContext != null && jdbcConn != null) {
 				Object option = this.appContext.get(IConnectionFactory.CLOSE_PASS_IN_CONNECTION);
 				boolean closePassInConnection = (option instanceof Boolean) ? ((Boolean) option).booleanValue() : true;
-				if (!closePassInConnection)
+				if (!closePassInConnection) {
 					return;
+				}
 			}
 
-			if (jdbcConn.isClosed() == false) {
+			if (!jdbcConn.isClosed()) {
 				// if the policy DBConfig.SET_COMMIT_TO_FALSE is used, which sets autocommit to
 				// false by default
 				if (!jdbcConn.getAutoCommit() && DBConfig.getInstance()
@@ -399,8 +416,9 @@ public class Connection implements IConnection {
 		} catch (SQLException e) {
 			try {
 				if (DBConfig.getInstance().qualifyPolicy(jdbcConn.getMetaData().getDriverName(),
-						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION))
+						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION)) {
 					return;
+				}
 				if (this.autoCommit == Boolean.FALSE && DBConfig.getInstance()
 						.qualifyPolicy(jdbcConn.getMetaData().getDriverName(), DBConfig.TRY_COMMIT_THEN_CLOSE)) {
 					jdbcConn.commit();
@@ -420,14 +438,16 @@ public class Connection implements IConnection {
 	 * org.eclipse.datatools.connectivity.oda.IConnection#setAppContext(java.lang.
 	 * Object)
 	 */
+	@Override
 	public void setAppContext(Object context) throws OdaException {
-		if (context instanceof Map)
+		if (context instanceof Map) {
 			this.appContext = (Map) context;
+		}
 	}
 
 	/**
 	 * Returns the application context Map set by {@link #setAppContext(Object)}.
-	 * 
+	 *
 	 * @return the application context Map; may be null if none was set
 	 * @since 3.7.2
 	 */
@@ -437,7 +457,7 @@ public class Connection implements IConnection {
 
 	/**
 	 * Assert the connection is opened.
-	 * 
+	 *
 	 * @throws JDBCException
 	 */
 	private void assertOpened() throws OdaException {
@@ -448,11 +468,12 @@ public class Connection implements IConnection {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#setLocale(com.ibm.icu.util
 	 * .ULocale)
 	 */
+	@Override
 	public void setLocale(ULocale locale) throws OdaException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
@@ -464,8 +485,9 @@ public class Connection implements IConnection {
 		}
 		Properties p = new Properties();
 		String metadataBidiFormatStr = connectionProperties.getProperty(BidiConstants.METADATA_FORMAT_PROP_NAME);
-		if (!BidiFormat.isValidBidiFormat(metadataBidiFormatStr))
+		if (!BidiFormat.isValidBidiFormat(metadataBidiFormatStr)) {
 			return connectionProperties;
+		}
 
 		for (Enumeration enumeration = connectionProperties.propertyNames(); enumeration.hasMoreElements();) {
 			String propName = (String) enumeration.nextElement();
@@ -505,16 +527,21 @@ public class Connection implements IConnection {
 		public static final String ODACurrentOpenConnection = "odaJDBCCurrentOpenConnection";
 
 		public static int getIsolationMode(String value) {
-			if (value == null)
+			if (value == null) {
 				return TRANSCATION_ISOLATION_DEFAULT;
-			if (TRANSACTION_READ_COMMITTED.equals(value))
+			}
+			if (TRANSACTION_READ_COMMITTED.equals(value)) {
 				return java.sql.Connection.TRANSACTION_READ_COMMITTED;
-			if (TRANSACTION_READ_UNCOMMITTED.equals(value))
+			}
+			if (TRANSACTION_READ_UNCOMMITTED.equals(value)) {
 				return java.sql.Connection.TRANSACTION_READ_UNCOMMITTED;
-			if (TRANSACTION_REPEATABLE_READ.equals(value))
+			}
+			if (TRANSACTION_REPEATABLE_READ.equals(value)) {
 				return java.sql.Connection.TRANSACTION_REPEATABLE_READ;
-			if (TRANSACTION_SERIALIZABLE.equals(value))
+			}
+			if (TRANSACTION_SERIALIZABLE.equals(value)) {
 				return java.sql.Connection.TRANSACTION_SERIALIZABLE;
+			}
 			return Integer.parseInt(value);
 		}
 	}

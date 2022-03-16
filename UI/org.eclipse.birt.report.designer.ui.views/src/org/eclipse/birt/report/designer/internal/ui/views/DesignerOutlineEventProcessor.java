@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,11 +38,12 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * GraphicsViewModelEventProcessor#createModelEventInfoFactory()
 	 */
+	@Override
 	protected IModelEventInfoFactory createModelEventInfoFactory() {
 		return new OutlineModelEventInfoFactory();
 	}
@@ -51,20 +55,22 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 
 		/*
 		 * Creat the report runnable for the DesignerOutline.
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 		 * GraphicsViewModelEventProcessor.ModelEventInfoFactory#createModelEventInfo(
 		 * org.eclipse.birt.report.model.api.DesignElementHandle,
 		 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
+		@Override
 		public IModelEventInfo createModelEventInfo(DesignElementHandle focus, NotificationEvent ev) {
 			switch (ev.getEventType()) {
 			case NotificationEvent.CONTENT_EVENT: {
-				if (ev instanceof ContentEvent && ((ContentEvent) ev).getAction() == ContentEvent.ADD)
+				if (ev instanceof ContentEvent && ((ContentEvent) ev).getAction() == ContentEvent.ADD) {
 					return new OutlineContentModelEventInfo(focus, ev);
-				else
+				} else {
 					return new RefreshModelEventInfo(focus, ev);
+				}
 			}
 			default: {
 				return new RefreshModelEventInfo(focus, ev);
@@ -75,11 +81,12 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * GraphicsViewModelEventProcessor#includeEventType(int)
 	 */
+	@Override
 	protected boolean includeEventType(int type) {
 		return true;
 	}
@@ -114,13 +121,14 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 		 * GraphicsViewModelEventProcessor.ModelEventInfo#canAcceptModelEvent(org.
 		 * eclipse.birt.report.model.api.DesignElementHandle,
 		 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
+		@Override
 		public boolean canAcceptModelEvent(IModelEventInfo info) {
 			if (!(info instanceof OutlineContentModelEventInfo) || getContentActionType() != ContentEvent.ADD) {
 				return false;
@@ -175,18 +183,20 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 		 * GraphicsViewModelEventProcessor.ModelEventInfo#canAcceptModelEvent(org.
 		 * eclipse.birt.report.model.api.DesignElementHandle,
 		 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
+		@Override
 		public boolean canAcceptModelEvent(IModelEventInfo info) {
 			return info.getType() != NotificationEvent.CONTENT_EVENT;
 		}
 	}
 
+	@Override
 	public boolean isOverdued() {
 		return getFactory().isDispose();
 	}

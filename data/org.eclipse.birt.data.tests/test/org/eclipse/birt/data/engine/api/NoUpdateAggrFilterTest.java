@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,14 +28,12 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.junit.Test;
 
 import testutil.ConfigText;
 
-import org.junit.Test;
-
 public class NoUpdateAggrFilterTest extends APITestCase {
-	private DataEngine dte;
-
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestNoUpdateFilter.TableName"),
 				ConfigText.getString("Api.TestNoUpdateFilter.TableSQL"),
@@ -98,8 +99,7 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 
 		FilterDefinition f1 = new FilterDefinition(new ScriptExpression("row[\"AMOUNT\"] > 10"), false);
 		query.addFilter(f1);
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumAll" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumAll" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -130,8 +130,7 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 
 		FilterDefinition f1 = new FilterDefinition(new ScriptExpression("row[\"CountG3\"] > 1"), false);
 		query.addFilter(f1);
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumAll" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumAll" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -170,8 +169,8 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 		FilterDefinition f1 = new FilterDefinition(new ScriptExpression("row[\"TopN\"] == false"), false);
 		query.addFilter(f1);
 
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumAll", "TopN" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumAll",
+				"TopN" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -216,8 +215,8 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 		FilterDefinition f3 = new FilterDefinition(new ScriptExpression("row[\"ID\"] > 15"), false);
 		query.addFilter(f3);
 
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumAll", "TopN" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumAll",
+				"TopN" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -265,8 +264,8 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 		FilterDefinition f4 = new FilterDefinition(new ScriptExpression("row[\"CountG3\"] < 1"), false);
 		query.addFilter(f4);
 
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumAll", "TopN" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumAll",
+				"TopN" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -300,8 +299,7 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 				new ConditionalExpression("row[\"AMOUNT\"]", IConditionalExpression.OP_TOP_N, "1"), false);
 		query.addFilter(f1);
 
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumCity" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumCity" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -342,8 +340,7 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 				new ConditionalExpression("row[\"COUNTRY\"]", IConditionalExpression.OP_IN, operandList), false);
 		query.addFilter(f2);
 
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumCity" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumCity" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -411,8 +408,8 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 		e9.addArgument(new ScriptExpression("1"));
 		query.addBinding(e9);
 
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumAll", "TopN" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumAll",
+				"TopN" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -480,8 +477,8 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 		e9.addArgument(new ScriptExpression("1"));
 		query.addBinding(e9);
 
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumAll", "TopN" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumAll",
+				"TopN" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -548,8 +545,8 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 		e9.addArgument(new ScriptExpression("1"));
 		query.addBinding(e9);
 
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumAll", "TopN" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumAll",
+				"TopN" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -615,8 +612,8 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 		e9.addArgument(new ScriptExpression("1"));
 		query.addBinding(e9);
 
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumAll", "TopN" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumAll",
+				"TopN" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -683,8 +680,8 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 		e9.addArgument(new ScriptExpression("1"));
 		query.addBinding(e9);
 
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumAll", "TopN" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumAll",
+				"TopN" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -755,8 +752,8 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 				new ConditionalExpression("row[\"AMOUNT\"]", IConditionalExpression.OP_TOP_N, "3"), false);
 		query.addFilter(f1);
 
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumAll", "TopN" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumAll",
+				"TopN" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -833,8 +830,8 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 				new ConditionalExpression("row[\"TopN\"]", IConditionalExpression.OP_TRUE), false);
 		query.addFilter(f2);
 
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumAll", "TopN" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumAll",
+				"TopN" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -903,8 +900,8 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 		e9.addArgument(new ScriptExpression("1"));
 		query.addBinding(e9);
 
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumAll", "TopN" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumAll",
+				"TopN" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -973,8 +970,8 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 		e9.addArgument(new ScriptExpression("1"));
 		query.addBinding(e9);
 
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumAll", "TopN" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumAll",
+				"TopN" };
 
 		outputQueryResult(executeQuery(query), exprs);
 		checkOutputFile();
@@ -995,8 +992,7 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 		dte.defineDataSource(this.dataSource);
 		dte.defineDataSet(this.dataSet);
 
-		String[] exprs = new String[] { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3",
-				"SumAll" };
+		String[] exprs = { "ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumAll" };
 
 		QueryDefinition query = getIVQueryDefn();
 		FilterDefinition f1 = new FilterDefinition(new ScriptExpression("row[\"CountG3\"] > 1"), false);
@@ -1083,19 +1079,20 @@ public class NoUpdateAggrFilterTest extends APITestCase {
 	private boolean consolePrint = true;
 
 	private void iteratorQueryResult(IQueryResults queryResults, String[] exprs) throws Exception {
-		if (consolePrint)
+		if (consolePrint) {
 			System.out.println("####### Temporary query result #######");
+		}
 
 		IResultIterator itr = queryResults.getResultIterator();
 		while (itr.next()) {
-			if (!consolePrint)
+			if (!consolePrint) {
 				continue;
+			}
 
 			for (int i = 0; i < exprs.length; i++) {
 				System.out.print(evalAsString(exprs[i], itr));
 				System.out.print("    ");
 			}
-			;
 			System.out.println();
 		}
 		itr.close();

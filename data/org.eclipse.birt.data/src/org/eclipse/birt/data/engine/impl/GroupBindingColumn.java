@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ *
  */
 public class GroupBindingColumn {
 	//
@@ -30,7 +33,7 @@ public class GroupBindingColumn {
 	private static Logger logger = Logger.getLogger(GroupBindingColumn.class.getName());
 
 	/**
-	 * 
+	 *
 	 * @param bindings
 	 * @param groupLevel
 	 */
@@ -45,7 +48,7 @@ public class GroupBindingColumn {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	String getGroupKey() {
@@ -53,7 +56,7 @@ public class GroupBindingColumn {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int getGroupLevel() {
@@ -61,7 +64,7 @@ public class GroupBindingColumn {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Set getColumnNames() {
@@ -69,23 +72,25 @@ public class GroupBindingColumn {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 * @throws DataException
 	 */
 	public IBaseExpression getExpression(String name) throws DataException {
-		if (this.bindings.containsKey(name))
+		if (this.bindings.containsKey(name)) {
 			return ((IBinding) this.bindings.get(name)).getExpression();
-		else
+		} else {
 			return null;
+		}
 	}
 
 	public IBinding getBinding(String name) throws DataException {
-		if (this.bindings.containsKey(name))
+		if (this.bindings.containsKey(name)) {
 			return ((IBinding) this.bindings.get(name));
-		else
+		} else {
 			return null;
+		}
 	}
 
 }

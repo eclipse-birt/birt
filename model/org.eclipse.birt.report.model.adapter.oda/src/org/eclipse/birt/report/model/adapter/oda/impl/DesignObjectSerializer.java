@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,21 +32,22 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 
 /**
  * The utility class to serialize EMF objects to string.
- * 
+ *
  */
 
 public class DesignObjectSerializer {
 
 	/**
 	 * Constructs a string representation of this EMF object.
-	 * 
+	 *
 	 * @param eObject the EMF object
 	 * @return a string
 	 */
 
 	public static String toExternalForm(EObject eObject) {
-		if (eObject == null)
+		if (eObject == null) {
 			return null;
+		}
 
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 

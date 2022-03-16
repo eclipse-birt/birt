@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,10 +28,11 @@ public class Cell extends DesignElement implements ICell {
 	/**
 	 * Returns the cell's column span. This is the number of table or grid columns
 	 * occupied by this cell.
-	 * 
+	 *
 	 * @return the column span
 	 */
 
+	@Override
 	public int getColumnSpan() {
 		return ((CellHandle) handle).getColumnSpan();
 	}
@@ -36,10 +40,11 @@ public class Cell extends DesignElement implements ICell {
 	/**
 	 * Returns the cell's row span. This is the number of table or grid rows
 	 * occupied by this cell.
-	 * 
+	 *
 	 * @return the row span
 	 */
 
+	@Override
 	public int getRowSpan() {
 		return ((CellHandle) handle).getRowSpan();
 	}
@@ -48,11 +53,12 @@ public class Cell extends DesignElement implements ICell {
 	 * Returns the cell's drop property. This is how the cell should expand to fill
 	 * the entire table or group. This property is valid only for cells within a
 	 * table; but not for cells within a grid.
-	 * 
+	 *
 	 * @return the string value of the drop property
 	 * @see #setDrop(String)
 	 */
 
+	@Override
 	public String getDrop() {
 		return ((CellHandle) handle).getDrop();
 	}
@@ -60,26 +66,27 @@ public class Cell extends DesignElement implements ICell {
 	/**
 	 * Sets the cell's drop property. The input value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li>DROP_TYPE_NONE</li>
 	 * <li>DROP_TYPE_DETAIL</li>
 	 * <li>DROP_TYPE_ALL</li>
 	 * </ul>
-	 * 
+	 *
 	 * <p>
-	 * 
+	 *
 	 * Note that This property is valid only for cells within a table; but not for
 	 * cells within a grid.
-	 * 
+	 *
 	 * @param drop the string value of the drop property
-	 * 
+	 *
 	 * @throws SemanticException if the property is locked or the input value is not
 	 *                           one of the above.
-	 * 
+	 *
 	 * @see #getDrop()
 	 */
 
+	@Override
 	public void setDrop(String drop) throws SemanticException {
 		setProperty(ICellModel.DROP_PROP, drop);
 
@@ -88,10 +95,11 @@ public class Cell extends DesignElement implements ICell {
 	/**
 	 * Returns the cell's column property. The return value gives the column in
 	 * which the cell starts. Columns are numbered from 1.
-	 * 
+	 *
 	 * @return the column index, starting from 1.
 	 */
 
+	@Override
 	public int getColumn() {
 		return ((CellHandle) handle).getColumn();
 	}
@@ -99,12 +107,13 @@ public class Cell extends DesignElement implements ICell {
 	/**
 	 * Sets the cell's column property. The input value gives the column in which
 	 * the cell starts. Columns are numbered from 1.
-	 * 
+	 *
 	 * @param column the column index, starting from 1.
-	 * 
+	 *
 	 * @throws SemanticException if this property is locked.
 	 */
 
+	@Override
 	public void setColumn(int column) throws SemanticException {
 		setProperty(ICellModel.COLUMN_PROP, Integer.valueOf(column));
 
@@ -112,30 +121,33 @@ public class Cell extends DesignElement implements ICell {
 
 	/**
 	 * Returns the cell's height.
-	 * 
+	 *
 	 * @return the cell's height
 	 */
 
+	@Override
 	public String getHeight() {
 		return ((CellHandle) handle).getHeight().getStringValue();
 	}
 
 	/**
 	 * Returns the cell's width.
-	 * 
+	 *
 	 * @return the cell's width
 	 */
 
+	@Override
 	public String getWidth() {
 		return ((CellHandle) handle).getWidth().getStringValue();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#getAntidiagonalNumber
 	 * ()
 	 */
+	@Override
 	public int getAntidiagonalNumber() {
 
 		return ((CellHandle) handle).getAntidiagonalNumber();
@@ -143,10 +155,11 @@ public class Cell extends DesignElement implements ICell {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#getAntidiagonalStyle()
 	 */
+	@Override
 	public String getAntidiagonalStyle() {
 
 		return ((CellHandle) handle).getAntidiagonalStyle();
@@ -154,9 +167,10 @@ public class Cell extends DesignElement implements ICell {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#getDiagonalNumber()
 	 */
+	@Override
 	public int getDiagonalNumber() {
 
 		return ((CellHandle) handle).getDiagonalNumber();
@@ -164,9 +178,10 @@ public class Cell extends DesignElement implements ICell {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#getDiagonalStyle()
 	 */
+	@Override
 	public String getDiagonalStyle() {
 
 		return ((CellHandle) handle).getDiagonalStyle();
@@ -174,10 +189,11 @@ public class Cell extends DesignElement implements ICell {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#setAntidiagonalNumber
 	 * (int)
 	 */
+	@Override
 	public void setAntidiagonalNumber(int antidiagonalNumber) throws SemanticException {
 		setProperty(ICellModel.ANTIDIAGONAL_NUMBER_PROP, Integer.valueOf(antidiagonalNumber));
 
@@ -185,10 +201,11 @@ public class Cell extends DesignElement implements ICell {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#setAntidiagonalStyle
 	 * (java.lang.String)
 	 */
+	@Override
 	public void setAntidiagonalStyle(String antidiagonalStyle) throws SemanticException {
 		setProperty(ICellModel.ANTIDIAGONAL_STYLE_PROP, antidiagonalStyle);
 
@@ -196,10 +213,11 @@ public class Cell extends DesignElement implements ICell {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setDiagonalNumber(int)
 	 */
+	@Override
 	public void setDiagonalNumber(int diagonalNumber) throws SemanticException {
 		setProperty(ICellModel.DIAGONAL_NUMBER_PROP, Integer.valueOf(diagonalNumber));
 
@@ -207,10 +225,11 @@ public class Cell extends DesignElement implements ICell {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#setDiagonalStyle(java
 	 * .lang.String)
 	 */
+	@Override
 	public void setDiagonalStyle(String lineStyle) throws SemanticException {
 		setProperty(ICellModel.DIAGONAL_STYLE_PROP, lineStyle);
 
@@ -218,11 +237,12 @@ public class Cell extends DesignElement implements ICell {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#getAntidiagonalThickness
 	 * ()
 	 */
+	@Override
 	public String getAntidiagonalThickness() {
 		return ((CellHandle) handle).getAntidiagonalThickness().getStringValue();
 
@@ -230,31 +250,34 @@ public class Cell extends DesignElement implements ICell {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#getDiagonalThickness()
 	 */
+	@Override
 	public String getDiagonalThickness() {
 		return ((CellHandle) handle).getDiagonalThickness().getStringValue();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setAntidiagonalThickness
 	 * (java.lang.String)
 	 */
+	@Override
 	public void setAntidiagonalThickness(String thickness) throws SemanticException {
 		setProperty(ICellModel.ANTIDIAGONAL_THICKNESS_PROP, thickness);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#setDiagonalThickness
 	 * (java.lang.String)
 	 */
+	@Override
 	public void setDiagonalThickness(String thickness) throws SemanticException {
 		setProperty(ICellModel.DIAGONAL_THICKNESS_PROP, thickness);
 

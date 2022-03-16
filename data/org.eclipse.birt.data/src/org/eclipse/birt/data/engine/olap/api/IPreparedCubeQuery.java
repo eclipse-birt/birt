@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,31 +28,32 @@ import org.mozilla.javascript.Scriptable;
 public interface IPreparedCubeQuery extends IBasePreparedQuery {
 	/**
 	 * Return the CubeCursor as defined by ICubeQueryDefinition.
-	 * 
+	 *
 	 * @param scope
 	 * @return
 	 * @throws DataException
 	 * @deprecated
 	 */
-	public ICubeQueryResults execute(Scriptable scope) throws DataException;
+	@Deprecated
+	ICubeQueryResults execute(Scriptable scope) throws DataException;
 
 	/**
 	 * Return the query definition which is used to generate current
 	 * IPreparedCubeQuery instance.
-	 * 
+	 *
 	 * @return
 	 */
-	public IBaseCubeQueryDefinition getCubeQueryDefinition();
+	IBaseCubeQueryDefinition getCubeQueryDefinition();
 
 	/**
 	 * Executes the prepared execution plan as an inner query that appears within
 	 * the scope of another query. The outer query must have been prepared and
 	 * executed, and its results given as a parameter to this method.
-	 * 
+	 *
 	 * @param outerResults
 	 * @param scope
 	 * @return
 	 * @throws DataException
 	 */
-	public ICubeQueryResults execute(IBaseQueryResults outerResults, Scriptable scope) throws DataException;
+	ICubeQueryResults execute(IBaseQueryResults outerResults, Scriptable scope) throws DataException;
 }

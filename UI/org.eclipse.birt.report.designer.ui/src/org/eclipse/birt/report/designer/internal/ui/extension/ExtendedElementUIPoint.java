@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +38,7 @@ public class ExtendedElementUIPoint {
 	/**
 	 * Construct an new instance with the given extension name. All default value
 	 * will be initialized.
-	 * 
+	 *
 	 * @param extensionName the extension name of the extended element
 	 */
 	ExtendedElementUIPoint() {
@@ -49,7 +52,7 @@ public class ExtendedElementUIPoint {
 
 	/**
 	 * Gets the extension name of the element
-	 * 
+	 *
 	 * @return Returns the extension name;
 	 */
 	public String getExtensionName() {
@@ -58,7 +61,7 @@ public class ExtendedElementUIPoint {
 
 	/**
 	 * Gets the UI instance of the element
-	 * 
+	 *
 	 * @return Returns the UI instance;
 	 */
 	public IReportItemFigureProvider getReportItemUI() {
@@ -71,10 +74,10 @@ public class ExtendedElementUIPoint {
 
 	/**
 	 * Gets the corresponding attribute of the key of the extended element
-	 * 
+	 *
 	 * @param key the key of the attribute. It cannot be null. One of the constants
 	 *            defined in IExtensionConstants
-	 * 
+	 *
 	 * @return Returns the corresponding attribute, or null if the key is invalid or
 	 *         the corresponding attribute hasn't been set
 	 */
@@ -85,7 +88,7 @@ public class ExtendedElementUIPoint {
 
 	/**
 	 * Sets the UI instance of the element
-	 * 
+	 *
 	 * @param reportItemUI the UI instance to set.It cannot be null
 	 */
 	void setReportItemUI(IReportItemFigureProvider reportItemUI) {
@@ -95,7 +98,7 @@ public class ExtendedElementUIPoint {
 
 	/**
 	 * Sets the UI instance of the element
-	 * 
+	 *
 	 * @param reportItemBuilderUI the Builder UI instance to set.It can be null
 	 */
 	void setReportItemBuilderUI(IReportItemBuilderUI reportItemBuilderUI) {
@@ -104,7 +107,7 @@ public class ExtendedElementUIPoint {
 
 	/**
 	 * Sets the corresponding attribute of the key of the extended element
-	 * 
+	 *
 	 * @param key the key of the attribute.It cannot be null
 	 */
 	void setAttribute(String key, Object value) {
@@ -114,7 +117,7 @@ public class ExtendedElementUIPoint {
 
 	/**
 	 * Set the corresponding class instance of the key of the extended element
-	 * 
+	 *
 	 * @param className
 	 * @param object
 	 */
@@ -124,7 +127,7 @@ public class ExtendedElementUIPoint {
 
 	/**
 	 * Set the extension Name of this extension point
-	 * 
+	 *
 	 * @param value
 	 */
 	public void setExtensionName(String value) {

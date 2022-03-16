@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -67,7 +70,7 @@ public class DataSetItemModel {
 	/**
 	 * This method returns the display name and if the display name is null it
 	 * returns the name
-	 * 
+	 *
 	 * @return Returns the displayName.
 	 */
 	public String getDisplayName() {
@@ -84,7 +87,7 @@ public class DataSetItemModel {
 
 	/**
 	 * This method just returns the display name. It doesn't do any null checks
-	 * 
+	 *
 	 * @return the display name
 	 */
 	public String getRealDisplayName() {
@@ -94,7 +97,7 @@ public class DataSetItemModel {
 	/**
 	 * This is equivalent to setDisplayName. It is just added for conveninence in
 	 * case of java bean introspection.
-	 * 
+	 *
 	 * @param displayName
 	 */
 	public void setRealDisplayName(String displayName) {
@@ -110,7 +113,7 @@ public class DataSetItemModel {
 
 	/**
 	 * Get name
-	 * 
+	 *
 	 * @return Returns the name.
 	 */
 	public String getName() {
@@ -122,7 +125,7 @@ public class DataSetItemModel {
 
 	/**
 	 * Set name
-	 * 
+	 *
 	 * @param name The name to set.
 	 */
 	public void setName(String name) {
@@ -131,7 +134,7 @@ public class DataSetItemModel {
 
 	/**
 	 * Get parent
-	 * 
+	 *
 	 * @return Returns the parent.
 	 */
 	public Object getParent() {
@@ -140,7 +143,7 @@ public class DataSetItemModel {
 
 	/**
 	 * Set parent
-	 * 
+	 *
 	 * @param parent The parent to set.
 	 */
 	public void setParent(Object parent) {
@@ -149,7 +152,7 @@ public class DataSetItemModel {
 
 	/**
 	 * get position
-	 * 
+	 *
 	 * @return Returns the position.
 	 */
 	public int getPosition() {
@@ -158,7 +161,7 @@ public class DataSetItemModel {
 
 	/**
 	 * set position
-	 * 
+	 *
 	 * @param position The position to set.
 	 */
 	public void setPosition(int position) {
@@ -167,7 +170,7 @@ public class DataSetItemModel {
 
 	/**
 	 * Get the alias
-	 * 
+	 *
 	 * @return Returns the alias.
 	 */
 	public String getAlias() {
@@ -176,7 +179,7 @@ public class DataSetItemModel {
 
 	/**
 	 * Set alias
-	 * 
+	 *
 	 * @param alias The alias to set.
 	 */
 	public void setAlias(String alias) {
@@ -185,7 +188,7 @@ public class DataSetItemModel {
 
 	/**
 	 * Get help text
-	 * 
+	 *
 	 * @return Returns the helpText.
 	 */
 	public String getHelpText() {
@@ -194,7 +197,7 @@ public class DataSetItemModel {
 
 	/**
 	 * Set help text
-	 * 
+	 *
 	 * @param helpText The helpText to set.
 	 */
 	public void setHelpText(String helpText) {
@@ -203,7 +206,7 @@ public class DataSetItemModel {
 
 	/**
 	 * Get dataset column name
-	 * 
+	 *
 	 * @return Returns the dataSetColumnName.
 	 */
 	public String getDataSetColumnName() {
@@ -212,7 +215,7 @@ public class DataSetItemModel {
 
 	/**
 	 * Set dataset column name
-	 * 
+	 *
 	 * @param dataSetColumnName The dataSetColumnName to set.
 	 */
 	public void setDataSetColumnName(String dataSetColumnName) {
@@ -221,7 +224,7 @@ public class DataSetItemModel {
 
 	/**
 	 * Check whether ComputedColumn
-	 * 
+	 *
 	 * @return Returns the isComputedColumn.
 	 */
 	public boolean isComputedColumn() {
@@ -230,7 +233,7 @@ public class DataSetItemModel {
 
 	/**
 	 * Set the value isComputedColumn
-	 * 
+	 *
 	 * @param isComputedColumn The isComputedColumn to set.
 	 */
 	public void setComputedColumn(boolean isComputedColumn) {

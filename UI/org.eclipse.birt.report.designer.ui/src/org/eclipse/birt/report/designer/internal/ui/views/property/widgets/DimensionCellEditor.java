@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,9 +50,11 @@ public class DimensionCellEditor extends CDialogCellEditor {
 
 	Listener filter = new Listener() {
 
+		@Override
 		public void handleEvent(Event event) {
-			if (textEditor.isDisposed())
+			if (textEditor.isDisposed()) {
 				return;
+			}
 			handleFocus(SWT.FocusOut);
 		}
 	};
@@ -58,7 +63,7 @@ public class DimensionCellEditor extends CDialogCellEditor {
 
 	/**
 	 * Creates a new dialog cell editor parented under the given control.
-	 * 
+	 *
 	 * @param parent    the parent control
 	 * @param unitNames the name list
 	 */
@@ -69,7 +74,7 @@ public class DimensionCellEditor extends CDialogCellEditor {
 
 	/**
 	 * Creates a new dialog cell editor parented under the given control.
-	 * 
+	 *
 	 * @param parent    the parent control
 	 * @param unitNames the name list
 	 * @param style     the style bits
@@ -82,10 +87,11 @@ public class DimensionCellEditor extends CDialogCellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.DialogCellEditor#openDialogBox(org.eclipse.
 	 * swt.widgets.Control)
 	 */
+	@Override
 	protected Object openDialogBox(Control cellEditorWindow) {
 		DimensionBuilderDialog dialog = new DimensionBuilderDialog(cellEditorWindow.getShell());
 
@@ -132,7 +138,7 @@ public class DimensionCellEditor extends CDialogCellEditor {
 
 	/**
 	 * Set current units
-	 * 
+	 *
 	 * @param units
 	 */
 	public void setUnits(String units) {
@@ -141,9 +147,10 @@ public class DimensionCellEditor extends CDialogCellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
+	@Override
 	protected void doSetFocus() {
 		getDefaultText().setFocus();
 		getDefaultText().selectAll();
@@ -151,13 +158,14 @@ public class DimensionCellEditor extends CDialogCellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.property.widgets.
 	 * CDialogCellEditor#doValueChanged()
 	 */
+	@Override
 	protected void doValueChanged() {
 		Object oldValue = doGetValue();
-		if (oldValue != null && oldValue instanceof String) {
+		if (oldValue instanceof String) {
 			oldValue = parseInputString2dValue((String) oldValue);
 		}
 		String newValue = textEditor.getText();
@@ -173,17 +181,6 @@ public class DimensionCellEditor extends CDialogCellEditor {
 			markDirty();
 			doSetValue(null);
 		}
-	}
-
-	private DimensionValue parseString2dValue(String strValue) {
-		DimensionValue dValue = null;
-		try {
-			dValue = StringUtil.parse((String) strValue);
-		} catch (PropertyValueException e) {
-			dValue = null;
-		}
-
-		return dValue;
 	}
 
 	private DimensionValue parseInputString2dValue(String strValue) {
@@ -207,9 +204,10 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	 * Subclasses may reimplement. If you reimplement this method, you should also
 	 * reimplement <code>updateContents</code>.
 	 * </p>
-	 * 
+	 *
 	 * @param cell the control for this cell editor
 	 */
+	@Override
 	protected Control createContents(Composite cell) {
 		textEditor = new Text(cell, SWT.LEFT | style);
 		textEditor.setFont(cell.getFont());
@@ -218,6 +216,7 @@ public class DimensionCellEditor extends CDialogCellEditor {
 		textEditor.addKeyListener(new KeyAdapter() {
 
 			// hook key pressed - see PR 14201
+			@Override
 			public void keyPressed(KeyEvent e) {
 				keyReleaseOccured(e);
 			}
@@ -225,6 +224,7 @@ public class DimensionCellEditor extends CDialogCellEditor {
 
 		textEditor.addTraverseListener(new TraverseListener() {
 
+			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_ESCAPE || e.detail == SWT.TRAVERSE_RETURN) {
 					e.doit = false;
@@ -234,11 +234,14 @@ public class DimensionCellEditor extends CDialogCellEditor {
 
 		textEditor.addFocusListener(new FocusAdapter() {
 
+			@Override
 			public void focusLost(FocusEvent e) {
-				if (textEditor != null && !textEditor.isDisposed())
+				if (textEditor != null && !textEditor.isDisposed()) {
 					DimensionCellEditor.this.focusLost();
+				}
 			}
 
+			@Override
 			public void focusGained(FocusEvent e) {
 				handleFocus(SWT.FocusIn);
 			}
@@ -250,8 +253,9 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	void handleFocus(int type) {
 		switch (type) {
 		case SWT.FocusIn: {
-			if (hasFocus)
+			if (hasFocus) {
 				return;
+			}
 			textEditor.selectAll();
 			hasFocus = true;
 			Display display = textEditor.getDisplay();
@@ -262,11 +266,13 @@ public class DimensionCellEditor extends CDialogCellEditor {
 			break;
 		}
 		case SWT.FocusOut: {
-			if (!hasFocus)
+			if (!hasFocus) {
 				return;
+			}
 			Control focusControl = textEditor.getDisplay().getFocusControl();
-			if (focusControl == textEditor)
+			if (focusControl == textEditor) {
 				return;
+			}
 			hasFocus = false;
 			Display display = textEditor.getDisplay();
 			display.removeFilter(SWT.FocusIn, filter);
@@ -288,12 +294,14 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	 * Subclasses may reimplement. If you reimplement this method, you should also
 	 * reimplement <code>createContents</code>.
 	 * </p>
-	 * 
+	 *
 	 * @param value the new value of this cell editor
 	 */
+	@Override
 	protected void updateContents(Object value) {
-		if (textEditor == null)
+		if (textEditor == null) {
 			return;
+		}
 
 		String text = "";//$NON-NLS-1$
 		if (value != null) {
@@ -318,7 +326,7 @@ public class DimensionCellEditor extends CDialogCellEditor {
 
 	/**
 	 * Returns the default label widget created by <code>createContents</code>.
-	 * 
+	 *
 	 * @return the default label widget
 	 */
 	protected Text getDefaultText() {
@@ -327,10 +335,11 @@ public class DimensionCellEditor extends CDialogCellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#keyReleaseOccured(org.eclipse.swt
 	 * .events.KeyEvent)
 	 */
+	@Override
 	protected void keyReleaseOccured(KeyEvent keyEvent) {
 		if (keyEvent.character == '\u001b') { // Escape character
 			fireCancelEditor();
@@ -342,7 +351,7 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void applyEditorValueAndDeactivate() {
 		inProcessing = 1;
@@ -360,18 +369,20 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	 * appropriate times. Subclasses may also extend or reimplement.
 	 * </p>
 	 */
+	@Override
 	protected void focusLost() {
-		if (inProcessing == 1)
+		if (inProcessing == 1) {
 			return;
-		else {
+		} else {
 			// if click button, ignore focuslost event.
 			Rectangle rect = getButton().getBounds();
 			Point location = getButton().toDisplay(0, 0);
 			rect.x = location.x;
 			rect.y = location.y;
 			Point cursorLocation = getButton().getDisplay().getCursorLocation();
-			if (rect.contains(cursorLocation))
+			if (rect.contains(cursorLocation)) {
 				return;
+			}
 		}
 		super.focusLost();
 	}

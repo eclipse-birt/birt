@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,18 +36,19 @@ public class BTreeUtil {
 	static private void checkDataType(int dataType) throws IOException {
 		if (dataType != DataType.INTEGER_TYPE || dataType != DataType.DOUBLE_TYPE || dataType != DataType.DATE_TYPE
 				|| dataType != DataType.SQL_DATE_TYPE || dataType != DataType.SQL_TIME_TYPE
-				|| dataType != DataType.DECIMAL_TYPE || dataType != DataType.STRING_TYPE)
+				|| dataType != DataType.DECIMAL_TYPE || dataType != DataType.STRING_TYPE) {
 			throw new IOException("unsupported datatype:" + dataType);
+		}
 	}
 
 	static public BTree<Object, Integer> openBTree(IArchiveFile archive, String entryName, int dataType)
 			throws IOException {
 		checkDataType(dataType);
 
-		BTreeOption<Object, Integer> btreeOption = new BTreeOption<Object, Integer>();
+		BTreeOption<Object, Integer> btreeOption = new BTreeOption<>();
 		setupBTreeOption(btreeOption, dataType);
 		btreeOption.setFile(new ArchiveTreeFile(archive, entryName));
-		return new BTree<Object, Integer>(btreeOption);
+		return new BTree<>(btreeOption);
 	}
 
 	static public BTree<Object, Integer> createBTree(IArchiveFile archive, String entryName, int dataType)
@@ -55,30 +59,30 @@ public class BTreeUtil {
 			archive.removeEntry(entryName);
 		}
 
-		BTreeOption<Object, Integer> btreeOption = new BTreeOption<Object, Integer>();
+		BTreeOption<Object, Integer> btreeOption = new BTreeOption<>();
 		setupBTreeOption(btreeOption, dataType);
 		btreeOption.setFile(new ArchiveTreeFile(archive, entryName));
-		return new BTree<Object, Integer>(btreeOption);
+		return new BTree<>(btreeOption);
 	}
 
 	static public BTree<Object, Integer> openBTree(IDocArchiveReader reader, String entryName, int dataType)
 			throws IOException {
 		checkDataType(dataType);
 
-		BTreeOption<Object, Integer> btreeOption = new BTreeOption<Object, Integer>();
+		BTreeOption<Object, Integer> btreeOption = new BTreeOption<>();
 		setupBTreeOption(btreeOption, dataType);
 		btreeOption.setFile(new ReaderTreeFile(reader, entryName));
-		return new BTree<Object, Integer>(btreeOption);
+		return new BTree<>(btreeOption);
 	}
 
 	static public BTree<Object, Integer> openBTree(IDocArchiveWriter writer, String entryName, int dataType)
 			throws IOException {
 		checkDataType(dataType);
 
-		BTreeOption<Object, Integer> btreeOption = new BTreeOption<Object, Integer>();
+		BTreeOption<Object, Integer> btreeOption = new BTreeOption<>();
 		setupBTreeOption(btreeOption, dataType);
 		btreeOption.setFile(new WriterTreeFile(writer, entryName));
-		return new BTree<Object, Integer>(btreeOption);
+		return new BTree<>(btreeOption);
 	}
 
 	static public BTree<Object, Integer> createBTree(IDocArchiveWriter writer, String entryName, int dataType)
@@ -89,10 +93,10 @@ public class BTreeUtil {
 			writer.dropStream(entryName);
 		}
 
-		BTreeOption<Object, Integer> btreeOption = new BTreeOption<Object, Integer>();
+		BTreeOption<Object, Integer> btreeOption = new BTreeOption<>();
 		setupBTreeOption(btreeOption, dataType);
 		btreeOption.setFile(new WriterTreeFile(writer, entryName));
-		return new BTree<Object, Integer>(btreeOption);
+		return new BTree<>(btreeOption);
 	}
 
 	private static class ArchiveTreeFile implements BTreeFile {
@@ -113,30 +117,37 @@ public class BTreeUtil {
 			totalBlock = (int) ((rf.getLength() + BLOCK_SIZE - 1) / BLOCK_SIZE);
 		}
 
+		@Override
 		public void close() throws IOException {
 			rf.close();
 		}
 
+		@Override
 		public int allocBlock() throws IOException {
 			return totalBlock++;
 		}
 
+		@Override
 		public int getTotalBlock() throws IOException {
 			return totalBlock;
 		}
 
+		@Override
 		public Object lock() throws IOException {
 			return af.lockEntry(name);
 		}
 
+		@Override
 		public void readBlock(int block, byte[] bytes) throws IOException {
 			rf.read((long) block * BLOCK_SIZE, bytes, 0, bytes.length);
 		}
 
+		@Override
 		public void unlock(Object lock) throws IOException {
 			af.unlockEntry(lock);
 		}
 
+		@Override
 		public void writeBlock(int block, byte[] bytes) throws IOException {
 			if (block >= totalBlock) {
 				totalBlock = block + 1;
@@ -159,32 +170,39 @@ public class BTreeUtil {
 			this.totalBlock = (int) ((input.length() + BLOCK_SIZE - 1) / BLOCK_SIZE);
 		}
 
+		@Override
 		public int allocBlock() throws IOException {
 			throw new IOException("read only stream");
 		}
 
+		@Override
 		public int getTotalBlock() throws IOException {
 			return totalBlock;
 		}
 
+		@Override
 		public Object lock() throws IOException {
 			return archive.lock(name);
 		}
 
+		@Override
 		public void readBlock(int blockId, byte[] bytes) throws IOException {
 			input.refresh();
 			input.seek((long) blockId * BLOCK_SIZE);
 			input.read(bytes);
 		}
 
+		@Override
 		public void unlock(Object lock) throws IOException {
 			archive.unlock(lock);
 		}
 
+		@Override
 		public void writeBlock(int blockId, byte[] bytes) throws IOException {
 			throw new IOException("read only stream");
 		}
 
+		@Override
 		public void close() throws IOException {
 			input.close();
 		}
@@ -211,6 +229,7 @@ public class BTreeUtil {
 			totalBlock = (int) ((output.length() + BLOCK_SIZE - 1) / BLOCK_SIZE);
 		}
 
+		@Override
 		public void close() throws IOException {
 			if (output != null) {
 				output.close();
@@ -220,28 +239,34 @@ public class BTreeUtil {
 			}
 		}
 
+		@Override
 		public int allocBlock() throws IOException {
 			return totalBlock++;
 		}
 
+		@Override
 		public int getTotalBlock() throws IOException {
 			return totalBlock;
 		}
 
+		@Override
 		public Object lock() throws IOException {
 			return archive.lock(name);
 		}
 
+		@Override
 		public void readBlock(int blockId, byte[] bytes) throws IOException {
 			input.refresh();
 			input.seek((long) blockId * BLOCK_SIZE);
 			input.read(bytes);
 		}
 
+		@Override
 		public void unlock(Object lock) throws IOException {
 			archive.unlock(lock);
 		}
 
+		@Override
 		public void writeBlock(int blockId, byte[] bytes) throws IOException {
 			if (blockId >= totalBlock) {
 				totalBlock = blockId + 1;
@@ -266,12 +291,14 @@ public class BTreeUtil {
 
 	private static class IntSerializer implements BTreeSerializer<Integer> {
 
+		@Override
 		public byte[] getBytes(Integer value) throws IOException {
 			byte[] bytes = new byte[4];
 			IOUtil.integerToBytes(value, bytes);
 			return bytes;
 		}
 
+		@Override
 		public Integer getObject(byte[] bytes) throws IOException, ClassNotFoundException {
 			return IOUtil.bytesToInteger(bytes);
 		}
@@ -302,6 +329,7 @@ public class BTreeUtil {
 			this.dataType = type;
 		}
 
+		@Override
 		public byte[] getBytes(Object value) throws IOException {
 			byte[] bytes;
 			switch (dataType) {
@@ -330,6 +358,7 @@ public class BTreeUtil {
 			throw new IOException("unsupported data type");
 		}
 
+		@Override
 		public Object getObject(byte[] bytes) throws IOException, ClassNotFoundException {
 			switch (dataType) {
 			case DataType.INTEGER_TYPE:
@@ -354,6 +383,7 @@ public class BTreeUtil {
 	private static class KeyComparator implements Comparator<Object>, Serializable {
 		private static final long serialVersionUID = 486084009828701292L;
 
+		@Override
 		public int compare(Object v1, Object v2) {
 			if (v1 == v2) {
 				return 0;

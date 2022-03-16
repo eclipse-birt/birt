@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +36,7 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * 
+ *
  */
 
 public class DimensionSortEvalHelper extends DimensionJSEvalHelper implements IJSSortHelper {
@@ -49,7 +52,7 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper implements IJ
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parentScope
 	 * @param queryDefn
 	 * @param sortDefinition
@@ -60,7 +63,7 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper implements IJ
 			ICubeSortDefinition sortDefinition, ScriptContext cx) throws DataException {
 		super.init(outResults, parentScope, queryDefn, cx, sortDefinition.getExpression());
 		this.sortDefinition = sortDefinition;
-		this.axisDimValueMap = new HashMap<String, Object>();
+		this.axisDimValueMap = new HashMap<>();
 		for (int i = 0; i < this.sortDefinition.getAxisQualifierLevels().length; i++) {
 			ILevelDefinition lvl = this.sortDefinition.getAxisQualifierLevels()[i];
 			String lvlName = OlapExpressionUtil.getAttrReference(lvl.getHierarchy().getDimension().getName(),
@@ -70,8 +73,9 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper implements IJ
 	}
 
 	/**
-	 * 
+	 *
 	 */
+	@Override
 	public Object evaluate(IResultRow resultRow) throws DataException {
 		super.setData(resultRow);
 		if (resultRow instanceof AggregationRowAccessor) {
@@ -88,10 +92,11 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper implements IJ
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.util.sort.IJSSortHelper#getTargetLevel()
 	 */
+	@Override
 	public DimLevel getTargetLevel() {
 		if (targetLevel == null) {
 			targetLevel = new DimLevel(this.sortDefinition.getTargetLevel());
@@ -101,18 +106,19 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper implements IJ
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort#
 	 * getSortDirection()
 	 */
+	@Override
 	public int getSortDirection() {
 		return sortDefinition.getSortDirection();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper#
 	 * registerJSObjectPopulators()
 	 */

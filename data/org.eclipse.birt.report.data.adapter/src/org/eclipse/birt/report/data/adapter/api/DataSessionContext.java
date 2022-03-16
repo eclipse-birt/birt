@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.report.data.adapter.api;
@@ -90,7 +93,7 @@ public class DataSessionContext {
 	 * constructor has no associated report design, and no externally defined top
 	 * level Javascript scope. The adaptor will provide its own implementation of
 	 * the top level scope.
-	 * 
+	 *
 	 * @param mode Data Session mode. Can be MODE_GENERATION, MODE_PRESENTATION or
 	 *             MODE_DIRECT_PRESENTATION
 	 */
@@ -103,7 +106,7 @@ public class DataSessionContext {
 	 * report design handle. No externally defined top level Javascript scope is
 	 * specified. The adaptor will provide its own implementation of the top level
 	 * scope.
-	 * 
+	 *
 	 * @param mode         Data Session mode. Can be MODE_GENERATION,
 	 *                     MODE_PRESENTATION or MODE_DIRECT_PRESENTATION
 	 * @param moduleHandle If not null, this report module is used to look up data
@@ -116,7 +119,7 @@ public class DataSessionContext {
 	/**
 	 * Creates a DataEngine context in the provided mode, using the provided top
 	 * level scope. Also sets the handle of the report design being executed.
-	 * 
+	 *
 	 * @deprecated
 	 * @param mode         Data Session mode. Can be MODE_GENERATION,
 	 *                     MODE_PRESENTATION or MODE_DIRECT_PRESENTATION
@@ -127,6 +130,7 @@ public class DataSessionContext {
 	 *                     provided, all report-level scripting objects (such as
 	 *                     "params") must be available in the scope.
 	 */
+	@Deprecated
 	public DataSessionContext(int mode, ModuleHandle moduleHandle, Scriptable topScope) throws BirtException {
 
 		this(mode, moduleHandle, prepareScriptContext(topScope), null);
@@ -154,8 +158,9 @@ public class DataSessionContext {
 			throws AdapterException {
 		try {
 			if (!(mode == MODE_GENERATION || mode == MODE_PRESENTATION || mode == MODE_DIRECT_PRESENTATION
-					|| mode == MODE_UPDATE))
+					|| mode == MODE_UPDATE)) {
 				throw new AdapterException(ResourceConstants.ADAPTER_INVALID_MODE, Integer.valueOf(mode));
+			}
 
 			this.mode = mode;
 			this.moduleHandle = moduleHandle;
@@ -192,7 +197,7 @@ public class DataSessionContext {
 
 	/**
 	 * Return the document writer.
-	 * 
+	 *
 	 * @return
 	 */
 	public IDocArchiveWriter getDocumentWriter() {
@@ -202,11 +207,12 @@ public class DataSessionContext {
 	/**
 	 * Sets the cache option. This function only available for
 	 * MODE_DIRECT_PRESENTATION mode. In other cases, exception will be thrown.
-	 * 
+	 *
 	 */
 	public void setCacheOption(int option, int cacheCount) throws BirtException {
-		if (!(option == CACHE_USE_DEFAULT || option == CACHE_USE_DISABLE || option == CACHE_USE_ALWAYS))
+		if (!(option == CACHE_USE_DEFAULT || option == CACHE_USE_DISABLE || option == CACHE_USE_ALWAYS)) {
 			throw new AdapterException(ResourceConstants.INVALID_CAHCE_OPTION, Integer.valueOf(option));
+		}
 		this.cacheSet = true;
 		this.cacheOption = option;
 		this.cacheCount = cacheCount;
@@ -216,17 +222,20 @@ public class DataSessionContext {
 	 * Gets a DataEngineContext for use to initialize data engine
 	 */
 	public DataEngineContext getDataEngineContext() throws BirtException {
-		if (this.context != null)
+		if (this.context != null) {
 			return this.context;
+		}
 		this.context = DataEngineContext.newInstance(mode, sContext, docReader, docWriter, appClassLoader);
-		if (cacheSet)
+		if (cacheSet) {
 			this.context.setCacheOption(cacheOption, cacheCount);
+		}
 		return this.context;
 	}
 
 	public void setDataEngineContext(DataEngineContext context) {
-		if (context != null)
+		if (context != null) {
 			this.context = context;
+		}
 	}
 
 	/**
@@ -264,7 +273,7 @@ public class DataSessionContext {
 
 	/**
 	 * Sets the application context to be passed to data engine and data drivers
-	 * 
+	 *
 	 * @param context - task contexts in a map. The map contains name(String) -
 	 *                value pairs
 	 */
@@ -274,7 +283,7 @@ public class DataSessionContext {
 
 	/**
 	 * Gets the application context map for this request.
-	 * 
+	 *
 	 * @returns Context as name(string) -> value map. Null if no application context
 	 *          has been set
 	 */
@@ -289,6 +298,7 @@ public class DataSessionContext {
 			this.scriptContext = scriptContext;
 		}
 
+		@Override
 		public void close() throws IOException {
 			this.scriptContext.close();
 		}

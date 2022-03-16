@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * TableSectionContextMenuState.java
  *
@@ -34,7 +46,7 @@ public class TableSectionContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Gets the canAddChart value for this TableSectionContextMenuState.
-	 * 
+	 *
 	 * @return canAddChart Can insert a chart in this section
 	 */
 	public boolean isCanAddChart() {
@@ -43,7 +55,7 @@ public class TableSectionContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Sets the canAddChart value for this TableSectionContextMenuState.
-	 * 
+	 *
 	 * @param canAddChart Can insert a chart in this section
 	 */
 	public void setCanAddChart(boolean canAddChart) {
@@ -52,7 +64,7 @@ public class TableSectionContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Gets the canEditChart value for this TableSectionContextMenuState.
-	 * 
+	 *
 	 * @return canEditChart Can edit a chart in this section
 	 */
 	public boolean isCanEditChart() {
@@ -61,7 +73,7 @@ public class TableSectionContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Sets the canEditChart value for this TableSectionContextMenuState.
-	 * 
+	 *
 	 * @param canEditChart Can edit a chart in this section
 	 */
 	public void setCanEditChart(boolean canEditChart) {
@@ -70,7 +82,7 @@ public class TableSectionContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Gets the canDeleteChart value for this TableSectionContextMenuState.
-	 * 
+	 *
 	 * @return canDeleteChart Can delete a chart in this section
 	 */
 	public boolean isCanDeleteChart() {
@@ -79,7 +91,7 @@ public class TableSectionContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Sets the canDeleteChart value for this TableSectionContextMenuState.
-	 * 
+	 *
 	 * @param canDeleteChart Can delete a chart in this section
 	 */
 	public void setCanDeleteChart(boolean canDeleteChart) {
@@ -88,7 +100,7 @@ public class TableSectionContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Gets the canExpand value for this TableSectionContextMenuState.
-	 * 
+	 *
 	 * @return canExpand Can expand a section
 	 */
 	public boolean isCanExpand() {
@@ -97,7 +109,7 @@ public class TableSectionContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Sets the canExpand value for this TableSectionContextMenuState.
-	 * 
+	 *
 	 * @param canExpand Can expand a section
 	 */
 	public void setCanExpand(boolean canExpand) {
@@ -106,7 +118,7 @@ public class TableSectionContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Gets the canCollapse value for this TableSectionContextMenuState.
-	 * 
+	 *
 	 * @return canCollapse Can collapse a section
 	 */
 	public boolean isCanCollapse() {
@@ -115,7 +127,7 @@ public class TableSectionContextMenuState implements java.io.Serializable {
 
 	/**
 	 * Sets the canCollapse value for this TableSectionContextMenuState.
-	 * 
+	 *
 	 * @param canCollapse Can collapse a section
 	 */
 	public void setCanCollapse(boolean canCollapse) {
@@ -124,14 +136,18 @@ public class TableSectionContextMenuState implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof TableSectionContextMenuState))
+		if (!(obj instanceof TableSectionContextMenuState)) {
 			return false;
+		}
 		TableSectionContextMenuState other = (TableSectionContextMenuState) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -146,6 +162,7 @@ public class TableSectionContextMenuState implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

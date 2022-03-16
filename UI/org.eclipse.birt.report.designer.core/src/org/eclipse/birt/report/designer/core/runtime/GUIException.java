@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,10 +54,10 @@ public class GUIException extends BirtException {
 
 	/**
 	 * Creates a new instance of GUI exception
-	 * 
+	 *
 	 * @param pluginId the id of the plugin
 	 * @param cause    the cause which invoked the exception
-	 * 
+	 *
 	 * @return the GUIException created
 	 */
 	public static GUIException createGUIException(String pluginId, Throwable cause) {
@@ -75,10 +78,10 @@ public class GUIException extends BirtException {
 
 	/**
 	 * Creates a new instance of GUI exception
-	 * 
+	 *
 	 * @param pluginId the id of the plugin
 	 * @param cause    the cause which invoked the exception
-	 * 
+	 *
 	 * @return the GUIException created
 	 */
 	public static GUIException createGUIException(String pluginId, Throwable cause, String errorCode) {
@@ -91,7 +94,7 @@ public class GUIException extends BirtException {
 
 	/**
 	 * Creates a new instance of GUI exception with the specified error code
-	 * 
+	 *
 	 * @param pluginId  the id of the plugin
 	 * @param errorCode the error code of the exception
 	 * @param cause     the cause which invoked the exception
@@ -103,9 +106,10 @@ public class GUIException extends BirtException {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
+	@Override
 	public String getMessage() {
 		String message = Messages.getString(getErrorCode());
 
@@ -127,16 +131,17 @@ public class GUIException extends BirtException {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
+	@Override
 	public String getLocalizedMessage() {
 		return getMessage();
 	}
 
 	/**
 	 * Returns the reason for error status
-	 * 
+	 *
 	 * @return the reason
 	 */
 	public String getReason() {

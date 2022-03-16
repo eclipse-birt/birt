@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,18 +46,20 @@ public class PropertyDefinitionImpl extends PropertyDefinition implements IPrope
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getGroupName()
 	 */
+	@Override
 	public String getGroupNameID() {
 		return groupNameID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getName()
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -65,7 +70,7 @@ public class PropertyDefinitionImpl extends PropertyDefinition implements IPrope
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getDisplayName()
 	 */
 	public String getDisplayName() {
@@ -78,9 +83,10 @@ public class PropertyDefinitionImpl extends PropertyDefinition implements IPrope
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getType()
 	 */
+	@Override
 	public int getType() {
 		return type;
 	}
@@ -91,40 +97,46 @@ public class PropertyDefinitionImpl extends PropertyDefinition implements IPrope
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#isList()
 	 */
+	@Override
 	public boolean isList() {
 		return isList;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getChoices()
 	 */
+	@Override
 	public List getChoices() {
-		if (type != PropertyType.CHOICE_TYPE)
+		if (type != PropertyType.CHOICE_TYPE) {
 			return null;
+		}
 		return choices;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getMembers()
 	 */
+	@Override
 	public List getMembers() {
-		if (type != PropertyType.STRUCT_TYPE)
+		if (type != PropertyType.STRUCT_TYPE) {
 			return null;
+		}
 		return members;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getDefaultValue()
 	 */
+	@Override
 	public Object getDefaultValue() {
 		return defaultValue;
 	}
@@ -145,7 +157,7 @@ public class PropertyDefinitionImpl extends PropertyDefinition implements IPrope
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#canInherit()
 	 */
 	public boolean canInherit() {
@@ -154,11 +166,12 @@ public class PropertyDefinitionImpl extends PropertyDefinition implements IPrope
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID(
 	 * )
 	 */
+	@Override
 	public String getDisplayNameID() {
 		return displayNameID;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse private License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +20,7 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 
 /**
- * 
+ *
  */
 class BirtMath implements IScriptFunctionExecutor {
 	private static final long serialVersionUID = 1L;
@@ -27,45 +30,47 @@ class BirtMath implements IScriptFunctionExecutor {
 	private IScriptFunctionExecutor executor;
 
 	BirtMath(String functionName) throws BirtException {
-		if ("add".equals(functionName))
+		if ("add".equals(functionName)) {
 			this.executor = new Function_Add();
-		else if ("subtract".equals(functionName))
+		} else if ("subtract".equals(functionName)) {
 			this.executor = new Function_Subtract();
-		else if ("multiple".equals(functionName) || "multiply".equals(functionName))
+		} else if ("multiple".equals(functionName) || "multiply".equals(functionName)) {
 			this.executor = new Function_Multiple();
-		else if ("divide".equals(functionName))
+		} else if ("divide".equals(functionName)) {
 			this.executor = new Function_Divide();
-		else if ("round".equals(functionName))
+		} else if ("round".equals(functionName)) {
 			this.executor = new Function_Round();
-		else if ("roundUp".equals(functionName))
+		} else if ("roundUp".equals(functionName)) {
 			this.executor = new Function_RoundUp();
-		else if ("roundDown".equals(functionName))
+		} else if ("roundDown".equals(functionName)) {
 			this.executor = new Function_RoundDown();
-		else if ("ceiling".equals(functionName))
+		} else if ("ceiling".equals(functionName)) {
 			this.executor = new Function_Ceiling();
-		else if ("mod".equals(functionName))
+		} else if ("mod".equals(functionName)) {
 			this.executor = new Function_Mod();
-		else if ("safeDivide".equals(functionName))
+		} else if ("safeDivide".equals(functionName)) {
 			this.executor = new Function_SafeDivide();
-		else
+		} else {
 			throw new BirtException(PACKAGE_ID, null,
 					Messages.getString("invalid.function.name") + "BirtMath." + functionName);
+		}
 	}
 
 	private static class Function_Add extends Function_temp {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
 		/**
-		 * 
+		 *
 		 */
 		Function_Add() {
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(final Object[] args) throws BirtException {
 			return MathUtil.add(args[0], args[1]);
 		}
@@ -76,12 +81,12 @@ class BirtMath implements IScriptFunctionExecutor {
 	 */
 	private static class Function_Subtract extends Function_temp {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
 		/**
-		 * 
+		 *
 		 */
 		Function_Subtract() {
 			minParamCount = 2;
@@ -90,27 +95,28 @@ class BirtMath implements IScriptFunctionExecutor {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.core.script.bre.Function_temp#getValue(java.lang.Object[])
 		 */
+		@Override
 		protected Object getValue(final Object[] args) throws BirtException {
 			return MathUtil.subtract(args[0], args[1]);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private static class Function_Multiple extends Function_temp {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
 		/**
-		 * 
+		 *
 		 */
 		Function_Multiple() {
 			minParamCount = 2;
@@ -119,27 +125,28 @@ class BirtMath implements IScriptFunctionExecutor {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.core.script.bre.Function_temp#getValue(java.lang.Object[])
 		 */
+		@Override
 		protected Object getValue(final Object[] args) throws BirtException {
 			return MathUtil.multiply(args[0], args[1]);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private static class Function_Divide extends Function_temp {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
 		/**
-		 * 
+		 *
 		 */
 		Function_Divide() {
 			minParamCount = 2;
@@ -148,10 +155,11 @@ class BirtMath implements IScriptFunctionExecutor {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.core.script.bre.Function_temp#getValue(java.lang.Object[])
 		 */
+		@Override
 		protected Object getValue(final Object[] args) throws BirtException {
 			try {
 				return MathUtil.divide(args[0], args[1]);
@@ -163,30 +171,32 @@ class BirtMath implements IScriptFunctionExecutor {
 
 	private static class Function_Round extends Function_temp {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
 		/**
-		 * 
+		 *
 		 */
 		Function_Round() {
 			minParamCount = 1;
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
-			if (args.length == 1)
+			if (args.length == 1) {
 				return new Double(round(toDoubleValue(args[0])));
-			else
+			} else {
 				return new Double(round(toDoubleValue(args[0]), (int) toDoubleValue(args[1])));
+			}
 
 		}
 	}
 
 	/**
 	 * Rounds a number to the integer.
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 */
@@ -197,7 +207,7 @@ class BirtMath implements IScriptFunctionExecutor {
 	/**
 	 * Rounds a number to the specified number of digits. dec is an integer and can
 	 * be negative.
-	 * 
+	 *
 	 * @param value
 	 * @param dec
 	 * @return
@@ -209,7 +219,7 @@ class BirtMath implements IScriptFunctionExecutor {
 
 	private static class Function_RoundUp extends Function_temp {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -218,18 +228,20 @@ class BirtMath implements IScriptFunctionExecutor {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
-			if (args.length == 1)
+			if (args.length == 1) {
 				return new Double(roundUp(toDoubleValue(args[0])));
-			else
+			} else {
 				return new Double(roundUp(toDoubleValue(args[0]), (int) toDoubleValue(args[1])));
+			}
 
 		}
 	}
 
 	/**
 	 * Rounds a number up, away from 0.
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 */
@@ -240,7 +252,7 @@ class BirtMath implements IScriptFunctionExecutor {
 	/**
 	 * Rounds a number up, away from 0, to the specified number of digits. Default
 	 * for dec is 0.
-	 * 
+	 *
 	 * @param value
 	 * @param dec
 	 * @return
@@ -273,7 +285,7 @@ class BirtMath implements IScriptFunctionExecutor {
 
 	private static class Function_RoundDown extends Function_temp {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -282,18 +294,20 @@ class BirtMath implements IScriptFunctionExecutor {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
-			if (args.length == 1)
+			if (args.length == 1) {
 				return new Double(roundDown(toDoubleValue(args[0])));
-			else
+			} else {
 				return new Double(roundDown(toDoubleValue(args[0]), (int) toDoubleValue(args[1])));
+			}
 
 		}
 	}
 
 	/**
 	 * Rounds a number down, away from 0, to the specified number of digits.
-	 * 
+	 *
 	 * @param value
 	 * @param dec
 	 * @return
@@ -305,7 +319,7 @@ class BirtMath implements IScriptFunctionExecutor {
 
 	/**
 	 * Rounds a number down, away from 0.
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 */
@@ -315,7 +329,7 @@ class BirtMath implements IScriptFunctionExecutor {
 
 	private static class Function_Ceiling extends Function_temp {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -324,6 +338,7 @@ class BirtMath implements IScriptFunctionExecutor {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			return new Double(ceiling(toDoubleValue(args[0]), toDoubleValue(args[1])));
 		}
@@ -331,21 +346,24 @@ class BirtMath implements IScriptFunctionExecutor {
 
 	/**
 	 * Rounds a number up, away from zero, to the nearest multiple of significance.
-	 * 
+	 *
 	 * @param n
 	 * @param significance
 	 * @return
 	 */
 	private static double ceiling(double n, double significance) {
-		if (significance == 0 || n == 0)
+		if (significance == 0 || n == 0) {
 			return 0;
+		}
 
-		if (n * significance < 0)
+		if (n * significance < 0) {
 			throw new IllegalArgumentException(Messages.getFormattedString(
 					"error.BirtMath.ceiling.significance.notApplied", new Object[] { significance, n }));
+		}
 
-		if (Math.abs(n) < Math.abs(significance))
+		if (Math.abs(n) < Math.abs(significance)) {
 			return significance;
+		}
 
 		double multiple = Math.ceil(n / significance);
 		long multiIntValue = Math.round(multiple);
@@ -355,15 +373,16 @@ class BirtMath implements IScriptFunctionExecutor {
 		double MIN_VALUE = 1.0E-10;
 		for (int i = 1; i < 30; i++) {
 			divisor = divisor * 10;
-			if (Math.abs(Math.round(temp * divisor) - temp * divisor) <= MIN_VALUE)
+			if (Math.abs(Math.round(temp * divisor) - temp * divisor) <= MIN_VALUE) {
 				break;
+			}
 		}
 		return multiIntValue * (significance * divisor) / divisor;
 	}
 
 	private static class Function_Mod extends Function_temp {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -372,6 +391,7 @@ class BirtMath implements IScriptFunctionExecutor {
 			maxParamCount = 2;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			return new Double(mod(toDoubleValue(args[0]), toDoubleValue(args[1])));
 		}
@@ -380,14 +400,15 @@ class BirtMath implements IScriptFunctionExecutor {
 	/**
 	 * Remainder after number is divided by divisor. The result has the same sign as
 	 * divisor
-	 * 
+	 *
 	 * @param n
 	 * @param div
 	 * @return
 	 */
 	private static double mod(double n, double div) {
-		if (div == 0)
+		if (div == 0) {
 			throw new IllegalArgumentException(Messages.getString("error.BirtMath.mod.invalid.divisor"));
+		}
 
 		return n - div * Math.floor((n / div));
 	}
@@ -400,18 +421,21 @@ class BirtMath implements IScriptFunctionExecutor {
 			maxParamCount = 3;
 		}
 
+		@Override
 		protected Object getValue(Object[] args) throws BirtException {
 			return MathUtil.safeDivide(args[0], args[1], args[2]);
 		}
 	}
 
 	private static double toDoubleValue(Object o) {
-		if (o instanceof Number)
+		if (o instanceof Number) {
 			return ((Number) o).doubleValue();
-		else
-			return o == null ? 0 : Double.valueOf(o.toString()).doubleValue();
+		} else {
+			return o == null ? 0 : Double.parseDouble(o.toString());
+		}
 	}
 
+	@Override
 	public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
 		return this.executor.execute(arguments, context);
 	}

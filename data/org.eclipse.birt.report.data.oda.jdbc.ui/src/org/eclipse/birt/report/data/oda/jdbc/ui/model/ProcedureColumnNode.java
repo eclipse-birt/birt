@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,6 +39,7 @@ public class ProcedureColumnNode implements IDBNode, Comparable<ProcedureColumnN
 		this.mode = mode;
 	}
 
+	@Override
 	public int compareTo(ProcedureColumnNode o) {
 		/**
 		 * In our case, 2 <code>ProcedureParameterNode</code> instances need to be
@@ -48,11 +52,13 @@ public class ProcedureColumnNode implements IDBNode, Comparable<ProcedureColumnN
 
 	// bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations
 	// (if required)
+	@Override
 	public String getDisplayName(String metadataBidiFormatStr) {
 		String bidiName = BidiTransform.transform(name, metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR);
 		return bidiName + " (" + type + ", " + mode + ")";
 	}
 
+	@Override
 	public Image getImage() {
 		// TODO Auto-generated method stub
 		return JFaceResources.getImageRegistry().get(PROCEDURE_COLUMN_ICON);
@@ -61,6 +67,7 @@ public class ProcedureColumnNode implements IDBNode, Comparable<ProcedureColumnN
 	/**
 	 * can't be part of a SQL text
 	 */
+	@Override
 	public String getQualifiedNameInSQL(boolean useIdentifierQuoteString, boolean includeSchema,
 			String metadataBidiFormatStr) {
 		return null;

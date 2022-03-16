@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -13,12 +16,8 @@ package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.util.Date;
 
-import org.eclipse.birt.data.engine.olap.data.util.IComparableStructure;
-import org.eclipse.birt.data.engine.olap.data.util.IStructure;
-import org.eclipse.birt.data.engine.olap.data.util.IStructureCreator;
-
 /**
- * 
+ *
  */
 
 public class MemberForStressTest implements IComparableStructure {
@@ -32,6 +31,7 @@ public class MemberForStressTest implements IComparableStructure {
 		this.stringField = stringField;
 	}
 
+	@Override
 	public Object[] getFieldValues() {
 		Object[] reFields = new Object[3];
 		reFields[0] = new Integer(iField);
@@ -42,18 +42,13 @@ public class MemberForStressTest implements IComparableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
 		MemberForStressTest other = (MemberForStressTest) o;
-		if (this.iField != other.iField) {
-			return false;
-		}
-		if (!this.dateField.equals(other.dateField)) {
-			return false;
-		}
-		if (!this.stringField.equals(other.stringField)) {
+		if ((this.iField != other.iField) || !this.dateField.equals(other.dateField) || !this.stringField.equals(other.stringField)) {
 			return false;
 		}
 		return true;
@@ -64,6 +59,7 @@ public class MemberForStressTest implements IComparableStructure {
 		return new MemberForStressTestCreator();
 	}
 
+	@Override
 	public int compareTo(Object o) {
 		MemberForStressTest other = (MemberForStressTest) o;
 		if (this.iField > other.iField) {
@@ -79,6 +75,7 @@ public class MemberForStressTest implements IComparableStructure {
 
 class MemberForStressTestCreator implements IStructureCreator {
 
+	@Override
 	public IStructure createInstance(Object[] fields) {
 		int iField = ((Integer) (fields[0])).intValue();
 		Date dateField = (Date) fields[1];

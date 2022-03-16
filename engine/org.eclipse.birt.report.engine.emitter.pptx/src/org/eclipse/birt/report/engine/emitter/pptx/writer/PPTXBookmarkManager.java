@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.pptx.writer;
 
@@ -18,7 +30,7 @@ public class PPTXBookmarkManager {
 
 	public void addBookmark(String bmk, int slideIdx) {
 		if (bookmarklist == null) {
-			bookmarklist = new HashMap<String, String>();
+			bookmarklist = new HashMap<>();
 		}
 		if (!bookmarklist.containsKey(bmk)) {
 			String slideurl = "slide" + slideIdx + ".xml";
@@ -34,16 +46,16 @@ public class PPTXBookmarkManager {
 	}
 
 	public String getBookmarkRelationId(String bmk, Slide slide) {
-		HashMap<String, String> bookmarkRelationlist = null;
+		HashMap<String, String> bookmarkRelationlist;
 		String relationshipid = null;
 		int slideidx = slide.getSlideId();
 		if (bmkslideRelList == null) {
-			bmkslideRelList = new HashMap<Integer, HashMap<String, String>>();
+			bmkslideRelList = new HashMap<>();
 		}
 
 		bookmarkRelationlist = bmkslideRelList.get(slideidx);
 		if (bookmarkRelationlist == null) {
-			bookmarkRelationlist = new HashMap<String, String>();
+			bookmarkRelationlist = new HashMap<>();
 			bmkslideRelList.put(slideidx, bookmarkRelationlist);
 		} else {
 			relationshipid = bookmarkRelationlist.get(bmk);
@@ -55,11 +67,11 @@ public class PPTXBookmarkManager {
 			if (slideurl == null) {
 				slideurl = "discon_url" + disbmk++;
 				if (bmkslideDiscList == null) {
-					bmkslideDiscList = new HashMap<Integer, HashMap<String, String>>();
+					bmkslideDiscList = new HashMap<>();
 				}
 				disconnectbmklist = bmkslideDiscList.get(slideidx);
 				if (disconnectbmklist == null) {
-					disconnectbmklist = new HashMap<String, String>();
+					disconnectbmklist = new HashMap<>();
 					bmkslideDiscList.put(slideidx, disconnectbmklist);
 				}
 				disconnectbmklist.put(slideurl, bmk);

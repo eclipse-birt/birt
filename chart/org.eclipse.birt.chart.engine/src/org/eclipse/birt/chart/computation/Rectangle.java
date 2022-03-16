@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -37,14 +40,14 @@ public class Rectangle {
 	/**
 	 * The bitmask that indicates that a point lies to the right of this
 	 * <code>Rectangle2D</code>.
-	 * 
+	 *
 	 */
 	public static final int OUT_RIGHT = 4;
 
 	/**
 	 * The bitmask that indicates that a point lies below this
 	 * <code>Rectangle2D</code>.
-	 * 
+	 *
 	 */
 	public static final int OUT_BOTTOM = 8;
 
@@ -55,26 +58,26 @@ public class Rectangle {
 
 	/**
 	 * The y coordinate of this <code>Rectangle</code>.
-	 * 
+	 *
 	 */
 	public double y;
 
 	/**
 	 * The width of this <code>Rectangle</code>.
-	 * 
+	 *
 	 */
 	public double width;
 
 	/**
 	 * The height of this <code>Rectangle</code>.
-	 * 
+	 *
 	 */
 	public double height;
 
 	/**
 	 * Constructs a new <code>Rectangle</code>, initialized to location (0,&nbsp;0)
 	 * and size (0,&nbsp;0).
-	 * 
+	 *
 	 */
 	public Rectangle() {
 	}
@@ -93,12 +96,12 @@ public class Rectangle {
 	/**
 	 * Constructs and initializes a <code>Rectangle</code> from the specified
 	 * Rectangle coordinates.
-	 * 
+	 *
 	 * @param x,&nbsp;y the coordinates of the upper left corner of the newly
 	 *                  constructed <code>Rectangle</code>
 	 * @param w         the width of the newly constructed <code>Rectangle</code>
 	 * @param h         the height of the newly constructed <code>Rectangle</code>
-	 * 
+	 *
 	 */
 	public Rectangle(double x, double y, double w, double h) {
 		setRect(x, y, w, h);
@@ -107,9 +110,9 @@ public class Rectangle {
 	/**
 	 * Returns the X coordinate of this <code>Rectangle</code> in Rectangle
 	 * precision.
-	 * 
+	 *
 	 * @return the X coordinate of this <code>Rectangle</code>.
-	 * 
+	 *
 	 */
 	public double getX() {
 		return x;
@@ -118,9 +121,9 @@ public class Rectangle {
 	/**
 	 * Returns the Y coordinate of this <code>Rectangle</code> in Rectangle
 	 * precision.
-	 * 
+	 *
 	 * @return the Y coordinate of this <code>Rectangle</code>.
-	 * 
+	 *
 	 */
 	public double getY() {
 		return y;
@@ -128,9 +131,9 @@ public class Rectangle {
 
 	/**
 	 * Returns the width of this <code>Rectangle</code> in Rectangle precision.
-	 * 
+	 *
 	 * @return the width of this <code>Rectangle</code>.
-	 * 
+	 *
 	 */
 	public double getWidth() {
 		return width;
@@ -138,9 +141,9 @@ public class Rectangle {
 
 	/**
 	 * Returns the height of this <code>Rectangle</code> in Rectangle precision.
-	 * 
+	 *
 	 * @return the height of this <code>Rectangle</code>.
-	 * 
+	 *
 	 */
 	public double getHeight() {
 		return height;
@@ -148,10 +151,10 @@ public class Rectangle {
 
 	/**
 	 * Determines whether or not this <code>Rectangle</code> is empty.
-	 * 
+	 *
 	 * @return <code>true</code> if this <code>Rectangle</code> is empty;
 	 *         <code>false</code> otherwise.
-	 * 
+	 *
 	 */
 	public boolean isEmpty() {
 		return (width <= 0.0) || (height <= 0.0);
@@ -160,14 +163,14 @@ public class Rectangle {
 	/**
 	 * Sets the location and size of this <code>Rectangle</code> to the specified
 	 * Rectangle values.
-	 * 
+	 *
 	 * @param x,&nbsp;y the coordinates to which to set the upper left corner of
 	 *                  this <code>Rectangle</code>
 	 * @param w         the value to use to set the width of this
 	 *                  <code>double</code>
 	 * @param h         the value to use to set the height of this
 	 *                  <code>double</code>
-	 * 
+	 *
 	 */
 	public void setRect(double x, double y, double w, double h) {
 		this.x = x;
@@ -179,9 +182,9 @@ public class Rectangle {
 	/**
 	 * Sets this <code>Rectangle</code> to be the same as the specified
 	 * <code>Rectangle</code>.
-	 * 
+	 *
 	 * @param r the specified <code>Rectangle</code>
-	 * 
+	 *
 	 */
 	public void setRect(Rectangle r) {
 		this.x = r.getX();
@@ -196,14 +199,14 @@ public class Rectangle {
 	 * mask values indicating, for each side of this <code>Rectangle</code>, whether
 	 * or not the specified coordinates are on the same side of the edge as the rest
 	 * of this <code>Rectangle</code>.
-	 * 
+	 *
 	 * @param x,&nbsp;y the specified coordinates
 	 * @return the logical OR of all appropriate out codes.
 	 * @see Rectangle#OUT_LEFT
 	 * @see Rectangle#OUT_TOP
 	 * @see Rectangle#OUT_RIGHT
 	 * @see Rectangle#OUT_BOTTOM
-	 * 
+	 *
 	 */
 	public int outcode(double x, double y) {
 		int out = 0;
@@ -226,9 +229,9 @@ public class Rectangle {
 
 	/**
 	 * Returns the high precision bounding box of this <code>Rectangle</code>.
-	 * 
+	 *
 	 * @return the bounding box of this <code>Rectangle</code>.
-	 * 
+	 *
 	 */
 	public Rectangle getBounds2D() {
 		return new Rectangle(x, y, width, height);
@@ -237,12 +240,12 @@ public class Rectangle {
 	/**
 	 * Returns a new <code>Rectangle</code> object representing the intersection of
 	 * this <code>Rectangle</code> with the specified <code>Rectangle</code>.
-	 * 
+	 *
 	 * @param r the <code>Rectangle</code> to be intersected with this
 	 *          <code>Rectangle</code>
 	 * @return the largest <code>Rectangle</code> contained in both the specified
 	 *         <code>Rectangle</code> and in this <code>Rectangle</code>.
-	 * 
+	 *
 	 */
 	public Rectangle createIntersection(Rectangle r) {
 		Rectangle dest = new Rectangle();
@@ -258,12 +261,12 @@ public class Rectangle {
 	/**
 	 * Returns a new <code>Rectangle</code> object representing the union of this
 	 * <code>Rectangle</code> with the specified <code>Rectangle</code>.
-	 * 
+	 *
 	 * @param r the <code>Rectangle</code> to be combined with this
 	 *          <code>Rectangle</code>
 	 * @return the smallest <code>Rectangle</code> containing both the specified
 	 *         <code>Rectangle</code> and this <code>Rectangle</code>.
-	 * 
+	 *
 	 */
 	public Rectangle createUnion(Rectangle r) {
 		Rectangle dest = new Rectangle();
@@ -306,10 +309,11 @@ public class Rectangle {
 	/**
 	 * Returns the <code>String</code> representation of this
 	 * <code>Rectangle</code>.
-	 * 
+	 *
 	 * @return a <code>String</code> representing this <code>Rectangle</code>.
-	 * 
+	 *
 	 */
+	@Override
 	public String toString() {
 		return getClass().getName() + "[x=" + x + ",y=" + y + ",w=" + width //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				+ ",h=" + height + "]"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -318,7 +322,7 @@ public class Rectangle {
 	/**
 	 * Returns the smallest X coordinate of the framing rectangle of the
 	 * <code>Rectangle</code> in <code>double</code> precision.
-	 * 
+	 *
 	 * @return the smallest x coordinate of the framing rectangle of the
 	 *         <code>Rectangle</code>.
 	 */
@@ -329,7 +333,7 @@ public class Rectangle {
 	/**
 	 * Returns the smallest Y coordinate of the framing rectangle of the
 	 * <code>Rectangle</code> in <code>double</code> precision.
-	 * 
+	 *
 	 * @return the smallest y coordinate of the framing rectangle of the
 	 *         <code>Rectangle</code>.
 	 */
@@ -340,7 +344,7 @@ public class Rectangle {
 	/**
 	 * Returns the largest X coordinate of the framing rectangle of the
 	 * <code>Rectangle</code> in <code>double</code> precision.
-	 * 
+	 *
 	 * @return the largest x coordinate of the framing rectangle of the
 	 *         <code>Rectangle</code>.
 	 */
@@ -351,7 +355,7 @@ public class Rectangle {
 	/**
 	 * Returns the largest Y coordinate of the framing rectangle of the
 	 * <code>Rectangle</code> in <code>double</code> precision.
-	 * 
+	 *
 	 * @return the largest y coordinate of the framing rectangle of the
 	 *         <code>Rectangle</code>.
 	 */

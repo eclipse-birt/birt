@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,15 +44,12 @@ public class RomImage {
 		} catch (SAXException sxe) {
 			// Error generated during parsing
 			Exception x = sxe;
-			if (sxe.getException() != null)
+			if (sxe.getException() != null) {
 				x = sxe.getException();
+			}
 			x.printStackTrace();
 			throw new RomException(sxe);
-		} catch (ParserConfigurationException pce) {
-			// Parser with specified options can't be built
-			pce.printStackTrace();
-			throw new RomException(pce);
-		} catch (IOException ioe) {
+		} catch (ParserConfigurationException | IOException ioe) {
 			// I/O error
 			ioe.printStackTrace();
 			throw new RomException(ioe);
@@ -82,7 +82,7 @@ public class RomImage {
 
 	static class RomException extends Exception {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -100,8 +100,9 @@ public class RomImage {
 		int n = list.getLength();
 		for (int i = 0; i < n; i++) {
 			Element e = (Element) list.item(i);
-			if (e.getAttribute("name").equals(name))
+			if (e.getAttribute("name").equals(name)) {
 				return e;
+			}
 		}
 		return null;
 	}
@@ -115,8 +116,9 @@ public class RomImage {
 		int n = list.getLength();
 		for (int i = 0; i < n; i++) {
 			Element e = (Element) list.item(i);
-			if (e.getAttribute("name").equals(name))
+			if (e.getAttribute("name").equals(name)) {
 				return e;
+			}
 		}
 		return null;
 	}
@@ -131,8 +133,9 @@ public class RomImage {
 
 	public String getDefaultValue(Element romProp) {
 		NodeList list = romProp.getElementsByTagName("Default");
-		if (list.getLength() == 0)
+		if (list.getLength() == 0) {
 			return null;
+		}
 		Element valueNode = (Element) list.item(0);
 		return valueNode.getNodeValue();
 	}
@@ -143,20 +146,23 @@ public class RomImage {
 		if (list.getLength() == 0) {
 			valueNode = document.createElement("Default");
 			romProp.appendChild(valueNode);
-		} else
+		} else {
 			valueNode = (Element) list.item(0);
+		}
 		valueNode.setNodeValue(defaultValue);
 	}
 
 	public Element findPropertyVisibility(Element romElement, String name) {
 		NodeList list = romElement.getElementsByTagName("PropertyVisibility");
-		if (list.getLength() == 0)
+		if (list.getLength() == 0) {
 			return null;
+		}
 		int n = list.getLength();
 		for (int i = 0; i < n; i++) {
 			Element e = (Element) list.item(i);
-			if (e.getAttribute("name").equals(name))
+			if (e.getAttribute("name").equals(name)) {
 				return e;
+			}
 		}
 		return null;
 	}

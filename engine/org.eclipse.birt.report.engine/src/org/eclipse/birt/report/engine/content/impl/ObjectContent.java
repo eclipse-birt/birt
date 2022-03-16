@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -32,7 +32,7 @@ public class ObjectContent extends ImageContent {
 	 * tabindex NUMBER #IMPLIED -- position in tabbing order --
 	 */
 
-	private HashMap<String, String> params = new HashMap<String, String>();
+	private HashMap<String, String> params = new HashMap<>();
 
 	ObjectContent(ReportContent report) {
 		super(report);
@@ -52,10 +52,12 @@ public class ObjectContent extends ImageContent {
 		return params.get(name);
 	}
 
+	@Override
 	public void readContent(DataInputStream in, ClassLoader loader) throws IOException {
 		throw new IOException("Unsupported operation: Object content can not be serialized");
 	}
 
+	@Override
 	public void writeContent(DataOutputStream out) throws IOException {
 		throw new IOException("Unsupported operation: Object content can not be serialized");
 	}

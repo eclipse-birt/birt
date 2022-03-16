@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -28,6 +31,7 @@ public class ParameterMetaData implements IParameterMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterCount()
 	 */
+	@Override
 	public int getParameterCount() throws OdaException {
 		return 0;
 	}
@@ -37,17 +41,19 @@ public class ParameterMetaData implements IParameterMetaData {
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterMode(
 	 * int)
 	 */
+	@Override
 	public int getParameterMode(int param) throws OdaException {
 		return IParameterMetaData.parameterModeIn;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterName(
 	 * int)
 	 */
+	@Override
 	public String getParameterName(int param) throws OdaException {
 		return null; // name is not available
 	}
@@ -57,6 +63,7 @@ public class ParameterMetaData implements IParameterMetaData {
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterType(
 	 * int)
 	 */
+	@Override
 	public int getParameterType(int param) throws OdaException {
 		return java.sql.Types.CHAR; // default value
 	}
@@ -65,6 +72,7 @@ public class ParameterMetaData implements IParameterMetaData {
 	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#
 	 * getParameterTypeName(int)
 	 */
+	@Override
 	public String getParameterTypeName(int param) throws OdaException {
 		int nativeTypeCode = getParameterType(param);
 		return MongoDBDriver.getNativeDataTypeName(nativeTypeCode);
@@ -74,6 +82,7 @@ public class ParameterMetaData implements IParameterMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getPrecision(int)
 	 */
+	@Override
 	public int getPrecision(int param) throws OdaException {
 		return -1;
 	}
@@ -81,6 +90,7 @@ public class ParameterMetaData implements IParameterMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getScale(int)
 	 */
+	@Override
 	public int getScale(int param) throws OdaException {
 		return -1;
 	}
@@ -89,6 +99,7 @@ public class ParameterMetaData implements IParameterMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#isNullable(int)
 	 */
+	@Override
 	public int isNullable(int param) throws OdaException {
 		return IParameterMetaData.parameterNullableUnknown;
 	}

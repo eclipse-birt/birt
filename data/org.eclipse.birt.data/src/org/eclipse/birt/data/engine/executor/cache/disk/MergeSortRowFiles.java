@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,9 +47,10 @@ class MergeSortRowFiles implements IRowIterator {
 
 	/*
 	 * Moves the cursor to the first object in this MergeSortObjectFile object.
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowIterator#first()
 	 */
+	@Override
 	public void reset() throws DataException {
 		for (int i = 0; i < subRowIterators.length; i++) {
 			subRowIterators[i].reset();
@@ -58,6 +62,7 @@ class MergeSortRowFiles implements IRowIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowIterator#next()
 	 */
+	@Override
 	public IResultObject fetch() throws IOException, DataException {
 		if (rowBuffer == null) {
 			prepareFirstFetch();
@@ -84,11 +89,13 @@ class MergeSortRowFiles implements IRowIterator {
 			if (rowBufferSize > 1) {
 				pos = Arrays.binarySearch(rowBuffer, mValueIndex);
 
-				if (pos < 0)
+				if (pos < 0) {
 					pos = (pos + 1) * -1;
+				}
 				pos--;
-				if (pos == -1)
+				if (pos == -1) {
 					pos = 0;
+				}
 
 				if (pos > 0) {
 					System.arraycopy(rowBuffer, 1, rowBuffer, 0, pos);
@@ -109,9 +116,10 @@ class MergeSortRowFiles implements IRowIterator {
 
 		for (int i = 0; i < rowBuffer.length; i++) {
 			IResultObject value = subRowIterators[i].fetch();
-			if (value != null)
+			if (value != null) {
 				rowBuffer[i] = new ValueIndex(value, i, this.mergeSortUtil.getComparator());
-			;
+			}
+
 		}
 		rowBufferSize = 0;
 		for (int i = 0; i < rowBuffer.length; i++) {
@@ -126,9 +134,10 @@ class MergeSortRowFiles implements IRowIterator {
 
 	/*
 	 * Delete all the files correlated with this MergeSortObjectFile object.
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowIterator#close()
 	 */
+	@Override
 	public void close() throws DataException {
 		for (int i = 0; i < subRowIterators.length; i++) {
 			subRowIterators[i].close();
@@ -148,16 +157,18 @@ class MergeSortRowFiles implements IRowIterator {
 			this.comparator = comparator;
 		}
 
+		@Override
 		public int compareTo(Object o) {
 			ValueIndex other = ((ValueIndex) o);
 			int result = comparator.compare(value, other.value);
 			if (result == 0) {
-				if (index > other.index)
+				if (index > other.index) {
 					return 1;
-				else if (index == other.index)
+				} else if (index == other.index) {
 					return 0;
-				else
+				} else {
 					return -1;
+				}
 
 			}
 			return result;

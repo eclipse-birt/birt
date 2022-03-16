@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +44,7 @@ import org.eclipse.ui.dialogs.SelectionStatusDialog;
 
 /**
  * A dialog for dimension builder in the property view.
- * 
+ *
  */
 public class DimensionBuilderDialog extends SelectionStatusDialog {
 
@@ -51,7 +54,7 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 
 	private static String LABEL_UNIT = Messages.getString("DimensionBuilderDialog.LabelUnit"); //$NON-NLS-1$
 
-	private Button[] units = new Button[] {};
+	private Button[] units = {};
 
 	private String[] unitNames;
 
@@ -74,9 +77,10 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.SelectionStatusDialog#computeResult()
 	 */
+	@Override
 	protected void computeResult() {
 		try {
 			measureData = StringUtil.parseInput(measure.getText(), ThreadResources.getLocale());
@@ -86,11 +90,12 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -130,6 +135,7 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 		}
 		measure.addVerifyListener(new VerifyListener() {
 
+			@Override
 			public void verifyText(VerifyEvent e) {
 				// TODO Auto-generated method stub
 				boolean doit = false;
@@ -177,17 +183,20 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 			final int currentUnitData = i;
 			units[i].addSelectionListener(new SelectionListener() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					setUnitName(units[currentUnitData].getData().toString());
 					unitIndex = currentUnitData;
 				}
 
+				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
 			});
 		}
 		unitLabel.addTraverseListener(new TraverseListener() {
 
+			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
 					e.detail = SWT.TRAVERSE_NONE;

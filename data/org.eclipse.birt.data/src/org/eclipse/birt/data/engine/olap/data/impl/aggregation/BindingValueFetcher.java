@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +32,7 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 /**
  * This class is used to fetch binding values from cube cursor
- * 
+ *
  * @author Administrator
  *
  */
@@ -49,7 +52,7 @@ public class BindingValueFetcher implements IBindingValueFetcher {
 			List<Set<String>> dimLevelOfInteresting) throws DataException {
 		this.node = new Node(null);
 		this.bindingNames = bindingOfInteresting;
-		this.levels = new ArrayList<String>();
+		this.levels = new ArrayList<>();
 		this.currentBindingValues = new ArrayList();
 		this.dimLevelOfInteresting = dimLevelOfInteresting;
 		populateOrderedLvls(cursor);
@@ -57,7 +60,7 @@ public class BindingValueFetcher implements IBindingValueFetcher {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cursor
 	 * @param bindingOfInteresting
 	 * @throws DataException
@@ -65,12 +68,13 @@ public class BindingValueFetcher implements IBindingValueFetcher {
 	private void populateBindingValueTree(ICubeCursor cursor, List<String> bindingOfInteresting) throws DataException {
 		List memberValue = new ArrayList();
 		List edges = cursor.getOrdinateEdge();
-		if (edges.size() > 0)
+		if (edges.size() > 0) {
 			this.populateNode(edges, cursor, memberValue, bindingOfInteresting);
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param edgeCursors
 	 * @param cursor
 	 * @param memberValue
@@ -82,8 +86,7 @@ public class BindingValueFetcher implements IBindingValueFetcher {
 		EdgeCursor edge = edgeCursors.get(0);
 		edge.beforeFirst();
 		while (edge.next()) {
-			List temp = new ArrayList();
-			temp.addAll(memberValue);
+			List temp = new ArrayList(memberValue);
 			List<DimensionCursor> dimCursors = edge.getDimensionCursor();
 			for (DimensionCursor dim : dimCursors) {
 				temp.add(dim.getObject(0));
@@ -101,7 +104,7 @@ public class BindingValueFetcher implements IBindingValueFetcher {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cursor
 	 * @throws OLAPException
 	 */
@@ -117,13 +120,14 @@ public class BindingValueFetcher implements IBindingValueFetcher {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.IBindingValueFetcher
 	 * #getValue(java.lang.String,
 	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation
 	 * .filter.AggregationRowAccessor)
 	 */
+	@Override
 	public Object getValue(String bindingName, AggregationRowAccessor row, int rowIndex) throws DataException {
 		int index = this.bindingNames.indexOf(bindingName);
 
@@ -133,10 +137,11 @@ public class BindingValueFetcher implements IBindingValueFetcher {
 				List memberValues = new ArrayList();
 				memberValues.add(DUMMYOBJ);
 				for (String lvlName : this.levels) {
-					if (involvedLvl.contains(lvlName) || row.isAxisLevel(lvlName))
+					if (involvedLvl.contains(lvlName) || row.isAxisLevel(lvlName)) {
 						memberValues.add(row.getFieldValue(lvlName));
-					else
+					} else {
 						memberValues.add(DUMMYOBJ);
+					}
 				}
 
 				this.currentBindingValues = node.getBindingValue(memberValues);
@@ -153,7 +158,7 @@ public class BindingValueFetcher implements IBindingValueFetcher {
 
 	/**
 	 * The class is used to build a tree that contains binding values
-	 * 
+	 *
 	 * @author Administrator
 	 *
 	 */
@@ -165,31 +170,34 @@ public class BindingValueFetcher implements IBindingValueFetcher {
 
 		Node(Object value) {
 			this.value = value;
-			this.sub = new HashSet<Node>();
+			this.sub = new HashSet<>();
 		}
 
 		private boolean valueEqual(Object o) throws DataException {
-			if (o == DUMMYOBJ)
-				return true;
 			// is drilled element
-			if (this.value == null)
+			if ((o == DUMMYOBJ) || (this.value == null)) {
 				return true;
+			}
 			return ScriptEvalUtil.compare(this.value, o) == 0;
 		}
 
 		public Node find(List memberValue) throws DataException {
-			if (!valueEqual(memberValue.get(0)))
+			if (!valueEqual(memberValue.get(0))) {
 				return null;
-			if (memberValue.size() == 1 && valueEqual(memberValue.get(0)))
+			}
+			if (memberValue.size() == 1 && valueEqual(memberValue.get(0))) {
 				return this;
+			}
 			for (Node subNode : sub) {
 				Node result = subNode.find(memberValue.subList(1, memberValue.size()));
-				if (result != null)
+				if (result != null) {
 					return result;
+				}
 			}
 			return null;
 		}
 
+		@Override
 		public String toString() {
 			String result = "";
 			for (Node subNode : sub) {
@@ -200,8 +208,9 @@ public class BindingValueFetcher implements IBindingValueFetcher {
 
 		public List getBindingValue(List memberValues) throws DataException {
 			Node result = find(memberValues);
-			if (result == null)
+			if (result == null) {
 				return null;
+			}
 			return result.bindingValues;
 		}
 
@@ -215,8 +224,9 @@ public class BindingValueFetcher implements IBindingValueFetcher {
 								: memberValues.subList(1, memberValues.size()), bindingValues);
 						addNewNode = false;
 					}
-					if (!addNewNode)
+					if (!addNewNode) {
 						break;
+					}
 				}
 				if (addNewNode) {
 					Node newNode = new Node(o);

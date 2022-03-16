@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +42,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * Handle to a structure within a list property. List properties contain objects
  * called structures. Structures have <em>members</em> that hold data values.
- * 
+ *
  * @see MemberHandle
  */
 
@@ -54,7 +57,7 @@ public class StructureHandle extends ValueHandle {
 	/**
 	 * Constructs a handle for a structure within a list property of a given
 	 * element.
-	 * 
+	 *
 	 * @param element handle to the report element.
 	 * @param context context of the structure
 	 */
@@ -70,17 +73,19 @@ public class StructureHandle extends ValueHandle {
 	/**
 	 * Constructs a handle for a structure within a list property of a given
 	 * element.
-	 * 
+	 *
 	 * @param element handle to the report element.
 	 * @param ref     reference to the structure
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public StructureHandle(DesignElementHandle element, MemberRef ref) {
 		super(element);
-		if (ref == null)
+		if (ref == null) {
 			throw new IllegalArgumentException(
 					"The member reference can not be null when creating the structure handle."); //$NON-NLS-1$
+		}
 		structContext = ref.getContext();
 		checkValidation();
 	}
@@ -88,7 +93,7 @@ public class StructureHandle extends ValueHandle {
 	/**
 	 * Constructs a handle for a structure within a list property or a structure
 	 * member.
-	 * 
+	 *
 	 * @param valueHandle handle to a list property or member
 	 * @param index       index of the structure within the list
 	 */
@@ -121,13 +126,15 @@ public class StructureHandle extends ValueHandle {
 	}
 
 	private void checkValidation() {
-		if (structContext == null)
+		if (structContext == null) {
 			throw new IllegalArgumentException("The context can not be null when creating a structure handle!"); //$NON-NLS-1$
+		}
 		assert structContext.getStructure() != null;
 	}
 
 	// Implementation of abstract method defined in base class.
 
+	@Override
 	public IElementPropertyDefn getPropertyDefn() {
 		return structContext.getElementProp();
 	}
@@ -137,7 +144,7 @@ public class StructureHandle extends ValueHandle {
 	 * structure type to query the structure directly. Note: do not modify the
 	 * structure directly; use the <code>MemberHandle</code> class for all
 	 * modifications.
-	 * 
+	 *
 	 * @return the structure
 	 */
 
@@ -147,15 +154,16 @@ public class StructureHandle extends ValueHandle {
 		// user may cache this structure handle, when the structure is removed,
 		// we must return null; in another word, if the structure has no
 		// context, return null
-		if (struct.getContext() == null)
+		if (struct.getContext() == null) {
 			return null;
+		}
 
 		return struct;
 	}
 
 	/**
 	 * Gets the value of a member.
-	 * 
+	 *
 	 * @param memberName name of the member to get
 	 * @return String value of the member, or <code>null</code> if the member is not
 	 *         set or is not found.
@@ -163,15 +171,16 @@ public class StructureHandle extends ValueHandle {
 
 	public Object getProperty(String memberName) {
 		MemberHandle handle = getMember(memberName);
-		if (handle == null)
+		if (handle == null) {
 			return null;
+		}
 
 		return handle.getValue();
 	}
 
 	/**
 	 * Get the string value of a member.
-	 * 
+	 *
 	 * @param memberName name of the member to get
 	 * @return String value of the member, or <code>null</code> if the member is not
 	 *         set or is not found.
@@ -198,26 +207,30 @@ public class StructureHandle extends ValueHandle {
 			// command change, therefore we must update and get the new context
 			StructureContext targetContext = StructureContextUtil.getLocalStructureContext(module, element,
 					structContext);
-			if (targetContext != null)
+			if (targetContext != null) {
 				struct = targetContext.getStructure();
+			}
 
 		}
 
-		if (struct == null)
+		if (struct == null) {
 			return null;
+		}
 
 		PropertyDefn defn = (PropertyDefn) struct.getMemberDefn(memberName);
-		if (defn == null)
+		if (defn == null) {
 			return null;
+		}
 		Object value = struct.getProperty(module, defn);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 		return defn.getStringValue(module, value);
 	}
 
 	/**
 	 * Get the integer value of a member.
-	 * 
+	 *
 	 * @param memberName name of the member to get
 	 * @return integer value of the member, or <code>0</code> if the member is not
 	 *         set or is not defined.
@@ -225,15 +238,16 @@ public class StructureHandle extends ValueHandle {
 
 	protected int getIntProperty(String memberName) {
 		MemberHandle handle = getMember(memberName);
-		if (handle == null)
+		if (handle == null) {
 			return 0;
+		}
 
 		return handle.getIntValue();
 	}
 
 	/**
 	 * Sets the value of the member.
-	 * 
+	 *
 	 * @param memberName name of the member to set.
 	 * @param value      the value to set
 	 * @throws SemanticException if the member name is not defined on the structure
@@ -242,8 +256,9 @@ public class StructureHandle extends ValueHandle {
 
 	public void setProperty(String memberName, Object value) throws SemanticException {
 		MemberHandle memberHandle = getMember(memberName);
-		if (memberHandle == null)
+		if (memberHandle == null) {
 			throw new PropertyNameException(getElement(), getStructure(), memberName);
+		}
 
 		memberHandle.setValue(value);
 	}
@@ -256,10 +271,10 @@ public class StructureHandle extends ValueHandle {
 	 * Note that this method will internal swallow exceptions thrown when performing
 	 * the set operation. The exception will be deemed as internal error. So calling
 	 * this method when you are sure that exception is a programming error.
-	 * 
+	 *
 	 * @param memberName name of the member to set.
 	 * @param value      value to set.
-	 * 
+	 *
 	 */
 
 	protected final void setPropertySilently(String memberName, Object value) {
@@ -272,7 +287,7 @@ public class StructureHandle extends ValueHandle {
 
 	/**
 	 * Returns the definition of the structure.
-	 * 
+	 *
 	 * @return the structure definition
 	 */
 
@@ -282,7 +297,7 @@ public class StructureHandle extends ValueHandle {
 
 	/**
 	 * Returns a handle to a structure member.
-	 * 
+	 *
 	 * @param memberName the name of the member
 	 * @return a handle to the member or <code>null</code> if the member is not
 	 *         defined on the structure.
@@ -290,8 +305,9 @@ public class StructureHandle extends ValueHandle {
 
 	public MemberHandle getMember(String memberName) {
 		StructPropertyDefn memberDefn = (StructPropertyDefn) getDefn().getMember(memberName);
-		if (memberDefn == null)
+		if (memberDefn == null) {
 			return null;
+		}
 
 		return new MemberHandle(this, memberDefn);
 	}
@@ -299,7 +315,7 @@ public class StructureHandle extends ValueHandle {
 	/**
 	 * Returns an iterator over the members of this structure. The iterator is of
 	 * type <code>MemberIterator</code>.
-	 * 
+	 *
 	 * @return an iterator over the members of the structure.
 	 * @see MemberIterator
 	 */
@@ -310,9 +326,10 @@ public class StructureHandle extends ValueHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.ValueHandle#getContext()
 	 */
+	@Override
 	public StructureContext getContext() {
 		return structContext;
 	}
@@ -320,7 +337,7 @@ public class StructureHandle extends ValueHandle {
 	/**
 	 * Removes this structure from a list property or member. Once the structure is
 	 * dropped, the handle should not be used to do any setter operations.
-	 * 
+	 *
 	 * @throws PropertyValueException if the structure is not contained in the list.
 	 */
 
@@ -332,7 +349,7 @@ public class StructureHandle extends ValueHandle {
 
 	/**
 	 * Returns externalized message.
-	 * 
+	 *
 	 * @param textIDProp name of the property that defines the message key
 	 * @param textProp   name of the property that defines the default
 	 *                   non-externalized value if the key is not found in message
@@ -348,7 +365,7 @@ public class StructureHandle extends ValueHandle {
 
 	/**
 	 * Returns the externalized message.
-	 * 
+	 *
 	 * @param textIDProp name of the property that defines the message key
 	 * @param textProp   name of the property that defines the default
 	 *                   non-externalized value if the key is not found in message
@@ -364,7 +381,7 @@ public class StructureHandle extends ValueHandle {
 
 	/**
 	 * Justifies whether this structure handle is generated in design time.
-	 * 
+	 *
 	 * @return <true> if the structure handle is generated in design time, otherwise
 	 *         return <false>.
 	 */
@@ -373,20 +390,21 @@ public class StructureHandle extends ValueHandle {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param isDesignTime
 	 * @throws SemanticException
 	 */
 	public void setDesignTime(boolean isDesignTime) throws SemanticException {
 		MemberHandle memberHandle = getMember(StyleRule.IS_DESIGN_TIME_MEMBER);
-		if (memberHandle != null)
+		if (memberHandle != null) {
 			memberHandle.setValue(Boolean.valueOf(isDesignTime));
+		}
 
 	}
 
 	/**
 	 * Sets the value of the member as an expression.
-	 * 
+	 *
 	 * @param memberName name of the member to set.
 	 * @param value      the expression to set
 	 * @throws SemanticException if the member name is not defined on the structure
@@ -399,7 +417,7 @@ public class StructureHandle extends ValueHandle {
 
 	/**
 	 * Gets the value of the member as an expression.
-	 * 
+	 *
 	 * @param memberName name of the member to set.
 	 * @return the expression
 	 * @throws SemanticException if the member name is not defined on the structure
@@ -408,12 +426,14 @@ public class StructureHandle extends ValueHandle {
 
 	public ExpressionHandle getExpressionProperty(String memberName) {
 		PropertyDefn defn = (PropertyDefn) getDefn().getMember(memberName);
-		if (defn == null)
+		if (defn == null) {
 			return null;
+		}
 
-		if (defn.allowExpression() && !defn.isListType())
+		if (defn.allowExpression() && !defn.isListType()) {
 			return new ExpressionHandle(getElementHandle(),
 					StructureContextUtil.createStructureContext(this, memberName));
+		}
 
 		return null;
 	}
@@ -422,19 +442,21 @@ public class StructureHandle extends ValueHandle {
 	 * Determines whether this value is set locally for the given member in this
 	 * structure. It is set if and only if it is defined on this structure local
 	 * property.
-	 * 
+	 *
 	 * @return <code>true</code> if the local value is set, otherwise
 	 *         <code>false</code>.
-	 * 
+	 *
 	 */
 
 	public boolean isLocal(String memberName) {
 		StructPropertyDefn memberDefn = (StructPropertyDefn) getDefn().getMember(memberName);
-		if (memberDefn == null)
+		if (memberDefn == null) {
 			return false;
+		}
 		Structure struct = (Structure) getStructure();
-		if (struct == null)
+		if (struct == null) {
 			return false;
+		}
 		Object localValue = struct.getLocalProperty(getModule(), memberDefn);
 		return localValue == null ? false : true;
 	}

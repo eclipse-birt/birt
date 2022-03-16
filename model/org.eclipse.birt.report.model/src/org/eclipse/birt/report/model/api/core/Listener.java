@@ -1,9 +1,9 @@
 /*******************************************************************************
 * Copyright (c) 2004 Actuate Corporation.
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
@@ -41,13 +41,13 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
  * about a specific subset of events. Then, look at the sender, target or other
  * members to decide what to do with the particular event. Finally, perform the
  * client-specific action.
- * 
+ *
  */
 
 public interface Listener {
 	/**
 	 * Notifies the listener about a Design Engine event.
-	 * 
+	 *
 	 * @param focus The design element that has changed.
 	 * @param ev    The notification event that describes the change.
 	 */

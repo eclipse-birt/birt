@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * This class defines constants and static methods for the number.
- * 
+ *
  * @since 2.6
  */
 
@@ -63,7 +66,7 @@ public class NumberUtil {
 
 	/**
 	 * Returns a default format for big number.
-	 * 
+	 *
 	 * @param locale
 	 * @return
 	 */
@@ -73,7 +76,7 @@ public class NumberUtil {
 
 	/**
 	 * Checks if specified object is a big number.
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 */
@@ -83,7 +86,7 @@ public class NumberUtil {
 
 	/**
 	 * Checks if specified object is a big decimal.
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 */
@@ -93,7 +96,7 @@ public class NumberUtil {
 
 	/**
 	 * Checks if specified object is instance of ibm's BigDecimal.
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 */
@@ -103,7 +106,7 @@ public class NumberUtil {
 
 	/**
 	 * Checks if specified object is instance of java.math.BigDecimal.
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 */
@@ -113,7 +116,7 @@ public class NumberUtil {
 
 	/**
 	 * This method compares two number objects.
-	 * 
+	 *
 	 * @param na first number object.
 	 * @param nb second number object.
 	 * @return 1 if 1st is greater than 2nd, -1 if 1st is less than 2nd, 0 if 1st
@@ -133,7 +136,7 @@ public class NumberUtil {
 		if (na instanceof Comparable<?> && nb instanceof Comparable<?>) {
 			return ((Comparable<Number>) na).compareTo(nb);
 		}
-		return Double.valueOf(na.doubleValue()).compareTo(Double.valueOf(nb.doubleValue()));
+		return Double.valueOf(na.doubleValue()).compareTo(nb.doubleValue());
 	}
 
 	/**
@@ -141,7 +144,7 @@ public class NumberUtil {
 	 * number is Double, Float, Integer, Long, Short, Unsigned Int, Unsigned Long,
 	 * Byte, Char. It will be transformed as Double. If specified number is
 	 * BigDecimal or BigInteger. It will be transformed as BigDecimal.
-	 * 
+	 *
 	 * @param n
 	 * @return
 	 */
@@ -163,7 +166,7 @@ public class NumberUtil {
 
 	/**
 	 * This method convert number to Double or BigDecimal types.
-	 * 
+	 *
 	 * @param n
 	 * @return
 	 */
@@ -189,7 +192,7 @@ public class NumberUtil {
 
 	/**
 	 * This method wraps number as big decimal.
-	 * 
+	 *
 	 * @param n
 	 * @return
 	 */
@@ -211,7 +214,7 @@ public class NumberUtil {
 
 	/**
 	 * Converts number as java.math.BigDecimal.
-	 * 
+	 *
 	 * @param n
 	 * @return
 	 */
@@ -233,7 +236,7 @@ public class NumberUtil {
 
 	/**
 	 * This method wraps number as Double.
-	 * 
+	 *
 	 * @param n
 	 * @return
 	 */
@@ -251,7 +254,7 @@ public class NumberUtil {
 
 	/**
 	 * This method wraps number as big number.
-	 * 
+	 *
 	 * @param n
 	 * @param divisor
 	 * @return
@@ -279,7 +282,7 @@ public class NumberUtil {
 	/**
 	 * This method removes invalid symbols from specified format pattern for big
 	 * number.
-	 * 
+	 *
 	 * @param pattern
 	 * @return
 	 */

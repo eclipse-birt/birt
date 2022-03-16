@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +29,7 @@ import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 /**
  * Base class for structures that store some or all of their properties in a
  * hash table. Such properties can have an "unset" state.
- * 
+ *
  */
 
 public abstract class PropertyStructure extends Structure {
@@ -36,54 +39,60 @@ public abstract class PropertyStructure extends Structure {
 	 * are of type Object.
 	 */
 
-	protected HashMap<String, Object> propValues = new HashMap<String, Object>();
+	protected HashMap<String, Object> propValues = new HashMap<>();
 
 	/**
 	 * Gets the locale value of a property.
-	 * 
+	 *
 	 * @param module   the module
-	 * 
+	 *
 	 * @param propDefn definition of the property to get
 	 * @return value of the item as an object, or null if the item is not set
 	 *         locally or is not found.
 	 */
 
+	@Override
 	public Object getLocalProperty(Module module, PropertyDefn propDefn) {
 		Object value = null;
-		if (propDefn.isIntrinsic())
+		if (propDefn.isIntrinsic()) {
 			value = getIntrinsicProperty(propDefn.getName());
-		else
+		} else {
 			value = propValues.get(propDefn.getName());
+		}
 
-		if (propDefn.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE)
+		if (propDefn.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE) {
 			return ReferenceValueUtil.resolveElementReference(this, module, (StructPropertyDefn) propDefn, value);
+		}
 		return value;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.Structure#getLocalProperty(org.eclipse
 	 * .birt.report.model.core.Module, java.lang.String)
 	 */
 
+	@Override
 	public Object getLocalProperty(Module module, String memberName) {
 		PropertyDefn prop = (PropertyDefn) getDefn().getMember(memberName);
-		if (prop == null)
+		if (prop == null) {
 			return null;
+		}
 		return getLocalProperty(module, prop);
 	}
 
 	/**
 	 * Sets the value of the property.
-	 * 
+	 *
 	 * @param prop  the property definition
-	 * 
+	 *
 	 * @param value the value to set.
-	 * 
+	 *
 	 */
 
+	@Override
 	public final void setProperty(PropertyDefn prop, Object value) {
 		assert prop != null;
 
@@ -92,22 +101,24 @@ public abstract class PropertyStructure extends Structure {
 		updateReference(prop, newValue);
 		setupContext(prop, newValue);
 
-		if (prop.isIntrinsic())
+		if (prop.isIntrinsic()) {
 			setIntrinsicProperty(prop.getName(), newValue);
-		else if (value == null)
+		} else if (value == null) {
 			propValues.remove(prop.getName());
-		else
+		} else {
 			propValues.put(prop.getName(), newValue);
+		}
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
 		assert false;
 		return null;
@@ -115,26 +126,28 @@ public abstract class PropertyStructure extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
 		assert false;
 	}
 
 	/**
 	 * Makes a copy of this property structure map.
-	 * 
+	 *
 	 * @return IStructure of this property.
 	 * @throws CloneNotSupportedException
-	 * 
+	 *
 	 */
 
+	@Override
 	public Object clone() throws CloneNotSupportedException {
 		PropertyStructure clone = (PropertyStructure) super.clone();
-		clone.propValues = new HashMap<String, Object>();
+		clone.propValues = new HashMap<>();
 
 		for (Iterator<String> iter = propValues.keySet().iterator(); iter.hasNext();) {
 			String memberName = iter.next();

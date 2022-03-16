@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,10 +28,11 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * The Font attribute page of DE element.
- * 
+ *
  */
 public class FontPage extends ResetAttributePage {
 
+	@Override
 	public void buildUI(Composite parent) {
 		super.buildUI(parent);
 		container.setLayout(WidgetUtil.createGridLayout(6, 15));
@@ -62,7 +66,7 @@ public class FontPage extends ResetAttributePage {
 		colorSection.setGridPlaceholder(4, true);
 		addSection(PageSectionId.FONT_COLOR, colorSection);
 
-		String[] textStyles = new String[] { StyleHandle.FONT_WEIGHT_PROP, StyleHandle.FONT_STYLE_PROP,
+		String[] textStyles = { StyleHandle.FONT_WEIGHT_PROP, StyleHandle.FONT_STYLE_PROP,
 				StyleHandle.TEXT_UNDERLINE_PROP, StyleHandle.TEXT_LINE_THROUGH_PROP, };
 
 		FontStylePropertyDescriptorProvider[] providers = new FontStylePropertyDescriptorProvider[4];

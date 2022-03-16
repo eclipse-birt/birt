@@ -1,11 +1,13 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -24,7 +26,7 @@ import org.apache.poi.ss.usermodel.Font;
  * from POI, but experiments found that to produce NullPoiiunterExceptions and
  * multiple entries in the XLSX files.
  * </p>
- * 
+ *
  * @author jtalbut
  *
  */
@@ -49,7 +51,7 @@ public class RichTextRun {
 	 */
 	@Override
 	public String toString() {
-		return "RichTextRun [" + startIndex + ", " + font.toString().replaceAll("\n", "") + "]";
+		return "RichTextRun [" + startIndex + ", " + font.toString().replace("\n", "") + "]";
 	}
 
 }

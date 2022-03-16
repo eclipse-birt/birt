@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +51,7 @@ public final class UserChoice extends Choice {
 
 	/**
 	 * Constructs a new User Choice by the given name and id.
-	 * 
+	 *
 	 * @param name the choice name
 	 * @param id   the message ID for the display name
 	 */
@@ -59,17 +62,18 @@ public final class UserChoice extends Choice {
 
 	/**
 	 * Returns the property value of "displayName" for the choice.
-	 * 
+	 *
 	 * @return the display name for the choice.
 	 */
 
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
 
 	/**
 	 * Returns the display name for the choice.
-	 * 
+	 *
 	 * @param name the display name
 	 */
 
@@ -79,7 +83,7 @@ public final class UserChoice extends Choice {
 
 	/**
 	 * Sets the value of the user choice.
-	 * 
+	 *
 	 * @param theValue the value of the user choice to set
 	 */
 
@@ -89,10 +93,11 @@ public final class UserChoice extends Choice {
 
 	/**
 	 * Gets the value of the user choice.
-	 * 
+	 *
 	 * @return the value of the user choice
 	 */
 
+	@Override
 	public Object getValue() {
 		return this.value;
 	}

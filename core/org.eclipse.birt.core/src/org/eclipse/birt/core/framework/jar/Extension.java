@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010, 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,26 +46,32 @@ public class Extension implements IExtension {
 		}
 	}
 
+	@Override
 	public IConfigurationElement[] getConfigurationElements() {
 		return configuration;
 	}
 
+	@Override
 	public String getExtensionPointUniqueIdentifier() {
 		return extensionPointId;
 	}
 
+	@Override
 	public String getLabel() {
 		return label;
 	}
 
+	@Override
 	public String getUniqueIdentifier() {
 		return uniqueId != null ? uniqueId : getNamespaceIdentifier();
 	}
 
+	@Override
 	public String getNamespace() {
 		return namespace;
 	}
 
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(uniqueId);
@@ -73,22 +82,27 @@ public class Extension implements IExtension {
 		return sb.toString();
 	}
 
+	@Override
 	public IContributor getContributor() throws InvalidRegistryObjectException {
 		return bundle.getContributor();
 	}
 
+	@Override
 	public String getLabel(String arg0) throws InvalidRegistryObjectException {
 		return null;
 	}
 
+	@Override
 	public String getNamespaceIdentifier() throws InvalidRegistryObjectException {
 		return bundle.getSymbolicName();
 	}
 
+	@Override
 	public String getSimpleIdentifier() throws InvalidRegistryObjectException {
 		return name;
 	}
 
+	@Override
 	public boolean isValid() {
 		return true;
 	}

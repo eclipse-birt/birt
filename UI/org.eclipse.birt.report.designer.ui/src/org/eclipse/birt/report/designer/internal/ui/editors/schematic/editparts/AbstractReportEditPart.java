@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,11 +49,12 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.
 	 * Class)
 	 */
+	@Override
 	public Object getAdapter(Class key) {
 		if (key == IModelEventProcessor.class) {
 			return new GraphicsViewModelEventProcessor(this);
@@ -60,12 +64,13 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * GraphicsViewModelEventProcessor.IModelEventFactory#createModelEventRunnable(
 	 * java.lang.Object, int, java.util.Map)
 	 */
+	@Override
 	public Runnable createModelEventRunnable(Object focus, int type, Map args) {
 		switch (type) {
 		case NotificationEvent.CONTENT_REPLACE_EVENT:
@@ -74,6 +79,7 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 		case NotificationEvent.CONTENT_EVENT: {
 			return new EditpartReportEventRunnable(focus, type, args) {
 
+				@Override
 				public void runModelChange() {
 					contentChange(getFocus(), getArgs());
 				}
@@ -89,6 +95,7 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 		case NotificationEvent.PROPERTY_EVENT: {
 			return new EditpartReportEventRunnable(focus, type, args) {
 
+				@Override
 				public void runModelChange() {
 					propertyChange(getFocus(), getArgs());
 				}
@@ -100,6 +107,7 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 		case NotificationEvent.DATA_DESIGN_RELOADED_EVENT: {
 			return new EditpartReportEventRunnable(focus, type, args) {
 
+				@Override
 				public void runModelChange() {
 					reloadTheChildren();
 				}
@@ -157,12 +165,11 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 		}
 		if (part.isinterest(model)) {
 			list.add(part);
-			return;
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
 	 */
 
@@ -218,6 +225,7 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 
 		}
 
+		@Override
 		public void run() {
 			if (isDispose()) {
 				return;
@@ -246,7 +254,7 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 
 		for (int i = 0; i < size; i++) {
 			Object part = temp.get(i);
-			if (part != null && part instanceof ReportElementEditPart) {
+			if (part instanceof ReportElementEditPart) {
 				((ReportElementEditPart) part).notifyModelChange();
 			}
 		}
@@ -254,25 +262,28 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * AbstractModelEventProcessor.IModelEventFactory#isDispose()
 	 */
+	@Override
 	public boolean isDispose() {
 		return getParent() == null || getViewer().getControl().isDisposed();
 	}
 
 	/**
-	 * 
+	 *
 	 */
+	@Override
 	public void eventDispathStart() {
 		getViewer().setProperty(MODEL_EVENT_DISPATCH, START);
 	}
 
 	/**
-	 * 
+	 *
 	 */
+	@Override
 	public void eventDispathEnd() {
 		getViewer().setProperty(MODEL_EVENT_DISPATCH, END);
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +37,7 @@ public class ReportDesignLayout extends AbstractPageFlowLayout {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param viewer
 	 */
 	public ReportDesignLayout(GraphicalEditPart owner) {
@@ -48,9 +51,10 @@ public class ReportDesignLayout extends AbstractPageFlowLayout {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.LayoutManager#layout(org.eclipse.draw2d.IFigure)
 	 */
+	@Override
 	public void layout(IFigure parent) {
 		initLayout();
 		super.layout(parent);
@@ -96,7 +100,7 @@ public class ReportDesignLayout extends AbstractPageFlowLayout {
 			// parent.setBorder( reportDesignMarginBorder );
 			getAbstractReportEditPart().refreshMarginBorder(reportDesignMarginBorder);
 			bounds.width = getInitSize().width;
-			;
+
 		} else if (insets.right > contentWidth && getInitInsets().right < contentWidth) {
 			ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder(
 					new Insets(insets.top, insets.left, insets.bottom, contentWidth));
@@ -120,11 +124,12 @@ public class ReportDesignLayout extends AbstractPageFlowLayout {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout#
 	 * postLayoutRow(org.eclipse.birt.report.designer.internal.ui.layout.
 	 * ReportFlowLayout.WorkingData)
 	 */
+	@Override
 	void postLayoutRow(WorkingData data) {
 //		ReportDesignMarginBorder border = (ReportDesignMarginBorder)getOwner( ).getFigure( ).getBorder( );
 //		Insets insets = border.getTrueBorderInsets( );

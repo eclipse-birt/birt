@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,8 +30,8 @@ public class StructureDiskArray extends BaseDiskArray {
 
 	/**
 	 * @throws IOException
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public StructureDiskArray(IStructureCreator creator) throws IOException {
 		super();
@@ -37,10 +40,11 @@ public class StructureDiskArray extends BaseDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.cache.BasicCachedList#writeObject(java.io.
 	 * DataOutputStream, java.lang.Object)
 	 */
+	@Override
 	protected void writeObject(Object object) throws IOException {
 		if (object == null) {
 			getRandomAccessFile().writeShort(NULL_VALUE);
@@ -62,7 +66,7 @@ public class StructureDiskArray extends BaseDiskArray {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param size
 	 */
 	private void createReadersAndWriters(int size) {
@@ -93,10 +97,11 @@ public class StructureDiskArray extends BaseDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.cache.BasicCachedList#readObject(java.io.
 	 * DataInputStream)
 	 */
+	@Override
 	protected Object readObject() throws IOException {
 		short fieldCount = getRandomAccessFile().readShort();
 		if (fieldCount == NULL_VALUE) {
@@ -104,8 +109,9 @@ public class StructureDiskArray extends BaseDiskArray {
 		}
 		Object[] objects = new Object[fieldCount];
 		for (int i = 0; i < objects.length; i++) {
-			if (i < fieldReaders.length && fieldReaders[i].getDataType() != fieldWriters[i].getDataType())
+			if (i < fieldReaders.length && fieldReaders[i].getDataType() != fieldWriters[i].getDataType()) {
 				fieldReaders[i].setDataType(fieldWriters[i].getDataType());
+			}
 			if (i >= fieldReaders.length) {
 				objects[i] = fieldReaders[fieldReaders.length - 1].read(getRandomAccessFile());
 			} else {
@@ -115,6 +121,7 @@ public class StructureDiskArray extends BaseDiskArray {
 		return creator.createInstance(objects);
 	}
 
+	@Override
 	public void clear() throws IOException {
 		fieldWriters = null;
 		fieldReaders = null;

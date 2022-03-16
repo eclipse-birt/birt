@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +37,7 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * <li>Property Change with Specific Type - the property name. It's because this
  * change requires the validation be performed on specific property.
  * </ul>
- * 
+ *
  * So it contains not only the validator name and validator, but also the flag
  * indicating whether this validation is pre-requisite, the property name and
  * the target element name.
@@ -74,7 +77,7 @@ public class SemanticTriggerDefn {
 
 	/**
 	 * Constructs the semantic validation definition with validator name.
-	 * 
+	 *
 	 * @param validatorName semantic validator name
 	 */
 
@@ -84,7 +87,7 @@ public class SemanticTriggerDefn {
 
 	/**
 	 * Whether this validation is pre-requisite.
-	 * 
+	 *
 	 * @return <code>true</code>, if this validation is pre-requisite.
 	 */
 
@@ -94,7 +97,7 @@ public class SemanticTriggerDefn {
 
 	/**
 	 * Returns whether this validation is pre-requisite.
-	 * 
+	 *
 	 * @param preRequisite the flag to set
 	 */
 
@@ -104,7 +107,7 @@ public class SemanticTriggerDefn {
 
 	/**
 	 * Returns the validator name.
-	 * 
+	 *
 	 * @return the validator name
 	 */
 
@@ -114,7 +117,7 @@ public class SemanticTriggerDefn {
 
 	/**
 	 * Sets the validator.
-	 * 
+	 *
 	 * @param validator the validator to set
 	 */
 
@@ -124,7 +127,7 @@ public class SemanticTriggerDefn {
 
 	/**
 	 * Returns the validator instance.
-	 * 
+	 *
 	 * @return validator instance
 	 */
 
@@ -135,7 +138,7 @@ public class SemanticTriggerDefn {
 	/**
 	 * Returns the property name when this validation is used in Property Change
 	 * with Specific Type.
-	 * 
+	 *
 	 * @return the name of the property this validation is applied on
 	 */
 
@@ -145,7 +148,7 @@ public class SemanticTriggerDefn {
 
 	/**
 	 * Sets the property name
-	 * 
+	 *
 	 * @param propName the property name to set
 	 */
 
@@ -155,7 +158,7 @@ public class SemanticTriggerDefn {
 
 	/**
 	 * Returns the name of the target element definition.
-	 * 
+	 *
 	 * @return the name of the target element definition
 	 */
 
@@ -165,7 +168,7 @@ public class SemanticTriggerDefn {
 
 	/**
 	 * Sets the name of the target element definition.
-	 * 
+	 *
 	 * @param targetElement the name of the target element definition.
 	 */
 
@@ -183,30 +186,33 @@ public class SemanticTriggerDefn {
 	 * For example, "ValueRequiredValidator.DataSet". "DataSet" is the name of the
 	 * property which should be validated by ValueRequiredValidator.
 	 * </ul>
-	 * 
+	 *
 	 * @return the validation ID of this trigger definition
 	 */
 
 	public String getValidationID() {
 		String validationID;
 
-		if (!StringUtil.isBlank(propertyName))
+		if (!StringUtil.isBlank(propertyName)) {
 			validationID = validatorName + "." + propertyName; //$NON-NLS-1$
-		else
+		} else {
 			validationID = validatorName;
+		}
 
 		return validationID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 
+	@Override
 	public String toString() {
-		if (!StringUtil.isBlank(getValidatorName()))
+		if (!StringUtil.isBlank(getValidatorName())) {
 			return getValidatorName();
+		}
 		return super.toString();
 	}
 }

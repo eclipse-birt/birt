@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -43,7 +46,7 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * The selector of charts in SWT.
- * 
+ *
  */
 public final class SwtInteractivityViewer extends Composite
 		implements PaintListener, ICallBackNotifier, SelectionListener {
@@ -61,7 +64,7 @@ public final class SwtInteractivityViewer extends Composite
 
 	/**
 	 * main() method for constructing the layout.
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -99,8 +102,9 @@ public final class SwtInteractivityViewer extends Composite
 
 		shell.open();
 		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
+			if (!display.readAndDispatch()) {
 				display.sleep();
+			}
 		}
 		display.dispose();
 	}
@@ -125,11 +129,12 @@ public final class SwtInteractivityViewer extends Composite
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.
 	 * PaintEvent)
 	 */
+	@Override
 	public void paintControl(PaintEvent e) {
 		Rectangle d = this.getClientArea();
 		Image imgChart = new Image(this.getDisplay(), d);
@@ -160,10 +165,11 @@ public final class SwtInteractivityViewer extends Composite
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.widget.equals(btn)) {
 			int iSelection = cbType.getSelectionIndex();
@@ -200,46 +206,53 @@ public final class SwtInteractivityViewer extends Composite
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getDesignTimeModel()
 	 */
+	@Override
 	public Chart getDesignTimeModel() {
 		return cm;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getRunTimeModel()
 	 */
+	@Override
 	public Chart getRunTimeModel() {
 		return gcs.getChartModel();
 	}
 
+	@Override
 	public Object peerInstance() {
 		return this;
 	}
 
+	@Override
 	public void regenerateChart() {
 		bNeedsGeneration = true;
 		redraw();
 	}
 
+	@Override
 	public void repaintChart() {
 		redraw();
 	}
 
+	@Override
 	public void callback(Object event, Object source, CallBackValue value) {
 		MessageBox mb = new MessageBox(this.getShell());
 		mb.setMessage(value.getIdentifier());

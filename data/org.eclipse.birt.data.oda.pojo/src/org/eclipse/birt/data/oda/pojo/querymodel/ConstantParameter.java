@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,6 +19,7 @@ import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 import org.eclipse.birt.data.oda.pojo.api.Constants;
 import org.eclipse.birt.data.oda.pojo.util.DataTypeUtil;
@@ -25,7 +29,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * 
+ *
  */
 
 public class ConstantParameter implements IMethodParameter {
@@ -39,6 +43,7 @@ public class ConstantParameter implements IMethodParameter {
 		this.dataType = dataType;
 	}
 
+	@Override
 	public String getDataType() {
 		return dataType;
 	}
@@ -46,10 +51,12 @@ public class ConstantParameter implements IMethodParameter {
 	/**
 	 * @return the string value
 	 */
+	@Override
 	public String getStringValue() {
 		return stringValue;
 	}
 
+	@Override
 	public Element createElement(Document doc) {
 		Element ele = doc.createElement(Constants.ELEMENT_CONSTANTPARMETER);
 		if (stringValue != null) {
@@ -61,7 +68,7 @@ public class ConstantParameter implements IMethodParameter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -75,32 +82,33 @@ public class ConstantParameter implements IMethodParameter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		ConstantParameter other = (ConstantParameter) obj;
-		if (!dataType.equals(other.dataType))
+		if (!dataType.equals(other.dataType)) {
 			return false;
-		if (stringValue == null) {
-			if (other.stringValue != null)
-				return false;
-		} else if (!stringValue.equals(other.stringValue))
+		}
+		if (!Objects.equals(stringValue, other.stringValue)) {
 			return false;
+		}
 		return true;
 	}
 
+	@Override
 	public Object getTargetValue() {
 		return targetTypeValue;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void prepareValue(Map<String, Object> paramValues, ClassLoader pojoClassLoader) throws OdaException {
 		MethodParameterType mpt = MethodParameterType.getInstance(dataType, pojoClassLoader);
@@ -132,10 +140,12 @@ public class ConstantParameter implements IMethodParameter {
 		}
 	}
 
+	@Override
 	public void setDataType(String type) {
 		this.dataType = type;
 	}
 
+	@Override
 	public void setStringValue(String value) {
 		this.stringValue = value;
 	}

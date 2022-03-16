@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +45,7 @@ public class Cube implements ICube {
 	private static Logger logger = Logger.getLogger(Cube.class.getName());
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param documentManager
 	 */
@@ -55,7 +58,7 @@ public class Cube implements ICube {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param keyColumnNames
 	 * @param dimension
 	 * @param iterator
@@ -70,7 +73,7 @@ public class Cube implements ICube {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param keyColumnNames
 	 * @param dimension
 	 * @param iterator
@@ -107,7 +110,7 @@ public class Cube implements ICube {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param factTableJointColumnNames
 	 * @param DimJointColumnNames
 	 * @param dimension
@@ -125,7 +128,7 @@ public class Cube implements ICube {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param stopSign
 	 * @throws IOException
 	 * @throws BirtException
@@ -133,8 +136,9 @@ public class Cube implements ICube {
 	public void load(StopSign stopSign) throws IOException, DataException {
 		IDocumentObject documentObject = documentManager.openDocumentObject(NamingUtil.getCubeDocName(name));
 
-		if (documentObject == null)
+		if (documentObject == null) {
 			throw new DataException(ResourceConstants.DOCUMENTOBJECT_NOT_EXIST, new Object[] { name });
+		}
 
 		documentObject.seek(0);
 		name = documentObject.readString();
@@ -155,15 +159,16 @@ public class Cube implements ICube {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.api.ICube#getDimesions()
 	 */
+	@Override
 	public IDimension[] getDimesions() {
 		return dimension;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public FactTable getFactTable() {
@@ -172,9 +177,10 @@ public class Cube implements ICube {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.api.ICube#close()
 	 */
+	@Override
 	public void close() throws IOException {
 		for (int i = 0; i < dimension.length; i++) {
 			dimension[i].close();
@@ -183,9 +189,10 @@ public class Cube implements ICube {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.api.cube.ICube#getAllMeasureNames()
 	 */
+	@Override
 	public String[] getMeasureNames() {
 		return factTable.getMeasureNames();
 	}

@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -19,7 +22,7 @@ import org.eclipse.emf.common.util.EList;
  * '<em><b>Palette</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc --> Palette represents a palette of Fills.
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -43,9 +46,9 @@ public interface Palette extends IChartObject {
 	 * Returns the value of the '<em><b>Name</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
 	 * "Name" specifies the name that uniquely identifies this palette.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getPalette_Name()
@@ -60,7 +63,7 @@ public interface Palette extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.attribute.Palette#getName
 	 * <em>Name</em>}' attribute. <!-- begin-user-doc --> Sets the name for the
 	 * palette. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
 	 * @generated
@@ -73,11 +76,11 @@ public interface Palette extends IChartObject {
 	 * {@link org.eclipse.birt.chart.model.attribute.Fill}. <!-- begin-user-doc -->
 	 * Gets the entries defined in the palette. <!-- end-user-doc --> <!--
 	 * begin-model-doc -->
-	 * 
+	 *
 	 * Holds the entries contained in the palette.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Entries</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getPalette_Entries()
 	 * @model type="org.eclipse.birt.chart.model.attribute.Fill" containment="true"
@@ -89,29 +92,30 @@ public interface Palette extends IChartObject {
 	/**
 	 * This convenience method updates the content of a palette with a library of
 	 * colors
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @param iIndex
 	 * @deprecated to use {@link #shift(int)}
 	 * @see #shift(int)
 	 */
+	@Deprecated
 	void update(int iIndex);
 
 	/**
 	 * This convenience method updates the content of a palette with a single color
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @param f
 	 */
 	void update(Fill f);
 
 	/**
 	 * Shifts the colors in palette with the steps.
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @param iStep moving steps to rotate the color. If the step is zero or the
 	 *              absolute value is greater than the size of list, do nothing.
 	 *              Negative value means moving to the left side, and positive value
@@ -123,9 +127,9 @@ public interface Palette extends IChartObject {
 	/**
 	 * Re-creates the palette colors with specified size and shifts the colors in
 	 * palette with the steps.
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @param iStep moving steps to rotate the color. If the step is zero or the
 	 *              absolute value is greater than the size of list, do nothing.
 	 *              Negative value means moving to the left side, and positive value
@@ -138,6 +142,7 @@ public interface Palette extends IChartObject {
 	/**
 	 * @generated
 	 */
+	@Override
 	Palette copyInstance();
 
 } // Palette

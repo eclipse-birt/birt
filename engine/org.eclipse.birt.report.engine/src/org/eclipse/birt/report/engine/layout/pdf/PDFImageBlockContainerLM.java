@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -31,10 +31,12 @@ public class PDFImageBlockContainerLM extends PDFBlockContainerLM implements IBl
 				new LineStackingExecutor(new ItemExecutorWrapper(executor, content), executor));
 	}
 
+	@Override
 	protected boolean traverseChildren() throws BirtException {
 		return traverseSingleChild();
 	}
 
+	@Override
 	protected void closeLayout() {
 		/**
 		 * set root height. For Image block container, OffsetY and box property should
@@ -43,10 +45,12 @@ public class PDFImageBlockContainerLM extends PDFBlockContainerLM implements IBl
 		root.setHeight(getCurrentBP());
 	}
 
+	@Override
 	protected void createRoot() {
 		root = (ContainerArea) AreaFactory.createLogicContainer(content.getReportContent());
 	}
 
+	@Override
 	protected void closeExecutor() {
 
 	}

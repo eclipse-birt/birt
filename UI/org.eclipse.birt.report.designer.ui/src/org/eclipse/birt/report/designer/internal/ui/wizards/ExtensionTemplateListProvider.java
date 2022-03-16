@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,12 +21,12 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.templates.IDynamicTemplateProvider;
+import org.eclipse.birt.report.designer.ui.templates.IDynamicTemplateProvider.Callback;
 import org.eclipse.birt.report.designer.ui.templates.ITemplateAdaptable;
 import org.eclipse.birt.report.designer.ui.templates.ITemplateEntry;
 import org.eclipse.birt.report.designer.ui.templates.ITemplateFile;
 import org.eclipse.birt.report.designer.ui.templates.ITemplateFolder;
 import org.eclipse.birt.report.designer.ui.templates.ITemplateProvider;
-import org.eclipse.birt.report.designer.ui.templates.IDynamicTemplateProvider.Callback;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -39,13 +42,14 @@ import org.eclipse.swt.widgets.Display;
 public class ExtensionTemplateListProvider implements ILabelProvider, ITreeContentProvider, ITemplateAdaptable {
 
 	private List<ITemplateProvider> providers;
-	private List<TemplateNode> list = new ArrayList<TemplateNode>();
-	private Map<String, TemplateNode> map = new HashMap<String, TemplateNode>();
+	private List<TemplateNode> list = new ArrayList<>();
+	private Map<String, TemplateNode> map = new HashMap<>();
 
 	private volatile TemplateUICallback uiCallback;
 
 	private Callback providerCallback = new Callback() {
 
+		@Override
 		public void contentChanged(IDynamicTemplateProvider who) {
 			if (uiCallback != null) {
 				synchronized (uiCallback) {
@@ -56,6 +60,7 @@ public class ExtensionTemplateListProvider implements ILabelProvider, ITreeConte
 
 					disp.syncExec(new Runnable() {
 
+						@Override
 						public void run() {
 							list.clear();
 							map.clear();
@@ -73,7 +78,7 @@ public class ExtensionTemplateListProvider implements ILabelProvider, ITreeConte
 	public ExtensionTemplateListProvider(TemplateUICallback uiCallback) {
 		this.uiCallback = uiCallback;
 
-		providers = new ArrayList<ITemplateProvider>();
+		providers = new ArrayList<>();
 
 		Object[] objs = getTemplateProviders();
 
@@ -185,11 +190,11 @@ public class ExtensionTemplateListProvider implements ILabelProvider, ITreeConte
 	}
 
 	private void unionOneOrder(List<TemplateNode> list) {
-		List<TemplateNode> temp = new ArrayList<TemplateNode>(list);
-		Map<String, TemplateNode> names = new HashMap<String, TemplateNode>();
+		List<TemplateNode> temp = new ArrayList<>(list);
+		Map<String, TemplateNode> names = new HashMap<>();
 		for (int i = 0; i < temp.size(); i++) {
 			TemplateNode node = temp.get(i);
-			if (names.keySet().contains(node.getBaseName())) {
+			if (names.containsKey(node.getBaseName())) {
 				TemplateNode parent = map.get(node.getBaseName());
 				List<TemplateNode> children = node.getChildren();
 				for (int j = 0; j < children.size(); j++) {
@@ -210,9 +215,10 @@ public class ExtensionTemplateListProvider implements ILabelProvider, ITreeConte
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 	 */
+	@Override
 	public Image getImage(Object element) {
 		if (element instanceof TemplateNode) {
 			return ((TemplateNode) element).getImage();
@@ -223,9 +229,10 @@ public class ExtensionTemplateListProvider implements ILabelProvider, ITreeConte
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 	 */
+	@Override
 	public String getText(Object element) {
 		if (element instanceof TemplateNode) {
 			String str = ((TemplateNode) element).getName();
@@ -241,14 +248,16 @@ public class ExtensionTemplateListProvider implements ILabelProvider, ITreeConte
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.
 	 * jface.viewers.ILabelProviderListener)
 	 */
+	@Override
 	public void addListener(ILabelProviderListener listener) {
 		// do nothing
 	}
 
+	@Override
 	public void dispose() {
 		uiCallback = null;
 
@@ -261,20 +270,22 @@ public class ExtensionTemplateListProvider implements ILabelProvider, ITreeConte
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang
 	 * .Object, java.lang.String)
 	 */
+	@Override
 	public boolean isLabelProperty(Object element, String property) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 	 * .jface.viewers.ILabelProviderListener)
 	 */
+	@Override
 	public void removeListener(ILabelProviderListener listener) {
 		// do nothing
 
@@ -282,10 +293,11 @@ public class ExtensionTemplateListProvider implements ILabelProvider, ITreeConte
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
 	 * Object)
 	 */
+	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof TemplateNode) {
 			return ((TemplateNode) parentElement).getChildren().toArray();
@@ -295,10 +307,11 @@ public class ExtensionTemplateListProvider implements ILabelProvider, ITreeConte
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object )
 	 */
+	@Override
 	public Object getParent(Object element) {
 		if (element instanceof TemplateNode) {
 			return ((TemplateNode) element).getParent();
@@ -308,31 +321,34 @@ public class ExtensionTemplateListProvider implements ILabelProvider, ITreeConte
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
 	 * Object)
 	 */
+	@Override
 	public boolean hasChildren(Object element) {
 		return getChildren(element).length > 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
 	 * .lang.Object)
 	 */
+	@Override
 	public Object[] getElements(Object inputElement) {
 		return getChildren(inputElement);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
 	 * .viewers.Viewer, java.lang.Object, java.lang.Object)
 	 */
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		// do nothing
 
@@ -360,7 +376,7 @@ public class ExtensionTemplateListProvider implements ILabelProvider, ITreeConte
 	private static class TemplateNode {
 
 		private TemplateNode parent;
-		private List<TemplateNode> children = new ArrayList<TemplateNode>();
+		private List<TemplateNode> children = new ArrayList<>();
 		private String name;
 		private String baseName;
 		private ReportDesignHandle handle;
@@ -407,16 +423,8 @@ public class ExtensionTemplateListProvider implements ILabelProvider, ITreeConte
 			return image;
 		}
 
-		public boolean isRoot() {
-			return parent == null;
-		}
-
 		void addChild(TemplateNode node) {
 			children.add(node);
-		}
-
-		void removeChild(TemplateNode node) {
-			children.remove(node);
 		}
 
 		public boolean isLeaf() {
@@ -483,7 +491,7 @@ public class ExtensionTemplateListProvider implements ILabelProvider, ITreeConte
 	/**
 	 * TemplateUICallback
 	 */
-	static interface TemplateUICallback {
+	interface TemplateUICallback {
 
 		void contentChanged();
 	}

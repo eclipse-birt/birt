@@ -1,11 +1,13 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -118,12 +120,9 @@ public class AreaBorders {
 						&& ((borderStyleRight != null) || (borderWidthRight != null) || (borderColourRight != null)))
 				|| ((top >= 0)
 						&& ((borderStyleTop != null) || (borderWidthTop != null) || (borderColourTop != null)))) {
-			CSSValue[] cssStyle = new CSSValue[] { borderStyleBottom, borderStyleLeft, borderStyleRight,
-					borderStyleTop };
-			CSSValue[] cssWidth = new CSSValue[] { borderWidthBottom, borderWidthLeft, borderWidthRight,
-					borderWidthTop };
-			CSSValue[] cssColour = new CSSValue[] { borderColourBottom, borderColourLeft, borderColourRight,
-					borderColourTop };
+			CSSValue[] cssStyle = { borderStyleBottom, borderStyleLeft, borderStyleRight, borderStyleTop };
+			CSSValue[] cssWidth = { borderWidthBottom, borderWidthLeft, borderWidthRight, borderWidthTop };
+			CSSValue[] cssColour = { borderColourBottom, borderColourLeft, borderColourRight, borderColourTop };
 			return new AreaBorders(isMergedCells, bottom, left, right, top, cssStyle, cssWidth, cssColour);
 		}
 		return null;

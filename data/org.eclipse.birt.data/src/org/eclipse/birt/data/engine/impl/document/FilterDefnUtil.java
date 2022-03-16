@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,8 +49,9 @@ public class FilterDefnUtil {
 			for (int i = 0; i < size; i++) {
 				IFilterDefinition filterDefn = (IFilterDefinition) filterList.get(i);
 				ExprUtil.saveBaseExpr(dos, filterDefn.getExpression());
-				if (version >= VersionManager.VERSION_2_6_3_1)
+				if (version >= VersionManager.VERSION_2_6_3_1) {
 					IOUtil.writeBool(dos, filterDefn.updateAggregation());
+				}
 				if (version >= VersionManager.VERSION_4_2_2_1) {
 					IOUtil.writeString(dos,
 							filterDefn.getFilterTarget() == null ? null : filterDefn.getFilterTarget().toString());
@@ -73,8 +77,9 @@ public class FilterDefnUtil {
 			for (int i = 0; i < size; i++) {
 				IBaseExpression baseExpr = ExprUtil.loadBaseExpr(dis);
 				FilterDefinition f = new FilterDefinition(baseExpr);
-				if (version >= VersionManager.VERSION_2_6_3_1)
+				if (version >= VersionManager.VERSION_2_6_3_1) {
 					f.setUpdateAggregation(IOUtil.readBool(inputStream));
+				}
 				if (version >= VersionManager.VERSION_4_2_2_1) {
 					String filterTarget = IOUtil.readString(dis);
 					if (FilterTarget.DATASET.equals(filterTarget)) {
@@ -98,36 +103,36 @@ public class FilterDefnUtil {
 	 * @return
 	 */
 	public static boolean isEqualFilter(IFilterDefinition filterDefn1, IFilterDefinition filterDefn2) {
-		if (filterDefn1 == filterDefn2)
+		if (filterDefn1 == filterDefn2) {
 			return true;
+		}
 
-		if (filterDefn1 == null || filterDefn2 == null)
-			return false;
-
-		if (filterDefn1.updateAggregation() != filterDefn2.updateAggregation()) {
+		if (filterDefn1 == null || filterDefn2 == null || (filterDefn1.updateAggregation() != filterDefn2.updateAggregation())) {
 			return false;
 		}
 		return ExprUtil.isEqualExpression(filterDefn1.getExpression(), filterDefn2.getExpression());
 	}
 
 	/**
-	 * 
+	 *
 	 * @param filters1
 	 * @param filters2
 	 * @return
 	 */
 	public static boolean isEqualFilter(List filters1, List filters2) {
-		if (filters1 == null && filters2 == null)
+		if (filters1 == null && filters2 == null) {
 			return true;
-		if (filters1 == null && filters2 != null)
+		}
+		if ((filters1 == null && filters2 != null) || (filters1 != null && filters2 == null)) {
 			return false;
-		if (filters1 != null && filters2 == null)
+		}
+		if (filters1.size() != filters2.size()) {
 			return false;
-		if (filters1.size() != filters2.size())
-			return false;
+		}
 		for (int i = 0; i < filters1.size(); i++) {
-			if (!isEqualFilter((IFilterDefinition) filters1.get(i), (IFilterDefinition) filters2.get(i)))
+			if (!isEqualFilter((IFilterDefinition) filters1.get(i), (IFilterDefinition) filters2.get(i))) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -138,17 +143,20 @@ public class FilterDefnUtil {
 	 * @return
 	 */
 	public static boolean isConflictFilter(List oldFilterList, List newFilterList) {
-		if (oldFilterList == null || oldFilterList.size() == 0)
+		if (oldFilterList == null || oldFilterList.size() == 0) {
 			return false;
+		}
 
-		if (newFilterList == null || newFilterList.size() < oldFilterList.size())
+		if (newFilterList == null || newFilterList.size() < oldFilterList.size()) {
 			return true;
+		}
 
 		for (int i = 0; i < oldFilterList.size(); i++) {
 			IFilterDefinition oldFilter = (IFilterDefinition) oldFilterList.get(i);
 			IFilterDefinition newFilter = (IFilterDefinition) newFilterList.get(i);
-			if (FilterDefnUtil.isEqualFilter(oldFilter, newFilter) == false)
+			if (!FilterDefnUtil.isEqualFilter(oldFilter, newFilter)) {
 				return true;
+			}
 		}
 
 		return false;
@@ -161,22 +169,26 @@ public class FilterDefnUtil {
 	 * @throws DataException
 	 */
 	public static List getRealFilterList(List oldFilterList, List newFilterList) throws DataException {
-		if (oldFilterList == null || oldFilterList.size() == 0)
+		if (oldFilterList == null || oldFilterList.size() == 0) {
 			return newFilterList;
+		}
 
-		if (newFilterList == null || newFilterList.size() < oldFilterList.size())
+		if (newFilterList == null || newFilterList.size() < oldFilterList.size()) {
 			throw new DataException(ResourceConstants.RD_INVALID_FILTER);
+		}
 
 		for (int i = 0; i < oldFilterList.size(); i++) {
 			IFilterDefinition oldFilter = (IFilterDefinition) oldFilterList.get(i);
 			IFilterDefinition newFilter = (IFilterDefinition) newFilterList.get(i);
-			if (FilterDefnUtil.isEqualFilter(oldFilter, newFilter) == false)
+			if (!FilterDefnUtil.isEqualFilter(oldFilter, newFilter)) {
 				throw new DataException(ResourceConstants.RD_INVALID_FILTER);
+			}
 		}
 
 		List updatedList = new ArrayList();
-		for (int i = oldFilterList.size(); i < newFilterList.size(); i++)
+		for (int i = oldFilterList.size(); i < newFilterList.size(); i++) {
 			updatedList.add(newFilterList.get(i));
+		}
 
 		return updatedList;
 	}

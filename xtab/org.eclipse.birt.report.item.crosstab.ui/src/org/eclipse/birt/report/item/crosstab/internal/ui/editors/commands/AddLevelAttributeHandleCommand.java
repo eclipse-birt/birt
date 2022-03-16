@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,7 +63,7 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handleAdpter
 	 * @param type
 	 * @param levelHandle
@@ -90,7 +93,7 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand {
 
 	/**
 	 * Sets the handle adapter
-	 * 
+	 *
 	 * @param handleAdpter
 	 */
 	public void setHandleAdpter(BaseCrosstabAdapter handleAdpter) {
@@ -99,7 +102,7 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand {
 
 	/**
 	 * Gets the tyoe
-	 * 
+	 *
 	 * @return
 	 */
 	public int getType() {
@@ -108,7 +111,7 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand {
 
 	/**
 	 * Sets the type
-	 * 
+	 *
 	 * @param type ICrosstabConstants.COLUMN_AXIS_TYPE or
 	 *             ICrosstabConstants.ROW_AXIS_TYPE
 	 */
@@ -118,9 +121,10 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
+	@Override
 	public boolean canExecute() {
 		return getType() != VirtualCrosstabCellAdapter.IMMACULATE_TYPE;
 	}
@@ -137,9 +141,10 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public void execute() {
 		if (this.levelAttributeHandles != null && this.levelAttributeHandles.length > 0) {
 			transStart(NAME);
@@ -193,10 +198,11 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand {
 					DataItemHandle dataHandle = CrosstabAdaptUtil
 							.createColumnBindingAndDataItem((ExtendedItemHandle) crosstabHandle.getModelHandle(), lah);
 					CrosstabCellHandle cellHandle = levelViewHandle.getCell();
-					if (position > 0)
+					if (position > 0) {
 						cellHandle.addContent(dataHandle, position);
-					else
+					} else {
 						cellHandle.addContent(dataHandle);
+					}
 				}
 				transEnd();
 			} catch (Exception e) {

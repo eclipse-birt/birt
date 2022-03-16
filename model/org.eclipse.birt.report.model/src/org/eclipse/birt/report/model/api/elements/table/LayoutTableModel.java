@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -16,7 +19,7 @@ import org.eclipse.birt.report.model.elements.TableItem;
 /**
  * The table model for the UI render. It encapsulates details about the unclear
  * layout of table elment in the design files.
- * 
+ *
  */
 
 public class LayoutTableModel {
@@ -29,7 +32,7 @@ public class LayoutTableModel {
 
 	/**
 	 * Constructs a <code>LayoutTableModel</code> with the given table element.
-	 * 
+	 *
 	 * @param table the handle of the table element
 	 */
 
@@ -39,7 +42,7 @@ public class LayoutTableModel {
 
 	/**
 	 * Returns the underlying layout table.
-	 * 
+	 *
 	 * @return the underlying layout table
 	 */
 
@@ -49,7 +52,7 @@ public class LayoutTableModel {
 
 	/**
 	 * Returns the header slot.
-	 * 
+	 *
 	 * @return the header slot
 	 */
 
@@ -59,7 +62,7 @@ public class LayoutTableModel {
 
 	/**
 	 * Returns the detail slot.
-	 * 
+	 *
 	 * @return the detail slot
 	 */
 
@@ -69,7 +72,7 @@ public class LayoutTableModel {
 
 	/**
 	 * Returns the footer slot.
-	 * 
+	 *
 	 * @return the footer slot
 	 */
 
@@ -79,7 +82,7 @@ public class LayoutTableModel {
 
 	/**
 	 * Returns the table to which the layout model belongs.
-	 * 
+	 *
 	 * @return the handle of the table element
 	 */
 
@@ -89,9 +92,9 @@ public class LayoutTableModel {
 
 	/**
 	 * Returns the layout group with the given group level.
-	 * 
+	 *
 	 * @param groupLevel the 1-based group level
-	 * 
+	 *
 	 * @return the layout group
 	 */
 
@@ -101,7 +104,7 @@ public class LayoutTableModel {
 
 	/**
 	 * Returns the column count in the table.
-	 * 
+	 *
 	 * @return the column count in the table.
 	 */
 
@@ -111,7 +114,7 @@ public class LayoutTableModel {
 
 	/**
 	 * Returns the column count in the table.
-	 * 
+	 *
 	 * @return the column count in the table.
 	 */
 
@@ -122,7 +125,7 @@ public class LayoutTableModel {
 	/**
 	 * Return a cell element with the given poistion. Uses this method to find cells
 	 * in Table Header, Detail and Footer slots.
-	 * 
+	 *
 	 * @param slotId the slot index,
 	 * @param rowId  the 1-based row index
 	 * @param colId  the 1-based column index
@@ -137,7 +140,7 @@ public class LayoutTableModel {
 	/**
 	 * Return a cell element with the given poistion. Uses this method to find cells
 	 * in Table Header, Detail and Footer slots.
-	 * 
+	 *
 	 * @param groupLevel the 1-based group level
 	 * @param slotId     the slot index,
 	 * @param rowId      the 1-based row index
@@ -158,7 +161,7 @@ public class LayoutTableModel {
 	 * <p>
 	 * For example, if a cell occupies the position (1, 1) and (1, 2), return
 	 * <code>CellHandle</code>s with parameters (1, 1) and (1, 2) are same.
-	 * 
+	 *
 	 * @param rowPosn the 1-based row position
 	 * @param colPosn the 1-based column position
 	 * @return the cell handle at the given position

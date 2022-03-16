@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -132,10 +135,11 @@ public class PropertyValueException extends SemanticException {
 
 	/**
 	 * The character "." is forbidden to NamePropertyType.
-	 * 
+	 *
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public static final String DESIGN_EXCEPTION_DOT_FORBIDDEN = MessageConstants.PROPERTY_VALUE_EXCEPTION_DOT_FORBIDDEN;
 
 	/**
@@ -176,7 +180,7 @@ public class PropertyValueException extends SemanticException {
 	/**
 	 * Constructs an exception given an invalid value, error code and the property
 	 * type constants.
-	 * 
+	 *
 	 * @param value   The invalid value.
 	 * @param errCode description of the problem
 	 * @param type    the parameter data type
@@ -192,7 +196,7 @@ public class PropertyValueException extends SemanticException {
 	 * Constructs an exception given an design element, an element property name, an
 	 * invalid value and the error code. Using this constructor when the property is
 	 * an element property.
-	 * 
+	 *
 	 * @param obj      design element on which the property was being set
 	 * @param propName name of the property or the method being set
 	 * @param value    the invalid value
@@ -203,17 +207,17 @@ public class PropertyValueException extends SemanticException {
 		super(obj, errCode);
 		this.propertyName = propName;
 		this.invalidValue = value;
-		PropertyDefn propDefn = element.getPropertyDefn( propertyName );
+		PropertyDefn propDefn = element.getPropertyDefn(propertyName);
 		Objects.requireNonNull(propDefn, String.format("Unknown property %s for design object %s", propName, obj));
-		this.propertyTypeName = propDefn.getType( ).getName( );
-		this.propertyDisplayName = propDefn.getDisplayName( );
+		this.propertyTypeName = propDefn.getType().getName();
+		this.propertyDisplayName = propDefn.getDisplayName();
 	}
 
 	/**
 	 * Constructs an exception given the definition of the property, an invalid
 	 * value and its error code. Using this constructor when the definition of the
 	 * property is available
-	 * 
+	 *
 	 * @param obj      design element on which the property was being set
 	 * @param propDefn definition of the property.
 	 * @param value    invalid value of the property.
@@ -234,7 +238,7 @@ public class PropertyValueException extends SemanticException {
 	 * Constructs an exception given the definition of the property, the structure
 	 * member definition, an invalid value and its error code. Using this
 	 * constructor when the definition of the structure member is available.
-	 * 
+	 *
 	 * @param obj        design element on which the property was being set
 	 * @param propDefn   definition of the property.
 	 * @param memberDefn definition of the structure member
@@ -256,7 +260,7 @@ public class PropertyValueException extends SemanticException {
 
 	/**
 	 * Constructs an exception given an invalid value, error code.
-	 * 
+	 *
 	 * @param value   The invalid value.
 	 * @param errCode description of the problem
 	 */
@@ -268,7 +272,7 @@ public class PropertyValueException extends SemanticException {
 
 	/**
 	 * Sets the element, if it is known.
-	 * 
+	 *
 	 * @param obj The element on which the property was being set.
 	 */
 
@@ -278,7 +282,7 @@ public class PropertyValueException extends SemanticException {
 
 	/**
 	 * Sets the name of the property being set, if it is known.
-	 * 
+	 *
 	 * @param propName The name of the property being set.
 	 */
 
@@ -288,7 +292,7 @@ public class PropertyValueException extends SemanticException {
 
 	/**
 	 * Returns the invalid value.
-	 * 
+	 *
 	 * @return the invalid value
 	 */
 
@@ -298,7 +302,7 @@ public class PropertyValueException extends SemanticException {
 
 	/**
 	 * Returns the name of the property being set.
-	 * 
+	 *
 	 * @return the property name, or null if not known
 	 */
 
@@ -308,15 +312,17 @@ public class PropertyValueException extends SemanticException {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
+	@Override
 	public String getLocalizedMessage() {
 		String value = ""; //$NON-NLS-1$
 
-		if (invalidValue != null)
+		if (invalidValue != null) {
 			value = invalidValue.toString();
+		}
 
 		if (sResourceKey == DESIGN_EXCEPTION_INVALID_VALUE) {
 			return ModelMessages.getMessage(sResourceKey, new String[] { value, this.propertyTypeName });

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +43,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * 
+ *
  */
 
 public class ChartWithAxesImpl extends ChartImpl implements IChartWithAxes {
@@ -49,10 +52,12 @@ public class ChartWithAxesImpl extends ChartImpl implements IChartWithAxes {
 		super(eih, cm);
 	}
 
+	@Override
 	public IAxis getCategoryAxis() {
 		return new AxisImpl((Axis) getChartWithAxes().getAxes().get(0));
 	}
 
+	@Override
 	public IAxis[] getValueAxes() {
 		Axis bAxis = (Axis) getChartWithAxes().getAxes().get(0);
 		EList oAxes = bAxis.getAssociatedAxes();
@@ -63,6 +68,7 @@ public class ChartWithAxesImpl extends ChartImpl implements IChartWithAxes {
 		return valueAxes;
 	}
 
+	@Override
 	public IValueSeries[][] getValueSeries() {
 		Axis bAxis = (Axis) getChartWithAxes().getAxes().get(0);
 		EList oAxes = bAxis.getAssociatedAxes();
@@ -79,14 +85,17 @@ public class ChartWithAxesImpl extends ChartImpl implements IChartWithAxes {
 		return valueSeries;
 	}
 
+	@Override
 	public boolean isHorizontal() {
 		return getChartWithAxes().isTransposed();
 	}
 
+	@Override
 	public void setHorizontal(boolean horizontal) {
 		getChartWithAxes().setTransposed(horizontal);
 	}
 
+	@Override
 	public ICategory getCategory() {
 		Axis bAxis = (Axis) getChartWithAxes().getAxes().get(0);
 		SeriesDefinition bSd = (SeriesDefinition) bAxis.getSeriesDefinitions().get(0);
@@ -97,6 +106,7 @@ public class ChartWithAxesImpl extends ChartImpl implements IChartWithAxes {
 		return (ChartWithAxes) cm;
 	}
 
+	@Override
 	public void setDimension(String dimensionName) {
 		super.setDimension(dimensionName);
 		if (ChartDimension.THREE_DIMENSIONAL_LITERAL.getName().equals(dimensionName)) {

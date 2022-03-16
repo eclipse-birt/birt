@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,19 +28,23 @@ public class SubQueryResults implements IQueryResults {
 		this.rs = rs;
 	}
 
+	@Override
 	public void close() throws BirtException {
 		// we needn't close the rs as the creator of this object
 		// will close the rs.
 	}
 
+	@Override
 	public IPreparedQuery getPreparedQuery() {
 		return null;
 	}
 
+	@Override
 	public IResultIterator getResultIterator() throws BirtException {
 		return rs;
 	}
 
+	@Override
 	public IResultMetaData getResultMetaData() throws BirtException {
 		if (rs != null) {
 			return rs.getResultMetaData();
@@ -48,19 +52,23 @@ public class SubQueryResults implements IQueryResults {
 		return null;
 	}
 
+	@Override
 	public String getID() {
 		return null;
 	}
 
+	@Override
 	public void cancel() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public String getName() {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void setName(String name) {
 		throw new UnsupportedOperationException();
 	}

@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -50,7 +52,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param context
 	 * @param operation
 	 */
@@ -61,6 +63,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler {
 	/**
 	 * execute action
 	 */
+	@Override
 	protected void __execute() throws Exception {
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
 		assert attrBean != null;
@@ -103,8 +106,9 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler {
 				String paramName = op[i].getName();
 				String paramValue = op[i].getValue();
 
-				if (paramName == null || paramValue == null)
+				if (paramName == null || paramValue == null) {
 					continue;
+				}
 
 				if (paramName.equalsIgnoreCase(ParameterAccessor.PARAM_ISLOCALE)) {
 					// locale string
@@ -155,8 +159,9 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler {
 
 			// find the parameter
 			ParameterDefinition parameter = attrBean.findParameterDefinition(paramName);
-			if (parameter == null)
+			if (parameter == null) {
 				continue;
+			}
 
 			String pattern = parameter.getPattern();
 			String dataType = ParameterDataTypeConverter.convertDataType(parameter.getDataType());
@@ -221,7 +226,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * update parameter related information in config file
-	 * 
+	 *
 	 * @param handle
 	 * @param parameter
 	 */
@@ -230,8 +235,9 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler {
 		assert parameter != null;
 
 		String paramName = parameter.getName();
-		if (map.containsKey(paramName))
+		if (map.containsKey(paramName)) {
 			return;
+		}
 
 		String dataType = ParameterDataTypeConverter.convertDataType(parameter.getDataType());
 
@@ -277,6 +283,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler {
 		return name + "_" + (index++); //$NON-NLS-1$
 	}
 
+	@Override
 	protected IViewerReportService getReportService() {
 		return null;
 	}

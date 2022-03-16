@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,7 +47,7 @@ public abstract class ComplexValueHandle extends ValueHandle {
 	/**
 	 * Constructs a handle given an element handle and definition of a property. The
 	 * element property definition cannot be null.
-	 * 
+	 *
 	 * @param element     handle to the report element that contains the element
 	 *                    property.
 	 * @param thePropDefn element property definition.
@@ -60,7 +63,7 @@ public abstract class ComplexValueHandle extends ValueHandle {
 	/**
 	 * Constructs a handle given an element handle and member reference. The element
 	 * property definition can not be null.
-	 * 
+	 *
 	 * @param element          handle to the report element that has the property
 	 *                         that contains the structure that contains the member.
 	 * @param theMemberContext The context to the member.
@@ -80,13 +83,14 @@ public abstract class ComplexValueHandle extends ValueHandle {
 	/**
 	 * Constructs a handle given an element handle and member reference. The element
 	 * property definition can not be null.
-	 * 
+	 *
 	 * @param element      handle to the report element that has the property that
 	 *                     contains the structure that contains the member.
 	 * @param theMemberRef The reference to the member.
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public ComplexValueHandle(DesignElementHandle element, MemberRef theMemberRef) {
 		super(element);
 		assert theMemberRef != null;
@@ -102,7 +106,7 @@ public abstract class ComplexValueHandle extends ValueHandle {
 	/**
 	 * Sets the value of a property to the given value. If the value is null, then
 	 * the property value is cleared.
-	 * 
+	 *
 	 * @param value The new value.
 	 * @throws SemanticException If the value is not valid for the property or
 	 *                           member.
@@ -120,7 +124,7 @@ public abstract class ComplexValueHandle extends ValueHandle {
 
 	/**
 	 * Gets the value of the property as a generic object.
-	 * 
+	 *
 	 * @return The value of the property or member as a generic object.
 	 */
 
@@ -132,7 +136,7 @@ public abstract class ComplexValueHandle extends ValueHandle {
 
 	/**
 	 * Returns the value stored in the memory. The return value won't be wrapped.
-	 * 
+	 *
 	 * @return the value
 	 */
 
@@ -151,7 +155,7 @@ public abstract class ComplexValueHandle extends ValueHandle {
 	/**
 	 * Sets the value of a property or member to a string. Call this method to set a
 	 * input string from the user( localized or non-localized value).
-	 * 
+	 *
 	 * @param value the value to set
 	 * @throws SemanticException if the string value is not valid for the property
 	 *                           or member.
@@ -163,7 +167,7 @@ public abstract class ComplexValueHandle extends ValueHandle {
 
 	/**
 	 * Gets the property value converted to a string value.
-	 * 
+	 *
 	 * @return The property or member value as a string.
 	 */
 
@@ -174,7 +178,7 @@ public abstract class ComplexValueHandle extends ValueHandle {
 
 	/**
 	 * Returns the value of the property or member in a localized format.
-	 * 
+	 *
 	 * @return Returns the value of the property or member in a localized format.
 	 */
 
@@ -185,27 +189,29 @@ public abstract class ComplexValueHandle extends ValueHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.ValueHandle#getPropertyDefn()
 	 */
 
+	@Override
 	public IElementPropertyDefn getPropertyDefn() {
 		return this.propDefn;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.ValueHandle#getReference()
 	 */
 
+	@Override
 	public StructureContext getContext() {
 		return this.memberContext;
 	}
 
 	/**
 	 * Returns a definition for the handle.
-	 * 
+	 *
 	 * @return the definition of the handle.
 	 */
 
@@ -214,8 +220,9 @@ public abstract class ComplexValueHandle extends ValueHandle {
 		// is <code>StructPropertyDefn</code>. For an element property, the
 		// return value is <code>ElementPropertyDefn</code>.
 
-		if (memberContext != null)
+		if (memberContext != null) {
 			return memberContext.getPropDefn();
+		}
 
 		return propDefn;
 	}
@@ -230,7 +237,7 @@ public abstract class ComplexValueHandle extends ValueHandle {
 	 * <li>For a member, it is set if the value is not <code>null</code>, otherwise
 	 * it is considered unset.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @return <code>true</code> if the value is set, <code>false</code> if it is
 	 *         not set
 	 */

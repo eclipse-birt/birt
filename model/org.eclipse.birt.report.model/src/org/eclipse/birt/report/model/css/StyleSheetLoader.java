@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -97,28 +100,28 @@ public final class StyleSheetLoader {
 
 	/**
 	 * Private constructor to do some reset work.
-	 * 
+	 *
 	 */
 
 	public StyleSheetLoader() {
 		parser = new CssParser();
 		this.module = null;
 		this.source = null;
-		warnings = new ArrayList<StyleSheetParserException>();
+		warnings = new ArrayList<>();
 	}
 
 	/**
 	 * Re-inits the loader. This method is called when the users want to use the
 	 * instance to load more than one external style sheet. Call this every loading
 	 * operation.
-	 * 
+	 *
 	 */
 
 	public void reInit() {
 		parser = new CssParser();
 		this.module = null;
 		this.source = null;
-		warnings = new ArrayList<StyleSheetParserException>();
+		warnings = new ArrayList<>();
 	}
 
 	/**
@@ -127,7 +130,7 @@ public final class StyleSheetLoader {
 	 * more complicated object, such as a query to a database or to a search engine.
 	 * This method will try to create a URL object from the <code>String</code>
 	 * representation.
-	 * 
+	 *
 	 * @param module the module to load the style sheet
 	 * @param url    the url to the spec
 	 * @param spec   spec the <code>String</code> to parse as a URL, it can be a
@@ -168,7 +171,7 @@ public final class StyleSheetLoader {
 	 * more complicated object, such as a query to a database or to a search engine.
 	 * This method will try to create a URL object from the <code>String</code>
 	 * representation.
-	 * 
+	 *
 	 * @param module the module to load the style sheet
 	 * @param spec   spec the <code>String</code> to parse as a URL, it can be a
 	 *               file or directory, or other types or formats of URLs to locate
@@ -193,7 +196,7 @@ public final class StyleSheetLoader {
 
 	/**
 	 * Loads styles from an external style sheet resource.
-	 * 
+	 *
 	 * @param module the module to load the style sheet
 	 * @param is     spec the <code>String</code> to parse as a URL, it can be a
 	 *               file or directory, or other types or formats of URLs to locate
@@ -217,7 +220,7 @@ public final class StyleSheetLoader {
 
 	/**
 	 * Loads the styles from an external style sheet resource.
-	 * 
+	 *
 	 * @param charStream character stream that shall not include a byte order mark
 	 * @return the <code>CssStyleSheet</code> containing all the styles loaded from
 	 *         an external style sheet, otherwise null
@@ -243,8 +246,9 @@ public final class StyleSheetLoader {
 			}
 		}
 
-		if (ss == null)
+		if (ss == null) {
 			return null;
+		}
 
 		CssStyleSheet styleSheet = new CssStyleSheet();
 
@@ -266,7 +270,7 @@ public final class StyleSheetLoader {
 	 * be recorded in the log file and added into the warning list. Then all the
 	 * created styles by interpretations and translations will be added into the
 	 * given <code>CssStyleSheet</code> container.
-	 * 
+	 *
 	 * @param styleSheet the style sheet, which is a container defined by Model to
 	 *                   store all the styles loaded from the external resource
 	 * @param rule       the current CSS rule to handle
@@ -283,7 +287,7 @@ public final class StyleSheetLoader {
 				SelectorList selectionList = sr.getSelectorList();
 				CSSStyleDeclaration declaration = sr.getStyle();
 				LinkedHashMap<String, ? extends Object> properties = null;
-				List<StyleSheetParserException> errors = new ArrayList<StyleSheetParserException>();
+				List<StyleSheetParserException> errors = new ArrayList<>();
 				boolean buildProperties = false;
 				for (int i = 0; i < selectionList.getLength(); i++) {
 					Selector selector = selectionList.item(i);
@@ -336,13 +340,15 @@ public final class StyleSheetLoader {
 						name = null;
 
 					}
-					if (name == null)
+					if (name == null) {
 						continue;
+					}
 					DesignElement style = styleSheet.findStyle(name);
-					if (style == null)
+					if (style == null) {
 						style = new CssStyle(name);
-					else
+					} else {
 						styleSheet.removeStyle(name);
+					}
 					// set css style sheet
 					if (!buildProperties) {
 						properties = buildProperties(declaration, errors);
@@ -353,8 +359,7 @@ public final class StyleSheetLoader {
 					assert styleSheet.findStyle(name) == null;
 					List<StyleSheetParserException> ret = styleSheet.getWarnings(name);
 					if (ret == null) {
-						List<StyleSheetParserException> localErrors = new ArrayList<StyleSheetParserException>();
-						localErrors.addAll(errors);
+						List<StyleSheetParserException> localErrors = new ArrayList<>(errors);
 						styleSheet.addWarnings(name, localErrors);
 					} else {
 						ret.addAll(errors);
@@ -374,7 +379,7 @@ public final class StyleSheetLoader {
 	/**
 	 * Gets all the name/value pairs from a CSS declaration and puts them into a
 	 * <code>LinkedHashMap</code>. All the name and value is of string type.
-	 * 
+	 *
 	 * @param declaration the declaration of the style rule
 	 * @param errors      the error list of the declaration
 	 * @return all the supported name/value pairs
@@ -382,12 +387,13 @@ public final class StyleSheetLoader {
 
 	LinkedHashMap<String, ? extends Object> buildProperties(CSSStyleDeclaration declaration,
 			List<StyleSheetParserException> errors) {
-		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
+		LinkedHashMap<String, String> properties = new LinkedHashMap<>();
 		for (int i = 0; i < declaration.getLength(); i++) {
 			String cssName = declaration.item(i);
 			String cssValue = declaration.getPropertyValue(cssName);
-			if (StringUtil.isBlank(cssName) || StringUtil.isBlank(cssValue))
+			if (StringUtil.isBlank(cssName) || StringUtil.isBlank(cssValue)) {
 				continue;
+			}
 
 			properties.put(cssName, cssValue);
 		}
@@ -401,7 +407,7 @@ public final class StyleSheetLoader {
 	 * "background-color:red" or short-hand, like "background: color
 	 * url(images/header)". All the short-hand properties will be separated into
 	 * corresponding individuals. Whatever BIRT does not support will be ignored.
-	 * 
+	 *
 	 * @param cssProperties the hash map that stores all the property values in CSS
 	 *                      format
 	 * @param errors        the error list of the properties
@@ -410,10 +416,11 @@ public final class StyleSheetLoader {
 
 	LinkedHashMap<String, ? extends Object> buildProperties(LinkedHashMap<String, String> cssProperties,
 			List<StyleSheetParserException> errors) {
-		if (cssProperties.isEmpty())
+		if (cssProperties.isEmpty()) {
 			return cssProperties;
+		}
 
-		LinkedHashMap<String, Object> properties = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> properties = new LinkedHashMap<>();
 		Iterator<Entry<String, String>> iter = cssProperties.entrySet().iterator();
 		while (iter.hasNext()) {
 			Entry<String, String> entry = iter.next();
@@ -427,12 +434,14 @@ public final class StyleSheetLoader {
 			try {
 				if (cssName.equalsIgnoreCase(CssPropertyConstants.ATTR_BACKGROUND_POSITION)) {
 					List<StyleSheetParserException> ret = handleBackgroundPosition(cssValue, properties);
-					if (!ret.isEmpty())
+					if (!ret.isEmpty()) {
 						errors.addAll(ret);
+					}
 				} else if (cssName.equalsIgnoreCase(CssPropertyConstants.ATTR_BACKGROUND_SIZE)) {
 					List<StyleSheetParserException> ret = handleBackgroundSize(cssValue, properties);
-					if (!ret.isEmpty())
+					if (!ret.isEmpty()) {
 						errors.addAll(ret);
+					}
 				} else if (cssName.equalsIgnoreCase(CssPropertyConstants.ATTR_TEXT_DECORATION)) {
 					handleTextDecoration(cssValue, properties);
 				} else if (cssName.equalsIgnoreCase(CssPropertyConstants.ATTR_BORDER_BOTTOM)) {
@@ -554,13 +563,7 @@ public final class StyleSheetLoader {
 						errors.add(exception);
 					}
 				}
-			} catch (ParseException e) {
-				StyleSheetParserException exception = new StyleSheetParserException(
-						StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SHORT_HAND_CSSPROPERTY_VALUE, cssName,
-						cssValue, e);
-				semanticWarning(exception);
-				errors.add(exception);
-			} catch (CSSException e) {
+			} catch (ParseException | CSSException e) {
 				StyleSheetParserException exception = new StyleSheetParserException(
 						StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SHORT_HAND_CSSPROPERTY_VALUE, cssName,
 						cssValue, e);
@@ -575,7 +578,7 @@ public final class StyleSheetLoader {
 	 * Converts the background-position property in CSS2 to background-position-X
 	 * and background-position-Y in BIRT and adds property values into the given
 	 * hash map.
-	 * 
+	 *
 	 * @param cssValue   the value of the background-position
 	 * @param properties the hash map to store the result property values
 	 * @return the error list during the parse
@@ -584,7 +587,7 @@ public final class StyleSheetLoader {
 	private List<StyleSheetParserException> handleBackgroundPosition(String cssValue,
 			LinkedHashMap<String, Object> properties) {
 		assert cssValue != null;
-		List<StyleSheetParserException> errors = new ArrayList<StyleSheetParserException>();
+		List<StyleSheetParserException> errors = new ArrayList<>();
 
 		String[] values = cssValue.split("[\\s]"); //$NON-NLS-1$
 		String positionX = null;
@@ -627,7 +630,7 @@ public final class StyleSheetLoader {
 	 * Converts the background-size property in CSS3 to background-size-width and
 	 * background-size-height in BIRT and adds property values into the given hash
 	 * map.
-	 * 
+	 *
 	 * @param cssValue   the value of the background-size
 	 * @param properties the hash map to store the result property values
 	 * @return the error list during the parse
@@ -635,7 +638,7 @@ public final class StyleSheetLoader {
 	private List<StyleSheetParserException> handleBackgroundSize(String cssValue,
 			LinkedHashMap<String, Object> properties) {
 		assert cssValue != null;
-		List<StyleSheetParserException> errors = new ArrayList<StyleSheetParserException>();
+		List<StyleSheetParserException> errors = new ArrayList<>();
 
 		String[] values = cssValue.split("[\\s]"); //$NON-NLS-1$
 		String sizeWidth = null;
@@ -677,7 +680,7 @@ public final class StyleSheetLoader {
 
 	/**
 	 * Validates and sets the css background value.
-	 * 
+	 *
 	 * @param cssName         the css name
 	 * @param backgroundProp  the background property name
 	 * @param backgroundValue the background css value
@@ -699,7 +702,7 @@ public final class StyleSheetLoader {
 						StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE, cssName,
 						backgroundValue, e);
 				semanticWarning(exception);
-				List<StyleSheetParserException> errors = new ArrayList<StyleSheetParserException>();
+				List<StyleSheetParserException> errors = new ArrayList<>();
 				errors.add(exception);
 				return errors;
 			}
@@ -713,19 +716,20 @@ public final class StyleSheetLoader {
 		String[] values = cssValue.split("[\\s]"); //$NON-NLS-1$
 		for (int i = 0; i < values.length; i++) {
 			String value = values[i].trim();
-			if (value.equalsIgnoreCase(CssPropertyConstants.TEXT_DECORATION_LINE_THROUGH))
+			if (value.equalsIgnoreCase(CssPropertyConstants.TEXT_DECORATION_LINE_THROUGH)) {
 				properties.put(IStyleModel.TEXT_LINE_THROUGH_PROP,
 						DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH);
-			else if (value.equalsIgnoreCase(CssPropertyConstants.TEXT_DECORATION_OVERLINE))
+			} else if (value.equalsIgnoreCase(CssPropertyConstants.TEXT_DECORATION_OVERLINE)) {
 				properties.put(IStyleModel.TEXT_OVERLINE_PROP, DesignChoiceConstants.TEXT_OVERLINE_OVERLINE);
-			else if (value.equalsIgnoreCase(CssPropertyConstants.TEXT_DECORATION_UNDERLINE))
+			} else if (value.equalsIgnoreCase(CssPropertyConstants.TEXT_DECORATION_UNDERLINE)) {
 				properties.put(IStyleModel.TEXT_UNDERLINE_PROP, DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE);
+			}
 		}
 	}
 
 	/**
 	 * Adds all the valid property values to the style.
-	 * 
+	 *
 	 * @param style      the style to add property values
 	 * @param properties the values to add
 	 */
@@ -742,28 +746,29 @@ public final class StyleSheetLoader {
 
 	/**
 	 * Trims the property values and filters all the empty values.
-	 * 
+	 *
 	 * @param properties the properties to trim
 	 * @return the trimmed property values
 	 */
 
 	LinkedHashMap<String, String> trimProperties(LinkedHashMap<String, String> properties) {
 		assert properties != null;
-		LinkedHashMap<String, String> ret = new LinkedHashMap<String, String>();
+		LinkedHashMap<String, String> ret = new LinkedHashMap<>();
 		Iterator<Entry<String, String>> iter = properties.entrySet().iterator();
 		while (iter.hasNext()) {
 			Entry<String, String> entry = iter.next();
 			String key = entry.getKey();
 			String value = entry.getValue();
-			if (!StringUtil.isBlank(value))
+			if (!StringUtil.isBlank(value)) {
 				ret.put(key, value);
+			}
 		}
 		return ret;
 	}
 
 	/**
 	 * Records a style sheet parser exception into the warning list.
-	 * 
+	 *
 	 * @param e the exception to record
 	 */
 

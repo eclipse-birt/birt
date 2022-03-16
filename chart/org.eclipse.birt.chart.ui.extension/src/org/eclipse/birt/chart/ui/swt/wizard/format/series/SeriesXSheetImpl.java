@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -36,7 +39,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class SeriesXSheetImpl extends SubtaskSheetImpl implements Listener, ModifyListener, SelectionListener {
 
@@ -50,11 +53,11 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl implements Listener, Modi
 	private final static String TOOLTIP_MINIMUM_SLICE = Messages
 			.getString("PieBottomAreaComponent.Label.AnySliceWithASize"); //$NON-NLS-1$
 
-	private final static String[] MINMUM_SLICE_ITEMS = new String[] {
-			Messages.getString("PieBottomAreaComponent.Label.Percentage"), //$NON-NLS-1$
+	private final static String[] MINMUM_SLICE_ITEMS = { Messages.getString("PieBottomAreaComponent.Label.Percentage"), //$NON-NLS-1$
 			Messages.getString("PieBottomAreaComponent.Label.Value") //$NON-NLS-1$
 	};
 
+	@Override
 	public void createControl(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.SUBTASK_XSERIES);
 		cmpContent = new Composite(parent, SWT.NONE);
@@ -151,10 +154,11 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl implements Listener, Modi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.
 	 * ModifyEvent)
 	 */
+	@Override
 	public void modifyText(ModifyEvent e) {
 		if (e.getSource() == txtMinSlice) {
 			if (!TextEditorComposite.TEXT_RESET_MODEL.equals(e.data)) {
@@ -168,10 +172,11 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl implements Listener, Modi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		if (getChart() instanceof ChartWithoutAxes) {
 			if (event.widget.equals(txtLabel)) {
@@ -180,6 +185,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl implements Listener, Modi
 		}
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (getChart() instanceof ChartWithoutAxes) {
 			if (e.widget == cmbMinSlice) {
@@ -198,6 +204,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl implements Listener, Modi
 		txtLabel.setEnabled(((ChartWithoutAxes) getChart()).getMinSlice() != 0);
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 	}

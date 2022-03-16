@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <tr>
  * <td>test undo and redo can work when add or drop css
  * </tr>
- * 
+ *
  * <tr>
  * <td>test send message is ok
  * </tr>
@@ -35,7 +38,7 @@ public class CssCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests undo , redo operation when add/drop css.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -73,7 +76,7 @@ public class CssCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests undo , redo operation when reload css.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -102,7 +105,7 @@ public class CssCommandTest extends BaseTestCase {
 
 	/**
 	 * Test addCss method.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -145,13 +148,14 @@ public class CssCommandTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.
 		 * model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
 
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			if (ev.getEventType() == NotificationEvent.CSS_EVENT) {
 				CssEvent event = (CssEvent) ev;
@@ -168,7 +172,7 @@ public class CssCommandTest extends BaseTestCase {
 
 		/**
 		 * Gets event count.
-		 * 
+		 *
 		 * @return event count
 		 */
 
@@ -178,7 +182,7 @@ public class CssCommandTest extends BaseTestCase {
 
 		/**
 		 * Set event count to zero
-		 * 
+		 *
 		 */
 
 		public void clearEventCount() {
@@ -187,9 +191,9 @@ public class CssCommandTest extends BaseTestCase {
 
 		/**
 		 * Gets action code
-		 * 
+		 *
 		 * @return action
-		 * 
+		 *
 		 */
 
 		public int getAction() {
@@ -198,7 +202,7 @@ public class CssCommandTest extends BaseTestCase {
 
 		/**
 		 * Gets event type
-		 * 
+		 *
 		 * @return event type
 		 */
 

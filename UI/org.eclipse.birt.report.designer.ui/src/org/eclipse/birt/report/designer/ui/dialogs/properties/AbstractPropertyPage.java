@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -13,13 +16,14 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * TODO: Please document
- * 
+ *
  * @deprecated As of BIRT 2.1, replaced by
  *             {@link org.eclipse.birt.report.designer.data.ui.property.AbstractPropertyPage
  *             org.eclipse.birt.report.designer.data.ui.property.AbstractPropertyPage
  *             }.
  */
 
+@Deprecated
 public abstract class AbstractPropertyPage implements IPropertyPage {
 
 	private transient IPropertyPageContainer container = null;
@@ -29,7 +33,7 @@ public abstract class AbstractPropertyPage implements IPropertyPage {
 	private transient Image image = null;
 
 	/**
-	 *  
+	 *
 	 */
 	public AbstractPropertyPage() {
 		super();
@@ -37,11 +41,12 @@ public abstract class AbstractPropertyPage implements IPropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.IPropertyPage#setContainer(org.eclipse.
 	 * birt.report.designer.ui.IPropertyPageContainer)
 	 */
+	@Override
 	public void setContainer(IPropertyPageContainer parentContainer) {
 		this.container = parentContainer;
 	}
@@ -52,9 +57,10 @@ public abstract class AbstractPropertyPage implements IPropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#getName()
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -65,9 +71,10 @@ public abstract class AbstractPropertyPage implements IPropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#getImage()
 	 */
+	@Override
 	public Image getImage() {
 		return image;
 	}
@@ -78,45 +85,50 @@ public abstract class AbstractPropertyPage implements IPropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#canLeave()
 	 */
+	@Override
 	public boolean canLeave() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#performOk()
 	 */
+	@Override
 	public boolean performOk() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#performCancel()
 	 */
+	@Override
 	public boolean performCancel() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#performHelp()
 	 */
+	@Override
 	public void performHelp() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * getToolTip()
 	 */
+	@Override
 	public String getToolTip() {
 		return ""; //$NON-NLS-1$
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +59,7 @@ import org.eclipse.gef.requests.ChangeBoundsRequest;
 /**
  * The class is used for the EditorGuideEditPart EditPolicy.PRIMARY_DRAG_ROLE
  * policy
- * 
+ *
  */
 public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 	private static final String PIXELS_LABEL = Messages.getString("EditorDragGuidePolicy.pixels.label"); //$NON-NLS-1$
@@ -75,7 +78,7 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 
 	/**
 	 * Creates the Line Figure, when drag the margin guide.
-	 * 
+	 *
 	 * @return
 	 */
 	protected IFigure createDummyLineFigure() {
@@ -83,9 +86,10 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 			 */
+			@Override
 			protected void paintFigure(Graphics graphics) {
 				graphics.setLineStyle(Graphics.LINE_DOT);
 				graphics.setXORMode(true);
@@ -105,6 +109,7 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 		Label labelFigure = new Label();
 
 		labelFigure.setBorder(new MarginBorder(new Insets(0, 3, 0, 0)) {
+			@Override
 			public void paint(IFigure figure, Graphics graphics, Insets insets) {
 				tempRect.setBounds(getPaintRectangle(figure, insets));
 				if (getWidth() % 2 != 0) {
@@ -129,7 +134,7 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 
 	/**
 	 * Creates the Guide Figure, when drag the margin guide.
-	 * 
+	 *
 	 * @return
 	 */
 	protected EditorGuideFigure createDummyGuideFigure() {
@@ -143,6 +148,7 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 	 * eraseSourceFeedback is never called on this policy). So we make sure that
 	 * this policy cleans up when it is deactivated.
 	 */
+	@Override
 	public void deactivate() {
 		removeFeedback();
 		super.deactivate();
@@ -151,7 +157,7 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 	/**
 	 * When drag the margin guide, the attache editparts move with the guide. Now do
 	 * nothing
-	 * 
+	 *
 	 * @param request
 	 */
 	private void eraseAttachedPartsFeedback(Request request) {
@@ -161,17 +167,19 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 
 			Iterator i = attachedEditParts.iterator();
 
-			while (i.hasNext())
+			while (i.hasNext()) {
 				((EditPart) i.next()).eraseSourceFeedback(req);
+			}
 			attachedEditParts = null;
 		}
 	}
 
 	/*
 	 * Erases the draw source feedback (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPolicy#eraseSourceFeedback(org.eclipse.gef.Request)
 	 */
+	@Override
 	public void eraseSourceFeedback(Request request) {
 		getGuideEditPart().updateLocationOfFigures(getGuideEditPart().getZoomedPosition());
 		getHostFigure().setVisible(true);
@@ -186,17 +194,19 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 	}
 
 	private List getAttachedEditParts() {
-		if (attachedEditParts == null)
+		if (attachedEditParts == null) {
 			attachedEditParts = getGuideEditPart().getRulerProvider().getAttachedEditParts(getHost().getModel(),
 					((EditorRulerEditPart) getHost().getParent()).getDiagramViewer());
+		}
 		return attachedEditParts;
 	}
 
 	/*
 	 * Gets the commande with specific request (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPolicy#getCommand(org.eclipse.gef.Request)
 	 */
+	@Override
 	public Command getCommand(Request request) {
 		Command cmd;
 		final ChangeBoundsRequest req = (ChangeBoundsRequest) request;
@@ -224,7 +234,7 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 
 	/**
 	 * Creates the Guide Figure, when drag the margin guide.
-	 * 
+	 *
 	 * @return
 	 */
 	protected IFigure getDummyGuideFigure() {
@@ -236,7 +246,7 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 
 	/**
 	 * Gets the line figure when drag the margin guide
-	 * 
+	 *
 	 * @return
 	 */
 	protected IFigure getDummyLineFigure() {
@@ -255,7 +265,7 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 
 	/**
 	 * Gets the GuideEditPart
-	 * 
+	 *
 	 * @return
 	 */
 	protected EditorGuideEditPart getGuideEditPart() {
@@ -264,7 +274,7 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 
 	/**
 	 * Now return false
-	 * 
+	 *
 	 * @param req
 	 * @return if the darg is delete the margin guide
 	 */
@@ -274,7 +284,7 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 
 	/**
 	 * Now return true
-	 * 
+	 *
 	 * @param zoomedPosition
 	 * @return return true if the drag is valid.
 	 */
@@ -298,22 +308,25 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 		ChangeBoundsRequest req = new ChangeBoundsRequest(request.getType());
 		req.setEditParts(getAttachedEditParts());
 
-		if (getGuideEditPart().isHorizontal())
+		if (getGuideEditPart().isHorizontal()) {
 			req.setMoveDelta(new Point(0, request.getMoveDelta().y));
-		else
+		} else {
 			req.setMoveDelta(new Point(request.getMoveDelta().x, 0));
+		}
 
 		Iterator i = getAttachedEditParts().iterator();
 
-		while (i.hasNext())
+		while (i.hasNext()) {
 			((EditPart) i.next()).showSourceFeedback(req);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPolicy#showSourceFeedback(org.eclipse.gef.Request)
 	 */
+	@Override
 	public void showSourceFeedback(Request request) {
 		ChangeBoundsRequest req = (ChangeBoundsRequest) request;
 
@@ -404,9 +417,10 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPolicy#understandsRequest(org.eclipse.gef.Request)
 	 */
+	@Override
 	public boolean understandsRequest(Request req) {
 		return req.getType().equals(REQ_MOVE);
 	}
@@ -458,12 +472,12 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 
 	private Dimension getDistance() {
 //		Point p = getStartLocation( );
-//		
+//
 //		Control canvas = getGuideEditPart( ).getViewer( ).getControl( );
 //		org.eclipse.swt.graphics.Rectangle rect = canvas.getBounds( );
-//	
+//
 //		Dimension retValue = new Dimension(rect.width - p.x, p.y);
-//		
+//
 //		return retValue;
 
 		Point p = getStartLocation();

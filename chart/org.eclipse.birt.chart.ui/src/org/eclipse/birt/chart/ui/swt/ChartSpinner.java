@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -65,10 +68,12 @@ public class ChartSpinner extends Composite implements Listener, SelectionListen
 
 	protected void placeComponents(int styles, boolean enabled, String label, String endLabel) {
 		int colNum = 1;
-		if (label != null)
+		if (label != null) {
 			colNum++;
-		if (endLabel != null)
+		}
+		if (endLabel != null) {
 			colNum++;
+		}
 		GridLayout gl = new GridLayout();
 		gl.numColumns = colNum;
 		gl.makeColumnsEqualWidth = false;
@@ -103,7 +108,7 @@ public class ChartSpinner extends Composite implements Listener, SelectionListen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener(int,
 	 * org.eclipse.swt.widgets.Listener)
 	 */
@@ -120,9 +125,10 @@ public class ChartSpinner extends Composite implements Listener, SelectionListen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
+	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		spinner.setEnabled(enabled);
@@ -134,10 +140,12 @@ public class ChartSpinner extends Composite implements Listener, SelectionListen
 		}
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent arg0) {
 		// Do nothing.
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent event) {
 		if (event.widget == spinner) {
 			ChartElementUtil.setEObjectAttribute(eParent, sProperty,
@@ -145,6 +153,7 @@ public class ChartSpinner extends Composite implements Listener, SelectionListen
 		}
 	}
 
+	@Override
 	public void handleEvent(Event event) {
 		if (event.widget == spinner) {
 			event.widget = this;

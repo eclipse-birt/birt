@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -22,12 +25,12 @@ import org.eclipse.birt.chart.model.component.Series;
 /**
  * <!-- begin-user-doc --> A representation of the model object ' <em><b>Radar
  * Series</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc --> This is a Series type that, during design time,
  * holds the query data for Line charts, and during run time, holds the value
  * for each data point in the line. When rendered, a line connects each data
  * point. <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
@@ -87,7 +90,7 @@ import org.eclipse.birt.chart.model.component.Series;
  * <em>Plot Steps</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.examples.radar.model.type.RadarTypePackage#getRadarSeries()
  * @model extendedMetaData="name='RadarSeries' kind='elementOnly'"
  * @generated
@@ -99,7 +102,7 @@ public interface RadarSeries extends Series {
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Specifies
 	 * the marker to be used for displaying the data point on the line in the chart.
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Marker</em>' containment reference.
 	 * @see #setMarker(Marker)
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarTypePackage#getRadarSeries_Marker()
@@ -114,7 +117,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getMarker
 	 * <em>Marker</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Marker</em>' containment reference.
 	 * @see #getMarker()
 	 * @generated
@@ -125,11 +128,11 @@ public interface RadarSeries extends Series {
 	 * Returns the value of the '<em><b>Line Attributes</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * Specifies the attributes for the line used to represent this series.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Line Attributes</em>' containment reference.
 	 * @see #setLineAttributes(LineAttributes)
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarTypePackage#getRadarSeries_LineAttributes()
@@ -144,7 +147,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getLineAttributes
 	 * <em>Line Attributes</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Line Attributes</em>' containment
 	 *              reference.
 	 * @see #getLineAttributes()
@@ -155,12 +158,12 @@ public interface RadarSeries extends Series {
 	/**
 	 * Returns the value of the '<em><b>Palette Line Color</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Indicates if use the series palette color to draw the line instead of the
 	 * color in LineAttributes
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Palette Line Color</em>' attribute.
 	 * @see #isSetPaletteLineColor()
 	 * @see #unsetPaletteLineColor()
@@ -178,7 +181,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isPaletteLineColor
 	 * <em>Palette Line Color</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Palette Line Color</em>' attribute.
 	 * @see #isSetPaletteLineColor()
 	 * @see #unsetPaletteLineColor()
@@ -192,7 +195,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isPaletteLineColor
 	 * <em>Palette Line Color</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetPaletteLineColor()
 	 * @see #isPaletteLineColor()
 	 * @see #setPaletteLineColor(boolean)
@@ -205,7 +208,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isPaletteLineColor
 	 * <em>Palette Line Color</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Palette Line Color</em>' attribute is
 	 *         set.
 	 * @see #unsetPaletteLineColor()
@@ -219,11 +222,11 @@ public interface RadarSeries extends Series {
 	 * Returns the value of the '<em><b>Background Oval Transparent</b></em>'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * If using background oval fills, should they be transparent.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Background Oval Transparent</em>' attribute.
 	 * @see #isSetBackgroundOvalTransparent()
 	 * @see #unsetBackgroundOvalTransparent()
@@ -241,7 +244,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isBackgroundOvalTransparent
 	 * <em>Background Oval Transparent</em>}' attribute. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Background Oval Transparent</em>'
 	 *              attribute.
 	 * @see #isSetBackgroundOvalTransparent()
@@ -256,7 +259,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isBackgroundOvalTransparent
 	 * <em>Background Oval Transparent</em>}' attribute. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetBackgroundOvalTransparent()
 	 * @see #isBackgroundOvalTransparent()
 	 * @see #setBackgroundOvalTransparent(boolean)
@@ -269,7 +272,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isBackgroundOvalTransparent
 	 * <em>Background Oval Transparent</em>}' attribute is set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Background Oval Transparent</em>'
 	 *         attribute is set.
 	 * @see #unsetBackgroundOvalTransparent()
@@ -283,11 +286,11 @@ public interface RadarSeries extends Series {
 	 * Returns the value of the '<em><b>Web Line Attributes</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * Specifies spider grid Line Attributes.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Web Line Attributes</em>' containment
 	 *         reference.
 	 * @see #setWebLineAttributes(LineAttributes)
@@ -303,7 +306,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLineAttributes
 	 * <em>Web Line Attributes</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Web Line Attributes</em>' containment
 	 *              reference.
 	 * @see #getWebLineAttributes()
@@ -315,11 +318,11 @@ public interface RadarSeries extends Series {
 	 * Returns the value of the '<em><b>Show Web Labels</b></em>' attribute. The
 	 * default value is <code>"false"</code>. <!-- begin-user-doc --> <!--
 	 * end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies whether to show the spider grid labels.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Show Web Labels</em>' attribute.
 	 * @see #isSetShowWebLabels()
 	 * @see #unsetShowWebLabels()
@@ -337,7 +340,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isShowWebLabels
 	 * <em>Show Web Labels</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Show Web Labels</em>' attribute.
 	 * @see #isSetShowWebLabels()
 	 * @see #unsetShowWebLabels()
@@ -351,7 +354,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isShowWebLabels
 	 * <em>Show Web Labels</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetShowWebLabels()
 	 * @see #isShowWebLabels()
 	 * @see #setShowWebLabels(boolean)
@@ -364,7 +367,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isShowWebLabels
 	 * <em>Show Web Labels</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Show Web Labels</em>' attribute is set.
 	 * @see #unsetShowWebLabels()
 	 * @see #isShowWebLabels()
@@ -377,11 +380,11 @@ public interface RadarSeries extends Series {
 	 * Returns the value of the '<em><b>Show Cat Labels</b></em>' attribute. The
 	 * default value is <code>"true"</code>. <!-- begin-user-doc --> <!--
 	 * end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies whether to show the category grid labels.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Show Cat Labels</em>' attribute.
 	 * @see #isSetShowCatLabels()
 	 * @see #unsetShowCatLabels()
@@ -399,7 +402,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isShowCatLabels
 	 * <em>Show Cat Labels</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Show Cat Labels</em>' attribute.
 	 * @see #isSetShowCatLabels()
 	 * @see #unsetShowCatLabels()
@@ -413,7 +416,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isShowCatLabels
 	 * <em>Show Cat Labels</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetShowCatLabels()
 	 * @see #isShowCatLabels()
 	 * @see #setShowCatLabels(boolean)
@@ -426,7 +429,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isShowCatLabels
 	 * <em>Show Cat Labels</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Show Cat Labels</em>' attribute is set.
 	 * @see #unsetShowCatLabels()
 	 * @see #isShowCatLabels()
@@ -438,12 +441,12 @@ public interface RadarSeries extends Series {
 	/**
 	 * Returns the value of the '<em><b>Radar Auto Scale</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Indicates if use the series should automatically scale or use scale min max
 	 * settings.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Radar Auto Scale</em>' attribute.
 	 * @see #isSetRadarAutoScale()
 	 * @see #unsetRadarAutoScale()
@@ -461,7 +464,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isRadarAutoScale
 	 * <em>Radar Auto Scale</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Radar Auto Scale</em>' attribute.
 	 * @see #isSetRadarAutoScale()
 	 * @see #unsetRadarAutoScale()
@@ -475,7 +478,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isRadarAutoScale
 	 * <em>Radar Auto Scale</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetRadarAutoScale()
 	 * @see #isRadarAutoScale()
 	 * @see #setRadarAutoScale(boolean)
@@ -488,7 +491,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isRadarAutoScale
 	 * <em>Radar Auto Scale</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Radar Auto Scale</em>' attribute is
 	 *         set.
 	 * @see #unsetRadarAutoScale()
@@ -502,11 +505,11 @@ public interface RadarSeries extends Series {
 	 * Returns the value of the '<em><b>Web Label Max</b></em>' attribute. The
 	 * default value is <code>"100"</code>. <!-- begin-user-doc --> <!--
 	 * end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Web Label Scale Max
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Web Label Max</em>' attribute.
 	 * @see #isSetWebLabelMax()
 	 * @see #unsetWebLabelMax()
@@ -524,7 +527,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelMax
 	 * <em>Web Label Max</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Web Label Max</em>' attribute.
 	 * @see #isSetWebLabelMax()
 	 * @see #unsetWebLabelMax()
@@ -538,7 +541,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelMax
 	 * <em>Web Label Max</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetWebLabelMax()
 	 * @see #getWebLabelMax()
 	 * @see #setWebLabelMax(double)
@@ -551,7 +554,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelMax
 	 * <em>Web Label Max</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Web Label Max</em>' attribute is set.
 	 * @see #unsetWebLabelMax()
 	 * @see #getWebLabelMax()
@@ -564,11 +567,11 @@ public interface RadarSeries extends Series {
 	 * Returns the value of the '<em><b>Web Label Min</b></em>' attribute. The
 	 * default value is <code>"0"</code>. <!-- begin-user-doc --> <!-- end-user-doc
 	 * --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Web Label Scale Min
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Web Label Min</em>' attribute.
 	 * @see #isSetWebLabelMin()
 	 * @see #unsetWebLabelMin()
@@ -586,7 +589,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelMin
 	 * <em>Web Label Min</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Web Label Min</em>' attribute.
 	 * @see #isSetWebLabelMin()
 	 * @see #unsetWebLabelMin()
@@ -600,7 +603,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelMin
 	 * <em>Web Label Min</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetWebLabelMin()
 	 * @see #getWebLabelMin()
 	 * @see #setWebLabelMin(double)
@@ -613,7 +616,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelMin
 	 * <em>Web Label Min</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Web Label Min</em>' attribute is set.
 	 * @see #unsetWebLabelMin()
 	 * @see #getWebLabelMin()
@@ -626,11 +629,11 @@ public interface RadarSeries extends Series {
 	 * Returns the value of the '<em><b>Web Label Unit</b></em>' attribute. The
 	 * default value is <code>"%"</code>. <!-- begin-user-doc --> <!-- end-user-doc
 	 * --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Web Label Scale Unit
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Web Label Unit</em>' attribute.
 	 * @see #isSetWebLabelUnit()
 	 * @see #unsetWebLabelUnit()
@@ -648,7 +651,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelUnit
 	 * <em>Web Label Unit</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Web Label Unit</em>' attribute.
 	 * @see #isSetWebLabelUnit()
 	 * @see #unsetWebLabelUnit()
@@ -662,7 +665,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelUnit
 	 * <em>Web Label Unit</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetWebLabelUnit()
 	 * @see #getWebLabelUnit()
 	 * @see #setWebLabelUnit(String)
@@ -675,7 +678,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelUnit
 	 * <em>Web Label Unit</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Web Label Unit</em>' attribute is set.
 	 * @see #unsetWebLabelUnit()
 	 * @see #getWebLabelUnit()
@@ -687,11 +690,11 @@ public interface RadarSeries extends Series {
 	/**
 	 * Returns the value of the '<em><b>Fill Polys</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Should polygons be filled or just use lines.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Fill Polys</em>' attribute.
 	 * @see #isSetFillPolys()
 	 * @see #unsetFillPolys()
@@ -708,7 +711,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isFillPolys
 	 * <em>Fill Polys</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Fill Polys</em>' attribute.
 	 * @see #isSetFillPolys()
 	 * @see #unsetFillPolys()
@@ -722,7 +725,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isFillPolys
 	 * <em>Fill Polys</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetFillPolys()
 	 * @see #isFillPolys()
 	 * @see #setFillPolys(boolean)
@@ -735,7 +738,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isFillPolys
 	 * <em>Fill Polys</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Fill Polys</em>' attribute is set.
 	 * @see #unsetFillPolys()
 	 * @see #isFillPolys()
@@ -747,11 +750,11 @@ public interface RadarSeries extends Series {
 	/**
 	 * Returns the value of the '<em><b>Connect Endpoints</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * If using unfilled polys should first and last data points be connected.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Connect Endpoints</em>' attribute.
 	 * @see #isSetConnectEndpoints()
 	 * @see #unsetConnectEndpoints()
@@ -769,7 +772,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isConnectEndpoints
 	 * <em>Connect Endpoints</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Connect Endpoints</em>' attribute.
 	 * @see #isSetConnectEndpoints()
 	 * @see #unsetConnectEndpoints()
@@ -783,7 +786,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isConnectEndpoints
 	 * <em>Connect Endpoints</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetConnectEndpoints()
 	 * @see #isConnectEndpoints()
 	 * @see #setConnectEndpoints(boolean)
@@ -796,7 +799,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#isConnectEndpoints
 	 * <em>Connect Endpoints</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Connect Endpoints</em>' attribute is
 	 *         set.
 	 * @see #unsetConnectEndpoints()
@@ -809,11 +812,11 @@ public interface RadarSeries extends Series {
 	/**
 	 * Returns the value of the '<em><b>Web Label</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Holds the properties for web labels.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Web Label</em>' containment reference.
 	 * @see #setWebLabel(Label)
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarTypePackage#getRadarSeries_WebLabel()
@@ -828,7 +831,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabel
 	 * <em>Web Label</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Web Label</em>' containment reference.
 	 * @see #getWebLabel()
 	 * @generated
@@ -838,11 +841,11 @@ public interface RadarSeries extends Series {
 	/**
 	 * Returns the value of the '<em><b>Cat Label</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Holds the properties for category labels.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Cat Label</em>' containment reference.
 	 * @see #setCatLabel(Label)
 	 * @see org.eclipse.birt.chart.examples.radar.model.type.RadarTypePackage#getRadarSeries_CatLabel()
@@ -857,7 +860,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getCatLabel
 	 * <em>Cat Label</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Cat Label</em>' containment reference.
 	 * @see #getCatLabel()
 	 * @generated
@@ -872,7 +875,7 @@ public interface RadarSeries extends Series {
 	 * reference isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Web Label Format Specifier</em>' containment
 	 *         reference.
 	 * @see #setWebLabelFormatSpecifier(FormatSpecifier)
@@ -888,7 +891,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getWebLabelFormatSpecifier
 	 * <em>Web Label Format Specifier</em>}' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Web Label Format Specifier</em>'
 	 *              containment reference.
 	 * @see #getWebLabelFormatSpecifier()
@@ -904,7 +907,7 @@ public interface RadarSeries extends Series {
 	 * reference isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Cat Label Format Specifier</em>' containment
 	 *         reference.
 	 * @see #setCatLabelFormatSpecifier(FormatSpecifier)
@@ -920,7 +923,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getCatLabelFormatSpecifier
 	 * <em>Cat Label Format Specifier</em>}' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Cat Label Format Specifier</em>'
 	 *              containment reference.
 	 * @see #getCatLabelFormatSpecifier()
@@ -932,11 +935,11 @@ public interface RadarSeries extends Series {
 	 * Returns the value of the '<em><b>Plot Steps</b></em>' attribute. The default
 	 * value is <code>"5"</code>. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
 	 * begin-model-doc -->
-	 * 
+	 *
 	 * Defines how many steps are in the web/radar
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Plot Steps</em>' attribute.
 	 * @see #isSetPlotSteps()
 	 * @see #unsetPlotSteps()
@@ -954,7 +957,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getPlotSteps
 	 * <em>Plot Steps</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Plot Steps</em>' attribute.
 	 * @see #isSetPlotSteps()
 	 * @see #unsetPlotSteps()
@@ -968,7 +971,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getPlotSteps
 	 * <em>Plot Steps</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetPlotSteps()
 	 * @see #getPlotSteps()
 	 * @see #setPlotSteps(BigInteger)
@@ -981,7 +984,7 @@ public interface RadarSeries extends Series {
 	 * {@link org.eclipse.birt.chart.examples.radar.model.type.RadarSeries#getPlotSteps
 	 * <em>Plot Steps</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Plot Steps</em>' attribute is set.
 	 * @see #unsetPlotSteps()
 	 * @see #getPlotSteps()
@@ -993,6 +996,7 @@ public interface RadarSeries extends Series {
 	/**
 	 * @generated
 	 */
+	@Override
 	RadarSeries copyInstance();
 
 } // RadarSeries

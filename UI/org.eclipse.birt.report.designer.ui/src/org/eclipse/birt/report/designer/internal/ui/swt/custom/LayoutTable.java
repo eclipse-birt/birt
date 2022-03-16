@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +39,7 @@ public class LayoutTable extends Composite {
 	 * The number of extra pixels taken as horizontal trim by the table column. To
 	 * ensure there are N pixels available for the content of the column, assign
 	 * N+COLUMN_TRIM for the column width.
-	 * 
+	 *
 	 * @since 3.1
 	 */
 
@@ -90,14 +93,16 @@ public class LayoutTable extends Composite {
 		formStyle = isFormStyle;
 		Assert.isNotNull(columnsDescription);
 		this.columnDescription = columnsDescription;
-		if (formStyle)
+		if (formStyle) {
 			setLayout(UIUtil.createGridLayoutWithMargin(1));
-		else
+		} else {
 			setLayout(UIUtil.createGridLayoutWithoutMargin());
-		if (!formStyle)
+		}
+		if (!formStyle) {
 			table = new Table(this, style);
-		else
+		} else {
 			table = FormWidgetFactory.getInstance().createTable(this, style);
+		}
 		table.setHeaderVisible(columnsDescription.headers != null);
 		table.setLinesVisible(columnsDescription.drawLines);
 		table.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -117,6 +122,7 @@ public class LayoutTable extends Composite {
 
 		addControlListener(new ControlAdapter() {
 
+			@Override
 			public void controlResized(ControlEvent e) {
 				if (table != null && !table.isDisposed()) {
 					Rectangle area = getClientArea();
@@ -129,8 +135,9 @@ public class LayoutTable extends Composite {
 						Point vBarSize = table.getVerticalBar().getSize();
 						width -= vBarSize.x;
 					}
-					if (formStyle)
+					if (formStyle) {
 						width -= 2;
+					}
 					layoutTable(width, area);
 				}
 			}
@@ -157,8 +164,9 @@ public class LayoutTable extends Composite {
 				Assert.isTrue(false, "Unknown column layout data"); //$NON-NLS-1$
 			}
 		}
-		if (width > result.x)
+		if (width > result.x) {
 			result.x = width;
+		}
 		return result;
 	}
 
@@ -168,8 +176,9 @@ public class LayoutTable extends Composite {
 		// it is being called on Linux. This method resets the
 		// Layout to null so we make sure we run it only when
 		// the value is OK.
-		if (width <= 1)
+		if (width <= 1) {
 			return;
+		}
 
 		TableColumn[] tableColumns = table.getColumns();
 		int size = Math.min(columnDescription.columns.length, tableColumns.length);
@@ -217,8 +226,9 @@ public class LayoutTable extends Composite {
 					// tableColumns[i].getWidth();
 					int weight = cw.weight;
 					int pixels = totalWeight == 0 ? 0 : weight * rest / totalWeight;
-					if (pixels < cw.minimumWidth)
+					if (pixels < cw.minimumWidth) {
 						pixels = cw.minimumWidth;
+					}
 					totalDistributed += pixels;
 					widths[i] = pixels;
 				}
@@ -227,8 +237,9 @@ public class LayoutTable extends Composite {
 			// Distribute any remaining pixels to columns with weight.
 			int diff = rest - totalDistributed;
 			for (int i = 0; diff > 0; ++i) {
-				if (i == size)
+				if (i == size) {
 					i = 0;
+				}
 				ColumnLayoutData col = columnDescription.columns[i];
 				if (col instanceof ColumnWeightData) {
 					++widths[i];

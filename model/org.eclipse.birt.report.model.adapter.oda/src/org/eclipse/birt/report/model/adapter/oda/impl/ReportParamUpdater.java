@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.adapter.oda.impl;
 
@@ -51,7 +63,7 @@ class ReportParamUpdater {
 	 * parameter definition is null or values in cached parameter definition are not
 	 * equal to values in parameter definition, update values in given report
 	 * parameter.
-	 * 
+	 *
 	 * @param reportParam     the report parameter
 	 * @param paramDefn       the ODA parameter definition
 	 * @param cachedParamDefn the cached ODA parameter definition in designerValues
@@ -88,7 +100,7 @@ class ReportParamUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param param
 	 * @throws SemanticException
 	 */
@@ -104,13 +116,14 @@ class ReportParamUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataAttrs
 	 * @throws SemanticException
 	 */
 	private void processDataElementAttributes(DataElementAttributes dataAttrs) throws SemanticException {
-		if (dataAttrs == null)
+		if (dataAttrs == null) {
 			return;
+		}
 
 		reportParam.setIsRequired(!dataAttrs.allowsNull());
 
@@ -119,13 +132,14 @@ class ReportParamUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataUiHints
 	 * @throws SemanticException
 	 */
 	private void processDataElementUIHints(DataElementUIHints dataUiHints) throws SemanticException {
-		if (dataUiHints == null)
+		if (dataUiHints == null) {
 			return;
+		}
 
 		String text = dataUiHints.getDisplayName();
 		String textKey = dataUiHints.getDisplayNameKey();
@@ -146,13 +160,14 @@ class ReportParamUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param attrs
 	 * @throws SemanticException
 	 */
 	private void processInputParameterAttributes(InputParameterAttributes attrs) throws SemanticException {
-		if (attrs == null)
+		if (attrs == null) {
 			return;
+		}
 
 		InputElementAttributes inputElementAttrs = attrs.getElementAttributes();
 		processInputElementAttributes(inputElementAttrs);
@@ -162,13 +177,14 @@ class ReportParamUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param paramUiHints
 	 * @throws SemanticException
 	 */
 	private void processInputParameterUIHints(InputParameterUIHints paramUiHints) throws SemanticException {
-		if (paramUiHints == null)
+		if (paramUiHints == null) {
 			return;
+		}
 
 		if (reportParam.getContainer() instanceof ParameterGroupHandle) {
 			ParameterGroupHandle paramGroup = (ParameterGroupHandle) reportParam.getContainer();
@@ -181,13 +197,14 @@ class ReportParamUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param attrs
 	 * @throws SemanticException
 	 */
 	private void processInputElementAttributes(InputElementAttributes attrs) throws SemanticException {
-		if (attrs == null)
+		if (attrs == null) {
 			return;
+		}
 
 		// isRequired -- isOptional
 		reportParam.setIsRequired(!attrs.isOptional());
@@ -210,8 +227,9 @@ class ReportParamUpdater {
 		// update value type
 		String valueType = DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC;
 		if ((valueQuery != null && valueQuery.isEnabled()) || (reportParam.getContainer() != null
-				&& reportParam.getContainer() instanceof CascadingParameterGroupHandle))
+				&& reportParam.getContainer() instanceof CascadingParameterGroupHandle)) {
 			valueType = DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC;
+		}
 
 		reportParam.setValueType(valueType);
 
@@ -220,13 +238,14 @@ class ReportParamUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param inputElementUiHints
 	 * @throws SemanticException
 	 */
 	private void processInputElementUIHints(InputElementUIHints inputElementUiHints) throws SemanticException {
-		if (inputElementUiHints == null)
+		if (inputElementUiHints == null) {
 			return;
+		}
 
 		// update auto suggest threshold
 		reportParam.setAutoSuggestThreshold(inputElementUiHints.getAutoSuggestThreshold());
@@ -238,7 +257,7 @@ class ReportParamUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param style
 	 * @throws SemanticException
 	 */
@@ -247,25 +266,27 @@ class ReportParamUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param values
 	 * @throws SemanticException
 	 */
 	private void processStaticValues(StaticValues values) throws SemanticException {
-		if (values == null)
+		if (values == null) {
 			return;
+		}
 
 		AdapterUtil.updateROMDefaultValues(values, reportParam);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param choices
 	 * @throws SemanticException
 	 */
 	private void processScalarValueChoices(ScalarValueChoices choices) throws SemanticException {
-		if (choices == null)
+		if (choices == null) {
 			return;
+		}
 
 		AdapterUtil.updateROMSelectionList(choices, null, reportParam);
 	}

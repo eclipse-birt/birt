@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,30 +46,32 @@ public class SimpleComboPropertyDescriptorProvider extends PropertyDescriptorPro
 		super(property, element);
 	}
 
+	@Override
 	public String[] getItems() {
 		String[] items = null;
 
-		if (ReportItemHandle.DATA_SET_PROP.equals(getProperty()))
+		if (ReportItemHandle.DATA_SET_PROP.equals(getProperty())) {
 			items = ChoiceSetFactory.getDataSets();
-		else if (StyleHandle.MASTER_PAGE_PROP.equals(getProperty()))
+		} else if (StyleHandle.MASTER_PAGE_PROP.equals(getProperty())) {
 			items = ChoiceSetFactory.getMasterPages();
-		else if (ReportItemHandle.STYLE_PROP.equals(getProperty())) {
+		} else if (ReportItemHandle.STYLE_PROP.equals(getProperty())) {
 			items = getModifiedStyles();
-		} else if (ReportDesignHandle.THEME_PROP.equals(getProperty()))
+		} else if (ReportDesignHandle.THEME_PROP.equals(getProperty())) {
 			items = ChoiceSetFactory.getThemes();
+		}
 		return items;
 	}
 
 	private String[] getAllStyles() {
 		String items[] = ChoiceSetFactory.getStyles();
 		List preStyles = DesignEngine.getMetaDataDictionary().getPredefinedStyles();
-		List<String> preStyleNames = new ArrayList<String>();
+		List<String> preStyleNames = new ArrayList<>();
 
 		for (int i = 0; i < preStyles.size(); i++) {
 			preStyleNames.add(((IPredefinedStyle) preStyles.get(i)).getName());
 		}
 
-		List<String> sytleNames = new ArrayList<String>();
+		List<String> sytleNames = new ArrayList<>();
 		for (int i = 0; i < items.length; i++) {
 			if (preStyleNames.indexOf(items[i]) == -1) {
 				sytleNames.add(items[i]);
@@ -81,10 +86,9 @@ public class SimpleComboPropertyDescriptorProvider extends PropertyDescriptorPro
 	private String[] getModifiedStyles() {
 		isEditable = false;
 		String[] styleNamesArray = getAllStyles();
-		List<String> sytleNames = new ArrayList<String>();
-		sytleNames.addAll(Arrays.asList(styleNamesArray));
+		List<String> sytleNames = new ArrayList<>(Arrays.asList(styleNamesArray));
 		ModuleHandle module = SessionHandleAdapter.getInstance().getReportDesignHandle();
-		List<CssStyleSheetHandle> cssList = new ArrayList<CssStyleSheetHandle>();
+		List<CssStyleSheetHandle> cssList = new ArrayList<>();
 		if (module instanceof ReportDesignHandle) {
 			ReportDesignHandle reportDesign = (ReportDesignHandle) module;
 			cssList.addAll(reportDesign.getAllCssStyleSheets());
@@ -163,12 +167,14 @@ public class SimpleComboPropertyDescriptorProvider extends PropertyDescriptorPro
 
 	}
 
+	@Override
 	public boolean isSpecialProperty() {
 		return ReportItemHandle.STYLE_PROP.equals(getProperty()) || ReportDesignHandle.THEME_PROP.equals(getProperty())
 				|| StyleHandle.MASTER_PAGE_PROP.equals(getProperty());
 
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		if (ReportItemHandle.STYLE_PROP.equals(getProperty())) {
 			String[] styleNamesArray = getAllStyles();
@@ -176,9 +182,8 @@ public class SimpleComboPropertyDescriptorProvider extends PropertyDescriptorPro
 			int index = Arrays.asList(modifiedArray).indexOf(value);
 			if (index >= 0) {
 				value = styleNamesArray[index];
-			} else {
-				if (!isEditable)
-					value = null;
+			} else if (!isEditable) {
+				value = null;
 			}
 		}
 
@@ -200,10 +205,12 @@ public class SimpleComboPropertyDescriptorProvider extends PropertyDescriptorPro
 		return obj;
 	}
 
+	@Override
 	public boolean isEditable() {
 		return isEditable;
 	}
 
+	@Override
 	public boolean isReadOnly() {
 		GroupPropertyHandle propertyHandle = null;
 		if (input instanceof GroupElementHandle) {

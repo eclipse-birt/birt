@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 /**
- * 
+ *
  */
 
 public class ResourcePreferencePage extends PropertyAndPreferencePage {
@@ -41,6 +44,7 @@ public class ResourcePreferencePage extends PropertyAndPreferencePage {
 		super(title, image);
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		fConfigurationBlock = new ResourceConfigurationBlock(getNewStatusChangedListener(), getProject());
 		super.createControl(parent);
@@ -49,22 +53,27 @@ public class ResourcePreferencePage extends PropertyAndPreferencePage {
 
 	}
 
+	@Override
 	protected Control createPreferenceContent(Composite composite) {
 		return fConfigurationBlock.createContents(composite);
 	}
 
+	@Override
 	protected boolean hasProjectSpecificOptions(IProject project) {
 		return fConfigurationBlock.hasProjectSpecificOptions(project);
 	}
 
+	@Override
 	protected String getPreferencePageID() {
 		return PREF_ID;
 	}
 
+	@Override
 	protected String getPropertyPageID() {
 		return PREF_ID;
 	}
 
+	@Override
 	public void dispose() {
 		if (fConfigurationBlock != null) {
 			fConfigurationBlock.dispose();
@@ -72,6 +81,7 @@ public class ResourcePreferencePage extends PropertyAndPreferencePage {
 		super.dispose();
 	}
 
+	@Override
 	protected void enableProjectSpecificSettings(boolean useProjectSpecificSettings) {
 		super.enableProjectSpecificSettings(useProjectSpecificSettings);
 		if (fConfigurationBlock != null) {
@@ -79,6 +89,7 @@ public class ResourcePreferencePage extends PropertyAndPreferencePage {
 		}
 	}
 
+	@Override
 	protected void performDefaults() {
 		super.performDefaults();
 		if (fConfigurationBlock != null) {
@@ -86,6 +97,7 @@ public class ResourcePreferencePage extends PropertyAndPreferencePage {
 		}
 	}
 
+	@Override
 	public boolean performOk() {
 		if (fConfigurationBlock != null && !fConfigurationBlock.performOk()) {
 			return false;
@@ -94,12 +106,14 @@ public class ResourcePreferencePage extends PropertyAndPreferencePage {
 		return super.performOk();
 	}
 
+	@Override
 	public void performApply() {
 		if (fConfigurationBlock != null) {
 			fConfigurationBlock.performApply();
 		}
 	}
 
+	@Override
 	public void setElement(IAdaptable element) {
 		super.setElement(element);
 		setDescription(null); // no description for property page

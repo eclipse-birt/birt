@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,47 +26,48 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test ReportItemHandle.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testGetsPropertiesOnParameter()}</td>
  * <td>Gets the property values of scalar parameter by the
  * ScalarParameterHandle.</td>
  * <td>The returned value matches with the input file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSetsPropertiesOnParameter()}</td>
  * <td>Sets the property values of scalar parameter.</td>
  * <td>Values are set correctly.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSyntaxCheck()}</td>
  * <td>Checks the semantic error when data set name is missed.</td>
  * <td>Throws <code>PropertyValueException</code> with the error code
  * <code>VALUE_REQUIRED</code>.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
- * 
+ *
+ *
  */
 
 public class ScalarParameterHandleTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		ThreadResources.setLocale(TEST_LOCALE);
@@ -72,7 +76,7 @@ public class ScalarParameterHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests to read properties on scalar parameters.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -106,8 +110,9 @@ public class ScalarParameterHandleTest extends BaseTestCase {
 
 		Iterator iter = handle.choiceIterator();
 		int count = 0;
-		for (; iter.hasNext(); iter.next())
+		for (; iter.hasNext(); iter.next()) {
 			count++;
+		}
 		assertEquals(0, count);
 
 		assertEquals("scalar para help", handle.getHelpText()); //$NON-NLS-1$
@@ -162,8 +167,9 @@ public class ScalarParameterHandleTest extends BaseTestCase {
 		iter = handle.choiceIterator();
 		assertNotNull(iter);
 		count = 0;
-		for (; iter.hasNext(); iter.next())
+		for (; iter.hasNext(); iter.next()) {
 			count++;
+		}
 		assertEquals(0, count);
 
 		// tests on the 3nd scalar parameter with the selection list with 3
@@ -176,8 +182,9 @@ public class ScalarParameterHandleTest extends BaseTestCase {
 		StructureHandle[] choices = new StructureHandle[3];
 		count = 0;
 
-		for (iter = handle.choiceIterator(); iter.hasNext(); count++)
+		for (iter = handle.choiceIterator(); iter.hasNext(); count++) {
 			choices[count] = (StructureHandle) (iter.next());
+		}
 
 		assertEquals(3, count);
 
@@ -202,7 +209,7 @@ public class ScalarParameterHandleTest extends BaseTestCase {
 
 	/**
 	 * Sets properties on scalar parameters.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -250,7 +257,7 @@ public class ScalarParameterHandleTest extends BaseTestCase {
 	 * Tests the syntax check on ScalarParameter.
 	 * <p>
 	 * If the dynamic list is defined, it must have a data set name property.
-	 * 
+	 *
 	 * @throws Exception if error occurs during parsing the designf file.
 	 */
 

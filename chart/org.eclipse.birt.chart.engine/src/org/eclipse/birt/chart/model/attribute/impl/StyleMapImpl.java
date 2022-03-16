@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -43,7 +46,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 	/**
 	 * The default value of the ' {@link #getComponentName() <em>Component
 	 * Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getComponentName()
 	 * @generated
 	 * @ordered
@@ -53,7 +56,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 	/**
 	 * The cached value of the ' {@link #getComponentName() <em>Component
 	 * Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getComponentName()
 	 * @generated
 	 * @ordered
@@ -63,7 +66,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 	/**
 	 * This is true if the Component Name attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -72,7 +75,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 	/**
 	 * The cached value of the '{@link #getStyle() <em>Style</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getStyle()
 	 * @generated
 	 * @ordered
@@ -81,7 +84,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected StyleMapImpl() {
@@ -90,7 +93,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -100,64 +103,71 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public StyledComponent getComponentName() {
 		return componentName;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setComponentName(StyledComponent newComponentName) {
 		StyledComponent oldComponentName = componentName;
 		componentName = newComponentName == null ? COMPONENT_NAME_EDEFAULT : newComponentName;
 		boolean oldComponentNameESet = componentNameESet;
 		componentNameESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.STYLE_MAP__COMPONENT_NAME,
 					oldComponentName, componentName, !oldComponentNameESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetComponentName() {
 		StyledComponent oldComponentName = componentName;
 		boolean oldComponentNameESet = componentNameESet;
 		componentName = COMPONENT_NAME_EDEFAULT;
 		componentNameESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.STYLE_MAP__COMPONENT_NAME,
 					oldComponentName, COMPONENT_NAME_EDEFAULT, oldComponentNameESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetComponentName() {
 		return componentNameESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public Style getStyle() {
 		return style;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetStyle(Style newStyle, NotificationChain msgs) {
@@ -166,39 +176,45 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.STYLE_MAP__STYLE, oldStyle, newStyle);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setStyle(Style newStyle) {
 		if (newStyle != style) {
 			NotificationChain msgs = null;
-			if (style != null)
+			if (style != null) {
 				msgs = ((InternalEObject) style).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.STYLE_MAP__STYLE, null, msgs);
-			if (newStyle != null)
+			}
+			if (newStyle != null) {
 				msgs = ((InternalEObject) newStyle).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.STYLE_MAP__STYLE, null, msgs);
+			}
 			msgs = basicSetStyle(newStyle, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.STYLE_MAP__STYLE, newStyle,
 					newStyle));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -212,7 +228,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -228,7 +244,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -246,7 +262,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -264,7 +280,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -280,20 +296,22 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (componentName: "); //$NON-NLS-1$
-		if (componentNameESet)
+		if (componentNameESet) {
 			result.append(componentName);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
@@ -313,6 +331,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 	/**
 	 * @generated
 	 */
+	@Override
 	public StyleMap copyInstance() {
 		StyleMapImpl dest = new StyleMapImpl();
 		dest.set(this);

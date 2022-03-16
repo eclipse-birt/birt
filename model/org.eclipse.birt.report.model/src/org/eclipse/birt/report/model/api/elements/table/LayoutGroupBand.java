@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -22,7 +25,7 @@ class LayoutGroupBand {
 	 * Slots in groups.
 	 */
 
-	private List<LayoutSlot> slots = new ArrayList<LayoutSlot>();
+	private List<LayoutSlot> slots = new ArrayList<>();
 
 	/**
 	 * The container of the table.
@@ -33,7 +36,7 @@ class LayoutGroupBand {
 	/**
 	 * Constructs a <code>LayoutGroupSlot</code> with the given table and the column
 	 * count.
-	 * 
+	 *
 	 * @param table    the table has this group slot.
 	 * @param colCount the column count of the table
 	 */
@@ -44,7 +47,7 @@ class LayoutGroupBand {
 
 	/**
 	 * Adds a Group Header or Group Footer slot to the group slot.
-	 * 
+	 *
 	 * @param groupLevel       the 1-based level of the group
 	 * @param expectedColCount the column count
 	 * @return the created slot
@@ -59,7 +62,7 @@ class LayoutGroupBand {
 
 	/**
 	 * Returns the number of the slots in the group.
-	 * 
+	 *
 	 * @return the number of the slots in the group
 	 */
 
@@ -69,7 +72,7 @@ class LayoutGroupBand {
 
 	/**
 	 * Gets a slot with the given level.
-	 * 
+	 *
 	 * @param groupLevel 1-based level of the group
 	 * @return a slot with the given level
 	 */
@@ -77,8 +80,9 @@ class LayoutGroupBand {
 	public LayoutSlot getLayoutSlotWithGroupLevel(int groupLevel) {
 		for (int i = 0; i < slots.size(); i++) {
 			LayoutSlot slot = slots.get(i);
-			if (groupLevel == slot.getGroupLevel())
+			if (groupLevel == slot.getGroupLevel()) {
 				return slot;
+			}
 		}
 
 		return null;
@@ -86,29 +90,31 @@ class LayoutGroupBand {
 
 	/**
 	 * Returns the slot at the position of <code>index</code>.
-	 * 
+	 *
 	 * @param index the 0-based position
 	 * @return the slot
 	 */
 
 	public LayoutSlot getLayoutSlot(int index) {
-		if (index > slots.size() - 1)
+		if (index > slots.size() - 1) {
 			return null;
+		}
 
 		return slots.get(index);
 	}
 
 	/**
 	 * Returns the string that shows the layout. Mainly for the debug.
-	 * 
+	 *
 	 * @return the string that shows the layout
 	 */
 
 	public String getLayoutString() {
-		if (slots.isEmpty())
+		if (slots.isEmpty()) {
 			return ""; //$NON-NLS-1$
+		}
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < slots.size(); i++) {
 			LayoutSlot slot = slots.get(i);
 			sb.append(slot.getLayoutString());
@@ -118,7 +124,7 @@ class LayoutGroupBand {
 
 	/**
 	 * Returns the maximal count of columns in the group slot.
-	 * 
+	 *
 	 * @return the maximal count of columns in the group slot
 	 */
 
@@ -129,8 +135,9 @@ class LayoutGroupBand {
 			LayoutSlot obj = slots.get(i);
 			int tmpCount = obj.getColumnCount();
 
-			if (tmpCount > colCount)
+			if (tmpCount > colCount) {
 				colCount = tmpCount;
+			}
 		}
 
 		return colCount;

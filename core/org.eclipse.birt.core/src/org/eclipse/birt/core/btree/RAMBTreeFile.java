@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008,2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,18 +26,21 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
 
 public class RAMBTreeFile implements NodeFile {
 
-	private ArrayList<byte[]> blocks = new ArrayList<byte[]>();
+	private ArrayList<byte[]> blocks = new ArrayList<>();
 
 	public RAMBTreeFile() {
 	}
 
+	@Override
 	public void close() {
 	}
 
+	@Override
 	public int getTotalBlock() {
 		return blocks.size();
 	}
 
+	@Override
 	public int allocBlock() throws IOException {
 		byte[] block = new byte[BLOCK_SIZE];
 		BTreeUtils.integerToBytes(-1, block);
@@ -42,10 +48,12 @@ public class RAMBTreeFile implements NodeFile {
 		return blocks.size() - 1;
 	}
 
+	@Override
 	public void freeBlock(int blockId) throws IOException {
 
 	}
 
+	@Override
 	public void readBlock(int blockId, byte[] bytes) throws IOException {
 		if (bytes == null) {
 			throw new NullPointerException();
@@ -61,6 +69,7 @@ public class RAMBTreeFile implements NodeFile {
 		System.arraycopy(block, 0, bytes, 0, length);
 	}
 
+	@Override
 	public void writeBlock(int blockId, byte[] bytes) throws IOException {
 		if (bytes == null) {
 			throw new NullPointerException();
@@ -82,15 +91,13 @@ public class RAMBTreeFile implements NodeFile {
 	public void read(String file) throws IOException {
 		blocks.clear();
 		RandomAccessFile rf = new RandomAccessFile(file, "r");
-		try {
+		try (rf) {
 			int blockCount = (int) (rf.length() / BLOCK_SIZE);
 			byte[] block = new byte[BLOCK_SIZE];
 			for (int i = 0; i < blockCount; i++) {
 				rf.readFully(block);
 				blocks.add(block);
 			}
-		} finally {
-			rf.close();
 		}
 	}
 
@@ -109,21 +116,21 @@ public class RAMBTreeFile implements NodeFile {
 
 	public void write(String file) throws IOException {
 		RandomAccessFile rf = new RandomAccessFile(file, "w");
-		try {
+		try (rf) {
 			int blockCount = blocks.size();
 			for (int i = 0; i < blockCount; i++) {
 				byte[] block = (byte[]) blocks.get(i);
 				rf.write(block);
 			}
-		} finally {
-			rf.close();
 		}
 	}
 
+	@Override
 	public Object lock() throws IOException {
 		return this;
 	}
 
+	@Override
 	public void unlock(Object lock) throws IOException {
 	}
 }

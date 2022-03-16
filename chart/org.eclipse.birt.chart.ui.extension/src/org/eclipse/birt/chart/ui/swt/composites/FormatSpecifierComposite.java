@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -59,7 +62,7 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class FormatSpecifierComposite extends Composite implements SelectionListener {
 
@@ -121,7 +124,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 	private String[] supportedTypes = null;
 
 	/**
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param formatspecifier
@@ -131,7 +134,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param formatspecifier
@@ -530,10 +533,11 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (!bEnableEvents) {
 			return;
@@ -584,11 +588,12 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
@@ -684,6 +689,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			iscFractionDigits.addListener(SWT.Selection, this);
 		}
 
+		@Override
 		public void modifyText(ModifyEvent e) {
 			Object oSource = e.getSource();
 			bEnableEvents = false;
@@ -732,6 +738,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			updatePreview();
 		}
 
+		@Override
 		public void setEnabled(boolean enabled) {
 			this.lblPrefix.setEnabled(enabled);
 			this.lblSuffix.setEnabled(enabled);
@@ -744,6 +751,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			super.setEnabled(enabled);
 		}
 
+		@Override
 		public void populateLists() {
 			if (formatspecifier instanceof NumberFormatSpecifier) {
 				String prefix = ((NumberFormatSpecifier) formatspecifier).getPrefix();
@@ -765,6 +773,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			}
 		}
 
+		@Override
 		public FormatSpecifier buildFormatSpecifier() {
 			FormatSpecifier fs = NumberFormatSpecifierImpl.create();
 			((NumberFormatSpecifier) fs).setPrefix(txtPrefix.getText());
@@ -776,6 +785,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			return fs;
 		}
 
+		@Override
 		public void handleEvent(Event event) {
 			bEnableEvents = false;
 			if (event.type == SWT.Selection) {
@@ -844,6 +854,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			cmbDateForm.addListener(SWT.Selection, this);
 		}
 
+		@Override
 		public void populateLists() {
 			// Populate Date Types
 			NameSet ns = LiteralHelper.dateFormatTypeSet;
@@ -866,6 +877,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			}
 		}
 
+		@Override
 		public FormatSpecifier buildFormatSpecifier() {
 			FormatSpecifier fs = AttributeFactory.eINSTANCE.createDateFormatSpecifier();
 			((DateFormatSpecifier) fs).setType(DateFormatType
@@ -875,6 +887,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			return fs;
 		}
 
+		@Override
 		public void setEnabled(boolean enabled) {
 			this.lblDateDetails.setEnabled(enabled);
 			this.lblDateType.setEnabled(enabled);
@@ -883,6 +896,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			super.setEnabled(enabled);
 		}
 
+		@Override
 		public void handleEvent(Event event) {
 			updatePreview();
 		}
@@ -966,6 +980,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 
 		}
 
+		@Override
 		public void populateLists() {
 			if (formatspecifier instanceof JavaNumberFormatSpecifier) {
 				String str = ((JavaNumberFormatSpecifier) formatspecifier).getPattern();
@@ -980,6 +995,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			}
 		}
 
+		@Override
 		public FormatSpecifier buildFormatSpecifier() {
 			FormatSpecifier fs = JavaNumberFormatSpecifierImpl.create(ChartUIUtil.getText(txtNumberPattern));
 			if (txtAdvMultiplier.isSetValue()) {
@@ -988,6 +1004,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			return fs;
 		}
 
+		@Override
 		public void setEnabled(boolean enabled) {
 			this.lblAdvMultiplier.setEnabled(enabled);
 			this.lblNumberPattern.setEnabled(enabled);
@@ -996,6 +1013,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			super.setEnabled(enabled);
 		}
 
+		@Override
 		public void modifyText(ModifyEvent e) {
 			Object oSource = e.getSource();
 			bEnableEvents = false;
@@ -1086,6 +1104,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			});
 		}
 
+		@Override
 		public void populateLists() {
 			if (formatspecifier instanceof JavaDateFormatSpecifier) {
 				String str = ((JavaDateFormatSpecifier) formatspecifier).getPattern();
@@ -1096,17 +1115,20 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			}
 		}
 
+		@Override
 		public FormatSpecifier buildFormatSpecifier() {
 			FormatSpecifier fs = JavaDateFormatSpecifierImpl.create(ChartUIUtil.getText(txtDatePattern));
 			return fs;
 		}
 
+		@Override
 		public void setEnabled(boolean enabled) {
 			this.lblDatePattern.setEnabled(enabled);
 			this.txtDatePattern.setEnabled(enabled);
 			super.setEnabled(enabled);
 		}
 
+		@Override
 		public void modifyText(ModifyEvent e) {
 			Object oSource = e.getSource();
 			bEnableEvents = false;
@@ -1304,6 +1326,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			bEnableEvents = true;
 		}
 
+		@Override
 		public void setEnabled(boolean enabled) {
 			this.lblDelimiter.setEnabled(enabled);
 			this.lblPrefix.setEnabled(enabled);
@@ -1332,6 +1355,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			super.setEnabled(enabled);
 		}
 
+		@Override
 		public void populateLists() {
 			if (formatspecifier instanceof FractionNumberFormatSpecifier) {
 				this.setEnabled(true);
@@ -1344,6 +1368,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 					: dummyFs;
 		}
 
+		@Override
 		public FormatSpecifier buildFormatSpecifier() {
 			FractionNumberFormatSpecifier fs = FractionNumberFormatSpecifierImpl.create();
 			fs.setPrecise(!btnApproximate.getSelection());
@@ -1376,6 +1401,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			}
 		}
 
+		@Override
 		public void handleEvent(Event event) {
 			if (event.type == SWT.Selection) {
 				widgetSelected(new SelectionEvent(event));
@@ -1398,7 +1424,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 
 		private StringStandardComposite(Composite parent) {
 			super(parent, SWT.NONE);
-			examples = new HashMap<String, String>();
+			examples = new HashMap<>();
 			examples.put(Messages.getString("FormatSpecifierComposite.StringFormat.UpperCase"), //$NON-NLS-1$
 					">"); //$NON-NLS-1$
 			examples.put(Messages.getString("FormatSpecifierComposite.StringFormat.LowerCase"), //$NON-NLS-1$
@@ -1456,12 +1482,14 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			super.setEnabled(enabled);
 		}
 
+		@Override
 		public FormatSpecifier buildFormatSpecifier() {
 			StringFormatSpecifier sf = StringFormatSpecifierImpl.create();
 			sf.setPattern(patternTxt.getText());
 			return sf;
 		}
 
+		@Override
 		public void populateLists() {
 			if (formatspecifier instanceof StringFormatSpecifier) {
 				String pattern = ((StringFormatSpecifier) formatspecifier).getPattern();
@@ -1470,6 +1498,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 
 		}
 
+		@Override
 		public void modifyText(ModifyEvent e) {
 			bEnableEvents = false;
 			if (e.getSource() == patternTxt) {
@@ -1482,6 +1511,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 			updatePreview();
 		}
 
+		@Override
 		public void handleEvent(Event event) {
 			bEnableEvents = false;
 			if (event.type == SWT.Selection) {

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,7 +63,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * Subtask for Value Series
- * 
+ *
  */
 public class SeriesYSheetImpl extends SubtaskSheetImpl implements Listener, SelectionListener {
 
@@ -70,6 +73,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements Listener, Sele
 
 	private ChartCheckbox btnDecoVisible;
 
+	@Override
 	public void createControl(Composite parent) {
 		cmpContent = new Composite(parent, SWT.NONE);
 		{
@@ -344,14 +348,16 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements Listener, Sele
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
 	 * Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		// Detach popup dialog if there's selected popup button.
 		if (detachPopup(e.widget)) {
@@ -422,6 +428,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements Listener, Sele
 		}
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 	}

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -13,10 +25,10 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc --> A representation of the model object ' <em><b>Design
  * Values</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc --> A collection of ODA related values. Includes data
  * set parameters and result set columns. <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
@@ -34,7 +46,7 @@ import org.eclipse.emf.ecore.EObject;
  * <em>Result Sets</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDesignValues()
  * @model extendedMetaData="name='DesignValues' kind='elementOnly'"
  * @generated
@@ -45,11 +57,11 @@ public interface DesignValues extends EObject {
 	 * Returns the value of the '<em><b>Version</b></em>' attribute. The default
 	 * value is <code>"2.0.0"</code>. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the version number of these values.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Version</em>' attribute.
 	 * @see #isSetVersion()
 	 * @see #unsetVersion()
@@ -66,7 +78,7 @@ public interface DesignValues extends EObject {
 	 * Sets the value of the '
 	 * {@link org.eclipse.birt.report.model.adapter.oda.model.DesignValues#getVersion
 	 * <em>Version</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Version</em>' attribute.
 	 * @see #isSetVersion()
 	 * @see #unsetVersion()
@@ -79,7 +91,7 @@ public interface DesignValues extends EObject {
 	 * Unsets the value of the '
 	 * {@link org.eclipse.birt.report.model.adapter.oda.model.DesignValues#getVersion
 	 * <em>Version</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetVersion()
 	 * @see #getVersion()
 	 * @see #setVersion(String)
@@ -92,7 +104,7 @@ public interface DesignValues extends EObject {
 	 * {@link org.eclipse.birt.report.model.adapter.oda.model.DesignValues#getVersion
 	 * <em>Version</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Version</em>' attribute is set.
 	 * @see #unsetVersion()
 	 * @see #getVersion()
@@ -104,7 +116,7 @@ public interface DesignValues extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Data Set Parameters</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Data Set Parameters</em>' containment
 	 *         reference.
 	 * @see #setDataSetParameters(DataSetParameters)
@@ -120,7 +132,7 @@ public interface DesignValues extends EObject {
 	 * {@link org.eclipse.birt.report.model.adapter.oda.model.DesignValues#getDataSetParameters
 	 * <em>Data Set Parameters</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Data Set Parameters</em>' containment
 	 *              reference.
 	 * @see #getDataSetParameters()
@@ -136,7 +148,7 @@ public interface DesignValues extends EObject {
 	 * host designer is not required to include the derived metadata in the next
 	 * design session request. An ODA designer may ignore such metadata in a
 	 * Request. <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Result Sets</em>' containment reference.
 	 * @see #setResultSets(ResultSets)
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDesignValues_ResultSets()
@@ -152,7 +164,7 @@ public interface DesignValues extends EObject {
 	 * {@link org.eclipse.birt.report.model.adapter.oda.model.DesignValues#getResultSets
 	 * <em>Result Sets</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Result Sets</em>' containment
 	 *              reference.
 	 * @see #getResultSets()
@@ -173,7 +185,7 @@ public interface DesignValues extends EObject {
 	 * not required to include the derived metadata in the next design session
 	 * request. An ODA designer may ignore such metadata in a Request. <!--
 	 * end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Data Set Parameters1</em>' containment
 	 *         reference.
 	 * @see #setDataSetParameters1(org.eclipse.datatools.connectivity.oda.design.DataSetParameters)
@@ -190,7 +202,7 @@ public interface DesignValues extends EObject {
 	 * {@link org.eclipse.birt.report.model.adapter.oda.model.DesignValues#getDataSetParameters1
 	 * <em>Data Set Parameters1</em>}' containment reference. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Data Set Parameters1</em>' containment
 	 *              reference.
 	 * @see #getDataSetParameters1()

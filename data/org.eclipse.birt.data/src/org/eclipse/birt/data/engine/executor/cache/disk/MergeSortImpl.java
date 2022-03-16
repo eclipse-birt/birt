@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,7 +54,7 @@ class MergeSortImpl {
 
 	/**
 	 * Merge sort on units
-	 * 
+	 *
 	 * @param dataProvider
 	 * @param startIndex
 	 * @throws DataException
@@ -87,7 +90,7 @@ class MergeSortImpl {
 	/**
 	 * merge rows in temp files to new temp files. The number of new temp files is
 	 * (number of old temp files) / granularity.
-	 * 
+	 *
 	 * @param sourceFiles
 	 * @param targetFile
 	 * @throws IOException
@@ -104,8 +107,9 @@ class MergeSortImpl {
 					targetFile);
 			newTempList.add(targetFile);
 			mergeCount++;
-			if (session.getStopSign().isStopped())
+			if (session.getStopSign().isStopped()) {
 				break;
+			}
 		} while (mergeCount * granularity <= tempRowFiles.size() - 1);
 
 		tempRowFiles.clear();
@@ -114,14 +118,14 @@ class MergeSortImpl {
 
 	/**
 	 * Get all the temperary row files.
-	 * 
+	 *
 	 * @param list
 	 * @param start
 	 * @param end
 	 * @return
 	 */
 	private static RowFile[] getSubList(List list, int start, int end) {
-		RowFile[] rowFiles = null;
+		RowFile[] rowFiles;
 		end = Math.min(end, list.size() - 1);
 		rowFiles = new RowFile[end - start + 1];
 		for (int i = 0; i < rowFiles.length; i++) {
@@ -132,7 +136,7 @@ class MergeSortImpl {
 
 	/**
 	 * merge rows in multi files to one file.
-	 * 
+	 *
 	 * @param sourceFiles
 	 * @param targetFile
 	 * @throws IOException

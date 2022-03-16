@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +21,7 @@ interface ObjectInstance {
 	/**
 	 * @return object instance
 	 */
-	public Object newInstance();
+	Object newInstance();
 }
 
 /**
@@ -33,7 +36,7 @@ class SizeOf {
 
 	/**
 	 * return the size of memory occupied by object
-	 * 
+	 *
 	 * @param objectInstance
 	 * @return size of object
 	 * @throws Exception
@@ -44,7 +47,7 @@ class SizeOf {
 
 	/**
 	 * compute the size of memory occupied by object
-	 * 
+	 *
 	 * @param objectInstance
 	 * @return size of object
 	 * @throws Exception
@@ -58,8 +61,9 @@ class SizeOf {
 		long heapSize1 = getActualUsedMemory();
 
 		// 2: allocate memory
-		for (int i = 0; i < objectCount; i++)
+		for (int i = 0; i < objectCount; i++) {
 			objects[i] = objectInstance.newInstance();
+		}
 
 		// 3: get memory after allocation
 		long heapSize2 = getActualUsedMemory();
@@ -70,7 +74,7 @@ class SizeOf {
 
 	/**
 	 * return actual used memory presently
-	 * 
+	 *
 	 * @return actual used memory
 	 * @throws Exception
 	 */
@@ -89,17 +93,18 @@ class SizeOf {
 
 	/**
 	 * Running garbage collector several times to remove all unused object
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	private void runGC() throws Exception {
-		for (int i = 0; i < 15; i++)
+		for (int i = 0; i < 15; i++) {
 			_runGC();
+		}
 	}
 
 	/**
 	 * Running once
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	private void _runGC() throws Exception {
@@ -118,7 +123,7 @@ class SizeOf {
 
 	/**
 	 * Return current used memory of JVM
-	 * 
+	 *
 	 * @return current used memory
 	 */
 	private long getCurrentUsedMemory() {

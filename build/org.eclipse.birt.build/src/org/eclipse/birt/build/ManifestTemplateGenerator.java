@@ -1,10 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2001, 2004 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
@@ -22,9 +24,9 @@ import java.io.IOException;
 import org.apache.tools.ant.BuildException;
 
 /**
- * 
+ *
  * @author Farrah
- * 
+ *
  *         Generate error/failure summary according into
  *         unitTestReport.properties Properties format
  *         pluginId.failure/error=<count> eg:
@@ -65,7 +67,7 @@ public class ManifestTemplateGenerator {
 
 			String ff = new String(b, 0, len);
 
-			StringBuffer strb = new StringBuffer(ff);
+			StringBuilder strb = new StringBuilder(ff);
 			// strb.append(" ");
 			/* Read MANIFEST body and create new manifest.mf */
 			ProcFile(manifestBody, fBody_proc);
@@ -111,10 +113,11 @@ public class ManifestTemplateGenerator {
 			FileReader freader = new FileReader(source);
 			BufferedReader breader = new BufferedReader(freader);
 			String sLine;
-			StringBuffer sTmp = new StringBuffer("");
+			StringBuilder sTmp = new StringBuilder("");
 			while ((sLine = breader.readLine()) != null) {
-				if (sLine.startsWith("#") || sLine.startsWith(" ."))
+				if (sLine.startsWith("#") || sLine.startsWith(" .")) {
 					continue;
+				}
 				sTmp.append(sLine + " ");
 				sTmp.append("\n");
 			}
@@ -127,8 +130,6 @@ public class ManifestTemplateGenerator {
 			FileOutputStream Result = new FileOutputStream(dest);
 			Result.write(result.getBytes("UTF-8"));
 
-		} catch (FileNotFoundException fex) {
-			fex.printStackTrace();
 		} catch (IOException ioex) {
 			ioex.printStackTrace();
 		}

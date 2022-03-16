@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,14 +24,14 @@ import org.eclipse.emf.ecore.EClass;
  * Data Set</b></em>'. <!-- end-user-doc -->
  * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class TextDataSetImpl extends DataSetImpl implements TextDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected TextDataSetImpl() {
@@ -37,7 +40,7 @@ public class TextDataSetImpl extends DataSetImpl implements TextDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -47,10 +50,10 @@ public class TextDataSetImpl extends DataSetImpl implements TextDataSet {
 
 	/**
 	 * A convenience method to create an initialized 'TextDataSet' instance
-	 * 
+	 *
 	 * @param oValues The Collection (of String(s)) or String[] of values associated
 	 *                with this dataset
-	 * 
+	 *
 	 * @return
 	 */
 	public static final TextDataSet create(Object oValues) {
@@ -62,7 +65,7 @@ public class TextDataSetImpl extends DataSetImpl implements TextDataSet {
 
 	/**
 	 * This method performs any initialization of the instance when created
-	 * 
+	 *
 	 * Note: Manually written
 	 */
 	protected void initialize() {
@@ -71,6 +74,7 @@ public class TextDataSetImpl extends DataSetImpl implements TextDataSet {
 	/**
 	 * @generated
 	 */
+	@Override
 	public TextDataSet copyInstance() {
 		TextDataSetImpl dest = new TextDataSetImpl();
 		dest.set(this);

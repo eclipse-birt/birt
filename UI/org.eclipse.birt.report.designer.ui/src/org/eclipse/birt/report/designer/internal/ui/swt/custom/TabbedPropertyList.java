@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,7 +60,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public class TabbedPropertyList extends Canvas implements IPropertyList {
 
-	private static final ListElement[] ELEMENTS_EMPTY = new ListElement[0];
+	private static final ListElement[] ELEMENTS_EMPTY = {};
 
 	protected static final int NONE = -1;
 
@@ -132,12 +135,14 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 
 			addPaintListener(new PaintListener() {
 
+				@Override
 				public void paintControl(PaintEvent e) {
 					paint(e);
 				}
 			});
 			addMouseListener(new MouseAdapter() {
 
+				@Override
 				public void mouseDown(MouseEvent e) {
 					if (!selected) {
 						select(getIndex(ListElement.this), true);
@@ -147,7 +152,6 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 					if (children != null && children.length > 0) {
 						for (int i = 0; i < children.length; i++) {
 							if (children[i] == TabbedPropertyList.this) {
-								continue;
 							} else if (children[i].setFocus()) {
 								focus = false;
 								return;
@@ -158,6 +162,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 			});
 			addMouseMoveListener(new MouseMoveListener() {
 
+				@Override
 				public void mouseMove(MouseEvent e) {
 					if (!hover) {
 						hover = true;
@@ -167,6 +172,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 			});
 			addMouseTrackListener(new MouseTrackAdapter() {
 
+				@Override
 				public void mouseExit(MouseEvent e) {
 					hover = false;
 					redraw();
@@ -261,6 +267,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 			return tab.getText();
 		}
 
+		@Override
 		public String toString() {
 			return tab.getText();
 		}
@@ -275,12 +282,14 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 			super(parent, SWT.NO_FOCUS);
 			addPaintListener(new PaintListener() {
 
+				@Override
 				public void paintControl(PaintEvent e) {
 					paint(e);
 				}
 			});
 			addMouseListener(new MouseAdapter() {
 
+				@Override
 				public void mouseUp(MouseEvent e) {
 					if (isUpScrollRequired()) {
 						bottomVisibleIndex--;
@@ -350,12 +359,14 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 			super(parent, SWT.NO_FOCUS);
 			addPaintListener(new PaintListener() {
 
+				@Override
 				public void paintControl(PaintEvent e) {
 					paint(e);
 				}
 			});
 			addMouseListener(new MouseAdapter() {
 
+				@Override
 				public void mouseUp(MouseEvent e) {
 					if (isDownScrollRequired()) {
 						topVisibleIndex++;
@@ -427,6 +438,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 
 		this.addFocusListener(new FocusListener() {
 
+			@Override
 			public void focusGained(FocusEvent e) {
 				focus = true;
 				int i = getSelectionIndex();
@@ -435,6 +447,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 				}
 			}
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				focus = false;
 				int i = getSelectionIndex();
@@ -450,6 +463,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 
 		this.addControlListener(new ControlAdapter() {
 
+			@Override
 			public void controlResized(ControlEvent e) {
 				topNavigationElement.redraw();
 				bottomNavigationElement.redraw();
@@ -459,6 +473,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 
 		this.addTraverseListener(new TraverseListener() {
 
+			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_ARROW_PREVIOUS || e.detail == SWT.TRAVERSE_ARROW_NEXT) {
 					int nMax = elements.length - 1;
@@ -510,10 +525,12 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 	 *
 	 * @return the index of the selected item
 	 */
+	@Override
 	public int getSelectionIndex() {
 		return selectedElementIndex;
 	}
 
+	@Override
 	public String getSelectionKey() {
 		return elementMap.keySet().toArray()[selectedElementIndex].toString();
 	}
@@ -540,6 +557,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 
 	private Map elementMap = null;
 
+	@Override
 	public void setElements(Map children) {
 		elementMap = children;
 		if (elements != ELEMENTS_EMPTY) {
@@ -601,9 +619,11 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 		notifyListeners(SWT.Selection, new Event());
 	}
 
+	@Override
 	public void setSelection(String key, int index) {
-		if (elementMap.containsKey(key))
+		if (elementMap.containsKey(key)) {
 			index = Arrays.asList(elementMap.keySet().toArray()).indexOf(key);
+		}
 		if (getSelectionIndex() == index) {
 			/*
 			 * this index is already selected.
@@ -630,7 +650,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 				computeTopAndBottomTab();
 			}
 		}
-	};
+	}
 
 	/**
 	 * Selects one for the elements in the list.
@@ -649,6 +669,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 	/**
 	 * Computes the size based on the widest string in the list.
 	 */
+	@Override
 	public Point computeSize(int wHint, int hHint, boolean changed) {
 		Point result = super.computeSize(hHint, wHint, changed);
 		if (widestLabelIndex == -1) {
@@ -746,6 +767,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 	/**
 	 * @see org.eclipse.swt.widgets.Widget#dispose()
 	 */
+	@Override
 	public void dispose() {
 		if (textGc != null && !textGc.isDisposed()) {
 			textGc.dispose();
@@ -907,12 +929,14 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 		final Accessible accessible = getAccessible();
 		accessible.addAccessibleListener(new AccessibleAdapter() {
 
+			@Override
 			public void getName(AccessibleEvent e) {
 				if (getSelectionIndex() != NONE) {
 					e.result = elements[getSelectionIndex()].getText();
 				}
 			}
 
+			@Override
 			public void getHelp(AccessibleEvent e) {
 				if (getSelectionIndex() != NONE) {
 					e.result = elements[getSelectionIndex()].getText();
@@ -922,11 +946,13 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 
 		accessible.addAccessibleControlListener(new AccessibleControlAdapter() {
 
+			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point pt = toControl(new Point(e.x, e.y));
 				e.childID = (getBounds().contains(pt)) ? ACC.CHILDID_SELF : ACC.CHILDID_NONE;
 			}
 
+			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				if (getSelectionIndex() != NONE) {
 					Rectangle location = elements[getSelectionIndex()].getBounds();
@@ -938,14 +964,17 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 				}
 			}
 
+			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
+			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_TABITEM;
 			}
 
+			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL | ACC.STATE_SELECTABLE | ACC.STATE_SELECTED | ACC.STATE_FOCUSED
 						| ACC.STATE_FOCUSABLE;
@@ -954,6 +983,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 
 		addListener(SWT.Selection, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				if (isFocusControl()) {
 					accessible.setFocus(ACC.CHILDID_SELF);
@@ -963,19 +993,23 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 
 		addListener(SWT.FocusIn, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				accessible.setFocus(ACC.CHILDID_SELF);
 			}
 		});
 	}
 
+	@Override
 	public Control getControl() {
 		return this;
 	}
 
+	@Override
 	public Control getItem(int index) {
-		if (index >= 0 && index < elements.length - 1)
+		if (index >= 0 && index < elements.length - 1) {
 			return elements[index];
+		}
 		return null;
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,8 +21,8 @@ import org.eclipse.birt.data.engine.executor.cache.OdiAdapter;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.SmartCache;
 import org.eclipse.birt.data.engine.executor.cache.SortSpec;
-import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetFromCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
@@ -33,20 +36,20 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
  */
 class PassUtil {
 	/**
-	 * 
+	 *
 	 */
 	private static final String RESULT_SET_COMPUTED_COLUMN_NAME_PATTERN = "\\Q_{$TEMP\\E.*\\d*\\Q$}_\\E";
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	private PassUtil() {
 	}
 
 	/**
 	 * Pass the result source, create a new smartCache, do grouping.
-	 * 
+	 *
 	 * @param populator
 	 * @param resultSource
 	 * @param doGroup
@@ -58,8 +61,9 @@ class PassUtil {
 		populateOdiResultSet(populator, resultSource,
 				doGroup ? populator.getGroupProcessorManager().getGroupCalculationUtil().getSortSpec() : null);
 
-		if (doGroup)
+		if (doGroup) {
 			populator.getGroupProcessorManager().getGroupCalculationUtil().getGroupInformationUtil().doGrouping();
+		}
 
 		populator.getCache().next();
 
@@ -67,7 +71,7 @@ class PassUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param populator
 	 * @param rsWrapper
 	 * @param sortSpec
@@ -132,7 +136,7 @@ class PassUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */

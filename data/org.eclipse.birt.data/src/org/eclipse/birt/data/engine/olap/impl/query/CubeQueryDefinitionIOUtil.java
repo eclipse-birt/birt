@@ -1,7 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.impl.query;
 
@@ -22,9 +28,9 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IFilterDefinition.FilterTarget;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
-import org.eclipse.birt.data.engine.api.IFilterDefinition.FilterTarget;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -85,7 +91,7 @@ public class CubeQueryDefinitionIOUtil {
 
 	/**
 	 * Saves {@code CubeQueryDefinition} instance into report document
-	 * 
+	 *
 	 * @param queryResultID
 	 * @param writer
 	 * @param qd
@@ -146,8 +152,9 @@ public class CubeQueryDefinitionIOUtil {
 	private static void saveCalculatedMeasures(DataOutputStream dos, List<IDerivedMeasureDefinition> derivedMeasures,
 			int version) throws IOException, DataException {
 		// no calculated measure support
-		if (version < VersionManager.VERSION_2_6_3_1)
+		if (version < VersionManager.VERSION_2_6_3_1) {
 			return;
+		}
 		if (writeSize(dos, derivedMeasures) > 0) {
 			for (IDerivedMeasureDefinition m : derivedMeasures) {
 				saveCalculatedMeasure(dos, m);
@@ -158,8 +165,9 @@ public class CubeQueryDefinitionIOUtil {
 	private static void loadCalculatedMeasures(DataInputStream dis, ICubeQueryDefinition qd, int version)
 			throws DataException, IOException {
 		// no calculated measure support
-		if (version < VersionManager.VERSION_2_6_3_1)
+		if (version < VersionManager.VERSION_2_6_3_1) {
 			return;
+		}
 		int size = IOUtil.readInt(dis);
 		for (int i = 0; i < size; i++) {
 			IDerivedMeasureDefinition md = loadCaculatedMeasure(dis);
@@ -196,7 +204,7 @@ public class CubeQueryDefinitionIOUtil {
 
 	/**
 	 * Loads {@code CubeQueryDefinition} instance from report document
-	 * 
+	 *
 	 * @param queryResultID
 	 * @param reader
 	 * @return
@@ -412,7 +420,6 @@ public class CubeQueryDefinitionIOUtil {
 			throws DataException, IOException {
 		if (md == null) {
 			IOUtil.writeBool(dos, false);
-			return;
 		} else {
 			IOUtil.writeBool(dos, true);
 			saveLevelDefinition(dos, md.getMirrorStartingLevel());
@@ -466,7 +473,7 @@ public class CubeQueryDefinitionIOUtil {
 		loadFilters(dis, edf, version);
 		loadSortDefns(dis, edf);
 		int count = IOUtil.readInt(dis);
-		List<Object[]> tuples = new ArrayList<Object[]>();
+		List<Object[]> tuples = new ArrayList<>();
 		for (int i = 0; i < count; i++) {
 			int size = IOUtil.readInt(dis);
 			Object[] tuple = new Object[size];
@@ -783,10 +790,12 @@ public class CubeQueryDefinitionIOUtil {
 				}
 			}
 		}
-		if (version >= VersionManager.VERSION_2_6_3_2)
+		if (version >= VersionManager.VERSION_2_6_3_2) {
 			IOUtil.writeBool(dos, fd.updateAggregation());
-		if (version >= VersionManager.VERSION_4_2_2_1)
+		}
+		if (version >= VersionManager.VERSION_4_2_2_1) {
 			IOUtil.writeString(dos, fd.getFilterTarget() == null ? null : fd.getFilterTarget().toString());
+		}
 	}
 
 	private static IFilterDefinition loadFilterDefn(DataInputStream dis, int version) throws IOException {

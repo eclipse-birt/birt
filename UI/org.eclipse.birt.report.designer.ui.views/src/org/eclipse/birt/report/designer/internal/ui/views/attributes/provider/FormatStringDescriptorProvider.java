@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
@@ -26,10 +38,12 @@ public class FormatStringDescriptorProvider extends FormatDescriptorProvider {
 
 	private Object input;
 
+	@Override
 	public String getDisplayName() {
 		return null;
 	}
 
+	@Override
 	public Object load() {
 		if (DEUtil.getInputElements(input).isEmpty()) {
 			return null;
@@ -49,8 +63,9 @@ public class FormatStringDescriptorProvider extends FormatDescriptorProvider {
 				FormatValue formatValueToSet = (FormatValue) formatValue;
 				FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle(propHandle);
 				ULocale uLocale = formatHandle.getLocale();
-				if (uLocale != null)
+				if (uLocale != null) {
 					baseLocale = uLocale.getDisplayName();
+				}
 			}
 		}
 
@@ -68,8 +83,9 @@ public class FormatStringDescriptorProvider extends FormatDescriptorProvider {
 					FormatValue formatValueToSet = (FormatValue) formatValue;
 					FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle(propHandle);
 					ULocale uLocale = formatHandle.getLocale();
-					if (uLocale != null)
+					if (uLocale != null) {
 						locale = uLocale.getDisplayName();
+					}
 				}
 			}
 
@@ -84,10 +100,12 @@ public class FormatStringDescriptorProvider extends FormatDescriptorProvider {
 		return new String[] { baseCategory, basePattern, baseLocale };
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		String[] values = (String[]) value;
-		if (values.length != 3)
+		if (values.length != 3) {
 			return;
+		}
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
 		stack.startTrans(Messages.getString("FormatStringAttributePage.Trans.SetStringFormat")); //$NON-NLS-1$
 
@@ -108,8 +126,9 @@ public class FormatStringDescriptorProvider extends FormatDescriptorProvider {
 						PropertyHandle propHandle = style.getPropertyHandle(IStyleModel.STRING_FORMAT_PROP);
 						FormatValue formatValueToSet = (FormatValue) formatValue;
 						FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle(propHandle);
-						if (values[2] != null)
+						if (values[2] != null) {
 							formatHandle.setLocale(FormatAdapter.getLocaleByDisplayName(values[2]));
+						}
 					}
 				}
 			} catch (SemanticException e) {
@@ -121,14 +140,17 @@ public class FormatStringDescriptorProvider extends FormatDescriptorProvider {
 
 	}
 
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 	}
 
+	@Override
 	public boolean canReset() {
 		return true;
 	}
 
+	@Override
 	public void reset() throws SemanticException {
 		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
 		stack.startTrans(Messages.getString("FormatStringAttributePage.Trans.SetStringFormat")); //$NON-NLS-1$

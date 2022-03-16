@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +43,7 @@ public class JSExpression {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private Object parse() {
 		if (expr == null) {
@@ -90,8 +93,9 @@ public class JSExpression {
 							continue parseLoop;
 						}
 					}
-					if (!".".equals(currentCode)) //$NON-NLS-1$
+					if (!".".equals(currentCode)) { //$NON-NLS-1$
 						objectMeta = null;
+					}
 				}
 			} else if (isArray(currentCode) && objectMeta != null) {
 				objectMeta = objectMeta.getComponentType();
@@ -99,10 +103,12 @@ public class JSExpression {
 			// root fragment
 			{
 				objectMeta = context.getVariableMeta(currentCode);
-				if (objectMeta == null)
+				if (objectMeta == null) {
 					objectMeta = JSSyntaxContext.getEnginJSObject(currentCode);
-				if (objectMeta == null && codeStack.isEmpty())
+				}
+				if (objectMeta == null && codeStack.isEmpty()) {
 					return JSSyntaxContext.getAllEnginJSObjects();
+				}
 			}
 			preCode += currentCode;
 		}
@@ -139,7 +145,7 @@ public class JSExpression {
 	/**
 	 * parse the expression, and put code fragment into stack. ignore code in a pair
 	 * of bracket.
-	 * 
+	 *
 	 * @param expression
 	 * @return
 	 */

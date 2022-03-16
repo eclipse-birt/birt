@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.ShowSummaryFiel
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
- * 
+ *
  */
 
 public class SwitchCellInfo {
@@ -162,8 +165,9 @@ public class SwitchCellInfo {
 
 		String dimensionName = ((DimensionViewHandle) levelView.getContainer()).getCubeDimensionName();
 		String levelName = levelView.getCubeLevelName();
-		if (levelName == null || dimensionName == null)
+		if (levelName == null || dimensionName == null) {
 			return cell;
+		}
 
 		if (axisType == ICrosstabConstants.ROW_AXIS_TYPE) {
 			rowDimension = dimensionName;
@@ -314,7 +318,7 @@ public class SwitchCellInfo {
 //		public MeasureHandle getAggregateOnMeasure(  )
 //		{
 //			return this.measure;
-//		}		
+//		}
 
 		public String getMeasureName() {
 			return measureName;

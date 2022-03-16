@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +41,7 @@ public class TemplateDataSetState extends ReportElementState {
 
 	/**
 	 * Constructs the template data set state with the design parser handler.
-	 * 
+	 *
 	 * @param handler the design file parser handler
 	 */
 
@@ -48,21 +51,23 @@ public class TemplateDataSetState extends ReportElementState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
+	@Override
 	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		element = new TemplateDataSet();
 
@@ -71,10 +76,11 @@ public class TemplateDataSetState extends ReportElementState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
+	@Override
 	public void end() throws SAXException {
 		DesignElement refTemplateParam = element.getTemplateParameterElement(handler.getModule());
 		if (refTemplateParam != null) {
@@ -84,13 +90,12 @@ public class TemplateDataSetState extends ReportElementState {
 						.semanticError(new DesignParserException(
 								new String[] { element.getIdentifier(), refTemplateParam.getIdentifier() },
 								DesignParserException.DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_ELEMENT_TYPE));
-			} else {
-				if (handler.versionNumber < VersionUtil.VERSION_3_2_2) {
-					List dataSetColumns = (List) element.getProperty(handler.module, IDataSetModel.RESULT_SET_PROP);
-					Object dataSetHints = element.getProperty(handler.module, IDataSetModel.RESULT_SET_HINTS_PROP);
-					if (dataSetHints == null && dataSetColumns != null)
-						element.setProperty(IDataSetModel.RESULT_SET_HINTS_PROP, ModelUtil.copyValue(
-								element.getPropertyDefn(IDataSetModel.RESULT_SET_HINTS_PROP), dataSetColumns));
+			} else if (handler.versionNumber < VersionUtil.VERSION_3_2_2) {
+				List dataSetColumns = (List) element.getProperty(handler.module, IDataSetModel.RESULT_SET_PROP);
+				Object dataSetHints = element.getProperty(handler.module, IDataSetModel.RESULT_SET_HINTS_PROP);
+				if (dataSetHints == null && dataSetColumns != null) {
+					element.setProperty(IDataSetModel.RESULT_SET_HINTS_PROP, ModelUtil
+							.copyValue(element.getPropertyDefn(IDataSetModel.RESULT_SET_HINTS_PROP), dataSetColumns));
 				}
 			}
 		} else {

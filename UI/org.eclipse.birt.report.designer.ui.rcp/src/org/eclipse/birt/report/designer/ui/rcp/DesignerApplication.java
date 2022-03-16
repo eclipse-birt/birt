@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2014 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -19,9 +22,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ *
  * BIRT RCP main application
- * 
+ *
  */
 public class DesignerApplication implements IApplication {
 
@@ -34,8 +37,9 @@ public class DesignerApplication implements IApplication {
 			// exit the application with an appropriate return code
 			return code == PlatformUI.RETURN_RESTART ? EXIT_RESTART : EXIT_OK;
 		} finally {
-			if (display != null)
+			if (display != null) {
 				display.dispose();
+			}
 		}
 	}
 

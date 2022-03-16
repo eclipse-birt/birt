@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -104,13 +107,14 @@ public final class CrosstabUtil implements ICrosstabConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param element
 	 * @return report item if found, otherwise null
 	 */
 	public static IReportItem getReportItem(DesignElementHandle element) {
-		if (!(element instanceof ExtendedItemHandle))
+		if (!(element instanceof ExtendedItemHandle)) {
 			return null;
+		}
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) element;
 		try {
 			return extendedItem.getReportItem();
@@ -120,16 +124,18 @@ public final class CrosstabUtil implements ICrosstabConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param element
 	 * @param extensionName
 	 * @return report item if found, otherwise null
 	 */
 	public static IReportItem getReportItem(DesignElementHandle element, String extensionName) {
-		if (!(element instanceof ExtendedItemHandle))
+		if (!(element instanceof ExtendedItemHandle)) {
 			return null;
-		if (extensionName == null)
+		}
+		if (extensionName == null) {
 			throw new IllegalArgumentException("extension name can not be null"); //$NON-NLS-1$
+		}
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) element;
 		if (extensionName.equals(extendedItem.getExtensionName())) {
 			try {
@@ -143,15 +149,16 @@ public final class CrosstabUtil implements ICrosstabConstants {
 
 	/**
 	 * Check the containment logic for dimension from outside of crosstab
-	 * 
+	 *
 	 * @param crosstab
 	 * @param axisType
 	 * @param dimension
 	 * @return
 	 */
 	public static boolean canContain(CrosstabReportItemHandle crosstab, DimensionHandle dimension) {
-		if (crosstab != null && crosstab.getModelHandle().getExtends() != null)
+		if (crosstab != null && crosstab.getModelHandle().getExtends() != null) {
 			return false;
+		}
 
 		if (crosstab != null && dimension != null) {
 			CubeHandle currentCube = crosstab.getCube();
@@ -162,7 +169,7 @@ public final class CrosstabUtil implements ICrosstabConstants {
 			// check containment consistence
 			if (isBoundToLinkedDataSet(crosstab)) {
 				DesignElementHandle deh = dimension.getContainer();
-				if (deh != null && deh instanceof CubeHandle) {
+				if (deh instanceof CubeHandle) {
 					String cubeName = ((CubeHandle) deh).getName();
 					if (cubeName != null && cubeName.equals(currentCube.getName())) {
 						for (int i = 0; i < crosstab.getDimensionCount(ROW_AXIS_TYPE); i++) {
@@ -210,14 +217,15 @@ public final class CrosstabUtil implements ICrosstabConstants {
 
 	/**
 	 * Check the containment logic for measure from outside of crosstab
-	 * 
+	 *
 	 * @param crosstab
 	 * @param measure
 	 * @return
 	 */
 	public static boolean canContain(CrosstabReportItemHandle crosstab, MeasureHandle measure) {
-		if (crosstab != null && crosstab.getModelHandle().getExtends() != null)
+		if (crosstab != null && crosstab.getModelHandle().getExtends() != null) {
 			return false;
+		}
 
 		if (crosstab != null && measure != null) {
 			CubeHandle currentCube = crosstab.getCube();
@@ -342,8 +350,8 @@ public final class CrosstabUtil implements ICrosstabConstants {
 	}
 
 	private static List<IBinding> getQueryBindings(CrosstabReportItemHandle crosstabItem) throws BirtException {
-		List<String> rowLevelNameList = new ArrayList<String>();
-		List<String> columnLevelNameList = new ArrayList<String>();
+		List<String> rowLevelNameList = new ArrayList<>();
+		List<String> columnLevelNameList = new ArrayList<>();
 
 		// add row edge
 		if (crosstabItem.getDimensionCount(ICrosstabConstants.ROW_AXIS_TYPE) > 0) {
@@ -401,13 +409,13 @@ public final class CrosstabUtil implements ICrosstabConstants {
 
 		}
 
-		List<IBinding> bindingList = new ArrayList<IBinding>();
+		List<IBinding> bindingList = new ArrayList<>();
 
 		// add column binding
 		Iterator bindingItr = ((ExtendedItemHandle) crosstabItem.getModelHandle()).columnBindingsIterator();
 
 		if (bindingItr != null) {
-			Map<String, String> cache = new HashMap<String, String>();
+			Map<String, String> cache = new HashMap<>();
 			DataRequestSession session = DataRequestSession
 					.newSession(new DataSessionContext(DataSessionContext.MODE_DIRECT_PRESENTATION));
 
@@ -516,7 +524,7 @@ public final class CrosstabUtil implements ICrosstabConstants {
 
 	private static List<String> getLevelBindingNameList(CrosstabReportItemHandle crosstab, int axis)
 			throws CrosstabException {
-		List<String> lvList = new ArrayList<String>();
+		List<String> lvList = new ArrayList<>();
 
 		int count = crosstab.getDimensionCount(axis);
 
@@ -545,7 +553,7 @@ public final class CrosstabUtil implements ICrosstabConstants {
 
 	private static List<String> getLevelExpressionList(CrosstabReportItemHandle crosstab, int axis)
 			throws CrosstabException {
-		List<String> expList = new ArrayList<String>();
+		List<String> expList = new ArrayList<>();
 
 		int count = crosstab.getDimensionCount(axis);
 
@@ -578,7 +586,7 @@ public final class CrosstabUtil implements ICrosstabConstants {
 			String dimensionShortName) {
 		DimensionViewHandle dimension = null;
 
-		int type[] = new int[] { ROW_AXIS_TYPE, COLUMN_AXIS_TYPE };
+		int type[] = { ROW_AXIS_TYPE, COLUMN_AXIS_TYPE };
 		for (int i = 0; i < type.length; i++) {
 			int count = crosstab.getDimensionCount(type[i]);
 			for (int j = 0; j < count; j++) {
@@ -596,7 +604,7 @@ public final class CrosstabUtil implements ICrosstabConstants {
 
 	/**
 	 * Check if can merge crosstab header cell.
-	 * 
+	 *
 	 * @param crosstab
 	 * @return
 	 */
@@ -612,7 +620,7 @@ public final class CrosstabUtil implements ICrosstabConstants {
 
 	/**
 	 * Check if can split the crosstab header cell
-	 * 
+	 *
 	 * @param crosstab
 	 * @return
 	 */
@@ -627,7 +635,7 @@ public final class CrosstabUtil implements ICrosstabConstants {
 
 	/**
 	 * Merge all crosstab header cell
-	 * 
+	 *
 	 * @param crosstab
 	 */
 	public static void mergeCrosstabHeaderCell(CrosstabReportItemHandle crosstab) {
@@ -648,7 +656,7 @@ public final class CrosstabUtil implements ICrosstabConstants {
 
 	/**
 	 * Splite the crosstab header cell
-	 * 
+	 *
 	 * @param crosstab
 	 */
 	public static void splitCrosstabHeaderCell(CrosstabReportItemHandle crosstab) {
@@ -685,7 +693,7 @@ public final class CrosstabUtil implements ICrosstabConstants {
 
 	/**
 	 * Add all the label to the header cell
-	 * 
+	 *
 	 * @param reportHandle
 	 */
 	public static void addAllHeaderLabel(CrosstabReportItemHandle reportHandle) {
@@ -710,7 +718,7 @@ public final class CrosstabUtil implements ICrosstabConstants {
 
 	/**
 	 * Add the label to the header cell.
-	 * 
+	 *
 	 * @param levelHandle
 	 */
 	public static void addLabelToHeader(LevelViewHandle levelHandle) {
@@ -819,12 +827,12 @@ public final class CrosstabUtil implements ICrosstabConstants {
 
 	/**
 	 * Returns map which contains binding name and expression.
-	 * 
+	 *
 	 * @param crosstabItem
 	 * @return
 	 */
 	public static Map<String, String> getBindingExpressMap(CrosstabReportItemHandle crosstabItem) {
-		Map<String, String> exprMap = new HashMap<String, String>();
+		Map<String, String> exprMap = new HashMap<>();
 		if (crosstabItem != null) {
 			Iterator it = ((ExtendedItemHandle) crosstabItem.getModelHandle()).columnBindingsIterator();
 			while (it.hasNext()) {
@@ -922,7 +930,7 @@ public final class CrosstabUtil implements ICrosstabConstants {
 			if (cell != null) {
 				List contents = cell.getContents();
 				for (Object obj : contents) {
-					if (obj != null && obj instanceof DataItemHandle) {
+					if (obj instanceof DataItemHandle) {
 						levelBindingName = ((DataItemHandle) obj).getResultSetColumn();
 						ComputedColumnHandle column = getColumnHandle(crosstabItem, levelBindingName);
 						if (validateBinding(column, levelName)) {
@@ -931,15 +939,13 @@ public final class CrosstabUtil implements ICrosstabConstants {
 					}
 				}
 			}
-		} else {
-			if (dimensionName != null && levelName != null) {
-				Iterator it = ((ExtendedItemHandle) crosstabItem.getModelHandle()).columnBindingsIterator();
-				while (it.hasNext()) {
-					ComputedColumnHandle column = (ComputedColumnHandle) it.next();
-					if (validateLevelBinding(column, dimensionName, levelName)) {
-						levelBindingName = column.getName();
-						break;
-					}
+		} else if (dimensionName != null && levelName != null) {
+			Iterator it = ((ExtendedItemHandle) crosstabItem.getModelHandle()).columnBindingsIterator();
+			while (it.hasNext()) {
+				ComputedColumnHandle column = (ComputedColumnHandle) it.next();
+				if (validateLevelBinding(column, dimensionName, levelName)) {
+					levelBindingName = column.getName();
+					break;
 				}
 			}
 		}
@@ -958,7 +964,7 @@ public final class CrosstabUtil implements ICrosstabConstants {
 		if (cell != null) {
 			List contents = cell.getContents();
 			for (Object obj : contents) {
-				if (obj != null && obj instanceof DataItemHandle) {
+				if (obj instanceof DataItemHandle) {
 					String columnName = ((DataItemHandle) obj).getResultSetColumn();
 					columnHandle = CrosstabUtil.getColumnHandle(crosstabItem, columnName);
 					if (CrosstabUtil.validateBinding(columnHandle, measureName)) {
@@ -981,11 +987,7 @@ public final class CrosstabUtil implements ICrosstabConstants {
 	}
 
 	public static String getRefLinkedDataModelColumnName(MeasureViewHandle mv, boolean ignoreRTP) {
-		if (mv == null) {
-			return null;
-		}
-
-		if (!isBoundToLinkedDataSet(mv.getCrosstab())) {
+		if ((mv == null) || !isBoundToLinkedDataSet(mv.getCrosstab())) {
 			return null;
 		}
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,30 +27,33 @@ class NumericGroupCalculator extends GroupCalculator {
 	private double firstValue = Double.MIN_VALUE;
 
 	/**
-	 * 
+	 *
 	 * @param intervalStart
 	 * @param intervalRange
 	 * @throws BirtException
 	 */
 	public NumericGroupCalculator(Object intervalStart, double intervalRange) throws BirtException {
 		super(intervalStart, intervalRange);
-		if (intervalStart == null)
+		if (intervalStart == null) {
 			doubleStartValue = 0;
-		else
+		} else {
 			doubleStartValue = (DataTypeUtil.toDouble(intervalStart)).doubleValue();
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.group.GroupCalculator#calculate(java.lang.
 	 * Object)
 	 */
+	@Override
 	public Object calculate(Object value) throws BirtException {
 		double dValue = -1;
-		if (value != null)
+		if (value != null) {
 			dValue = (DataTypeUtil.toDouble(value)).doubleValue();
+		}
 
 		if (dValue < doubleStartValue) {
 			if (this.firstValue == Double.MIN_VALUE) {

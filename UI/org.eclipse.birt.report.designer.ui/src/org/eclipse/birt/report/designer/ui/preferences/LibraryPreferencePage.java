@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +43,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ *
  */
 
 public class LibraryPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
@@ -76,7 +79,7 @@ public class LibraryPreferencePage extends PreferencePage implements IWorkbenchP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.PreferencePage#PreferencePage
 	 */
 	public LibraryPreferencePage() {
@@ -86,7 +89,7 @@ public class LibraryPreferencePage extends PreferencePage implements IWorkbenchP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.preference.PreferencePage#PreferencePage(java.lang.String)
 	 */
@@ -96,7 +99,7 @@ public class LibraryPreferencePage extends PreferencePage implements IWorkbenchP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.preference.PreferencePage#PreferencePage(java.lang.String,
 	 * org.eclipse.jface.resource.ImageDescriptor)
@@ -107,11 +110,12 @@ public class LibraryPreferencePage extends PreferencePage implements IWorkbenchP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.
 	 * widgets.Composite)
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.PREFERENCE_BIRT_LIBRARY_ID);
 		Composite mainComposite = new Composite(parent, SWT.NULL);
@@ -152,6 +156,7 @@ public class LibraryPreferencePage extends PreferencePage implements IWorkbenchP
 		LibraryList.setItems(ReportPlugin.getDefault().getLibraryPreference());
 		LibraryList.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				removeButton.setEnabled(true);
 			}
@@ -173,6 +178,7 @@ public class LibraryPreferencePage extends PreferencePage implements IWorkbenchP
 		addButton.setLayoutData(data);
 		addButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				FileDialog dialog = new FileDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell());
 				dialog.setFilterExtensions(extensions);
@@ -220,6 +226,7 @@ public class LibraryPreferencePage extends PreferencePage implements IWorkbenchP
 		removeButton.setEnabled(false);
 		removeButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				int index = LibraryList.getSelectionIndex();
 				LibraryList.remove(index);
@@ -248,6 +255,7 @@ public class LibraryPreferencePage extends PreferencePage implements IWorkbenchP
 		}
 		removeAllButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				LibraryList.removeAll();
 				removeButton.setEnabled(false);
@@ -270,10 +278,12 @@ public class LibraryPreferencePage extends PreferencePage implements IWorkbenchP
 		alwaysButton.setText(EXPORT_PREF_ALWAYS);
 		alwaysButton.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				exportPref = ExportToLibraryAction.PREF_OVERWRITE;
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				exportPref = ExportToLibraryAction.PREF_OVERWRITE;
 			}
@@ -284,10 +294,12 @@ public class LibraryPreferencePage extends PreferencePage implements IWorkbenchP
 		neverButton.setText(EXPORT_PREF_NEVER);
 		neverButton.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				exportPref = ExportToLibraryAction.PREF_NOT_OVERWRITE;
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				exportPref = ExportToLibraryAction.PREF_NOT_OVERWRITE;
 			}
@@ -298,10 +310,12 @@ public class LibraryPreferencePage extends PreferencePage implements IWorkbenchP
 		promptButton.setText(EXPORT_PREF_PROMPT);
 		promptButton.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				exportPref = ExportToLibraryAction.PREF_PROMPT;
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				exportPref = ExportToLibraryAction.PREF_PROMPT;
 			}
@@ -313,9 +327,10 @@ public class LibraryPreferencePage extends PreferencePage implements IWorkbenchP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
+	@Override
 	public void init(IWorkbench workbench) {
 		// Initialize the preference store we wish to use
 		setPreferenceStore(ReportPlugin.getDefault().getPreferenceStore());
@@ -323,9 +338,10 @@ public class LibraryPreferencePage extends PreferencePage implements IWorkbenchP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
 	 */
+	@Override
 	protected void performDefaults() {
 		LibraryList.setItems(ReportPlugin.getDefault().getDefaultLibraryPreference());
 		removeButton.setEnabled(false);
@@ -336,9 +352,10 @@ public class LibraryPreferencePage extends PreferencePage implements IWorkbenchP
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.IPreferencePage#performOk()
 	 */
+	@Override
 	public boolean performOk() {
 		ReportPlugin.getDefault().setLibraryPreference(LibraryList.getItems());
 		ReportPlugin.getDefault().getPreferenceStore().setValue(ExportToLibraryAction.PREF_KEY, exportPref);

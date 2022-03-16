@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -118,7 +121,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param dataEngine
 	 * @param queryDefn
 	 * @param dataSetDesign
@@ -141,7 +144,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 	/**
 	 * Initialize the instance. The method includes heavyweight operations such as
 	 * ResultIterator population.
-	 * 
+	 *
 	 * @param dataEngine
 	 * @param appContext
 	 * @throws DataException
@@ -157,7 +160,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 
 	/**
 	 * Initialize the resultClass. This method is lightweight.
-	 * 
+	 *
 	 * @param dataEngine
 	 * @param dataSetDesign
 	 * @param appContext
@@ -185,7 +188,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 
 	/**
 	 * Return an instance of JointResultMeta.
-	 * 
+	 *
 	 * @param left
 	 * @param right
 	 * @return
@@ -217,7 +220,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 	/**
 	 * Get the data set name with out library name prefix. This fix is for bugzilla
 	 * bug 155848.
-	 * 
+	 *
 	 * @param qualifiedName
 	 * @return
 	 */
@@ -227,7 +230,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 
 	/**
 	 * Gets the Java class used to represent the specified data type.
-	 * 
+	 *
 	 * @param typeCode
 	 * @return
 	 */
@@ -237,7 +240,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 
 	/**
 	 * Gets the size of the temp customer columns
-	 * 
+	 *
 	 * @param metaData
 	 * @return
 	 * @throws BirtException
@@ -256,15 +259,12 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 
 	/**
 	 * Check whether a column is a temp column according to column name.
-	 * 
+	 *
 	 * @param columnName
 	 * @return
 	 */
 	private boolean isTempColumn(String columnName) {
-		if (columnName.length() < 7) {
-			return false;
-		}
-		if (!columnName.matches(TEMP_COLUMN_STRING)) {
+		if ((columnName.length() < 7) || !columnName.matches(TEMP_COLUMN_STRING)) {
 			return false;
 		}
 		return true;
@@ -272,7 +272,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 
 	/**
 	 * Populate the JointResultMetadata.
-	 * 
+	 *
 	 * @param left
 	 * @param leftPrefix
 	 * @param right
@@ -343,7 +343,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataEngine
 	 * @param dataSetDesignName
 	 * @param isLeftDataSet
@@ -370,7 +370,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param condition
 	 * @param isLeftDataSet
 	 * @param query
@@ -391,25 +391,27 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#newExecutor()
 	 */
+	@Override
 	protected QueryExecutor newExecutor() {
 		return new JointDataSetQueryExecutor();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
 	 */
+	@Override
 	public Collection getParameterMetaData() throws BirtException {
 		return null;
 	}
 
 	/**
 	 * cache the left and right queryResults to improve the efficiency
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	private void populatePreparedQuery(IQueryResults outer) throws BirtException {
@@ -443,7 +445,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param isLeftDataSet
 	 * @param dataSetName
 	 * @return
@@ -470,9 +472,9 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 	}
 
 	/**
-	 * 
+	 *
 	 * Concrete class of DSQueryExecutor used in PreparedExtendedDSQuery
-	 * 
+	 *
 	 */
 	private class JointDataSetQueryExecutor extends DSQueryExecutor {
 
@@ -481,6 +483,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource(
 		 * )
 		 */
+		@Override
 		protected IDataSource createOdiDataSource() throws DataException {
 			return null;
 		}
@@ -489,6 +492,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery()
 		 */
+		@Override
 		protected IQuery createOdiQuery() throws DataException {
 			setCurrentDataSet(dataSetDesign);
 			try {
@@ -509,18 +513,21 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 		 * @see
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
+		@Override
 		protected org.eclipse.birt.data.engine.odi.IResultIterator executeOdiQuery(IEventHandler eventHandler)
 				throws DataException {
-			if (doesLoadFromCache() == true) {
+			if (doesLoadFromCache()) {
 				DataSourceQuery dsQuery = new DataSourceQuery(dataEngine.getSession());
 
 				JointDataSetQuery jointQuery = (JointDataSetQuery) odiQuery;
 				this.prepareCacheQuery(dsQuery);
 				dsQuery.setExprProcessor(jointQuery.getExprProcessor());
 				List fetchEvents = jointQuery.getFetchEvents();
-				if (fetchEvents != null)
-					for (int i = 0; i < fetchEvents.size(); i++)
+				if (fetchEvents != null) {
+					for (int i = 0; i < fetchEvents.size(); i++) {
 						dsQuery.addOnFetchEvent((IResultObjectEvent) fetchEvents.get(i));
+					}
+				}
 				dsQuery.setMaxRows(jointQuery.getMaxRows());
 				dsQuery.setOrdering(toList(jointQuery.getOrdering()));
 				dsQuery.setGrouping(toList(jointQuery.getGrouping()));
@@ -556,13 +563,14 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 
 			DataSetCacheManager dscm = dataEngine.getSession().getDataSetCacheManager();
 			dscm.setDataSourceAndDataSet(null, dataSetDesign, parameterHints, dscm.getCurrentAppContext());
-			if (doesSaveToCache() == false)
+			if (!doesSaveToCache()) {
 				return new CachedResultSet((BaseQuery) this.odiQuery, resultClass, populator, eventHandler,
 						dataEngine.getSession());
-			else
+			} else {
 				return new CachedResultSet((BaseQuery) this.odiQuery, resultClass,
 						new DataSetToCache(populator, resultClass, dataEngine.getSession()), eventHandler,
 						dataEngine.getSession());
+			}
 		}
 
 		/**
@@ -570,12 +578,14 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery {
 		 * @return
 		 */
 		private List toList(Object[] obs) {
-			if (obs == null)
+			if (obs == null) {
 				return null;
+			}
 
 			List obList = new ArrayList();
-			for (int i = 0; i < obs.length; i++)
+			for (int i = 0; i < obs.length; i++) {
 				obList.add(obs[i]);
+			}
 
 			return obList;
 		}

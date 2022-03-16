@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -27,9 +30,10 @@ public class CornerHandle extends AbstractHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
 	 */
+	@Override
 	protected DragTracker createDragTracker() {
 		return new CornerTracker((TableEditPart) getOwner());
 	}
@@ -37,7 +41,7 @@ public class CornerHandle extends AbstractHandle {
 	/**
 	 * Creates a MoveHandle for the given <code>GraphicalEditPart</code> using a
 	 * default {@link Locator}.
-	 * 
+	 *
 	 * @param owner The GraphicalEditPart to be moved by this handle.
 	 */
 	public CornerHandle(TableEditPart owner) {
@@ -47,7 +51,7 @@ public class CornerHandle extends AbstractHandle {
 	/**
 	 * Creates a MoveHandle for the given <code>GraphicalEditPart</code> using the
 	 * given <code>Locator</code>.
-	 * 
+	 *
 	 * @param owner The GraphicalEditPart to be moved by this handle.
 	 * @param loc   The Locator used to place the handle.
 	 */
@@ -58,9 +62,10 @@ public class CornerHandle extends AbstractHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.IFigure#containsPoint(int, int)
 	 */
+	@Override
 	public boolean containsPoint(int x, int y) {
 
 		return getBounds().getCopy().shrink(2, 2).contains(x, y);
@@ -79,9 +84,10 @@ public class CornerHandle extends AbstractHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
+	@Override
 	protected void paintFigure(Graphics graphics) {
 		graphics.setBackgroundColor(ReportColorConstants.TableGuideFillColor);
 		graphics.setLineStyle(SWT.LINE_SOLID);

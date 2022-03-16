@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -14,7 +17,7 @@ import org.eclipse.jface.viewers.Viewer;
 
 /**
  * TODO: Please document
- * 
+ *
  * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:14 $
  */
 
@@ -23,7 +26,7 @@ public final class PropertyContentProvider implements ITreeContentProvider {
 	private transient PropertyNode rootNode = null;
 
 	/**
-	 *  
+	 *
 	 */
 	public PropertyContentProvider() {
 		super();
@@ -31,10 +34,11 @@ public final class PropertyContentProvider implements ITreeContentProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
 	 */
+	@Override
 	public Object[] getChildren(Object parentElement) {
 		PropertyNode node = (PropertyNode) parentElement;
 		return node.getSubNodes();
@@ -42,31 +46,34 @@ public final class PropertyContentProvider implements ITreeContentProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
 	 */
+	@Override
 	public Object getParent(Object element) {
 		return findParent(rootNode, ((PropertyNode) element).getId());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
 	 */
+	@Override
 	public boolean hasChildren(Object element) {
 		return ((PropertyNode) element).hasSubNodes();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.
 	 * Object)
 	 */
+	@Override
 	public Object[] getElements(Object inputElement) {
 		if (((PropertyNode) inputElement).hasSubNodes()) {
 			return ((PropertyNode) inputElement).getSubNodes();
@@ -76,28 +83,27 @@ public final class PropertyContentProvider implements ITreeContentProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 	 */
+	@Override
 	public void dispose() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.
 	 * viewers.Viewer, java.lang.Object, java.lang.Object)
 	 */
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		rootNode = (PropertyNode) newInput;
 	}
 
 	private PropertyNode findParent(PropertyNode startNode, String childId) {
-		if (startNode == null || childId == null) {
-			return null;
-		}
-		if (childId.trim().equals("/")) //$NON-NLS-1$
+		if (startNode == null || childId == null || childId.trim().equals("/")) //$NON-NLS-1$
 		{
 			return null;
 		}

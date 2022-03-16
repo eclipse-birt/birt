@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +36,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
 /**
- * 
+ *
  */
 
 public class HTMLVisionOptimize extends HTMLEmitter {
@@ -62,6 +65,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Build the report default style
 	 */
+	@Override
 	public void buildDefaultStyle(StringBuffer styleBuffer, IStyle style) {
 		if (style == null || style.isEmpty()) {
 			return;
@@ -83,6 +87,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Build attribute class
 	 */
+	@Override
 	public void buildStyle(StringBuffer styleBuffer, IStyle style) {
 		if (style == null || style.isEmpty()) {
 			return;
@@ -99,6 +104,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Build the style of the page head and page footer
 	 */
+	@Override
 	public void buildPageBandStyle(StringBuffer styleBuffer, IStyle style) {
 		if (style == null || style.isEmpty()) {
 			return;
@@ -127,6 +133,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Build the style of table content
 	 */
+	@Override
 	public void buildTableStyle(ITableContent table, StringBuffer styleBuffer) {
 		addDefaultTableStyles(styleBuffer);
 
@@ -159,32 +166,30 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 		if (null != width) {
 			buildSize(styleBuffer, HTMLTags.ATTR_WIDTH, width);
 			widthOutputFlag = true;
-		} else {
-			// Shrink table will not output the 100% as the default width in
-			// HTML.
-			// This is different with the PDF. PDF will use the 100% as the
-			// default width for a shrink table.
-			// If the table's columns all have a absolute width, we should not
-			// output the 100% as the default width.
-			if (!"true".equalsIgnoreCase(style.getCanShrink())) {
-				boolean absoluteWidth = true;
-				for (int i = 0; i < table.getColumnCount(); i++) {
-					IColumn column = table.getColumn(i);
-					DimensionType columnWidth = column.getWidth();
-					if (columnWidth == null) {
+		} else // Shrink table will not output the 100% as the default width in
+		// HTML.
+		// This is different with the PDF. PDF will use the 100% as the
+		// default width for a shrink table.
+		// If the table's columns all have a absolute width, we should not
+		// output the 100% as the default width.
+		if (!"true".equalsIgnoreCase(style.getCanShrink())) {
+			boolean absoluteWidth = true;
+			for (int i = 0; i < table.getColumnCount(); i++) {
+				IColumn column = table.getColumn(i);
+				DimensionType columnWidth = column.getWidth();
+				if (columnWidth == null) {
+					absoluteWidth = false;
+					break;
+				} else {
+					if ("%".endsWith(columnWidth.getUnits())) {
 						absoluteWidth = false;
 						break;
-					} else {
-						if ("%".endsWith(columnWidth.getUnits())) {
-							absoluteWidth = false;
-							break;
-						}
 					}
 				}
-				if (!absoluteWidth) {
-					styleBuffer.append(" width: 100%;");
-					widthOutputFlag = true;
-				}
+			}
+			if (!absoluteWidth) {
+				styleBuffer.append(" width: 100%;");
+				widthOutputFlag = true;
 			}
 		}
 
@@ -225,6 +230,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Build the style of column
 	 */
+	@Override
 	public void buildColumnStyle(IColumn column, StringBuffer styleBuffer) {
 		buildSize(styleBuffer, HTMLTags.ATTR_WIDTH, column.getWidth());
 
@@ -241,6 +247,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Handles the alignment property of the column content.
 	 */
+	@Override
 	public void handleColumnAlign(IColumn column) {
 		// Column's vertical-align property will be handled at the cell content
 		// with the CellMergedStyle.
@@ -250,6 +257,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Build the style of row content.
 	 */
+	@Override
 	public void buildRowStyle(IRowContent row, StringBuffer styleBuffer) {
 		buildSize(styleBuffer, HTMLTags.ATTR_HEIGHT, row.getHeight()); // $NON-NLS-1$
 
@@ -276,6 +284,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Handles the alignment property of the row content.
 	 */
+	@Override
 	public void handleRowAlign(IRowContent row) {
 		IStyle rowComputedStyle = row.getComputedStyle();
 
@@ -306,6 +315,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Build the style of cell content.
 	 */
+	@Override
 	public void buildCellStyle(ICellContent cell, StringBuffer styleBuffer, boolean isHead, boolean fixedCellHeight) {
 		IStyle style = getElementStyle(cell);
 		// implement the cell's clip.
@@ -386,6 +396,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Handles the vertical align property of the element content.
 	 */
+	@Override
 	public void handleCellVAlign(ICellContent cell) {
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = cell.getStyle();
@@ -409,6 +420,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Build the style of contianer content.
 	 */
+	@Override
 	public void buildContainerStyle(IContainerContent container, StringBuffer styleBuffer) {
 		int display = ((Integer) containerDisplayStack.peek()).intValue();
 		// shrink
@@ -435,6 +447,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Handles the alignment property of the container content.
 	 */
+	@Override
 	public void handleContainerAlign(IContainerContent container) {
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = container.getStyle();
@@ -449,6 +462,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Build the style of text content.
 	 */
+	@Override
 	public void buildTextStyle(ITextContent text, StringBuffer styleBuffer, int display) {
 		IStyle style = text.getStyle();
 		// check 'can-shrink' property
@@ -489,6 +503,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Build the style of foreign content.
 	 */
+	@Override
 	public void buildForeignStyle(IForeignContent foreign, StringBuffer styleBuffer, int display) {
 		IStyle style = foreign.getStyle();
 		// check 'can-shrink' property
@@ -528,6 +543,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Build the style of image content.
 	 */
+	@Override
 	public void buildImageStyle(IImageContent image, StringBuffer styleBuffer, int display) {
 		// image size
 		buildSize(styleBuffer, HTMLTags.ATTR_WIDTH, image.getWidth()); // $NON-NLS-1$
@@ -571,7 +587,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 
 	/**
 	 * Handles the border of a cell
-	 * 
+	 *
 	 * @param cell:        the cell content
 	 * @param styleBuffer: the buffer to store the tyle building result.
 	 */
@@ -667,7 +683,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 
 	/**
 	 * Get the border width from a style. It don't support '%'.
-	 * 
+	 *
 	 * @param style
 	 * @param borderNum
 	 * @return
@@ -705,7 +721,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 
 	/**
 	 * Treat the conflict of cell border and row border
-	 * 
+	 *
 	 * @param content
 	 * @param borderName
 	 * @param cellBorderWidth
@@ -738,10 +754,10 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 			Integer iCellBorderLevel = ((Integer) borderStyleMap.get(cellBorderStyle));
 			Integer iRowBorderLevel = ((Integer) borderStyleMap.get(rowBorderStyle));
 			if (null == iCellBorderLevel) {
-				iCellBorderLevel = Integer.valueOf(-1);
+				iCellBorderLevel = -1;
 			}
 			if (null == iRowBorderLevel) {
-				iRowBorderLevel = Integer.valueOf(-1);
+				iRowBorderLevel = -1;
 			}
 
 			if (iRowBorderLevel.intValue() > iCellBorderLevel.intValue()) {

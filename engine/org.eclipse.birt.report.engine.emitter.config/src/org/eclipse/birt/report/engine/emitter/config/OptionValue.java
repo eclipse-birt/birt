@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ public final class OptionValue implements IOptionValue {
 
 	/**
 	 * Constructs an entry of option value with the specified value.
-	 * 
+	 *
 	 * @param value the option value.
 	 */
 	public OptionValue(Object value) {
@@ -34,7 +37,7 @@ public final class OptionValue implements IOptionValue {
 	/**
 	 * Constructs an entry of option value with the specified value and the
 	 * specified display value.
-	 * 
+	 *
 	 * @param value        the option value.
 	 * @param displayValue the display value.
 	 */
@@ -45,16 +48,17 @@ public final class OptionValue implements IOptionValue {
 
 	/**
 	 * Returns option value.
-	 * 
+	 *
 	 * @return option value.
 	 */
+	@Override
 	public Object getValue() {
 		return value;
 	}
 
 	/**
 	 * Sets option value.
-	 * 
+	 *
 	 * @param value the option value to set.
 	 */
 	public void setValue(Object value) {
@@ -63,16 +67,17 @@ public final class OptionValue implements IOptionValue {
 
 	/**
 	 * Returns name.
-	 * 
+	 *
 	 * @return name.
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * Sets name.
-	 * 
+	 *
 	 * @param name the name to set.
 	 */
 	public void setName(String name) {

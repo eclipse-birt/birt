@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2014 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.executor;
@@ -95,7 +98,7 @@ final class CustomField {
 
 /**
  * Structure to hold Parameter binding info
- * 
+ *
  * @author lzhu
  *
  */
@@ -168,7 +171,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param dataSource
 	 * @param queryType
 	 * @param queryText
@@ -187,6 +190,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * org.eclipse.birt.data.engine.odi.IDataSourceQuery#setResultHints(java.util.
 	 * Collection)
 	 */
+	@Override
 	public void setResultHints(Collection columnDefns) {
 		resultHints = columnDefns;
 	}
@@ -196,12 +200,15 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * org.eclipse.birt.data.engine.odi.IDataSourceQuery#setResultProjection(java.
 	 * lang.String[])
 	 */
+	@Override
 	public void setResultProjection(String[] fieldNames) throws DataException {
-		if (fieldNames == null || fieldNames.length == 0)
+		if (fieldNames == null || fieldNames.length == 0) {
 			return; // nothing to set
+		}
 		this.projectedFields = fieldNames;
 	}
 
+	@Override
 	public void setParameterHints(Collection parameterHints) {
 		// assign to placeholder, for use later during prepare()
 		this.parameterHints = parameterHints;
@@ -211,13 +218,16 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#addProperty(java.lang.
 	 * String, java.lang.String)
 	 */
+	@Override
 	public void addProperty(String name, String value) throws DataException {
-		if (name == null)
+		if (name == null) {
 			throw new NullPointerException("Property name is null");
+		}
 
 		// Must be called before prepare() per interface spec
-		if (odaStatement != null)
+		if (odaStatement != null) {
 			throw new DataException(ResourceConstants.QUERY_HAS_PREPARED);
+		}
 
 		if (propNames == null) {
 			assert propValues == null;
@@ -234,9 +244,11 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * org.eclipse.birt.data.engine.odi.IDataSourceQuery#declareCustomField(java.
 	 * lang.String, int)
 	 */
+	@Override
 	public void declareCustomField(String fieldName, int dataType) throws DataException {
-		if (fieldName == null || fieldName.length() == 0)
+		if (fieldName == null || fieldName.length() == 0) {
 			throw new DataException(ResourceConstants.CUSTOM_FIELD_EMPTY);
+		}
 
 		if (customFields == null) {
 			customFields = new ArrayList();
@@ -255,14 +267,16 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#prepare()
 	 */
+	@Override
 	@SuppressWarnings("restriction")
 	public IPreparedDSQuery prepare() throws DataException {
 		long start = System.currentTimeMillis();
-		if (odaStatement != null)
+		if (odaStatement != null) {
 			throw new DataException(ResourceConstants.QUERY_HAS_PREPARED);
+		}
 
 		// create and populate a query specification for preparing a statement
 		populateQuerySpecification();
@@ -289,8 +303,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		odaStatement.setMaxRows(this.getRowFetchLimit());
 
 		IOdaDataSetDesign design = null;
-		if (session.getDataSetCacheManager().getCurrentDataSetDesign() instanceof IOdaDataSetDesign)
+		if (session.getDataSetCacheManager().getCurrentDataSetDesign() instanceof IOdaDataSetDesign) {
 			design = (IOdaDataSetDesign) session.getDataSetCacheManager().getCurrentDataSetDesign();
+		}
 
 		ICancellable queryCanceller = new OdaQueryCanceller(odaStatement, dataSource, session.getStopSign(), this);
 
@@ -306,14 +321,16 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				addCustomFields(design.getPrimaryResultSetName(), odaStatement);
 				addColumnHints(design.getPrimaryResultSetName(), odaStatement);
 
-				if (this.projectedFields != null)
+				if (this.projectedFields != null) {
 					odaStatement.setColumnsProjection(design.getPrimaryResultSetName(), this.projectedFields);
+				}
 			} else if (canAccessResultSetByNumber(design)) {
 				addCustomFields(design.getPrimaryResultSetNumber(), odaStatement);
 				addColumnHints(design.getPrimaryResultSetNumber(), odaStatement);
 
-				if (this.projectedFields != null)
+				if (this.projectedFields != null) {
 					odaStatement.setColumnsProjection(design.getPrimaryResultSetNumber(), this.projectedFields);
+				}
 			} else {
 				this.session.getCancelManager().register(queryCanceller);
 				if (!session.getStopSign().isStopped()) {
@@ -334,17 +351,19 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 
 			this.session.getCancelManager().register(queryCanceller);
 
-			if (!session.getStopSign().isStopped())
+			if (!session.getStopSign().isStopped()) {
 				resultMetadata = getMetaData(
 						(IOdaDataSetDesign) session.getDataSetCacheManager().getCurrentDataSetDesign(), odaStatement);
+			}
 			if (design != null) {
 				List modelResultHints = design.getResultSetHints();
 				resultMetadata = mergeResultHint(modelResultHints, resultMetadata);
 			}
 
 			if (queryCanceller.collectException() != null) {
-				if (!(queryCanceller.collectException().getCause() instanceof UnsupportedOperationException))
+				if (!(queryCanceller.collectException().getCause() instanceof UnsupportedOperationException)) {
 					throw queryCanceller.collectException();
+				}
 			}
 
 			this.session.getCancelManager().deregister(queryCanceller);
@@ -369,12 +388,13 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		addCustomFields(odaStatement);
 		addColumnHints(odaStatement);
 
-		if (this.projectedFields != null)
+		if (this.projectedFields != null) {
 			odaStatement.setColumnsProjection(this.projectedFields);
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param design
 	 * @param odaStatement
 	 * @return
@@ -400,8 +420,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				}
 			}
 		}
-		if (result == null)
+		if (result == null) {
 			result = odaStatement.getMetaData();
+		}
 
 		if (design != null) {
 			List hintList = design.getResultSetHints();
@@ -447,8 +468,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 */
 	@SuppressWarnings("restriction")
 	private void addPropertiesToQuerySpec(QuerySpecification querySpec) {
-		if (propNames == null)
+		if (propNames == null) {
 			return; // nothing to add
+		}
 
 		assert propValues != null;
 		Iterator it_name = propNames.iterator();
@@ -467,8 +489,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 */
 	@SuppressWarnings("restriction")
 	private void addPropertiesToPreparedStatement() throws DataException {
-		if (this.querySpecificaton == null || this.querySpecificaton.getProperties().isEmpty())
+		if (this.querySpecificaton == null || this.querySpecificaton.getProperties().isEmpty()) {
 			return; // no properties to add
+		}
 
 		assert odaStatement != null;
 		Map<String, Object> propertyMap = this.querySpecificaton.getProperties();
@@ -485,8 +508,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 */
 	@SuppressWarnings("restriction")
 	private void addParametersToQuerySpec(QuerySpecification querySpec) throws DataException {
-		if (this.parameterHints == null)
+		if (this.parameterHints == null) {
 			return; // nothing to add
+		}
 
 		// iterate thru the collection to add parameter hints
 		Iterator it = this.parameterHints.iterator();
@@ -508,8 +532,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	private void addParameterDefns() throws DataException {
 		assert odaStatement != null;
 
-		if (this.parameterHints == null)
+		if (this.parameterHints == null) {
 			return; // nothing to add
+		}
 
 		// iterate thru the collection to add parameter hints
 		Iterator it = this.parameterHints.iterator();
@@ -537,8 +562,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 
 		// since a Date may have extended types,
 		// use the type of Date that is most effective for data conversion
-		if (paramHintDataType == Date.class)
+		if (paramHintDataType == Date.class) {
 			paramHintDataType = parameterHint.getEffectiveDataType(dataSource.getDriverName(), queryType);
+		}
 
 		Object inputValue = parameterHint.getDefaultInputValue();
 		if (inputValue != null) {
@@ -554,8 +580,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			}
 		}
 		// neither IBlob nor IClob will be converted
-		if (paramHintDataType != IBlob.class && paramHintDataType != IClob.class)
+		if (paramHintDataType != IBlob.class && paramHintDataType != IClob.class) {
 			inputValue = convertToValue(inputValue, paramHintDataType);
+		}
 		return inputValue;
 	}
 
@@ -582,7 +609,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 
 	/**
 	 * Declares custom fields on Oda statement
-	 * 
+	 *
 	 * @param stmt
 	 * @throws DataException
 	 */
@@ -619,14 +646,15 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 
 	/**
 	 * Adds Odi column hints to ODA statement
-	 * 
+	 *
 	 * @param stmt
 	 * @throws DataException
 	 */
 	private void addColumnHints(PreparedStatement stmt) throws DataException {
 		assert stmt != null;
-		if (resultHints == null || resultHints.size() == 0)
+		if (resultHints == null || resultHints.size() == 0) {
 			return;
+		}
 		Iterator it = resultHints.iterator();
 		while (it.hasNext()) {
 			ColumnHint colHint = prepareOdiHint((IDataSourceQuery.ResultFieldHint) it.next());
@@ -637,8 +665,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 
 	private void addColumnHints(String rsetName, PreparedStatement stmt) throws DataException {
 		assert stmt != null;
-		if (resultHints == null || resultHints.size() == 0)
+		if (resultHints == null || resultHints.size() == 0) {
 			return;
+		}
 		Iterator it = resultHints.iterator();
 		while (it.hasNext()) {
 			ColumnHint colHint = prepareOdiHint((IDataSourceQuery.ResultFieldHint) it.next());
@@ -649,8 +678,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 
 	private void addColumnHints(int rsetNumber, PreparedStatement stmt) throws DataException {
 		assert stmt != null;
-		if (resultHints == null || resultHints.size() == 0)
+		if (resultHints == null || resultHints.size() == 0) {
 			return;
+		}
 		Iterator it = resultHints.iterator();
 		while (it.hasNext()) {
 			ColumnHint colHint = prepareOdiHint((IDataSourceQuery.ResultFieldHint) it.next());
@@ -662,19 +692,22 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	private ColumnHint prepareOdiHint(IDataSourceQuery.ResultFieldHint odiHint) {
 		ColumnHint colHint = new ColumnHint(odiHint.getName());
 		colHint.setAlias(odiHint.getAlias());
-		if (odiHint.getDataType() == DataType.ANY_TYPE)
+		if (odiHint.getDataType() == DataType.ANY_TYPE) {
 			colHint.setDataType(null);
-		else
+		} else {
 			colHint.setDataType(DataType.getClass(odiHint.getDataType()));
+		}
 		colHint.setNativeDataType(odiHint.getNativeDataType());
-		if (odiHint.getPosition() > 0)
+		if (odiHint.getPosition() > 0) {
 			colHint.setPosition(odiHint.getPosition());
+		}
 		return colHint;
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getResultClass()
 	 */
+	@Override
 	public IResultClass getResultClass() {
 		// Note the return value can be null if resultMetadata was
 		// not available during prepare() time
@@ -684,13 +717,16 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getParameterMetaData()
 	 */
+	@Override
 	public Collection getParameterMetaData() throws DataException {
-		if (odaStatement == null)
+		if (odaStatement == null) {
 			throw new DataException(ResourceConstants.QUERY_HAS_NOT_PREPARED);
+		}
 
 		Collection odaParamsInfo = odaStatement.getParameterMetaData();
-		if (odaParamsInfo == null || odaParamsInfo.isEmpty())
+		if (odaParamsInfo == null || odaParamsInfo.isEmpty()) {
 			return null;
+		}
 
 		// iterates thru the most up-to-date collection, and
 		// wraps each of the odaconsumer parameter metadata object
@@ -706,17 +742,18 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 
 	/**
 	 * Return the input parameter value list
-	 * 
+	 *
 	 * @return
 	 */
 	private Collection getInputParamValues() {
-		if (inputParamValues == null)
+		if (inputParamValues == null) {
 			inputParamValues = new ArrayList();
+		}
 		return inputParamValues;
 	}
 
 	private IResultClass copyResultClass(IResultClass meta) throws DataException {
-		List<ResultFieldMetadata> list = new ArrayList<ResultFieldMetadata>();
+		List<ResultFieldMetadata> list = new ArrayList<>();
 		for (int i = 1; i <= meta.getFieldCount(); i++) {
 			if (!meta.getFieldName(i).equals(ExprMetaUtil.POS_NAME)) {
 				int m_driverPosition = meta.getFieldMetaData(i).getDriverPosition();
@@ -737,8 +774,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				metadata.setDriverProvidedDataType(m_driverProvidedDataType);
 				metadata.setAlias(meta.getFieldMetaData(i).getAlias());
 
-				if (m_isCustom)
+				if (m_isCustom) {
 					metadata.setCustomPosition(meta.getFieldMetaData(i).getCustomPosition());
+				}
 
 				list.add(metadata);
 			}
@@ -749,8 +787,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	}
 
 	private IResultClass mergeResultHint(List modelResultHints, IResultClass meta) {
-		if (modelResultHints == null || modelResultHints.isEmpty())
+		if (modelResultHints == null || modelResultHints.isEmpty()) {
 			return meta;
+		}
 		IResultClass newResultClass;
 		try {
 			newResultClass = copyResultClass(meta);
@@ -777,15 +816,17 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		} catch (Exception ex) {
 		}
 
-		if (changed)
+		if (changed) {
 			return newResultClass;
-		else
+		} else {
 			return meta;
+		}
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#execute()
 	 */
+	@Override
 	public IResultIterator execute(IEventHandler eventHandler) throws DataException {
 		assert odaStatement != null;
 
@@ -794,8 +835,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		this.setInputParameterBinding();
 
 		IOdaDataSetDesign design = null;
-		if (session.getDataSetCacheManager().getCurrentDataSetDesign() instanceof IOdaDataSetDesign)
+		if (session.getDataSetCacheManager().getCurrentDataSetDesign() instanceof IOdaDataSetDesign) {
 			design = (IOdaDataSetDesign) session.getDataSetCacheManager().getCurrentDataSetDesign();
+		}
 
 		if (session.getDataSetCacheManager().doesSaveToCache()) {
 			int fetchRowLimit = 0;
@@ -815,10 +857,8 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				} else {
 					odaStatement.setMaxRows(cacheCountConfig);
 				}
-			} else {
-				if (fetchRowLimit != 0) {
-					odaStatement.setMaxRows(fetchRowLimit);
-				}
+			} else if (fetchRowLimit != 0) {
+				odaStatement.setMaxRows(fetchRowLimit);
 			}
 		}
 
@@ -829,17 +869,19 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			long startTime = System.currentTimeMillis();
 			odaStatement.execute();
 			long endTime = System.currentTimeMillis();
-			if (logger.isLoggable(Level.FINE))
+			if (logger.isLoggable(Level.FINE)) {
 				logger.log(Level.FINE, "ODA query execution time: " + (endTime - startTime)
 						+ " ms;\n   Executed query: " + odaStatement.getEffectiveQueryText());
+			}
 		}
 
 		QueryContextVisitorUtil.populateEffectiveQueryText(qcv, odaStatement.getEffectiveQueryText());
 
 		logger.fine("Effective Query Text:" + odaStatement.getEffectiveQueryText());
 		if (queryCanceller.collectException() != null) {
-			if (!(queryCanceller.collectException().getCause() instanceof UnsupportedOperationException))
+			if (!(queryCanceller.collectException().getCause() instanceof UnsupportedOperationException)) {
 				throw queryCanceller.collectException();
+			}
 		}
 
 		ResultSet rs = null;
@@ -870,13 +912,14 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		if (resultMetadata == null) {
 			List modelResultHints = design.getResultSetHints();
 			resultMetadata = rs.getMetaData();
-			if (resultMetadata == null)
+			if (resultMetadata == null) {
 				throw new DataException(ResourceConstants.METADATA_NOT_AVAILABLE);
+			}
 			resultMetadata = mergeResultHint(modelResultHints, resultMetadata);
 		}
 
 		// Initialize CachedResultSet using the ODA result set
-		if (session.getDataSetCacheManager().doesSaveToCache() == false) {
+		if (!session.getDataSetCacheManager().doesSaveToCache()) {
 			if (((session.getEngineContext().getMode() == DataEngineContext.DIRECT_PRESENTATION
 					|| session.getEngineContext().getMode() == DataEngineContext.MODE_GENERATION))
 					&& this.getQueryDefinition() instanceof IQueryDefinition) {
@@ -895,12 +938,14 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			}
 
 			ri = new CachedResultSet(this, resultMetadata, rs, eventHandler, session);
-		} else
+		} else {
 			ri = new CachedResultSet(this, resultMetadata, new DataSetToCache(rs, resultMetadata, session),
 					eventHandler, session);
+		}
 
-		if (ri != null)
+		if (ri != null) {
 			((CachedResultSet) ri).setOdaResultSet(rs);
+		}
 
 		return ri;
 	}
@@ -921,21 +966,24 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 
 		/**
 		 * Collect the exception throw during statement execution.
-		 * 
+		 *
 		 * @return
 		 */
+		@Override
 		public DataException collectException() {
 			return this.exception;
 		}
 
 		/**
-		 * 
+		 *
 		 */
+		@Override
 		public void cancel() {
 			try {
 				CancelManager manager = this.dsQuery.session.getCancelManager();
-				if (manager != null)
+				if (manager != null) {
 					manager.deregister(this);
+				}
 
 				this.statement.cancel();
 			} catch (Exception e) {
@@ -948,8 +996,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 
 			try {
 				CacheConnection conn = this.dataSource.getAvailableConnection();
-				if (conn != null)
+				if (conn != null) {
 					conn.close();
+				}
 
 			} catch (Exception e) {
 				// Ignore.
@@ -957,8 +1006,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		}
 
 		/**
-		 * 
+		 *
 		 */
+		@Override
 		public boolean doCancel() {
 			return this.stop.isStopped();
 		}
@@ -993,6 +1043,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getParameterValue(int)
 	 */
+	@Override
 	public Object getOutputParameterValue(int index) throws DataException {
 		assert odaStatement != null;
 
@@ -1005,6 +1056,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getParameterValue(java.lang
 	 * .String)
 	 */
+	@Override
 	public Object getOutputParameterValue(String name) throws DataException {
 		assert odaStatement != null;
 
@@ -1019,14 +1071,15 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * supported and it should be based on its own output parameter index.
 	 * Therefore, this method will do such a conversion from the output parameter
 	 * index to the parameter index.
-	 * 
+	 *
 	 * @param index based on output parameter order
 	 * @return index based on the whole parameters order
 	 * @throws DataException
 	 */
 	private int getCorrectParamIndex(int index) throws DataException {
-		if (index <= 0)
+		if (index <= 0) {
 			throw new DataException(ResourceConstants.INVALID_OUTPUT_PARAMETER_INDEX, Integer.valueOf(index));
+		}
 
 		int newIndex = 0; // 1-based
 		int curOutputIndex = 0; // 1-based
@@ -1038,24 +1091,26 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				newIndex++;
 
 				IParameterMetaData metaData = (IParameterMetaData) it.next();
-				if (metaData.isOutputMode().booleanValue() == true) {
+				if (metaData.isOutputMode().booleanValue()) {
 					curOutputIndex++;
 
-					if (curOutputIndex == index)
+					if (curOutputIndex == index) {
 						break;
+					}
 				}
 			}
 		}
 
-		if (curOutputIndex < index)
+		if (curOutputIndex < index) {
 			throw new DataException(ResourceConstants.OUTPUT_PARAMETER_OUT_OF_BOUND, Integer.valueOf(index));
+		}
 
 		return newIndex;
 	}
 
 	/**
 	 * Validate the name of output parameter
-	 * 
+	 *
 	 * @param name
 	 * @throws DataException
 	 */
@@ -1078,13 +1133,15 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			}
 		}
 
-		if (isValid == false)
+		if (!isValid) {
 			throw new DataException(ResourceConstants.INVALID_OUTPUT_PARAMETER_NAME, name);
+		}
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IQuery#close()
 	 */
+	@Override
 	public void close() {
 		if (odaStatement != null) {
 			this.dataSource.closeStatement(odaStatement);
@@ -1097,7 +1154,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 
 	/**
 	 * convert the String value to Object according to its data type.
-	 * 
+	 *
 	 * @param inputValue
 	 * @param type
 	 * @return
@@ -1112,6 +1169,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		}
 	}
 
+	@Override
 	public void setQuerySpecification(QuerySpecification spec) {
 		this.querySpecificaton = spec;
 	}

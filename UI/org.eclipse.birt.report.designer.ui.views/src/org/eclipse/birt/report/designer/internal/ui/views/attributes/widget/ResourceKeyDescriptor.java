@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,10 +54,11 @@ public class ResourceKeyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#resetUIData()
 	 */
+	@Override
 	public void load() {
 		if (!provider.isEnable()) {
 			text.setEnabled(false);
@@ -102,24 +106,27 @@ public class ResourceKeyDescriptor extends PropertyDescriptor {
 		text.setText(DEUtil.resolveNull(oldValue));
 	}
 
+	@Override
 	public Control getControl() {
 		return innerParent;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Control createControl(Composite parent) {
 		innerParent = new Composite(parent, 0);
 		innerParent.setLayout(new GridLayout(3, false));
-		if (isFormStyle())
+		if (isFormStyle()) {
 			text = FormWidgetFactory.getInstance().createText(innerParent, "", //$NON-NLS-1$
 					SWT.READ_ONLY);
-		else
+		} else {
 			text = new Text(innerParent, SWT.BORDER | SWT.READ_ONLY);
+		}
 		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		btnBrowse = FormWidgetFactory.getInstance().createButton(innerParent, SWT.PUSH, isFormStyle());
@@ -127,6 +134,7 @@ public class ResourceKeyDescriptor extends PropertyDescriptor {
 		btnBrowse.setToolTipText(provider.getBrowseTooltipText());
 		btnBrowse.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleBrowserSelectedEvent();
 			}
@@ -137,9 +145,10 @@ public class ResourceKeyDescriptor extends PropertyDescriptor {
 		btnReset.setToolTipText(provider.getResetTooltipText());
 		btnReset.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleSelectedEvent(null);
-			};
+			}
 
 		});
 
@@ -167,6 +176,7 @@ public class ResourceKeyDescriptor extends PropertyDescriptor {
 
 	}
 
+	@Override
 	public void save(Object obj) throws SemanticException {
 		getDescriptorProvider().save(obj);
 
@@ -187,10 +197,12 @@ public class ResourceKeyDescriptor extends PropertyDescriptor {
 
 	private Composite innerParent;
 
+	@Override
 	public void setDescriptorProvider(IDescriptorProvider provider) {
 		super.setDescriptorProvider(provider);
-		if (provider instanceof IResourceKeyDescriptorProvider)
+		if (provider instanceof IResourceKeyDescriptorProvider) {
 			this.provider = (IResourceKeyDescriptorProvider) provider;
+		}
 	}
 
 	public String getStringValue() {
@@ -209,9 +221,10 @@ public class ResourceKeyDescriptor extends PropertyDescriptor {
 		text.setVisible(isVisible);
 	}
 
+	@Override
 	public void setInput(Object input) {
 		super.setInput(input);
 		getDescriptorProvider().setInput(input);
-	};
+	}
 
 }

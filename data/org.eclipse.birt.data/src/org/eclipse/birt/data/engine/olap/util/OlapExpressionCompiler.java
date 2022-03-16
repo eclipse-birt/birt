@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +46,7 @@ import org.mozilla.javascript.Token;
 import org.mozilla.javascript.ast.AstRoot;
 
 /**
- * 
+ *
  */
 
 public class OlapExpressionCompiler {
@@ -51,26 +54,29 @@ public class OlapExpressionCompiler {
 	/**
 	 * Get referenced Script Object (dimension, data, measure, etc) according to
 	 * given object name.
-	 * 
+	 *
 	 * @param expr
 	 * @param objectName
 	 * @return
 	 */
 	public static String getReferencedScriptObject(IBaseExpression expr, String objectName) {
-		if (expr == null || BaseExpression.constantId.equals(expr.getScriptId()))
+		if (expr == null || BaseExpression.constantId.equals(expr.getScriptId())) {
 			return null;
+		}
 		if (expr instanceof IScriptExpression) {
 			return getReferencedScriptObject(((IScriptExpression) expr), objectName);
 		} else if (expr instanceof IConditionalExpression) {
-			String dimName = null;
+			String dimName;
 			IScriptExpression expr1 = ((IConditionalExpression) expr).getExpression();
 			dimName = getReferencedScriptObject(expr1, objectName);
-			if (dimName != null)
+			if (dimName != null) {
 				return dimName;
+			}
 			IBaseExpression op1 = ((IConditionalExpression) expr).getOperand1();
 			dimName = getReferencedScriptObject(op1, objectName);
-			if (dimName != null)
+			if (dimName != null) {
 				return dimName;
+			}
 
 			IBaseExpression op2 = ((IConditionalExpression) expr).getOperand2();
 			dimName = getReferencedScriptObject(op2, objectName);
@@ -81,8 +87,9 @@ public class OlapExpressionCompiler {
 
 			for (int i = 0; i < exprs.length; i++) {
 				String o = getReferencedScriptObject((IBaseExpression) exprs[i], objectName);
-				if (o != null)
+				if (o != null) {
 					return o;
+				}
 			}
 		}
 
@@ -100,27 +107,29 @@ public class OlapExpressionCompiler {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @param objectName
 	 * @return
 	 */
 	private static String getReferencedScriptObject(IScriptExpression expr, String objectName) {
-		if (expr == null)
+		if (expr == null) {
 			return null;
-		else
+		} else {
 			return getReferencedScriptObject(expr.getText(), objectName);
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @param objectName
 	 * @return
 	 */
 	public static String getReferencedScriptObject(String expr, String objectName) {
-		if (expr == null)
+		if (expr == null) {
 			return null;
+		}
 		try {
 			Context cx = Context.enter();
 			CompilerEnvirons ce = new CompilerEnvirons();
@@ -137,7 +146,7 @@ public class OlapExpressionCompiler {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @param bindings
 	 * @return
@@ -156,7 +165,7 @@ public class OlapExpressionCompiler {
 	 * <p>
 	 * use <method>OlapExpressionCompiler.validateDependencyCycle( )</method> to
 	 * check whether dependency cycle exist
-	 * 
+	 *
 	 * @param expr
 	 * @param bindings
 	 * @param onlyFromDirectReferenceExpr
@@ -173,12 +182,14 @@ public class OlapExpressionCompiler {
 			result.addAll(getReferencedDimLevel(expr1, bindings, onlyFromDirectReferenceExpr));
 
 			IBaseExpression op1 = ((IConditionalExpression) expr).getOperand1();
-			if (op1 != null)
+			if (op1 != null) {
 				result.addAll(getReferencedDimLevel(op1, bindings, onlyFromDirectReferenceExpr));
+			}
 
 			IBaseExpression op2 = ((IConditionalExpression) expr).getOperand2();
-			if (op2 != null)
+			if (op2 != null) {
 				result.addAll(getReferencedDimLevel(op2, bindings, onlyFromDirectReferenceExpr));
+			}
 			return result;
 		} else if (expr instanceof IExpressionCollection) {
 			Set result = new HashSet();
@@ -193,7 +204,7 @@ public class OlapExpressionCompiler {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @param bindings
 	 * @param onlyFromDirectReferenceExpr
@@ -203,8 +214,9 @@ public class OlapExpressionCompiler {
 	private static Set getReferencedDimLevel(IScriptExpression expr, List bindings, boolean onlyFromDirectReferenceExpr)
 			throws DataException {
 		if (expr == null || expr.getText() == null || expr.getText().length() == 0
-				|| BaseExpression.constantId.equals(expr.getScriptId()))
+				|| BaseExpression.constantId.equals(expr.getScriptId())) {
 			return new HashSet();
+		}
 		try {
 			Set result = new HashSet();
 			Context cx = Context.enter();
@@ -221,7 +233,7 @@ public class OlapExpressionCompiler {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param n
 	 * @param result
 	 * @param bindings
@@ -230,16 +242,19 @@ public class OlapExpressionCompiler {
 	 */
 	private static void populateDimLevels(Node grandpa, Node n, Set result, List bindings,
 			boolean onlyFromDirectReferenceExpr) throws DataException {
-		if (n == null)
+		if (n == null) {
 			return;
+		}
 		if (onlyFromDirectReferenceExpr) {
 			if (n.getType() == Token.SCRIPT) {
-				if (n.getFirstChild() == null || n.getFirstChild().getType() != Token.EXPR_RESULT)
+				if (n.getFirstChild() == null || n.getFirstChild().getType() != Token.EXPR_RESULT) {
 					return;
+				}
 				if (n.getFirstChild().getFirstChild() == null
 						|| (n.getFirstChild().getFirstChild().getType() != Token.GETPROP
-								&& n.getFirstChild().getFirstChild().getType() != Token.GETELEM))
+								&& n.getFirstChild().getFirstChild().getType() != Token.GETELEM)) {
 					return;
+				}
 			}
 		}
 		if (n.getFirstChild() != null && (n.getType() == Token.GETPROP || n.getType() == Token.GETELEM)) {
@@ -253,8 +268,9 @@ public class OlapExpressionCompiler {
 					String attr = n.getLastChild().getString();
 
 					DimLevel dimLevel = new DimLevel(dimName, levelName, attr);
-					if (!result.contains(dimLevel))
+					if (!result.contains(dimLevel)) {
 						result.add(dimLevel);
+					}
 				}
 			} else if (n.getFirstChild() != null && n.getFirstChild().getType() == Token.NAME) {
 				if (ScriptConstants.DIMENSION_SCRIPTABLE.equals(n.getFirstChild().getString())) {
@@ -267,8 +283,9 @@ public class OlapExpressionCompiler {
 							attr = grandpa.getNext().getString();
 						}
 						DimLevel dimLevel = new DimLevel(dimName, levelName, attr);
-						if (!result.contains(dimLevel))
+						if (!result.contains(dimLevel)) {
 							result.add(dimLevel);
+						}
 					}
 				} else if (ScriptConstants.DATA_BINDING_SCRIPTABLE.equals(n.getFirstChild().getString())
 						|| ScriptConstants.DATA_SET_BINDING_SCRIPTABLE.equals(n.getFirstChild().getString())) {
@@ -294,7 +311,7 @@ public class OlapExpressionCompiler {
 
 	/**
 	 * Get binding
-	 * 
+	 *
 	 * @param bindings
 	 * @param bindingName
 	 * @return
@@ -302,44 +319,49 @@ public class OlapExpressionCompiler {
 	 */
 	private static IBinding getBinding(List bindings, String bindingName) throws DataException {
 		for (int i = 0; i < bindings.size(); i++) {
-			if (((IBinding) bindings.get(i)).getBindingName().equals(bindingName))
+			if (((IBinding) bindings.get(i)).getBindingName().equals(bindingName)) {
 				return (IBinding) bindings.get(i);
+			}
 		}
 		return null;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param n
 	 * @param objectName
 	 * @return
 	 */
 	private static String getScriptObjectName(Node n, String objectName) {
-		if (n == null)
+		if (n == null) {
 			return null;
-		String result = null;
+		}
+		String result;
 		if (n.getType() == Token.NAME) {
 			if (objectName.equals(n.getString())) {
 				Node dimNameNode = n.getNext();
-				if (dimNameNode == null || dimNameNode.getType() != Token.STRING)
+				if (dimNameNode == null || dimNameNode.getType() != Token.STRING) {
 					return null;
+				}
 
 				return dimNameNode.getString();
 			}
 		}
 
 		result = getScriptObjectName(n.getFirstChild(), objectName);
-		if (result == null)
+		if (result == null) {
 			result = getScriptObjectName(n.getLastChild(), objectName);
+		}
 
-		if (result == null)
+		if (result == null) {
 			result = getScriptObjectName(n.getNext(), objectName);
+		}
 
 		return result;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param bindings
 	 * @return the first found binding involved in dependency cycle.
 	 *         <p>
@@ -347,7 +369,7 @@ public class OlapExpressionCompiler {
 	 * @throws DataException
 	 */
 	public static void validateDependencyCycle(Set<IBinding> bindings) throws DataException {
-		Set<DirectedGraphEdge> edges = new HashSet<DirectedGraphEdge>();
+		Set<DirectedGraphEdge> edges = new HashSet<>();
 		for (IBinding binding : bindings) {
 			List<String> references = ExpressionCompilerUtil.extractColumnExpression(binding.getExpression(),
 					ExpressionUtil.DATA_INDICATOR);

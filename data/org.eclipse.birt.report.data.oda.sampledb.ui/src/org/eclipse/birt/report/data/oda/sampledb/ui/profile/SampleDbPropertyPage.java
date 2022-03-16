@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2005, 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -33,13 +36,15 @@ public class SampleDbPropertyPage extends DataSourceEditorPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.profile.wizards.
 	 * DataSourceEditorPage#collectCustomProperties(java.util.Properties)
 	 */
+	@Override
 	public Properties collectCustomProperties(Properties profileProps) {
-		if (m_pageHelper == null)
+		if (m_pageHelper == null) {
 			return profileProps;
+		}
 
 		return m_pageHelper.collectCustomProperties(profileProps);
 	}
@@ -57,14 +62,16 @@ public class SampleDbPropertyPage extends DataSourceEditorPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.profile.wizards.
 	 * DataSourceEditorPage#createAndInitCustomControl(org.eclipse.swt.widgets.
 	 * Composite, java.util.Properties)
 	 */
+	@Override
 	protected void createAndInitCustomControl(Composite parent, Properties profileProps) {
-		if (m_pageHelper == null)
+		if (m_pageHelper == null) {
 			m_pageHelper = new SampleDbSelectionPageHelper(this);
+		}
 
 		m_pageHelper.createCustomControl(parent);
 		m_pageHelper.initCustomControl(profileProps);

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +20,7 @@ import org.eclipse.birt.report.engine.EngineCase;
 
 /**
  * Base class of rule tests
- * 
+ *
  */
 abstract public class RuleTestCase extends EngineCase {
 
@@ -29,9 +32,9 @@ abstract public class RuleTestCase extends EngineCase {
 
 	/**
 	 * Test all get/set accessors in base class
-	 * 
+	 *
 	 * set values of the rule
-	 * 
+	 *
 	 * then get the values one by one to test if they work correctly
 	 */
 	public void testBaseRule() {
@@ -59,7 +62,7 @@ abstract public class RuleTestCase extends EngineCase {
 		// special operators
 		// IN
 		String operator1 = EngineIRConstants.MAP_OPERATOR_IN;
-		ArrayList<Expression> values = new ArrayList<Expression>();
+		ArrayList<Expression> values = new ArrayList<>();
 		values.add(Expression.newScript("exp1"));
 		values.add(Expression.newScript("exp2"));
 		values.add(Expression.newScript("exp3"));

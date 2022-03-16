@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -89,7 +92,7 @@ import com.ibm.icu.util.StringTokenizer;
 
 /**
  * The main plugin class to be used in the desktop.
- * 
+ *
  */
 public class ReportPlugin extends AbstractUIPlugin {
 
@@ -108,7 +111,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 	public static final String FISCAL_YEAR_START = "report.designer.ui.preferences.fiscalyear.startdate"; //$NON-NLS-1$
 
 	// Add the static String list, remember the ignore view for the selection
-	private List<String> ignore = new ArrayList<String>();
+	private List<String> ignore = new ArrayList<>();
 	/**
 	 * The Report UI plugin ID.
 	 */
@@ -237,9 +240,10 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Called upon plug-in activation
-	 * 
+	 *
 	 * @param context the context
 	 */
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 
@@ -337,7 +341,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Returns the version info for this plugin.
-	 * 
+	 *
 	 * @return Version string.
 	 */
 	public static String getVersion() {
@@ -346,7 +350,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Returns the infomation about the Build
-	 * 
+	 *
 	 */
 	public static String getBuildInfo() {
 		return getResourceString("Build"); //$NON-NLS-1$
@@ -383,7 +387,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the cursor used to select cells in the table
 	 */
 	public Cursor getLeftCellCursor() {
@@ -391,7 +395,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the cursor used to select cells in the table
 	 */
 	public Cursor getRightCellCursor() {
@@ -401,6 +405,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 	/**
 	 * This method is called when the plug-in is stopped
 	 */
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		bundleContext = null;
 
@@ -441,7 +446,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Relative to UI plugin directory, example: "icons/usertableicon.gif".
-	 * 
+	 *
 	 * @param key
 	 * @return an Image descriptor, this is useful to preserve the original color
 	 *         depth for instance.
@@ -470,7 +475,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Relative to UI plugin directory, example: "icons/usertableicon.gif".
-	 * 
+	 *
 	 * @param key
 	 * @return an Image, do not dispose
 	 */
@@ -510,8 +515,9 @@ public class ReportPlugin extends AbstractUIPlugin {
 		try {
 			String property = workspace.getRoot().getPersistentProperty(new QualifiedName("org.eclipse.birt.property", //$NON-NLS-1$
 					"showCheatSheet")); //$NON-NLS-1$
-			if (property != null)
-				return Boolean.valueOf(property).booleanValue();
+			if (property != null) {
+				return Boolean.parseBoolean(property);
+			}
 		} catch (CoreException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -541,7 +547,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Set default element names for preference
-	 * 
+	 *
 	 * @param store The preference for store
 	 */
 	private void setDefaultElementNamePreference(IPreferences store) {
@@ -588,15 +594,16 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 		if (filters != null) {
 			for (int i = 0; i < filters.length; i++) {
-				if (filters[i] instanceof ExtendedResourceFilter)
+				if (filters[i] instanceof ExtendedResourceFilter) {
 					initFilterMap(store, (ExtendedResourceFilter) filters[i]);
+				}
 			}
 		}
 	}
 
 	/**
 	 * Append default description to the Stringbuffer according to each defaultName
-	 * 
+	 *
 	 * @param defaultName The default Name preference The Stringbuffer which string
 	 *                    added to
 	 */
@@ -627,7 +634,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Get default element name preference
-	 * 
+	 *
 	 * @return String[] the array of Strings of default element name preference
 	 */
 	public String[] getDefaultDefaultNamePreference() {
@@ -636,7 +643,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Get default custom name preference
-	 * 
+	 *
 	 * @return String[] the array of Strings of custom element name preference
 	 */
 	public String[] getDefaultCustomNamePreference() {
@@ -645,7 +652,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Get default description preference
-	 * 
+	 *
 	 * @return String[] the array of Strings of default description preference
 	 */
 	public String[] getDefaultDescriptionPreference() {
@@ -654,7 +661,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Get element name preference
-	 * 
+	 *
 	 * @return String[] the array of Strings of element name preference
 	 */
 	public String[] getDefaultNamePreference() {
@@ -664,7 +671,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Get custom element preference
-	 * 
+	 *
 	 * @return String[] the array of Strings of custom name preference
 	 */
 	public String[] getCustomNamePreference() {
@@ -674,7 +681,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Get description preference
-	 * 
+	 *
 	 * @return String[] the array of Strings of description preference
 	 */
 	public String[] getDescriptionPreference() {
@@ -684,7 +691,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Get the custom name preference of specified element name
-	 * 
+	 *
 	 * @param defaultName The specified element name
 	 * @return String The custom name gotten
 	 */
@@ -711,7 +718,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Convert the single string of preference into string array
-	 * 
+	 *
 	 * @param preferenceValue The specified element name
 	 * @return String[] The array of strings
 	 */
@@ -738,12 +745,12 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Convert Sting[] to String
-	 * 
+	 *
 	 * @param elements [] elements - the Strings to be converted to the preference
 	 *                 value
 	 */
 	public String convertStrArray2Str(String[] elements) {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < elements.length; i++) {
 			buffer.append(elements[i]);
 			buffer.append(PREFERENCE_DELIMITER);
@@ -753,7 +760,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Set element names from string[]
-	 * 
+	 *
 	 * @param elements the array of element names
 	 */
 	public void setDefaultNamePreference(String[] elements) {
@@ -763,7 +770,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Set element names from string
-	 * 
+	 *
 	 * @param element the string of element names
 	 */
 	public void setDefaultNamePreference(String element) {
@@ -773,7 +780,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Set default names for the element names from String[]
-	 * 
+	 *
 	 * @param elements the array of default names
 	 */
 	public void setCustomNamePreference(String[] elements) {
@@ -783,7 +790,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Set default names for the element names from String
-	 * 
+	 *
 	 * @param element the string of default names
 	 */
 	public void setCustomNamePreference(String element) {
@@ -793,7 +800,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Set descriptions for the element names from String[]
-	 * 
+	 *
 	 * @param elements the array of descriptions
 	 */
 	public void setDescriptionPreference(String[] elements) {
@@ -803,7 +810,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Set descriptions for the element names from String
-	 * 
+	 *
 	 * @param element the string of descriptions
 	 */
 	public void setDescriptionPreference(String element) {
@@ -813,12 +820,12 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Set the bad words preference
-	 * 
+	 *
 	 * @param elements [] elements - the Strings to be converted to the preference
 	 *                 value
 	 */
 	public void setLibraryPreference(String[] elements) {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < elements.length; i++) {
 			buffer.append(elements[i]);
 			buffer.append(PREFERENCE_DELIMITER);
@@ -828,7 +835,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Return the library preference as an array of Strings.
-	 * 
+	 *
 	 * @return String[] The array of strings of library preference
 	 */
 	public String[] getLibraryPreference() {
@@ -846,7 +853,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Return default library preference as an array of Strings.
-	 * 
+	 *
 	 * @return String[] The array of strings of default library preference
 	 */
 	public String[] getDefaultLibraryPreference() {
@@ -855,7 +862,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Return default template preference
-	 * 
+	 *
 	 * @return String The String of default template preference
 	 */
 	public String getDefaultTemplatePreference() {
@@ -865,7 +872,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * set default template preference
-	 * 
+	 *
 	 */
 	public void setDefaultTemplatePreference() {
 		String defaultRootDir = UIUtil.getFragmentDirectory();
@@ -876,7 +883,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Return default template preference
-	 * 
+	 *
 	 * @return String The string of default template preference
 	 */
 	public String getTemplatePreference() {
@@ -895,7 +902,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * set default template preference
-	 * 
+	 *
 	 */
 	public void setTemplatePreference(String preference) {
 		PreferenceFactory.getInstance().getPreferences(this, UIUtil.getCurrentProject()).setValue(TEMPLATE_PREFERENCE,
@@ -904,7 +911,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * set default resource preference
-	 * 
+	 *
 	 */
 	public void setDefaultResourcePreference() {
 		// String metaPath = Platform.getStateLocation( ReportPlugin.getDefault(
@@ -948,7 +955,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Return default resouce preference
-	 * 
+	 *
 	 * @return String The String of default resource preference
 	 */
 	public String getDefaultResourcePreference() {
@@ -956,7 +963,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void setDefaultClassPathPreference() {
 		PreferenceFactory.getInstance().getPreferences(this).setDefault(CLASSPATH_PREFERENCE, ""); //$NON-NLS-1$
@@ -964,7 +971,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Return resource preference
-	 * 
+	 *
 	 * @return String The string of resource preference
 	 */
 	public String getResourcePreference() {
@@ -974,9 +981,9 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Return specified project's resource preference
-	 * 
+	 *
 	 * @param project
-	 * 
+	 *
 	 * @return String The string of resource preference
 	 */
 	public String getResourcePreference(IProject project) {
@@ -985,7 +992,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * set resource preference
-	 * 
+	 *
 	 */
 	public void setResourcePreference(String preference) {
 		PreferenceFactory.getInstance().getPreferences(this, UIUtil.getCurrentProject()).setValue(RESOURCE_PREFERENCE,
@@ -995,7 +1002,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Add View ID into ignore view list.
-	 * 
+	 *
 	 * @param str
 	 */
 	public void addIgnoreViewID(String str) {
@@ -1004,7 +1011,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Remove View ID from ignore view list.
-	 * 
+	 *
 	 * @param str
 	 */
 	public void removeIgnoreViewID(String str) {
@@ -1013,7 +1020,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Test whether the View ID is in the ignore view list.
-	 * 
+	 *
 	 * @param str
 	 * @return
 	 */
@@ -1023,7 +1030,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * set default comment preference
-	 * 
+	 *
 	 */
 	public void setDefaultCommentPreference() {
 		PreferenceFactory.getInstance().getPreferences(this).setDefault(COMMENT_PREFERENCE,
@@ -1032,7 +1039,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Return default comment preference
-	 * 
+	 *
 	 * @return String The string of default comment preference
 	 */
 	public String getDefaultCommentPreference() {
@@ -1041,7 +1048,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Return comment preference
-	 * 
+	 *
 	 * @return String The string of comment preference
 	 */
 	public String getCommentPreference() {
@@ -1055,7 +1062,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * set comment preference
-	 * 
+	 *
 	 */
 	public void setCommentPreference(String preference) {
 		PreferenceFactory.getInstance().getPreferences(this, UIUtil.getCurrentProject()).setValue(COMMENT_PREFERENCE,
@@ -1064,7 +1071,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * set enable default comment preference
-	 * 
+	 *
 	 */
 	public void setDefaultEnableCommentPreference() {
 		PreferenceFactory.getInstance().getPreferences(this).setDefault(ENABLE_COMMENT_PREFERENCE, false);
@@ -1072,12 +1079,13 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * set expression syntax color preference
-	 * 
+	 *
 	 */
 	public void setDefaultExpressionSyntaxColorPreference() {
 		final RGB[] rgb = new RGB[1];
 		Display.getDefault().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				rgb[0] = Display.getDefault().getSystemColor(SWT.COLOR_LIST_FOREGROUND).getRGB();
 			}
@@ -1101,7 +1109,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Return default enable comment preference
-	 * 
+	 *
 	 * @return boolean The bool value of default enable comment preference
 	 */
 	public boolean getDefaultEnabelCommentPreference() {
@@ -1110,7 +1118,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Return enable comment preference
-	 * 
+	 *
 	 * @return boolean The bool value of enable comment preference
 	 */
 	public boolean getEnableCommentPreference() {
@@ -1138,7 +1146,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * set enable comment preference
-	 * 
+	 *
 	 */
 	public void setEnableCommentPreference(boolean preference) {
 		PreferenceFactory.getInstance().getPreferences(this, UIUtil.getCurrentProject())
@@ -1148,7 +1156,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 	public RGB[] getCustomColorsPreference() {
 		String rgbs = PreferenceFactory.getInstance().getPreferences(this, UIUtil.getCurrentProject())
 				.getString(CUSTOM_COLORS_PREFERENCE);
-		List<RGB> rgbList = new ArrayList<RGB>();
+		List<RGB> rgbList = new ArrayList<>();
 		if (rgbs != null && rgbs.trim().length() > 0) {
 			String[] splits = rgbs.split(";");
 			for (int i = 0; i < splits.length; i++) {
@@ -1164,12 +1172,13 @@ public class ReportPlugin extends AbstractUIPlugin {
 	}
 
 	public void setCustomColorsPreference(RGB[] rgbs) {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		if (rgbs != null) {
 			for (int i = 0; i < rgbs.length; i++) {
 				buffer.append(DEUtil.getRGBInt(rgbs[i]));
-				if (i < rgbs.length - 1)
+				if (i < rgbs.length - 1) {
 					buffer.append(";");
+				}
 			}
 		}
 
@@ -1190,12 +1199,12 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Returns all available extension names for report design files.
-	 * 
+	 *
 	 * @return the extension name lisr
 	 */
 	public List<String> getReportExtensionNameList() {
 		if (reportExtensionNames == null) {
-			reportExtensionNames = new ArrayList<String>();
+			reportExtensionNames = new ArrayList<>();
 
 			IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry();
 			IConfigurationElement[] elements = extensionRegistry.getConfigurationElementsFor("org.eclipse.ui.editors"); //$NON-NLS-1$
@@ -1232,7 +1241,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Checks if the file is a report design file by its file name
-	 * 
+	 *
 	 * @return true if the extension name of the file can be recognized as a report
 	 *         design file, or false otherwise.
 	 */
@@ -1312,11 +1321,12 @@ public class ReportPlugin extends AbstractUIPlugin {
 		return getResourceFolder(UIUtil.getCurrentProject());
 	}
 
-	private static LinkedHashMap<String, ResourceFilter> filterMap = new LinkedHashMap<String, ResourceFilter>();
+	private static LinkedHashMap<String, ResourceFilter> filterMap = new LinkedHashMap<>();
 
 	private static void initFilterMap(IPreferences store, ResourceFilter filter) {
-		if (store.contains(filter.getType()))
+		if (store.contains(filter.getType())) {
 			filter.setEnabled(store.getBoolean(filter.getType()));
+		}
 		filterMap.put(filter.getType(), filter);
 	}
 
@@ -1329,13 +1339,14 @@ public class ReportPlugin extends AbstractUIPlugin {
 			LinkedHashMap map = (LinkedHashMap) filterMap.clone();
 			map.remove(ResourceFilter.FILTER_EMPTY_FOLDERS);
 			return map;
-		} else
+		} else {
 			return filterMap;
+		}
 	}
 
 	/**
 	 * Sets default settings for BiDi properties
-	 * 
+	 *
 	 */
 	public void setDefaultBiDiSettings() {
 		PreferenceFactory.getInstance().getPreferences(this).setDefault(LTR_BIDI_DIRECTION, true);
@@ -1364,7 +1375,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Retrieves if BiDi orientation is Left To Right
-	 * 
+	 *
 	 * @return true if BiDi orientation is Left To Right false if BiDi orientation
 	 *         is Right To Left
 	 */
@@ -1379,7 +1390,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Sets value for 'Left To Right BIDi direction' flag
-	 * 
+	 *
 	 * @param true if BiDi direction should be set to Left To Right false if BiDi
 	 *             direction should be set to Right To Left
 	 */
@@ -1390,7 +1401,7 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Gets the description text of the extended palette entry elements.
-	 * 
+	 *
 	 * @return the description text, or "" if not found.
 	 */
 	private String getExtendedPaletteEntryDescription(String defaultName) {
@@ -1420,18 +1431,20 @@ public class ReportPlugin extends AbstractUIPlugin {
 
 	public String getDefaultUnitPreference(IProject project) {
 		String unit = PreferenceFactory.getInstance().getPreferences(this, project).getString(DEFAULT_UNIT_PREFERENCE);
-		if (unit == DEFAULT_UNIT_AUTO)
+		if (unit == DEFAULT_UNIT_AUTO) {
 			return null;
-		else
+		} else {
 			return unit;
+		}
 	}
 
 	public String getDefaultUnitPreference() {
 		String unit = PreferenceFactory.getInstance().getPreferences(this).getString(DEFAULT_UNIT_PREFERENCE);
-		if (unit == DEFAULT_UNIT_AUTO)
+		if (unit == DEFAULT_UNIT_AUTO) {
 			return null;
-		else
+		} else {
 			return unit;
+		}
 	}
 
 	public void setDefaultUnitPreference(String unit) {

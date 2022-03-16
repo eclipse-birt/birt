@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -72,65 +75,65 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Unit test for PropertyCommand.
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testSetProperty()}</td>
  * <td>The property name is not defined in the meta.xml.</td>
  * <td>throw out exception.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>The property name can be found in the meta.xml and the property is not
  * intrinsic</td>
  * <td>Property is set successfully.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>The name can be found in the meta.xml and the property is an intrinsic
  * property</td>
  * <td>property value is set successfully.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Changes property value and checks property value.</td>
  * <td>getProperty is the same as input value</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSetandClearProperty()}</td>
  * <td>set property value and check the get property value</td>
  * <td>the value of property is the same as input value</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>clear property value and check the result</td>
  * <td>after clear property , the size of result is zero.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testAddItem()}</td>
  * <td>Add map rules to a style which contains null list.</td>
  * <td>The style will have a map rule after executing the command and save file
  * is equal to the golden file PropertyCommandTest_golden_4.xml</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Add a map rule to a style which already has one a map rule.</td>
  * <td>After executing the command, the map rule list size is 2 and save file
  * is equal to the golden file PropertyCommandTest_golden_5.xml</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Add a map rule to a style which has no map rule, but its parent has a
@@ -138,136 +141,136 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td>After executing the command, the map rule list size is 2 and save file
  * is equal to the golden file PropertyCommandTest_golden_6.xml</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSetMember()}</td>
  * <td>The value is null.</td>
  * <td>getValue is null.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>The value is the same as old value.</td>
  * <td>Keeps the input value.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Normal case.</td>
  * <td>Keeps the input value.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testReplaceItemOne()}</td>
  * <td>Execute the command, save the file</td>
  * <td>compare with a golden file, they should be identical</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Undo the command, save the file</td>
  * <td>compare with a golden file, should be identical</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Redo the command, save the file</td>
  * <td>compare with a golden file, should be identical</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testReplaceItemTwo()}</td>
  * <td>Use the first structure list in My-Style to replace the first structure
  * list in style2</td>
  * <td>the value of structure was replaced</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Undo the operation and use the first structure list in style2 to replace
  * the first structure list in My-Style</td>
  * <td>he value of structure was replaced</td>
  * </tr>
- * 
- * 
+ *
+ *
  * <tr>
  * <td>{@link #testRemoveAllItems()}</td>
  * <td>use propertycommand to remove all map-rule items</td>
  * <td>after remove all map-rule items ,the size of map.rules should be zero
  * </td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testInsertAndRemoveItem()}</td>
  * <td>insert new item named InsertAndRemove</td>
  * <td>after insert new item , size of rules changes to three</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>remove this new item</td>
  * <td>after remove that inserted item ,size of rules change to two</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testInsertAndRemoveItem()}</td>
  * <td>undo and redo those two operations</td>
  * <td>after undo and redo operation , size of rules plus or reduce one</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>remove item from null structure list
- * 
+ *
  * </td>
  * <td>remove item from null list must throw out exception</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testMoveItem()}</td>
  * <td>test move item operation from not null structure list</td>
  * <td>Matches the golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>undo and redo several times</td>
  * <td>Matches the golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>test move item operation from null structure list</td>
  * <td>Matches the golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>move item to position which out of array size
  * <td>The exception with IndexOutOfBoundException is thrown.</td>
  * </tr>
- * 
- * 
+ *
+ *
  * <tr>
  * <td>{@link #testPropertyEvent}</td>
  * <td>basic notification with event test.</td>
  * <td>after changing , getpropertyname should be equal to the setter one</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testNotification}</td>
  * <td>Use listener to test if notification works or not.</td>
  * <td>value of property displayName change to listener</td>
  * </tr>
- * 
+ *
  * </table>
- * 
- * 
+ *
+ *
  */
 
 /**
  * @author Administrator
- * 
+ *
  */
 public class PropertyCommandTest extends BaseTestCase {
 
@@ -290,6 +293,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * @see TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -319,7 +323,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * property</li>
 	 * <li>changes property value and checks property value.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -369,7 +373,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * Tests the setProperty that the value is structure and the context of it is
 	 * not null. In this case, we will make a copy of the given structure and then
 	 * set it to the element.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testSetProperty_1() throws Exception {
@@ -389,7 +393,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Test setProperty method. especially for compatible with set toc string value.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -413,12 +417,12 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * Test for method clearProperty(String).
 	 * <p>
 	 * Test Cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>sets new property</li>
 	 * <li>clears just added new property</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -431,7 +435,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Test if property handle can set and get value rightly.
-	 * 
+	 *
 	 * @param prop  get property name from it
 	 * @param value property value
 	 */
@@ -453,11 +457,11 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * If value is null ,then judge object is null or not
 	 * <p>
 	 * If value is not null,then judge object is equal to value or not
-	 * 
+	 *
 	 * @param name  name of property
 	 * @param value value of property
 	 * @param type
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -496,7 +500,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * Tests the method PropertyCommand#addItem().
 	 * <p>
 	 * Test Cases:
@@ -508,7 +512,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * <li>Add a structure in the list to the list again. The new structure will be
 	 * added.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testAddItem() throws Exception {
@@ -554,7 +558,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests addItem()
-	 * 
+	 *
 	 * <p>
 	 * Test Cases:
 	 * <ul>
@@ -563,10 +567,10 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * <li>Label2 extends from label1, and label1 has defined an Action. Now add a
 	 * parameter binding to label2, ensure that list value in label1 won't be
 	 * affected.
-	 * 
+	 *
 	 * </li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 * @throws SemanticException
 	 */
@@ -649,7 +653,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * delete latest added new style item.
-	 * 
+	 *
 	 * @param style style element of design
 	 * @throws PropertyValueException
 	 */
@@ -662,7 +666,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests PropertyCommand#setMember(MemberRef,Object).
-	 * 
+	 *
 	 * <p>
 	 * Test Cases:
 	 * <ul>
@@ -671,7 +675,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * <li>setMember value is the same as old value</li>
 	 * <li>Normal case.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -720,7 +724,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests PropertyCommand#setMember(MemberRef,Object)
-	 * 
+	 *
 	 * <p>
 	 * Test Cases:
 	 * <ul>
@@ -729,7 +733,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * <li>Label2 extends from label1, and label1 has defined an Action, test that
 	 * change the action on label2 won't affect the value on label1.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -804,7 +808,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests PropertyCommand#setMember(MemberRef,Object)
-	 * 
+	 *
 	 * <p>
 	 * Test Cases:
 	 * <ul>
@@ -815,7 +819,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * <li>Sets expression of filterCondition structure to empty string</li>
 	 * <li>Throw out SemanticException</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -888,7 +892,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * Invoke
 	 * {@link org.eclipse.birt.report.model.command.PropertyCommand#removeAllItems(MemberRef)}
 	 * to test removeAllItems method.
-	 * 
+	 *
 	 * <p>
 	 * Test Case:
 	 * <ul>
@@ -896,20 +900,20 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * <li>use PropertyCommand to remove all Drillthrough SearchKeys for an
 	 * action.</li>
 	 * </ul>
-	 * 
+	 *
 	 * Analysis:
-	 * 
+	 *
 	 * In <code>removeAllItems</code>, it must confirm <code>propDefn</code> is an
 	 * object of <code>StructListPropertyType</code>.
 	 * (PropertyCommand#checkListProperty) While if the property is set to empty,
 	 * the value must be validated. (PropertyCommand#validateValue)
-	 * 
+	 *
 	 * The problem is that <code>StructListPropertyType</code> always throws an
 	 * PropertyValueException when it tries to validate the value.
 	 * (StructListPropertyType#validateValue)
-	 * 
+	 *
 	 * This likes conflict.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -938,7 +942,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests removing items with position.
-	 * 
+	 *
 	 * @throws SemanticException if any exception
 	 */
 
@@ -980,7 +984,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests removing items with item instance.
-	 * 
+	 *
 	 * @throws PropertyValueException if any exception
 	 */
 
@@ -1024,7 +1028,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Deal with three situations of add item operation.
-	 * 
+	 *
 	 * @param style StyleElement which ReportDesign finds
 	 * @param type  mark of size of rules is zero or not
 	 * @throws SemanticException if any exception.
@@ -1051,10 +1055,11 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		design.getActivityStack().undo();
 		rules = (List) style.getProperty(design, Style.MAP_RULES_PROP);
-		if (type)
+		if (type) {
 			assertTrue(rules.size() == 2);
-		else
+		} else {
 			assertNull(rules);
+		}
 
 		// redo and check size
 
@@ -1065,15 +1070,16 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * If type is false mean EmptyList ,then return 1, else return 3.
-	 * 
+	 *
 	 * @param type mark of size of rules is zero or not
-	 * 
+	 *
 	 * @return the integer flag
 	 */
 
 	private int judgeType(boolean type) {
-		if (type)
+		if (type) {
 			return 3;
+		}
 
 		return 1;
 	}
@@ -1082,10 +1088,10 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * Invoke
 	 * {@link org.eclipse.birt.report.model.command.PropertyCommand#replaceItem(MemberRef, IStructure, IStructure)}
 	 * .
-	 * 
+	 *
 	 * <p>
 	 * Test Cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>Execute the command, save the file,compare with a golden file, they
 	 * should be identical</li>
@@ -1094,7 +1100,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * <li>Redo the command, save the file, compare with a golden file, should be
 	 * identical</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1137,10 +1143,10 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * list in style2</li>
 	 * <li>use the first structure list in style2 to replace the second structure
 	 * list in My-Style.</li>
-	 * 
+	 *
 	 * <li>Replace an item within a member list</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1210,7 +1216,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Save as file and compare text file.
-	 * 
+	 *
 	 * @param saveFile    storage file
 	 * @param compareFile compare file
 	 * @throws Exception
@@ -1237,7 +1243,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * <li>undo and redo those two operations</li>
 	 * <li>remove item from null structure list</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1341,7 +1347,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * <li>test move item operation from null structure list</li>
 	 * <li>Test moving items between list member.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1421,7 +1427,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests RemoveItem logic
-	 * 
+	 *
 	 * <p>
 	 * Test Cases:
 	 * <ul>
@@ -1430,7 +1436,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * label1 has defined an Action, test that remove a drill through parameter
 	 * structure from the action on label2 won't affect the value on label1.
 	 * </ul>
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 	public void testRemoveItem() throws SemanticException {
@@ -1499,7 +1505,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testElementTypePropertyCommand() throws Exception {
@@ -1520,7 +1526,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * is a list, then we should make a copy for the list, but not point oldValue to
 	 * the same list instance with Element. And the undo, redo, rollback status
 	 * should be correct.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1562,13 +1568,13 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * Invoke {@link org.eclipse.birt.report.model.api.command.PropertyEvent}to test
 	 * property event.
 	 * <p>
-	 * 
+	 *
 	 * Test Case:
-	 * 
+	 *
 	 * <ul>
 	 * <li>basic notification with event test.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1588,14 +1594,14 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Unit test for the listener.
-	 * 
+	 *
 	 * <p>
-	 * 
+	 *
 	 * Test Case:
 	 * <ul>
 	 * <li>Use listener to test if notification works or not.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1658,7 +1664,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests event notification when variable element property changed.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testVariableElementPropertyNotification() throws Exception {
@@ -1687,7 +1693,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * broadcast process.
 	 * <p>
 	 * Uses TOC as examples to test this feature. see Bug 286598
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1718,11 +1724,12 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			propertyChanged = true;
 		}

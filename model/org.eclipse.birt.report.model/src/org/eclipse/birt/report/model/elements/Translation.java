@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,7 +55,7 @@ public class Translation implements Cloneable {
 	/**
 	 * Constructs the translation with a resource key, locale and the text.
 	 * <p>
-	 * 
+	 *
 	 * @param resourceKey the resource key for the Message which this translation
 	 *                    stored in
 	 * @param locale      the locale for the translation. Locale should be in
@@ -69,12 +72,12 @@ public class Translation implements Cloneable {
 	/**
 	 * Constructs the translation with the resource key and the locale.
 	 * <p>
-	 * 
+	 *
 	 * @param resourceKey the resource key for the Message which this translation
 	 *                    stored in
 	 * @param locale      Locale for the translation. Locale should be in
 	 *                    java-defined format( en, en-US, zh_CN, etc.)
-	 * 
+	 *
 	 */
 
 	public Translation(String resourceKey, String locale) {
@@ -86,7 +89,7 @@ public class Translation implements Cloneable {
 	/**
 	 * Returns the resourceKey of this translation.
 	 * <p>
-	 * 
+	 *
 	 * @return resourceKey of this translation.
 	 */
 
@@ -97,7 +100,7 @@ public class Translation implements Cloneable {
 	/**
 	 * Returns the locale of this translation.
 	 * <p>
-	 * 
+	 *
 	 * @return locale of this translation.
 	 */
 
@@ -108,7 +111,7 @@ public class Translation implements Cloneable {
 	/**
 	 * Returns translated text for this entry.
 	 * <p>
-	 * 
+	 *
 	 * @return translated text related to the locale.
 	 */
 
@@ -119,7 +122,7 @@ public class Translation implements Cloneable {
 	/**
 	 * Sets resourceKey to the Translation.
 	 * <p>
-	 * 
+	 *
 	 * @param resourceKey resourceKey for the translation.
 	 */
 
@@ -131,7 +134,7 @@ public class Translation implements Cloneable {
 	 * Sets locale for the Translation. Locale should follow standard java locale
 	 * format, e.g: en_US, zh_CN...
 	 * <p>
-	 * 
+	 *
 	 * @param locale locale of the Translation.
 	 */
 
@@ -142,7 +145,7 @@ public class Translation implements Cloneable {
 	/**
 	 * Sets the translation text for the translation.
 	 * <p>
-	 * 
+	 *
 	 * @param text translated text for the message.
 	 */
 
@@ -152,23 +155,25 @@ public class Translation implements Cloneable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return super.clone();
 	}
 
 	/**
 	 * Return a handle to deal with the translation.
-	 * 
+	 *
 	 * @param design module
 	 * @return handle to deal with the translation.
 	 */
 
 	public TranslationHandle handle(Module module) {
-		if (handle == null)
+		if (handle == null) {
 			handle = new TranslationHandle((ModuleHandle) module.getHandle(module), this);
+		}
 
 		return handle;
 	}

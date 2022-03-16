@@ -1,10 +1,13 @@
 /*
  *************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - support of relative file path
@@ -96,10 +99,11 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org
 	 * .eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Control c = super.createDialogArea(parent);
 
@@ -114,6 +118,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 		importButton.setText(Messages.getString("RelativeFileSelectionDialog.button.importFile")); //$NON-NLS-1$
 		importButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				FileDialog dialog = new FileDialog(getShell());
 				dialog.setFilterExtensions(extensions);
@@ -138,7 +143,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 					getTreeViewer().refresh(targetFolder);
 					getTreeViewer().expandToLevel(targetFolder, 1);
 				}
-			};
+			}
 		});
 	}
 
@@ -250,14 +255,15 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 
 		public ContentProvider(String[] extensionFilter) {
 			if (extensionFilter != null) {
-				ArrayList<String> filters = new ArrayList<String>();
+				ArrayList<String> filters = new ArrayList<>();
 				for (int i = 0; i < extensionFilter.length; i++) {
 					String[] regxs = extensionFilter[i].split(";"); //$NON-NLS-1$
 
 					for (String regx : regxs) {
 						String ext = regx.toLowerCase(Locale.US);
-						if (ALL_EXT.equals(regx))
+						if (ALL_EXT.equals(regx)) {
 							continue;
+						}
 
 						filters.add(ext.substring(1));
 					}
@@ -266,6 +272,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 			}
 		}
 
+		@Override
 		public Object[] getChildren(Object arg0) {
 			if (arg0 instanceof File) {
 				File f = (File) arg0;
@@ -274,6 +281,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 				}
 				File[] result = f.listFiles(new FileFilter() {
 
+					@Override
 					public boolean accept(File child) {
 						if (child.isDirectory()) {
 							return true;
@@ -291,16 +299,19 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 
 		private boolean filter(String fileName) {
 			for (int k = 0; exts != null && k < exts.length; k++) {
-				if (fileName.toLowerCase(Locale.US).endsWith(exts[k]))
+				if (fileName.toLowerCase(Locale.US).endsWith(exts[k])) {
 					return true;
+				}
 			}
 			return false;
 		}
 
+		@Override
 		public Object getParent(Object arg0) {
 			return null;
 		}
 
+		@Override
 		public boolean hasChildren(Object arg0) {
 			if (arg0 instanceof File) {
 				File f = (File) arg0;
@@ -309,6 +320,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 			return false;
 		}
 
+		@Override
 		public Object[] getElements(Object arg0) {
 			if (arg0 instanceof String) {
 				return new Object[] { new File((String) arg0) };
@@ -316,10 +328,12 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 			return null;
 		}
 
+		@Override
 		public void dispose() {
 
 		}
 
+		@Override
 		public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
 
 		}
@@ -328,6 +342,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 
 	private static class LabelProvider implements ILabelProvider {
 
+		@Override
 		public Image getImage(Object arg0) {
 			if (arg0 instanceof File) {
 				File f = (File) arg0;
@@ -339,6 +354,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 			return null;
 		}
 
+		@Override
 		public String getText(Object arg0) {
 			if (arg0 instanceof File) {
 				File f = (File) arg0;
@@ -352,18 +368,22 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 			return ""; //$NON-NLS-1$
 		}
 
+		@Override
 		public void addListener(ILabelProviderListener arg0) {
 
 		}
 
+		@Override
 		public void dispose() {
 
 		}
 
+		@Override
 		public boolean isLabelProperty(Object arg0, String arg1) {
 			return false;
 		}
 
+		@Override
 		public void removeListener(ILabelProviderListener arg0) {
 
 		}
@@ -372,6 +392,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 
 	private static class SelectionValidator implements ISelectionStatusValidator {
 
+		@Override
 		public IStatus validate(Object[] selections) {
 			if (selections != null && selections.length > 0) {
 				for (Object o : selections) {
@@ -392,7 +413,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 	}
 
 	public String[] getSelectedItems() {
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		Object[] selected = this.getResult() == null ? new Object[0] : this.getResult();
 		for (Object o : selected) {
 			File f = (File) o;
@@ -409,6 +430,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public int compare(File o1, File o2) {
 			if (o1.isDirectory() && o2.isDirectory()) {
 				return o1.getName().compareTo(o2.getName());

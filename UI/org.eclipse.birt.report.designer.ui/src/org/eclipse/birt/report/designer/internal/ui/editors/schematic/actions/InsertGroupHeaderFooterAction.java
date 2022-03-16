@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +23,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.action.Action;
 
 /**
- * 
+ *
  */
 
 public class InsertGroupHeaderFooterAction extends Action {
@@ -46,7 +49,7 @@ public class InsertGroupHeaderFooterAction extends Action {
 	private InsertAction insertAction;
 
 	/**
-	 * 
+	 *
 	 */
 	public InsertGroupHeaderFooterAction(GroupHandle grouphandle, int type) {
 		// TODO Auto-generated constructor stub
@@ -76,6 +79,7 @@ public class InsertGroupHeaderFooterAction extends Action {
 	/*
 	 * (non-Javadoc) Method declared on IAction.
 	 */
+	@Override
 	public boolean isEnabled() {
 		// update later
 		if (handle == null || slotHandle == null) {
@@ -94,9 +98,10 @@ public class InsertGroupHeaderFooterAction extends Action {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
+	@Override
 	public void run() {
 		if (insertAction != null) {
 			insertAction.run();

@@ -1,15 +1,15 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.api;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -20,6 +20,9 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Tests GroupHandle.
@@ -62,22 +65,24 @@ public class GroupHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests to read and set properties on a GroupElement.
-	 * 
+	 *
 	 * @throws Exception if errors occur when opens the design file
 	 */
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
 		copyResource_INPUT("GroupHandleTest.xml", "GroupHandleTest.xml");
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}
 
 	/**
 	 * refer to bug #161174, support setIntervalRange(String)
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 	public void testIntervalRange() throws SemanticException {
@@ -132,7 +137,7 @@ public class GroupHandleTest extends BaseTestCase {
 
 	/**
 	 * Test group ACLExpression and cascadeACL used for security
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 	public void testACL() throws SemanticException {

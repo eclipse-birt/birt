@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -33,7 +35,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Action handler for get reportlet content.
- * 
+ *
  */
 public class BirtGetReportletActionHandler extends AbstractBaseActionHandler {
 
@@ -51,7 +53,7 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler {
 	OutputStream os = null;
 
 	/**
-	 * 
+	 *
 	 * @param context
 	 * @param operation
 	 * @param response
@@ -64,10 +66,11 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Do execution.
-	 * 
+	 *
 	 * @exception ReportServiceException
 	 * @return
 	 */
+	@Override
 	protected void __execute() throws Exception {
 		prepareParameters();
 		doExecution();
@@ -107,7 +110,7 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void __checkDocumentExists() throws Exception {
 		File file = new File(__docName);
@@ -128,8 +131,9 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler {
 	}
 
 	/**
-	 * 
+	 *
 	 */
+	@Override
 	public IViewerReportService getReportService() {
 		return BirtReportServiceFactory.getReportService();
 	}

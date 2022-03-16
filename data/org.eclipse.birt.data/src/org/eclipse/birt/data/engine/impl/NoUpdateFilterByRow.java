@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,18 +36,20 @@ public class NoUpdateFilterByRow implements IFilterByRow {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.FilterByRow#process(org.eclipse.birt
 	 * .data.engine.odi.IResultObject, int)
 	 */
+	@Override
 	public boolean process(IResultObject row, int rowIndex) throws DataException {
 		boolean accepted = filterByRow.process(row, rowIndex);
 
 		if (updateGroupInfo) {
-			if (accepted)
+			if (accepted) {
 				rowFilter.onGroup(rowIndex);
-			else
+			} else {
 				rowFilter.notOnGroup(rowIndex);
+			}
 		}
 
 		return accepted;
@@ -54,6 +59,7 @@ public class NoUpdateFilterByRow implements IFilterByRow {
 		this.updateGroupInfo = updateGroup;
 	}
 
+	@Override
 	public void close() throws DataException {
 		filterByRow.setWorkingFilterSet(FilterByRow.NO_FILTER);
 		filterByRow.close();
@@ -64,18 +70,20 @@ public class NoUpdateFilterByRow implements IFilterByRow {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.IFilterByRow#getFilterList()
 	 */
+	@Override
 	public List<IFilterDefinition> getFilterList() throws DataException {
 		return filterByRow.getFilterList();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.IFilterByRow#setWorkingFilterSet(int)
 	 */
+	@Override
 	public void setWorkingFilterSet(int filterSetType) throws DataException {
 		filterByRow.setWorkingFilterSet(filterSetType);
 	}

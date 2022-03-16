@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -13,8 +16,8 @@ package org.eclipse.birt.report.engine.emitter.odp.device;
 import java.awt.Color;
 import java.io.OutputStream;
 
-import org.eclipse.birt.report.engine.emitter.odp.OdpWriter;
 import org.eclipse.birt.report.engine.emitter.odp.OdpContext;
+import org.eclipse.birt.report.engine.emitter.odp.OdpWriter;
 import org.eclipse.birt.report.engine.emitter.odp.util.OdpUtil;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
@@ -33,7 +36,7 @@ public class OdpPageDevice implements IPageDevice {
 	private OdpContext context;
 
 	/**
-	 * 
+	 *
 	 * @param output   body output
 	 * @param mpOutput master page output
 	 * @param context
@@ -47,11 +50,13 @@ public class OdpPageDevice implements IPageDevice {
 		this.context = context;
 	}
 
+	@Override
 	public void close() throws Exception {
 		writer.end();
 		mpWriter.end();
 	}
 
+	@Override
 	public IPage newPage(int width, int height, Color backgroundColor) {
 		MasterPageManager mpManager = context.getMasterPageManager();
 		if (currentPage != null) {

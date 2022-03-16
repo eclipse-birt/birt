@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,14 +32,14 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * The dialog is used to set Y grouping and sorting attributes.
- * 
+ *
  * @since BIRT 2.3
  */
 public class YOptionalGroupSortingDialog extends GroupSortingDialog {
 
 	/**
 	 * Constructor of the class.
-	 * 
+	 *
 	 * @param shell
 	 * @param wizardContext
 	 * @param sd
@@ -49,19 +52,19 @@ public class YOptionalGroupSortingDialog extends GroupSortingDialog {
 
 	@Override
 	protected Set<String> getSortKeySet() {
-		Set<String> exprSet = new LinkedHashSet<String>();
-		exprSet.addAll(getYGroupingExpressions());
+		Set<String> exprSet = new LinkedHashSet<>(getYGroupingExpressions());
 		exprSet.addAll(getValueSeriesExpressions());
 		return exprSet;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog#createSortArea(
 	 * org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public void createSortArea(Composite parent) {
 		super.createSortArea(parent);
 		if (!isYGroupingEnabled()) {
@@ -73,10 +76,11 @@ public class YOptionalGroupSortingDialog extends GroupSortingDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog#
 	 * createSeriesGroupingComposite(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	protected SeriesGroupingComposite createSeriesGroupingComposite(Composite parent) {
 		SeriesGrouping grouping = getSeriesDefinitionForProcessing().getQuery().getGrouping();
 		if (grouping == null) {
@@ -91,7 +95,7 @@ public class YOptionalGroupSortingDialog extends GroupSortingDialog {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	class YSeriesGroupingComposite extends SeriesGroupingComposite {
 
@@ -102,10 +106,11 @@ public class YOptionalGroupSortingDialog extends GroupSortingDialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.chart.ui.swt.composites.SeriesGroupingComposite#
 		 * setGroupingButtonStatus()
 		 */
+		@Override
 		protected void setGroupingButtonSelection() {
 			Query query = getSeriesDefinitionForProcessing().getQuery();
 			if (query != null && query.getDefinition() != null && !"".equals(query.getDefinition())) //$NON-NLS-1$
@@ -119,11 +124,11 @@ public class YOptionalGroupSortingDialog extends GroupSortingDialog {
 
 	/**
 	 * Get the Y Grouping expression.
-	 * 
+	 *
 	 * @return
 	 */
 	protected Set<String> getYGroupingExpressions() {
-		Set<String> exprSet = new LinkedHashSet<String>();
+		Set<String> exprSet = new LinkedHashSet<>();
 		Chart chart = wizardContext.getModel();
 		if (chart instanceof ChartWithAxes) {
 			ChartWithAxes cwa = (ChartWithAxes) chart;

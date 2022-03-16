@@ -2,27 +2,32 @@
  * ************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation. All rights reserved. This
  * program and the accompanying materials are made available under the terms of
- * the Eclipse Public License v1.0 which accompanies this distribution, and is
- * available at http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ * the Eclipse Public License v2.0 which accompanies this distribution, and is
+ * available at http://www.eclipse.org/legal/epl-2.0.html
+ *
+ * Contributors:
  *   Actuate Corporation - initial API and implementation
- * 
+ *
  * ************************************************************************
  */
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
+import java.sql.SQLException;
 import java.util.Properties;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.datatools.connectivity.oda.OdaException;
-import java.sql.SQLException;
-
-import testutil.JDBCOdaDataSource;
-
 import org.junit.After;
 import org.junit.Before;
-import static org.junit.Assert.*;
+
+import testutil.JDBCOdaDataSource;
 
 public class ConnectionTest extends ConnectionManagerTest {
 

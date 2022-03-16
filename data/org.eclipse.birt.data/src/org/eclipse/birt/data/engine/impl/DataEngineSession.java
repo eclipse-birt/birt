@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -71,14 +74,14 @@ public class DataEngineSession {
 
 	private RAOutputStream emtpryIDStream;
 
-	private static ThreadLocal<ClassLoader> classLoaderHolder = new ThreadLocal<ClassLoader>();
-	private static ThreadLocal<Map<String, Integer>> versionForQuRsHolder = new ThreadLocal<Map<String, Integer>>();
+	private static ThreadLocal<ClassLoader> classLoaderHolder = new ThreadLocal<>();
+	private static ThreadLocal<Map<String, Integer>> versionForQuRsHolder = new ThreadLocal<>();
 
 	private static Logger logger = Logger.getLogger(DataEngineSession.class.getName());
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param engine
 	 * @throws BirtException
 	 */
@@ -99,7 +102,7 @@ public class DataEngineSession {
 		}
 		new CoreJavaScriptInitializer().initialize(scriptEngine.getJSContext(engine.getContext().getScriptContext()),
 				scope);
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append(engine.getContext().getTmpdir());
 		buffer.append("DataEngine");
 		String processName = java.lang.management.ManagementFactory.getRuntimeMXBean().getName();
@@ -120,21 +123,24 @@ public class DataEngineSession {
 		final int mode = engine.getContext().getMode();
 		engine.addShutdownListener(new IShutdownListener() {
 
+			@Override
 			public void dataEngineShutdown() {
 				int count = DataEngineThreadLocal.getInstance().getCloseListener().getActivateDteCount();
 				if (count == 1) {
 					classLoaderHolder.set(null);
 				}
 				// TODO refactor me
-				if (mode != DataEngineContext.DIRECT_PRESENTATION)
+				if (mode != DataEngineContext.DIRECT_PRESENTATION) {
 					versionForQuRsHolder.set(null);
+				}
 				houseKeepCancelManager();
 				saveGeneralACL();
-				if (emtpryIDStream != null)
+				if (emtpryIDStream != null) {
 					try {
 						emtpryIDStream.close();
 					} catch (IOException e) {
 					}
+				}
 			}
 		});
 
@@ -162,13 +168,13 @@ public class DataEngineSession {
 
 	/**
 	 * Read acl collections from doc archive.
-	 * 
+	 *
 	 * @param reader
 	 * @return
 	 * @throws DataException
 	 */
 	private void loadGeneralACL() throws DataException {
-		this.acls = new LinkedHashMap<String, Integer>();
+		this.acls = new LinkedHashMap<>();
 		if (!engine.getContext().hasInStream("DataEngine", null, DataEngineContext.ACL_COLLECTION_STREAM)) {
 			return;
 		}
@@ -179,8 +185,9 @@ public class DataEngineSession {
 			int count = IOUtil.readInt(aclCollectionStream);
 			for (int i = 0; i < count; i++) {
 				String temp = IOUtil.readString(aclCollectionStream);
-				if (temp != null)
+				if (temp != null) {
 					temp = temp.toUpperCase();
+				}
 				acls.put(temp, i);
 			}
 			aclCollectionStream.close();
@@ -191,15 +198,16 @@ public class DataEngineSession {
 
 	/**
 	 * Write ACL collections to the doc archive.
-	 * 
+	 *
 	 * @param writer
 	 * @param acls
 	 * @throws DataException
 	 */
 	private void saveGeneralACL() {
 		try {
-			if (engine.getContext().getDocWriter() == null || this.acls.isEmpty())
+			if (engine.getContext().getDocWriter() == null || this.acls.isEmpty()) {
 				return;
+			}
 
 			DataOutputStream aclCollectionStream = new DataOutputStream(
 					engine.getContext().getOutputStream("DataEngine", null, DataEngineContext.ACL_COLLECTION_STREAM));
@@ -217,19 +225,21 @@ public class DataEngineSession {
 
 	/**
 	 * Write empty query IDs to the doc archive.
-	 * 
+	 *
 	 * @param writer
 	 * @param acls
 	 * @throws DataException
 	 */
 	public void updateNestedEmptyQueryID(String queryResultID) {
 		try {
-			if (engine.getContext().getDocWriter() == null || this.emptyQueryResultID.isEmpty())
+			if (engine.getContext().getDocWriter() == null || this.emptyQueryResultID.isEmpty()) {
 				return;
+			}
 
-			if (emtpryIDStream == null)
+			if (emtpryIDStream == null) {
 				emtpryIDStream = engine.getContext().getOutputStream("DataEngine", null,
 						DataEngineContext.EMPTY_NESTED_QUERY_ID);
+			}
 			DataOutputStream emptryQueryIDStream = new DataOutputStream(emtpryIDStream);
 
 			emtpryIDStream.seek(0);
@@ -247,7 +257,7 @@ public class DataEngineSession {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private int getCount() {
@@ -259,7 +269,7 @@ public class DataEngineSession {
 
 	/**
 	 * Get the data engine.
-	 * 
+	 *
 	 * @return
 	 */
 	public DataEngine getEngine() {
@@ -268,19 +278,20 @@ public class DataEngineSession {
 
 	/**
 	 * Get a context property according to given key.
-	 * 
+	 *
 	 * @param key
 	 * @return
 	 */
 	public Object get(String key) {
-		if (key != null)
+		if (key != null) {
 			return this.context.get(key);
+		}
 		return null;
 	}
 
 	/**
 	 * Set a context property with given key.
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 */
@@ -306,7 +317,7 @@ public class DataEngineSession {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Scriptable getSharedScope() {
@@ -314,7 +325,7 @@ public class DataEngineSession {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public DataSetCacheManager getDataSetCacheManager() {
@@ -391,7 +402,7 @@ public class DataEngineSession {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Set<String> getEmptyNestedResultSetID() {
@@ -412,6 +423,7 @@ public class DataEngineSession {
 			this.session = session;
 		}
 
+		@Override
 		public void dataEngineShutdown() {
 			if (session.getNamingRelation() == null) {
 				return;
@@ -426,7 +438,7 @@ public class DataEngineSession {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param relation
 		 * @throws DataException
 		 */

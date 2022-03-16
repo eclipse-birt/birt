@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,9 +35,10 @@ import org.eclipse.pde.ui.launcher.EclipseApplicationLaunchConfiguration;
 
 /**
  * ReportLaunchConfigurationDelegate
- * 
+ *
  * @deprecated
  */
+@Deprecated
 public class ReportLaunchConfigurationDelegate extends EclipseApplicationLaunchConfiguration
 		implements IReportLauncherSettings {
 
@@ -49,6 +53,7 @@ public class ReportLaunchConfigurationDelegate extends EclipseApplicationLaunchC
 
 	private static WorkspaceClassPathFinder finder = new WorkspaceClassPathFinder();
 
+	@Override
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor)
 			throws CoreException {
 		configLaunch(launch, configuration);
@@ -114,7 +119,7 @@ public class ReportLaunchConfigurationDelegate extends EclipseApplicationLaunchC
 	/**
 	 * Returns true if the given project is accessible and it has a java nature,
 	 * otherwise false.
-	 * 
+	 *
 	 * @param project IProject
 	 * @return boolean
 	 */
@@ -129,11 +134,12 @@ public class ReportLaunchConfigurationDelegate extends EclipseApplicationLaunchC
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.pde.ui.launcher.AbstractPDELaunchConfiguration#getVMArguments(org
 	 * .eclipse.debug.core.ILaunchConfiguration)
 	 */
+	@Override
 	public String[] getVMArguments(ILaunchConfiguration configuration) throws CoreException {
 		String[] temp = super.getVMArguments(configuration);
 		String[] othersArguments = getOthersVMArguments(configuration);

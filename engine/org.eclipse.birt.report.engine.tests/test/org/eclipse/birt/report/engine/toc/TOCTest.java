@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +27,7 @@ public class TOCTest extends TOCTestCase {
 	static final String TOC_TEST_TOC_3 = "org/eclipse/birt/report/engine/toc/TOCNodeTest3.xml";
 	static final String TOC_TEST_TOC_4 = "org/eclipse/birt/report/engine/toc/TOCNodeTest4.xml";
 
-	static final String TOC_TEST_GOLDEN = "<toc nodeId=\"/\"/>";;
+	static final String TOC_TEST_GOLDEN = "<toc nodeId=\"/\"/>";
 
 	static final String TOC_TEST_1_GOLDEN = "<toc nodeId=\"/\">" + "    <toc nodeId=\"__TOC_0\" displayText=\"leaf1\"/>"
 			+ "    <toc nodeId=\"__TOC_1\" displayText=\"leaf2\"/>" + "</toc>";

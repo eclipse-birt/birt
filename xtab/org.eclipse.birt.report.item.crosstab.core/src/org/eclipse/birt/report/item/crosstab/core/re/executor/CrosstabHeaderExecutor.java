@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,6 +48,7 @@ public class CrosstabHeaderExecutor extends BaseCrosstabExecutor {
 		super(parent);
 	}
 
+	@Override
 	public IContent execute() {
 		ITableBandContent content = context.getReportContent().createTableBandContent();
 		content.setBandType(ITableBandContent.BAND_HEADER);
@@ -105,6 +109,7 @@ public class CrosstabHeaderExecutor extends BaseCrosstabExecutor {
 		}
 	}
 
+	@Override
 	public IReportItemExecutor getNextChild() {
 		IReportItemExecutor nextExecutor = null;
 
@@ -128,16 +133,9 @@ public class CrosstabHeaderExecutor extends BaseCrosstabExecutor {
 		return nextExecutor;
 	}
 
+	@Override
 	public boolean hasNextChild() {
-		if (currentGroupIndex < columnGroups.size()) {
-			return true;
-		}
-
-		if (hasMeasureHeader) {
-			return true;
-		}
-
-		if (useCornerHeader) {
+		if ((currentGroupIndex < columnGroups.size()) || hasMeasureHeader || useCornerHeader) {
 			return true;
 		}
 

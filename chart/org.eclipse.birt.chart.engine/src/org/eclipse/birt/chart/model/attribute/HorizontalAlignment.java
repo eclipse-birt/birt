@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,11 +24,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Horizontal Alignment</b></em>', and utility methods for working with
  * them. <!-- end-user-doc --> <!-- begin-model-doc -->
- * 
+ *
  * This type defines the allowed values for Horizontal Text alignment.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getHorizontalAlignment()
  * @model
  * @generated
@@ -38,7 +41,7 @@ public enum HorizontalAlignment implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #LEFT
 	 * @generated
 	 * @ordered
@@ -51,7 +54,7 @@ public enum HorizontalAlignment implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #CENTER
 	 * @generated
 	 * @ordered
@@ -64,7 +67,7 @@ public enum HorizontalAlignment implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #RIGHT
 	 * @generated
 	 * @ordered
@@ -74,7 +77,7 @@ public enum HorizontalAlignment implements Enumerator {
 	/**
 	 * The '<em><b>Left</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #LEFT_LITERAL
 	 * @model name="Left"
 	 * @generated
@@ -85,7 +88,7 @@ public enum HorizontalAlignment implements Enumerator {
 	/**
 	 * The '<em><b>Center</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #CENTER_LITERAL
 	 * @model name="Center"
 	 * @generated
@@ -96,7 +99,7 @@ public enum HorizontalAlignment implements Enumerator {
 	/**
 	 * The '<em><b>Right</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #RIGHT_LITERAL
 	 * @model name="Right"
 	 * @generated
@@ -107,16 +110,15 @@ public enum HorizontalAlignment implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Horizontal Alignment</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final HorizontalAlignment[] VALUES_ARRAY = new HorizontalAlignment[] { LEFT_LITERAL, CENTER_LITERAL,
-			RIGHT_LITERAL, };
+	private static final HorizontalAlignment[] VALUES_ARRAY = { LEFT_LITERAL, CENTER_LITERAL, RIGHT_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Horizontal Alignment</b></em>'
 	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static final List<HorizontalAlignment> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -124,7 +126,7 @@ public enum HorizontalAlignment implements Enumerator {
 	/**
 	 * Returns the '<em><b>Horizontal Alignment</b></em>' literal with the specified
 	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static HorizontalAlignment get(String literal) {
@@ -140,7 +142,7 @@ public enum HorizontalAlignment implements Enumerator {
 	/**
 	 * Returns the '<em><b>Horizontal Alignment</b></em>' literal with the specified
 	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static HorizontalAlignment getByName(String name) {
@@ -156,7 +158,7 @@ public enum HorizontalAlignment implements Enumerator {
 	/**
 	 * Returns the '<em><b>Horizontal Alignment</b></em>' literal with the specified
 	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static HorizontalAlignment get(int value) {
@@ -173,21 +175,21 @@ public enum HorizontalAlignment implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String literal;
@@ -195,10 +197,10 @@ public enum HorizontalAlignment implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private HorizontalAlignment(int value, String name, String literal) {
+	HorizontalAlignment(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -206,27 +208,30 @@ public enum HorizontalAlignment implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -234,7 +239,7 @@ public enum HorizontalAlignment implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override

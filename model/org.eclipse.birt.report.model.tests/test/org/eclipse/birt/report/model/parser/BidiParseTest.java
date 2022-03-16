@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -148,7 +151,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td>The errors are collected, such as the wrong choice names.</td>
  * </tr>
  * </table>
- * 
+ *
  */
 
 public class BidiParseTest extends BaseTestCase {
@@ -191,17 +194,18 @@ public class BidiParseTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Test parsing and getting Bidi properties.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -227,7 +231,7 @@ public class BidiParseTest extends BaseTestCase {
 
 	/**
 	 * Tests the 'bidiTextDirection' style in Table.
-	 * 
+	 *
 	 * @throws Exception any exception caught
 	 */
 
@@ -300,7 +304,7 @@ public class BidiParseTest extends BaseTestCase {
 
 	/**
 	 * Test writer.
-	 * 
+	 *
 	 * @throws Exception any exception caught
 	 */
 	public void testWriter() throws Exception {
@@ -322,7 +326,7 @@ public class BidiParseTest extends BaseTestCase {
 	/**
 	 * Get the member value of highlight rule to see if they are identical to those
 	 * specified in the input file.
-	 * 
+	 *
 	 * @throws Exception any exception during writing the design file.
 	 */
 
@@ -345,7 +349,7 @@ public class BidiParseTest extends BaseTestCase {
 
 	/**
 	 * Test highlight writer.
-	 * 
+	 *
 	 * @throws Exception any exception during reading/writing the design file.
 	 */
 
@@ -381,7 +385,7 @@ public class BidiParseTest extends BaseTestCase {
 
 	/**
 	 * Test property search with Session Default.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws PropertyValueException
 	 */
@@ -415,7 +419,7 @@ public class BidiParseTest extends BaseTestCase {
 	/**
 	 * Tests the semantic errors of the Style, such as the font-size and width are
 	 * non-negative.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -449,8 +453,9 @@ public class BidiParseTest extends BaseTestCase {
 		text.setProperty(DIRECTION, RTL.toUpperCase());
 		testPropertyFromSelector(text, true, false);
 
-		if (oldValue != null)
+		if (oldValue != null) {
 			text.setProperty(DIRECTION, oldValue);
+		}
 
 		// Verify opening report design with invalid direction values fails.
 		try {
@@ -464,7 +469,7 @@ public class BidiParseTest extends BaseTestCase {
 
 	/**
 	 * Tests the 'bidiTextDirection' style in TOC.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testTOC() throws Exception {

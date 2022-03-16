@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,7 +54,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IInternalReportItemMode
  * below.)</li>
  * <li>Adjust the element size to fit the image.</li>
  * <p>
- * 
+ *
  */
 
 public class ImageItem extends ReportItem implements IImageItemModel {
@@ -65,7 +68,7 @@ public class ImageItem extends ReportItem implements IImageItemModel {
 
 	/**
 	 * Constructs the image item with an optional name.
-	 * 
+	 *
 	 * @param theName the name of this image item, which is optional.
 	 */
 
@@ -75,40 +78,43 @@ public class ImageItem extends ReportItem implements IImageItemModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
 	 * report.model.elements.ElementVisitor)
 	 */
 
+	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitImage(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
+	@Override
 	public String getElementName() {
 		return ReportDesignConstants.IMAGE_ITEM;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
 	 * report.model.elements.ReportDesign)
 	 */
 
+	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 * 
+	 *
 	 * @param module the report design
 	 * @return an API handle for this element
 	 */
@@ -122,7 +128,7 @@ public class ImageItem extends ReportItem implements IImageItemModel {
 
 	/**
 	 * Returns the image scale.
-	 * 
+	 *
 	 * @param design the report design instance
 	 * @return the image scale value, which should be between 0 and 1.0.
 	 */
@@ -133,7 +139,7 @@ public class ImageItem extends ReportItem implements IImageItemModel {
 
 	/**
 	 * Returns the alternate text of the image.
-	 * 
+	 *
 	 * @param design the report design instance
 	 * @return the alternate text
 	 */
@@ -148,12 +154,13 @@ public class ImageItem extends ReportItem implements IImageItemModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.eclipse.
 	 * birt.report.model.elements.ReportDesign, int)
 	 */
 
+	@Override
 	public String getDisplayLabel(Module module, int level) {
 		String displayLabel = super.getDisplayLabel(module, level);
 		if (level == IDesignElementModel.FULL_LABEL) {

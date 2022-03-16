@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,20 +42,21 @@ public class SeriesNameFormat {
 
 	/**
 	 * Returns default series format
-	 * 
+	 *
 	 * @param sd  series definition
 	 * @param loc locale
 	 * @return default series format
 	 * @deprecated to use
 	 *             {@link #getSeriesNameFormat(SeriesDefinition, ULocale, boolean)}
 	 */
+	@Deprecated
 	public static SeriesNameFormat getSeriesNameFormat(SeriesDefinition sd, ULocale loc) {
 		return getSeriesNameFormat(sd, loc, true);
 	}
 
 	/**
 	 * Returns default series format
-	 * 
+	 *
 	 * @param sd            series definition
 	 * @param loc           locale
 	 * @param keepHierarchy indicates if hierarchy should be kept
@@ -106,7 +110,7 @@ public class SeriesNameFormat {
 
 		/**
 		 * Convert GroupingUnit type to CDateUnit type.
-		 * 
+		 *
 		 * @param groupingUnitType the GroupingUnit type.
 		 * @return CDateUnit type of integer.
 		 * @since 2.3, it is merged from <code>DataProcessor</code>, make the method to
@@ -139,7 +143,7 @@ public class SeriesNameFormat {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.chart.computation.SeriesNameFormat#format(java.lang
 		 * .Object)
 		 */

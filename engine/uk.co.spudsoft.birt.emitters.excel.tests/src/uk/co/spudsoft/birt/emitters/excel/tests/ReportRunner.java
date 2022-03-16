@@ -1,11 +1,13 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -79,14 +81,14 @@ public class ReportRunner {
 
 	protected String templateFile = null;
 
-	protected Map<String, Object> parameters = new HashMap<String, Object>();
+	protected Map<String, Object> parameters = new HashMap<>();
 	protected long startTime;
 	protected long runTime;
 	protected long renderTime;
 
 	private static byte[] getBytesFromFile(File file) throws IOException {
 		InputStream is = new FileInputStream(file);
-		try {
+		try (is) {
 			byte[] data = new byte[(int) file.length()];
 			int offset = 0;
 			int read = 0;
@@ -94,8 +96,6 @@ public class ReportRunner {
 				offset += read;
 			}
 			return data;
-		} finally {
-			is.close();
 		}
 	}
 
@@ -477,7 +477,7 @@ public class ReportRunner {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> appContext = (Map<String, Object>) task.getAppContext();
 		if (appContext == null) {
-			appContext = new HashMap<String, Object>();
+			appContext = new HashMap<>();
 			task.setAppContext(appContext);
 		}
 		appContext.put(key, value);

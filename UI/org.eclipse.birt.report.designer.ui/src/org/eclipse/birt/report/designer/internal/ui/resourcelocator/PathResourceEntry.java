@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -99,14 +102,17 @@ public class PathResourceEntry extends BaseResourceEntity {
 		if (filePattern != null) {
 			filter = new FileFilter() {
 
+				@Override
 				public boolean accept(File pathname) {
-					if (pathname.isDirectory())
+					if (pathname.isDirectory()) {
 						return true;
+					}
 					for (int i = 0; i < filePattern.length; i++) {
 						String[] regs = filePattern[i].split(";"); //$NON-NLS-1$
 						for (int j = 0; j < regs.length; j++) {
-							if (pathname.getName().toLowerCase().endsWith(regs[j].toLowerCase().substring(1)))
+							if (pathname.getName().toLowerCase().endsWith(regs[j].toLowerCase().substring(1))) {
 								return true;
+							}
 						}
 					}
 					return false;
@@ -116,9 +122,11 @@ public class PathResourceEntry extends BaseResourceEntity {
 		} else {
 			filter = new FileFilter() {
 
+				@Override
 				public boolean accept(File pathname) {
-					if (pathname.isDirectory())
+					if (pathname.isDirectory()) {
 						return true;
+					}
 					return showFiles;
 				}
 
@@ -169,24 +177,30 @@ public class PathResourceEntry extends BaseResourceEntity {
 		}
 	}
 
+	@Override
 	public boolean hasChildren() {
-		if (this.isRoot && this.path == null)
+		if (this.isRoot && this.path == null) {
 			initRoot();
+		}
 		File file = new File(this.path);
 		if (file.isDirectory()) {
 			String[] list = file.list();
-			if (list == null)
+			if (list == null) {
 				return false;
+			}
 			return list.length > 0;
-		} else
+		} else {
 			return false;
+		}
 	}
 
+	@Override
 	public ResourceEntry[] getChildren() {
 		if (this.childrenList == null) {
-			this.childrenList = new ArrayList<ResourceEntry>();
-			if (this.isRoot && this.path == null)
+			this.childrenList = new ArrayList<>();
+			if (this.isRoot && this.path == null) {
 				initRoot();
+			}
 			try {
 				File file = new File(this.path);
 				if (file.isDirectory()) {
@@ -211,46 +225,57 @@ public class PathResourceEntry extends BaseResourceEntity {
 		return new PathResourceEntry(childPath, childName, this);
 	}
 
+	@Override
 	public String getName() {
 		return this.name;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return this.displayName;
 	}
 
+	@Override
 	public Image getImage() {
 		if (isFile()) {
 			String path = getURL().toString().toLowerCase();
-			if (path.endsWith(".rptdesign")) //$NON-NLS-1$
+			if (path.endsWith(".rptdesign")) { //$NON-NLS-1$
 				return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_REPORT_FILE);
-			if (path.endsWith(".rpttemplate")) //$NON-NLS-1$
+			}
+			if (path.endsWith(".rpttemplate")) { //$NON-NLS-1$
 				return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_TEMPLATE_FILE);
-			if (path.endsWith(".rptdocument")) //$NON-NLS-1$
+			}
+			if (path.endsWith(".rptdocument")) { //$NON-NLS-1$
 				return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_DOCUMENT_FILE);
+			}
 
 			Object adapter = ElementAdapterManager.getAdapter(this, Image.class);
 			if (adapter instanceof Image) {
 				return (Image) adapter;
 			}
 		}
-		if (this.isFolder || this.isRoot)
+		if (this.isFolder || this.isRoot) {
 			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJ_FOLDER);
+		}
 		return super.getImage();
 	}
 
+	@Override
 	public ResourceEntry getParent() {
 		return this.parent;
 	}
 
+	@Override
 	public URL getURL() {
 		return this.url;
 	}
 
+	@Override
 	public boolean isFile() {
 		return this.isFile;
 	}
 
+	@Override
 	public boolean isRoot() {
 		return this.isRoot;
 	}
@@ -270,6 +295,7 @@ public class PathResourceEntry extends BaseResourceEntity {
 		}
 	}
 
+	@Override
 	public void dispose() {
 		if (this.library != null) {
 			this.library.close();
@@ -288,6 +314,7 @@ public class PathResourceEntry extends BaseResourceEntity {
 		}
 	}
 
+	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter == LibraryHandle.class && getURL().toString().toLowerCase().endsWith("library")) //$NON-NLS-1$
 		{
@@ -329,6 +356,7 @@ public class PathResourceEntry extends BaseResourceEntity {
 		} else if (adapter == IActionFilter.class) {
 			return new IActionFilter() {
 
+				@Override
 				public boolean testAttribute(Object target, String name, String value) {
 					if (target instanceof PathResourceEntry && "extension".equals(name)) //$NON-NLS-1$
 					{
@@ -345,30 +373,31 @@ public class PathResourceEntry extends BaseResourceEntity {
 		return null;
 	}
 
+	@Override
 	public boolean equals(Object object) {
-		if (object == null)
+		if ((object == null) || !(object instanceof PathResourceEntry || object instanceof String)) {
 			return false;
-		if (!(object instanceof PathResourceEntry || object instanceof String))
-			return false;
-		if (object == this)
+		}
+		if (object == this) {
 			return true;
-		else {
-			if (object instanceof PathResourceEntry) {
-				PathResourceEntry temp = (PathResourceEntry) object;
-				if (temp.path.equals(this.path))
-					return true;
-			} else if (object instanceof String) {
-				if (object.equals(this.path)) {
-					return true;
-				}
+		} else if (object instanceof PathResourceEntry) {
+			PathResourceEntry temp = (PathResourceEntry) object;
+			if (temp.path.equals(this.path)) {
+				return true;
+			}
+		} else if (object instanceof String) {
+			if (object.equals(this.path)) {
+				return true;
 			}
 		}
 		return false;
 	}
 
+	@Override
 	public int hashCode() {
-		if (this.path != null)
+		if (this.path != null) {
 			return this.path.hashCode();
+		}
 		return super.hashCode();
 	}
 

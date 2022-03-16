@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,10 +19,11 @@ import org.eclipse.ui.texteditor.BasicTextEditorActionContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 /**
- * 
+ *
  */
 
 public class ReportTextEditorActionContributor extends BasicTextEditorActionContributor {
+	@Override
 	public void setActiveEditor(IEditorPart part) {
 		if (part.getAdapter(ITextEditor.class) != null) {
 			super.setActiveEditor((ITextEditor) part.getAdapter(ITextEditor.class));

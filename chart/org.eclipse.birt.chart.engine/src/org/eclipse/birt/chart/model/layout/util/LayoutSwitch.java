@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -30,7 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  * with the actual class of the object and proceeding up the inheritance
  * hierarchy until a non-null result is returned, which is the result of the
  * switch. <!-- end-user-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage
  * @generated
  */
@@ -38,7 +41,7 @@ public class LayoutSwitch<T> {
 
 	/**
 	 * The cached model package <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected static LayoutPackage modelPackage;
@@ -46,7 +49,7 @@ public class LayoutSwitch<T> {
 	/**
 	 * Creates an instance of the switch. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public LayoutSwitch() {
@@ -59,7 +62,7 @@ public class LayoutSwitch<T> {
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a
 	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -71,7 +74,7 @@ public class LayoutSwitch<T> {
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a
 	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -88,7 +91,7 @@ public class LayoutSwitch<T> {
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a
 	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -97,53 +100,64 @@ public class LayoutSwitch<T> {
 		case LayoutPackage.BLOCK: {
 			Block block = (Block) theEObject;
 			T result = caseBlock(block);
-			if (result == null)
+			if (result == null) {
 				result = defaultCase(theEObject);
+			}
 			return result;
 		}
 		case LayoutPackage.CLIENT_AREA: {
 			ClientArea clientArea = (ClientArea) theEObject;
 			T result = caseClientArea(clientArea);
-			if (result == null)
+			if (result == null) {
 				result = defaultCase(theEObject);
+			}
 			return result;
 		}
 		case LayoutPackage.LABEL_BLOCK: {
 			LabelBlock labelBlock = (LabelBlock) theEObject;
 			T result = caseLabelBlock(labelBlock);
-			if (result == null)
+			if (result == null) {
 				result = caseBlock(labelBlock);
-			if (result == null)
+			}
+			if (result == null) {
 				result = defaultCase(theEObject);
+			}
 			return result;
 		}
 		case LayoutPackage.LEGEND: {
 			Legend legend = (Legend) theEObject;
 			T result = caseLegend(legend);
-			if (result == null)
+			if (result == null) {
 				result = caseBlock(legend);
-			if (result == null)
+			}
+			if (result == null) {
 				result = defaultCase(theEObject);
+			}
 			return result;
 		}
 		case LayoutPackage.PLOT: {
 			Plot plot = (Plot) theEObject;
 			T result = casePlot(plot);
-			if (result == null)
+			if (result == null) {
 				result = caseBlock(plot);
-			if (result == null)
+			}
+			if (result == null) {
 				result = defaultCase(theEObject);
+			}
 			return result;
 		}
 		case LayoutPackage.TITLE_BLOCK: {
 			TitleBlock titleBlock = (TitleBlock) theEObject;
 			T result = caseTitleBlock(titleBlock);
-			if (result == null)
+			if (result == null) {
 				result = caseLabelBlock(titleBlock);
-			if (result == null)
+			}
+			if (result == null) {
 				result = caseBlock(titleBlock);
-			if (result == null)
+			}
+			if (result == null) {
 				result = defaultCase(theEObject);
+			}
 			return result;
 		}
 		default:
@@ -155,7 +169,7 @@ public class LayoutSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Block</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Block</em>'.
@@ -170,7 +184,7 @@ public class LayoutSwitch<T> {
 	 * Returns the result of interpretting the object as an instance of '<em>Client
 	 * Area</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Client
 	 *         Area</em>'.
@@ -185,7 +199,7 @@ public class LayoutSwitch<T> {
 	 * Returns the result of interpretting the object as an instance of '<em>Label
 	 * Block</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Label
 	 *         Block</em>'.
@@ -200,7 +214,7 @@ public class LayoutSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Legend</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Legend</em>'.
@@ -215,7 +229,7 @@ public class LayoutSwitch<T> {
 	 * Returns the result of interpreting the object as an instance of
 	 * '<em>Plot</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>Plot</em>'.
@@ -230,7 +244,7 @@ public class LayoutSwitch<T> {
 	 * Returns the result of interpretting the object as an instance of '<em>Title
 	 * Block</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Title
 	 *         Block</em>'.
@@ -246,7 +260,7 @@ public class LayoutSwitch<T> {
 	 * '<em>EObject</em>'. <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last
 	 * case anyway. <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of
 	 *         '<em>EObject</em>'.

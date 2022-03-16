@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,10 +52,11 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#resetUIData()
 	 */
+	@Override
 	public void load() {
 		String value = provider.load().toString();
 
@@ -61,14 +65,16 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor {
 			spinner.setEnabled(value != null);
 			combo.setEnabled(value != null);
 		}
-		if (value == null)
+		if (value == null) {
 			return;
+		}
 		String spinnerValue = provider.getMeasureValue();
 		BigDecimal bigValue = new BigDecimal(spinnerValue);
 		spinner.setSelection(bigValue.doubleValue());
 
-		if (combo.getItems() == null || combo.getItemCount() == 0)
+		if (combo.getItems() == null || combo.getItemCount() == 0) {
 			combo.setItems(provider.getUnits());
+		}
 		String comboValue = provider.getDefaultUnit();
 		if (provider.getUnitDisplayName(comboValue) == null) {
 			combo.deselectAll();
@@ -82,20 +88,22 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
+	@Override
 	public Control getControl() {
 		return container;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Control createControl(Composite parent) {
 		container = new Composite(parent, SWT.NONE);
 		FormLayout layout = new FormLayout();
@@ -113,10 +121,11 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor {
 		Label label = FormWidgetFactory.getInstance().createLabel(container, isFormStyle());
 		label.setText(provider.getDisplayName());
 
-		if (isFormStyle())
+		if (isFormStyle()) {
 			spinner = FormWidgetFactory.getInstance().createCSpinner(container);
-		else
+		} else {
 			spinner = new CSpinner(container, SWT.BORDER);
+		}
 		spinner.setMaximum(Short.MAX_VALUE);
 		spinner.setMinimum(-Short.MAX_VALUE);
 		spinner.setStep(0.25);
@@ -124,6 +133,7 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor {
 		spinner.setFormatPattern("0.00"); //$NON-NLS-1$
 		spinner.addValueChangeListener(new IValueChangedListener() {
 
+			@Override
 			public void valueChanged(double newValue) {
 				handleSelectedEvent();
 			}
@@ -133,10 +143,12 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor {
 		if (!isFormStyle()) {
 			combo = new CCombo(container, SWT.BORDER | SWT.READ_ONLY);
 			combo.setVisibleItemCount(30);
-		} else
+		} else {
 			combo = FormWidgetFactory.getInstance().createCCombo(container, true);
+		}
 		combo.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleSelectedEvent();
 			}
@@ -165,13 +177,16 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor {
 
 	private MarginsPropertyDescriptorProvider provider;
 
+	@Override
 	public void setDescriptorProvider(IDescriptorProvider provider) {
 		super.setDescriptorProvider(provider);
-		if (provider instanceof MarginsPropertyDescriptorProvider)
+		if (provider instanceof MarginsPropertyDescriptorProvider) {
 			this.provider = (MarginsPropertyDescriptorProvider) provider;
+		}
 
 	}
 
+	@Override
 	public void save(Object obj) throws SemanticException {
 		provider.save(obj);
 	}
@@ -184,6 +199,7 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor {
 		container.setVisible(isVisible);
 	}
 
+	@Override
 	public void setInput(Object input) {
 		super.setInput(input);
 		getDescriptorProvider().setInput(input);

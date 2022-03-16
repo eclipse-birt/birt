@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -48,7 +51,7 @@ public class ColumnDragTracker extends TableDragGuideTracker {
 
 	/**
 	 * Creates new ColumnDragtrcker, for resize the table column width
-	 * 
+	 *
 	 * @param sourceEditPart
 	 * @param start
 	 * @param end
@@ -66,6 +69,7 @@ public class ColumnDragTracker extends TableDragGuideTracker {
 		return super.getDefaultCursor();
 	}
 
+	@Override
 	protected void resize() {
 		TableEditPart part = (TableEditPart) getSourceEditPart();
 		int value = getMouseTrueValueX();
@@ -158,22 +162,16 @@ public class ColumnDragTracker extends TableDragGuideTracker {
 			return;
 		}
 
-		int startWidth = 0;
-		int endWidth = 0;
+		int startWidth;
+		int endWidth;
 
-		startWidth = TableUtil.caleVisualWidth( part, startColumn );
-		endWidth = TableUtil.caleVisualWidth( part, endColumn );
-		try
-		{
-			MetricUtility.updateDimension(
-					( (ColumnHandle) startColumn ).getWidth( ),
-					startWidth + value );
+		startWidth = TableUtil.caleVisualWidth(part, startColumn);
+		endWidth = TableUtil.caleVisualWidth(part, endColumn);
+		try {
+			MetricUtility.updateDimension(((ColumnHandle) startColumn).getWidth(), startWidth + value);
 
-			if ( !isCtrlDown( ) && start != end )
-			{
-				MetricUtility.updateDimension(
-						( (ColumnHandle) endColumn ).getWidth( ),
-						endWidth - value );
+			if (!isCtrlDown() && start != end) {
+				MetricUtility.updateDimension(((ColumnHandle) endColumn).getWidth(), endWidth - value);
 			}
 		} catch (SemanticException e) {
 			ExceptionHandler.handle(e);
@@ -202,6 +200,7 @@ public class ColumnDragTracker extends TableDragGuideTracker {
 		return false;
 	}
 
+	@Override
 	protected Rectangle getMarqueeSelectionRectangle() {
 		IFigure figure = ((TableEditPart) getSourceEditPart()).getFigure();
 		Insets insets = figure.getInsets();
@@ -219,6 +218,7 @@ public class ColumnDragTracker extends TableDragGuideTracker {
 
 	}
 
+	@Override
 	protected Dimension getDragWidth(int start, int end) {
 		TableEditPart part = (TableEditPart) getSourceEditPart();
 		if (isCtrlDown()) {
@@ -239,17 +239,18 @@ public class ColumnDragTracker extends TableDragGuideTracker {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.tools.AbstractTool#setCursor(org.eclipse.swt.graphics.Cursor)
 	 */
+	@Override
 	protected void setCursor(Cursor cursor) {
 		super.setCursor(cursor);
 	}
 
 	/**
 	 * Gets the column width
-	 * 
+	 *
 	 * @param columnNumber
 	 * @return
 	 */
@@ -265,7 +266,7 @@ public class ColumnDragTracker extends TableDragGuideTracker {
 
 	/**
 	 * Gets the column width
-	 * 
+	 *
 	 * @param column
 	 * @return
 	 */
@@ -275,7 +276,7 @@ public class ColumnDragTracker extends TableDragGuideTracker {
 
 	/**
 	 * Gets the TableEditPart
-	 * 
+	 *
 	 * @return
 	 */
 	protected TableEditPart getTableEditPart() {

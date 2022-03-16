@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +24,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * Presents border of margin
- * 
+ *
  */
 public class ReportDesignMarginBorder extends LineBorder {
 
@@ -33,7 +36,7 @@ public class ReportDesignMarginBorder extends LineBorder {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param insets
 	 */
 	public ReportDesignMarginBorder(Insets insets) {
@@ -76,6 +79,7 @@ public class ReportDesignMarginBorder extends LineBorder {
 		g.restoreState();
 	}
 
+	@Override
 	public Insets getBorderInsets() {
 		return new Insets(marginInsets).add(super.getBorderInsets());
 		// return super.getBorderInsets( );
@@ -90,7 +94,7 @@ public class ReportDesignMarginBorder extends LineBorder {
 
 	/**
 	 * Gets the margin insets
-	 * 
+	 *
 	 * @return
 	 */
 	public Insets getMarginInsets() {
@@ -104,7 +108,7 @@ public class ReportDesignMarginBorder extends LineBorder {
 
 	/**
 	 * Gets the margin insets
-	 * 
+	 *
 	 * @param marginInsets
 	 */
 	public void setMarginInsets(Insets marginInsets) {

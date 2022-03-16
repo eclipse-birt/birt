@@ -1,11 +1,14 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ *
+ * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.query.view;
@@ -29,8 +32,7 @@ public class DrillOperationExecutor {
 		IEdgeDefinition rowEdge = iCubeQueryDefinition.getEdge(ICubeQueryDefinition.ROW_EDGE);
 		List<DrillOnDimensionHierarchy> columnDrill = CubeQueryDefinitionUtil.flatternDrillFilter(columnEdge);
 		List<DrillOnDimensionHierarchy> rowDrill = CubeQueryDefinitionUtil.flatternDrillFilter(rowEdge);
-		List<DrillOnDimensionHierarchy> combinedDrill = new ArrayList<DrillOnDimensionHierarchy>();
-		combinedDrill.addAll(rowDrill);
+		List<DrillOnDimensionHierarchy> combinedDrill = new ArrayList<>(rowDrill);
 		combinedDrill.addAll(columnDrill);
 
 		int index = 0;
@@ -51,7 +53,7 @@ public class DrillOperationExecutor {
 
 		if (!combinedDrill.isEmpty()) {
 			for (int i = index; i < aggregationRsFromCube.length; i++) {
-				List<IAggregationResultSet> drillRs = new ArrayList<IAggregationResultSet>();
+				List<IAggregationResultSet> drillRs = new ArrayList<>();
 				for (int j = 0; j < aggregationRsForDrill.length; j++) {
 					if (aggregationRsForDrill[j].getAggregationDefinition().getDrilledInfo() != null
 							&& aggregationRsForDrill[j].getAggregationDefinition().getDrilledInfo()
@@ -75,8 +77,9 @@ public class DrillOperationExecutor {
 			IAggregationResultSet[] aggregationRsFromDrill, List<DrillOnDimensionHierarchy> drillFilters)
 			throws IOException, DataException {
 		if (aggregationRsFromCube.getAllLevels() == null || aggregationRsFromCube.getAllLevels().length == 0
-				|| aggregationRsFromCube.length() == 0)
+				|| aggregationRsFromCube.length() == 0) {
 			return aggregationRsFromCube;
+		}
 		DrilledAggregateResultSet rs = new DrilledAggregateResultSet(aggregationRsFromCube, aggregationRsFromDrill,
 				drillFilters);
 		return rs;

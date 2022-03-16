@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +24,7 @@ public class VersionUtil {
 
 	private static final int SUPPORTED_VERSION_TOKEN_LENGTH = 4;
 
-	private static final int[] expoArray = new int[] { 1000000, 10000, 100, 1 };
+	private static final int[] expoArray = { 1000000, 10000, 100, 1 };
 
 	public final static int VERSION_0 = 0;
 
@@ -77,16 +80,19 @@ public class VersionUtil {
 
 	public static final int VERSION_3_2_23 = 3022300;
 
+	public static final int VERSION_3_2_24 = 3022400;
+
 	/**
-	 * 
+	 *
 	 * @param version
 	 * @return the parsed version number
 	 * @throws IllegalArgumentException thrown when the version string is illegal
 	 */
 
 	public static int parseVersion(String version) throws IllegalArgumentException {
-		if (StringUtil.isBlank(version))
+		if (StringUtil.isBlank(version)) {
 			return 0;
+		}
 
 		// parse the version string, for example
 		// 3.1.2(.0) -- 3010200, two byte for one version token
@@ -94,8 +100,9 @@ public class VersionUtil {
 		String[] versionTokers = version.split("\\."); //$NON-NLS-1$
 		int parsedVersionNumber = 0;
 		for (int i = 0; i < versionTokers.length; i++) {
-			if (i > SUPPORTED_VERSION_TOKEN_LENGTH)
+			if (i > SUPPORTED_VERSION_TOKEN_LENGTH) {
 				break;
+			}
 
 			byte versionShort;
 			try {
@@ -103,8 +110,9 @@ public class VersionUtil {
 			} catch (NumberFormatException e) {
 				throw new IllegalArgumentException("the version string is wrong!"); //$NON-NLS-1$
 			}
-			if (versionShort > 99)
+			if (versionShort > 99) {
 				throw new IllegalArgumentException("the version string is wrong!"); //$NON-NLS-1$
+			}
 			parsedVersionNumber += versionShort * expoArray[i];
 		}
 		// add the parsed version to the cache map

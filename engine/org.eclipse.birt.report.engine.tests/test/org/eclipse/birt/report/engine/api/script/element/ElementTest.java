@@ -1,17 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.api.script.element;
-
-import junit.framework.TestCase;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.script.internal.element.ActionImpl;
@@ -67,11 +68,13 @@ import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 
 import com.ibm.icu.util.ULocale;
 
+import junit.framework.TestCase;
+
 /**
  * Tests the report element representations in the scripting environment.
  * Basically tests that all getters/setter correspond correctly to each other
  * (setFoo("foo") -> getFoo() should return "foo").
- * 
+ *
  */
 public class ElementTest extends TestCase {
 
@@ -245,6 +248,7 @@ public class ElementTest extends TestCase {
 
 	private ReportDesignHandle designHandle;
 
+	@Override
 	public void setUp() {
 		SessionHandle sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
 		designHandle = sessionHandle.createDesign();
@@ -386,7 +390,7 @@ public class ElementTest extends TestCase {
 
 	/**
 	 * Test <code>IDataBinding</code> method.
-	 * 
+	 *
 	 * @throws ScriptException
 	 * @throws SemanticException
 	 */
@@ -431,7 +435,7 @@ public class ElementTest extends TestCase {
 	/**
 	 * Tests addColumnBinding , addHighLightRule , addHideRule , addFilterCondition
 	 * , addSortCondition.
-	 * 
+	 *
 	 * @throws SemanticException
 	 * @throws ScriptException
 	 */
@@ -491,7 +495,7 @@ public class ElementTest extends TestCase {
 
 	/**
 	 * Test <code>IHighLightRule</code>
-	 * 
+	 *
 	 * @throws SemanticException
 	 * @throws ScriptException
 	 */
@@ -558,7 +562,7 @@ public class ElementTest extends TestCase {
 
 	/**
 	 * Test <code>IFilterCondition</code>
-	 * 
+	 *
 	 * @throws SemanticException
 	 * @throws ScriptException
 	 */
@@ -591,7 +595,7 @@ public class ElementTest extends TestCase {
 
 	/**
 	 * Test <code>ISortCondition</code>
-	 * 
+	 *
 	 * @throws SemanticException
 	 * @throws ScriptException
 	 */
@@ -619,7 +623,7 @@ public class ElementTest extends TestCase {
 
 	/**
 	 * Test <code>IHideRule</code>
-	 * 
+	 *
 	 * @throws SemanticException
 	 * @throws ScriptException
 	 */

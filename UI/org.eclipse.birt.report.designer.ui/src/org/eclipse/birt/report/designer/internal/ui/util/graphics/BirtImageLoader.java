@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +43,7 @@ public class BirtImageLoader {
 
 	/**
 	 * load file into byte array with given file name.
-	 * 
+	 *
 	 * @param fileName
 	 * @return byte array data of image file.
 	 * @throws IOException
@@ -73,7 +76,7 @@ public class BirtImageLoader {
 
 	/**
 	 * Loads given image file into given Design file.
-	 * 
+	 *
 	 * @param handle   design file instance handle
 	 * @param fileName file name of image
 	 * @return
@@ -86,11 +89,11 @@ public class BirtImageLoader {
 
 	/**
 	 * Loads given image file into given Design file.
-	 * 
+	 *
 	 * @param handle    design file instance handle
 	 * @param fileName  file name of image
 	 * @param imageName name of embedded image
-	 * 
+	 *
 	 * @return
 	 * @throws SemanticException
 	 * @throws IOException
@@ -112,13 +115,15 @@ public class BirtImageLoader {
 			String suffix = imageName.substring(imageName.lastIndexOf(".") + 1) //$NON-NLS-1$
 					.toLowerCase();
 			String type = IMG_PREFIX + suffix;
-			if (SVG.equals(suffix))
+			if (SVG.equals(suffix)) {
 				type = IMG_PREFIX + MIME_SVG;
-			else if (ICO.equals(suffix))
+			} else if (ICO.equals(suffix)) {
 				type = IMG_PREFIX + MIME_ICO;
+			}
 			for (IChoice choice : DATA_TYPE_CHOICE_SET.getChoices()) {
-				if (choice.getValue().equals(type))
+				if (choice.getValue().equals(type)) {
 					return choice.getValue().toString();
+				}
 			}
 		}
 		return null;

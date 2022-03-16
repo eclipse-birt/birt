@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -36,7 +39,7 @@ public final class GanttEntry implements IDataPointEntry {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param dateStart
 	 * @param dateEnd
 	 * @param strLabel
@@ -49,7 +52,7 @@ public final class GanttEntry implements IDataPointEntry {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param dateStart
 	 * @param dateEnd
 	 * @param strLabel
@@ -62,7 +65,7 @@ public final class GanttEntry implements IDataPointEntry {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param dateStart
 	 * @param dateEnd
 	 * @param strLabel
@@ -75,7 +78,7 @@ public final class GanttEntry implements IDataPointEntry {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param oaThreeComponents
 	 */
 	GanttEntry(Object[] oaThreeComponents) {
@@ -100,9 +103,10 @@ public final class GanttEntry implements IDataPointEntry {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		return getFormattedString(null, ULocale.getDefault());
 	}
@@ -110,51 +114,52 @@ public final class GanttEntry implements IDataPointEntry {
 	/**
 	 * @return Returns the start datetime.
 	 */
-	public final CDateTime getStart() {
+	public CDateTime getStart() {
 		return dateStart;
 	}
 
 	/**
 	 * @param start The start datetime to set.
 	 */
-	public final void setStart(CDateTime start) {
+	public void setStart(CDateTime start) {
 		this.dateStart = start;
 	}
 
 	/**
 	 * @return Returns the end datetime.
 	 */
-	public final CDateTime getEnd() {
+	public CDateTime getEnd() {
 		return dateEnd;
 	}
 
 	/**
 	 * @param end The end datetime to set.
 	 */
-	public final void setEnd(CDateTime end) {
+	public void setEnd(CDateTime end) {
 		this.dateEnd = end;
 	}
 
 	/**
 	 * @return Returns the label.
 	 */
-	public final String getLabel() {
+	public String getLabel() {
 		return strLabel;
 	}
 
 	/**
 	 * @param end The label to set.
 	 */
-	public final void setLabel(String strLabel) {
+	public void setLabel(String strLabel) {
 		this.strLabel = strLabel;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.datafeed.IFormattable#getFormattedString(java.
 	 * lang.Object, com.ibm.icu.util.ULocale)
 	 */
+	@Override
 	public String getFormattedString(FormatSpecifier formatter, ULocale locale) {
 		String strStart = getFormattedString(GanttDataPointDefinition.TYPE_START_DATE, formatter, locale);
 		String strEnd = getFormattedString(GanttDataPointDefinition.TYPE_END_DATE, formatter, locale);
@@ -166,6 +171,7 @@ public final class GanttEntry implements IDataPointEntry {
 		return formattedString;
 	}
 
+	@Override
 	public String getFormattedString(String type, FormatSpecifier formatter, ULocale locale) {
 		String str = "";//$NON-NLS-1$
 		try {
@@ -183,6 +189,7 @@ public final class GanttEntry implements IDataPointEntry {
 		return str;
 	}
 
+	@Override
 	public boolean isValid() {
 		return (dateStart != null || dateEnd != null);
 	}

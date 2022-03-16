@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -47,10 +50,10 @@ public class EventObjectCache {
 
 	/**
 	 * Creates or returns the requested event object from local cache.
-	 * 
+	 *
 	 * @param oSource
 	 * @param cType
-	 * 
+	 *
 	 * @return An instance of the requested event object that encapsulates rendering
 	 *         attributes
 	 */
@@ -62,13 +65,7 @@ public class EventObjectCache {
 				final Constructor<T> co = SecurityUtil.getConstructor(cType, new Class[] { Object.class });
 				event = co.newInstance(new Object[] { oSource });
 				_htEvents.put(cType, event);
-			} catch (NoSuchMethodException nsmex) {
-				logger.log(nsmex);
-			} catch (InvocationTargetException itex) {
-				logger.log(itex);
-			} catch (IllegalAccessException iaex) {
-				logger.log(iaex);
-			} catch (InstantiationException iex) {
+			} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException iex) {
 				logger.log(iex);
 			}
 		} else {
@@ -80,18 +77,14 @@ public class EventObjectCache {
 
 	/**
 	 * Validates the line attributes.
-	 * 
+	 *
 	 * @param oSource
 	 * @param lia
 	 * @return
 	 * @throws ChartException
 	 */
 	protected final boolean validateLineAttributes(Object oSource, LineAttributes lia) throws ChartException {
-		if (lia == null) {
-			return false;
-		}
-
-		if (!lia.isVisible()) {
+		if ((lia == null) || !lia.isVisible()) {
 			return false;
 		}
 
@@ -100,7 +93,7 @@ public class EventObjectCache {
 
 	/**
 	 * Validates the color attributes.
-	 * 
+	 *
 	 * @param cdEdge
 	 * @param fBackground
 	 * @param ids
@@ -123,7 +116,7 @@ public class EventObjectCache {
 
 	/**
 	 * Checkes if given fill is fully transparent.
-	 * 
+	 *
 	 * @param fill
 	 * @return
 	 */

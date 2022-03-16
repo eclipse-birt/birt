@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +40,7 @@ public class TableRowPropSearchStrategy extends PropertySearchStrategy {
 	/**
 	 * Returns the instance of <code>TableRowPropSearchStrategy</code> which provide
 	 * the specific property searching route for <code>TableRow</code>.
-	 * 
+	 *
 	 * @return the instance of <code>TableRowPropSearchStrategy</code>
 	 */
 
@@ -47,19 +50,21 @@ public class TableRowPropSearchStrategy extends PropertySearchStrategy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.PropertySearchStrategy#
 	 * getNonIntrinsicPropertyFromElement
 	 * (org.eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
+	@Override
 	protected Object getNonIntrinsicPropertyFromElement(Module module, DesignElement element,
 			ElementPropertyDefn prop) {
 		if (IStyleModel.TEXT_ALIGN_PROP.equalsIgnoreCase(prop.getName())) {
 			Object value = super.getNonIntrinsicPropertyFromElement(module, element, prop);
-			if (value != null)
+			if (value != null) {
 				return value;
+			}
 
 			DesignElement container = element.getContainer();
 			if (container instanceof TableItem
@@ -69,8 +74,9 @@ public class TableRowPropSearchStrategy extends PropertySearchStrategy {
 				// if the cell is table-header-cell and no property is set in
 				// the property search path, then return context default
 				// 'center'
-				if (value == null)
+				if (value == null) {
 					return DesignChoiceConstants.TEXT_ALIGN_CENTER;
+				}
 			}
 			return null;
 
@@ -79,17 +85,20 @@ public class TableRowPropSearchStrategy extends PropertySearchStrategy {
 		return super.getNonIntrinsicPropertyFromElement(module, element, prop);
 	}
 
+	@Override
 	public Object getPropertyFromSlotSelector(Module module, DesignElement element, ElementPropertyDefn prop,
 			PropertyValueInfo valueInfo) {
 		// 1. try to get predefined value from slot selector
 		Object value = super.getPropertyFromSlotSelector(module, element, prop, valueInfo);
-		if (value != null)
+		if (value != null) {
 			return value;
+		}
 
 		// 2. try to get the predefined value for all table rows
 		DesignElement rowContainer = element.getContainer();
-		if (rowContainer == null)
+		if (rowContainer == null) {
 			return null;
+		}
 		String selector = null;
 		if (rowContainer instanceof TableItem) {
 			selector = "table-row";

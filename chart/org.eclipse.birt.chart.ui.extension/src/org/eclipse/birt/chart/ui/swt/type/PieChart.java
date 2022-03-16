@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -71,39 +74,43 @@ public class PieChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getTypeName()
 	 */
+	@Override
 	public String getName() {
 		return TYPE_LITERAL;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getTypeName()
 	 */
+	@Override
 	public Image getImage() {
 		return UIHelper.getImage("icons/obj16/piecharticon.gif"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getHelp()
 	 */
+	@Override
 	public IHelpContent getHelp() {
 		return new HelpContentImpl(TYPE_LITERAL, Messages.getString("PieChart.Txt.HelpText")); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(
 	 * java.lang.String)
 	 */
+	@Override
 	public Collection<IChartSubType> getChartSubtypes(String sDimension, Orientation orientation) {
-		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>();
+		Vector<IChartSubType> vSubTypes = new Vector<>();
 		// Do not respond to requests for unknown orientations
 		if (!orientation.equals(Orientation.VERTICAL_LITERAL)) {
 			return vSubTypes;
@@ -115,10 +122,11 @@ public class PieChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang
 	 * .String, java.lang.String, java.lang.String)
 	 */
+	@Override
 	public Chart getModel(String sSubType, Orientation orientation, String sDimension, Chart currentChart) {
 		ChartWithoutAxes newChart = null;
 		if (currentChart != null) {
@@ -206,7 +214,7 @@ public class PieChart extends DefaultChartTypeImpl {
 			// Copy series definitions from old chart
 			((ChartWithoutAxes) currentChart).getSeriesDefinitions()
 					.add(((ChartWithAxes) helperModel).getAxes().get(0).getSeriesDefinitions().get(0));
-			Vector<SeriesDefinition> vOSD = new Vector<SeriesDefinition>();
+			Vector<SeriesDefinition> vOSD = new Vector<>();
 
 			// Only convert series in primary orthogonal axis.
 			Axis primaryOrthogonalAxis = ((ChartWithAxes) helperModel)
@@ -299,30 +307,33 @@ public class PieChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions ()
 	 */
+	@Override
 	public String[] getSupportedDimensions() {
 		return new String[] { TWO_DIMENSION_TYPE, TWO_DIMENSION_WITH_DEPTH_TYPE };
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
 	 */
+	@Override
 	public String getDefaultDimension() {
 		return TWO_DIMENSION_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition ()
 	 */
+	@Override
 	public boolean supportsTransposition() {
 		return false;
 	}
@@ -334,6 +345,7 @@ public class PieChart extends DefaultChartTypeImpl {
 		return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
 	}
 
+	@Override
 	public ISelectDataComponent getBaseUI(Chart chart, ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
 			String sTitle) {
 		DefaultBaseSeriesComponent component = new DefaultBaseSeriesComponent(
@@ -344,27 +356,30 @@ public class PieChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return Messages.getString("PieChart.Txt.DisplayName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
 	 */
+	@Override
 	public Series getSeries() {
 		return getSeries(true);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
 	 */
+	@Override
 	public Series getSeries(boolean needInitializing) {
 		if (needInitializing) {
 			PieSeries pieseries = (PieSeries) PieSeriesImpl.create();
@@ -398,6 +413,7 @@ public class PieChart extends DefaultChartTypeImpl {
 		return Messages.getString("PieChart.SubType.Standard"); //$NON-NLS-1$
 	}
 
+	@Override
 	public String getValueDefinitionName() {
 		return Messages.getString("PieLeftAreaComponent.Label.SliceSizeDefinition"); //$NON-NLS-1$
 	}

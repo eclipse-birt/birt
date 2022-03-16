@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -47,7 +50,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -57,7 +60,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -67,7 +70,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 	/**
 	 * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -76,7 +79,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 	/**
 	 * The default value of the '{@link #getDetail() <em>Detail</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getDetail()
 	 * @generated
 	 * @ordered
@@ -86,7 +89,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 	/**
 	 * The cached value of the '{@link #getDetail() <em>Detail</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getDetail()
 	 * @generated
 	 * @ordered
@@ -96,7 +99,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 	/**
 	 * This is true if the Detail attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -104,7 +107,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected DateFormatSpecifierImpl() {
@@ -113,7 +116,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -123,40 +126,44 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (type: "); //$NON-NLS-1$
-		if (typeESet)
+		if (typeESet) {
 			result.append(type);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", detail: "); //$NON-NLS-1$
-		if (detailESet)
+		if (detailESet) {
 			result.append(detail);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public DateFormatType getType() {
 		return type;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws UndefinedValueException
 	 */
@@ -176,94 +183,105 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setType(DateFormatType newType) {
 		DateFormatType oldType = type;
 		type = newType == null ? TYPE_EDEFAULT : newType;
 		boolean oldTypeESet = typeESet;
 		typeESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATE_FORMAT_SPECIFIER__TYPE, oldType,
 					type, !oldTypeESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetType() {
 		DateFormatType oldType = type;
 		boolean oldTypeESet = typeESet;
 		type = TYPE_EDEFAULT;
 		typeESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.DATE_FORMAT_SPECIFIER__TYPE,
 					oldType, TYPE_EDEFAULT, oldTypeESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetType() {
 		return typeESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public DateFormatDetail getDetail() {
 		return detail;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setDetail(DateFormatDetail newDetail) {
 		DateFormatDetail oldDetail = detail;
 		detail = newDetail == null ? DETAIL_EDEFAULT : newDetail;
 		boolean oldDetailESet = detailESet;
 		detailESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL,
 					oldDetail, detail, !oldDetailESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetDetail() {
 		DateFormatDetail oldDetail = detail;
 		boolean oldDetailESet = detailESet;
 		detail = DETAIL_EDEFAULT;
 		detailESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL,
 					oldDetail, DETAIL_EDEFAULT, oldDetailESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetDetail() {
 		return detailESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -279,7 +297,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -297,7 +315,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -315,7 +333,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -329,6 +347,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 		return super.eIsSet(featureID);
 	}
 
+	@Override
 	public String format(Calendar c, ULocale lcl) {
 		DateFormat df = null;
 		if (getDetail().getValue() == DateFormatDetail.DATE_TIME) {
@@ -355,6 +374,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 		return df.format(c.getTime());
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
 	public String format(Calendar c, Locale lcl) {
 		return format(c, ULocale.forLocale(lcl));
@@ -363,6 +383,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 	/**
 	 * @generated
 	 */
+	@Override
 	public DateFormatSpecifier copyInstance() {
 		DateFormatSpecifierImpl dest = new DateFormatSpecifierImpl();
 		dest.set(this);

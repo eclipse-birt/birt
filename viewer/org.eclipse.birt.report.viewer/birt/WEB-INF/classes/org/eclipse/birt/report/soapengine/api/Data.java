@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * Data.java
  *
@@ -129,7 +141,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the font value for this Data.
-	 * 
+	 *
 	 * @return font
 	 */
 	public org.eclipse.birt.report.soapengine.api.Font getFont() {
@@ -138,7 +150,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the font value for this Data.
-	 * 
+	 *
 	 * @param font
 	 */
 	public void setFont(org.eclipse.birt.report.soapengine.api.Font font) {
@@ -147,7 +159,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the resultSets value for this Data.
-	 * 
+	 *
 	 * @return resultSets
 	 */
 	public org.eclipse.birt.report.soapengine.api.ResultSets getResultSets() {
@@ -156,7 +168,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the resultSets value for this Data.
-	 * 
+	 *
 	 * @param resultSets
 	 */
 	public void setResultSets(org.eclipse.birt.report.soapengine.api.ResultSets resultSets) {
@@ -165,7 +177,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the format value for this Data.
-	 * 
+	 *
 	 * @return format
 	 */
 	public org.eclipse.birt.report.soapengine.api.Format getFormat() {
@@ -174,7 +186,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the format value for this Data.
-	 * 
+	 *
 	 * @param format
 	 */
 	public void setFormat(org.eclipse.birt.report.soapengine.api.Format format) {
@@ -183,7 +195,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the TOC value for this Data.
-	 * 
+	 *
 	 * @return TOC
 	 */
 	public org.eclipse.birt.report.soapengine.api.TOC getTOC() {
@@ -192,7 +204,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the TOC value for this Data.
-	 * 
+	 *
 	 * @param TOC
 	 */
 	public void setTOC(org.eclipse.birt.report.soapengine.api.TOC TOC) {
@@ -201,7 +213,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the export value for this Data.
-	 * 
+	 *
 	 * @return export
 	 */
 	public org.eclipse.birt.report.soapengine.api.Export getExport() {
@@ -210,7 +222,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the export value for this Data.
-	 * 
+	 *
 	 * @param export
 	 */
 	public void setExport(org.eclipse.birt.report.soapengine.api.Export export) {
@@ -219,7 +231,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the cascadeParameter value for this Data.
-	 * 
+	 *
 	 * @return cascadeParameter
 	 */
 	public org.eclipse.birt.report.soapengine.api.CascadeParameter getCascadeParameter() {
@@ -228,7 +240,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the cascadeParameter value for this Data.
-	 * 
+	 *
 	 * @param cascadeParameter
 	 */
 	public void setCascadeParameter(org.eclipse.birt.report.soapengine.api.CascadeParameter cascadeParameter) {
@@ -237,7 +249,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the filter value for this Data.
-	 * 
+	 *
 	 * @return filter
 	 */
 	public org.eclipse.birt.report.soapengine.api.Filter getFilter() {
@@ -246,7 +258,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the filter value for this Data.
-	 * 
+	 *
 	 * @param filter
 	 */
 	public void setFilter(org.eclipse.birt.report.soapengine.api.Filter filter) {
@@ -255,7 +267,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the filterList value for this Data.
-	 * 
+	 *
 	 * @return filterList
 	 */
 	public org.eclipse.birt.report.soapengine.api.FilterList getFilterList() {
@@ -264,7 +276,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the filterList value for this Data.
-	 * 
+	 *
 	 * @param filterList
 	 */
 	public void setFilterList(org.eclipse.birt.report.soapengine.api.FilterList filterList) {
@@ -273,7 +285,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the columnValues value for this Data.
-	 * 
+	 *
 	 * @return columnValues
 	 */
 	public org.eclipse.birt.report.soapengine.api.Vector getColumnValues() {
@@ -282,7 +294,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the columnValues value for this Data.
-	 * 
+	 *
 	 * @param columnValues
 	 */
 	public void setColumnValues(org.eclipse.birt.report.soapengine.api.Vector columnValues) {
@@ -291,7 +303,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the page value for this Data.
-	 * 
+	 *
 	 * @return page
 	 */
 	public org.eclipse.birt.report.soapengine.api.Page getPage() {
@@ -300,7 +312,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the page value for this Data.
-	 * 
+	 *
 	 * @param page
 	 */
 	public void setPage(org.eclipse.birt.report.soapengine.api.Page page) {
@@ -309,7 +321,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the dataSets value for this Data.
-	 * 
+	 *
 	 * @return dataSets
 	 */
 	public org.eclipse.birt.report.soapengine.api.DataSetList getDataSets() {
@@ -318,7 +330,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the dataSets value for this Data.
-	 * 
+	 *
 	 * @param dataSets
 	 */
 	public void setDataSets(org.eclipse.birt.report.soapengine.api.DataSetList dataSets) {
@@ -327,7 +339,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the reportElementList value for this Data.
-	 * 
+	 *
 	 * @return reportElementList
 	 */
 	public org.eclipse.birt.report.soapengine.api.ReportElementList getReportElementList() {
@@ -336,7 +348,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the reportElementList value for this Data.
-	 * 
+	 *
 	 * @param reportElementList
 	 */
 	public void setReportElementList(org.eclipse.birt.report.soapengine.api.ReportElementList reportElementList) {
@@ -345,7 +357,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the themes value for this Data.
-	 * 
+	 *
 	 * @return themes
 	 */
 	public org.eclipse.birt.report.soapengine.api.ThemeList getThemes() {
@@ -354,7 +366,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the themes value for this Data.
-	 * 
+	 *
 	 * @param themes
 	 */
 	public void setThemes(org.eclipse.birt.report.soapengine.api.ThemeList themes) {
@@ -363,7 +375,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the columnDefs value for this Data.
-	 * 
+	 *
 	 * @return columnDefs
 	 */
 	public org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup getColumnDefs() {
@@ -372,7 +384,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the columnDefs value for this Data.
-	 * 
+	 *
 	 * @param columnDefs
 	 */
 	public void setColumnDefs(org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup columnDefs) {
@@ -381,7 +393,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the groupDetail value for this Data.
-	 * 
+	 *
 	 * @return groupDetail
 	 */
 	public org.eclipse.birt.report.soapengine.api.GroupDetail getGroupDetail() {
@@ -390,7 +402,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the groupDetail value for this Data.
-	 * 
+	 *
 	 * @param groupDetail
 	 */
 	public void setGroupDetail(org.eclipse.birt.report.soapengine.api.GroupDetail groupDetail) {
@@ -399,7 +411,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the cellDef value for this Data.
-	 * 
+	 *
 	 * @return cellDef
 	 */
 	public org.eclipse.birt.report.soapengine.api.CellDefinition getCellDef() {
@@ -408,7 +420,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the cellDef value for this Data.
-	 * 
+	 *
 	 * @param cellDef
 	 */
 	public void setCellDef(org.eclipse.birt.report.soapengine.api.CellDefinition cellDef) {
@@ -417,7 +429,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the sectionDef value for this Data.
-	 * 
+	 *
 	 * @return sectionDef
 	 */
 	public org.eclipse.birt.report.soapengine.api.SectionDefinition getSectionDef() {
@@ -426,7 +438,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the sectionDef value for this Data.
-	 * 
+	 *
 	 * @param sectionDef
 	 */
 	public void setSectionDef(org.eclipse.birt.report.soapengine.api.SectionDefinition sectionDef) {
@@ -435,7 +447,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the chart value for this Data.
-	 * 
+	 *
 	 * @return chart
 	 */
 	public org.eclipse.birt.report.soapengine.api.ChartProperties getChart() {
@@ -444,7 +456,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the chart value for this Data.
-	 * 
+	 *
 	 * @param chart
 	 */
 	public void setChart(org.eclipse.birt.report.soapengine.api.ChartProperties chart) {
@@ -453,7 +465,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the labelText value for this Data.
-	 * 
+	 *
 	 * @return labelText
 	 */
 	public java.lang.String getLabelText() {
@@ -462,7 +474,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the labelText value for this Data.
-	 * 
+	 *
 	 * @param labelText
 	 */
 	public void setLabelText(java.lang.String labelText) {
@@ -471,7 +483,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the fileBrowsing value for this Data.
-	 * 
+	 *
 	 * @return fileBrowsing
 	 */
 	public org.eclipse.birt.report.soapengine.api.FileBrowsing getFileBrowsing() {
@@ -480,7 +492,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the fileBrowsing value for this Data.
-	 * 
+	 *
 	 * @param fileBrowsing
 	 */
 	public void setFileBrowsing(org.eclipse.birt.report.soapengine.api.FileBrowsing fileBrowsing) {
@@ -489,7 +501,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the dataSources value for this Data.
-	 * 
+	 *
 	 * @return dataSources
 	 */
 	public org.eclipse.birt.report.soapengine.api.DataSourceList getDataSources() {
@@ -498,7 +510,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the dataSources value for this Data.
-	 * 
+	 *
 	 * @param dataSources
 	 */
 	public void setDataSources(org.eclipse.birt.report.soapengine.api.DataSourceList dataSources) {
@@ -507,7 +519,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the bindingList value for this Data.
-	 * 
+	 *
 	 * @return bindingList
 	 */
 	public org.eclipse.birt.report.soapengine.api.BindingList getBindingList() {
@@ -516,7 +528,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the bindingList value for this Data.
-	 * 
+	 *
 	 * @param bindingList
 	 */
 	public void setBindingList(org.eclipse.birt.report.soapengine.api.BindingList bindingList) {
@@ -525,7 +537,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the dataSetDef value for this Data.
-	 * 
+	 *
 	 * @return dataSetDef
 	 */
 	public org.eclipse.birt.report.soapengine.api.DataSet getDataSetDef() {
@@ -534,7 +546,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the dataSetDef value for this Data.
-	 * 
+	 *
 	 * @param dataSetDef
 	 */
 	public void setDataSetDef(org.eclipse.birt.report.soapengine.api.DataSet dataSetDef) {
@@ -543,7 +555,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the dataSetsToUse value for this Data.
-	 * 
+	 *
 	 * @return dataSetsToUse
 	 */
 	public org.eclipse.birt.report.soapengine.api.DataSetList getDataSetsToUse() {
@@ -552,7 +564,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the dataSetsToUse value for this Data.
-	 * 
+	 *
 	 * @param dataSetsToUse
 	 */
 	public void setDataSetsToUse(org.eclipse.birt.report.soapengine.api.DataSetList dataSetsToUse) {
@@ -561,7 +573,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the designState value for this Data.
-	 * 
+	 *
 	 * @return designState
 	 */
 	public org.eclipse.birt.report.soapengine.api.DesignState getDesignState() {
@@ -570,7 +582,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the designState value for this Data.
-	 * 
+	 *
 	 * @param designState
 	 */
 	public void setDesignState(org.eclipse.birt.report.soapengine.api.DesignState designState) {
@@ -579,7 +591,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the toolbarState value for this Data.
-	 * 
+	 *
 	 * @return toolbarState
 	 */
 	public org.eclipse.birt.report.soapengine.api.ToolbarState getToolbarState() {
@@ -588,7 +600,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the toolbarState value for this Data.
-	 * 
+	 *
 	 * @param toolbarState
 	 */
 	public void setToolbarState(org.eclipse.birt.report.soapengine.api.ToolbarState toolbarState) {
@@ -597,7 +609,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the redirectURL value for this Data.
-	 * 
+	 *
 	 * @return redirectURL
 	 */
 	public java.lang.String getRedirectURL() {
@@ -606,7 +618,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the redirectURL value for this Data.
-	 * 
+	 *
 	 * @param redirectURL
 	 */
 	public void setRedirectURL(java.lang.String redirectURL) {
@@ -615,7 +627,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the popupURL value for this Data.
-	 * 
+	 *
 	 * @return popupURL
 	 */
 	public java.lang.String getPopupURL() {
@@ -624,7 +636,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the popupURL value for this Data.
-	 * 
+	 *
 	 * @param popupURL
 	 */
 	public void setPopupURL(java.lang.String popupURL) {
@@ -633,7 +645,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the BRDExpression value for this Data.
-	 * 
+	 *
 	 * @return BRDExpression
 	 */
 	public org.eclipse.birt.report.soapengine.api.BRDExpression getBRDExpression() {
@@ -642,7 +654,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the BRDExpression value for this Data.
-	 * 
+	 *
 	 * @param BRDExpression
 	 */
 	public void setBRDExpression(org.eclipse.birt.report.soapengine.api.BRDExpression BRDExpression) {
@@ -651,7 +663,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the joinMetadata value for this Data.
-	 * 
+	 *
 	 * @return joinMetadata
 	 */
 	public org.eclipse.birt.report.soapengine.api.JoinMetadata getJoinMetadata() {
@@ -660,7 +672,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the joinMetadata value for this Data.
-	 * 
+	 *
 	 * @param joinMetadata
 	 */
 	public void setJoinMetadata(org.eclipse.birt.report.soapengine.api.JoinMetadata joinMetadata) {
@@ -669,7 +681,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the boundDataColumnList value for this Data.
-	 * 
+	 *
 	 * @return boundDataColumnList
 	 */
 	public org.eclipse.birt.report.soapengine.api.BoundDataColumnList getBoundDataColumnList() {
@@ -678,7 +690,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the boundDataColumnList value for this Data.
-	 * 
+	 *
 	 * @param boundDataColumnList
 	 */
 	public void setBoundDataColumnList(org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList) {
@@ -687,7 +699,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the IOInfoList value for this Data.
-	 * 
+	 *
 	 * @return IOInfoList
 	 */
 	public org.eclipse.birt.report.soapengine.api.IOInfoList getIOInfoList() {
@@ -696,7 +708,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the IOInfoList value for this Data.
-	 * 
+	 *
 	 * @param IOInfoList
 	 */
 	public void setIOInfoList(org.eclipse.birt.report.soapengine.api.IOInfoList IOInfoList) {
@@ -705,7 +717,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the tableColContextMenu value for this Data.
-	 * 
+	 *
 	 * @return tableColContextMenu
 	 */
 	public org.eclipse.birt.report.soapengine.api.TableColContextMenuState getTableColContextMenu() {
@@ -714,7 +726,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the tableColContextMenu value for this Data.
-	 * 
+	 *
 	 * @param tableColContextMenu
 	 */
 	public void setTableColContextMenu(
@@ -724,7 +736,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the tableSectContextMenu value for this Data.
-	 * 
+	 *
 	 * @return tableSectContextMenu
 	 */
 	public org.eclipse.birt.report.soapengine.api.TableSectionContextMenuState getTableSectContextMenu() {
@@ -733,7 +745,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the tableSectContextMenu value for this Data.
-	 * 
+	 *
 	 * @param tableSectContextMenu
 	 */
 	public void setTableSectContextMenu(
@@ -743,7 +755,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the tableContextMenu value for this Data.
-	 * 
+	 *
 	 * @return tableContextMenu
 	 */
 	public org.eclipse.birt.report.soapengine.api.TableContextMenuState getTableContextMenu() {
@@ -752,7 +764,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the tableContextMenu value for this Data.
-	 * 
+	 *
 	 * @param tableContextMenu
 	 */
 	public void setTableContextMenu(org.eclipse.birt.report.soapengine.api.TableContextMenuState tableContextMenu) {
@@ -761,7 +773,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the confirmation value for this Data.
-	 * 
+	 *
 	 * @return confirmation
 	 */
 	public java.lang.String getConfirmation() {
@@ -770,7 +782,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the confirmation value for this Data.
-	 * 
+	 *
 	 * @param confirmation
 	 */
 	public void setConfirmation(java.lang.String confirmation) {
@@ -779,7 +791,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the tableLayoutList value for this Data.
-	 * 
+	 *
 	 * @return tableLayoutList
 	 */
 	public org.eclipse.birt.report.soapengine.api.TableLayoutList getTableLayoutList() {
@@ -788,7 +800,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the tableLayoutList value for this Data.
-	 * 
+	 *
 	 * @param tableLayoutList
 	 */
 	public void setTableLayoutList(org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList) {
@@ -797,7 +809,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the availableOperation value for this Data.
-	 * 
+	 *
 	 * @return availableOperation
 	 */
 	public org.eclipse.birt.report.soapengine.api.AvailableOperation getAvailableOperation() {
@@ -806,7 +818,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the availableOperation value for this Data.
-	 * 
+	 *
 	 * @param availableOperation
 	 */
 	public void setAvailableOperation(org.eclipse.birt.report.soapengine.api.AvailableOperation availableOperation) {
@@ -815,7 +827,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Gets the sortDefinitionList value for this Data.
-	 * 
+	 *
 	 * @return sortDefinitionList
 	 */
 	public org.eclipse.birt.report.soapengine.api.SortDefinitionList getSortDefinitionList() {
@@ -824,7 +836,7 @@ public class Data implements java.io.Serializable {
 
 	/**
 	 * Sets the sortDefinitionList value for this Data.
-	 * 
+	 *
 	 * @param sortDefinitionList
 	 */
 	public void setSortDefinitionList(org.eclipse.birt.report.soapengine.api.SortDefinitionList sortDefinitionList) {
@@ -833,14 +845,18 @@ public class Data implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof Data))
+		if (!(obj instanceof Data)) {
 			return false;
+		}
 		Data other = (Data) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -937,6 +953,7 @@ public class Data implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

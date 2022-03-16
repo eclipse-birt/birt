@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -31,7 +34,7 @@ import org.apache.tools.ant.TaskContainer;
 
 /**
  * this custom task implement for-each logic
- * 
+ *
  */
 public class ForEach extends Task implements TaskContainer {
 
@@ -82,7 +85,7 @@ public class ForEach extends Task implements TaskContainer {
 	/**
 	 * Set a project list reference, this task will be executed over the list of
 	 * projects.
-	 * 
+	 *
 	 * @param id a project list reference.
 	 */
 
@@ -104,7 +107,7 @@ public class ForEach extends Task implements TaskContainer {
 	/**
 	 * Add a dynamic property. Dynamic property has its own semantics, its runtime
 	 * value will be different to different targets.
-	 * 
+	 *
 	 * @param property a new dynamic property.
 	 */
 
@@ -114,7 +117,7 @@ public class ForEach extends Task implements TaskContainer {
 
 	/**
 	 * Whether the task will fail if any containing task failed.
-	 * 
+	 *
 	 * @param f
 	 */
 	public void setFailOnError(boolean f) {
@@ -124,20 +127,22 @@ public class ForEach extends Task implements TaskContainer {
 	/**
 	 * Add a nested task to Sequential.
 	 * <p>
-	 * 
+	 *
 	 * @param nestedTask Nested task to execute Sequential
 	 *                   <p>
 	 */
+	@Override
 	public void addTask(Task nestedTask) {
 		nestedTasks.addElement(nestedTask);
 	}
 
 	/**
 	 * Execute all nestedTasks.
-	 * 
+	 *
 	 * @throws BuildException if one of the nested tasks fails.
 	 */
 
+	@Override
 	public void execute() throws BuildException {
 		Object o = getProject().getReference(refID);
 		ProjectList list;
@@ -164,11 +169,13 @@ public class ForEach extends Task implements TaskContainer {
 			DefaultLogger logger = null;
 			if (loggerPath != null) {
 				File loggerPathDir = new File(loggerPath);
-				if (!loggerPathDir.exists())
+				if (!loggerPathDir.exists()) {
 					loggerPathDir.mkdir();
+				}
 
-				if (!loggerPathDir.isDirectory())
+				if (!loggerPathDir.isDirectory()) {
 					throw new BuildException("loggerPath attribute should reference to a directory."); //$NON-NLS-1$
+				}
 
 				// Add INFO level logger.
 				logger = new DefaultLogger();
@@ -209,7 +216,7 @@ public class ForEach extends Task implements TaskContainer {
 							log("Project failed on itself: ", Project.MSG_ERR); //$NON-NLS-1$
 						} else {
 							getProject().setProperty(failurePropertyName, TASK_STATUS_FAIL_ON_DEPENDENCY);
-							log("Project failed on dependencies:", Project.MSG_WARN); //$NON-NLS-1$ //$NON-NLS-2$
+							log("Project failed on dependencies:", Project.MSG_WARN); //$NON-NLS-1$
 						}
 					}
 
@@ -222,8 +229,9 @@ public class ForEach extends Task implements TaskContainer {
 			}
 
 			// Remove Build Listener.
-			if (logger != null)
+			if (logger != null) {
 				getProject().removeBuildListener(logger);
+			}
 		}
 	}
 
@@ -257,7 +265,7 @@ public class ForEach extends Task implements TaskContainer {
 	 * three tokens: Runtime value for "utest.report.base.dir" will be retrieved
 	 * from current project, '/' will keep its original value, while
 	 * "current.projectName" will be the current project name.
-	 * 
+	 *
 	 * @param info
 	 * @param key
 	 * @return
@@ -276,12 +284,13 @@ public class ForEach extends Task implements TaskContainer {
 		} else if (key.startsWith("'") && key.endsWith("'")) //$NON-NLS-1$//$NON-NLS-2$
 		{
 			return key.substring(1, key.length() - 1);
-		} else
+		} else { // $NON-NLS-1$//$NON-NLS-2$
 			return getProject().getProperty(key);
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ex
 	 * @return
 	 */
@@ -290,11 +299,12 @@ public class ForEach extends Task implements TaskContainer {
 		// The cause must be a BuildException.
 		BuildException e = (BuildException) ex.getCause();
 
-		if (null == e)
+		if (null == e) {
 			return true;
+		}
 
 		Location baseScriptLocation = e.getLocation();
-		String baseScriptPath = null;
+		String baseScriptPath;
 
 		if (baseScriptLocation == null) {
 			return true;

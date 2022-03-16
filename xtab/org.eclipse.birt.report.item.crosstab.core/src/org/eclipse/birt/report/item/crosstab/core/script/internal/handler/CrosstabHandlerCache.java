@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,11 +33,11 @@ public class CrosstabHandlerCache {
 	private HashMap<DesignElementHandle, CrosstabRenderingHandler> crosstab2renderHandlerCache;
 
 	public CrosstabHandlerCache() {
-		cell2crosstabCache = new HashMap<DesignElementHandle, DesignElementHandle>();
-		cell2createScriptCache = new HashMap<DesignElementHandle, String>();
-		crosstab2createHandlerCache = new HashMap<DesignElementHandle, CrosstabCreationHandler>();
-		cell2renderScriptCache = new HashMap<DesignElementHandle, String>();
-		crosstab2renderHandlerCache = new HashMap<DesignElementHandle, CrosstabRenderingHandler>();
+		cell2crosstabCache = new HashMap<>();
+		cell2createScriptCache = new HashMap<>();
+		crosstab2createHandlerCache = new HashMap<>();
+		cell2renderScriptCache = new HashMap<>();
+		crosstab2renderHandlerCache = new HashMap<>();
 	}
 
 	private DesignElementHandle getCrosstabHandle(DesignElementHandle cellHandle) {

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,7 +54,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * 
+ *
  */
 
 public class PatternImageEditorDialog extends TrayDialog {
@@ -89,7 +92,7 @@ public class PatternImageEditorDialog extends TrayDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.
 	 * widgets.Composite)
@@ -118,6 +121,7 @@ public class PatternImageEditorDialog extends TrayDialog {
 			this.context = context;
 		}
 
+		@Override
 		public void handleEvent(Event event) {
 			if (event.type == FillChooserComposite.FILL_CHANGED_EVENT) {
 				if (event.data instanceof ColorDefinition) {
@@ -168,6 +172,7 @@ public class PatternImageEditorDialog extends TrayDialog {
 			return composite;
 		}
 
+		@Override
 		public void handleEvent(Event event) {
 			switch (event.type) {
 			case SWT.FocusOut:
@@ -242,7 +247,7 @@ public class PatternImageEditorDialog extends TrayDialog {
 		}
 
 		private boolean moveTo(int iRow, int iCol) {
-			if (iRow >= 0 && iRow < 8 && iCol >= 0 & iCol < 8) {
+			if (iRow >= 0 && iRow < 8 && iCol >= 0 && iCol < 8) {
 				iRowAct = iRow;
 				iColAct = iCol;
 				return true;
@@ -308,6 +313,7 @@ public class PatternImageEditorDialog extends TrayDialog {
 			return new Color(Display.getCurrent(), cd.getRed(), cd.getGreen(), cd.getBlue());
 		}
 
+		@Override
 		public void paintControl(PaintEvent event) {
 			GC gc = event.gc;
 			Color colorFore = createColor(context.getPatternImage().getForeColor());
@@ -401,6 +407,7 @@ public class PatternImageEditorDialog extends TrayDialog {
 			return gl;
 		}
 
+		@Override
 		public void handleEvent(Event event) {
 			switch (event.type) {
 			case SWT.MouseDown:
@@ -468,6 +475,7 @@ public class PatternImageEditorDialog extends TrayDialog {
 			image.dispose();
 		}
 
+		@Override
 		public void paintControl(PaintEvent e) {
 			GC gc = e.gc;
 			int count = context.getBitmaps().size();
@@ -507,6 +515,7 @@ public class PatternImageEditorDialog extends TrayDialog {
 				btnDropDown.addListener(SWT.Selection, this);
 			}
 
+			@Override
 			public void paintControl(PaintEvent e) {
 				drawItem(e.gc, context.getPatternImage(), 0, 0);
 
@@ -570,6 +579,7 @@ public class PatternImageEditorDialog extends TrayDialog {
 
 			}
 
+			@Override
 			public void handleEvent(Event event) {
 				switch (event.type) {
 				case SWT.MouseDown:
@@ -599,10 +609,10 @@ public class PatternImageEditorDialog extends TrayDialog {
 
 	private static class Context {
 
-		private final List<Long> bitmaps = new ArrayList<Long>();
+		private final List<Long> bitmaps = new ArrayList<>();
 		private final PatternImage patternImage;
 		private int index;
-		private Vector<Listener> listeners = new Vector<Listener>();
+		private Vector<Listener> listeners = new Vector<>();
 
 		public Context(Fill fill) {
 			this.patternImage = fill instanceof PatternImage ? (PatternImage) fill.copyInstance()
@@ -647,7 +657,7 @@ public class PatternImageEditorDialog extends TrayDialog {
 		}
 
 		private static Long[] getPredefinedBitmaps() {
-			Long[] bitmaps = new Long[] { 0x8000000L, 0x200000040000L, 0x80000080000L, 0x240000240000L, 0xff000000L,
+			Long[] bitmaps = { 0x8000000L, 0x200000040000L, 0x80000080000L, 0x240000240000L, 0xff000000L,
 					0x808080808080808L, 0x8040201008040201L, 0x102040810204080L, 0x8080808ff080808L,
 					0x8142241818244281L, 0x44ff444444ff4444L, 0xff000000ff0000L, 0x4444444444444444L, 0xffffff0000L,
 					0x1c1c1c1c1c1c1c1cL, 0xf0f0f0f00f0f0f0fL, };

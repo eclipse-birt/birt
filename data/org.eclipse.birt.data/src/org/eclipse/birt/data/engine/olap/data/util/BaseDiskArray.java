@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +24,7 @@ import org.eclipse.birt.data.engine.api.DataEngineThreadLocal;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 
 /**
- * 
+ *
  */
 
 abstract class BaseDiskArray implements IDiskArray {
@@ -47,25 +50,26 @@ abstract class BaseDiskArray implements IDiskArray {
 
 	/**
 	 * @throws IOException
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public BaseDiskArray() throws IOException {
 		this.currentCacheStartIndex = 0;
 		this.size = 0;
 
 		this.buffer = new Object[bufferSize];
-		this.segmentOffsets = new ArrayList<Long>();
-		this.segmentOffsets.add(Long.valueOf(0L));
+		this.segmentOffsets = new ArrayList<>();
+		this.segmentOffsets.add(0L);
 //		createRandomAccessFile( );
 		DataEngineThreadLocal.getInstance().getCloseListener().add(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IDiskArray#add(java.lang.Object)
 	 */
+	@Override
 	public boolean add(Object o) throws IOException {
 		if (size >= currentCacheStartIndex && size < (currentCacheStartIndex + bufferSize)) {
 			buffer[size - currentCacheStartIndex] = o;
@@ -79,7 +83,7 @@ abstract class BaseDiskArray implements IDiskArray {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	private void createRandomAccessFile() throws IOException {
@@ -88,7 +92,7 @@ abstract class BaseDiskArray implements IDiskArray {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -98,7 +102,7 @@ abstract class BaseDiskArray implements IDiskArray {
 
 	/**
 	 * Write a object to disk
-	 * 
+	 *
 	 * @param oos
 	 * @param object
 	 * @throws IOException
@@ -107,9 +111,10 @@ abstract class BaseDiskArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IDiskArray#get(int)
 	 */
+	@Override
 	public Object get(int index) throws IOException {
 		RangeCheck(index);
 		if (index < currentCacheStartIndex || index > (currentCacheStartIndex + bufferSize - 1)) {
@@ -125,7 +130,7 @@ abstract class BaseDiskArray implements IDiskArray {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 * @return
 	 */
@@ -135,7 +140,7 @@ abstract class BaseDiskArray implements IDiskArray {
 
 	/**
 	 * Reads up to <code>readSize</code> objects from disk.
-	 * 
+	 *
 	 * @param dis
 	 * @param list
 	 * @return
@@ -150,7 +155,7 @@ abstract class BaseDiskArray implements IDiskArray {
 
 	/**
 	 * Read one object from disk.
-	 * 
+	 *
 	 * @param oos
 	 * @param object
 	 * @throws IOException
@@ -159,7 +164,7 @@ abstract class BaseDiskArray implements IDiskArray {
 
 	/**
 	 * Create a file for caching objects.
-	 * 
+	 *
 	 * @param cacheIndex
 	 * @return
 	 * @throws IOException
@@ -175,18 +180,20 @@ abstract class BaseDiskArray implements IDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IDiskArray#size()
 	 */
+	@Override
 	public int size() {
 		return this.size;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.IDiskArray#close()
 	 */
+	@Override
 	public void close() throws IOException {
 		if (randomAccessFile != null) {
 			randomAccessFile.close();
@@ -202,15 +209,16 @@ abstract class BaseDiskArray implements IDiskArray {
 	 * ArrayIndexOutOfBoundsException.
 	 */
 	private void RangeCheck(int index) {
-		if (index >= size)
+		if (index >= size) {
 			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+		}
 	}
 
 	/**
 	 * Delete the used disk file;
-	 * 
+	 *
 	 * @throws IOException
-	 * 
+	 *
 	 */
 	private void clearDiskFile() throws IOException {
 		if (randomAccessFile != null) {
@@ -235,12 +243,13 @@ abstract class BaseDiskArray implements IDiskArray {
 //		}
 //	}
 
+	@Override
 	public void clear() throws IOException {
 		this.currentCacheStartIndex = -1;
 		this.size = 0;
 		clearDiskFile();
 		this.segmentOffsets.clear();
-		this.segmentOffsets.add(Long.valueOf(0L));
+		this.segmentOffsets.add(0L);
 		createRandomAccessFile();
 	}
 

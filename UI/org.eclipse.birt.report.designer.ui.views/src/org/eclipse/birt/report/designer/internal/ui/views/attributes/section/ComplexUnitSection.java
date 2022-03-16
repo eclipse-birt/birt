@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,6 +39,7 @@ public class ComplexUnitSection extends Section {
 
 	protected ComplexUnitPropertyDescriptor unit;
 
+	@Override
 	public void createSection() {
 		getLabelControl(parent);
 		getUnitComboControl(parent);
@@ -49,16 +53,19 @@ public class ComplexUnitSection extends Section {
 
 	protected ComplexUnitPropertyDescriptor getUnitComboControl(Composite parent) {
 		if (unit == null) {
-			if (customUnit != null)
+			if (customUnit != null) {
 				unit = customUnit;
-			else
+			} else {
 				unit = DescriptorToolkit.createComplexUnitPropertyDescriptor(true);
-			if (getProvider() != null)
+			}
+			if (getProvider() != null) {
 				unit.setDescriptorProvider(getProvider());
+			}
 			unit.createControl(parent);
 			unit.getControl().setLayoutData(new GridData());
 			unit.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					unit = null;
 				}
@@ -83,6 +90,7 @@ public class ComplexUnitSection extends Section {
 		} else {
 			control.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
+				@Override
 				public void getName(AccessibleEvent e) {
 					Label lbl = getLabelControl();
 					if (lbl != null) {
@@ -96,25 +104,31 @@ public class ComplexUnitSection extends Section {
 		}
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) unit.getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - 1 - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 1 - placeholder;
+		}
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillUnit;
+		}
 
 	}
 
+	@Override
 	public void load() {
-		if (unit != null && !unit.getControl().isDisposed())
+		if (unit != null && !unit.getControl().isDisposed()) {
 			unit.load();
+		}
 	}
 
+	@Override
 	public void reset() {
 		if (unit != null && !unit.getControl().isDisposed()) {
 			unit.reset();
@@ -129,8 +143,9 @@ public class ComplexUnitSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (unit != null)
+		if (unit != null) {
 			unit.setDescriptorProvider(provider);
+		}
 	}
 
 	private int width = -1;
@@ -143,6 +158,7 @@ public class ComplexUnitSection extends Section {
 		this.width = width;
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		unit.setInput(input);
@@ -158,22 +174,30 @@ public class ComplexUnitSection extends Section {
 		this.fillUnit = fillUnit;
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (unit != null)
+		}
+		if (unit != null) {
 			unit.setHidden(isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (unit != null)
+		}
+		if (unit != null) {
 			unit.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 
 	ComplexUnitPropertyDescriptor customUnit;

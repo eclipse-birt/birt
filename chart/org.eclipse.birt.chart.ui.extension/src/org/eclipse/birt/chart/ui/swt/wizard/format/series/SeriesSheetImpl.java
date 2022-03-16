@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -67,7 +70,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * "Series" subtask. Attention: the series layout order must be consistent with
  * series items in the navigator tree.
- * 
+ *
  */
 public class SeriesSheetImpl extends SubtaskSheetImpl implements SelectionListener
 
@@ -90,6 +93,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements SelectionListen
 		columnDetailNumber = 7;
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.SUBTASK_SERIES);
 		final int COLUMN_CONTENT = 4;
@@ -502,6 +506,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements SelectionListen
 			}
 		}
 
+		@Override
 		public void widgetSelected(SelectionEvent e) {
 			Series series = seriesDefn.getDesignTimeSeries();
 
@@ -549,7 +554,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements SelectionListen
 
 		/**
 		 * Convert current type of series to other.
-		 * 
+		 *
 		 * @param series   specified series.
 		 * @param typeName other type of series.
 		 */
@@ -596,11 +601,13 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements SelectionListen
 			return null;
 		}
 
+		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void handleEvent(Event event) {
 			if (event.widget.equals(txtTitle)) {
 				String text = txtTitle.getText();
@@ -614,7 +621,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements SelectionListen
 
 		private void populateLists(Series series) {
 			if (htSeriesNames == null) {
-				htSeriesNames = new Hashtable<String, Series>(20);
+				htSeriesNames = new Hashtable<>(20);
 			}
 
 			// Populate Series Types List
@@ -685,10 +692,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements SelectionListen
 		}
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		// Detach popup dialog if there's selected popup button.
 		if (detachPopup(e.widget)) {
-			return;
 		} else if (isRegistered(e.widget)) {
 			attachPopup(((Button) e.widget).getData().toString());
 		} else if (e.widget.equals(cmbColorBy)) {
@@ -717,6 +724,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements SelectionListen
 		}
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// Do nothing.
 	}

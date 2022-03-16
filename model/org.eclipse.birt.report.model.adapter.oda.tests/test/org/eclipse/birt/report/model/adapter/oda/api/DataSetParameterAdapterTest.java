@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,14 +44,14 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 /**
  * Test cases to convert Oda data set parameters and ROM data set parameter and
  * linked report parameters.
- * 
+ *
  */
 
 public class DataSetParameterAdapterTest extends BaseTestCase {
 
 	/**
 	 * Test parameter count.
-	 * 
+	 *
 	 * @param setHandle oda dataset handle.
 	 */
 
@@ -65,7 +68,7 @@ public class DataSetParameterAdapterTest extends BaseTestCase {
 	/**
 	 * Test New rule of merge parameter between <code>DataSetDesign</code> and
 	 * <code>DataSetHandle</code>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -123,7 +126,7 @@ public class DataSetParameterAdapterTest extends BaseTestCase {
 
 	/**
 	 * Test case:
-	 * 
+	 *
 	 * <ul>
 	 * <li>when convert default value, string type should distinguish expression and
 	 * literal.
@@ -131,7 +134,7 @@ public class DataSetParameterAdapterTest extends BaseTestCase {
 	 * values are kept. <br>
 	 * And the data type is kept even the native data type is unknown.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -161,12 +164,12 @@ public class DataSetParameterAdapterTest extends BaseTestCase {
 
 	/**
 	 * Test case:
-	 * 
+	 *
 	 * <ul>
 	 * <li>Convert values from ODA parameter definition to ROM data set parameter.
 	 * Focus on default values.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -196,7 +199,7 @@ public class DataSetParameterAdapterTest extends BaseTestCase {
 
 	/**
 	 * Updates a oda parameter definition. Keep the direction.
-	 * 
+	 *
 	 * @param param
 	 */
 
@@ -223,7 +226,7 @@ public class DataSetParameterAdapterTest extends BaseTestCase {
 
 	/**
 	 * Tests the algorithm to create unique data set parameter names.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -262,7 +265,7 @@ public class DataSetParameterAdapterTest extends BaseTestCase {
 
 	/**
 	 * Creates a new <code>DataSetDesign</code>.
-	 * 
+	 *
 	 * @return an object of <code>DataSetDesign</code>.
 	 */
 
@@ -357,7 +360,7 @@ public class DataSetParameterAdapterTest extends BaseTestCase {
 
 	/**
 	 * Creates a new <code>DataSourceDesign</code>.
-	 * 
+	 *
 	 * @return an object of <code>DataSourceDesign</code>.
 	 */
 
@@ -383,7 +386,7 @@ public class DataSetParameterAdapterTest extends BaseTestCase {
 
 	/**
 	 * Creates a new <code>DataSetDesign</code>. Parameter positions are not set.
-	 * 
+	 *
 	 * @return an object of <code>DataSetDesign</code>.
 	 */
 
@@ -436,7 +439,7 @@ public class DataSetParameterAdapterTest extends BaseTestCase {
 
 	/**
 	 * Creates a new <code>DataSetDesign</code>. Parameters positions are duplicate.
-	 * 
+	 *
 	 * @return an object of <code>DataSetDesign</code>.
 	 */
 

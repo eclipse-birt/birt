@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,6 +46,7 @@ import org.eclipse.swt.SWT;
  */
 public class LabelPage extends GeneralPage {
 
+	@Override
 	protected void buildContent() {
 		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider(ReportItemHandle.NAME_PROP,
 				ReportDesignConstants.LABEL_ITEM);
@@ -101,7 +105,7 @@ public class LabelPage extends GeneralPage {
 		bgColorSection.setWidth(200);
 		addSection(PageSectionId.LABEL_BGCOLOR, bgColorSection);
 
-		String[] textStyles = new String[] { StyleHandle.FONT_WEIGHT_PROP, StyleHandle.FONT_STYLE_PROP,
+		String[] textStyles = { StyleHandle.FONT_WEIGHT_PROP, StyleHandle.FONT_STYLE_PROP,
 				StyleHandle.TEXT_UNDERLINE_PROP, StyleHandle.TEXT_LINE_THROUGH_PROP, };
 
 		PropertyDescriptorProvider[] providers = new PropertyDescriptorProvider[5];
@@ -126,17 +130,17 @@ public class LabelPage extends GeneralPage {
 
 		/*
 		 * WidgetUtil.createGridPlaceholder( container, 1, false );
-		 * 
+		 *
 		 * Composite container = WidgetUtil.buildFontStyleUI( container, propertiesMap
 		 * ); GridData data = new GridData( ); data.horizontalSpan = 3;
 		 * container.setLayoutData( data );
-		 * 
+		 *
 		 * int height = container.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y; Label
 		 * separator = new Label( container, SWT.SEPARATOR | SWT.VERTICAL | SWT.CENTER
 		 * ); int width = separator.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x +
 		 * WidgetUtil.SPACING 2; separator.setLayoutData( new RowData( width, height )
 		 * );
-		 * 
+		 *
 		 * IPropertyDescriptor descriptor =
 		 * PropertyDescriptorFactory.getPropertyDescriptor(
 		 * ReportDesignConstants.STYLE_ELEMENT, StyleHandle.TEXT_ALIGN_PROP );
@@ -166,6 +170,7 @@ public class LabelPage extends GeneralPage {
 
 	}
 
+	@Override
 	protected void applyCustomSections() {
 		Object[] helperProviders = ElementAdapterManager.getAdapters(this, ISectionHelperProvider.class);
 		if (helperProviders != null) {
@@ -176,8 +181,9 @@ public class LabelPage extends GeneralPage {
 					if (helper != null) {
 						Section section = helper.createSection(container, LabelHandle.THEME_PROP,
 								ReportDesignConstants.LABEL_ITEM, true);
-						if (section instanceof SimpleComboSection)
+						if (section instanceof SimpleComboSection) {
 							((SimpleComboSection) section).setWidth(200);
+						}
 						section.setLayoutNum(6);
 						section.setGridPlaceholder(4, true);
 						addSectionAfter(PageSectionId.LABEL_THEME, section, PageSectionId.LABEL_DISPLAY);

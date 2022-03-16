@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2012 Megha Nidhi Dahal and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
@@ -79,7 +82,7 @@ public class ExcelDataSourcePageHelper {
 
 	private ResourceIdentifiers ri;
 
-	private static final String[] fileExtensions = new String[] { ALL_XLS_EXTENSION, ALL_EXTENSION };
+	private static final String[] fileExtensions = { ALL_XLS_EXTENSION, ALL_EXTENSION };
 
 	public ExcelDataSourcePageHelper(ExcelDataSourceWizardPage page) {
 		wizardPage = page;
@@ -90,7 +93,7 @@ public class ExcelDataSourcePageHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parent
 	 */
 	void createCustomControl(Composite parent) {
@@ -120,6 +123,7 @@ public class ExcelDataSourcePageHelper {
 		setPageComplete(false);
 		folderLocation.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				verifyFileLocation();
 			}
@@ -131,6 +135,7 @@ public class ExcelDataSourcePageHelper {
 		Menu menu = new Menu(composite.getShell(), SWT.POP_UP);
 		SelectionAdapter action = new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (e.widget instanceof MenuItem) {
 					MenuItem item = (MenuItem) e.widget;
@@ -217,7 +222,7 @@ public class ExcelDataSourcePageHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param composite
 	 */
 	private void setupColumnNameLineCheckBox(Composite composite) {
@@ -233,10 +238,11 @@ public class ExcelDataSourcePageHelper {
 		columnNameLineCheckBox.setSelection(true);
 		columnNameLineCheckBox.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (columnNameLineCheckBox.getSelection())
+				if (columnNameLineCheckBox.getSelection()) {
 					typeLineCheckBox.setEnabled(true);
-				else {
+				} else {
 					typeLineCheckBox.setSelection(false);
 					typeLineCheckBox.setEnabled(false);
 				}
@@ -255,22 +261,23 @@ public class ExcelDataSourcePageHelper {
 		data.horizontalSpan = 3;
 		typeLineCheckBox.setLayoutData(data);
 		typeLineCheckBox.setText(Messages.getString("label.includeTypeLine")); //$NON-NLS-1$
-		if (columnNameLineCheckBox.getSelection())
+		if (columnNameLineCheckBox.getSelection()) {
 			typeLineCheckBox.setEnabled(true);
-		else {
+		} else {
 			typeLineCheckBox.setSelection(false);
 			typeLineCheckBox.setEnabled(false);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param props
 	 * @return
 	 */
 	Properties collectCustomProperties(Properties props) {
-		if (props == null)
+		if (props == null) {
 			props = new Properties();
+		}
 
 		// set custom driver specific properties
 		props.setProperty(ExcelODAConstants.CONN_FILE_URI_PROP, getFolderLocation().trim());
@@ -281,59 +288,66 @@ public class ExcelDataSourcePageHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	String getFolderLocation() {
-		if (folderLocation == null)
+		if (folderLocation == null) {
 			return EMPTY_STRING;
+		}
 		return getFolderLocationString();
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	String getWhetherUseFirstLineAsColumnNameLine() {
-		if (columnNameLineCheckBox == null || !columnNameLineCheckBox.getEnabled())
+		if (columnNameLineCheckBox == null || !columnNameLineCheckBox.getEnabled()) {
 			return EMPTY_STRING;
+		}
 		return columnNameLineCheckBox.getSelection() ? ExcelODAConstants.INC_COLUMN_NAME_YES
 				: ExcelODAConstants.INC_COLUMN_NAME_NO;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	String getWhetherUseSecondLineAsTypeLine() {
-		if (typeLineCheckBox == null)
+		if (typeLineCheckBox == null) {
 			return EMPTY_STRING;
+		}
 		return typeLineCheckBox.getSelection() ? ExcelODAConstants.INC_TYPE_LINE_YES
 				: ExcelODAConstants.INC_TYPE_LINE_NO;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param profileProps
 	 */
 	void initCustomControl(Properties profileProps) {
-		if (profileProps == null || profileProps.isEmpty() || folderLocation == null)
+		if (profileProps == null || profileProps.isEmpty() || folderLocation == null) {
 			return; // nothing to initialize
+		}
 
 		String folderPath = profileProps.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP);
-		if (folderPath == null)
+		if (folderPath == null) {
 			folderPath = EMPTY_STRING;
+		}
 		setFolderLocationString(folderPath);
 
 		String hasColumnNameLine = profileProps.getProperty(ExcelODAConstants.CONN_INCLCOLUMNNAME_PROP);
-		if (hasColumnNameLine == null)
+		if (hasColumnNameLine == null) {
 			hasColumnNameLine = ExcelODAConstants.INC_COLUMN_NAME_YES;
+		}
 		if (hasColumnNameLine.equalsIgnoreCase(ExcelODAConstants.INC_COLUMN_NAME_YES)) {
 			columnNameLineCheckBox.setSelection(true);
 
 			String useSecondLine = profileProps.getProperty(ExcelODAConstants.CONN_INCLTYPELINE_PROP);
-			if (useSecondLine == null)
+			if (useSecondLine == null) {
 				useSecondLine = EMPTY_STRING;
+			}
 			typeLineCheckBox.setEnabled(true);
 			typeLineCheckBox.setSelection(useSecondLine.equalsIgnoreCase(ExcelODAConstants.INC_TYPE_LINE_YES));
 		} else {
@@ -341,6 +355,7 @@ public class ExcelDataSourcePageHelper {
 			typeLineCheckBox.setSelection(false);
 			Display.getCurrent().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					if (!typeLineCheckBox.isDisposed()) {
 						typeLineCheckBox.setEnabled(false);
@@ -354,19 +369,21 @@ public class ExcelDataSourcePageHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param complete
 	 */
 	private void setPageComplete(boolean complete) {
-		if (wizardPage != null)
+		if (wizardPage != null) {
 			wizardPage.setPageComplete(complete);
-		else if (propertyPage != null)
+		} else if (propertyPage != null) {
 			propertyPage.setValid(complete);
+		}
 	}
 
 	public Runnable createTestConnectionRunnable(final IConnectionProfile profile) {
 		return new Runnable() {
 
+			@Override
 			public void run() {
 				IConnection conn = PingJob.createTestConnection(profile);
 
@@ -399,7 +416,7 @@ public class ExcelDataSourcePageHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private int verifyFileLocation() {
@@ -433,8 +450,9 @@ public class ExcelDataSourcePageHelper {
 			setPageComplete(false);
 			result = ERROR_EMPTY_PATH;
 		}
-		if (result == CORRECT_FOLDER)
+		if (result == CORRECT_FOLDER) {
 			return result;
+		}
 
 		if (wizardPage == null) {
 			// error message is already set above when result is set to an error
@@ -445,7 +463,7 @@ public class ExcelDataSourcePageHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private String getFolderLocationString() {
@@ -453,7 +471,7 @@ public class ExcelDataSourcePageHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param folderPath
 	 */
 	private void setFolderLocationString(String folderPath) {
@@ -461,23 +479,26 @@ public class ExcelDataSourcePageHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param newMessage
 	 * @param newType
 	 */
 	private void setMessage(String newMessage, int newType) {
-		if (wizardPage != null)
+		if (wizardPage != null) {
 			wizardPage.setMessage(newMessage, newType);
-		else if (propertyPage != null)
+		} else if (propertyPage != null) {
 			propertyPage.setMessage(newMessage, newType);
+		}
 		errorMsg = newMessage;
 	}
 
 	private Control getControl() {
-		if (wizardPage != null)
+		if (wizardPage != null) {
 			return wizardPage.getControl();
-		if (propertyPage != null)
+		}
+		if (propertyPage != null) {
 			return propertyPage.getControl();
+		}
 
 		return null;
 	}

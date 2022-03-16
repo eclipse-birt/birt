@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -45,11 +48,11 @@ public interface BarSeries extends Series {
 	 * is <code>"Rectangle"</code>. The literals are from the enumeration
 	 * {@link org.eclipse.birt.chart.model.attribute.RiserType}. <!-- begin-user-doc
 	 * --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the 'Riser' to be used for displaying the data values in the chart.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Riser</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.RiserType
 	 * @see #isSetRiser()
@@ -65,7 +68,7 @@ public interface BarSeries extends Series {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiser <em>Riser</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Riser</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.RiserType
 	 * @see #isSetRiser()
@@ -79,7 +82,7 @@ public interface BarSeries extends Series {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiser <em>Riser</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetRiser()
 	 * @see #getRiser()
 	 * @see #setRiser(RiserType)
@@ -91,7 +94,7 @@ public interface BarSeries extends Series {
 	 * Returns whether the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiser <em>Riser</em>}'
 	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Riser</em>' attribute is set.
 	 * @see #unsetRiser()
 	 * @see #getRiser()
@@ -104,11 +107,11 @@ public interface BarSeries extends Series {
 	 * Returns the value of the '<em><b>Riser Outline</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * Defines the color to be used for the Riser outline.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Riser Outline</em>' containment reference.
 	 * @see #setRiserOutline(ColorDefinition)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getBarSeries_RiserOutline()
@@ -122,7 +125,7 @@ public interface BarSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiserOutline <em>Riser
 	 * Outline</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Riser Outline</em>' containment
 	 *              reference.
 	 * @see #getRiserOutline()
@@ -133,6 +136,7 @@ public interface BarSeries extends Series {
 	/**
 	 * @generated
 	 */
+	@Override
 	BarSeries copyInstance();
 
 } // BarSeries

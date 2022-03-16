@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * Column.java
  *
@@ -24,7 +36,7 @@ public class Column implements java.io.Serializable {
 
 	/**
 	 * Gets the name value for this Column.
-	 * 
+	 *
 	 * @return name
 	 */
 	public java.lang.String getName() {
@@ -33,7 +45,7 @@ public class Column implements java.io.Serializable {
 
 	/**
 	 * Sets the name value for this Column.
-	 * 
+	 *
 	 * @param name
 	 */
 	public void setName(java.lang.String name) {
@@ -42,7 +54,7 @@ public class Column implements java.io.Serializable {
 
 	/**
 	 * Gets the label value for this Column.
-	 * 
+	 *
 	 * @return label
 	 */
 	public java.lang.String getLabel() {
@@ -51,7 +63,7 @@ public class Column implements java.io.Serializable {
 
 	/**
 	 * Sets the label value for this Column.
-	 * 
+	 *
 	 * @param label
 	 */
 	public void setLabel(java.lang.String label) {
@@ -60,7 +72,7 @@ public class Column implements java.io.Serializable {
 
 	/**
 	 * Gets the visibility value for this Column.
-	 * 
+	 *
 	 * @return visibility
 	 */
 	public java.lang.Boolean getVisibility() {
@@ -69,7 +81,7 @@ public class Column implements java.io.Serializable {
 
 	/**
 	 * Sets the visibility value for this Column.
-	 * 
+	 *
 	 * @param visibility
 	 */
 	public void setVisibility(java.lang.Boolean visibility) {
@@ -78,14 +90,18 @@ public class Column implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof Column))
+		if (!(obj instanceof Column)) {
 			return false;
+		}
 		Column other = (Column) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -104,6 +120,7 @@ public class Column implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

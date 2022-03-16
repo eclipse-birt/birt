@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -49,47 +52,52 @@ public class SimpleTask implements ITask {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#setContext(org.
 	 * eclipse.birt.frameworks.taskwizard.interfaces.IWizardContext)
 	 */
+	@Override
 	public void setContext(IWizardContext context) {
 		this.context = context;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#getContext()
 	 */
+	@Override
 	public IWizardContext getContext() {
 		return this.context;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#setUIProvider(org.
 	 * eclipse.birt.frameworks.taskwizard.WizardBase)
 	 */
+	@Override
 	public void setUIProvider(WizardBase wizard) {
 		this.container = wizard;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask#getErrors()
 	 */
+	@Override
 	public String[] getErrors() {
 		return (String[]) errorList.toArray(new String[errorList.size()]);
 	}
 
 	protected void addError(String errorInfo) {
-		if (!errorList.contains(errorInfo))
+		if (!errorList.contains(errorInfo)) {
 			errorList.add(errorInfo);
+		}
 	}
 
 	protected void removeError(String errorInfo) {
@@ -98,11 +106,12 @@ public class SimpleTask implements ITask {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask#setErrorHints
 	 * (java.lang.Object[])
 	 */
+	@Override
 	public void setErrorHints(Object[] errorHints) {
 		errorList.clear();
 		for (int i = 0; i < errorHints.length; i++) {
@@ -110,6 +119,7 @@ public class SimpleTask implements ITask {
 		}
 	}
 
+	@Override
 	public void dispose() {
 		topControl = null;
 		context = null;
@@ -117,6 +127,7 @@ public class SimpleTask implements ITask {
 		errorList.clear();
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		if (topControl == null || topControl.isDisposed()) {
 			topControl = new Composite(parent, SWT.NONE);
@@ -125,26 +136,32 @@ public class SimpleTask implements ITask {
 		}
 	}
 
+	@Override
 	public Control getControl() {
 		return topControl;
 	}
 
+	@Override
 	public String getDescription() {
 		return sDesc;
 	}
 
+	@Override
 	public String getErrorMessage() {
 		return sDesc;
 	}
 
+	@Override
 	public Image getImage() {
 		return null;
 	}
 
+	@Override
 	public String getMessage() {
 		return sDesc;
 	}
 
+	@Override
 	public String getTitle() {
 		return sTitle;
 	}
@@ -152,11 +169,14 @@ public class SimpleTask implements ITask {
 	/**
 	 * @deprecated For later use
 	 */
+	@Deprecated
+	@Override
 	public void performHelp() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setDescription(String description) {
 		this.sDesc = description;
 	}
@@ -164,15 +184,19 @@ public class SimpleTask implements ITask {
 	/**
 	 * @deprecated For later use
 	 */
+	@Deprecated
+	@Override
 	public void setImageDescriptor(ImageDescriptor image) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setTitle(String title) {
 		this.sTitle = title;
 	}
 
+	@Override
 	public void setVisible(boolean visible) {
 		getControl().setVisible(visible);
 	}

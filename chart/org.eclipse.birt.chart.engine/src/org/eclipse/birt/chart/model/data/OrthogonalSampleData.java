@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -18,9 +21,9 @@ import org.eclipse.birt.chart.model.IChartObject;
  * '<em><b>Orthogonal Sample Data</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
+ *
  * This type sample data for an orthogonal series.
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -43,12 +46,12 @@ public interface OrthogonalSampleData extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Data Set Representation</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Holds the sample data for a single data set as a string in the form expected
 	 * by the DataSetProcessor for the series.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Data Set Representation</em>' attribute.
 	 * @see #setDataSetRepresentation(String)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getOrthogonalSampleData_DataSetRepresentation()
@@ -63,7 +66,7 @@ public interface OrthogonalSampleData extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getDataSetRepresentation
 	 * <em>Data Set Representation</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Data Set Representation</em>'
 	 *              attribute.
 	 * @see #getDataSetRepresentation()
@@ -74,12 +77,12 @@ public interface OrthogonalSampleData extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Series Definition Index</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Holds the index for the series definition for which this sample data is
 	 * applicable.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Series Definition Index</em>' attribute.
 	 * @see #isSetSeriesDefinitionIndex()
 	 * @see #unsetSeriesDefinitionIndex()
@@ -96,7 +99,7 @@ public interface OrthogonalSampleData extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex
 	 * <em>Series Definition Index</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Series Definition Index</em>'
 	 *              attribute.
 	 * @see #isSetSeriesDefinitionIndex()
@@ -111,7 +114,7 @@ public interface OrthogonalSampleData extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex
 	 * <em>Series Definition Index</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetSeriesDefinitionIndex()
 	 * @see #getSeriesDefinitionIndex()
 	 * @see #setSeriesDefinitionIndex(int)
@@ -124,7 +127,7 @@ public interface OrthogonalSampleData extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex
 	 * <em>Series Definition Index</em>}' attribute is set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Series Definition Index</em>' attribute
 	 *         is set.
 	 * @see #unsetSeriesDefinitionIndex()
@@ -137,6 +140,7 @@ public interface OrthogonalSampleData extends IChartObject {
 	/**
 	 * @generated
 	 */
+	@Override
 	OrthogonalSampleData copyInstance();
 
 } // OrthogonalSampleData

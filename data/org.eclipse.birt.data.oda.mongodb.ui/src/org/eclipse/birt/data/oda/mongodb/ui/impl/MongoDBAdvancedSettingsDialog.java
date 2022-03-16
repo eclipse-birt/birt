@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -47,14 +50,15 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog {
 	private String batchSizeValue, docSearchLimitValue, maxSkipDocValue, indexExpr, queryPreferenceMode, tagSetValue;
 
 	private Combo queryPreferenceModeCombo;
-	private Text batchSizeText, docSearchLimitText, maxSkipDocText, indexExprText, tagSetText;
-	private Button noTimeOutCheckbox, allowPartialResultsCheckbox, flattenNestedDocCheckbox;
+	private Text batchSizeText, docSearchLimitText, maxSkipDocText, tagSetText;
+	private Button allowPartialResultsCheckbox, flattenNestedDocCheckbox;
 	private boolean noTimeOut, allowsPartialResults, flattenNestedDocument;
 
 	public MongoDBAdvancedSettingsDialog(Shell parent) {
 		super(parent);
 	}
 
+	@Override
 	public void create() {
 		super.create();
 
@@ -68,17 +72,19 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog {
 
 	}
 
+	@Override
 	protected boolean isResizable() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		GridLayout layout = new GridLayout();
@@ -106,6 +112,7 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog {
 		batchSizeText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		batchSizeText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				batchSizeValue = batchSizeText.getText().trim();
 				validatePageStatus();
@@ -123,6 +130,7 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog {
 		docSearchLimitText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		docSearchLimitText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				docSearchLimitValue = docSearchLimitText.getText().trim();
 				validatePageStatus();
@@ -139,6 +147,7 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog {
 		maxSkipDocText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		maxSkipDocText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				maxSkipDocValue = maxSkipDocText.getText().trim();
 				validatePageStatus();
@@ -163,10 +172,12 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog {
 		allowPartialResultsCheckbox.setLayoutData(gd);
 		allowPartialResultsCheckbox.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				allowsPartialResults = allowPartialResultsCheckbox.getSelection();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -183,10 +194,12 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog {
 		flattenNestedDocCheckbox.setLayoutData(gd);
 		flattenNestedDocCheckbox.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				flattenNestedDocument = flattenNestedDocCheckbox.getSelection();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -212,11 +225,13 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog {
 		queryPreferenceModeCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		queryPreferenceModeCombo.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				queryPreferenceMode = queryPreferenceModeCombo.getText().trim();
 				updateTagSetTextStatus();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -232,6 +247,7 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog {
 		tagSetText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		tagSetText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent arg0) {
 				tagSetValue = tagSetText.getText().trim();
 			}

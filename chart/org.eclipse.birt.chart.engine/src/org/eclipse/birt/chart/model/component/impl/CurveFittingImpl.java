@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -50,7 +53,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 	 * The cached value of the '{@link #getLineAttributes() <em>Line
 	 * Attributes</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #getLineAttributes()
 	 * @generated
 	 * @ordered
@@ -60,7 +63,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -70,7 +73,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 	/**
 	 * The default value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getLabelAnchor()
 	 * @generated
 	 * @ordered
@@ -80,7 +83,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 	/**
 	 * The cached value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getLabelAnchor()
 	 * @generated
 	 * @ordered
@@ -90,7 +93,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 	/**
 	 * This is true if the Label Anchor attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -98,7 +101,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected CurveFittingImpl() {
@@ -107,7 +110,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 
 	/**
 	 * Returns a curveFitting instance.
-	 * 
+	 *
 	 * @return instance of <code>CurveFitting</code>.
 	 */
 	public static CurveFitting create() {
@@ -124,7 +127,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -134,16 +137,17 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public LineAttributes getLineAttributes() {
 		return lineAttributes;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetLineAttributes(LineAttributes newLineAttributes, NotificationChain msgs) {
@@ -152,48 +156,55 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setLineAttributes(LineAttributes newLineAttributes) {
 		if (newLineAttributes != lineAttributes) {
 			NotificationChain msgs = null;
-			if (lineAttributes != null)
+			if (lineAttributes != null) {
 				msgs = ((InternalEObject) lineAttributes).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES, null, msgs);
-			if (newLineAttributes != null)
+			}
+			if (newLineAttributes != null) {
 				msgs = ((InternalEObject) newLineAttributes).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES, null, msgs);
+			}
 			msgs = basicSetLineAttributes(newLineAttributes, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES,
 					newLineAttributes, newLineAttributes));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public Label getLabel() {
 		return label;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs) {
@@ -202,87 +213,99 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ComponentPackage.CURVE_FITTING__LABEL, oldLabel, newLabel);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setLabel(Label newLabel) {
 		if (newLabel != label) {
 			NotificationChain msgs = null;
-			if (label != null)
+			if (label != null) {
 				msgs = ((InternalEObject) label).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.CURVE_FITTING__LABEL, null, msgs);
-			if (newLabel != null)
+			}
+			if (newLabel != null) {
 				msgs = ((InternalEObject) newLabel).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.CURVE_FITTING__LABEL, null, msgs);
+			}
 			msgs = basicSetLabel(newLabel, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CURVE_FITTING__LABEL, newLabel,
 					newLabel));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public Anchor getLabelAnchor() {
 		return labelAnchor;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setLabelAnchor(Anchor newLabelAnchor) {
 		Anchor oldLabelAnchor = labelAnchor;
 		labelAnchor = newLabelAnchor == null ? LABEL_ANCHOR_EDEFAULT : newLabelAnchor;
 		boolean oldLabelAnchorESet = labelAnchorESet;
 		labelAnchorESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CURVE_FITTING__LABEL_ANCHOR,
 					oldLabelAnchor, labelAnchor, !oldLabelAnchorESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetLabelAnchor() {
 		Anchor oldLabelAnchor = labelAnchor;
 		boolean oldLabelAnchorESet = labelAnchorESet;
 		labelAnchor = LABEL_ANCHOR_EDEFAULT;
 		labelAnchorESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.CURVE_FITTING__LABEL_ANCHOR,
 					oldLabelAnchor, LABEL_ANCHOR_EDEFAULT, oldLabelAnchorESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetLabelAnchor() {
 		return labelAnchorESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -298,7 +321,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -316,7 +339,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -337,7 +360,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -358,7 +381,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -376,20 +399,22 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (labelAnchor: "); //$NON-NLS-1$
-		if (labelAnchorESet)
+		if (labelAnchorESet) {
 			result.append(labelAnchor);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
@@ -428,6 +453,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting {
 	/**
 	 * @generated
 	 */
+	@Override
 	public CurveFitting copyInstance() {
 		CurveFittingImpl dest = new CurveFittingImpl();
 		dest.set(this);

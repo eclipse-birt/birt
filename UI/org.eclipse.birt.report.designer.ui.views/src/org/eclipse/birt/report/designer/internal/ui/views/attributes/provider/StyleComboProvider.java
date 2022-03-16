@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,10 +50,12 @@ public abstract class StyleComboProvider extends BorderDescriptorProvider implem
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * IComboProvider#getItems()
 	 */
+	@Override
 	public Object[] getItems() {
 		return items;
 	}
 
+	@Override
 	public Object[] getDisplayItems() {
 		return items;
 	}
@@ -61,12 +66,14 @@ public abstract class StyleComboProvider extends BorderDescriptorProvider implem
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * IComboProvider#setItems(java.lang.Object[])
 	 */
+	@Override
 	public void setItems(Object[] items) {
 		this.items = items;
 	}
 
 	protected Object indexText = ""; //$NON-NLS-1$
 
+	@Override
 	public void setIndex(Object index) {
 		indexText = index;
 	}
@@ -101,10 +108,11 @@ public abstract class StyleComboProvider extends BorderDescriptorProvider implem
 		gc.setLineWidth(1);
 		gc.setForeground(foreground);
 		String key = null;
-		if (item instanceof String)
+		if (item instanceof String) {
 			key = (String) item;
-		else if (item instanceof IChoice)
+		} else if (item instanceof IChoice) {
 			key = ((IChoice) item).getName();
+		}
 		if (DesignChoiceConstants.LINE_STYLE_NONE.equals(key)) {
 			Point textSize = gc.textExtent(item.toString());
 			gc.drawString(LINE_STYLE_NONE, 5, (height - textSize.y) / 2);
@@ -112,23 +120,24 @@ public abstract class StyleComboProvider extends BorderDescriptorProvider implem
 			gc.drawLine(4, height / 2 - 1, width - 4, height / 2 - 1);
 			gc.drawLine(4, height / 2 + 1, width - 4, height / 2 + 1);
 		} else {
-			if (DesignChoiceConstants.LINE_STYLE_DOTTED.equals(key))
+			if (DesignChoiceConstants.LINE_STYLE_DOTTED.equals(key)) {
 				gc.setLineStyle(SWT.LINE_DOT);
-			else if (DesignChoiceConstants.LINE_STYLE_DASHED.equals(key))
+			} else if (DesignChoiceConstants.LINE_STYLE_DASHED.equals(key)) {
 				gc.setLineStyle(SWT.LINE_DASH);
-			else if (DesignChoiceConstants.LINE_STYLE_SOLID.equals(key))
+			} else if (DesignChoiceConstants.LINE_STYLE_SOLID.equals(key)) {
 				gc.setLineStyle(SWT.LINE_SOLID);
-			else if (DesignChoiceConstants.LINE_WIDTH_THIN.equals(key))
+			} else if (DesignChoiceConstants.LINE_WIDTH_THIN.equals(key)) {
 				gc.setLineWidth(1);
-			else if (DesignChoiceConstants.LINE_WIDTH_MEDIUM.equals(key))
+			} else if (DesignChoiceConstants.LINE_WIDTH_MEDIUM.equals(key)) {
 				gc.setLineWidth(2);
-			else if (DesignChoiceConstants.LINE_WIDTH_THICK.equals(key))
+			} else if (DesignChoiceConstants.LINE_WIDTH_THICK.equals(key)) {
 				gc.setLineWidth(3);
-			else {
+			} else {
 				try {
 					int customWidth = (int) DimensionValue.parse(key).getMeasure();
-					if (DimensionValue.parse(key).getUnits().equals(DesignChoiceConstants.UNITS_PX))
+					if (DimensionValue.parse(key).getUnits().equals(DesignChoiceConstants.UNITS_PX)) {
 						gc.setLineWidth(customWidth);
+					}
 				} catch (Exception e) {
 					ExceptionUtil.handle(e);
 				}

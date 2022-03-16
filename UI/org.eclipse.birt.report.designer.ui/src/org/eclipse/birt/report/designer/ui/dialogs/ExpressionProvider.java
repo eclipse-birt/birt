@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -77,7 +80,7 @@ import org.eclipse.swt.graphics.Image;
  * NOTE: This class should not be extended for those expression provider user
  * extensions. Instead, they should extend
  * <code>org.eclipse.birt.report.designer.ui.expressions.AbstractExpressionProvider</code>
- * 
+ *
  * @see org.eclipse.birt.report.designer.ui.expressions.AbstractExpressionProvider
  */
 public class ExpressionProvider implements ISortableExpressionProvider, IExpressionFilterSupport {
@@ -114,7 +117,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 	}
 
 	/** Arithmetic operators and their descriptions */
-	protected static final Operator[] OPERATORS_ASSIGNMENT = new Operator[] {
+	protected static final Operator[] OPERATORS_ASSIGNMENT = {
 			new Operator("=", Messages.getString("ExpressionProvider.Operator.Assign")), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator("+=", Messages.getString("ExpressionProvider.Operator.AddTo")), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator("-=", Messages.getString("ExpressionProvider.Operator.SubFrom")), //$NON-NLS-1$ //$NON-NLS-2$
@@ -123,7 +126,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 	};
 
 	/** Comparison operators and their descriptions */
-	protected static Operator[] OPERATORS_COMPARISON = new Operator[] {
+	protected static Operator[] OPERATORS_COMPARISON = {
 			new Operator("==", Messages.getString("ExpressionProvider.Operator.Equals")), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator("<", Messages.getString("ExpressionProvider.Operator.Less")), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator("<=", Messages.getString("ExpressionProvider.Operator.LessEqual")), //$NON-NLS-1$ //$NON-NLS-2$
@@ -134,7 +137,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 	};
 
 	/** Computational operators and their descriptions */
-	protected static final Operator[] OPERATORS_COMPUTATIONAL = new Operator[] {
+	protected static final Operator[] OPERATORS_COMPUTATIONAL = {
 			new Operator("+", Messages.getString("ExpressionProvider.Operator.Add")), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator("-", Messages.getString("ExpressionProvider.Operator.Sub")), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator("*", Messages.getString("ExpressionProvider.Operator.Mult")), //$NON-NLS-1$ //$NON-NLS-2$
@@ -144,15 +147,15 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 	};
 
 	/** Logical operators and their descriptions */
-	protected static final Operator[] OPERATORS_LOGICAL = new Operator[] {
+	protected static final Operator[] OPERATORS_LOGICAL = {
 			new Operator("&&", Messages.getString("ExpressionProvider.Operator.And")), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator("||", Messages.getString("ExpressionProvider.Operator.Or")), //$NON-NLS-1$ //$NON-NLS-2$
 
 	};
 
 	/** Default operators on the operator bar */
-	protected static final Operator[] OPERATORS_ON_BAR = new Operator[] { OPERATORS_COMPUTATIONAL[0],
-			OPERATORS_COMPUTATIONAL[1], OPERATORS_COMPUTATIONAL[2], OPERATORS_COMPUTATIONAL[3], OPERATOR_SEPARATOR,
+	protected static final Operator[] OPERATORS_ON_BAR = { OPERATORS_COMPUTATIONAL[0], OPERATORS_COMPUTATIONAL[1],
+			OPERATORS_COMPUTATIONAL[2], OPERATORS_COMPUTATIONAL[3], OPERATOR_SEPARATOR,
 			new Operator("!", Messages.getString("ExpressionProvider.Operator.Not")), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator("=", Messages.getString("ExpressionProvider.Operator.Equals")), //$NON-NLS-1$ //$NON-NLS-2$
 			OPERATORS_COMPARISON[1], OPERATORS_COMPARISON[4], OPERATOR_SEPARATOR,
@@ -220,7 +223,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/**
 	 * Create a new expression provider with the given element
-	 * 
+	 *
 	 * @param handle the handle of the element
 	 */
 	public ExpressionProvider(DesignElementHandle handle) {
@@ -229,7 +232,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/**
 	 * Create a new expression provider with the given element
-	 * 
+	 *
 	 * @param handle the handle of the element
 	 */
 	public ExpressionProvider(DesignElementHandle handle, boolean includeSelf) {
@@ -245,11 +248,12 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getOperators
 	 * ()
 	 */
+	@Override
 	public Operator[] getOperators() {
 		if (adapterProvider != null) {
 			Operator[] cats = adapterProvider.getOperators();
@@ -269,11 +273,12 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getCategory
 	 * ()
 	 */
+	@Override
 	public Object[] getCategory() {
 		Object[] category = getCategoryList().toArray();
 		if (filterList != null && !filterList.isEmpty()) {
@@ -287,7 +292,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 	}
 
 	protected List<Object> getCategoryList() {
-		ArrayList<Object> categoryList = new ArrayList<Object>(5);
+		ArrayList<Object> categoryList = new ArrayList<>(5);
 		if (getChildren(COLUMN_BINDINGS).length > 0) {
 			categoryList.add(COLUMN_BINDINGS);
 		}
@@ -326,17 +331,18 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.expressions.ISortableExpressionProvider
 	 * #getSortedChildren(java.lang.Object)
 	 */
+	@Override
 	public Object[] getSortedChildren(Object parentElement) {
 		return sortChildren(parentElement, getChildren(parentElement));
 	}
 
 	protected Object[] sortElements(Object[] children) {
-		TreeMap<String, Object> map = new TreeMap<String, Object>(innerComparator);
+		TreeMap<String, Object> map = new TreeMap<>(innerComparator);
 
 		for (Object obj : children) {
 			map.put(getDisplayText(obj), obj);
@@ -381,6 +387,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 					return 4;
 				}
 
+				@Override
 				public int compare(Object o1, Object o2) {
 					if (o1 instanceof ILocalizableInfo[] && o2 instanceof ILocalizableInfo[]) {
 						ILocalizableInfo info1 = ((ILocalizableInfo[]) o1)[1];
@@ -416,6 +423,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 					return 3;
 				}
 
+				@Override
 				public int compare(Object o1, Object o2) {
 					int w1 = computeWeight(o1);
 					int w2 = computeWeight(o2);
@@ -436,11 +444,12 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getChildren
 	 * (java.lang.Object)
 	 */
+	@Override
 	public Object[] getChildren(Object parent) {
 		Object[] children = getChildrenList(parent).toArray();
 		if (filterList != null && !filterList.isEmpty()) {
@@ -454,7 +463,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 	}
 
 	protected List<Object> getChildrenList(Object parent) {
-		ArrayList<Object> childrenList = new ArrayList<Object>();
+		ArrayList<Object> childrenList = new ArrayList<>();
 
 		if (parent instanceof IAdaptable) {
 			parent = DNDUtil.unwrapToModel(parent);
@@ -492,51 +501,40 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 			if (VARIABLES_REPORT.equals(parent)) {
 				for (VariableElementHandle variable : ((ReportDesignHandle) elementHandle.getModuleHandle())
 						.getPageVariables()) {
-					if (DesignChoiceConstants.VARIABLE_TYPE_REPORT.equals(variable.getType()))
+					if (DesignChoiceConstants.VARIABLE_TYPE_REPORT.equals(variable.getType())) {
 						childrenList.add(variable);
+					}
 				}
-			}
-			// if ( VARIABLES_PAGE.equals( parent ) )
-			// {
-			// for ( VariableElementHandle variable : ( (ReportDesignHandle)
-			// elementHandle.getModuleHandle( ) ).getPageVariables( ) )
-			// {
-			// if ( DesignChoiceConstants.VARIABLE_TYPE_PAGE.equals(
-			// variable.getType( ) ) )
-			// childrenList.add( variable );
-			// }
-			// }
-			else {
-				if (COLUMN_BINDINGS.equals(parent)) {
-					childrenList.addAll(getAllBindingElementHandles());
-				} else if (CURRENT_CUBE.equals(parent)) {
-					CubeHandle cube = getCube(elementHandle);
-					if (cube != null) {
-						Object nodeProviderAdapter = ElementAdapterManager.getAdapter(cube, INodeProvider.class);
-						if (nodeProviderAdapter != null) {
-							return Arrays.asList(((INodeProvider) nodeProviderAdapter).getChildren(cube));
+			} else if (COLUMN_BINDINGS.equals(parent)) {
+				childrenList.addAll(getAllBindingElementHandles());
+			} else if (CURRENT_CUBE.equals(parent)) {
+				CubeHandle cube = getCube(elementHandle);
+				if (cube != null) {
+					Object nodeProviderAdapter = ElementAdapterManager.getAdapter(cube, INodeProvider.class);
+					if (nodeProviderAdapter != null) {
+						return Arrays.asList(((INodeProvider) nodeProviderAdapter).getChildren(cube));
+					}
+				}
+			} else if (BIRT_OBJECTS.equals(parent)) {
+				childrenList.addAll(getClassList(false));
+				try {
+					IScriptFunctionCategory[] categorys = FunctionProvider.getCategories();
+					for (int i = 0; i < categorys.length; i++) {
+						if (categorys[i].isVisible()) {
+							childrenList.add(categorys[i]);
 						}
 					}
-				} else if (BIRT_OBJECTS.equals(parent)) {
-					childrenList.addAll(getClassList(false));
-					try {
-						IScriptFunctionCategory[] categorys = FunctionProvider.getCategories();
-						for (int i = 0; i < categorys.length; i++) {
-							if (categorys[i].isVisible())
-								childrenList.add(categorys[i]);
-						}
-					} catch (BirtException e) {
-						ExceptionHandler.handle(e);
-					}
-				} else if (NATIVE_OBJECTS.equals(parent)) {
-					childrenList.addAll(getClassList(true));
-				} else if (OPERATORS.equals(parent)) {
-					childrenList.add(OPERATORS_ASSIGNMENT);
-					childrenList.add(OPERATORS_COMPARISON);
-					childrenList.add(OPERATORS_COMPUTATIONAL);
-					childrenList.add(OPERATORS_LOGICAL);
-					childrenList.add(0, childrenList.toArray());
+				} catch (BirtException e) {
+					ExceptionHandler.handle(e);
 				}
+			} else if (NATIVE_OBJECTS.equals(parent)) {
+				childrenList.addAll(getClassList(true));
+			} else if (OPERATORS.equals(parent)) {
+				childrenList.add(OPERATORS_ASSIGNMENT);
+				childrenList.add(OPERATORS_COMPARISON);
+				childrenList.add(OPERATORS_COMPUTATIONAL);
+				childrenList.add(OPERATORS_LOGICAL);
+				childrenList.add(0, childrenList.toArray());
 			}
 		} else if (parent instanceof IClassInfo) {
 			IClassInfo classInfo = (IClassInfo) parent;
@@ -558,8 +556,9 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 			try {
 				IScriptFunction[] functions = ((IScriptFunctionCategory) parent).getFunctions();
 				for (int i = 0; i < functions.length; i++) {
-					if (functions[i].isVisible())
+					if (functions[i].isVisible()) {
 						childrenList.add(functions[i]);
+					}
 				}
 			} catch (BirtException e) {
 				ExceptionHandler.handle(e);
@@ -568,7 +567,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 			childrenList.addAll(((ParameterGroupHandle) parent).getParameters().getContents());
 		} else if (parent instanceof ReportItemHandle || parent instanceof GroupHandle) {
 			if (parent instanceof ReportItemHandle) {
-				List<String> nameList = new ArrayList<String>();
+				List<String> nameList = new ArrayList<>();
 				Iterator<ComputedColumnHandle> iter = getColumnBindings((ReportItemHandle) parent);
 				while (iter.hasNext()) {
 					ComputedColumnHandle column = iter.next();
@@ -580,8 +579,9 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 					DesignElementHandle container = elementHandle;
 					while (root != null && container != null && container != root) {
 						container = container.getContainer();
-						if (!(container instanceof ReportItemHandle))
+						if (!(container instanceof ReportItemHandle)) {
 							continue;
+						}
 						Iterator<ComputedColumnHandle> iter1 = getColumnBindings((ReportItemHandle) container);
 						while (iter1.hasNext()) {
 							ComputedColumnHandle column = iter1.next();
@@ -606,9 +606,8 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 		} else {
 			Object nodeProviderAdapter = ElementAdapterManager.getAdapter(parent, INodeProvider.class);
 			if (nodeProviderAdapter != null) {
-				List children = new ArrayList();
-				children.addAll(Arrays.asList(((INodeProvider) nodeProviderAdapter).getChildren(parent)));
-//				if ( parent instanceof MeasureGroupHandle )
+				List children = new ArrayList(Arrays.asList(((INodeProvider) nodeProviderAdapter).getChildren(parent)));
+				//				if ( parent instanceof MeasureGroupHandle )
 //				{
 //					for ( int i = 0; i < children.size( ); i++ )
 //					{
@@ -641,8 +640,9 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 			return (CubeHandle) input;
 		} else if (input instanceof ReportItemHandle && ((ReportItemHandle) input).getCube() != null) {
 			return ((ReportItemHandle) input).getCube();
-		} else
+		} else {
 			return getCubeHandle(input);
+		}
 	}
 
 	private CubeHandle getCubeHandle(Object input) {
@@ -658,15 +658,16 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 		} else if (input instanceof MeasureGroupHandle) {
 			parent = ((MeasureGroupHandle) input).getContainer();
 		}
-		if (parent instanceof CubeHandle)
+		if (parent instanceof CubeHandle) {
 			return (CubeHandle) parent;
+		}
 		return null;
 	}
 
 	/**
 	 * Add 'Edit Bindings' item into children items list, if current context doesn't
 	 * allow editing column, subclass will override this method.
-	 * 
+	 *
 	 * @param childrenList
 	 * @param itemText
 	 * @param parent
@@ -678,7 +679,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/**
 	 * Check overload method signature
-	 * 
+	 *
 	 * @param classInfo
 	 * @param mi
 	 * @param childrenList
@@ -700,7 +701,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/**
 	 * Returns all element handles related to available bindings.
-	 * 
+	 *
 	 * @return
 	 * @since 2.3
 	 */
@@ -720,7 +721,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/**
 	 * Returns all column bindings of current element handle.
-	 * 
+	 *
 	 * @return
 	 * @since 2.3
 	 */
@@ -731,10 +732,11 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#
 	 * getDisplayText(java.lang.Object)
 	 */
+	@Override
 	public String getDisplayText(Object element) {
 		Object nodeProviderAdapter = ElementAdapterManager.getAdapter(element, INodeProvider.class);
 		if (nodeProviderAdapter != null) {
@@ -755,7 +757,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 			} else if (element instanceof ILocalizableInfo[]) {
 				// including class info,method info and member info
 				ILocalizableInfo info = ((ILocalizableInfo[]) element)[1];
-				StringBuffer displayText = new StringBuffer(info.getName());
+				StringBuilder displayText = new StringBuilder(info.getName());
 				if (info instanceof IMethodInfo) {
 					IMethodInfo method = (IMethodInfo) info;
 					displayText.append("("); //$NON-NLS-1$
@@ -785,8 +787,9 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 							isFirst = false;
 
 							displayText.append(argInfo.getDisplayName());
-							if (argInfo.getType() != null)
+							if (argInfo.getType() != null) {
 								displayText.append(":" + argInfo.getType());
+							}
 						}
 
 						break;
@@ -836,7 +839,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 			return categoreName;
 		} else if (element instanceof IScriptFunction) {
 			IScriptFunction function = (IScriptFunction) element;
-			StringBuffer displayText = new StringBuffer(function.getName());
+			StringBuilder displayText = new StringBuilder(function.getName());
 			IScriptFunctionArgument[] arguments = function.getArguments();
 
 			displayText.append("("); //$NON-NLS-1$
@@ -844,10 +847,12 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 			if (arguments != null) {
 				for (int i = 0; i < arguments.length; i++) {
 					displayText.append(arguments[i].getName());
-					if (arguments[i].getDataTypeName() != null)
+					if (arguments[i].getDataTypeName() != null) {
 						displayText.append(":" + arguments[i].getDataTypeName().trim());
-					if (i < arguments.length - 1)
+					}
+					if (i < arguments.length - 1) {
 						displayText.append(", ");//$NON-NLS-1$
+					}
 				}
 			}
 			displayText.append(")"); //$NON-NLS-1$
@@ -875,10 +880,11 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#
 	 * getTooltipText(java.lang.Object)
 	 */
+	@Override
 	public String getTooltipText(Object element) {
 		if (element instanceof Operator) {
 			return ((Operator) element).tooltip;
@@ -910,10 +916,11 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getImage
 	 * (java.lang.Object)
 	 */
+	@Override
 	public Image getImage(Object element) {
 		Object nodeProviderAdapter = ElementAdapterManager.getAdapter(element, INodeProvider.class);
 		if (nodeProviderAdapter != null) {
@@ -939,12 +946,13 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 				return IMAGE_MEMBER;
 			}
 		} else if (element instanceof IScriptFunction) {
-			if (((IScriptFunction) element).isStatic())
+			if (((IScriptFunction) element).isStatic()) {
 				return IMAGE_STATIC_METHOD;
-			else if (((IScriptFunction) element).isConstructor()) {
+			} else if (((IScriptFunction) element).isConstructor()) {
 				return IMAGE_CONSTRUCTOR;
-			} else
+			} else {
 				return IMAGE_METHOD;
+			}
 		} else if (element instanceof ComputedColumnHandle || element instanceof ResultSetColumnHandle
 				|| element instanceof DataSetItemModel || element instanceof Expression) {
 			return IMAGE_COLUMN;
@@ -965,11 +973,12 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getInsertText
 	 * (java.lang.Object)
 	 */
+	@Override
 	public String getInsertText(Object element) {
 		if (element instanceof Operator) {
 			return ((Operator) element).insertString;
@@ -978,7 +987,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 		} else if (element instanceof ILocalizableInfo[]) {
 			IClassInfo classInfo = (IClassInfo) ((ILocalizableInfo[]) element)[0];
 			ILocalizableInfo info = ((ILocalizableInfo[]) element)[1];
-			StringBuffer insertText = new StringBuffer();
+			StringBuilder insertText = new StringBuilder();
 			if (info instanceof IMemberInfo) {
 				IMemberInfo memberInfo = (IMemberInfo) info;
 				if (memberInfo.isStatic()) {
@@ -998,7 +1007,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 			return insertText.toString();
 		} else if (element instanceof IScriptFunction) {
 			IScriptFunction function = (IScriptFunction) element;
-			StringBuffer insertText = new StringBuffer();
+			StringBuilder insertText = new StringBuilder();
 			if (function.isStatic()) {
 				if (function.getCategory().getName() != null) {
 					insertText.append(function.getCategory().getName() + "."); //$NON-NLS-1$
@@ -1051,7 +1060,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/**
 	 * Adds a filter for this expression builder.
-	 * 
+	 *
 	 * @param filter the filter to add
 	 */
 	public void addFilter(ExpressionFilter filter) {
@@ -1060,7 +1069,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 		}
 
 		if (filterList == null) {
-			filterList = new ArrayList<ExpressionFilter>();
+			filterList = new ArrayList<>();
 		}
 
 		if (!filterList.contains(filter)) {
@@ -1070,7 +1079,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/**
 	 * Adds a filter list for this expression builder.
-	 * 
+	 *
 	 * @param list the list of the filter to add
 	 */
 	public void addFilterList(List<ExpressionFilter> list) {
@@ -1087,7 +1096,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/**
 	 * Removes a filter from the filter list.
-	 * 
+	 *
 	 * @param filter the filter to remove
 	 */
 	public void removeFilter(ExpressionFilter filter) {
@@ -1107,21 +1116,25 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 		filterList.clear();
 	}
 
+	@Override
 	public void setFilters(List<ExpressionFilter> filters) {
 		this.filterList = filters;
 	}
 
+	@Override
 	public List<ExpressionFilter> getFilters() {
 		return filterList;
 	}
 
+	@Override
 	public boolean hasChildren(Object element) {
 		if (element instanceof IAdaptable) {
 			element = DNDUtil.unwrapToModel(element);
 		}
 		if (element instanceof PropertyHandle || element instanceof TabularMeasureGroupHandle
-				|| element instanceof DimensionHandle || element instanceof LevelHandle)
+				|| element instanceof DimensionHandle || element instanceof LevelHandle) {
 			return getChildrenList(element).size() > 0;
+		}
 
 		if (adapterProvider != null) {
 			return adapterProvider.hasChildren(element);
@@ -1142,7 +1155,7 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 
 	/**
 	 * Returns the column binding iterator of selected report item.
-	 * 
+	 *
 	 * @param handle report item
 	 * @return iterator of ColumnBindingHandle
 	 */

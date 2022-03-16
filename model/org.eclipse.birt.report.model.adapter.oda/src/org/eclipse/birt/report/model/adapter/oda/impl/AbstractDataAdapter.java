@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +40,7 @@ import org.eclipse.emf.common.util.EList;
 abstract class AbstractDataAdapter {
 
 	/**
-	 * 
+	 *
 	 */
 
 	private static final String RESOURCE_FILE_SUFFIX = ".properties"; //$NON-NLS-1$
@@ -45,7 +48,7 @@ abstract class AbstractDataAdapter {
 	protected final IODADesignFactory designFactory;
 
 	/**
-	 * 
+	 *
 	 */
 
 	AbstractDataAdapter() {
@@ -54,14 +57,15 @@ abstract class AbstractDataAdapter {
 
 	/**
 	 * Converts <code>props</code> from Iterator to ODA <code>Properties</code> .
-	 * 
+	 *
 	 * @param props the iterator for extended property
 	 * @return a new <code>Properties</code> object.
 	 */
 
 	protected Properties newOdaPrivateProperties(Iterator props) {
-		if (props == null || !props.hasNext())
+		if (props == null || !props.hasNext()) {
 			return null;
+		}
 
 		Properties retProps = designFactory.createProperties();
 		for (; props.hasNext();) {
@@ -74,20 +78,22 @@ abstract class AbstractDataAdapter {
 
 	/**
 	 * Converts ROM public properties to ODA <code>Properties</code> instance.
-	 * 
+	 *
 	 * @param sourceHandle the data source handle
 	 * @return <code>Properties</code> containing ROM public property values.
 	 */
 
 	protected Properties newOdaPublicProperties(List propDefns, ReportElementHandle element) {
-		if (propDefns == null)
+		if (propDefns == null) {
 			return null;
+		}
 
 		Properties retProps = null;
 
 		for (int i = 0; i < propDefns.size(); i++) {
-			if (retProps == null)
+			if (retProps == null) {
 				retProps = designFactory.createProperties();
+			}
 			IPropertyDefn propDefn = (IPropertyDefn) propDefns.get(i);
 			String propName = propDefn.getName();
 			String propValue = element.getStringProperty(propName);
@@ -99,14 +105,15 @@ abstract class AbstractDataAdapter {
 
 	/**
 	 * Converts <code>props</code> from ODA <code>Properties</code> to List.
-	 * 
+	 *
 	 * @param props ODA property values.
 	 * @return a new <code>List</code> object.
 	 */
 
 	protected List newROMPrivateProperties(Properties props) {
-		if (props == null)
+		if (props == null) {
 			return null;
+		}
 
 		List list = new ArrayList();
 		EList designProps = props.getProperties();
@@ -124,14 +131,15 @@ abstract class AbstractDataAdapter {
 
 	/**
 	 * Converts ODA <code>Properties</code> to ROM public properties.
-	 * 
+	 *
 	 * @param sourceHandle the data source handle
 	 */
 
 	protected void updateROMPublicProperties(Properties designProps, ReportElementHandle sourceHandle)
 			throws SemanticException {
-		if (designProps == null)
+		if (designProps == null) {
 			return;
+		}
 
 		EList publicProps = designProps.getProperties();
 		for (int i = 0; i < publicProps.size(); i++) {
@@ -153,16 +161,19 @@ abstract class AbstractDataAdapter {
 	 */
 
 	protected void updateROMMessageFile(DataSourceDesign dsDesign, ModuleHandle root) throws SemanticException {
-		if (dsDesign == null || root == null)
+		if (dsDesign == null || root == null) {
 			return;
+		}
 
 		String resourceFile = root.getIncludeResource();
-		if (resourceFile != null)
+		if (resourceFile != null) {
 			return;
+		}
 
 		resourceFile = dsDesign.getResourceFile();
-		if (resourceFile == null)
+		if (resourceFile == null) {
 			return;
+		}
 
 		if (!resourceFile.endsWith(RESOURCE_FILE_SUFFIX)) {
 			throw new IllegalArgumentException("The DTP resource file must end with " //$NON-NLS-1$
@@ -181,8 +192,9 @@ abstract class AbstractDataAdapter {
 
 	protected void updateODAMessageFile(DataSourceDesign dsDesign, ModuleHandle root) {
 		String resourceFile = root.getIncludeResource();
-		if (resourceFile == null)
+		if (resourceFile == null) {
 			return;
+		}
 
 		resourceFile = resourceFile + RESOURCE_FILE_SUFFIX;
 

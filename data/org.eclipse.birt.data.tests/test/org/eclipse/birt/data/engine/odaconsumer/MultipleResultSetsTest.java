@@ -1,27 +1,35 @@
 /*
  *************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odaconsumer.testdriver.TestAdvQueryImpl;
 import org.eclipse.birt.data.engine.odaconsumer.testutil.OdaTestDriverCase;
 import org.eclipse.birt.data.engine.odi.IResultClass;
-
-import org.junit.Test;
 import org.junit.Ignore;
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * Test cases for handling multiple result sets.
@@ -321,8 +329,9 @@ public class MultipleResultSetsTest extends OdaTestDriverCase {
 		hostStmt.setColumnsProjection(resultSetNum, getTestProjectedColumns());
 
 		// flag to execute before getting result set and metadata
-		if (executeAfterSetProjections)
+		if (executeAfterSetProjections) {
 			hostStmt.execute();
+		}
 
 		IResultClass metadata1 = hostStmt.getMetaData(resultSetNum);
 		assertNotNull(metadata1);

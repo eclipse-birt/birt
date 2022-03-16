@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.core.ui.frameworks.taskwizard;
 
@@ -32,7 +44,7 @@ public class TasksManager {
 	/**
 	 * This method returns the instance of TasksManager. If an instance does not
 	 * exist, one is created.
-	 * 
+	 *
 	 * @return Singleton instance of TasksManager
 	 */
 	public static TasksManager instance() {
@@ -44,9 +56,9 @@ public class TasksManager {
 
 	// PRIVATE CONSTRUCTOR OF A SINGLETON
 	private TasksManager() {
-		registeredTasks = new LinkedHashMap<String, TaskRegistrationEntry>();
-		registeredWizards = new Hashtable<String, Vector<String>>();
-		registeredListeners = new Vector<IRegistrationListener>();
+		registeredTasks = new LinkedHashMap<>();
+		registeredWizards = new Hashtable<>();
+		registeredListeners = new Vector<>();
 		processExtensions();
 	}
 
@@ -64,7 +76,7 @@ public class TasksManager {
 						String strPriority = elements[i].getAttribute("priority"); //$NON-NLS-1$
 						int priority = 0;
 						try {
-							priority = Integer.valueOf(strPriority);
+							priority = Integer.parseInt(strPriority);
 						} catch (NumberFormatException ex) {
 							priority = 0;
 						}
@@ -91,7 +103,7 @@ public class TasksManager {
 				for (int i = 0; i < elements.length; i++) {
 					String sID = elements[i].getAttribute("wizardID"); //$NON-NLS-1$
 					String sTaskList = elements[i].getAttribute("tasklist"); //$NON-NLS-1$
-					String[] sTasks = new String[0];
+					String[] sTasks = {};
 					if (sTaskList != null) {
 						sTasks = sTaskList.split(","); //$NON-NLS-1$
 					}
@@ -122,12 +134,10 @@ public class TasksManager {
 							}
 						}
 						registeredWizards.put(sID, addAllTasks(vTemp, sTasks, insertIndex));
+					} else if (sTaskList != null && sTaskList.trim().length() > 0) {
+						registeredWizards.put(sID, addAllTasks(new Vector<String>(), sTasks, -1));
 					} else {
-						if (sTaskList != null && sTaskList.trim().length() > 0) {
-							registeredWizards.put(sID, addAllTasks(new Vector<String>(), sTasks, -1));
-						} else {
-							registeredWizards.put(sID, new Vector<String>());
-						}
+						registeredWizards.put(sID, new Vector<String>());
 					}
 				}
 			}
@@ -153,7 +163,7 @@ public class TasksManager {
 	}
 
 	private void updateWizard(String sWizardID, String sTasks, String sPosition) {
-		Vector<String> vTaskList = new Vector<String>();
+		Vector<String> vTaskList = new Vector<>();
 		if (registeredWizards.containsKey(sWizardID)) {
 			vTaskList = registeredWizards.get(sWizardID);
 		}
@@ -170,7 +180,7 @@ public class TasksManager {
 	/**
 	 * This method registers a task with the TasksManager. It throws an exception if
 	 * the task ID is already in use or if the ITask instance is null.
-	 * 
+	 *
 	 * @param sTaskID The unique identifier with which the task is to be registered
 	 * @param task    The ITask instance that represents the Wizard UI for the task
 	 * @throws IllegalArgumentException if taskID is not unique or if task argument
@@ -189,7 +199,7 @@ public class TasksManager {
 	/**
 	 * This method removes a registered task from the TasksManager. It throws an
 	 * exception if the task ID is not found.
-	 * 
+	 *
 	 * @param sTaskID The unique identifier of the task that is to be deregistered
 	 * @throws IllegalArgumentException if task with specified ID is not registered
 	 */
@@ -206,7 +216,7 @@ public class TasksManager {
 	/**
 	 * This method registers a wizard with the TasksManager. It throws an exception
 	 * if the WizardID instance is null.
-	 * 
+	 *
 	 * @param sWizardID The unique identifier of the wizard
 	 * @param sTasks    A comma separated list of TaskIDs that specify tasks to be
 	 *                  automatically added to the wizard on invocation
@@ -224,7 +234,7 @@ public class TasksManager {
 
 	/**
 	 * Returns the ITask instance registered with the specified ID.
-	 * 
+	 *
 	 * @param sTaskID The ID uniquely identifying the task to be obtained
 	 * @return the task currently registered with the specified ID
 	 */
@@ -239,7 +249,7 @@ public class TasksManager {
 	 * Returns the tasks (in the correct order) registered for use with the
 	 * specified wizard. If a wizard with such an ID has not been registered, an
 	 * empty array is returned.
-	 * 
+	 *
 	 * @param sWizardID The ID uniquely identifying the wizard whose tasks are to be
 	 *                  returned
 	 * @return an array of task IDs currently registered for use with the specified
@@ -261,7 +271,7 @@ public class TasksManager {
 	 * Returns whether or not a task has been registered with the specified ID. This
 	 * can be used to determine if an ID being used for a task is actually unique
 	 * before attempting to register it.
-	 * 
+	 *
 	 * @param sTaskID The ID which is to be checked.
 	 * @return true if there exists a task registered with the specified ID, false
 	 *         otherwise
@@ -273,7 +283,7 @@ public class TasksManager {
 
 	/**
 	 * Adds a listener to be notified of registration events.
-	 * 
+	 *
 	 * @param listener Instance of IRegistrationListener that should be notified on
 	 *                 events
 	 */
@@ -284,7 +294,7 @@ public class TasksManager {
 	/**
 	 * Removes a registered listener. This listener will no longer recieve
 	 * notification of registration events.
-	 * 
+	 *
 	 * @param listener Instance of IRegistrationListener that should be removed
 	 */
 	public void removeRegistrationListener(IRegistrationListener listener) {

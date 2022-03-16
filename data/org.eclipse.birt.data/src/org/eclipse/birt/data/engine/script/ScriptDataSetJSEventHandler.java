@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.script;
@@ -38,6 +41,7 @@ public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implement
 		return (IScriptDataSetDesign) getBaseDesign();
 	}
 
+	@Override
 	public void handleOpen(IDataSetInstanceHandle dataSet) throws BirtException {
 		String script = getScriptDataSetDesign().getOpenScript();
 		if (script != null && script.length() > 0) {
@@ -45,6 +49,7 @@ public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implement
 		}
 	}
 
+	@Override
 	public void handleClose(IDataSetInstanceHandle dataSet) throws BirtException {
 		String script = getScriptDataSetDesign().getCloseScript();
 		if (script != null && script.length() > 0) {
@@ -52,30 +57,34 @@ public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implement
 		}
 	}
 
+	@Override
 	public boolean handleFetch(IDataSetInstanceHandle dataSet, IDataRow row) throws BirtException {
 		String script = getScriptDataSetDesign().getFetchScript();
 		if (script != null && script.length() > 0) {
 			Object result = getRunner(dataSet.getScriptScope()).runScript("fetch", script);
 
-			if (result instanceof Boolean)
+			if (result instanceof Boolean) {
 				return ((Boolean) result).booleanValue();
-			else
+			} else {
 				throw new DataException(ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE, new Object[] { "Fetch", result });
+			}
 		}
 		return false;
 	}
 
+	@Override
 	public boolean handleDescribe(IDataSetInstanceHandle dataSet, IScriptDataSetMetaDataDefinition metaData)
 			throws BirtException {
 		String script = getScriptDataSetDesign().getDescribeScript();
 		if (script != null && script.length() > 0) {
 			Object result = getRunner(dataSet.getScriptScope()).runScript("describe", script);
 
-			if (result instanceof Boolean)
+			if (result instanceof Boolean) {
 				return ((Boolean) result).booleanValue();
-			else
+			} else {
 				throw new DataException(ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
 						new Object[] { "Describe", result });
+			}
 		}
 		return false;
 	}

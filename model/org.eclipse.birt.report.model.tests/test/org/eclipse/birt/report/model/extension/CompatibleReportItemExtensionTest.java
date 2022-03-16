@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,10 +34,11 @@ public class CompatibleReportItemExtensionTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		ThreadResources.setLocale(ULocale.ENGLISH);
@@ -43,9 +47,9 @@ public class CompatibleReportItemExtensionTest extends BaseTestCase {
 	/**
 	 * Tests the backward compatibility for the extended item that in the design
 	 * file of which the version is smaller than "3.1.0".
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testCompatibleBoundDataColumns() throws Exception {
@@ -57,9 +61,9 @@ public class CompatibleReportItemExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests to remove unused columns for extended item like matrix.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testRemoveBoundDataColumns() throws Exception {

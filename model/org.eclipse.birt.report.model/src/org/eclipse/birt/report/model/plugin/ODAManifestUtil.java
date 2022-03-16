@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ class ODAManifestUtil {
 	 * Returns the extensin for ODA data source with the given extension ID. If the
 	 * extension is not found, runtime exception will be thrown because the
 	 * following cannot know how to handle it.
-	 * 
+	 *
 	 * @param extensionID ID of the extension
 	 * @return the extension for ODA data source
 	 */
@@ -44,22 +47,24 @@ class ODAManifestUtil {
 
 	/**
 	 * Returns the extensin for ODA data set type with the given extension ID.
-	 * 
+	 *
 	 * @param extensionID ID of the extension
 	 * @return the extension for ODA data set type.
 	 */
 
 	public static DataSetType getDataSetExtension(String extensionID) {
-		if (extensionID == null)
+		if (extensionID == null) {
 			return null;
+		}
 
 		ExtensionManifest[] extensions = ManifestExplorer.getInstance().getExtensionManifests();
 
 		for (int i = 0; i < extensions.length; i++) {
 			DataSetType[] types = extensions[i].getDataSetTypes();
 			for (int j = 0; j < types.length; j++) {
-				if (types[j].getID().equals(extensionID))
+				if (types[j].getID().equals(extensionID)) {
 					return types[j];
+				}
 			}
 		}
 

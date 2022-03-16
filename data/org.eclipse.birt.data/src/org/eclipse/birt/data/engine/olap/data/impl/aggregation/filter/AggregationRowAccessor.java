@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,22 +36,23 @@ public class AggregationRowAccessor extends AbstractRowAccessor {
 	private Map<String, Object> currentAxisValue;
 
 	/**
-	 * 
+	 *
 	 * @param resultSet
 	 */
 	public AggregationRowAccessor(IAggregationResultSet resultSet, IBindingValueFetcher fetcher) {
 		this.resultSet = resultSet;
 		this.fetcher = fetcher;
-		this.currentAxisValue = new HashMap<String, Object>();
+		this.currentAxisValue = new HashMap<>();
 		populateFieldIndexMap();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.
 	 * AbstractRowAccessor#populateFieldIndexMap()
 	 */
+	@Override
 	protected void populateFieldIndexMap() {
 		for (int i = 0; i < resultSet.getLevelCount(); i++) {
 			DimLevel level = resultSet.getAllLevels()[i];
@@ -72,16 +76,18 @@ public class AggregationRowAccessor extends AbstractRowAccessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.util.filter.IResultRow#getAggrValue(java.
 	 * lang.String)
 	 */
+	@Override
 	public Object getAggrValue(String aggrName) throws DataException {
 		try {
 			int aggrIndex = resultSet.getAggregationIndex(aggrName);
-			if (aggrIndex == -1)
+			if (aggrIndex == -1) {
 				return this.getFieldValue(aggrName);
+			}
 			return resultSet.getAggregationValue(aggrIndex);
 		} catch (IOException e) {
 			throw new DataException("", e);
@@ -90,29 +96,33 @@ public class AggregationRowAccessor extends AbstractRowAccessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.util.filter.IResultRow#getFieldValue(java.
 	 * lang.String)
 	 */
+	@Override
 	public Object getFieldValue(String fieldName) throws DataException {
 		FieldIndex index = (FieldIndex) fieldIndexMap.get(fieldName);
-		if (index != null)
+		if (index != null) {
 			return index.getValue();
-		if (this.currentAxisValue.containsKey(fieldName))
+		}
+		if (this.currentAxisValue.containsKey(fieldName)) {
 			return this.currentAxisValue.get(fieldName);
-		if (fetcher != null)
+		}
+		if (fetcher != null) {
 			return fetcher.getValue(fieldName, this, this.resultSet.getPosition());
+		}
 		return null;
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	class AggregationKeyIndex extends KeyIndex {
 
 		/**
-		 * 
+		 *
 		 * @param levelIndex
 		 * @param keyIndex
 		 */
@@ -122,22 +132,23 @@ public class AggregationRowAccessor extends AbstractRowAccessor {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.
 		 * AbstractRowAccessor.FieldIndex#getValue()
 		 */
+		@Override
 		Object getValue() {
 			return resultSet.getLevelKeyValue(levelIndex)[keyIndex];
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	class AggregationAttrIndex extends AttributeIndex {
 
 		/**
-		 * 
+		 *
 		 * @param levelIndex
 		 * @param keyIndex
 		 */
@@ -147,15 +158,17 @@ public class AggregationRowAccessor extends AbstractRowAccessor {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.
 		 * AbstractRowAccessor.FieldIndex#getValue()
 		 */
+		@Override
 		Object getValue() {
 			return resultSet.getLevelAttribute(levelIndex, attrIndex);
 		}
 	}
 
+	@Override
 	public boolean isTimeDimensionRow() {
 		return false;
 	}
@@ -165,9 +178,10 @@ public class AggregationRowAccessor extends AbstractRowAccessor {
 	}
 
 	public void setCurrentAxisValue(Map<String, Object> currentAxisValue) {
-		if (currentAxisValue != null)
+		if (currentAxisValue != null) {
 			this.currentAxisValue = currentAxisValue;
-		else
+		} else {
 			this.currentAxisValue.clear();
+		}
 	}
 }

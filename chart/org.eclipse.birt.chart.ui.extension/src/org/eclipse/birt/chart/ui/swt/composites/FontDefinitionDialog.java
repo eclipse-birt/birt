@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -52,7 +55,7 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class FontDefinitionDialog extends TrayDialog
 		implements IFontDefinitionDialog, SelectionListener, Listener, IAngleChangeListener, FocusListener {
@@ -109,11 +112,11 @@ public class FontDefinitionDialog extends TrayDialog
 
 	private boolean isRotationEnabled = true;
 
-	protected transient List<Button> listAlignmentButtons = new ArrayList<Button>(9);
+	protected transient List<Button> listAlignmentButtons = new ArrayList<>(9);
 
 	private transient ChartWizardContext wizardContext;
 
-	private static final String[] FONT_SIZE = new String[] { ChartUIUtil.FONT_AUTO, "9", "10", "12", "14", "16", "18", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+	private static final String[] FONT_SIZE = { ChartUIUtil.FONT_AUTO, "9", "10", "12", "14", "16", "18", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 			"24", "36" //$NON-NLS-1$ //$NON-NLS-2$
 	};
 
@@ -125,6 +128,7 @@ public class FontDefinitionDialog extends TrayDialog
 	 * @param isAlignmentEnabled
 	 * @deprecated since 4.2
 	 */
+	@Deprecated
 	public FontDefinitionDialog(Shell shellParent, ChartWizardContext wizardContext, FontDefinition fdCurrent,
 			ColorDefinition cdCurrent, boolean isAlignmentEnabled) {
 		super(shellParent);
@@ -154,16 +158,19 @@ public class FontDefinitionDialog extends TrayDialog
 		this.cdBackup = this.cdCurrent == null ? null : cdCurrent.copyInstance();
 	}
 
+	@Override
 	protected void setShellStyle(int newShellStyle) {
 		super.setShellStyle(newShellStyle | SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 	}
 
+	@Override
 	protected Control createContents(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.DIALOG_FONT_EDITOR);
 		getShell().setText(Messages.getString("FontDefinitionDialog.Title.FontDescriptor")); //$NON-NLS-1$
 		return super.createContents(parent);
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		GridLayout glContent = new GridLayout();
 		glContent.verticalSpacing = 5;
@@ -238,6 +245,7 @@ public class FontDefinitionDialog extends TrayDialog
 		return cmpContent;
 	}
 
+	@Override
 	protected void cancelPressed() {
 		this.fdCurrent = this.fdBackup;
 		this.cdCurrent = this.cdBackup;
@@ -568,14 +576,12 @@ public class FontDefinitionDialog extends TrayDialog
 				} else {
 					btnACenterRight.setSelection(true);
 				}
+			} else if (VerticalAlignment.TOP_LITERAL.equals(va)) {
+				btnATopCenter.setSelection(true);
+			} else if (VerticalAlignment.BOTTOM_LITERAL.equals(va)) {
+				btnABottomCenter.setSelection(true);
 			} else {
-				if (VerticalAlignment.TOP_LITERAL.equals(va)) {
-					btnATopCenter.setSelection(true);
-				} else if (VerticalAlignment.BOTTOM_LITERAL.equals(va)) {
-					btnABottomCenter.setSelection(true);
-				} else {
-					btnACenter.setSelection(true);
-				}
+				btnACenter.setSelection(true);
 			}
 		}
 	}
@@ -595,10 +601,12 @@ public class FontDefinitionDialog extends TrayDialog
 		fcPreview.redraw();
 	}
 
+	@Override
 	public FontDefinition getFontDefinition() {
 		return this.fdCurrent;
 	}
 
+	@Override
 	public ColorDefinition getFontColor() {
 		return cdCurrent == null || cdCurrent.isSetTransparency() && cdCurrent.getTransparency() == 0 ? null
 				: cdCurrent;
@@ -606,10 +614,11 @@ public class FontDefinitionDialog extends TrayDialog
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		Object oSource = e.getSource();
 
@@ -701,6 +710,7 @@ public class FontDefinitionDialog extends TrayDialog
 		}
 	}
 
+	@Override
 	public void handleEvent(Event e) {
 		if (e.widget.equals(iscRotation)) {
 			if (e.detail == ChartUIExtensionUtil.PROPERTY_UNSET) {
@@ -730,11 +740,12 @@ public class FontDefinitionDialog extends TrayDialog
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		if (e.widget.equals(cmbFontSizes)) {
 			handleFontSize();
@@ -750,7 +761,7 @@ public class FontDefinitionDialog extends TrayDialog
 			boolean isCorrect = true;
 			int value = 0;
 			try {
-				value = Integer.valueOf(cmbFontSizes.getText()).intValue();
+				value = Integer.parseInt(cmbFontSizes.getText());
 				if (value <= 0 || value > 7200) {
 					isCorrect = false;
 				}
@@ -768,22 +779,25 @@ public class FontDefinitionDialog extends TrayDialog
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.composites.IAngleChangeListener#angleChanged(
 	 * int)
 	 */
+	@Override
 	public void angleChanged(int iNewAngle) {
 		iscRotation.setValue(iNewAngle);
 		fdCurrent.setRotation(iNewAngle);
 		updatePreview();
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		if (e.widget.equals(cmbFontSizes)) {
 			// Notify selectionListener to save values
@@ -794,7 +808,7 @@ public class FontDefinitionDialog extends TrayDialog
 
 	/**
 	 * Validate whether the axes is flipped.
-	 * 
+	 *
 	 * @return true if the chart orientation is horizontal.
 	 */
 	protected boolean isFlippedAxes() {

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.api;
 
@@ -17,11 +29,13 @@ public class CachedImageHandlerTest extends EngineCase {
 	static final String REPORT_DOCUMENT = "./utest/test.rptdocument";
 	static final String TEST_FOLDER = "./utest/";
 
+	@Override
 	public void setUp() {
 		removeFile(TEST_FOLDER);
 		copyResource(DESIGN_RESOURCE, REPORT_DESIGN);
 	}
 
+	@Override
 	public void tearDown() {
 		removeFile(TEST_FOLDER);
 	}
@@ -78,6 +92,7 @@ public class CachedImageHandlerTest extends EngineCase {
 
 		HashMap map = new HashMap();
 
+		@Override
 		public CachedImage getCachedImage(String id, int sourceType, IReportContext context) {
 			String url = (String) map.get(id);
 			if (url != null) {
@@ -86,6 +101,7 @@ public class CachedImageHandlerTest extends EngineCase {
 			return null;
 		}
 
+		@Override
 		public CachedImage addCachedImage(String id, int sourceType, IImage image, IReportContext context) {
 			cachedImageCount++;
 			String url = "CACHED_IMAGE:" + cachedImageCount;
@@ -94,11 +110,13 @@ public class CachedImageHandlerTest extends EngineCase {
 			return cache;
 		}
 
+		@Override
 		public String onCustomImage(IImage image, IReportContext context) {
 			customImageCount++;
 			return "CUSTOM_IMAGE:" + customImageCount;
 		}
 
+		@Override
 		public String onFileImage(IImage image, IReportContext context) {
 			fileImageCount++;
 			return image.getID();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -75,10 +75,12 @@ public class TOCView implements ITOCTree {
 		this.root = new ViewNode(this, null, tree);
 	}
 
+	@Override
 	public TOCNode getRoot() {
 		return root;
 	}
 
+	@Override
 	public TOCNode findTOC(String tocNodeId) {
 		if (tocNodeId == null || tocNodeId.equals("/")) {
 			return root;
@@ -112,12 +114,13 @@ public class TOCView implements ITOCTree {
 		return findTOC(lastChild, tocNodeId, comparator);
 	}
 
+	@Override
 	public List<ViewNode> findTOCByValue(Object tocValue) {
 		if (tocValue == null) {
 			return null;
 		}
 
-		List<ViewNode> results = new ArrayList<ViewNode>();
+		List<ViewNode> results = new ArrayList<>();
 		doSearch(results, root, new SearchKey(tocValue));
 		if (!results.isEmpty()) {
 			return results;

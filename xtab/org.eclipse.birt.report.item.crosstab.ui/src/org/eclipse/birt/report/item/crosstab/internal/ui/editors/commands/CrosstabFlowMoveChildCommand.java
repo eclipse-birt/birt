@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +39,7 @@ public class CrosstabFlowMoveChildCommand extends AbstractCrosstabCommand {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param container
 	 * @param model
 	 * @param model2
@@ -59,15 +62,16 @@ public class CrosstabFlowMoveChildCommand extends AbstractCrosstabCommand {
 	 * executable.
 	 */
 
+	@Override
 	public void execute() {
 		if (DesignerConstants.TRACING_COMMANDS) {
 			System.out.println("FlowMoveChildCommand >> Starts ... "); //$NON-NLS-1$
 		}
 		try {
 
-			DesignElementHandle containerHandle = null;
+			DesignElementHandle containerHandle;
 
-			int pos = -1;
+			int pos;
 
 			// for real node that contains design element handle
 			containerHandle = (DesignElementHandle) container;

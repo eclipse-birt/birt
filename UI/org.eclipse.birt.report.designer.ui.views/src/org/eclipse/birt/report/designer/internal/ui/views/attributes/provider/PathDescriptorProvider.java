@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
@@ -14,26 +26,33 @@ public class PathDescriptorProvider extends AbstractDescriptorProvider implement
 
 	private static String PATH_DELIMETER = "/\\:."; //$NON-NLS-1$
 
+	@Override
 	public boolean isEditable() {
 		return false;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return Messages.getString("ModulePage.text.Path"); //$NON-NLS-1$
 	}
 
+	@Override
 	public Object load() {
-		if (input == null)
+		if (input == null) {
 			return ""; //$NON-NLS-1$
+		}
 		DesignElementHandle handle = (DesignElementHandle) DEUtil.getInputFirstElement(input);
-		if (handle != null)
+		if (handle != null) {
 			return TextProcessor.process(((ModuleHandle) handle).getFileName(), PATH_DELIMETER);
+		}
 		return ""; //$NON-NLS-1$
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 	}
 
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 	}

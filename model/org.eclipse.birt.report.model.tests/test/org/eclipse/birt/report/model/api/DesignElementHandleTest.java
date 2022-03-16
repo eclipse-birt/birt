@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -200,13 +203,13 @@ import com.ibm.icu.util.ULocale;
  * <td>Sets and gets the invalid property value.</td>
  * <td>Throws <code>PropertyValueException</code>.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testCanContain()}</td>
  * <td>Whether the label can be contained in the page slot.</td>
  * <td>The return value is false.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Whether the page can be contained in the page slot before and after
@@ -214,14 +217,14 @@ import com.ibm.icu.util.ULocale;
  * <td>The return value is true before inserting. The value is false after
  * inserting.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Whether the label and grid can be contained in the freeform slot before
  * and after inserting in the slot.</td>
  * <td>The return value is true before/after inserting.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testCanContainTableHeader()}</td>
  * <td>DataSets slot in the design can contain only data-sets without any
@@ -239,37 +242,37 @@ import com.ibm.icu.util.ULocale;
  * <td>Any slot cannot contain <code>null</code> elements.</td>
  * <td>The return values are expected.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetPath()}</td>
  * <td>The path of a label in the body slot.</td>
  * <td>The return value is expected.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>The path of a style in the styles slot.</td>
  * <td>The return value is expected.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>The path of a table row.</td>
  * <td>The return value is expected.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>The path of a table cell.</td>
  * <td>The return value is expected.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>The path of a graphic master page.</td>
  * <td>The return value is expected.</td>
  * </tr>
- * 
+ *
  * </table>
  */
 
@@ -277,9 +280,10 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign("DesignElementHandleTest.xml"); //$NON-NLS-1$
@@ -288,7 +292,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 	/**
 	 * Test findContentSlot method on DesignElementHandle; and the move operation of
 	 * SlotHandle.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testFindContentSlot() throws Exception {
@@ -318,7 +322,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 	/**
 	 * Test the method.
 	 * {@link org.eclipse.birt.report.model.api.DesignElementHandle#getContainerSlotHandle}
-	 * 
+	 *
 	 * @throws Exception if errors encountered.
 	 */
 
@@ -360,7 +364,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 	 * <li>
 	 * {@link org.eclipse.birt.report.model.api.DesignElementHandle#derivedIterator()}
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -457,16 +461,18 @@ public class DesignElementHandleTest extends BaseTestCase {
 		Iterator iterator = styleHandle.clientsIterator();
 
 		int count = 0;
-		for (; iterator.hasNext(); iterator.next())
+		for (; iterator.hasNext(); iterator.next()) {
 			count++;
+		}
 
 		assertEquals(2, count);
 
 		Iterator iteratorDerived = styleHandle.derivedIterator();
 
 		count = 0;
-		for (; iteratorDerived.hasNext(); iteratorDerived.next())
+		for (; iteratorDerived.hasNext(); iteratorDerived.next()) {
 			count++;
+		}
 
 		assertEquals(0, count);
 	}
@@ -485,7 +491,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 	 * <li>
 	 * {@link org.eclipse.birt.report.model.api.DesignElementHandle#derivedIterator()}
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -573,7 +579,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 	 * </ul>
 	 * Detail tests for DisplayLabel in
 	 * {@link org.eclipse.birt.report.model.core.DesignElementTest}.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 * @see org.eclipse.birt.report.model.core.DesignElementTest
 	 */
@@ -592,8 +598,9 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 		Iterator iterator = handle.getPropertyIterator();
 		int count = 0;
-		for (; iterator.hasNext(); iterator.next())
+		for (; iterator.hasNext(); iterator.next()) {
 			count++;
+		}
 
 		// now drops the bodyLabel1 from components.
 
@@ -617,7 +624,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests undo the operation of moving element to another container.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testUndoMoveToMethod() throws Exception {
@@ -636,7 +643,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests for containment.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -853,7 +860,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 	 * <li>
 	 * {@link org.eclipse.birt.report.model.api.DesignElementHandle#clearProperty(String)}
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -1020,7 +1027,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 	/**
 	 * Test setProperties(). The map parameter contains: 1) dimension value. 2)
 	 * string value. 3) color value. 4) Choice value.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -1045,7 +1052,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Clear the contents slot within a GraphicMasterPage.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -1060,7 +1067,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Clear all properties of masterpage.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -1081,7 +1088,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 	 * </ul>
 	 * Add a new Label to the end of the contents slot of a GraphicMasterPage. The
 	 * label should be added and it should in the end position.
-	 * 
+	 *
 	 * @throws NameException
 	 * @throws ContentException
 	 */
@@ -1110,7 +1117,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests broadcast() methods through a content event.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1136,7 +1143,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the semantic check from handle.
-	 * 
+	 *
 	 * @throws DesignFileException if failed to open design file
 	 */
 
@@ -1180,7 +1187,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Test isValid() and hasValidationError().
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -1210,7 +1217,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 	/**
 	 * Tests canContain() method for table or list cannot directly or indirecly
 	 * reside in the table header slot.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -1312,7 +1319,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests canContain() method for duplicate group names in the listing element.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -1366,9 +1373,9 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the canContain().
-	 * 
+	 *
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 
 	public void testCanContain() throws SemanticException {
@@ -1418,9 +1425,9 @@ public class DesignElementHandleTest extends BaseTestCase {
 	/**
 	 * Tests the function to retrieve the path of an element. The path begins from
 	 * the root of the design tree.
-	 * 
+	 *
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 
 	public void testGetPath() throws SemanticException {
@@ -1459,7 +1466,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Test cases for DesignElementHandle.isDirectionRTL.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1476,7 +1483,7 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests if the report item locates in template parameter definition.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testInTemplateParameterDefinition() throws Exception {
@@ -1518,12 +1525,13 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
 
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			if (ev.getEventType() == NotificationEvent.CONTENT_EVENT) {
 				focus.removeListener(this);
@@ -1542,12 +1550,13 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
 
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			if (ev.getEventType() == NotificationEvent.CONTENT_EVENT) {
 				flag++;
@@ -1562,11 +1571,12 @@ public class DesignElementHandleTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.api.validators.IValidationListener#
 		 * elementValidated (org.eclipse.birt.report.model.api.DesignElementHandle,
 		 * org.eclipse.birt.report.model.api.validators.ValidationEvent)
 		 */
+		@Override
 		public void elementValidated(DesignElementHandle targetElement, ValidationEvent ev) {
 			errorList = ev.getErrors();
 		}

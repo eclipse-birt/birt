@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -13,10 +15,13 @@ package org.eclipse.birt.report.designer.internal.ui.editors.layout;
 
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,21 +60,23 @@ public abstract class ReportLayoutEditor extends ReportEditorWithRuler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
 	 */
+	@Override
 	public boolean isSaveAsAllowed() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
 	 * GraphicalEditorWithFlyoutPalette
 	 * #performRequest(org.eclipse.birt.report.designer
 	 * .core.util.mediator.request.ReportRequest)
 	 */
+	@Override
 	public void performRequest(IMediatorRequest request) {
 		if (ReportRequest.OPEN_EDITOR.equals(request.getType())
 				&& (((ReportRequest) request).getSelectionModelList().size() == 1)
@@ -97,11 +104,12 @@ public abstract class ReportLayoutEditor extends ReportEditorWithRuler {
 	/**
 	 * Returns an object which is an instance of the given class associated with
 	 * this object. Returns <code>null</code> if no such object can be found.
-	 * 
+	 *
 	 * @param adapter the adapter class to look up
 	 * @return a object castable to the given class, or <code>null</code> if this
 	 *         object does not have an adapter for the given class
 	 */
+	@Override
 	public Object getAdapter(Class adapter) {
 		// if ( adapter == DataViewPage.class )
 		// {
@@ -121,10 +129,11 @@ public abstract class ReportLayoutEditor extends ReportEditorWithRuler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.
 	 * AbstractReportGraphicalEditorWithFlyoutPalette#getPaletteRoot()
 	 */
+	@Override
 	protected PaletteRoot getPaletteRoot() {
 		if (paletteRoot == null) {
 			paletteRoot = DesignerPaletteFactory.createPalette();
@@ -135,20 +144,22 @@ public abstract class ReportLayoutEditor extends ReportEditorWithRuler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
 	 * GraphicalEditorWithFlyoutPalette#getMultiPageEditor()
 	 */
+	@Override
 	protected IEditorPart getMultiPageEditor() {
 		return parentEditorPart;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.layout.
 	 * ReportEditorWithPalette#createActions()
 	 */
+	@Override
 	protected void createActions() {
 		super.createActions();
 		IAction action = new SelectAllAction(this);

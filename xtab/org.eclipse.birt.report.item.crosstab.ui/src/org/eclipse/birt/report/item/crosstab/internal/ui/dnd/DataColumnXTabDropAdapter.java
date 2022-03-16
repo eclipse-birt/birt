@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -64,16 +67,18 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ *
  */
 
 public class DataColumnXTabDropAdapter implements IDropAdapter {
 
+	@Override
 	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
-		if (!isDataColumn(transfer))
+		if (!isDataColumn(transfer)) {
 			return DNDService.LOGIC_UNKNOW;
+		}
 		DesignElementHandle handle = getExtendedItemHandle(target);
-		if (handle != null && handle instanceof ReportItemHandle) {
+		if (handle instanceof ReportItemHandle) {
 			// when xtab has not bind with Cube, data item can drop on
 			// everywhere in xtab.
 			if (handle.getProperty(IReportItemModel.CUBE_PROP) == null
@@ -89,14 +94,16 @@ public class DataColumnXTabDropAdapter implements IDropAdapter {
 		if (transfer instanceof Object[]) {
 			Object[] transfers = (Object[]) transfer;
 			for (int i = 0; i < transfers.length; i++) {
-				if (!isDataColumn(transfers[i]))
+				if (!isDataColumn(transfers[i])) {
 					return false;
+				}
 			}
 			return true;
 		}
 		return transfer instanceof ResultSetColumnHandle;
 	}
 
+	@Override
 	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		DesignElementHandle handle = getExtendedItemHandle(target);
 		if (handle != null) {
@@ -112,8 +119,9 @@ public class DataColumnXTabDropAdapter implements IDropAdapter {
 					if (command != null && command.canExecute()) {
 						editPart.getViewer().getEditDomain().getCommandStack().execute(command);
 						return true;
-					} else
+					} else {
 						return false;
+					}
 				}
 				return false;
 			} else {
@@ -208,8 +216,9 @@ public class DataColumnXTabDropAdapter implements IDropAdapter {
 				dialog.setInput(newCube, columnHandle);
 				if (dialog.open() == Window.CANCEL) {
 					stack.rollback();
-				} else
+				} else {
 					stack.commit();
+				}
 			} else {
 				TabularDimensionHandle dimension = DesignElementFactory.getInstance().newTabularDimension(null);
 				newCube.add(CubeHandle.DIMENSIONS_PROP, dimension);
@@ -229,8 +238,9 @@ public class DataColumnXTabDropAdapter implements IDropAdapter {
 	protected GroupDialog createGroupDialog(TabularCubeHandle cube) {
 		Object adapter = ElementAdapterManager.getAdapter(cube, GroupDialog.class);
 		try {
-			if (adapter instanceof GroupDialog)
+			if (adapter instanceof GroupDialog) {
 				return ((GroupDialog) adapter).getClass().newInstance();
+			}
 		} catch (Exception e) {
 			ExceptionHandler.handle(e);
 		}
@@ -244,14 +254,16 @@ public class DataColumnXTabDropAdapter implements IDropAdapter {
 	}
 
 	private DesignElementHandle getExtendedItemHandle(Object target) {
-		if (target instanceof CrosstabTableEditPart)
+		if (target instanceof CrosstabTableEditPart) {
 			return (DesignElementHandle) ((CrosstabTableEditPart) target).getModel();
+		}
 		if (target instanceof EditPart) {
 			EditPart part = (EditPart) target;
 			DesignElementHandle handle = (DesignElementHandle) ((IAdaptable) target)
 					.getAdapter(DesignElementHandle.class);
-			if (handle == null && part.getParent() != null)
+			if (handle == null && part.getParent() != null) {
 				return getExtendedItemHandle(part.getParent());
+			}
 
 		}
 		return null;
@@ -261,13 +273,15 @@ public class DataColumnXTabDropAdapter implements IDropAdapter {
 		if (transfer instanceof Object[]) {
 			Object[] transfers = (Object[]) transfer;
 			for (int i = 0; i < transfers.length; i++) {
-				if (transfers[i] instanceof ResultSetColumnHandle)
+				if (transfers[i] instanceof ResultSetColumnHandle) {
 					return (ResultSetColumnHandle) transfers[i];
+				}
 			}
 			return null;
 		}
-		if (transfer instanceof ResultSetColumnHandle)
+		if (transfer instanceof ResultSetColumnHandle) {
 			return (ResultSetColumnHandle) transfer;
+		}
 		return null;
 	}
 
@@ -287,7 +301,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter {
 			if (opendialog.getReturnCode() != Window.OK) {
 				return;
 			}
-			if (opendialog.getToggleState() == true) {
+			if (opendialog.getToggleState()) {
 				savePreference(MessageDialogWithToggle.NEVER);
 			} else {
 				savePreference(MessageDialogWithToggle.PROMPT);

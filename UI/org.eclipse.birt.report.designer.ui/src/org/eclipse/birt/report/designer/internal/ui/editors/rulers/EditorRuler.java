@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +24,7 @@ import org.eclipse.gef.rulers.RulerProvider;
 
 /**
  * Editor ruler.
- * 
+ *
  */
 public class EditorRuler {
 
@@ -45,7 +48,7 @@ public class EditorRuler {
 
 	/**
 	 * Returns the listeners.
-	 * 
+	 *
 	 * @return Returns the listeners.
 	 */
 	public PropertyChangeSupport getListeners() {
@@ -54,7 +57,7 @@ public class EditorRuler {
 
 	/**
 	 * Sets the listeners.
-	 * 
+	 *
 	 * @param listeners The listeners to set.
 	 */
 	public void setListeners(PropertyChangeSupport listeners) {
@@ -63,7 +66,7 @@ public class EditorRuler {
 
 	/**
 	 * Returns the right margin.
-	 * 
+	 *
 	 * @return Returns the rightMargin.
 	 */
 	public int getRightMargin() {
@@ -90,7 +93,7 @@ public class EditorRuler {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param isHorizontal
 	 */
 	public EditorRuler(boolean isHorizontal) {
@@ -99,7 +102,7 @@ public class EditorRuler {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param isHorizontal
 	 * @param unit
 	 */
@@ -110,7 +113,7 @@ public class EditorRuler {
 
 	/**
 	 * Adds ruler guide.
-	 * 
+	 *
 	 * @param guide
 	 */
 	public void addGuide(EditorGuide guide) {
@@ -123,7 +126,7 @@ public class EditorRuler {
 
 	/**
 	 * Adds the property listener.
-	 * 
+	 *
 	 * @param listener
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -132,7 +135,7 @@ public class EditorRuler {
 
 	/**
 	 * Returns the ruler guides.the returned list should not be modified.
-	 * 
+	 *
 	 * @return
 	 */
 	public List getGuides() {
@@ -141,7 +144,7 @@ public class EditorRuler {
 
 	/**
 	 * Returns the ruler unit.
-	 * 
+	 *
 	 * @return
 	 */
 	public int getUnit() {
@@ -150,7 +153,7 @@ public class EditorRuler {
 
 	/**
 	 * Returns if the ruler is hidden.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isHidden() {
@@ -159,7 +162,7 @@ public class EditorRuler {
 
 	/**
 	 * Returns if the ruler is horizontal.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isHorizontal() {
@@ -168,7 +171,7 @@ public class EditorRuler {
 
 	/**
 	 * Removes the guide from the ruler.
-	 * 
+	 *
 	 * @param guide
 	 */
 	public void removeGuide(EditorGuide guide) {
@@ -179,7 +182,7 @@ public class EditorRuler {
 
 	/**
 	 * Remove the property listener.
-	 * 
+	 *
 	 * @param listener
 	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
@@ -188,7 +191,7 @@ public class EditorRuler {
 
 	/**
 	 * Sets if display the margin guide.
-	 * 
+	 *
 	 * @param marginOff
 	 */
 	public void setMarginOff(boolean marginOff) {
@@ -205,7 +208,7 @@ public class EditorRuler {
 
 	/**
 	 * Sets the hidden property of the ruler.
-	 * 
+	 *
 	 * @param isHidden
 	 */
 	public void setHidden(boolean isHidden) {
@@ -213,7 +216,7 @@ public class EditorRuler {
 
 	/**
 	 * Sets the ruler unit.
-	 * 
+	 *
 	 * @param newUnit
 	 */
 	public void setUnit(int newUnit) {
@@ -226,7 +229,7 @@ public class EditorRuler {
 
 	/**
 	 * Returns the left margin.
-	 * 
+	 *
 	 * @return Returns the leftMargin.
 	 */
 	public int getLeftMargin() {
@@ -238,7 +241,7 @@ public class EditorRuler {
 
 	/**
 	 * Sets the left magin of the ruler.
-	 * 
+	 *
 	 * @param leftMargin The leftMargin to set.
 	 */
 	public void setLeftMargin(int newMargin) {

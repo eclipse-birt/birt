@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,11 +57,13 @@ public class RCPOpenSampleReportAction extends Action implements IOpenSampleRepo
 		setEnabled(false);
 	}
 
+	@Override
 	public void setMainComposite(ReportExamples composite) {
 		this.composite = composite;
 		composite.addSelectedListener(this);
 	}
 
+	@Override
 	public void run() {
 		TreeItem item = (TreeItem) composite.getSelectedElement();
 		final Object selectedElement = item.getData();
@@ -78,11 +83,13 @@ public class RCPOpenSampleReportAction extends Action implements IOpenSampleRepo
 
 		ISafeRunnable op = new ISafeRunnable() {
 
+			@Override
 			public void run() {
 				String fileName = ((ReportDesignHandle) selectedElement).getFileName();
 				doFinish(getDefaultLocation(), fileName.substring(fileName.lastIndexOf('/') + 1));
 			}
 
+			@Override
 			public void handleException(Throwable exception) {
 				ExceptionUtil.handle(exception);
 			}
@@ -96,6 +103,7 @@ public class RCPOpenSampleReportAction extends Action implements IOpenSampleRepo
 		final File file = new File(locationPath, fileName);
 		Display.getDefault().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				IWorkbench workbench = PlatformUI.getWorkbench();
 				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
@@ -121,19 +129,22 @@ public class RCPOpenSampleReportAction extends Action implements IOpenSampleRepo
 		return defaultPath.toOSString();
 	}
 
+	@Override
 	public void handleEvent(Event event) {
-		if (event.widget == null || !(event.widget instanceof TreeItem))
+		if (event.widget == null || !(event.widget instanceof TreeItem)) {
 			setEnabled(false);
+		}
 		TreeItem item = (TreeItem) event.widget;
 		if (item == null) {
 			super.setEnabled(false);
 			return;
 		}
 		Object selectedElement = item.getData();
-		if (selectedElement == null)
+		if (selectedElement == null) {
 			super.setEnabled(false);
-		else
+		} else {
 			super.setEnabled(selectedElement instanceof ReportDesignHandle);
+		}
 	}
 
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +35,7 @@ import org.eclipse.ui.part.EditorPart;
 
 /**
  * ReportEditorProxy is a editor proxy, which use in eclipse IDE enviroment.
- * 
+ *
  * ReportEditorProxy determines editor input, then create a proper editor
  * instance to represents the editor behaivors.
  */
@@ -64,9 +67,10 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#getEditorInput()
 	 */
+	@Override
 	@SuppressWarnings("restriction")
 	public IEditorInput getEditorInput() {
 		if (instance != null) {
@@ -77,9 +81,10 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#getEditorSite()
 	 */
+	@Override
 	public IEditorSite getEditorSite() {
 		if (instance != null) {
 			return instance.getEditorSite();
@@ -89,10 +94,11 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
 	 * org.eclipse.ui.IEditorInput)
 	 */
+	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		cachedSite = site;
 
@@ -117,20 +123,22 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	public void createPartControl(Composite parent) {
 		instance.createPartControl(parent);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#dispose()
 	 */
+	@Override
 	public void dispose() {
 		if (instance != null) {
 			instance.dispose();
@@ -142,9 +150,10 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#getSite()
 	 */
+	@Override
 	public IWorkbenchPartSite getSite() {
 		if (instance != null) {
 			return instance.getSite();
@@ -154,18 +163,20 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#getTitle()
 	 */
+	@Override
 	public String getTitle() {
 		return this.title;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#getTitleToolTip()
 	 */
+	@Override
 	public String getTitleToolTip() {
 		if (instance != null) {
 			return instance.getTitleToolTip();
@@ -175,9 +186,10 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
+	@Override
 	public void setFocus() {
 		if (instance != null) {
 			instance.setFocus();
@@ -186,9 +198,10 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
 	 */
+	@Override
 	public Object getAdapter(Class adapter) {
 		if (instance != null) {
 			return instance.getAdapter(adapter);
@@ -198,10 +211,11 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
 	 * IProgressMonitor)
 	 */
+	@Override
 	public void doSave(IProgressMonitor monitor) {
 		if (instance != null) {
 			instance.doSave(monitor);
@@ -211,9 +225,10 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
 	 */
+	@Override
 	public void doSaveAs() {
 		if (instance != null) {
 			instance.doSaveAs();
@@ -223,9 +238,10 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#isDirty()
 	 */
+	@Override
 	public boolean isDirty() {
 		if (instance != null) {
 			return instance.isDirty();
@@ -235,9 +251,10 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 */
+	@Override
 	public boolean isSaveAsAllowed() {
 		if (instance != null) {
 			return instance.isSaveAsAllowed();
@@ -247,9 +264,10 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#isSaveOnCloseNeeded()
 	 */
+	@Override
 	public boolean isSaveOnCloseNeeded() {
 		if (instance != null) {
 			return instance.isSaveOnCloseNeeded();
@@ -259,18 +277,20 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
 	 */
+	@Override
 	protected void setInput(IEditorInput input) {
 		super.setInput(input);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#setPartName(java.lang.String)
 	 */
+	@Override
 	protected void setPartName(String partName) {
 		this.title = partName;
 		super.setPartName(partName);
@@ -278,10 +298,11 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
 	 */
+	@Override
 	public void partActivated(IWorkbenchPart part) {
 		if (part instanceof ReportEditorProxy) {
 			instance.partActivated(((ReportEditorProxy) part).getEditorPart());
@@ -368,10 +389,11 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.IPartListener#partBroughtToTop(org.eclipse.ui.IWorkbenchPart )
 	 */
+	@Override
 	public void partBroughtToTop(IWorkbenchPart part) {
 		if (instance == null) {
 			return;
@@ -386,9 +408,10 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
 	 */
+	@Override
 	public void partClosed(IWorkbenchPart part) {
 		if (instance == null) {
 			return;
@@ -411,10 +434,11 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.IPartListener#partDeactivated(org.eclipse.ui.IWorkbenchPart )
 	 */
+	@Override
 	public void partDeactivated(IWorkbenchPart part) {
 		if (instance == null) {
 			return;
@@ -429,9 +453,10 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
 	 */
+	@Override
 	public void partOpened(IWorkbenchPart part) {
 		if (instance == null) {
 			return;
@@ -446,9 +471,10 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IPropertyListener#propertyChanged(java.lang.Object, int)
 	 */
+	@Override
 	public void propertyChanged(Object source, int propId) {
 		if (propId == IWorkbenchPartConstants.PROP_PART_NAME) {
 			setPartName(instance.getPartName());
@@ -459,19 +485,21 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor#
 	 * getEditorPart()
 	 */
+	@Override
 	public IEditorPart getEditorPart() {
 		return instance;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == instance) {
 			return true;

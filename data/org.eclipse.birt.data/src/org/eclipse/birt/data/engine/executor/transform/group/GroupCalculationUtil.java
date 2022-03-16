@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -69,17 +72,16 @@ public class GroupCalculationUtil {
 	 * $402 3: CHINA SHANGHAI 2003 Cola $553 4: CHINA SHANGHAI 2003 Pizza $223 5:
 	 * CHINA SHANGHAI 2004 Cola $226 6: USA CHICAGO 2004 Pizza $133 7: USA NEW YORK
 	 * 2004 Cola $339 8: USA NEW YORK 2004 Cola $297
-	 * 
+	 *
 	 * groups: (parent, child) LEVEL 0 LEVEL 1 LEVEL 2
 	 * ============================================ 0: -,0 0,0 0,0 1: -,2 0,2 0,2 2:
 	 * 1,4 1,3 3: 1,5 1,5 4: 2,6 5: 3,7
 	 */
 
 	private ResultSetPopulator resultPopoulator;
-	private DataEngineSession session;
 
 	/**
-	 * 
+	 *
 	 * @param query
 	 * @param rsMeta
 	 * @throws DataException
@@ -89,7 +91,6 @@ public class GroupCalculationUtil {
 		this.query = query;
 		this.resultPopoulator = resultPopoulator;
 		this.rsMeta = resultPopoulator.getResultSetMetadata();
-		this.session = session;
 		this.groupInformationUtil = new GroupInformationUtil(this, session);
 		this.initGroupSpec();
 	}
@@ -106,12 +107,12 @@ public class GroupCalculationUtil {
 	 * this.groupInformationUtil.readGroupsFromStream( inputStream ); } catch (
 	 * IOException e ) { throw new DataException( ResourceConstants.RD_LOAD_ERROR,
 	 * e, "Group Info" ); }
-	 * 
+	 *
 	 * this.rsMeta = rsMeta; this.smartCache = rsCache; this.initGroupSpec( ); }
 	 */
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public GroupInformationUtil getGroupInformationUtil() {
@@ -133,7 +134,7 @@ public class GroupCalculationUtil {
 	/**
 	 * Everytime in CachedResultSet the result set cache changed, it must be reset
 	 * to GroupCalculationUtil. Set the value of smartCache.
-	 * 
+	 *
 	 * @param rsc
 	 */
 	public void setResultSetCache(ResultSetCache rsc) {
@@ -142,7 +143,7 @@ public class GroupCalculationUtil {
 
 	/**
 	 * Gets group count
-	 * 
+	 *
 	 * @return number of groupKeys
 	 */
 	int getGroupCount() {
@@ -152,7 +153,7 @@ public class GroupCalculationUtil {
 	/**
 	 * Sort the group array according to the values in sortKeys[] of
 	 * GroupBoundaryInfo intances. within them.
-	 * 
+	 *
 	 * @param groupArray
 	 */
 	void sortGroupBoundaryInfos(List[] groupArray) {
@@ -176,7 +177,7 @@ public class GroupCalculationUtil {
 	/**
 	 * This method is used to filter out the GroupBoundaryInfo instances that are
 	 * marked as "not accepted" from GroupBoundaryInfos.
-	 * 
+	 *
 	 * @param groupArray
 	 * @return
 	 */
@@ -197,7 +198,7 @@ public class GroupCalculationUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	GroupBy[] getGroupDefn() {
@@ -226,8 +227,9 @@ public class GroupCalculationUtil {
 
 				// Convert group key name to index for faster future access
 				// assume priority of keyColumn is higher than keyIndex
-				if (keyColumn != null)
+				if (keyColumn != null) {
 					keyIndex = rsMeta.getFieldIndex(keyColumn);
+				}
 
 				if (keyIndex < 1 || keyIndex > rsMeta.getFieldCount()) {
 					// Invalid group key name
@@ -243,7 +245,7 @@ public class GroupCalculationUtil {
 
 	/**
 	 * Sort data rows by group information and sort specification
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	public SortSpec getSortSpec() throws DataException {
@@ -274,8 +276,9 @@ public class GroupCalculationUtil {
 			}
 		}
 
-		if (!doGroupSort && !needSortingOnGroupKeys())
+		if (!doGroupSort && !needSortingOnGroupKeys()) {
 			groupCount = 0;
+		}
 
 		int[] sortKeyIndexes = new int[groupCount + sortCount];
 		String[] sortKeyColumns = new String[groupCount + sortCount];
@@ -298,8 +301,9 @@ public class GroupCalculationUtil {
 
 			// If sort key name exist (not null) then depend on key name, else
 			// depend on key index
-			if (keyName != null)
+			if (keyName != null) {
 				keyIndex = rsMeta.getFieldIndex(keyName);
+			}
 
 //			if ( keyIndex < 1 || keyIndex > rsMeta.getFieldCount( ) )
 //				// Invalid sort key name
@@ -320,8 +324,9 @@ public class GroupCalculationUtil {
 		List<IGroupDefinition> groups = this.query.getQueryDefinition().getGroups();
 		List<ISortDefinition> sorts = this.query.getQueryDefinition().getSorts();
 
-		if (sorts == null || sorts.size() == 0)
+		if (sorts == null || sorts.size() == 0) {
 			return false;
+		}
 
 		int i = 0;
 		for (; i < groups.size() && i < sorts.size();) {
@@ -338,17 +343,18 @@ public class GroupCalculationUtil {
 			}
 		}
 
-		if (i == groups.size())
+		if (i == groups.size()) {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	}
 }
 
 /**
  * Structure to hold a group instance with its startIndex, endIndex, filter
  * result, sortKeys and Sort directions.
- * 
+ *
  */
 final class GroupBoundaryInfo implements ICachedObject {
 
@@ -366,7 +372,7 @@ final class GroupBoundaryInfo implements ICachedObject {
 	private CompareHints[] compareHints;
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public static ICachedObjectCreator getCreator() {
@@ -385,9 +391,10 @@ final class GroupBoundaryInfo implements ICachedObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.cache.ICachedObject#getFieldValues()
 	 */
+	@Override
 	public Object[] getFieldValues() {
 		ArrayList fields = new ArrayList();
 		fields.add(new Integer(startIndex)); // idx 0
@@ -395,28 +402,32 @@ final class GroupBoundaryInfo implements ICachedObject {
 
 		if (sortKeys != null) {
 			fields.add(new Integer(sortKeys.length)); // idx 2
-			for (int i = 0; i < sortKeys.length; i++)
+			for (int i = 0; i < sortKeys.length; i++) {
 				fields.add(sortKeys[i]);
+			}
 		} else {
 			fields.add(null);
 		}
 
 		if (sortDirections != null) {
 			fields.add(Integer.valueOf(sortDirections.length)); // idx 2 + n + 1
-			for (int i = 0; i < sortDirections.length; i++)
+			for (int i = 0; i < sortDirections.length; i++) {
 				fields.add(Boolean.valueOf(sortDirections[i]));
+			}
 		} else {
 			fields.add(null);
 		}
 
 		if (this.comparator != null) {
 			fields.add(Integer.valueOf(comparator.length)); // idx 2 + n + 1 + n + 1
-			for (int i = 0; i < comparator.length; i++)
+			for (int i = 0; i < comparator.length; i++) {
 				fields.add(comparator[i] == null ? ISortDefinition.ASCII_SORT_STRENGTH
 						: Integer.valueOf(comparator[i].getStrength()));
+			}
 
-			for (int i = 0; i < comparator.length; i++)
+			for (int i = 0; i < comparator.length; i++) {
 				fields.add(comparator[i] == null ? null : comparator[i].getLocale(ULocale.ACTUAL_LOCALE).getBaseName());
+			}
 		} else {
 			fields.add(null);
 		}
@@ -427,7 +438,7 @@ final class GroupBoundaryInfo implements ICachedObject {
 
 	/**
 	 * Return the start index.
-	 * 
+	 *
 	 * @return
 	 */
 	int getStartIndex() {
@@ -436,7 +447,7 @@ final class GroupBoundaryInfo implements ICachedObject {
 
 	/**
 	 * Return the end index.
-	 * 
+	 *
 	 * @return
 	 */
 	int getEndIndex() {
@@ -446,20 +457,21 @@ final class GroupBoundaryInfo implements ICachedObject {
 	/**
 	 * Detect whether the given GroupBoundaryInfo consists of the startIdx and
 	 * endIdx that included in current GroupBoundaryInfo instance.
-	 * 
+	 *
 	 * @param gbi
 	 * @return
 	 */
 	boolean isInBoundary(GroupBoundaryInfo gbi) {
-		if (gbi.getStartIndex() >= this.getStartIndex() && gbi.getEndIndex() <= this.getEndIndex())
+		if (gbi.getStartIndex() >= this.getStartIndex() && gbi.getEndIndex() <= this.getEndIndex()) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
 	 * Set the sort conditions
-	 * 
+	 *
 	 * @param sortKeys
 	 * @param sortOrderings
 	 */
@@ -477,7 +489,7 @@ final class GroupBoundaryInfo implements ICachedObject {
 
 	/**
 	 * Return the sort keys array.
-	 * 
+	 *
 	 * @return
 	 */
 	Object[] getSortKeys() {
@@ -486,7 +498,7 @@ final class GroupBoundaryInfo implements ICachedObject {
 
 	/**
 	 * Return the sort direction array.
-	 * 
+	 *
 	 * @return
 	 */
 	boolean[] getSortDirection() {
@@ -495,7 +507,7 @@ final class GroupBoundaryInfo implements ICachedObject {
 
 	/**
 	 * Return the sort strength;
-	 * 
+	 *
 	 * @return
 	 */
 	CompareHints[] getCollarComparator() {
@@ -504,7 +516,7 @@ final class GroupBoundaryInfo implements ICachedObject {
 
 	/**
 	 * Set the filter value of GroupBoundaryInfo.
-	 * 
+	 *
 	 * @param accept
 	 */
 	void setAccepted(boolean accept) {
@@ -513,7 +525,7 @@ final class GroupBoundaryInfo implements ICachedObject {
 
 	/**
 	 * Return whether the GroupBoundaryInfo intance is accpeted or not.
-	 * 
+	 *
 	 * @return
 	 */
 	boolean isAccpted() {
@@ -525,14 +537,15 @@ final class GroupBoundaryInfo implements ICachedObject {
 /**
  * The Comparator instance which is used to compare two GroupBoundaryInfo
  * instance.
- * 
+ *
  */
 final class GroupBoundaryInfoComparator implements Comparator {
 
 	/**
-	 * 
+	 *
 	 */
 
+	@Override
 	public int compare(Object o1, Object o2) {
 		Object[] sortKeys1 = ((GroupBoundaryInfo) o1).getSortKeys();
 		Object[] sortKeys2 = ((GroupBoundaryInfo) o2).getSortKeys();
@@ -546,7 +559,7 @@ final class GroupBoundaryInfoComparator implements Comparator {
 				result = 0;
 			}
 			if (result != 0) {
-				if (sortDirection[i] == false) {
+				if (!sortDirection[i]) {
 					result = result * -1;
 				}
 				break;
@@ -561,18 +574,19 @@ final class GroupBoundaryInfoComparator implements Comparator {
 /**
  * A creator class implemented ICachedObjectCreator. This class is used to
  * create GroupBoundaryInfo object.
- * 
+ *
  * @author Administrator
- * 
+ *
  */
 class GroupBoundaryInfoCreator implements ICachedObjectCreator {
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.cache.ICachedObjectCreator#createInstance(java.
 	 * lang.Object[])
 	 */
+	@Override
 	public ICachedObject createInstance(Object[] fields) {
 		GroupBoundaryInfo groupBoundaryInfo = new GroupBoundaryInfo(((Integer) fields[0]).intValue(),
 				((Integer) fields[1]).intValue());
@@ -604,8 +618,9 @@ class GroupBoundaryInfoCreator implements ICachedObjectCreator {
 			locales = new ULocale[sortStrength.length];
 			for (int i = 0; i < sortStrength.length; i++) {
 				Object locale = fields[2 + sortKeysTotalLength * 3 + i];
-				if (locale != null)
+				if (locale != null) {
 					locales[i] = new ULocale((String) locale);
+				}
 			}
 		}
 

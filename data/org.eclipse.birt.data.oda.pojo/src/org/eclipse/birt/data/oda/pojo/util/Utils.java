@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,18 +20,18 @@ import java.lang.reflect.Method;
 import org.eclipse.birt.data.oda.pojo.api.Constants;
 
 /**
- * 
+ *
  */
 
 public class Utils {
 	/**
 	 * Convert <code>filter</code> to a regular expression
-	 * 
+	 *
 	 * @param filter: ? for any char; * for any string
 	 * @return
 	 */
 	public static String toRegexPattern(String filter) {
-		StringBuffer pattern = new StringBuffer(".*"); //$NON-NLS-1$
+		StringBuilder pattern = new StringBuilder(".*"); //$NON-NLS-1$
 		boolean isWaitingForEndQuote = false;
 		for (int i = 0; i < filter.length(); i++) {
 			char c = filter.charAt(i);
@@ -62,9 +65,7 @@ public class Utils {
 			if (nextMethod.getReturnType().isPrimitive()) {
 				return false;
 			}
-		} catch (SecurityException e) {
-			return false;
-		} catch (NoSuchMethodException e) {
+		} catch (SecurityException | NoSuchMethodException e) {
 			return false;
 		}
 		return true;

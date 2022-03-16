@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -71,9 +74,10 @@ class ResultSetsUpdater {
 		filterAdapter = new ResultSetCriteriaAdapter(setHandle, setDesign);
 
 		Iterator<OdaResultSetColumnHandle> tmpParams = setHandle.resultSetIterator();
-		setDefinedColumns = new ArrayList<OdaResultSetColumnHandle>();
-		while (tmpParams.hasNext())
+		setDefinedColumns = new ArrayList<>();
+		while (tmpParams.hasNext()) {
 			setDefinedColumns.add(tmpParams.next());
+		}
 
 		dataSourceId = setDesign.getOdaExtensionDataSourceId();
 		dataSetId = setDesign.getOdaExtensionDataSetId();
@@ -83,16 +87,18 @@ class ResultSetsUpdater {
 	}
 
 	private List<OdaResultSetColumnHandle> buildUpdateParams(List<OdaResultSetColumn> updateParams) {
-		if (updateParams == null)
+		if (updateParams == null) {
 			return Collections.emptyList();
+		}
 
-		List<OdaResultSetColumnHandle> retList = new ArrayList<OdaResultSetColumnHandle>();
+		List<OdaResultSetColumnHandle> retList = new ArrayList<>();
 		for (int i = 0; i < updateParams.size(); i++) {
 			OdaResultSetColumn param = updateParams.get(i);
 			for (int j = 0; j < setDefinedColumns.size(); j++) {
 				OdaResultSetColumnHandle paramHandle = setDefinedColumns.get(j);
-				if (paramHandle.getStructure() == param && !retList.contains(paramHandle))
+				if (paramHandle.getStructure() == param && !retList.contains(paramHandle)) {
 					retList.add(paramHandle);
+				}
 
 			}
 		}
@@ -100,33 +106,37 @@ class ResultSetsUpdater {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 
 	public void processResultSets(ResultSets resultSets) throws SemanticException {
-		if (resultSets == null)
+		if (resultSets == null) {
 			return;
+		}
 
 		EList<ResultSetDefinition> tmpResultSets = resultSets.getResultSetDefinitions();
-		if (tmpResultSets.isEmpty())
+		if (tmpResultSets.isEmpty()) {
 			return;
+		}
 
 		ResultSetDefinition resultSetDefinition = tmpResultSets.get(0);
 		assert resultSetDefinition != null;
 
 		ResultSetColumns setColumns = resultSetDefinition.getResultSetColumns();
-		if (setColumns == null)
+		if (setColumns == null) {
 			return;
+		}
 		EList<ColumnDefinition> odaSetColumns = setColumns.getResultColumnDefinitions();
-		if (odaSetColumns.isEmpty())
+		if (odaSetColumns.isEmpty()) {
 			return;
+		}
 
 		OdaResultSetColumnHandle foundColumn = null;
 		OdaResultSetColumnHandle oldSetColumn = null;
 		OdaResultSetColumn newColumn = null;
-		List<ResultSetColumnInfo> infoList = new ArrayList<ResultSetColumnInfo>();
-		List<OdaResultSetColumn> newColumns = new ArrayList<OdaResultSetColumn>();
-		List<ColumnHint> newHints = new ArrayList<ColumnHint>();
+		List<ResultSetColumnInfo> infoList = new ArrayList<>();
+		List<OdaResultSetColumn> newColumns = new ArrayList<>();
+		List<ColumnHint> newHints = new ArrayList<>();
 
 		for (int i = 0; i < odaSetColumns.size(); i++) {
 			ColumnDefinition columnDefn = odaSetColumns.get(i);
@@ -139,8 +149,8 @@ class ResultSetsUpdater {
 				newColumn = StructureFactory.createOdaResultSetColumn();
 			} else {
 				String nativeName = dataAttrs.getName();
-				Integer position = Integer.valueOf(dataAttrs.getPosition());
-				Integer nativeDataType = Integer.valueOf(dataAttrs.getNativeDataTypeCode());
+				Integer position = dataAttrs.getPosition();
+				Integer nativeDataType = dataAttrs.getNativeDataTypeCode();
 
 				foundColumn = ResultSetsAdapter.findOdaResultSetColumn(toUpdateColumns.iterator(), nativeName, position,
 						nativeDataType);
@@ -189,8 +199,9 @@ class ResultSetsUpdater {
 		propHandle.setValue(new ArrayList());
 
 		if (!newColumns.isEmpty()) {
-			for (int i = 0; i < newColumns.size(); i++)
+			for (int i = 0; i < newColumns.size(); i++) {
 				propHandle.addItem(newColumns.get(i));
+			}
 		}
 
 		// collect all column hints for computed column
@@ -207,9 +218,9 @@ class ResultSetsUpdater {
 						(String) hint.getProperty(null, ColumnHint.COLUMN_NAME_MEMBER),
 						setHandle.columnHintsIterator());
 
-				if (oldHint == null)
+				if (oldHint == null) {
 					propHandle.addItem(newHints.get(i));
-				else {
+				} else {
 					oldHint.setDisplayName((String) hint.getProperty(null, ColumnHint.DISPLAY_NAME_MEMBER));
 					oldHint.setHelpText((String) hint.getProperty(null, ColumnHint.HELP_TEXT_MEMBER));
 					oldHint.setFormat((String) hint.getProperty(null, ColumnHint.FORMAT_MEMBER));
@@ -228,13 +239,14 @@ class ResultSetsUpdater {
 
 	private List<ColumnHint> collectHintsForComputedColumn() {
 		Iterator columns = setHandle.computedColumnsIterator();
-		List<ColumnHint> hints = new ArrayList<ColumnHint>();
+		List<ColumnHint> hints = new ArrayList<>();
 		while (columns.hasNext()) {
 			ComputedColumnHandle tmpColumn = (ComputedColumnHandle) columns.next();
 			String columnName = tmpColumn.getName();
 			ColumnHintHandle hintHandle = AdapterUtil.findColumnHint(columnName, setHandle.columnHintsIterator());
-			if (hintHandle == null)
+			if (hintHandle == null) {
 				continue;
+			}
 			hints.add((ColumnHint) hintHandle.getStructure().copy());
 
 		}

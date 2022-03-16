@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +46,7 @@ public abstract class ExtensibilityProvider implements IExtendableElement {
 	/**
 	 * Constructs the extensibility provider with the extendable element and the
 	 * extension name.
-	 * 
+	 *
 	 * @param element the extendable element
 	 */
 
@@ -56,7 +59,7 @@ public abstract class ExtensibilityProvider implements IExtendableElement {
 	 * defined in Model and extension definition file. The returned list is
 	 * read-only, so no modification is allowed on this list. Each one in list is
 	 * the instance of <code>IPropertyDefn</code>.
-	 * 
+	 *
 	 * @return the read-only list of all property definitions. Return empty list if
 	 *         there is no property defined.
 	 */
@@ -70,8 +73,9 @@ public abstract class ExtensibilityProvider implements IExtendableElement {
 		if (extDefn != null && extDefn.getProperties() != null) {
 			List<IElementPropertyDefn> props = extDefn.getProperties();
 			List<UserPropertyDefn> userProps = element.getUserProperties();
-			if (userProps != null)
+			if (userProps != null) {
 				props.addAll(userProps);
+			}
 
 			return props;
 		}
@@ -82,7 +86,7 @@ public abstract class ExtensibilityProvider implements IExtendableElement {
 	/**
 	 * Returns the element property definition with the given name from Model or the
 	 * extension definition file.
-	 * 
+	 *
 	 * @param propName name of the property
 	 * @return the element property definition with the given name
 	 */
@@ -100,7 +104,7 @@ public abstract class ExtensibilityProvider implements IExtendableElement {
 	/**
 	 * Returns the element property definition with the given name from Model or the
 	 * extension definition file.
-	 * 
+	 *
 	 * @param propName name of the property
 	 * @return the element property definition with the given name
 	 */
@@ -118,7 +122,7 @@ public abstract class ExtensibilityProvider implements IExtendableElement {
 	/**
 	 * Checks whether the extendable element this provider supports can extends from
 	 * the given parent element.
-	 * 
+	 *
 	 * @param parent the parent element to check
 	 * @throws ExtendsException if the extendable element this provide supports can
 	 *                          not extends from the given parent element.
@@ -128,7 +132,7 @@ public abstract class ExtensibilityProvider implements IExtendableElement {
 	/**
 	 * Returns <code>true</code> if the extended item has local property, return
 	 * <code>false</code> otherwise;
-	 * 
+	 *
 	 * @return <code>true</code> if the extended item has local property, return
 	 *         <code>false</code> otherwise;
 	 */

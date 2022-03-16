@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 /**
- * 
+ *
  */
 public class ClassLister {
 	private static Logger logger = Logger.getLogger(ClassLister.class.getName());
@@ -36,7 +39,7 @@ public class ClassLister {
 		if (urls == null) {
 			return new String[0];
 		}
-		Set<String> result = new HashSet<String>();
+		Set<String> result = new HashSet<>();
 		for (URL url : urls) {
 			File f = null;
 			try {
@@ -55,7 +58,7 @@ public class ClassLister {
 	}
 
 	private static Set<String> listClassesFromDir(File classFolder, String prefix) {
-		Set<String> result = new HashSet<String>();
+		Set<String> result = new HashSet<>();
 		for (File f : classFolder.listFiles()) {
 			if (f.isFile() && f.getName().endsWith(".class")) //$NON-NLS-1$
 			{
@@ -74,8 +77,8 @@ public class ClassLister {
 
 	@SuppressWarnings("unchecked")
 	private static Set<String> listClassesFromJar(File jarFile) {
-		Set<String> result = new HashSet<String>();
-		List<String> entries = new ArrayList<String>();
+		Set<String> result = new HashSet<>();
+		List<String> entries = new ArrayList<>();
 		try {
 			ZipFile zf = new ZipFile(jarFile);
 			Enumeration e = zf.entries();
@@ -103,7 +106,8 @@ public class ClassLister {
 	}
 
 	private static String packagify(String resourceName) {
-		resourceName = (resourceName.replaceAll("/", ".")).substring(0, resourceName.length() - 6); //$NON-NLS-1$ //$NON-NLS-2$
+		resourceName = (resourceName.replace('/', '.')).substring(0, resourceName.length() - 6); // $NON-NLS-1$
+																									// //$NON-NLS-2$
 		return resourceName;
 	}
 

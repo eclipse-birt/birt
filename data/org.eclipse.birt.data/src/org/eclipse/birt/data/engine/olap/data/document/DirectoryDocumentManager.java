@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,14 +25,14 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
  * An implementation of the <tt>IDocumentManager</tt> interface. This class
  * create document object in a disk directory. Each document object is saved in
  * a disk file.
- * 
+ *
  */
 
 public class DirectoryDocumentManager implements IDocumentManager {
 	private String documentDir = null;
 
 	/**
-	 * 
+	 *
 	 * @param documentDir
 	 * @param deleteOld
 	 * @throws DataException
@@ -50,16 +53,18 @@ public class DirectoryDocumentManager implements IDocumentManager {
 		}
 	}
 
+	@Override
 	public void close() throws IOException {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.document.IDocumentManager#
 	 * createDocumentObject(java.lang.String)
 	 */
+	@Override
 	public IDocumentObject createDocumentObject(String documentObjectName) throws IOException {
 		File file = new File(documentDir + File.separatorChar + documentObjectName);
 		if (FileSecurity.fileExist(file)) {
@@ -75,11 +80,12 @@ public class DirectoryDocumentManager implements IDocumentManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.document.IDocumentManager#openDocumentObject(
 	 * java.lang.String)
 	 */
+	@Override
 	public IDocumentObject openDocumentObject(String documentObjectName) throws IOException {
 		File file = new File(documentDir + File.separatorChar + documentObjectName);
 		if (!FileSecurity.fileExist(file)) {
@@ -91,16 +97,18 @@ public class DirectoryDocumentManager implements IDocumentManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.document.IDocumentManager#exist(java.lang.
 	 * String)
 	 */
+	@Override
 	public boolean exist(String documentObjectName) {
 		File file = new File(documentDir + File.separatorChar + documentObjectName);
 		return FileSecurity.fileExist(file);
 	}
 
+	@Override
 	public void flush() throws IOException {
 
 	}

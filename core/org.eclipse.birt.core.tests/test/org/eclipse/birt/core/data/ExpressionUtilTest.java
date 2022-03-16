@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +31,7 @@ public class ExpressionUtilTest extends TestCase {
 	public void testToNewExpression() {
 		ExpressionUtil.resetSuffix();
 
-		String[] oldExpressions = new String[] { null, "   " + Messages.getString("ExpressionUtilTest.old.0"),
+		String[] oldExpressions = { null, "   " + Messages.getString("ExpressionUtilTest.old.0"),
 				Messages.getString("ExpressionUtilTest.old.1"), Messages.getString("ExpressionUtilTest.old.2"),
 				Messages.getString("ExpressionUtilTest.old.3"), Messages.getString("ExpressionUtilTest.old.4"),
 				Messages.getString("ExpressionUtilTest.old.5"), Messages.getString("ExpressionUtilTest.old.6"),
@@ -38,7 +41,7 @@ public class ExpressionUtilTest extends TestCase {
 
 		};
 
-		String[] newExpressions = new String[] { null, "   " + Messages.getString("ExpressionUtilTest.new.0"),
+		String[] newExpressions = { null, "   " + Messages.getString("ExpressionUtilTest.new.0"),
 				Messages.getString("ExpressionUtilTest.new.1"), Messages.getString("ExpressionUtilTest.new.2"),
 				Messages.getString("ExpressionUtilTest.new.3"), Messages.getString("ExpressionUtilTest.new.4"),
 				Messages.getString("ExpressionUtilTest.new.5"), Messages.getString("ExpressionUtilTest.new.6"),
@@ -55,7 +58,7 @@ public class ExpressionUtilTest extends TestCase {
 
 	@Test
 	public void testreplaceRowsExpression() {
-		String[] oldExpressions = new String[] { null, "   " + Messages.getString("ExpressionUtilTest.old.13"),
+		String[] oldExpressions = { null, "   " + Messages.getString("ExpressionUtilTest.old.13"),
 				Messages.getString("ExpressionUtilTest.old.14"), Messages.getString("ExpressionUtilTest.old.15"),
 				Messages.getString("ExpressionUtilTest.old.16"), Messages.getString("ExpressionUtilTest.old.17"),
 				Messages.getString("ExpressionUtilTest.old.18"), Messages.getString("ExpressionUtilTest.old.19"),
@@ -65,7 +68,7 @@ public class ExpressionUtilTest extends TestCase {
 
 		};
 
-		String[] newExpressions = new String[] { null, "   " + Messages.getString("ExpressionUtilTest.new.13"),
+		String[] newExpressions = { null, "   " + Messages.getString("ExpressionUtilTest.new.13"),
 				Messages.getString("ExpressionUtilTest.new.14"), Messages.getString("ExpressionUtilTest.new.15"),
 				Messages.getString("ExpressionUtilTest.new.16"), Messages.getString("ExpressionUtilTest.new.17"),
 				Messages.getString("ExpressionUtilTest.new.18"), Messages.getString("ExpressionUtilTest.new.19"),

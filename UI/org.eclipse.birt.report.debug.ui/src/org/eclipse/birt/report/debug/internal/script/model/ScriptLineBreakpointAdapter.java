@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,11 +34,12 @@ public class ScriptLineBreakpointAdapter implements IToggleBreakpointsTarget {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#
 	 * canToggleLineBreakpoints(org.eclipse.ui.IWorkbenchPart,
 	 * org.eclipse.jface.viewers.ISelection)
 	 */
+	@Override
 	public boolean canToggleLineBreakpoints(IWorkbenchPart part, ISelection selection) {
 		DecoratedScriptEditor textEditor = getEditor(part);
 
@@ -65,33 +69,36 @@ public class ScriptLineBreakpointAdapter implements IToggleBreakpointsTarget {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#
 	 * canToggleMethodBreakpoints(org.eclipse.ui.IWorkbenchPart,
 	 * org.eclipse.jface.viewers.ISelection)
 	 */
+	@Override
 	public boolean canToggleMethodBreakpoints(IWorkbenchPart part, ISelection selection) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#canToggleWatchpoints(
 	 * org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
+	@Override
 	public boolean canToggleWatchpoints(IWorkbenchPart part, ISelection selection) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#toggleLineBreakpoints(
 	 * org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
+	@Override
 	public void toggleLineBreakpoints(IWorkbenchPart part, ISelection selection) throws CoreException {
 		DecoratedScriptEditor textEditor = getEditor(part);
 		if (textEditor != null) {
@@ -135,22 +142,24 @@ public class ScriptLineBreakpointAdapter implements IToggleBreakpointsTarget {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#toggleMethodBreakpoints
 	 * (org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
+	@Override
 	public void toggleMethodBreakpoints(IWorkbenchPart part, ISelection selection) throws CoreException {
 		// don't support
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#toggleWatchpoints(org.
 	 * eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
+	@Override
 	public void toggleWatchpoints(IWorkbenchPart part, ISelection selection) throws CoreException {
 		// don't support
 	}

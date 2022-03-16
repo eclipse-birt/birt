@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.api.script;
@@ -45,7 +48,7 @@ public class AfterDataSetFilled extends ChartTestCase {
 
 	/**
 	 * execute application
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -65,7 +68,7 @@ public class AfterDataSetFilled extends ChartTestCase {
 	{
 
 		// Data Set
-		final Object[][] data = new Object[][] { { "x1", new Integer(1), "g1" }, { "x2", new Integer(2), "g2" },
+		final Object[][] data = { { "x1", new Integer(1), "g1" }, { "x2", new Integer(2), "g2" },
 				{ "x3", new Integer(3), "g1" }, { "x4", new Integer(4), "g3" }, { "x5", new Integer(5), "g2" },
 				{ "x6", new Integer(6), "g1" }, { "x7", new Integer(7), "g3" }, { "x8", new Integer(8), "g2" },
 				{ "x9", new Integer(9), "g2" }, { "x0", new Integer(0), "g2" }, };
@@ -75,9 +78,11 @@ public class AfterDataSetFilled extends ChartTestCase {
 
 				int idx = 0;
 
+				@Override
 				public void close() {
 				}
 
+				@Override
 				public Object evaluate(String expression) {
 					if ("X".equals(expression)) {
 						return data[idx][0];
@@ -89,15 +94,18 @@ public class AfterDataSetFilled extends ChartTestCase {
 					return null;
 				}
 
+				@Override
 				public Object evaluateGlobal(String expression) {
 					return evaluate(expression);
 				}
 
+				@Override
 				public boolean first() {
 					idx = 0;
 					return true;
 				}
 
+				@Override
 				public boolean next() {
 					idx++;
 					return (idx < 9);

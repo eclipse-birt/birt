@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,19 +28,19 @@ import org.xml.sax.SAXException;
  * ComputedColumn, current version use "name" instead.
  * <p>
  * The compatible version is 0 and 1.
- * 
+ *
  * <pre>
- *  
+ *
  *   Old design file:
- *   
+ *
  *   &lt;list-property name=&quot;computedColumns&quot;&gt;
  *     &lt;structure&gt;
  *       &lt;property name=&quot;columnName&quot;&gt;column1&lt;/property&gt;
  *     &lt;/structure&gt;
  *   &lt;/list-property&gt;
- *  
+ *
  *   New design file:
- *   
+ *
  *   &lt;list-property name=&quot;computedColumns&quot;&gt;
  *     &lt;structure&gt;
  *       &lt;property name=&quot;name&quot;&gt;column1&lt;/property&gt;
@@ -55,15 +58,17 @@ public class CompatibleComputedColumnStructureState extends CompatibleStructureS
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
 	 * String)
 	 */
 
+	@Override
 	public AbstractParseState startElement(String tagName) {
-		if (tagName.equalsIgnoreCase(DesignSchemaConstants.PROPERTY_TAG))
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.PROPERTY_TAG)) {
 			return new CompatibleComputedColumnPropertyState(handler, element, propDefn, struct);
+		}
 		return super.startElement(tagName);
 	}
 
@@ -76,10 +81,11 @@ public class CompatibleComputedColumnStructureState extends CompatibleStructureS
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
+		@Override
 		public void end() throws SAXException {
 			if ("columnName".equals(name)) //$NON-NLS-1$
 			{

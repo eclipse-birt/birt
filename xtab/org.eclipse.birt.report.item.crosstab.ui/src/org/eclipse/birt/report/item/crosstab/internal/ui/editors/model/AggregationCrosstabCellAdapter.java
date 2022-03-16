@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +29,7 @@ public class AggregationCrosstabCellAdapter extends CrosstabCellAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle
 	 */
 	public AggregationCrosstabCellAdapter(AggregationCellHandle handle) {
@@ -35,20 +38,22 @@ public class AggregationCrosstabCellAdapter extends CrosstabCellAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.
 	 * BaseCrosstabAdapter#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		return getCrosstabItemHandle().hashCode();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.
 	 * BaseCrosstabAdapter#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		// if (obj == getCrosstabItemHandle( ))
 		// {
@@ -64,11 +69,12 @@ public class AggregationCrosstabCellAdapter extends CrosstabCellAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.util.IVirtualValidator#handleValidate(java.
 	 * lang.Object)
 	 */
+	@Override
 	public boolean handleValidate(Object obj) {
 		boolean bool = super.handleValidate(obj);
 		if (bool) {

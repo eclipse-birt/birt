@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +32,7 @@ import org.xml.sax.SAXException;
 
 /**
  * This class parses the text item.
- * 
+ *
  */
 
 public class TextItemState extends ReportItemState {
@@ -43,7 +46,7 @@ public class TextItemState extends ReportItemState {
 	/**
 	 * Constructs the text item state with the design parser handler, the container
 	 * element and the container slot of the text item.
-	 * 
+	 *
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param slot         the slot in which this element appears
@@ -56,7 +59,7 @@ public class TextItemState extends ReportItemState {
 	/**
 	 * Constructs the text item state with the design parser handler, the container
 	 * element and the container property name of the report element.
-	 * 
+	 *
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param prop         the slot in which this element appears
@@ -68,11 +71,12 @@ public class TextItemState extends ReportItemState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		element = new TextItem();
 		initElement(attrs);
@@ -80,20 +84,22 @@ public class TextItemState extends ReportItemState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
+	@Override
 	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.ReportItemState#end()
 	 */
 
+	@Override
 	public void end() throws SAXException {
 		super.end();
 
@@ -111,7 +117,7 @@ public class TextItemState extends ReportItemState {
 
 	/**
 	 * Updated the given content with the input updated expressions.
-	 * 
+	 *
 	 * @param contentText  the content text
 	 * @param updatedExprs a mapping containing updated expressions. The keys are
 	 *                     existed expressions, while, the values are the new
@@ -119,14 +125,16 @@ public class TextItemState extends ReportItemState {
 	 */
 
 	private void updateExpressions(String contentText, Map updatedExprs) {
-		if (updatedExprs.isEmpty())
+		if (updatedExprs.isEmpty()) {
 			return;
+		}
 
 		String contentType = (String) element.getProperty(handler.getModule(), ITextItemModel.CONTENT_TYPE_PROP);
 
 		if (!(DesignChoiceConstants.TEXT_CONTENT_TYPE_AUTO.equalsIgnoreCase(contentType)
-				|| (DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML.equalsIgnoreCase(contentType))))
+				|| (DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML.equalsIgnoreCase(contentType)))) {
 			return;
+		}
 
 		TextTemplate template = new TemplateParser().parse(contentText);
 

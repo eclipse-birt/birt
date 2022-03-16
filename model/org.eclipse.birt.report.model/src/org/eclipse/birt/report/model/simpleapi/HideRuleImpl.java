@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +30,7 @@ public class HideRuleImpl extends Structure implements IHideRule {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param ruleHandle
 	 */
 
@@ -38,7 +41,7 @@ public class HideRuleImpl extends Structure implements IHideRule {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param ruleHandle
 	 */
 
@@ -54,7 +57,7 @@ public class HideRuleImpl extends Structure implements IHideRule {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param rule
 	 */
 	public HideRuleImpl(HideRule rule) {
@@ -68,7 +71,7 @@ public class HideRuleImpl extends Structure implements IHideRule {
 
 	/**
 	 * Create instance of <code>HideRule</code>
-	 * 
+	 *
 	 * @return instance
 	 */
 	private HideRule createHideRule() {
@@ -76,14 +79,17 @@ public class HideRuleImpl extends Structure implements IHideRule {
 		return r;
 	}
 
+	@Override
 	public String getFormat() {
 		return rule.getFormat();
 	}
 
+	@Override
 	public String getValueExpr() {
 		return rule.getExpression();
 	}
 
+	@Override
 	public void setFormat(String format) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(HideRule.FORMAT_MEMBER, format);
@@ -93,6 +99,7 @@ public class HideRuleImpl extends Structure implements IHideRule {
 		rule.setFormat(format);
 	}
 
+	@Override
 	public void setValueExpr(String valueExpr) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(HideRule.VALUE_EXPR_MEMBER, valueExpr);
@@ -102,6 +109,7 @@ public class HideRuleImpl extends Structure implements IHideRule {
 		rule.setExpression(valueExpr);
 	}
 
+	@Override
 	public IStructure getStructure() {
 		return rule;
 	}

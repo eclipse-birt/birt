@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -16,7 +19,7 @@ import org.eclipse.emf.ecore.EFactory;
 /**
  * <!-- begin-user-doc --> The <b>Factory </b> for the model. It provides a
  * create method for each non-abstract class of the model. <!-- end-user-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage
  * @generated
  */
@@ -25,7 +28,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * The singleton instance of the factory. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	AttributeFactory eINSTANCE = org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl.init();
@@ -33,7 +36,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Accessibility Value</em>'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Accessibility Value</em>'.
 	 * @generated
 	 */
@@ -42,7 +45,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Action Value</em>'. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Action Value</em>'.
 	 * @generated
 	 */
@@ -51,7 +54,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Angle3 D</em>'. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Angle3 D</em>'.
 	 * @generated
 	 */
@@ -60,7 +63,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Axis Origin</em>'. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Axis Origin</em>'.
 	 * @generated
 	 */
@@ -69,7 +72,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Bounds</em>'. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Bounds</em>'.
 	 * @generated
 	 */
@@ -78,7 +81,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Call Back Value</em>'. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Call Back Value</em>'.
 	 * @generated
 	 */
@@ -87,7 +90,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Color Definition</em>'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Color Definition</em>'.
 	 * @generated
 	 */
@@ -96,7 +99,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Cursor</em>'. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Cursor</em>'.
 	 * @generated
 	 */
@@ -105,7 +108,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Data Point</em>'. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Data Point</em>'.
 	 * @generated
 	 */
@@ -114,7 +117,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Data Point Component</em>'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Data Point Component</em>'.
 	 * @generated
 	 */
@@ -123,7 +126,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Date Format Specifier</em>'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Date Format Specifier</em>'.
 	 * @generated
 	 */
@@ -132,7 +135,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Embedded Image</em>'. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Embedded Image</em>'.
 	 * @generated
 	 */
@@ -141,7 +144,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Extended Property</em>'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Extended Property</em>'.
 	 * @generated
 	 */
@@ -150,7 +153,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Fill</em>'. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Fill</em>'.
 	 * @generated
 	 */
@@ -159,7 +162,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Font Definition</em>'. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Font Definition</em>'.
 	 * @generated
 	 */
@@ -168,7 +171,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Format Specifier</em>'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Format Specifier</em>'.
 	 * @generated
 	 */
@@ -177,7 +180,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Fraction Number Format Specifier</em>'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Fraction Number Format Specifier</em>'.
 	 * @generated
 	 */
@@ -186,7 +189,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Gradient</em>'. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Gradient</em>'.
 	 * @generated
 	 */
@@ -195,7 +198,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Image</em>'. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Image</em>'.
 	 * @generated
 	 */
@@ -204,7 +207,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Insets</em>'. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Insets</em>'.
 	 * @generated
 	 */
@@ -213,7 +216,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Interactivity</em>'. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Interactivity</em>'.
 	 * @generated
 	 */
@@ -222,7 +225,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Java Date Format Specifier</em>'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Java Date Format Specifier</em>'.
 	 * @generated
 	 */
@@ -231,7 +234,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Java Number Format Specifier</em>'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Java Number Format Specifier</em>'.
 	 * @generated
 	 */
@@ -240,7 +243,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Line Attributes</em>'. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Line Attributes</em>'.
 	 * @generated
 	 */
@@ -249,7 +252,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Location</em>'. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Location</em>'.
 	 * @generated
 	 */
@@ -258,7 +261,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Location3 D</em>'. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Location3 D</em>'.
 	 * @generated
 	 */
@@ -267,7 +270,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Marker</em>'. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Marker</em>'.
 	 * @generated
 	 */
@@ -276,7 +279,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Multiple Fill</em>'. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Multiple Fill</em>'.
 	 * @generated
 	 */
@@ -285,7 +288,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Multi URL Values</em>'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Multi URL Values</em>'.
 	 * @generated
 	 */
@@ -294,7 +297,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Number Format Specifier</em>'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Number Format Specifier</em>'.
 	 * @generated
 	 */
@@ -303,7 +306,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Palette</em>'. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Palette</em>'.
 	 * @generated
 	 */
@@ -312,7 +315,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Pattern Image</em>'. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Pattern Image</em>'.
 	 * @generated
 	 */
@@ -321,7 +324,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Rotation3 D</em>'. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Rotation3 D</em>'.
 	 * @generated
 	 */
@@ -330,7 +333,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Script Value</em>'. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Script Value</em>'.
 	 * @generated
 	 */
@@ -339,7 +342,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Series Value</em>'. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Series Value</em>'.
 	 * @generated
 	 */
@@ -348,7 +351,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Size</em>'. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Size</em>'.
 	 * @generated
 	 */
@@ -357,7 +360,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>String Format Specifier</em>'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>String Format Specifier</em>'.
 	 * @generated
 	 */
@@ -366,7 +369,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Style</em>'. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Style</em>'.
 	 * @generated
 	 */
@@ -375,7 +378,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Style Map</em>'. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Style Map</em>'.
 	 * @generated
 	 */
@@ -384,7 +387,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Text</em>'. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Text</em>'.
 	 * @generated
 	 */
@@ -393,7 +396,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Text Alignment</em>'. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Text Alignment</em>'.
 	 * @generated
 	 */
@@ -402,7 +405,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Tooltip Value</em>'. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>Tooltip Value</em>'.
 	 * @generated
 	 */
@@ -411,7 +414,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>URL Value</em>'. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return a new object of class '<em>URL Value</em>'.
 	 * @generated
 	 */
@@ -420,7 +423,7 @@ public interface AttributeFactory extends EFactory {
 	/**
 	 * Returns the package supported by this factory. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return the package supported by this factory.
 	 * @generated
 	 */

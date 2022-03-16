@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +26,7 @@ public class ElementContentParseFactory {
 
 	/**
 	 * Creates a parse state with the given attributes.
-	 * 
+	 *
 	 * @param tagName xml tag name
 	 * @param handler module parser handler
 	 * @param element the design element
@@ -42,8 +45,9 @@ public class ElementContentParseFactory {
 				|| tagName.equalsIgnoreCase(DesignSchemaConstants.TEXT_PROPERTY_TAG)
 				|| tagName.equalsIgnoreCase(DesignSchemaConstants.HTML_PROPERTY_TAG)
 				|| tagName.equalsIgnoreCase(DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG)
-				|| tagName.equalsIgnoreCase(DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG))
+				|| tagName.equalsIgnoreCase(DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG)) {
 			return new PropertyContentState(handler, element, tagName, parent);
+		}
 
 		return new ContentNodeState(tagName, handler, parent);
 	}

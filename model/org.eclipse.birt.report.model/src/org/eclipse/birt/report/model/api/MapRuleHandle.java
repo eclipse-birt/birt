@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +29,7 @@ public class MapRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Constructs the handle of map rule.
-	 * 
+	 *
 	 * @param valueHandle the value handle for map rule list of one property
 	 * @param index       the position of this map rule in the list
 	 */
@@ -37,7 +40,7 @@ public class MapRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns the display value when this rule applies.
-	 * 
+	 *
 	 * @return the display value when this rule applies
 	 */
 
@@ -47,7 +50,7 @@ public class MapRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Sets the display value when this rule applies.
-	 * 
+	 *
 	 * @param display the display value to set
 	 */
 
@@ -57,7 +60,7 @@ public class MapRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Returns the resource key of display value.
-	 * 
+	 *
 	 * @return the resource key of display value.
 	 */
 
@@ -67,7 +70,7 @@ public class MapRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * Sets the resource key of display value.
-	 * 
+	 *
 	 * @param displayID the resource key to set
 	 */
 
@@ -77,7 +80,7 @@ public class MapRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * sets the expression for this map rule.
-	 * 
+	 *
 	 * @param expression the expression
 	 */
 
@@ -88,7 +91,7 @@ public class MapRuleHandle extends StyleRuleHandle {
 
 	/**
 	 * sets the test expression for this map rule.
-	 * 
+	 *
 	 * @return the expression
 	 */
 	public String getTestExpression() {

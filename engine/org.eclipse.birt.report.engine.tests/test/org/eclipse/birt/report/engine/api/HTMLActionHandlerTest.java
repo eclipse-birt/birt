@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +20,7 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
 
 /**
- * 
+ *
  */
 
 public class HTMLActionHandlerTest extends EngineCase {
@@ -38,7 +41,7 @@ public class HTMLActionHandlerTest extends EngineCase {
 		IHyperlinkAction action = null;
 		IAction act = null;
 		String url = null;
-		String[] bookmarks = new String[] { "bookmark", // normal bookmark
+		String[] bookmarks = { "bookmark", // normal bookmark
 				"", // blank bookmark
 				"/()=?`!\"?$?:;_?????", // special char bookmark
 				null // null
@@ -72,7 +75,7 @@ public class HTMLActionHandlerTest extends EngineCase {
 		IAction act = null;
 		String url = null;
 
-		String[] hyperlinks = new String[] { "hyperlink", "", "/()=?`!\"?$?:;_?????", null };
+		String[] hyperlinks = { "hyperlink", "", "/()=?`!\"?$?:;_?????", null };
 		for (int size = hyperlinks.length, index = 0; index < size; index++) {
 			handler = new HTMLActionHandler();
 			action = new ActionContent();
@@ -105,8 +108,8 @@ public class HTMLActionHandlerTest extends EngineCase {
 	public void testAppendFormat() {
 		HTMLActionHandler handler = new HTMLActionHandler();
 		StringBuffer buffer = null;
-		String[] formats = new String[] { "html", "pdf" };
-		String[] goldenFormats = new String[] { "&__format=html", "&__format=pdf" };
+		String[] formats = { "html", "pdf" };
+		String[] goldenFormats = { "&__format=html", "&__format=pdf" };
 		assertTrue(formats.length == goldenFormats.length);
 		for (int length = formats.length, index = 0; index < length; index++) {
 			buffer = new StringBuffer();

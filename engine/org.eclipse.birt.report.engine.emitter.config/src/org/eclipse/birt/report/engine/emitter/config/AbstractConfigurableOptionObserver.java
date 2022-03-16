@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,26 +29,31 @@ public abstract class AbstractConfigurableOptionObserver implements IConfigurabl
 	private static final String CHART_DPI = "ChartDpi"; //$NON-NLS-1$
 	protected IOptionValue[] values;
 
+	@Override
 	public IOptionValue[] getOptionValues() {
 		return values;
 	}
 
+	@Override
 	public IConfigurableOption[] getOptions() {
 		return null;
 	}
 
+	@Override
 	public IRenderOption getPreferredRenderOption() {
 		return null;
 	}
 
+	@Override
 	public boolean update(IOptionValue... values) {
 		this.values = values;
 
 		return false;
 	}
 
+	@Override
 	public List validate(IOptionValue... values) {
-		List<BirtException> errors = new LinkedList<BirtException>();
+		List<BirtException> errors = new LinkedList<>();
 		for (IOptionValue option : values) {
 			if (CHART_DPI.equals(option.getName())) {
 				Object value = option.getValue();

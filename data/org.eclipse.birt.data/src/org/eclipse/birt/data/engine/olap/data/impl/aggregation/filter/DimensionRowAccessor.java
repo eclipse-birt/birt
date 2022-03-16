@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +30,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionRow;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 
 /**
- * 
+ *
  */
 
 public class DimensionRowAccessor extends AbstractRowAccessor {
@@ -36,13 +39,14 @@ public class DimensionRowAccessor extends AbstractRowAccessor {
 	protected DimensionRow dimRow;
 
 	/**
-	 * 
+	 *
 	 * @param dimension
 	 */
 	public DimensionRowAccessor(IDimension dimension) {
 		this.dimension = dimension;
-		if (!dimension.isTime())
+		if (!dimension.isTime()) {
 			populateFieldIndexMap();
+		}
 	}
 
 	public List getLevelNames() {
@@ -56,10 +60,11 @@ public class DimensionRowAccessor extends AbstractRowAccessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.
 	 * AbstractRowAccessor#populateFieldIndexMap()
 	 */
+	@Override
 	protected void populateFieldIndexMap() {
 		fieldIndexMap = new HashMap();
 		ILevel[] levels = dimension.getHierarchy().getLevels();
@@ -87,7 +92,7 @@ public class DimensionRowAccessor extends AbstractRowAccessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param position
 	 * @throws IOException
 	 */
@@ -96,7 +101,7 @@ public class DimensionRowAccessor extends AbstractRowAccessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public DimensionRow getCurrentRow() {
@@ -105,25 +110,28 @@ public class DimensionRowAccessor extends AbstractRowAccessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.util.filter.IResultRow#getAggrValue(java.
 	 * lang.String)
 	 */
+	@Override
 	public Object getAggrValue(String aggrName) throws DataException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.util.filter.IResultRow#getFieldValue(java.
 	 * lang.String)
 	 */
+	@Override
 	public Object getFieldValue(String fieldName) throws DataException {
-		if (dimRow == null)
+		if (dimRow == null) {
 			throw new DataException(ResourceConstants.CANNOT_ACCESS_NULL_DIMENSION_ROW);
+		}
 		if (!dimension.isTime()) {
 			FieldIndex index = (FieldIndex) fieldIndexMap.get(fieldName);
 			return index != null ? index.getValue() : null;
@@ -132,17 +140,18 @@ public class DimensionRowAccessor extends AbstractRowAccessor {
 		}
 	}
 
+	@Override
 	public boolean isTimeDimensionRow() {
 		return dimension.isTime();
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	class DimensionKeyIndex extends KeyIndex {
 
 		/**
-		 * 
+		 *
 		 * @param levelIndex
 		 * @param keyIndex
 		 */
@@ -152,22 +161,23 @@ public class DimensionRowAccessor extends AbstractRowAccessor {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.
 		 * AbstractRowAccessor.FieldIndex#getValue()
 		 */
+		@Override
 		Object getValue() throws DataException {
 			return dimRow.getMembers()[levelIndex].getKeyValues()[keyIndex];
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	class DimensionAttrIndex extends AttributeIndex {
 
 		/**
-		 * 
+		 *
 		 * @param levelIndex
 		 * @param keyIndex
 		 */
@@ -177,10 +187,11 @@ public class DimensionRowAccessor extends AbstractRowAccessor {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.
 		 * AbstractRowAccessor.FieldIndex#getValue()
 		 */
+		@Override
 		Object getValue() throws DataException {
 			return dimRow.getMembers()[levelIndex].getAttributes()[attrIndex];
 		}

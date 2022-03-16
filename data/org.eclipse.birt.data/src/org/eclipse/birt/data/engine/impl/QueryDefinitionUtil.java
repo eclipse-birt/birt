@@ -1,14 +1,17 @@
 /**
  *************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.impl;
@@ -36,14 +39,14 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 public class QueryDefinitionUtil {
 	private QueryDefinitionUtil() {
-	};
+	}
 
 	/**
 	 * Get all accessible bindings from a query definition. If <code>qd</code> is a
 	 * sub query definition, returns bindings defined onto itself and all
 	 * not-aggregation bindings from its ancestors. If <code>qd</code> is not a sub
 	 * query definition, just returns its bindings defined onto itself
-	 * 
+	 *
 	 * @param qd
 	 * @return
 	 * @throws DataException
@@ -84,18 +87,18 @@ public class QueryDefinitionUtil {
 	/**
 	 * Each binding is parsed to see if it's an aggregation. The parsed result saved
 	 * in a Map<String, Boolean> map
-	 * 
+	 *
 	 * @param input: all bindings
 	 * @return
 	 * @throws DataException
 	 */
 	public static Map<String, Boolean> parseAggregations(Map<String, IBinding> input) throws DataException {
-		Map<String, Boolean> result = new HashMap<String, Boolean>();
+		Map<String, Boolean> result = new HashMap<>();
 		for (Entry<String, IBinding> entry : input.entrySet()) {
 			IBinding binding = entry.getValue();
 
 			// transition bindings during parsing, used to check if cycle exists
-			Set<String> transitions = new HashSet<String>();
+			Set<String> transitions = new HashSet<>();
 			transitions.add(binding.getBindingName());
 
 			parseAggregation(binding, input, result, transitions);
@@ -104,7 +107,7 @@ public class QueryDefinitionUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param binding:     the binding to be parsed
 	 * @param allBindings: all bindings
 	 * @param checked:     already parsed result
@@ -145,7 +148,7 @@ public class QueryDefinitionUtil {
 			}
 			IBinding b = allBindings.get(reference);
 			if (b != null) {
-				Set<String> newTransitions = new HashSet<String>(transitions);
+				Set<String> newTransitions = new HashSet<>(transitions);
 				newTransitions.add(reference);
 				boolean isAggr = parseAggregation(b, allBindings, checked, newTransitions);
 				if (isAggr) {
@@ -161,15 +164,16 @@ public class QueryDefinitionUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param subQueryName
 	 * @return
 	 * @throws DataException
 	 */
 	public static ISubqueryDefinition findSubQueryDefinition(String subQueryName, IBaseQueryDefinition queryDefn)
 			throws DataException {
-		if (queryDefn == null)
+		if (queryDefn == null) {
 			return null;
+		}
 		Collection subQueries = queryDefn.getSubqueries();
 		ISubqueryDefinition subQueryDefn = null;
 		// search from subQueries list
@@ -198,8 +202,9 @@ public class QueryDefinitionUtil {
 							return qd;
 						} else {
 							subQueryDefn = findSubQueryDefinition(subQueryName, qd);
-							if (subQueryDefn != null)
+							if (subQueryDefn != null) {
 								return subQueryDefn;
+							}
 						}
 					}
 				}

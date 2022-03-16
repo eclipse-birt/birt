@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,13 +18,13 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 /**
  * Script wrapper of DesignElementHandle
- * 
+ *
  */
 public interface IDesignElement {
 
 	/**
 	 * Gets design element style.
-	 * 
+	 *
 	 * @return style
 	 */
 	IScriptStyleDesign getStyle();
@@ -34,7 +34,7 @@ public interface IDesignElement {
 	 * <CODE>getName()</CODE>, plus the namespace of the module that the elment is
 	 * contained, if any. If the element is existed in the current module,this
 	 * method and <CODE>getName()</CODE> will return identical results.
-	 * 
+	 *
 	 * @return the qualified name of thie element.
 	 */
 
@@ -42,7 +42,7 @@ public interface IDesignElement {
 
 	/**
 	 * Returns name of user property defined in this element.
-	 * 
+	 *
 	 * @param name
 	 * @return name of user property
 	 */
@@ -50,7 +50,7 @@ public interface IDesignElement {
 
 	/**
 	 * Sets name of user property defined in this element.
-	 * 
+	 *
 	 * @param name name of user property
 	 * @param exp  name expression
 	 * @throws ScriptException
@@ -60,7 +60,7 @@ public interface IDesignElement {
 
 	/**
 	 * Returns user property defined in this element.
-	 * 
+	 *
 	 * @param name
 	 * @return user property
 	 * @deprecated
@@ -71,7 +71,7 @@ public interface IDesignElement {
 
 	/**
 	 * Sets user property defined in this element.
-	 * 
+	 *
 	 * @param name
 	 * @param value
 	 * @throws ScriptException
@@ -80,7 +80,7 @@ public interface IDesignElement {
 
 	/**
 	 * Sets user property defined in this element.
-	 * 
+	 *
 	 * @param name
 	 * @param value
 	 * @param type
@@ -91,21 +91,21 @@ public interface IDesignElement {
 
 	/**
 	 * Return the parent of this element
-	 * 
+	 *
 	 * @return the parent
 	 */
 	IDesignElement getParent();
 
 	/**
 	 * Gets the report.
-	 * 
+	 *
 	 * @return the report
 	 */
 	IReportDesign getReport();
 
 	/**
 	 * Returns user property as an expression defined in this element.
-	 * 
+	 *
 	 * @param name the user property name
 	 * @return user property as an expression
 	 */

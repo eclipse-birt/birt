@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,9 +38,10 @@ public class JSRows extends ScriptableObject {
 
 	/*
 	 * return the Class Name
-	 * 
+	 *
 	 * @see org.mozilla.javascript.Scriptable#getClassName()
 	 */
+	@Override
 	public String getClassName() {
 		return "DataRows";
 	}
@@ -45,7 +49,7 @@ public class JSRows extends ScriptableObject {
 	/**
 	 * Construct the rows object from the outer query result and the row object of
 	 * the current result.
-	 * 
+	 *
 	 * @param outerResults  the outer query result
 	 * @param currentRowObj the row object of the cuurent result
 	 * @throws DataException
@@ -58,6 +62,7 @@ public class JSRows extends ScriptableObject {
 	/**
 	 * Gets an indexed Row Object
 	 */
+	@Override
 	public Object get(int index, Scriptable start) {
 		logger.entering(JSColumnDefn.class.getName(), "get", Integer.valueOf(index));
 		if (index >= 0 && index < dataSets.length) {
@@ -71,9 +76,11 @@ public class JSRows extends ScriptableObject {
 	/**
 	 * Checks if an row Object exists
 	 */
+	@Override
 	public boolean has(int index, Scriptable start) {
-		if (logger.isLoggable(Level.FINER))
+		if (logger.isLoggable(Level.FINER)) {
 			logger.entering(JSColumnDefn.class.getName(), "has", Integer.valueOf(index));
+		}
 		return (index >= 0 && dataSets.length > index) ? true : false;
 	}
 

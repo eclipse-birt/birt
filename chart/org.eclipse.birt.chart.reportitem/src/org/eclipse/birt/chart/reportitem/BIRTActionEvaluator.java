@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,7 +58,7 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.factory.IActionEvaluator#getActionExpressions(org.
 	 * eclipse.birt.chart.model.data.Action)
@@ -63,7 +66,7 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter {
 	@Override
 	public String[] getActionExpressions(Action action, StructureSource source) {
 		if (action instanceof MultipleActions) {
-			List<String> expList = new ArrayList<String>();
+			List<String> expList = new ArrayList<>();
 			for (Action subAction : ((MultipleActions) action).getActions()) {
 				if (subAction.getValue() instanceof URLValue) {
 					getURLValueExpressions(expList, (URLValue) subAction.getValue());
@@ -73,7 +76,7 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter {
 				return expList.toArray(new String[expList.size()]);
 			}
 		} else if (ActionType.URL_REDIRECT_LITERAL.equals(action.getType())) {
-			List<String> expList = new ArrayList<String>();
+			List<String> expList = new ArrayList<>();
 
 			if (action.getValue() instanceof URLValue) {
 				URLValue uv = (URLValue) action.getValue();
@@ -120,7 +123,7 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter {
 
 	/**
 	 * Adds all URL value expressions from Action handle to list
-	 * 
+	 *
 	 * @param expList list to add
 	 * @param handle  action handle
 	 */
@@ -191,7 +194,7 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter {
 	 * This class caches instance of ActionHandle.
 	 */
 	private static class ActionHandleCache {
-		private Map<String, ActionHandle> hm = new HashMap<String, ActionHandle>();
+		private Map<String, ActionHandle> hm = new HashMap<>();
 
 		public ActionHandle get(String key) throws DesignFileException {
 			ActionHandle value = hm.get(key);

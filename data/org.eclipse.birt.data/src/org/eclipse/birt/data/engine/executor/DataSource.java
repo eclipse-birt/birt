@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.executor;
@@ -17,6 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
@@ -63,7 +67,7 @@ class DataSource implements IDataSource {
 	private DataEngineSession session;
 
 	/**
-	 * 
+	 *
 	 * @param driverName
 	 * @param connProperties
 	 * @param session
@@ -71,8 +75,9 @@ class DataSource implements IDataSource {
 	 */
 	public DataSource(String driverName, Map connProperties, DataEngineSession session) {
 		this.driverName = driverName;
-		if (connProperties != null)
+		if (connProperties != null) {
 			this.connectionProps.putAll(connProperties);
+		}
 
 		this.session = session;
 
@@ -87,6 +92,7 @@ class DataSource implements IDataSource {
 			this.session = session;
 		}
 
+		@Override
 		public void dataEngineShutdown() {
 			releaseConnection(session);
 		}
@@ -97,8 +103,9 @@ class DataSource implements IDataSource {
 			synchronized (DataSource.dataEngineLevelConnectionPool) {
 				Map<ConnectionProp, Set<CacheConnection>> odaConnectionsMap = DataSource.dataEngineLevelConnectionPool
 						.remove(session);
-				if (odaConnectionsMap == null)
+				if (odaConnectionsMap == null) {
 					return;
+				}
 
 				for (Set<CacheConnection> set : odaConnectionsMap.values()) {
 					for (CacheConnection conn : set) {
@@ -122,7 +129,7 @@ class DataSource implements IDataSource {
 					DataSource.dataEngineLevelConnectionPool.put(this.session,
 							new HashMap<ConnectionProp, Set<CacheConnection>>());
 				} else {
-					return new HashSet<CacheConnection>();
+					return new HashSet<>();
 				}
 			}
 
@@ -138,7 +145,7 @@ class DataSource implements IDataSource {
 
 	/**
 	 * Returns the driverName.
-	 * 
+	 *
 	 * @return
 	 */
 	String getDriverName() {
@@ -149,10 +156,12 @@ class DataSource implements IDataSource {
 	 * @see org.eclipse.birt.data.engine.odi.IDataSource#addProperty(java.lang.String,
 	 *      java.lang.String)
 	 */
+	@Override
 	public void addProperty(String name, String value) throws DataException {
 		// Cannot change connection properties if connection is open
-		if (isOpen())
+		if (isOpen()) {
 			throw new DataException(ResourceConstants.DS_HAS_OPENED);
+		}
 
 		connectionProps.put(name, value);
 	}
@@ -161,6 +170,7 @@ class DataSource implements IDataSource {
 	 * @see
 	 * org.eclipse.birt.data.engine.odi.IDataSource#setAppContext(java.util.Map)
 	 */
+	@Override
 	public void setAppContext(Map context) throws DataException {
 		appContext = context;
 	}
@@ -175,16 +185,15 @@ class DataSource implements IDataSource {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IDataSource#open()
 	 */
+	@Override
 	public void open() throws DataException {
 		// No op if we are already open
-		if (isOpen())
-			return;
-
 		// If no driver name is specified, this is an empty data source used
 		// Sole for
 		// processing candidate queries. Open() is a no-op.
-		if (driverName == null || driverName.length() == 0)
+		if (isOpen() || driverName == null || driverName.length() == 0) {
 			return;
+		}
 
 		// Create first open connection
 		newConnection();
@@ -192,7 +201,7 @@ class DataSource implements IDataSource {
 
 	/**
 	 * Opens a new Connection and add it to the pool
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -200,8 +209,9 @@ class DataSource implements IDataSource {
 		CacheConnection conn = new CacheConnection();
 		conn.odaConn = ConnectionManager.getInstance().openConnection(driverName, connectionProps, appContext);
 		int max = conn.odaConn.getMaxQueries();
-		if (max != 0) // 0 means no limit
+		if (max != 0) { // 0 means no limit
 			conn.maxStatements = max;
+		}
 		this.getOdaConnections(true).add(conn);
 		return conn;
 	}
@@ -214,8 +224,9 @@ class DataSource implements IDataSource {
 		Iterator it = this.getOdaConnections(true).iterator();
 		while (it.hasNext()) {
 			CacheConnection c = (CacheConnection) (it.next());
-			if (c.odaConn.isOpen() && c.currentStatements < c.maxStatements)
+			if (c.odaConn.isOpen() && c.currentStatements < c.maxStatements) {
 				return c;
+			}
 		}
 
 		// No more available connections; create a new one
@@ -226,6 +237,7 @@ class DataSource implements IDataSource {
 	 * @see org.eclipse.birt.data.engine.odi.IDataSource#newQuery(java.lang.String,
 	 * java.lang.String)
 	 */
+	@Override
 	public IDataSourceQuery newQuery(String queryType, String queryText, boolean fromCache, IQueryContextVisitor qcv)
 			throws DataException {
 		if (fromCache) {
@@ -239,6 +251,7 @@ class DataSource implements IDataSource {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IDataSource#newCandidateQuery()
 	 */
+	@Override
 	public ICandidateQuery newCandidateQuery(boolean fromCache) throws DataException {
 		if (fromCache) {
 			return new org.eclipse.birt.data.engine.executor.dscache.CandidateQuery(session);
@@ -283,9 +296,10 @@ class DataSource implements IDataSource {
 			// Fall through and call close() on stmt any way
 		} else {
 			--conn.currentStatements;
-			if (conn.currentStatements < 0)
+			if (conn.currentStatements < 0) {
 				logger.warning(
 						DataSource.class.getName() + ".closeStatement: negative statement count for connection.");
+			}
 
 			// TODO: consider releasing connections here if we have more than 1 free
 			// connections
@@ -301,15 +315,17 @@ class DataSource implements IDataSource {
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IDataSource#canClose()
 	 */
+	@Override
 	public boolean canClose() {
 		return statementMap.size() == 0;
-	};
+	}
 
 	/*
 	 * force to close all statements and connections
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IDataSource#close()
 	 */
+	@Override
 	public void close() {
 		releaseDataSource();
 	}
@@ -404,28 +420,30 @@ class DataSource implements IDataSource {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (this == obj)
+			if (this == obj) {
 				return true;
-			if (obj == null)
+			}
+			if ((obj == null) || (getClass() != obj.getClass())) {
 				return false;
-			if (getClass() != obj.getClass())
-				return false;
+			}
 			ConnectionProp other = (ConnectionProp) obj;
 			if (appContext == null) {
-				if (other.appContext != null)
+				if (other.appContext != null) {
 					return false;
-			} else if (!ComparatorUtil.isEqualProps(appContext, other.appContext))
+				}
+			} else if (!ComparatorUtil.isEqualProps(appContext, other.appContext)) {
 				return false;
-			if (driverName == null) {
-				if (other.driverName != null)
-					return false;
-			} else if (!driverName.equals(other.driverName))
+			}
+			if (!Objects.equals(driverName, other.driverName)) {
 				return false;
+			}
 			if (props == null) {
-				if (other.props != null)
+				if (other.props != null) {
 					return false;
-			} else if (!ComparatorUtil.isEqualProps(props, other.props))
+				}
+			} else if (!ComparatorUtil.isEqualProps(props, other.props)) {
 				return false;
+			}
 			return true;
 		}
 	}

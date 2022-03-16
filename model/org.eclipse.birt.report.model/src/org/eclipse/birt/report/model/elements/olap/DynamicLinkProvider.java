@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,7 +58,7 @@ abstract public class DynamicLinkProvider extends ExtensibilityProvider {
 
 	/**
 	 * Constructs dynamic provider with the element.
-	 * 
+	 *
 	 * @param element the element that holds this provider
 	 */
 
@@ -70,28 +73,30 @@ abstract public class DynamicLinkProvider extends ExtensibilityProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.extension.ExtensibilityProvider#checkExtends
 	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public final void checkExtends(DesignElement parent) throws ExtendsException {
 		// do nothing
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IExtendableElement#getExtDefn()
 	 */
 
+	@Override
 	public final ExtensionElementDefn getExtDefn() {
 		return cachedExtDefn;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param module
 	 * @param prop
 	 * @return
@@ -101,8 +106,9 @@ abstract public class DynamicLinkProvider extends ExtensibilityProvider {
 	}
 
 	public final void setLayoutProperty(ElementPropertyDefn prop, Object value) {
-		if (infor == null)
+		if (infor == null) {
 			infor = new LayoutInfor();
+		}
 		infor.layoutProps.put(prop.getName(), value);
 	}
 
@@ -130,12 +136,14 @@ abstract public class DynamicLinkProvider extends ExtensibilityProvider {
 		ContentIterator iter = new ContentIterator(module, element);
 		while (iter.hasNext()) {
 			DesignElement content = iter.next();
-			if (!(content instanceof ReferenceableElement))
+			if (!(content instanceof ReferenceableElement)) {
 				continue;
+			}
 
 			ReferenceableElement referred = (ReferenceableElement) content;
-			if (!referred.hasReferences())
+			if (!referred.hasReferences()) {
 				continue;
+			}
 
 			List<BackRef> clientList = referred.getClientList();
 			for (BackRef clientRef : clientList) {
@@ -231,16 +239,19 @@ abstract public class DynamicLinkProvider extends ExtensibilityProvider {
 	}
 
 	public final DesignElement findLocalElement(String name, IElementDefn type) {
-		if (StringUtil.isBlank(name) || type == null || infor == null)
+		if (StringUtil.isBlank(name) || type == null || infor == null) {
 			return null;
+		}
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance();
-		if (type.isKindOf(dd.getElement(ReportDesignConstants.DIMENSION_ELEMENT)))
+		if (type.isKindOf(dd.getElement(ReportDesignConstants.DIMENSION_ELEMENT))) {
 			return infor.localNameSpaces[DIMENSION_SPACE_ID].getElement(name);
+		}
 
 		DesignElement element = infor.localNameSpaces[NON_DIMENSION_SPACE_ID].getElement(name);
-		if (element != null && element.getDefn().isKindOf(type))
+		if (element != null && element.getDefn().isKindOf(type)) {
 			return element;
+		}
 		return null;
 	}
 
@@ -257,7 +268,7 @@ abstract public class DynamicLinkProvider extends ExtensibilityProvider {
 		public NameSpace[] localNameSpaces = null;
 
 		public LayoutInfor() {
-			this.layoutProps = new HashMap<String, Object>(ModelUtil.MAP_CAPACITY_LOW);
+			this.layoutProps = new HashMap<>(ModelUtil.MAP_CAPACITY_LOW);
 			this.localNameSpaces = new NameSpace[2];
 
 			localNameSpaces[0] = new NameSpace();

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +22,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IParameterGroupModel;
 /**
  * Represents a group of parameters. A parameter group creates a visual grouping
  * of parameters.
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.ParameterGroup
  */
 
@@ -29,7 +32,7 @@ public class ParameterGroupHandle extends ReportElementHandle implements IParame
 	 * Constructs the handle for a group parameters with the given design and
 	 * element. The application generally does not create handles directly. Instead,
 	 * it uses one of the navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -40,9 +43,9 @@ public class ParameterGroupHandle extends ReportElementHandle implements IParame
 
 	/**
 	 * Returns a slot handle to work with the parameters within the parameter group.
-	 * 
+	 *
 	 * @return a handle for working with the parameters in this group
-	 * 
+	 *
 	 * @see SlotHandle
 	 */
 
@@ -52,7 +55,7 @@ public class ParameterGroupHandle extends ReportElementHandle implements IParame
 
 	/**
 	 * Returns additional pop-up help text associated with the group.
-	 * 
+	 *
 	 * @return the help text
 	 */
 
@@ -62,9 +65,9 @@ public class ParameterGroupHandle extends ReportElementHandle implements IParame
 
 	/**
 	 * Returns additional pop-up help text associated with the group.
-	 * 
+	 *
 	 * @param text the help text
-	 * 
+	 *
 	 * @throws SemanticException if the help text property is locked.
 	 */
 
@@ -74,7 +77,7 @@ public class ParameterGroupHandle extends ReportElementHandle implements IParame
 
 	/**
 	 * Returns the resource key of the help text for this parameter group.
-	 * 
+	 *
 	 * @return the resource key of the help text
 	 */
 
@@ -84,9 +87,9 @@ public class ParameterGroupHandle extends ReportElementHandle implements IParame
 
 	/**
 	 * Sets the resource key of the help text for this parameter group.
-	 * 
+	 *
 	 * @param text the resource key of the help text
-	 * 
+	 *
 	 * @throws SemanticException if the resource-key of the help text property is
 	 *                           locked.
 	 */
@@ -97,7 +100,7 @@ public class ParameterGroupHandle extends ReportElementHandle implements IParame
 
 	/**
 	 * Tests whether the UI can expand and collapse groups.
-	 * 
+	 *
 	 * @return <code>true</code> if can expand, otherwise <code>false</code>.
 	 */
 
@@ -107,7 +110,7 @@ public class ParameterGroupHandle extends ReportElementHandle implements IParame
 
 	/**
 	 * Sets whether the UI can expand and collapse groups.
-	 * 
+	 *
 	 * @param value <code>true</code> if can expand, <code>false</code> not.
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -118,9 +121,9 @@ public class ParameterGroupHandle extends ReportElementHandle implements IParame
 
 	/**
 	 * Gets the display prompt text.
-	 * 
+	 *
 	 * @return the display prompt.
-	 * 
+	 *
 	 */
 
 	public String getPromptText() {
@@ -129,9 +132,9 @@ public class ParameterGroupHandle extends ReportElementHandle implements IParame
 
 	/**
 	 * Returns the prompt text key.
-	 * 
+	 *
 	 * @return the prompt text key.
-	 * 
+	 *
 	 */
 
 	public String getPromptTextKey() {
@@ -140,11 +143,11 @@ public class ParameterGroupHandle extends ReportElementHandle implements IParame
 
 	/**
 	 * Sets the value for the display prompt context.
-	 * 
+	 *
 	 * @param promptValue The display prompt context.
-	 * 
+	 *
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 
 	public void setPromptText(String promptValue) throws SemanticException {
@@ -153,11 +156,11 @@ public class ParameterGroupHandle extends ReportElementHandle implements IParame
 
 	/**
 	 * Set the value for the prompt text key.
-	 * 
+	 *
 	 * @param promptIDValue The prompt text key.
-	 * 
+	 *
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 
 	public void setPromptTextKey(String promptIDValue) throws SemanticException {

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,12 +28,10 @@ import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserManager;
-import org.eclipse.birt.report.viewer.browsers.custom.CustomBrowser;
 import org.eclipse.birt.report.viewer.utilities.AppContextUtil;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Preferences;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.preference.IPreferenceNode;
 import org.eclipse.jface.preference.IPreferencePage;
 import org.eclipse.jface.preference.PreferenceManager;
@@ -38,15 +39,12 @@ import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
@@ -72,7 +70,6 @@ public class PreviewPreferencePage extends PreferencePage implements IWorkbenchP
 	private Button alwaysExternal;
 	private Button svgFlag;
 	private Button masterPageContent;
-	private Button[] externalBrowsers;
 	private Button customBrowserRadio;
 	private Label customBrowserPathLabel;
 	private Text customBrowserPath;
@@ -85,10 +82,10 @@ public class PreviewPreferencePage extends PreferencePage implements IWorkbenchP
 	private static final String WBROWSER_PAGE_ID = "org.eclipse.ui.browser.preferencePage";//$NON-NLS-1$
 	private static final String PREFERENCE_HELPER_ID = "PreviewPreferencePage";//$NON-NLS-1$
 
-	private static final String BIDI_CHOICE_NAMES[] = new String[] { WebViewer.BIDI_ORIENTATION_AUTO,
-			WebViewer.BIDI_ORIENTATION_LTR, WebViewer.BIDI_ORIENTATION_RTL };
+	private static final String BIDI_CHOICE_NAMES[] = { WebViewer.BIDI_ORIENTATION_AUTO, WebViewer.BIDI_ORIENTATION_LTR,
+			WebViewer.BIDI_ORIENTATION_RTL };
 
-	private static final String BIDI_CHOICE_DISPLAYNAMES[] = new String[] {
+	private static final String BIDI_CHOICE_DISPLAYNAMES[] = {
 			Messages.getString("designer.preview.preference.bidiOrientation.auto"), //$NON-NLS-1$
 			Messages.getString("designer.preview.preference.bidiOrientation.ltr"), //$NON-NLS-1$
 			Messages.getString("designer.preview.preference.bidiOrientation.rtl"), //$NON-NLS-1$
@@ -98,9 +95,10 @@ public class PreviewPreferencePage extends PreferencePage implements IWorkbenchP
 
 	/**
 	 * Creates preference page controls on demand.
-	 * 
+	 *
 	 * @param parent the parent for the preference page
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.PREFERENCE_BIRT_PREVIEW_ID);
 		Composite mainComposite = new Composite(parent, SWT.NULL);
@@ -143,7 +141,7 @@ public class PreviewPreferencePage extends PreferencePage implements IWorkbenchP
 		if (defaultLocale == null || defaultLocale.trim().length() <= 0) {
 			assert ULocale.getDefault() != null;
 			defaultLocale = ULocale.getDefault().getDisplayName();
-		} else if (WebViewer.LOCALE_TABLE.values().contains(defaultLocale)) {
+		} else if (WebViewer.LOCALE_TABLE.containsValue(defaultLocale)) {
 			Iterator iter = WebViewer.LOCALE_TABLE.entrySet().iterator();
 			while (iter.hasNext()) {
 				Entry entry = (Entry) iter.next();
@@ -192,6 +190,7 @@ public class PreviewPreferencePage extends PreferencePage implements IWorkbenchP
 			appContextExt.setEnabled(appExtNames.length != 0);
 			appContextExt.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					appContextExtCombo.setEnabled(appContextExt.getSelection());
 					if (appContextExt.getSelection()) {
@@ -226,6 +225,7 @@ public class PreviewPreferencePage extends PreferencePage implements IWorkbenchP
 			appContextExtCombo.setLayoutData(extGd);
 			appContextExtCombo.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					ViewerPlugin.getDefault().getPluginPreferences().setValue(WebViewer.APPCONTEXT_EXTENSION_KEY,
 							appContextExtCombo.getText());
@@ -378,75 +378,11 @@ public class PreviewPreferencePage extends PreferencePage implements IWorkbenchP
 				.iterator();
 		while (iterator.hasNext()) {
 			IPreferenceNode next = (IPreferenceNode) iterator.next();
-			if (next.getId().equals(pageId))
+			if (next.getId().equals(pageId)) {
 				return next;
+			}
 		}
 		return null;
-	}
-
-	/**
-	 * Create UI section for custom browser.
-	 * 
-	 * @param mainComposite
-	 */
-	private void createCustomBrowserPathPart(Composite mainComposite) {
-		Font font = mainComposite.getFont();
-		// vertical space
-		new Label(mainComposite, SWT.NULL);
-
-		Composite bPathComposite = new Composite(mainComposite, SWT.NULL);
-		GridLayout layout = new GridLayout();
-		layout.marginWidth = 0;
-		layout.marginHeight = 0;
-		layout.numColumns = 3;
-		bPathComposite.setLayout(layout);
-		bPathComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		customBrowserPathLabel = new Label(bPathComposite, SWT.LEFT);
-		customBrowserPathLabel.setFont(font);
-		customBrowserPathLabel.setText(Messages.getString("designer.preview.preference.browser.program")); //$NON-NLS-1$
-
-		// Browser path text
-		customBrowserPath = new Text(bPathComposite, SWT.BORDER);
-		customBrowserPath.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		customBrowserPath.setFont(font);
-		customBrowserPath.setText(
-				ViewerPlugin.getDefault().getPluginPreferences().getString(CustomBrowser.CUSTOM_BROWSER_PATH_KEY));
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		data.horizontalAlignment = GridData.FILL;
-		data.widthHint = convertWidthInCharsToPixels(10);
-		customBrowserPath.setLayoutData(data);
-
-		// Custom browser button
-		customBrowserBrowse = new Button(bPathComposite, SWT.NONE);
-		customBrowserBrowse.setFont(font);
-		customBrowserBrowse.setText(Messages.getString("designer.preview.preference.browser.browse")); //$NON-NLS-1$
-		data = new GridData();
-		data.horizontalAlignment = GridData.FILL;
-		data.heightHint = convertVerticalDLUsToPixels(IDialogConstants.BUTTON_HEIGHT);
-		int widthHint = convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
-		data.widthHint = Math.max(widthHint, customBrowserBrowse.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
-		customBrowserBrowse.setLayoutData(data);
-		customBrowserBrowse.addSelectionListener(new SelectionListener() {
-
-			public void widgetDefaultSelected(SelectionEvent event) {
-			}
-
-			public void widgetSelected(SelectionEvent event) {
-				FileDialog d = new FileDialog(getShell());
-
-				d.setText(Messages.getString("designer.preview.preference.browser.details")); //$NON-NLS-1$
-
-				String file = d.open();
-
-				if (file != null) {
-					customBrowserPath.setText("\"" + file + "\" %1"); //$NON-NLS-1$ //$NON-NLS-2$
-				}
-			}
-		});
-
-		// Toggle custom browser enabled or not
-		setCustomBrowserPathEnabled();
 	}
 
 	/**
@@ -458,6 +394,7 @@ public class PreviewPreferencePage extends PreferencePage implements IWorkbenchP
 	 * <code>super.performDefaults</code>.
 	 * </p>
 	 */
+	@Override
 	protected void performDefaults() {
 		// String defaultBrowserID = BrowserManager.getInstance( )
 		// .getDefaultBrowserID( );
@@ -520,6 +457,7 @@ public class PreviewPreferencePage extends PreferencePage implements IWorkbenchP
 	/**
 	 * @see IPreferencePage
 	 */
+	@Override
 	public boolean performOk() {
 		Preferences pref = ViewerPlugin.getDefault().getPluginPreferences();
 
@@ -565,8 +503,9 @@ public class PreviewPreferencePage extends PreferencePage implements IWorkbenchP
 		if (localeCombo != null) {
 			if (WebViewer.LOCALE_TABLE.containsKey(localeCombo.getText())) {
 				pref.setValue(WebViewer.USER_LOCALE, WebViewer.LOCALE_TABLE.get(localeCombo.getText()));
-			} else
+			} else {
 				pref.setValue(WebViewer.USER_LOCALE, localeCombo.getText());
+			}
 		}
 
 		if (bidiCombo != null) {
@@ -591,7 +530,7 @@ public class PreviewPreferencePage extends PreferencePage implements IWorkbenchP
 
 	/**
 	 * Creates a horizontal spacer line that fills the width of its container.
-	 * 
+	 *
 	 * @param parent the parent control
 	 */
 	private void createSpacer(Composite parent) {
@@ -648,7 +587,8 @@ public class PreviewPreferencePage extends PreferencePage implements IWorkbenchP
 		return parent;
 	}
 
+	@Override
 	public void init(IWorkbench workbench) {
-		;
+
 	}
 }

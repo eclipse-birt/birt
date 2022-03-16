@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +24,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test for PropertyStructure clone facility.
- * 
+ *
  */
 
 public class PropertyStructureCloneTest extends BaseTestCase {
@@ -32,9 +35,10 @@ public class PropertyStructureCloneTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		openDesign(INPUT_FILE);
@@ -43,7 +47,7 @@ public class PropertyStructureCloneTest extends BaseTestCase {
 	/**
 	 * Copy action from Image1 to Image2, then change the type of "action1", write
 	 * them back, ensure that change to image1 won't affect image2.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -74,7 +78,7 @@ public class PropertyStructureCloneTest extends BaseTestCase {
 	/**
 	 * Copy action from image1 to image2. Change a list value of action in image1,
 	 * ensure that it won't affect action on image2.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

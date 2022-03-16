@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +28,7 @@ public class AggregationDefinition {
 	private DrilledInfo drilledAggregation;
 
 	/**
-	 * 
+	 *
 	 * @param levelNames
 	 * @param sortTypes
 	 * @param aggregationFunctions
@@ -43,8 +46,9 @@ public class AggregationDefinition {
 				}
 			}
 			this.aggregationFunctions = new AggregationFunctionDefinition[aggregationFunctions.length];
-			if (timeFunctionCount > 0)
+			if (timeFunctionCount > 0) {
 				this.aggregationTimeFunctions = new AggregationFunctionDefinition[timeFunctionCount];
+			}
 			int ptr = 0;
 			int tPtr = 0;
 			for (int i = 0; i < aggregationFunctions.length; i++) {
@@ -74,7 +78,7 @@ public class AggregationDefinition {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public AggregationFunctionDefinition[] getAggregationFunctions() {
@@ -103,7 +107,7 @@ public class AggregationDefinition {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public DimLevel[] getLevels() {
@@ -111,7 +115,7 @@ public class AggregationDefinition {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int[] getSortTypes() {
@@ -120,7 +124,7 @@ public class AggregationDefinition {
 
 	/**
 	 * set its related drilled info
-	 * 
+	 *
 	 * @param aggregation
 	 */
 	public void setDrilledInfo(DrilledInfo aggregation) {
@@ -129,7 +133,7 @@ public class AggregationDefinition {
 
 	/**
 	 * get its related drilled info
-	 * 
+	 *
 	 * @return
 	 */
 	public DrilledInfo getDrilledInfo() {

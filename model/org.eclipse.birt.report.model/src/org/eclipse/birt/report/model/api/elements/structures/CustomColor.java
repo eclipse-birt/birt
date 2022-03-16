@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,21 +38,21 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * This is a managed object, meaning that all changes should be made though the
  * command layer so that they can be undone and redone. Each custom color has
  * the following properties:
- * 
+ *
  * <p>
  * <dl>
  * <dt><strong>Name </strong></dt>
  * <dd>a custom color has a unique and required name, so the user can use the
  * color name to identify a custom color.</dd>
- * 
+ *
  * <dt><strong>color </strong></dt>
  * <dd>The color value of the color, it is preserved as the user typed in.</dd>
- * 
+ *
  * <dt><strong>Resource Key </strong></dt>
  * <dd>a custom color has an optional display name ID to localize the display
  * name.</dd>
  * </dl>
- * 
+ *
  */
 
 public class CustomColor extends ReferencableStructure {
@@ -117,7 +120,7 @@ public class CustomColor extends ReferencableStructure {
 
 	/**
 	 * Constructs the custom color with a required name and RGB value.
-	 * 
+	 *
 	 * @param theName the internal color name
 	 * @param value   the color value
 	 */
@@ -129,52 +132,60 @@ public class CustomColor extends ReferencableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return CUSTOM_COLOR_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String valueName) {
-		if (valueName.equals(NAME_MEMBER))
+		if (valueName.equals(NAME_MEMBER)) {
 			return name;
-		if (valueName.equals(COLOR_MEMBER))
+		}
+		if (valueName.equals(COLOR_MEMBER)) {
 			return color;
-		if (valueName.equals(DISPLAY_NAME_MEMBER))
+		}
+		if (valueName.equals(DISPLAY_NAME_MEMBER)) {
 			return displayName;
-		if (valueName.equals(DISPLAY_NAME_ID_MEMBER))
+		}
+		if (valueName.equals(DISPLAY_NAME_ID_MEMBER)) {
 			return displayNameID;
+		}
 		assert false;
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String valueName, Object value) {
-		if (valueName.equals(NAME_MEMBER))
+		if (valueName.equals(NAME_MEMBER)) {
 			name = (String) value;
-		else if (valueName.equals(COLOR_MEMBER))
+		} else if (valueName.equals(COLOR_MEMBER)) {
 			color = (String) value;
-		else if (valueName.equals(DISPLAY_NAME_MEMBER))
+		} else if (valueName.equals(DISPLAY_NAME_MEMBER)) {
 			displayName = (String) value;
-		else if (valueName.equals(DISPLAY_NAME_ID_MEMBER))
+		} else if (valueName.equals(DISPLAY_NAME_ID_MEMBER)) {
 			displayNameID = (String) value;
-		else
+		} else {
 			assert false;
+		}
 	}
 
 	/**
@@ -191,16 +202,17 @@ public class CustomColor extends ReferencableStructure {
 	 * <li>CSS relative: RGB(r%,g%,b%)</li>
 	 * <li>One of the css color name: red, green, black.</li>
 	 * </ul>
-	 * 
-	 * 
+	 *
+	 *
 	 * @return the color value as an integer RGB value. Return <code>-1</code> if
 	 *         the color value is not valid or the color value is <code>null</code>.
 	 * @see ColorUtil#parseColor(String)
 	 */
 
 	public int getRGB() {
-		if (color == null)
+		if (color == null) {
 			return -1;
+		}
 
 		// Use the validation logic of color property type.
 
@@ -216,7 +228,7 @@ public class CustomColor extends ReferencableStructure {
 
 	/**
 	 * Returns the internal color name.
-	 * 
+	 *
 	 * @return the internal color name
 	 */
 
@@ -226,7 +238,7 @@ public class CustomColor extends ReferencableStructure {
 
 	/**
 	 * Returns the color value as what the user has input.
-	 * 
+	 *
 	 * @return the color value as what the user has input.
 	 */
 
@@ -236,7 +248,7 @@ public class CustomColor extends ReferencableStructure {
 
 	/**
 	 * Returns the color display name message ID.
-	 * 
+	 *
 	 * @return the display name message ID
 	 */
 
@@ -246,7 +258,7 @@ public class CustomColor extends ReferencableStructure {
 
 	/**
 	 * Returns the color display name.
-	 * 
+	 *
 	 * @return the display name
 	 */
 
@@ -260,7 +272,7 @@ public class CustomColor extends ReferencableStructure {
 	 * then the localized text for the current locale is returned; Otherwise return
 	 * the <code>displayName</code> property if is not null or blank; Else, return
 	 * the internal name of the color.
-	 * 
+	 *
 	 * @param module the module
 	 * @return the display name of the color
 	 */
@@ -274,8 +286,9 @@ public class CustomColor extends ReferencableStructure {
 
 		if (translation != null) {
 			value = translation.getText();
-			if (!StringUtil.isBlank(value))
+			if (!StringUtil.isBlank(value)) {
 				return value;
+			}
 		}
 
 		// 2. use the display name.
@@ -292,18 +305,19 @@ public class CustomColor extends ReferencableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
+	@Override
 	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new CustomColorHandle(valueHandle, index);
 	}
 
 	/**
 	 * Sets the internal color name.
-	 * 
+	 *
 	 * @param name the internal color name
 	 */
 
@@ -313,7 +327,7 @@ public class CustomColor extends ReferencableStructure {
 
 	/**
 	 * Sets the color display name.
-	 * 
+	 *
 	 * @param displayName the display name
 	 */
 
@@ -323,9 +337,9 @@ public class CustomColor extends ReferencableStructure {
 
 	/**
 	 * Sets the color value.
-	 * 
+	 *
 	 * @param colorValue the color value to be set.
-	 * 
+	 *
 	 */
 
 	public void setColor(String colorValue) {
@@ -334,7 +348,7 @@ public class CustomColor extends ReferencableStructure {
 
 	/**
 	 * Sets the color display name ID.
-	 * 
+	 *
 	 * @param displayNameID the display name ID to set
 	 */
 
@@ -348,11 +362,12 @@ public class CustomColor extends ReferencableStructure {
 	 * <li>The color name is required.</li>
 	 * <li>The color value can not be the same as a CSS color name.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(Module,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public List validate(Module module, DesignElement element) {
 		List list = super.validate(module, element);
 
@@ -372,21 +387,23 @@ public class CustomColor extends ReferencableStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.core.ReferencableStructure#
 	 * isReferencableProperty(java.lang.String)
 	 */
 
+	@Override
 	public boolean isReferencableProperty(String memberName) {
 		return NAME_MEMBER.equalsIgnoreCase(memberName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getReferencableProperty()
 	 */
 
+	@Override
 	public String getReferencableProperty() {
 		return name;
 	}

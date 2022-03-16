@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.data.engine.api.querydefn;
 
 import java.util.Collection;
@@ -15,7 +27,7 @@ import com.ibm.icu.util.ULocale;
 
 public class CombinedOdaDataSetDesign extends OdaDataSetDesign implements ICombinedOdaDataSetDesign {
 	private IOdaDataSetDesign masterDesign;
-	private Set<IOdaDataSetDesign> dataSetDesigns = new HashSet<IOdaDataSetDesign>();
+	private Set<IOdaDataSetDesign> dataSetDesigns = new HashSet<>();
 
 	public CombinedOdaDataSetDesign(IOdaDataSetDesign masterDesign) {
 		super(masterDesign.getName(), masterDesign.getDataSourceName());
@@ -23,10 +35,12 @@ public class CombinedOdaDataSetDesign extends OdaDataSetDesign implements ICombi
 		addDataSetDesign(masterDesign);
 	}
 
+	@Override
 	public void addDataSetDesign(IOdaDataSetDesign dataSetDesign) {
 		dataSetDesigns.add(dataSetDesign);
 	}
 
+	@Override
 	public Set<IOdaDataSetDesign> getDataSetDesigns() {
 		return dataSetDesigns;
 	}

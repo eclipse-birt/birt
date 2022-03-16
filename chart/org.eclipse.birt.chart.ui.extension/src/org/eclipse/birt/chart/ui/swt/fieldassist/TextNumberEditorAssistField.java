@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +21,7 @@ import com.ibm.icu.text.DecimalFormatSymbols;
 
 /**
  * The class extends {@link TextAssistField} and processes for numeric value.
- * 
+ *
  * @since 2.5
  */
 
@@ -26,7 +29,7 @@ public class TextNumberEditorAssistField extends TextAssistField {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param text      the text to be decorated.
 	 * @param composite The SWT composite within which the decoration should be
 	 *                  rendered. The decoration will be clipped to this composite,
@@ -44,7 +47,7 @@ public class TextNumberEditorAssistField extends TextAssistField {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param text      the text to be decorated.
 	 * @param composite The SWT composite within which the decoration should be
 	 *                  rendered. The decoration will be clipped to this composite,
@@ -63,7 +66,7 @@ public class TextNumberEditorAssistField extends TextAssistField {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.fieldassist.SmartField#isValid()
 	 */
 	@Override
@@ -87,21 +90,23 @@ public class TextNumberEditorAssistField extends TextAssistField {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.fieldassist.AssistField#hasQuickFix()
 	 */
+	@Override
 	public boolean hasQuickFix() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.fieldassist.AssistField#quickFix()
 	 */
+	@Override
 	public void quickFix() {
 		String contents = getContents();
-		StringBuffer numbersOnly = new StringBuffer();
+		StringBuilder numbersOnly = new StringBuilder();
 		int length = contents.length();
 		char groupingSeparator = DecimalFormatSymbols.getInstance().getGroupingSeparator();
 		for (int i = 0; i < length;) {

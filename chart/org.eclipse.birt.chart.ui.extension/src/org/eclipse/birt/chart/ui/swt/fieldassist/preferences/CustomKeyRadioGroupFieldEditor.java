@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +39,7 @@ import org.eclipse.swt.widgets.Text;
  * A field editor for an enumeration type preference. The choices are presented
  * as a list of radio buttons. The last radio selection can enable to set custom
  * key.
- * 
+ *
  * @since 2.5
  */
 public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
@@ -92,13 +95,13 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 	 * <code>useGroup</code> argument.
 	 * <p>
 	 * Example usage:
-	 * 
+	 *
 	 * <pre>
 	 * RadioGroupFieldEditor editor = new RadioGroupFieldEditor("GeneralPage.DoubleClick", resName, 1,
 	 * 		new String[][] { { "Open Browser", "open" }, { "Expand Tree", "expand" } }, parent);
 	 * </pre>
 	 * </p>
-	 * 
+	 *
 	 * @param name           the name of the preference this field editor works on
 	 * @param labelText      the label text of the field editor
 	 * @param numColumns     the number of columns for the radio button presentation
@@ -115,13 +118,13 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 	 * Creates a radio group field editor.
 	 * <p>
 	 * Example usage:
-	 * 
+	 *
 	 * <pre>
 	 * RadioGroupFieldEditor editor = new RadioGroupFieldEditor("GeneralPage.DoubleClick", resName, 1,
 	 * 		new String[][] { { "Open Browser", "open" }, { "Expand Tree", "expand" } }, parent, true);
 	 * </pre>
 	 * </p>
-	 * 
+	 *
 	 * @param name           the name of the preference this field editor works on
 	 * @param labelText      the label text of the field editor
 	 * @param numColumns     the number of columns for the radio button presentation
@@ -144,6 +147,7 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	protected void adjustForNumColumns(int numColumns) {
 		Control control = getLabelControl();
 		if (control != null) {
@@ -155,7 +159,7 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 	/**
 	 * Checks whether given <code>String[][]</code> is of "type"
 	 * <code>String[][2]</code>.
-	 * 
+	 *
 	 * @param table
 	 *
 	 * @return <code>true</code> if it is ok, and <code>false</code> otherwise
@@ -176,6 +180,7 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	protected void doFillIntoGrid(Composite parent, int numColumns) {
 		if (useGroup) {
 			Control control = getRadioBoxControl(parent);
@@ -198,6 +203,7 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	protected void doLoad() {
 		updateValue(getPreferenceStore().getString(getPreferenceName()));
 		if (hasCustomKeyName()) {
@@ -209,6 +215,7 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	protected void doLoadDefault() {
 		updateValue(getPreferenceStore().getDefaultString(getPreferenceName()));
 		if (hasCustomKeyName()) {
@@ -218,7 +225,7 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void updateCustomKeyTextStatus() {
 		customKeyText.setEnabled(radioButtons[labelsAndValues.length - 1].getSelection());
@@ -227,6 +234,7 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	protected void doStore() {
 		if (value == null) {
 			getPreferenceStore().setToDefault(getPreferenceName());
@@ -239,13 +247,14 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	public int getNumberOfControls() {
 		return 1;
 	}
 
 	/**
 	 * Returns this field editor's radio group control.
-	 * 
+	 *
 	 * @param parent The parent to create the radioBox in
 	 * @return the radio group control
 	 */
@@ -273,7 +282,7 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 				layout.marginHeight = 0;
 				layout.horizontalSpacing = HORIZONTAL_GAP;
 				layout.numColumns = customKeyName == null ? 1 : 2;
-				;
+
 				radioBox.setLayout(layout);
 				radioBox.setFont(font);
 			}
@@ -295,6 +304,7 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 				radio.setData(labelAndValue[1]);
 				radio.setFont(font);
 				radio.addSelectionListener(new SelectionAdapter() {
+					@Override
 					public void widgetSelected(SelectionEvent event) {
 						String oldValue = value;
 						value = (String) event.widget.getData();
@@ -310,10 +320,12 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 				customKeyText.setLayoutData(gd);
 				customKeyText.addKeyListener(new KeyListener() {
 
+					@Override
 					public void keyPressed(KeyEvent e) {
 
 					}
 
+					@Override
 					public void keyReleased(KeyEvent e) {
 						if (e.keyCode == SWT.CTRL || e.keyCode == SWT.ALT || e.keyCode == SWT.SHIFT) {
 							return;
@@ -325,17 +337,19 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 							return;
 						}
 
-						StringBuffer txt = new StringBuffer();
+						StringBuilder txt = new StringBuilder();
 						if ((e.stateMask & SWT.CTRL) != 0) {
 							txt.append("Ctrl"); //$NON-NLS-1$
 						}
 						if ((e.stateMask & SWT.ALT) != 0) {
-							if (txt.length() > 0)
+							if (txt.length() > 0) {
 								txt.append("+"); //$NON-NLS-1$
+							}
 							txt.append("Alt"); //$NON-NLS-1$
 						} else if ((e.stateMask & SWT.SHIFT) != 0) {
-							if (txt.length() > 0)
+							if (txt.length() > 0) {
 								txt.append("+"); //$NON-NLS-1$
+							}
 							txt.append("Shift"); //$NON-NLS-1$
 						}
 						if (txt.length() > 0) {
@@ -349,15 +363,18 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 
 			radioButtons[labelsAndValues.length - 1].addSelectionListener(new SelectionListener() {
 
+				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					// TODO Auto-generated method stub
 				}
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					customKeyText.setEnabled(radioButtons[labelsAndValues.length - 1].getSelection());
 				}
 			});
 			radioBox.addDisposeListener(new DisposeListener() {
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					radioBox = null;
 					radioButtons = null;
@@ -415,12 +432,12 @@ public class CustomKeyRadioGroupFieldEditor extends FieldEditor {
 			radioButtons[0].setSelection(true);
 			this.value = (String) radioButtons[0].getData();
 		}
-		return;
 	}
 
 	/*
 	 * @see FieldEditor.setEnabled(boolean,Composite).
 	 */
+	@Override
 	public void setEnabled(boolean enabled, Composite parent) {
 		if (!useGroup) {
 			super.setEnabled(enabled, parent);

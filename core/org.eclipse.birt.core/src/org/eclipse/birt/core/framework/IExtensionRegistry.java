@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,7 +17,7 @@ package org.eclipse.birt.core.framework;
  * This interface is the same as the Eclipse platform
  * <code>IExtensionRegistry</code> interface.
  * <p>
- * 
+ *
  * The extension registry holds the master list of all discovered namespaces,
  * extension points and extensions.
  * <p>
@@ -30,7 +33,7 @@ package org.eclipse.birt.core.framework;
  * <p>
  * This interface is not intended to be implemented by clients.
  * </p>
- * 
+ *
  * @since 3.0
  */
 public interface IExtensionRegistry {
@@ -45,7 +48,7 @@ public interface IExtensionRegistry {
 	 *                         <code>"org.eclipse.core.resources.builders"</code>)
 	 * @return the configuration elements
 	 */
-	public IConfigurationElement[] getConfigurationElementsFor(String extensionPointId);
+	IConfigurationElement[] getConfigurationElementsFor(String extensionPointId);
 
 	/**
 	 * Returns all configuration elements from all extensions configured into the
@@ -59,7 +62,7 @@ public interface IExtensionRegistry {
 	 *                           <code>"builders"</code>)
 	 * @return the configuration elements
 	 */
-	public IConfigurationElement[] getConfigurationElementsFor(String namespace, String extensionPointName);
+	IConfigurationElement[] getConfigurationElementsFor(String namespace, String extensionPointName);
 
 	/**
 	 * Returns all configuration elements from the identified extension. Returns an
@@ -74,7 +77,7 @@ public interface IExtensionRegistry {
 	 *                           <code>"com.example.acme.coolbuilder</code>)
 	 * @return the configuration elements
 	 */
-	public IConfigurationElement[] getConfigurationElementsFor(String namespace, String extensionPointName,
+	IConfigurationElement[] getConfigurationElementsFor(String namespace, String extensionPointName,
 			String extensionId);
 
 	/**
@@ -85,7 +88,7 @@ public interface IExtensionRegistry {
 	 *                    <code>"com.example.acme.coolbuilder"</code>)
 	 * @return the extension, or <code>null</code>
 	 */
-	public IExtension getExtension(String extensionId);
+	IExtension getExtension(String extensionId);
 
 	/**
 	 * Returns the specified extension in this extension registry, or
@@ -99,7 +102,7 @@ public interface IExtensionRegistry {
 	 *                         <code>"com.example.acme.coolbuilder"</code>)
 	 * @return the extension, or <code>null</code>
 	 */
-	public IExtension getExtension(String extensionPointId, String extensionId);
+	IExtension getExtension(String extensionPointId, String extensionId);
 
 	/**
 	 * Returns the specified extension in this extension registry, or
@@ -115,7 +118,7 @@ public interface IExtensionRegistry {
 	 *                           <code>"com.example.acme.coolbuilder"</code>)
 	 * @return the extension, or <code>null</code>
 	 */
-	public IExtension getExtension(String namespace, String extensionPointName, String extensionId);
+	IExtension getExtension(String namespace, String extensionPointName, String extensionId);
 
 	/**
 	 * Returns the extension point with the given extension point identifier in this
@@ -125,7 +128,7 @@ public interface IExtensionRegistry {
 	 *                         <code>"org.eclipse.core.resources.builders"</code>)
 	 * @return the extension point, or <code>null</code>
 	 */
-	public IExtensionPoint getExtensionPoint(String extensionPointId);
+	IExtensionPoint getExtensionPoint(String extensionPointId);
 
 	/**
 	 * Returns the extension point in this extension registry with the given
@@ -138,7 +141,7 @@ public interface IExtensionRegistry {
 	 *                           <code>" builders"</code>)
 	 * @return the extension point, or <code>null</code>
 	 */
-	public IExtensionPoint getExtensionPoint(String namespace, String extensionPointName);
+	IExtensionPoint getExtensionPoint(String namespace, String extensionPointName);
 
 	/**
 	 * Returns all extension points known to this extension registry. Returns an
@@ -146,36 +149,36 @@ public interface IExtensionRegistry {
 	 *
 	 * @return the extension points known to this extension registry
 	 */
-	public IExtensionPoint[] getExtensionPoints();
+	IExtensionPoint[] getExtensionPoints();
 
 	/**
 	 * Returns all extension points declared in the given namespace. Returns an
 	 * empty array if there are no extension points declared in the namespace.
-	 * 
+	 *
 	 * @param namespace the namespace for the extension points (e.g.
 	 *                  <code>"org.eclipse.core.resources"</code>)
 	 * @return the extension points in this registry declared in the given namespace
 	 */
-	public IExtensionPoint[] getExtensionPoints(String namespace);
+	IExtensionPoint[] getExtensionPoints(String namespace);
 
 	/**
 	 * Returns all extensions declared in the given namespace. Returns an empty
 	 * array if no extensions are declared in the namespace.
-	 * 
+	 *
 	 * @param namespace the namespace for the extensions (e.g.
 	 *                  <code>"org.eclipse.core.resources"</code>)
 	 * @return the extensions in this registry declared in the given namespace
 	 */
-	public IExtension[] getExtensions(String namespace);
+	IExtension[] getExtensions(String namespace);
 
 	/**
 	 * Returns all namespaces where extensions and/or extension points. Returns an
 	 * empty array if there are no known extensions/extension points in this
 	 * registry.
-	 * 
+	 *
 	 * @return all namespaces known to this registry
 	 * @since 3.0
 	 */
-	public String[] getNamespaces();
+	String[] getNamespaces();
 
 }

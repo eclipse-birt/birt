@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,32 +43,28 @@ public class DocxEmitterImpl extends AbstractEmitterImpl {
 		this.contentVisitor = contentVisitor;
 	}
 
-	public void initialize( IEmitterServices service ) throws EngineException
-	{
-		super.initialize( service );
-		String tempFileDir = service.getReportEngine( ).getConfig( )
-				.getTempDir( );
+	@Override
+	public void initialize(IEmitterServices service) throws EngineException {
+		super.initialize(service);
+		String tempFileDir = service.getReportEngine().getConfig().getTempDir();
 
-		IRenderOption renderOption = service.getRenderOption( );
-		Object value = renderOption.getOption( DocxRenderOption.OPTION_WORD_VERSION );
+		IRenderOption renderOption = service.getRenderOption();
+		Object value = renderOption.getOption(DocxRenderOption.OPTION_WORD_VERSION);
 		if (value instanceof Integer) {
-			setWordVersion((Integer)value);
+			setWordVersion((Integer) value);
 		} else {
 			setWordVersion(2016);
 		}
-		value = renderOption.getOption( DocxRenderOption.OPTION_EMBED_HTML );
-		if ( value instanceof Boolean )
-		{
+		value = renderOption.getOption(DocxRenderOption.OPTION_EMBED_HTML);
+		if (value instanceof Boolean) {
 			this.embedHtml = (Boolean) value;
 		}
 
-		wordWriter = new DocxWriter( out, tempFileDir, getCompressionMode( service )
-				.getValue( ), getWordVersion() );
+		wordWriter = new DocxWriter(out, tempFileDir, getCompressionMode(service).getValue(), getWordVersion());
 	}
 
-	private CompressionMode getCompressionMode( IEmitterServices service )
-	{
-		RenderOption renderOption = (RenderOption) service.getRenderOption( );
+	private CompressionMode getCompressionMode(IEmitterServices service) {
+		RenderOption renderOption = (RenderOption) service.getRenderOption();
 		CompressionMode compressionMode = CompressionMode.BEST_COMPRESSION;
 		Object mode = renderOption.getOption(DocxRenderOption.OPTION_COMPRESSION_MODE);
 		if (mode instanceof CompressionMode) {
@@ -74,15 +73,18 @@ public class DocxEmitterImpl extends AbstractEmitterImpl {
 		return compressionMode;
 	}
 
+	@Override
 	public String getOutputFormat() {
 		return OUTPUT_FORMAT;
 	}
 
+	@Override
 	public void endTable(ITableContent table) {
 		endTable();
 		decreaseTOCLevel(table);
 	}
 
+	@Override
 	public void startForeign(IForeignContent foreign) throws BirtException {
 		if (IForeignContent.HTML_TYPE.equalsIgnoreCase(foreign.getRawType())) {
 			if (context.isAfterTable()) {
@@ -129,13 +131,15 @@ public class DocxEmitterImpl extends AbstractEmitterImpl {
 		if (content instanceof ICellContent) {
 			ICellContent cell = (ICellContent) content;
 			if (cell != null) {
-				if (cell.getColSpan() > 1)
+				if (cell.getColSpan() > 1) {
 					return true;
+				}
 			}
 		}
 		return false;
 	}
 
+	@Override
 	protected void writeContent(int type, String txt, IContent content) {
 		context.addContainer(false);
 		IStyle computedStyle = content.getComputedStyle();
@@ -147,11 +151,13 @@ public class DocxEmitterImpl extends AbstractEmitterImpl {
 				context.startInline();
 				inlineFlag = InlineFlag.FIRST_INLINE;
 				computedStyle = computeStyle(computedStyle);
-			} else
+			} else {
 				inlineFlag = InlineFlag.MIDDLE_INLINE;
+			}
 			IContent parent = (IContent) content.getParent();
-			if (parent != null && parent.getComputedStyle() != null)
+			if (parent != null && parent.getComputedStyle() != null) {
 				textAlign = parent.getComputedStyle().getTextAlign();
+			}
 		} else {
 			adjustInline();
 		}

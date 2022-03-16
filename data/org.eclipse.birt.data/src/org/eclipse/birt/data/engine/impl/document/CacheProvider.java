@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,21 +23,21 @@ public interface CacheProvider {
 	/**
 	 * @return total row count
 	 */
-	public int getCount();
+	int getCount();
 
 	/**
 	 * @return current result index
 	 */
-	public int getCurrentIndex();
+	int getCurrentIndex();
 
 	/**
 	 * Move current result cursor to a specified index
-	 * 
+	 *
 	 * @param destIndex
 	 * @throws DataException
 	 */
-	public void moveTo(int destIndex) throws DataException;
+	void moveTo(int destIndex) throws DataException;
 
-	public boolean next() throws DataException;
+	boolean next() throws DataException;
 
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -77,7 +80,7 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.PreferencePage#PreferencePage(java.lang.
 	 * String,org.eclipse.jface.resource.ImageDescriptor)
 	 */
@@ -101,6 +104,7 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 		return fData == null || !Boolean.TRUE.equals(fData.get(DATA_NO_LINK));
 	}
 
+	@Override
 	protected Label createDescriptionLabel(Composite parent) {
 		fParentComposite = parent;
 
@@ -117,9 +121,11 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 
 				IDialogFieldListener listener = new IDialogFieldListener() {
 
+					@Override
 					public void dialogFieldChanged(DialogField field) {
-						if (field instanceof SelectionButtonDialogField)
+						if (field instanceof SelectionButtonDialogField) {
 							enableProjectSpecificSettings(((SelectionButtonDialogField) field).isSelected());
+						}
 					}
 				};
 
@@ -154,6 +160,7 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 	/*
 	 * @see org.eclipse.jface.preference.IPreferencePage#createContents(Composite)
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -182,10 +189,12 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 		link.setText("<A>" + text + "</A>"); //$NON-NLS-1$//$NON-NLS-2$
 		link.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doLinkActivated((Link) e.widget);
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				doLinkActivated((Link) e.widget);
 			}
@@ -273,13 +282,14 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 	/**
 	 * Returns a new status change listener that calls
 	 * {@link #setPreferenceContentStatus(IStatus)} when the status has changed
-	 * 
+	 *
 	 * @return The new listener
 	 */
 
 	protected IStatusChangeListener getNewStatusChangedListener() {
 		return new IStatusChangeListener() {
 
+			@Override
 			public void statusChanged(IStatus status) {
 				setPreferenceContentStatus(status);
 			}
@@ -304,16 +314,15 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 				fBlockEnableState.restore();
 				fBlockEnableState = null;
 			}
-		} else {
-			if (fBlockEnableState == null) {
-				fBlockEnableState = ControlEnableState.disable(fConfigurationBlockControl);
-			}
+		} else if (fBlockEnableState == null) {
+			fBlockEnableState = ControlEnableState.disable(fConfigurationBlockControl);
 		}
 	}
 
 	/*
 	 * @see org.eclipse.jface.preference.IPreferencePage#performDefaults()
 	 */
+	@Override
 	protected void performDefaults() {
 		if (useProjectSettings()) {
 			enableProjectSpecificSettings(false);
@@ -328,37 +337,41 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
+	@Override
 	public void init(IWorkbench workbench) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IWorkbenchPropertyPage#getElement()
 	 */
+	@Override
 	public IAdaptable getElement() {
 		return fProject;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.IWorkbenchPropertyPage#setElement(org.eclipse.core.runtime
 	 * .IAdaptable)
 	 */
+	@Override
 	public void setElement(IAdaptable element) {
 		fProject = (IProject) element.getAdapter(IResource.class);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.PreferencePage#applyData(java.lang.Object)
 	 */
+	@Override
 	public void applyData(Object data) {
 		if (data instanceof Map) {
 			fData = (Map) data;
@@ -377,8 +390,9 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 
 	protected boolean enableSetProjectSettings() {
 		if ((IReportPreferenceFactory) ElementAdapterManager.getAdapter(ReportPlugin.getDefault(),
-				IReportPreferenceFactory.class) != null)
+				IReportPreferenceFactory.class) != null) {
 			return true;
+		}
 		return false;
 	}
 }

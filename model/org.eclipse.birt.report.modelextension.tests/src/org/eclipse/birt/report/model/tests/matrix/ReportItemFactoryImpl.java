@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,10 +29,11 @@ public class ReportItemFactoryImpl implements IReportItemFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IReportItemFactory#
 	 * getFactoryStyles(java.lang.String)
 	 */
+	@Override
 	public IStyleDeclaration[] getFactoryStyles(String extensionName) {
 		// TODO Auto-generated method stub
 		return null;
@@ -50,19 +54,20 @@ public class ReportItemFactoryImpl implements IReportItemFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.model.extension.IElementFactory#newElement(org.eclipse.birt.
 	 * model.api.ReportDesignHandle)
 	 */
 
+	@Override
 	public IReportItem newReportItem(DesignElementHandle item) {
 		return new ReportItemImpl(this, item);
 	}
 
 	/**
 	 * Returns the localized message.
-	 * 
+	 *
 	 * @param key the resource key
 	 * @return the localized message
 	 */
@@ -73,10 +78,11 @@ public class ReportItemFactoryImpl implements IReportItemFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IReportItemFactory#getMessages()
 	 */
 
+	@Override
 	public IMessages getMessages() {
 		return messages;
 	}

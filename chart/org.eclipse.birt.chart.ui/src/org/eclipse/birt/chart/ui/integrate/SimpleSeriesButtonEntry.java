@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,7 +18,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesButtonEntry;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 
 /**
- * 
+ *
  */
 
 public class SimpleSeriesButtonEntry implements ISeriesButtonEntry {
@@ -32,18 +35,22 @@ public class SimpleSeriesButtonEntry implements ISeriesButtonEntry {
 		this.bEnabled = bEnabled;
 	}
 
+	@Override
 	public String getButtonId() {
 		return this.buttonId;
 	}
 
+	@Override
 	public String getPopupName() {
 		return this.popupName;
 	}
 
+	@Override
 	public ITaskPopupSheet getPopupSheet() {
 		return this.popupSheet;
 	}
 
+	@Override
 	public boolean isEnabled() {
 		return this.bEnabled;
 	}
