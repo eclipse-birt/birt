@@ -22,19 +22,19 @@
    		Use this to register an attribute or data sheet with the Chart Designer UI.
    		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.ui.extension plug-in.
 	-->
-   <extension-point id="uisheets" name="Sheet for Chart UI" schema="schema/chartui.exsd"/>
+   <extension-point id="uisheets" name="%extension-point.name" schema="schema/chartui.exsd"/>
 	<!-- 
 		Chart Types (UI) Extension Point. 
    		Use this to register an implementation of IChartType interface as a chart type with the Chart Designer UI.
    		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.ui.extension plug-in.
 	-->
-   <extension-point id="types" name="Class for Chart Type Info" schema="schema/charttype.exsd"/>
+   <extension-point id="types" name="%extension-point.name.0" schema="schema/charttype.exsd"/>
 	<!-- 
 		Chart UI Change Listener Extension Point. 
    		Use this to register an implementation of the IChangeListener interface as a model change listener with the Chart Designer. This extension is only needed if 
    		you are providing a dynamic attribute or data sheet for use in the UI.
    		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.ui.extension plug-in.
 	-->
-   <extension-point id="changelisteners" name="Listener Class for Model Change Events" schema="schema/changelistener.exsd"/>
-   <extension-point id="seriescomposites" name="Composites for series type specific Attribute and Data definitions" schema="schema/seriescomposites.exsd"/>
+   <extension-point id="changelisteners" name="%extension-point.name.1" schema="schema/changelistener.exsd"/>
+   <extension-point id="seriescomposites" name="%extension-point.name.2" schema="schema/seriescomposites.exsd"/>
 </plugin>

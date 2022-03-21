@@ -18,7 +18,7 @@
     
    <extension
          id="AdapterFactory"
-         name="AdapterFactory"
+         name="%extension.name"
          point="org.eclipse.birt.core.FactoryService">
       <factory class="org.eclipse.birt.report.model.adapter.oda.impl.AdapterFactory"/>
    </extension>

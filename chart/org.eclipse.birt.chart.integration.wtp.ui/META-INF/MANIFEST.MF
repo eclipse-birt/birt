@@ -1,13 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Chart WTP Integration Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.chart.integration.wtp.ui;singleton:=true
 Bundle-Version: 4.9.0.qualifier
 Bundle-ClassPath: chartwtp.jar,.
 Bundle-Activator: org.eclipse.birt.chart.integration.wtp.ui.ChartWTPUIPlugin
 Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.ui;bundle-version="[3.2.1,4.0.0)",
  org.eclipse.ui.ide;bundle-version="[3.2.1,4.0.0)",
  org.eclipse.core.commands;bundle-version="[3.2.0,4.0.0)",
@@ -34,4 +34,6 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.2.1,4.0.0)",
  org.eclipse.jem.util;bundle-version="2.0.200"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.chart.integration.wtp.ui
+Export-Package: org.eclipse.birt.chart.integration.wtp.ui;x-internal:=true,
+ org.eclipse.birt.chart.integration.wtp.ui.project.facet;x-internal:=true
 

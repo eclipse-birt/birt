@@ -1,18 +1,33 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Model Tests Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.tests.model; singleton:=true
 Bundle-Version: 4.9.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.tests.model.plugin.ModelPlugin
 Bundle-ClassPath: tests-model.jar
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.junit;resolution:=optional,
- org.eclipse.birt.report.model,
- org.eclipse.birt.core,
- org.eclipse.birt.tests.core,
- org.apache.commons.codec,
- org.eclipse.birt.report.model.adapter.oda,
- org.eclipse.datatools.connectivity.oda.design
+Require-Bundle: org.junit;bundle-version="4.13.0";resolution:=optional,
+ org.eclipse.birt.report.model;bundle-version="4.9.0",
+ org.eclipse.birt.core;bundle-version="4.9.0",
+ org.eclipse.birt.tests.core;bundle-version="4.9.0",
+ org.apache.commons.codec;bundle-version="1.14.0",
+ org.eclipse.birt.report.model.adapter.oda;bundle-version="4.9.0",
+ org.eclipse.datatools.connectivity.oda.design;bundle-version="3.5.101"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.report.tests.model
+Export-Package: org.eclipse.birt.report.tests.model;x-internal:=true,
+ org.eclipse.birt.report.tests.model.APISamples;x-internal:=true,
+ org.eclipse.birt.report.tests.model.APISamples.golden;x-internal:=true,
+ org.eclipse.birt.report.tests.model.APISamples.images;x-internal:=true,
+ org.eclipse.birt.report.tests.model.api;x-internal:=true,
+ org.eclipse.birt.report.tests.model.api.golden;x-internal:=true,
+ org.eclipse.birt.report.tests.model.api.input;x-internal:=true,
+ org.eclipse.birt.report.tests.model.compatibility;x-internal:=true,
+ org.eclipse.birt.report.tests.model.compatibility.input;x-internal:=true,
+ org.eclipse.birt.report.tests.model.plugin;x-internal:=true,
+ org.eclipse.birt.report.tests.model.regression;x-internal:=true,
+ org.eclipse.birt.report.tests.model.regression.golden;x-internal:=true,
+ org.eclipse.birt.report.tests.model.regression.input;x-internal:=true,
+ org.eclipse.birt.report.tests.model.regression.input.libs;x-internal:=true,
+ org.eclipse.birt.report.tests.model.regression.input.sub;x-internal:=true

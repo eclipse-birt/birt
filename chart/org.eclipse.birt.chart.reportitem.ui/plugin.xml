@@ -156,7 +156,7 @@
 
    <extension
          id="chart"
-         name="The chart extension"
+         name="%extension.name"
          point="org.eclipse.birt.report.designer.ui.menuBuilders">
       <menuBuilder
             class="org.eclipse.birt.chart.reportitem.ui.ChartMenuBuilderProxy"

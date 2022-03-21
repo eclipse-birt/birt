@@ -16,7 +16,7 @@
 -->
 <plugin>
 	<extension id="org.eclipse.birt.aggregation"
-		name="BuildInAggregations"
+		name="%extension.name"
 		point="org.eclipse.birt.data.aggregation">
 		<Aggregations>
 			<AggregationFactory class="org.eclipse.birt.data.aggregation.impl.BuildInAggregationFactory"/>

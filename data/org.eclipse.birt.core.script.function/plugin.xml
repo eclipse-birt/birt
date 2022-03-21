@@ -17,7 +17,7 @@
 <plugin>
    <extension
          id="BirtScriptFunction"
-         name="BirtScriptFunction"
+         name="%extension.name"
          point="org.eclipse.birt.core.ScriptFunctionService">
    <Category factoryclass="org.eclipse.birt.core.script.function.bre.BirtStrFunctionFactory" name="BirtStr" desc="Provides String operation functions.">
 	<Function

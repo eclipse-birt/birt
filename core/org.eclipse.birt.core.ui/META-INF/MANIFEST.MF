@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Core UI
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.core.ui; singleton:=true
 Bundle-Version: 4.9.0.qualifier
 Bundle-Activator: org.eclipse.birt.core.ui.plugin.CoreUIPlugin
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.core.ui.frameworks.errordisplay,
  org.eclipse.birt.core.ui.frameworks.taskwizard,

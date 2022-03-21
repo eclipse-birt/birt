@@ -17,7 +17,7 @@
 <plugin>
     <extension
          id="ReportDebugger"
-         name="BIRT Report Debugger"
+         name="%extension.name"
          point="org.eclipse.core.runtime.applications">
       <application
             cardinality="singleton-global"

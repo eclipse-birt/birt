@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Tests Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.tests
 Bundle-Version: 4.9.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.tests

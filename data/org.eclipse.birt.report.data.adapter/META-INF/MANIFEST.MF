@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Data Adapter
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.data.adapter;singleton:=true
 Bundle-Version: 4.9.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.data.adapter.Activator
@@ -15,7 +15,7 @@ Export-Package: org.eclipse.birt.report.data.adapter,
  org.eclipse.birt.report.data.adapter.api,
  org.eclipse.birt.report.data.adapter.api.timeFunction,
  org.eclipse.birt.report.data.adapter.impl
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-ClassPath: library.jar,
  .
 Bundle-RequiredExecutionEnvironment: JavaSE-11

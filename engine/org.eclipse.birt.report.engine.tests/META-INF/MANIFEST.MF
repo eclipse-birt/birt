@@ -1,18 +1,55 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Report Engine Tests Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.engine.tests; singleton:=true
 Bundle-Version: 4.9.0.qualifier
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)",
  org.eclipse.birt.report.engine;bundle-version="[2.1.0,5.0.0)",
  org.eclipse.birt.data;bundle-version="[2.1.0,5.0.0)",
- com.github.librepdf.openpdf,
+ com.github.librepdf.openpdf;bundle-version="1.3.26",
  org.eclipse.birt.report.data.adapter;bundle-version="[2.1.0,5.0.0)",
  org.eclipse.birt.report.engine.emitter.postscript;bundle-version="[2.1.0,5.0.0)",
- org.junit;bundle-version="4.7.0";resolution:=optional;visibility:=reexport,
+ org.junit;bundle-version="4.13.0";resolution:=optional;visibility:=reexport,
  org.eclipse.birt.report.engine.dataextraction.csv;bundle-version="[2.6.0,5.0.0)",
  org.eclipse.birt.report.engine.dataextraction;bundle-version="[2.6.0,5.0.0)"
 Bundle-ClassPath: reportenginetests.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.report.engine.tests
+Export-Package: org.eclipse.birt.report.engine;x-internal:=true,
+ org.eclipse.birt.report.engine.adapter;x-internal:=true,
+ org.eclipse.birt.report.engine.api;x-internal:=true,
+ org.eclipse.birt.report.engine.api.document;x-internal:=true,
+ org.eclipse.birt.report.engine.api.iv;x-internal:=true,
+ org.eclipse.birt.report.engine.api.script;x-internal:=true,
+ org.eclipse.birt.report.engine.api.script.element;x-internal:=true,
+ org.eclipse.birt.report.engine.api.script.instance;x-internal:=true,
+ org.eclipse.birt.report.engine.content;x-internal:=true,
+ org.eclipse.birt.report.engine.css;x-internal:=true,
+ org.eclipse.birt.report.engine.css.dom;x-internal:=true,
+ org.eclipse.birt.report.engine.css.engine;x-internal:=true,
+ org.eclipse.birt.report.engine.data.dte;x-internal:=true,
+ org.eclipse.birt.report.engine.emitter;x-internal:=true,
+ org.eclipse.birt.report.engine.executor;x-internal:=true,
+ org.eclipse.birt.report.engine.executor.buffermgr;x-internal:=true,
+ org.eclipse.birt.report.engine.executor.css;x-internal:=true,
+ org.eclipse.birt.report.engine.executor.template;x-internal:=true,
+ org.eclipse.birt.report.engine.i18n;x-internal:=true,
+ org.eclipse.birt.report.engine.ir;x-internal:=true,
+ org.eclipse.birt.report.engine.layout.content;x-internal:=true,
+ org.eclipse.birt.report.engine.layout.emitter;x-internal:=true,
+ org.eclipse.birt.report.engine.layout.emitter.util;x-internal:=true,
+ org.eclipse.birt.report.engine.layout.html;x-internal:=true,
+ org.eclipse.birt.report.engine.layout.pdf;x-internal:=true,
+ org.eclipse.birt.report.engine.layout.pdf.font;x-internal:=true,
+ org.eclipse.birt.report.engine.layout.pdf.font.default_os;x-internal:=true,
+ org.eclipse.birt.report.engine.layout.pdf.font.format_os;x-internal:=true,
+ org.eclipse.birt.report.engine.layout.pdf.font.language_country;x-internal:=true,
+ org.eclipse.birt.report.engine.layout.pdf.font.os_language;x-internal:=true,
+ org.eclipse.birt.report.engine.layout.pdf.hyphen;x-internal:=true,
+ org.eclipse.birt.report.engine.parser;x-internal:=true,
+ org.eclipse.birt.report.engine.presentation;x-internal:=true,
+ org.eclipse.birt.report.engine.regression;x-internal:=true,
+ org.eclipse.birt.report.engine.tests;x-internal:=true,
+ org.eclipse.birt.report.engine.toc;x-internal:=true,
+ org.eclipse.birt.report.engine.util;x-internal:=true

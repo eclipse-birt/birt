@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Testhelper Fragment
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.core.testhelper
 Bundle-Version: 4.9.0.qualifier
 Fragment-Host: org.eclipse.birt.core;bundle-version="2.2.0"
@@ -9,6 +9,6 @@ Require-Bundle: org.junit;bundle-version="4.7.0";resolution:=optional;visibility
 Bundle-ClassPath: coretesthelper.jar
 Export-Package: org.eclipse.birt.core.archive.compound,
  org.eclipse.birt.core.archive.cache
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.core.testhelper
 

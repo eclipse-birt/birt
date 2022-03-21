@@ -17,7 +17,7 @@
 <plugin>
    <extension
          id="org.eclipse.birt.me.prettyprint.hector"
-         name="Hector client library for Cassandra"
+         name="%extension.name"
          point="org.eclipse.birt.core.ScriptFunctionService">
       <JSLib
             location="lib/">

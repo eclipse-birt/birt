@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.birt.data.oda.pojo;singleton:=true
 Bundle-Version: 4.9.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.data.oda.pojo.Activator
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.data.oda.pojo.api,
  org.eclipse.birt.data.oda.pojo.impl;x-friends:="org.eclipse.birt.data.oda.pojo.ui,org.eclipse.birt.data.oda.pojo.tests",
