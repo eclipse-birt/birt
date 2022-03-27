@@ -375,7 +375,7 @@ DynamicImport-Package: *
 ]]></instructions>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/justj/jres/17/updates/release/latest/"/>
+			<repository location="https://download.eclipse.org/justj/jres/11/updates/release/latest/"/>
 			<unit id="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group" version="0.0.0"/>
 		</location>
 	</locations>
