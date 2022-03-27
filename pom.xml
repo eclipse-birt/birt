@@ -350,6 +350,11 @@
 							<arch>aarch64</arch>
 						</environment>
 					</environments>
+					<dependency-resolution>
+						<profileProperties>
+							<org.eclipse.justj.buildtime>true</org.eclipse.justj.buildtime>
+						</profileProperties>
+					</dependency-resolution>
 					<filters>
 						<!-- restrict Jetty bundles to specific version only -->
 						<!-- filter>
