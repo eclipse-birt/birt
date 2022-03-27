@@ -326,7 +326,9 @@
 							<version>4.10.0-SNAPSHOT</version>
 						</artifact>
 					</target>
+					<!-- 
 					<resolveWithExecutionEnvironmentConstraints>false</resolveWithExecutionEnvironmentConstraints>
+					-->
 					<includePackedArtifacts>false</includePackedArtifacts>
 					<environments>
 						<environment>
@@ -350,11 +352,11 @@
 							<arch>aarch64</arch>
 						</environment>
 					</environments>
-					<dependency-resolution>
+<!-- 					<dependency-resolution>
 						<profileProperties>
 							<org.eclipse.justj.buildtime>true</org.eclipse.justj.buildtime>
 						</profileProperties>
-					</dependency-resolution>
+					</dependency-resolution> -->
 					<filters>
 						<!-- restrict Jetty bundles to specific version only -->
 						<!-- filter>

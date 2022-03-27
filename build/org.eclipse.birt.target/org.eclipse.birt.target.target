@@ -45,6 +45,7 @@
 <!--			<repository location="https://download.eclipse.org/eclipse/updates/latest/"/>
 -->
 			<repository location="https://download.eclipse.org/eclipse/updates/4.23/"/>
+			<unit id="a.jre.javase" version="11.0.0"/>
 			<unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.platform.sdk" version="0.0.0"/>
 			<unit id="org.eclipse.rcp.configuration.feature.group" version="0.0.0"/>
@@ -373,10 +374,6 @@ Import-Package:        *;resolution:=optional
 Export-Package:        *;version="${version}";-noimport:=true
 DynamicImport-Package: *
 ]]></instructions>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/justj/jres/11/updates/release/latest/"/>
-			<unit id="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group" version="0.0.0"/>
 		</location>
 	</locations>
 	<environment>
