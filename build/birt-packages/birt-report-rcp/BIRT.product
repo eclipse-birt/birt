@@ -3,10 +3,13 @@
 
 <product name="BIRT Report Designer RCP" uid="org.eclipse.birt.report.designer.rcp" application="org.eclipse.birt.report.designer.ui.rcp.DesignerApplication" version="4.10.0.qualifier" useFeatures="true" includeLaunchers="true">
 
+
    <configIni use="default">
    </configIni>
 
    <launcherArgs>
+      <programArgs>-perspective org.eclipse.birt.report.designer.ui.ReportRCPPerspective
+      </programArgs>
       <vmArgs>-Xms512m
 -Xmx1024m
       </vmArgs>
@@ -14,11 +17,16 @@
       </vmArgsMac>
    </launcherArgs>
 
+   <windowImages/>
+
+
    <launcher name="birt">
-      <win useIco="false">
+      <win useIco="true">
+         <ico path="/org.eclipse.birt.report.designer.rcp/birt.ico"/>
          <bmp/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>

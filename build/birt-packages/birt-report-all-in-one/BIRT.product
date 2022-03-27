@@ -7,6 +7,8 @@
    </configIni>
 
    <launcherArgs>
+      <programArgs>-perspective org.eclipse.birt.report.designer.ui.ReportPerspective
+      </programArgs>
       <vmArgs>-Xms512m
 -Xmx1024m
       </vmArgs>
@@ -19,7 +21,8 @@
    <splash
       location="org.eclipse.platform" />
    <launcher name="birt">
-      <win useIco="false">
+      <win useIco="true">
+         <ico path="/org.eclipse.birt.report.designer.all/birt.ico"/>
          <bmp/>
       </win>
    </launcher>
@@ -130,6 +133,7 @@
       <feature id="org.eclipse.wst.xml_userdoc.feature" installMode="root"/>
       <feature id="org.eclipse.xsd.edit" installMode="root"/>
       <feature id="org.eclipse.xsd" installMode="root"/>
+      <feature id="org.eclipse.justj.openjdk.hotspot.jre.full" installMode="root"/>
    </features>
 
    <configurations>
@@ -140,8 +144,8 @@
       <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.update.configurator" autoStart="false" startLevel="4" />
-      <property name="eclipse.product" value="org.eclipse.platform.ide" />
       <property name="org.eclipse.update.reconcile" value="false" />
+      <property name="eclipse.product" value="org.eclipse.platform.ide" />
       <property name="eclipse.application" value="org.eclipse.ui.ide.workbench" />
    </configurations>
 
