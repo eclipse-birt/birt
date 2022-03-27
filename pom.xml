@@ -326,6 +326,7 @@
 							<version>4.10.0-SNAPSHOT</version>
 						</artifact>
 					</target>
+					<resolveWithExecutionEnvironmentConstraints>false</resolveWithExecutionEnvironmentConstraints>
 					<includePackedArtifacts>false</includePackedArtifacts>
 					<environments>
 						<environment>
