@@ -9,7 +9,7 @@
 
 	SPDX-License-Identifier: EPL-2.0
 --><target includeMode="feature" name="BIRT Target">
-	<locations> 
+	<locations>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<repository location="https://download.eclipse.org/datatools/updates/1.14.200-SNAPSHOT/repository/"/>
 			<unit id="org.eclipse.datatools.common.doc.user.feature.group" version="0.0.0"/>
@@ -42,10 +42,9 @@
 			<unit id="org.eclipse.datatools.sqltools.doc.user.feature.group" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<!--			<repository location="https://download.eclipse.org/eclipse/updates/latest/"/>
+			<!--			<repository location="https://download.eclipse.org/eclipse/updates/latest/"/>
 -->
 			<repository location="https://download.eclipse.org/eclipse/updates/4.23/"/>
-			<unit id="a.jre.javase" version="11.0.0"/>
 			<unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.platform.sdk" version="0.0.0"/>
 			<unit id="org.eclipse.rcp.configuration.feature.group" version="0.0.0"/>
@@ -135,6 +134,10 @@
 			<unit id="org.eclipse.jst.web_ui.feature.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.wst.jsdt.feature.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.wst.web_ui.feature.feature.group" version="0.0.0"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/justj/jres/11/updates/release/latest/"/>
+			<unit id="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group" version="11.0.14.v20220314-1349"/>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
