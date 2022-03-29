@@ -22,7 +22,7 @@
       location="org.eclipse.platform" />
    <launcher name="birt">
       <win useIco="true">
-         <ico path="/org.eclipse.birt.report.designer.all/birt.ico"/>
+         <ico path="birt.ico"/>
          <bmp/>
       </win>
    </launcher>
@@ -145,8 +145,8 @@
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.update.configurator" autoStart="false" startLevel="4" />
       <property name="org.eclipse.update.reconcile" value="false" />
-      <property name="eclipse.product" value="org.eclipse.platform.ide" />
       <property name="eclipse.application" value="org.eclipse.ui.ide.workbench" />
+      <property name="eclipse.product" value="org.eclipse.platform.ide" />
    </configurations>
 
 </product>
