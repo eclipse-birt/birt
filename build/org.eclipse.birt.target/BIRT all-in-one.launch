@@ -156,6 +156,7 @@
         <setEntry value="org.eclipse.datatools.sqltools.sqlbuilder@default:default"/>
         <setEntry value="org.eclipse.datatools.sqltools.sqleditor@default:default"/>
         <setEntry value="org.eclipse.debug.core@default:default"/>
+        <setEntry value="org.eclipse.debug.ui.launchview@default:default"/>
         <setEntry value="org.eclipse.debug.ui@default:default"/>
         <setEntry value="org.eclipse.draw2d@default:default"/>
         <setEntry value="org.eclipse.e4.core.commands@default:default"/>
@@ -202,6 +203,8 @@
         <setEntry value="org.eclipse.equinox.http.servlet@default:default"/>
         <setEntry value="org.eclipse.equinox.jsp.jasper.registry@default:default"/>
         <setEntry value="org.eclipse.equinox.jsp.jasper@default:default"/>
+        <setEntry value="org.eclipse.equinox.launcher.win32.win32.x86_64@default:default"/>
+        <setEntry value="org.eclipse.equinox.launcher@default:default"/>
         <setEntry value="org.eclipse.equinox.p2.artifact.repository@default:default"/>
         <setEntry value="org.eclipse.equinox.p2.core@default:default"/>
         <setEntry value="org.eclipse.equinox.p2.director.app@default:default"/>
