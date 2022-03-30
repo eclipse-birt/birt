@@ -80,11 +80,26 @@ jobs:
       with: 
         name: birt-rcp-report-designer
         path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*.zip
-    - name: Archive BIRT Report Designer all-in-one
+    - name: Archive BIRT Report Designer all-in-one-win
       uses: actions/upload-artifact@v2
       with: 
-        name: birt-report-designer-all-in-one
-        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*.zip
+        name: birt-report-designer-all-in-one-win
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*win*.zip 
+    - name: Archive BIRT Report Designer all-in-one-linux
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-report-designer-all-in-one-linux
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*linux*.zip 
+    - name: Archive BIRT Report Designer all-in-one-mac-intel
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-report-designer-all-in-one-mac-intel
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*macosx.cocoa.x86_*.zip
+    - name: Archive BIRT Report Designer all-in-one-mac-silicon
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-report-designer-all-in-one-mac-silicon
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*macosx.cocoa.aarch64*.zip     
     - name: Archive BIRT Report Framework
       uses: actions/upload-artifact@v2
       with: 
