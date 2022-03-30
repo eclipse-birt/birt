@@ -64,6 +64,12 @@ jobs:
       run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.tests.engine integration-test
 #    - name: Test Core
 #      run: mvn -B -pl :org.eclipse.birt.core.tests integration-test
+
+    - name: Archive BIRT Update Site
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-site
+        path: build/org.eclipse.birt.p2updatesite/target/org.eclipse.birt.p2updatesite*.zip
     - name: Archive BIRT charts
       uses: actions/upload-artifact@v2
       with: 
