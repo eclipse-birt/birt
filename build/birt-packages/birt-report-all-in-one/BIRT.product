@@ -6,11 +6,10 @@
    <aboutInfo>
       <image path="images/about.png"/>
       <text>
-         &lt;h1&gt;Business Intelligence Reporting Tool&lt;/h1&gt;
-&lt;p&gt;
+         Business Intelligence Reporting Tool
+
 With BIRT you can create data visualizations, dashboards and reports
-that can be embedded into web applications and rich clients. 
-&lt;/p&gt;
+that can be embedded into web applications and rich clients.
       </text>
    </aboutInfo>
 
