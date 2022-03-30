@@ -310,7 +310,7 @@ United States, other countries, or both.
       <repository location="https://download.eclipse.org/releases/latest" enabled="true" />
       <repository location="https://download.eclipse.org/eclipse/updates/latest" enabled="true" />
       <repository location="https://download.eclipse.org/birt/update-site/latest" enabled="true" />
-      <repository location="https://download.eclipse.org/birt/update-site/snapshot" enabled="true" />
+      <repository location="https://download.eclipse.org/birt/update-site/snapshot" enabled="false" />
    </repositories>
 
    <preferencesInfo>
