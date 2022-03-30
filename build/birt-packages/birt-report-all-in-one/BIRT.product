@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="BIRT Report Designer All-in-one" uid="org.eclipse.birt.report.designer.all" application="org.eclipse.ui.ide.workbench" version="4.10.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="BIRT Report Designer All-In-One" uid="org.eclipse.birt.report.designer.all" id="org.eclipse.birt.core.ui.birt_all_in_one" application="org.eclipse.ui.ide.workbench" version="4.10.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="images/about.png"/>
@@ -33,7 +33,7 @@ that can be embedded into web applications and rich clients.
       location="org.eclipse.birt.core.ui" />
    <launcher name="birt">
       <win useIco="true">
-         <ico path="birt.ico"/>
+         <ico path="images/birt.ico"/>
          <bmp/>
       </win>
    </launcher>
@@ -308,12 +308,10 @@ United States, other countries, or both.
    </configurations>
 
    <repositories>
-      <repository location="https://download.eclipse.org/birt/update-site/latest" enabled="true" />
       <repository location="https://download.eclipse.org/releases/latest" enabled="true" />
       <repository location="https://download.eclipse.org/eclipse/updates/latest" enabled="true" />
       <repository location="https://download.eclipse.org/birt/update-site/latest" enabled="true" />
-      <repository location="https://download.eclipse.org/releases/latest" enabled="true" />
-      <repository location="https://download.eclipse.org/eclipse/updates/latest" enabled="true" />
+      <repository location="https://download.eclipse.org/birt/update-site/snapshot" enabled="true" />
    </repositories>
 
    <preferencesInfo>
