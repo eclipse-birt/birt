@@ -55,7 +55,7 @@ class ReportDebuggerVMRunner implements IVMRunner {
 
 				ReportVMClient vm = new ReportVMClient();
 				ScriptDebugTarget target = new ScriptDebugTarget(launch, vm, null, ps[0], config.helper.listenPort,
-						config.helper.tempFolder);
+						config.helper.tempFolder, monitor);
 				target.setFileName(config.helper.fileName);
 
 				subMonitor.worked(1);

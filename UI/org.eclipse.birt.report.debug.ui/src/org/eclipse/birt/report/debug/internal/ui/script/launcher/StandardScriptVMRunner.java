@@ -256,7 +256,7 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner {
 
 									ReportVMClient scriptvm = new ReportVMClient();
 									ScriptDebugTarget target = new ScriptDebugTarget(launch, scriptvm, null, process,
-											delegate.helper.listenPort, delegate.getTempFolder());
+											delegate.helper.listenPort, delegate.getTempFolder(), monitor);
 									target.setFileName(delegate.getFileName());
 
 									subMonitor.worked(1);
@@ -324,7 +324,7 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner {
 
 				ReportVMClient vm = new ReportVMClient();
 				ScriptDebugTarget target = new ScriptDebugTarget(launch, vm, null, process, delegate.helper.listenPort,
-						delegate.getTempFolder());
+						delegate.getTempFolder(), monitor);
 				target.setFileName(delegate.getFileName());
 			}
 
