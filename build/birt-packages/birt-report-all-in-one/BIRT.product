@@ -4,7 +4,7 @@
 <product name="BIRT Report Designer All-In-One" uid="org.eclipse.birt.report.designer.all" id="org.eclipse.birt.core.ui.birt_all_in_one" application="org.eclipse.ui.ide.workbench" version="4.10.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
-      <image path="images/about.png"/>
+      <image path="/org.eclipse.birt.core.ui/images/about.png"/>
       <text>
          Business Intelligence Reporting Tool
 
@@ -26,7 +26,7 @@ that can be embedded into web applications and rich clients.
       </vmArgsMac>
    </launcherArgs>
 
-   <windowImages i16="images/p16.png" i32="images/p32.png" i48="images/p48.png" i64="images/p64.png" i128="images/p128.png" i256="images/p256.png"/>
+   <windowImages i16="/org.eclipse.birt.core.ui/images/p16.png" i32="/org.eclipse.birt.core.ui/images/p32.png" i48="/org.eclipse.birt.core.ui/images/p48.png" i64="/org.eclipse.birt.core.ui/images/p64.png" i128="/org.eclipse.birt.core.ui/images/p128.png" i256="/org.eclipse.birt.core.ui/images/p256.png"/>
 
    <splash
       location="org.eclipse.birt.core.ui" />
@@ -301,9 +301,9 @@ United States, other countries, or both.
       <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.update.configurator" autoStart="false" startLevel="4" />
-      <property name="org.eclipse.update.reconcile" value="false" />
-      <property name="eclipse.application" value="org.eclipse.ui.ide.workbench" />
       <property name="eclipse.product" value="org.eclipse.platform.ide" />
+      <property name="eclipse.application" value="org.eclipse.ui.ide.workbench" />
+      <property name="org.eclipse.update.reconcile" value="false" />
    </configurations>
 
    <repositories>

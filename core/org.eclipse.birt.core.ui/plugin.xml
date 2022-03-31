@@ -35,7 +35,7 @@
           </property>
           <property
                 name="aboutText"
-                value="&lt;h1&gt;Business Intelligence Reporting Tool&lt;/h1&gt;&#x0D;&#x0A;&lt;p&gt;&#x0D;&#x0A;With BIRT you can create data visualizations, dashboards and reports&#x0D;&#x0A;that can be embedded into web applications and rich clients. &#x0D;&#x0A;&lt;/p&gt;">
+                value="Business Intelligence Reporting Tool&#x0A;&#x0A;With BIRT you can create data visualizations, dashboards and reports&#x0A;that can be embedded into web applications and rich clients.">
           </property>
           <property
                 name="aboutImage"
