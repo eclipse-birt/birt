@@ -456,10 +456,9 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 				if (ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase(name)) {
 					if (helper.getParent() != null) {
 						return helper.getParent().getScriptable();
-					} else {
-						throw Context.reportRuntimeError(
-								DataResourceHandle.getInstance().getMessage(ResourceConstants.NO_OUTER_RESULTS_EXIST));
 					}
+					throw Context.reportRuntimeError(
+							DataResourceHandle.getInstance().getMessage(ResourceConstants.NO_OUTER_RESULTS_EXIST));
 				}
 				if (this.currentRow != null) {
 					return this.currentRow.getFieldValue(name);
@@ -499,13 +498,21 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 				if (ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase(name)) {
 					if (helper.getParent() != null) {
 						return helper.getParent().getScriptable();
-					} else {
-						throw Context.reportRuntimeError(
-								DataResourceHandle.getInstance().getMessage(ResourceConstants.NO_OUTER_RESULTS_EXIST));
 					}
+					throw Context.reportRuntimeError(
+							DataResourceHandle.getInstance().getMessage(ResourceConstants.NO_OUTER_RESULTS_EXIST));
 				}
+
+				if (ScriptConstants.ROW_NUM_KEYWORD.equalsIgnoreCase(name)) {
+					return Integer.valueOf(currentRowIndex);
+				}
+
 				IBinding binding = (IBinding) columnBindings.get(name);
-				IBaseExpression dataExpr = binding.getExpression();
+				IBaseExpression dataExpr = null;
+				if (binding != null) {
+					dataExpr = binding.getExpression();
+				}
+
 				if (dataExpr == null) {
 					throw Context.reportRuntimeError(DataResourceHandle.getInstance()
 							.getMessage(ResourceConstants.INVALID_BOUND_COLUMN_NAME, new String[] { name }));
