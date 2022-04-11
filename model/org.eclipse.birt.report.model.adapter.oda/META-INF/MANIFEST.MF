@@ -1,13 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Model ODA Adapter
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.model.adapter.oda; singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.10.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.model.adapter.oda.plugin.ModelAdapterOdaPlugin
 Bundle-ClassPath: modelODAFragment.jar,
  .
 Eclipse-ExtensibleAPI: true 
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.model.adapter.oda,
  org.eclipse.birt.report.model.adapter.oda.impl;x-friends:="org.eclipse.birt.report.model.adapter.oda.tests",

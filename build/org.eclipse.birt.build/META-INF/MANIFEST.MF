@@ -1,16 +1,30 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Build Internal Tools
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.build
-Bundle-Version: 4.9.0.qualifier
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Version: 4.10.0.qualifier
+Bundle-Vendor: %Bundle-Vendor
 Bundle-ClassPath: lib/dom4j-1.6.1.jar,
  .
-Require-Bundle: org.apache.ant
+Require-Bundle: org.apache.ant;bundle-version="[1.10.11,2.0.0)"
 Automatic-Module-Name: org.eclipse.birt.build
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.dom4j;version="2.1.1",
  org.dom4j.dom;version="2.1.1",
  org.dom4j.io;version="2.1.1",
  org.dom4j.tree;version="2.1.1"
+Export-Package: org.dom4j;x-internal:=true,
+ org.dom4j.bean;x-internal:=true,
+ org.dom4j.datatype;x-internal:=true,
+ org.dom4j.dom;x-internal:=true,
+ org.dom4j.dtd;x-internal:=true,
+ org.dom4j.io;x-internal:=true,
+ org.dom4j.jaxb;x-internal:=true,
+ org.dom4j.rule;x-internal:=true,
+ org.dom4j.rule.pattern;x-internal:=true,
+ org.dom4j.swing;x-internal:=true,
+ org.dom4j.tree;x-internal:=true,
+ org.dom4j.util;x-internal:=true,
+ org.dom4j.xpath;x-internal:=true,
+ org.dom4j.xpp;x-internal:=true
 

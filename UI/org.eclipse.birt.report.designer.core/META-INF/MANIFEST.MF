@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Designer Core
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.designer.core;singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.10.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.designer.core.CorePlugin
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.eclipse.birt.report.designer.core,
  org.eclipse.birt.report.designer.core.commands,
  org.eclipse.birt.report.designer.core.mediator,

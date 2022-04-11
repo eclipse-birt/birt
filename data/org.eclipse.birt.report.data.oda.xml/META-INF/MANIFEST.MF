@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT ODA-XML Driver
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.data.oda.xml;singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.10.0.qualifier
 Bundle-ClassPath: .
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.datatools.connectivity.oda;bundle-version="[3.0.1,4.0.0)",
  org.junit;bundle-version="3.8.1";resolution:=optional,

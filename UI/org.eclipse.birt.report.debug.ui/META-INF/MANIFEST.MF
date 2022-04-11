@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Debug UI Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.debug.ui; singleton:=true
-Bundle-Version: 4.9.0.qualifier
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Version: 4.10.0.qualifier
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.debug.internal.script.model,
  org.eclipse.birt.report.debug.internal.ui.launcher,
@@ -17,34 +17,35 @@ Export-Package: org.eclipse.birt.report.debug.internal.script.model,
  org.eclipse.birt.report.debug.internal.ui.script.outline.node,
  org.eclipse.birt.report.debug.internal.ui.script.util,
  org.eclipse.birt.report.debug.ui,
+ org.eclipse.birt.report.debug.ui.i18n;x-internal:=true,
  org.eclipse.birt.report.debug.ui.launcher,
  org.eclipse.birt.report.debug.ui.launching
-Require-Bundle: org.eclipse.core.variables,
- org.eclipse.gef,
- org.eclipse.jface.text,
+Require-Bundle: org.eclipse.core.variables;bundle-version="3.5.100",
+ org.eclipse.gef;bundle-version="3.11.0",
+ org.eclipse.jface.text;bundle-version="3.18.100",
  org.eclipse.ui;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.ui.ide;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.ui.forms;bundle-version="[3.2.0,4.0.0)",
- org.eclipse.ui.editors,
- org.eclipse.ui.views,
+ org.eclipse.ui.editors;bundle-version="3.14.200",
+ org.eclipse.ui.views;bundle-version="3.11.100",
  org.eclipse.jdt.core;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.jdt.launching;bundle-version="[3.2.0,4.0.0)",
- org.eclipse.jdt.debug,
- org.eclipse.jdt.debug.ui,
+ org.eclipse.jdt.debug;bundle-version="3.18.0",
+ org.eclipse.jdt.debug.ui;bundle-version="3.12.400",
  org.eclipse.pde.ui;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.debug.ui;bundle-version="[3.2.0,4.0.0)",
- org.eclipse.birt.report.debug.core,
+ org.eclipse.birt.report.debug.core;bundle-version="4.10.0",
  org.eclipse.birt.report.designer.core;bundle-version="[2.1.0,5.0.0)",
  org.eclipse.birt.report.designer.ui;bundle-version="[2.2.0,5.0.0)",
- org.eclipse.birt.report.designer.ui.editors,
- org.eclipse.birt.report.designer.ui.editor.script,
- org.eclipse.birt.report.designer.ui.editors.schematic,
+ org.eclipse.birt.report.designer.ui.editors;bundle-version="4.10.0",
+ org.eclipse.birt.report.designer.ui.editor.script;bundle-version="4.10.0",
+ org.eclipse.birt.report.designer.ui.editors.schematic;bundle-version="4.10.0",
  org.eclipse.birt.report.designer.ui.ide;bundle-version="[2.1.0,5.0.0)",
- org.eclipse.birt.report.designer.ui.preview.web,
- org.eclipse.birt.report.designer.ui.views,
- org.eclipse.birt.report.engine,
+ org.eclipse.birt.report.designer.ui.preview.web;bundle-version="4.10.0",
+ org.eclipse.birt.report.designer.ui.views;bundle-version="4.10.0",
+ org.eclipse.birt.report.engine;bundle-version="4.10.0",
  org.eclipse.birt.report.viewer;bundle-version="[2.1.0,5.0.0)",
- org.eclipse.core.expressions
+ org.eclipse.core.expressions;bundle-version="3.8.0"
 Bundle-ActivationPolicy: lazy
 Plugin-Class: org.eclipse.birt.report.debug.ui.DebugUI
 Bundle-RequiredExecutionEnvironment: JavaSE-11

@@ -18,7 +18,7 @@
 
      <extension 
 	 	point="org.eclipse.birt.report.engine.emitter.config"
-	 	name = "OpenDocument Text Emitter Descriptor">
+	 	name = "%extension.name">
 
         <descriptor
               class="org.eclipse.birt.report.engine.emitter.config.odt.OdtEmitterDescriptor"

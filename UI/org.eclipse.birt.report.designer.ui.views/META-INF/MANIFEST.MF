@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT UI Views Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.designer.ui.views;singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.10.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.designer.ui.views.ReportViewsPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui;bundle-version="[3.2.0,4.0.0)",
@@ -33,6 +33,6 @@ Export-Package: org.eclipse.birt.report.designer.internal.ui.swt.custom,
  org.eclipse.birt.report.designer.ui.views.attributes,
  org.eclipse.birt.report.designer.ui.views.attributes.providers,
  org.eclipse.birt.report.designer.ui.views.data
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.report.designer.ui.views

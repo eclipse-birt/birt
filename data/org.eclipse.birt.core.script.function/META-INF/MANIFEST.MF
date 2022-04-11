@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.eclipse.birt.core.script.function;singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.10.0.qualifier
 Require-Bundle: org.eclipse.birt.core;bundle-version="[2.3.0,5.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
@@ -11,6 +11,6 @@ Export-Package: org.eclipse.birt.core.script.function.bre;x-friends:="org.eclips
  org.eclipse.birt.core.script.function.i18n;x-friends:="org.eclipse.birt.core"
 Bundle-Localization: plugin
 Bundle-ClassPath: .
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.core.script.function
 

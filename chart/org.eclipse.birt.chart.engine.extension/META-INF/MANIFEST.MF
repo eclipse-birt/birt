@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Chart Engine Extension
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.chart.engine.extension; singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.10.0.qualifier
 Bundle-Activator: org.eclipse.birt.chart.plugin.ChartEngineExtensionPlugin
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.chart.engine.extension.i18n,
  org.eclipse.birt.chart.extension.aggregate,

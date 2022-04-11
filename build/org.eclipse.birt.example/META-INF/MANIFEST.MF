@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Example
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.example
-Bundle-Version: 4.9.0.qualifier
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Version: 4.10.0.qualifier
+Bundle-Vendor: %Bundle-Vendor
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.example
 

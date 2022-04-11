@@ -1,12 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="BIRT Report Designer RCP" uid="org.eclipse.birt.report.designer.rcp" application="org.eclipse.birt.report.designer.ui.rcp.DesignerApplication" version="4.9.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="BIRT Report Designer RCP" uid="org.eclipse.birt.report.designer.rcp" id="org.eclipse.birt.report.designer.ui.rcp.BIRT" application="org.eclipse.birt.report.designer.ui.rcp.DesignerApplication" version="4.10.0.qualifier" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/org.eclipse.birt.branding/images/about.png"/>
+      <text>
+         BIRT: Business Intelligence Reporting Tool
+
+With BIRT you can create data visualizations, dashboards and reports
+that can be embedded into web applications and rich clients.
+
+BIRT is maintained by a small number of volunteers. Please consider
+contributing. The contribution guide can be found here:
+
+https://github.com/eclipse/birt/blob/master/CONTRIBUTING.md
+ 
+
+BIRT is an open source project under control of the Eclipse Foundation
+
+- Support: https://github.com/eclipse/birt/discussions
+- Issues: https://github.com/eclipse/birt/issues
+- Website https://eclipse.org/birt
+- Source: https://github.com/eclipse/birt
+
+
+
+Powered by the Eclipse Platform: https://eclipse.org/eclipse
+      </text>
+   </aboutInfo>
 
    <configIni use="default">
    </configIni>
 
    <launcherArgs>
+      <programArgs>-perspective org.eclipse.birt.report.designer.ui.ReportRCPPerspective
+-product org.eclipse.birt.report.designer.ui.rcp.BIRT
+      </programArgs>
       <vmArgs>-Xms512m
 -Xmx1024m
       </vmArgs>
@@ -14,14 +44,166 @@
       </vmArgsMac>
    </launcherArgs>
 
+   <windowImages i16="/org.eclipse.birt.branding/images/p16.png" i32="/org.eclipse.birt.branding/images/p32.png" i48="/org.eclipse.birt.branding/images/p48.png" i64="/org.eclipse.birt.branding/images/p64.png" i128="/org.eclipse.birt.branding/images/p128.png" i256="/org.eclipse.birt.branding/images/p256.png"/>
+
+   <splash
+      location="org.eclipse.birt.report.designer.ui.rcp" />
    <launcher name="birt">
-      <win useIco="false">
+      <win useIco="true">
+         <ico path="images/birt.ico"/>
          <bmp/>
       </win>
    </launcher>
 
+
    <vm>
    </vm>
+
+   <license>
+        <url>http://www.eclipse.org/legal/epl-2.0.html</url>
+        <text>
+   Eclipse Foundation Software User Agreement
+
+November 22, 2017
+
+Usage Of Content
+
+THE ECLIPSE FOUNDATION MAKES AVAILABLE SOFTWARE, DOCUMENTATION, INFORMATION
+AND/OR OTHER MATERIALS FOR OPEN SOURCE PROJECTS (COLLECTIVELY &quot;CONTENT&quot;). USE OF
+THE CONTENT IS GOVERNED BY THE TERMS AND CONDITIONS OF THIS AGREEMENT AND/OR THE
+TERMS AND CONDITIONS OF LICENSE AGREEMENTS OR NOTICES INDICATED OR REFERENCED
+BELOW. BY USING THE CONTENT, YOU AGREE THAT YOUR USE OF THE CONTENT IS GOVERNED
+BY THIS AGREEMENT AND/OR THE TERMS AND CONDITIONS OF ANY APPLICABLE LICENSE
+AGREEMENTS OR NOTICES INDICATED OR REFERENCED BELOW. IF YOU DO NOT AGREE TO THE
+TERMS AND CONDITIONS OF THIS AGREEMENT AND THE TERMS AND CONDITIONS OF ANY
+APPLICABLE LICENSE AGREEMENTS OR NOTICES INDICATED OR REFERENCED BELOW, THEN YOU
+MAY NOT USE THE CONTENT.
+
+Applicable Licenses
+
+Unless otherwise indicated, all Content made available by the Eclipse Foundation
+is provided to you under the terms and conditions of the Eclipse Public License
+Version 2.0 (&quot;EPL&quot;). A copy of the EPL is provided with this Content and is also
+available at http://www.eclipse.org/legal/epl-2.0. For purposes of the EPL,
+&quot;Program&quot; will mean the Content.
+
+Content includes, but is not limited to, source code, object code, documentation
+and other files maintained in the Eclipse Foundation source code repository
+(&quot;Repository&quot;) in software modules (&quot;Modules&quot;) and made available as
+downloadable archives (&quot;Downloads&quot;).
+
+-   Content may be structured and packaged into modules to facilitate
+    delivering, extending, and upgrading the Content. Typical modules may
+    include plug-ins (&quot;Plug-ins&quot;), plug-in fragments (&quot;Fragments&quot;), and
+    features (&quot;Features&quot;).
+-   Each Plug-in or Fragment may be packaged as a sub-directory or JAR
+    (Java\u2122 ARchive) in a directory named &quot;plugins&quot;.
+-   A Feature is a bundle of one or more Plug-ins and/or Fragments and
+    associated material. Each Feature may be packaged as a sub-directory in a
+    directory named &quot;features&quot;. Within a Feature, files named &quot;feature.xml&quot; may
+    contain a list of the names and version numbers of the Plug-ins and/or
+    Fragments associated with that Feature.
+-   Features may also include other Features (&quot;Included Features&quot;). Within a
+    Feature, files named &quot;feature.xml&quot; may contain a list of the names and
+    version numbers of Included Features.
+
+The terms and conditions governing Plug-ins and Fragments should be contained in
+files named &quot;about.html&quot; (&quot;Abouts&quot;). The terms and conditions governing Features
+and Included Features should be contained in files named &quot;license.html&quot;
+(&quot;Feature Licenses&quot;). Abouts and Feature Licenses may be located in any
+directory of a Download or Module including, but not limited to the following
+locations:
+
+-   The top-level (root) directory
+-   Plug-in and Fragment directories
+-   Inside Plug-ins and Fragments packaged as JARs
+-   Sub-directories of the directory named &quot;src&quot; of certain Plug-ins
+-   Feature directories
+
+Note: if a Feature made available by the Eclipse Foundation is installed using
+the Provisioning Technology (as defined below), you must agree to a license
+(&quot;Feature Update License&quot;) during the installation process. If the Feature
+contains Included Features, the Feature Update License should either provide you
+with the terms and conditions governing the Included Features or inform you
+where you can locate them. Feature Update Licenses may be found in the &quot;license&quot;
+property of files named &quot;feature.properties&quot; found within a Feature. Such
+Abouts, Feature Licenses, and Feature Update Licenses contain the terms and
+conditions (or references to such terms and conditions) that govern your use of
+the associated Content in that directory.
+
+THE ABOUTS, FEATURE LICENSES, AND FEATURE UPDATE LICENSES MAY REFER TO THE EPL
+OR OTHER LICENSE AGREEMENTS, NOTICES OR TERMS AND CONDITIONS. SOME OF THESE
+OTHER LICENSE AGREEMENTS MAY INCLUDE (BUT ARE NOT LIMITED TO):
+
+-   Eclipse Public License Version 2.0 (available at
+    http://www.eclipse.org/legal/epl-2.0.html)
+-   Eclipse Distribution License Version 1.0 (available at
+    http://www.eclipse.org/licenses/edl-v1.0.html)
+-   Common Public License Version 1.0 (available at
+    http://www.eclipse.org/legal/cpl-v10.html)
+-   Apache Software License 1.1 (available at
+    http://www.apache.org/licenses/LICENSE)
+-   Apache Software License 2.0 (available at
+    http://www.apache.org/licenses/LICENSE-2.0)
+-   Mozilla Public License Version 1.1 (available at
+    http://www.mozilla.org/MPL/MPL-1.1.html)
+
+IT IS YOUR OBLIGATION TO READ AND ACCEPT ALL SUCH TERMS AND CONDITIONS PRIOR TO
+USE OF THE CONTENT. If no About, Feature License, or Feature Update License is
+provided, please contact the Eclipse Foundation to determine what terms and
+conditions govern that particular Content.
+
+Use of Provisioning Technology
+
+The Eclipse Foundation makes available provisioning software, examples of which
+include, but are not limited to, p2 and the Eclipse Update Manager
+(&quot;Provisioning Technology&quot;) for the purpose of allowing users to install
+software, documentation, information and/or other materials (collectively
+&quot;Installable Software&quot;). This capability is provided with the intent of allowing
+such users to install, extend and update Eclipse-based products. Information
+about packaging Installable Software is available at
+http://eclipse.org/equinox/p2/repository_packaging.html (&quot;Specification&quot;).
+
+You may use Provisioning Technology to allow other parties to install
+Installable Software. You shall be responsible for enabling the applicable
+license agreements relating to the Installable Software to be presented to, and
+accepted by, the users of the Provisioning Technology in accordance with the
+Specification. By using Provisioning Technology in such a manner and making it
+available in accordance with the Specification, you further acknowledge your
+agreement to, and the acquisition of all necessary rights to permit the
+following:
+
+1.  A series of actions may occur (&quot;Provisioning Process&quot;) in which a user may
+    execute the Provisioning Technology on a machine (&quot;Target Machine&quot;) with the
+    intent of installing, extending or updating the functionality of an
+    Eclipse-based product.
+2.  During the Provisioning Process, the Provisioning Technology may cause third
+    party Installable Software or a portion thereof to be accessed and copied to
+    the Target Machine.
+3.  Pursuant to the Specification, you will provide to the user the terms and
+    conditions that govern the use of the Installable Software (&quot;Installable
+    Software Agreement&quot;) and such Installable Software Agreement shall be
+    accessed from the Target Machine in accordance with the Specification. Such
+    Installable Software Agreement must inform the user of the terms and
+    conditions that govern the Installable Software and must solicit acceptance
+    by the end user in the manner prescribed in such Installable
+    Software Agreement. Upon such indication of agreement by the user, the
+    provisioning Technology will complete installation of the
+    Installable Software.
+
+Cryptography
+
+Content may contain encryption software. The country in which you are currently
+may have restrictions on the import, possession, and use, and/or re-export to
+another country, of encryption software. BEFORE using any encryption software,
+please check the country&apos;s laws, regulations and policies concerning the import,
+possession, or use, and re-export of encryption software, to see if this is
+permitted.
+
+Java and all Java-based trademarks are trademarks of Oracle Corporation in the
+United States, other countries, or both.
+         </text>
+   </license>
 
    <plugins>
    </plugins>
@@ -38,5 +220,23 @@
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <property name="org.eclipse.update.reconcile" value="false" />
    </configurations>
+
+   <repositories>
+      <repository location="https://download.eclipse.org/releases/latest" enabled="true" />
+      <repository location="https://download.eclipse.org/eclipse/updates/latest" enabled="true" />
+      <repository location="https://download.eclipse.org/birt/update-site/latest" enabled="true" />
+      <repository location="https://download.eclipse.org/birt/update-site/snapshot" enabled="false" />
+      <repository location="https://download.eclipse.org/releases/latest" enabled="true" />
+      <repository location="https://download.eclipse.org/eclipse/updates/latest" enabled="true" />
+      <repository location="https://download.eclipse.org/birt/update-site/latest" enabled="true" />
+      <repository location="https://download.eclipse.org/birt/update-site/snapshot" enabled="false" />
+   </repositories>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>

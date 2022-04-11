@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.debug.internal.core.vm.ReportVMClient;
@@ -38,6 +39,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.core.resources.IMarkerDelta;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.DebugPlugin;
@@ -126,9 +128,10 @@ public class ScriptDebugTarget extends ScriptDebugElement
 	 * @param listenPort
 	 * @param eventPort
 	 * @param tempFolder
+	 * @param monitor
 	 */
 	public ScriptDebugTarget(ILaunch launch, ReportVMClient vm, String name, IProcess process, int listenPort,
-			String tempFolder) {
+			String tempFolder, IProgressMonitor monitor) {
 		super(null);
 		this.launch = launch;
 		this.reportVM = vm;
@@ -150,8 +153,16 @@ public class ScriptDebugTarget extends ScriptDebugElement
 
 		DebugPlugin.getDefault().getBreakpointManager().addBreakpointManagerListener(this);
 
-		// connect the server util the ReportLauncher run already
+		// connect the server util the ReportLauncher run already or the user canceled
 		while (!isTerminated()) {
+			if (monitor.isCanceled()) {
+				try {
+					terminate();
+					continue;
+				} catch (DebugException e) {
+					logger.log(Level.WARNING, e.getMessage(), e);
+				}
+			}
 			try {
 				vm.connect(listenPort);
 				break;

@@ -16,8 +16,9 @@
 <feature
       id="org.eclipse.birt.rcp"
       label="%featureName"
-      version="4.9.0.qualifier"
+      version="4.10.0.qualifier"
       provider-name="%providerName"
+      plugin="org.eclipse.birt"
       image="eclipse_update_120.jpg">
 
    <description url="http://www.eclipse.org/birt">
@@ -759,6 +760,13 @@
          install-size="0"
          version="0.0.0"
          fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.branding"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>

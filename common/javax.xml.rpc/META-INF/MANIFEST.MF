@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: XML RPC API
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: javax.xml.rpc
 Bundle-Version: 1.1.2.qualifier
 Bundle-ClassPath: javax.xml.rpc-api-1.1.2.jar
@@ -11,5 +11,5 @@ Export-Package: javax.xml.rpc,
  javax.xml.rpc.holders,
  javax.xml.rpc.server,
  javax.xml.rpc.soap
-Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: javax.xml.rpc

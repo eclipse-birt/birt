@@ -16,7 +16,7 @@
 <feature
       id="org.eclipse.birt"
       label="%featureName"
-      version="4.9.0.qualifier"
+      version="4.10.0.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt"
       image="eclipse_update_120.jpg">
@@ -34,7 +34,7 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
+      <update label="%updateSiteName" url="https://download.eclipse.org/birt/update-site/4.9.0/"/>
       <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
    </url>
 
@@ -200,6 +200,13 @@
 
    <plugin
          id="org.apache.batik.css"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.batik.codec"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -894,6 +901,13 @@
          install-size="0"
          version="0.0.0"
          fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.branding"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>

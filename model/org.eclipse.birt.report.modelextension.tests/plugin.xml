@@ -320,7 +320,7 @@
    </extension>
    <extension
          id="testingScriptableObject"
-         name="testingScriptableObject"
+         name="%extension.name"
          point="org.eclipse.birt.report.model.IScriptableObjectClassInfo">
       <scriptableClassInfo
             class="org.eclipse.birt.report.model.tests.box.ScriptableFactory"

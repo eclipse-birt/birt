@@ -17,7 +17,6 @@ on:
     branches:
       - master
   pull_request:
-  pull_request_target:
   pull_request_review_comment:
   workflow_dispatch:
 
@@ -27,6 +26,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Cancel Previous Runs
+      uses: styfle/cancel-workflow-action@0.9.1
+      with:
+       access_token: ${{ github.token }}
     - name: Checkout
       uses: actions/checkout@v1
     - name: Set up JDK 11
@@ -65,6 +68,12 @@ jobs:
       run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.tests.engine integration-test
 #    - name: Test Core
 #      run: mvn -B -pl :org.eclipse.birt.core.tests integration-test
+
+    - name: Archive BIRT Update Site
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-site
+        path: build/org.eclipse.birt.p2updatesite/target/org.eclipse.birt.p2updatesite*.zip
     - name: Archive BIRT charts
       uses: actions/upload-artifact@v2
       with: 
@@ -75,11 +84,26 @@ jobs:
       with: 
         name: birt-rcp-report-designer
         path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*.zip
-    - name: Archive BIRT Report Designer all-in-one
+    - name: Archive BIRT Report Designer all-in-one-win
       uses: actions/upload-artifact@v2
       with: 
-        name: birt-report-designer-all-in-one
-        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*.zip
+        name: birt-report-designer-all-in-one-win
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*win*.zip 
+    - name: Archive BIRT Report Designer all-in-one-linux
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-report-designer-all-in-one-linux
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*linux*.zip 
+    - name: Archive BIRT Report Designer all-in-one-mac-intel
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-report-designer-all-in-one-mac-intel
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*macosx.cocoa.x86_*.zip
+    - name: Archive BIRT Report Designer all-in-one-mac-silicon
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-report-designer-all-in-one-mac-silicon
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*macosx.cocoa.aarch64*.zip     
     - name: Archive BIRT Report Framework
       uses: actions/upload-artifact@v2
       with: 

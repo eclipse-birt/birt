@@ -16,7 +16,7 @@
 -->
 <plugin>
    
-     <extension-point id="FactoryService" name="FactoryService" schema="schema/FactoryService.exsd"/>
-     <extension-point id="ScriptFunctionService" name="ScriptFunctionService" schema="schema/ScriptFunctionService.exsd"/>
-     <extension-point id="ScriptEngineFactory" name="ScriptEngineFactory" schema="schema/ScriptEngineFactory.exsd"/>
+     <extension-point id="FactoryService" name="%extension-point.name" schema="schema/FactoryService.exsd"/>
+     <extension-point id="ScriptFunctionService" name="%extension-point.name.0" schema="schema/ScriptFunctionService.exsd"/>
+     <extension-point id="ScriptEngineFactory" name="%extension-point.name.1" schema="schema/ScriptEngineFactory.exsd"/>
 </plugin>

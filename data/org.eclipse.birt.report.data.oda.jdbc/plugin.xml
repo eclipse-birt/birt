@@ -15,7 +15,7 @@
  *******************************************************************************
 -->
 <plugin>
-     <extension-point id="driverinfo" name="JDBC Driver Information Extension" 
+     <extension-point id="driverinfo" name="%extension-point.name" 
    			schema="schema/driverinfo.exsd"/>
    			
    <extension

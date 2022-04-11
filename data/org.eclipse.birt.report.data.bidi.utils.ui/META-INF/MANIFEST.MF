@@ -1,12 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Bidi UI Utils
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.data.bidi.utils.ui;singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.10.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.birt.report.data.bidi.utils.ui
 Require-Bundle: org.eclipse.birt.report.data.bidi.utils;bundle-version="[2.5.1,5.0.0)",
  org.eclipse.ui;bundle-version="[3.2.0,4.0.0)"
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.birt.report.data.bidi.utils.ui

@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Engine fonts
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.engine.fonts
-Bundle-Version: 4.9.0.qualifier
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Version: 4.10.0.qualifier
+Bundle-Vendor: %Bundle-Vendor
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Eclipse-BundleShape: dir
 Automatic-Module-Name: org.eclipse.birt.report.engine.fonts

@@ -1,13 +1,16 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT extension tutorial_1 Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.extension.tutorial_1;singleton:=true
-Bundle-Version: 4.9.0.qualifier
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-Version: 4.10.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.4.0",
  org.eclipse.birt.report.designer.core;bundle-version="2.3.1",
  org.eclipse.birt.report.designer.ui;bundle-version="2.3.1",
  org.eclipse.birt.report.engine;bundle-version="2.3.1",
- org.eclipse.birt.data
+ org.eclipse.birt.data;bundle-version="4.10.0"
+Export-Package: org.eclipse.birt.sample.reportitem.rotatedtext;x-internal:=true,
+ org.eclipse.birt.sample.reportitem.rotatedtext.util;x-internal:=true
+Automatic-Module-Name: org.eclipse.birt.report.extension.tutorial.1
