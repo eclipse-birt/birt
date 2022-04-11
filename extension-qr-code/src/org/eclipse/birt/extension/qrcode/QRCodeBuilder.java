@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2022 Henning von Bargen
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -9,15 +9,19 @@
  *
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Henning von Bargen - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.extension.qrcode;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TrayDialog;
@@ -83,7 +87,7 @@ class QRCodeEditor extends TrayDialog {
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 
-		newShell.setText("QRCode Builder"); //$NON-NLS-1$
+		newShell.setText("QRCode Builder");
 	}
 
 	private void openExpression(Text textControl) {
@@ -163,17 +167,25 @@ class QRCodeEditor extends TrayDialog {
 		txtEncoding.setText(qrItem.getEncoding());
 	}
 
+	protected static final Logger logger = Logger.getLogger(QRCodeBuilder.class.getName());
+
 	@Override
 	protected void okPressed() {
 
-		try {
-			qrItem.setText(txtText.getText());
-			qrItem.setDotsWidth(Integer.parseInt(spDotsWidth.getText()));
-			qrItem.setEncoding(txtEncoding.getText());
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+			try {
+				qrItem.setText(txtText.getText());
+				qrItem.setEncoding(txtEncoding.getText());
+				qrItem.setDotsWidth(Integer.parseInt(spDotsWidth.getText()));
+				super.okPressed();
+			} catch (SemanticException e) {
+				// Should not happen, because the dialog controls should prevent invalid data.
+				// If it happens nevertheless, we log this and we do not leave the dialog.
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			} catch (NumberFormatException e) {
+				// See above
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			}
 
-		super.okPressed();
+
 	}
 }
