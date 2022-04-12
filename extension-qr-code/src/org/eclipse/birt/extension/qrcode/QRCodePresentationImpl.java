@@ -58,23 +58,30 @@ public class QRCodePresentationImpl extends ReportItemPresentationBase {
 		}
 
 		int dotsWidth = qrItem.getDotsWidth();
-		String text = qrItem.getText();
+		String expression = qrItem.getText();
 		String encoding = qrItem.getEncoding();
 		String errorCorrectionLevel = qrItem.getErrorCorrectionLevel();
 		int qrVersion = qrItem.getQrVersion();
 
+		Object obj = null;
 		if (results != null && results.length > 0) {
 			if (results[0] instanceof IQueryResultSet && ((IQueryResultSet) results[0]).isBeforeFirst()) {
 				((IQueryResultSet) results[0]).next();
 			}
-
-			text = String.valueOf(results[0].evaluate(text));
+			obj = (results[0].evaluate(expression));
 		} else {
-			text = String.valueOf(context.evaluate(text));
+			obj = context.evaluate(expression);
 		}
+		if (obj == null) {
+			return null;
+		}
+		String text = String.valueOf(obj);
 
 		BufferedImage qrImage = SwingGraphicsUtil.createQRCodeImage(text, dotsWidth, dotsWidth, encoding, errorCorrectionLevel,
 				qrVersion);
+		if (qrImage == null) {
+			return null;
+		}
 
 		ByteArrayInputStream bis = null;
 

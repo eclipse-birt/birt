@@ -57,8 +57,8 @@ public class QRCodePageGenerator extends AbstractPageGenerator {
 							AttributesUtil.VISIBILITY, AttributesUtil.TOC, AttributesUtil.BOOKMARK,
 							AttributesUtil.USERPROPERTIES, AttributesUtil.NAMEDEXPRESSIONS,
 							AttributesUtil.ADVANCEPROPERTY },
-					new String[] { "General" //$NON-NLS-1$
-					}, new String[] { "General" //$NON-NLS-1$
+					new String[] { "General" },
+					new String[] { "General"
 					}, new AttributesUtil.PageWrapper[] { new QRCodeGeneralPage() }, input);
 
 			CTabItem tabItem = new CTabItem(tabFolder, SWT.NONE);

@@ -66,7 +66,7 @@ public class QRCodeGeneralPage extends AttributesUtil.PageWrapper {
 			layout.verticalSpacing = 12;
 			contentpane.setLayout(layout);
 
-			toolkit.createLabel(contentpane, "Text Content:"); //$NON-NLS-1$
+			toolkit.createLabel(contentpane, "Text Content:");
 			txtText = toolkit.createText(contentpane, ""); //$NON-NLS-1$
 			GridData gd = new GridData();
 			gd.widthHint = 200;
@@ -81,7 +81,7 @@ public class QRCodeGeneralPage extends AttributesUtil.PageWrapper {
 			});
 
 			Button btnExp = toolkit.createButton(contentpane, "...", SWT.PUSH); //$NON-NLS-1$
-			btnExp.setToolTipText("Invoke Expression Builder"); //$NON-NLS-1$
+			btnExp.setToolTipText("Invoke Expression Builder");
 			btnExp.addSelectionListener(new SelectionAdapter() {
 
 				@Override
@@ -108,7 +108,7 @@ public class QRCodeGeneralPage extends AttributesUtil.PageWrapper {
 				}
 			});
 
-			toolkit.createLabel(contentpane, "Encoding:"); //$NON-NLS-1$
+			toolkit.createLabel(contentpane, "Encoding:");
 			txtEncoding = toolkit.createText(contentpane, ""); //$NON-NLS-1$
 			gd = new GridData();
 			gd.widthHint = 200;

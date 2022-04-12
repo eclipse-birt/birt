@@ -24,10 +24,10 @@ import org.eclipse.core.runtime.IAdapterFactory;
 public class QRCodePageGeneratorFactory implements IAdapterFactory {
 
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
-		if (!(adaptableObject instanceof ExtendedItemHandle)) {
-			return null;
+		if (adaptableObject instanceof ExtendedItemHandle && IPageGenerator.class.isInstance(adapterType)) {
+			return new QRCodePageGenerator();
 		}
-		return new QRCodePageGenerator();
+		return null;
 	}
 
 	public Class[] getAdapterList() {

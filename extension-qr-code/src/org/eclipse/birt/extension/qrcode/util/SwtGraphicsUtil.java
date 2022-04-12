@@ -15,9 +15,9 @@
 package org.eclipse.birt.extension.qrcode.util;
 
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
@@ -35,20 +35,45 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  */
 public class SwtGraphicsUtil {
 
+	protected static final Logger logger = Logger.getLogger(SwtGraphicsUtil.class.getName());
+
 	public static Image createQRCodeImage(String text, int dotsWidth, int dotsHeight, String encoding,
 			String errorCorrectionLevel, int qrVersion) {
+		if (text == null || text.trim().length() == 0) {
+			return null;
+		}
 		try {
-			if (text == null || text.trim().length() == 0) {
-				return null;
+			QRCodeWriter qrw = new QRCodeWriter();
+			HashMap<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
+			hints.put(EncodeHintType.CHARACTER_SET, encoding != null ? encoding : "UTF-8");
+			if ("L".equals(errorCorrectionLevel)) {
+				hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+			} else if ("H".equals(errorCorrectionLevel)) {
+				hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+			} else if ("Q".equals(errorCorrectionLevel)) {
+				hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.Q);
+			} else {
+				hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
 			}
+			if (qrVersion > 0) {
+				hints.put(EncodeHintType.QR_VERSION, qrVersion);
+			}
+			BitMatrix bm = qrw.encode(text, BarcodeFormat.QR_CODE, dotsWidth, dotsHeight, hints);
 
-			return renderQRObject(text, dotsWidth, dotsHeight, encoding, errorCorrectionLevel, qrVersion);
+			byte[] rawData = toByteArray(bm);
+			org.eclipse.swt.graphics.PaletteData swtPalette = new PaletteData(new RGB(0xff, 0xff, 0xff),
+					new RGB(0, 0, 0));
+			int depth = 1;
+			org.eclipse.swt.graphics.ImageData swtImageData = new ImageData(dotsWidth, dotsHeight, depth, swtPalette, 1,
+					rawData);
+			swtImageData.transparentPixel = 0;
+			return new Image(Display.getDefault(), swtImageData);
+
 		} catch (Exception e) {
-			e.printStackTrace();
-
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			return null;
 		}
 
-		return null;
 	}
 
 	private static byte[] toByteArray(BitMatrix matrix) {
@@ -67,56 +92,4 @@ public class SwtGraphicsUtil {
 		return out;
 	}
 
-	private static Image renderQRObject(String text, int width, int height, String encoding, String errorCorrectionLevel,
-			int qrVersion) {
-		Display display = Display.getCurrent();
-		QRCodeWriter qrw = null;
-
-		Image dest = null;
-		GC gc = null;
-
-		try {
-			dest = new Image(display, width, height);
-			gc = new GC(dest);
-
-			gc.setAdvanced(true);
-			gc.setAntialias(SWT.OFF);
-
-			qrw = new QRCodeWriter();
-			HashMap<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
-			hints.put(EncodeHintType.CHARACTER_SET, encoding != null ? encoding : "utf-8");
-			if ("L".equals(errorCorrectionLevel)) {
-				hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-			} else if ("H".equals(errorCorrectionLevel)) {
-				hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
-			} else if ("Q".equals(errorCorrectionLevel)) {
-				hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.Q);
-			} else {
-				hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
-			}
-			if (qrVersion > 0) {
-				hints.put(EncodeHintType.QR_VERSION, qrVersion);
-			}
-			BitMatrix bm = qrw.encode(text, BarcodeFormat.QR_CODE, width, height, hints);
-
-			byte[] rawData = toByteArray(bm);
-			org.eclipse.swt.graphics.PaletteData swtPalette = new PaletteData(new RGB(0xff, 0xff, 0xff),
-					new RGB(0, 0, 0));
-			int depth = 1;
-			org.eclipse.swt.graphics.ImageData swtImageData = new ImageData(width, height, depth, swtPalette, 1,
-					rawData);
-			swtImageData.transparentPixel = 0;
-			dest = new Image(Display.getDefault(), swtImageData);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (gc != null && !gc.isDisposed()) {
-				gc.dispose();
-			}
-
-		}
-
-		return dest;
-	}
 }

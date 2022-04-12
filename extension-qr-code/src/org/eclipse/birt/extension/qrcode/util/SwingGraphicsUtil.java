@@ -16,6 +16,8 @@ package org.eclipse.birt.extension.qrcode.util;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -30,17 +32,17 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  */
 public class SwingGraphicsUtil {
 
+	protected static final Logger logger = Logger.getLogger(SwtGraphicsUtil.class.getName());
+
 	public static BufferedImage createQRCodeImage(String text, int dotsWidth, int dotsHeight, String encoding,
 			String errorCorrectionLevel, int qrVersion) {
-		QRCodeWriter qrw = null;
+		if (text == null || text.trim().length() == 0) {
+			return null;
+		}
 		try {
-			if (text == null || text.trim().length() == 0) {
-				return null;
-			}
-
-			qrw = new QRCodeWriter();
+			QRCodeWriter qrw = new QRCodeWriter();
 			HashMap<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
-			hints.put(EncodeHintType.CHARACTER_SET, (encoding != null ? encoding : "utf-8"));
+			hints.put(EncodeHintType.CHARACTER_SET, (encoding != null ? encoding : "UTF-8"));
 			if ("L".equals(errorCorrectionLevel)) {
 				hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
 			} else if ("H".equals(errorCorrectionLevel)) {
@@ -59,9 +61,9 @@ public class SwingGraphicsUtil {
 			BufferedImage im = MatrixToImageWriter.toBufferedImage(bm, config);
 			return im;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			return null;
 		}
-		return null;
 	}
 
 }
