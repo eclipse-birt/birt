@@ -32,19 +32,22 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="org.eclipse.birt.report.designer.ui.rcp.DesignerApplication"
-            name="%ApplicationName">
-         <property
-               name="aboutText"
-               value="%About"/>
+            name="BIRT Report Designer RCP">
          <property
                name="appName"
-               value="%ApplicationName"/>
+               value="BIRT Report Designer RCP"/>
          <property
                name="aboutImage"
-               value="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/wizban/create_report_wizard.gif"/>
+               value="platform:/plugin/org.eclipse.birt.branding/images/about.png">
+         </property>
+         <property
+               name="aboutText"
+               value="BIRT: Business Intelligence Reporting Tool&#x0A;&#x0A;With BIRT you can create data visualizations, dashboards and reports&#x0A;that can be embedded into web applications and rich clients.&#x0A;&#x0A;BIRT is maintained by a small number of volunteers. Please consider&#x0A;contributing. The contribution guide can be found here:&#x0A;&#x0A;https://github.com/eclipse/birt/blob/master/CONTRIBUTING.md&#x0A; &#x0A;&#x0A;BIRT is an open source project under control of the Eclipse Foundation&#x0A;&#x0A;- Support: https://github.com/eclipse/birt/discussions&#x0A;- Issues: https://github.com/eclipse/birt/issues&#x0A;- Website https://eclipse.org/birt&#x0A;- Source: https://github.com/eclipse/birt&#x0A;&#x0A;&#x0A;&#x0A;Powered by the Eclipse Platform: https://eclipse.org/eclipse">
+         </property>
          <property
                name="windowImages"
-               value="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/eview16/report_perspective.gif"/>
+               value="platform:/plugin/org.eclipse.birt.branding/images/p16.png,platform:/plugin/org.eclipse.birt.branding/images/p32.png,platform:/plugin/org.eclipse.birt.branding/images/p48.png,platform:/plugin/org.eclipse.birt.branding/images/p64.png,platform:/plugin/org.eclipse.birt.branding/images/p128.png,platform:/plugin/org.eclipse.birt.branding/images/p256.png">
+         </property>
       </product>
    </extension>
    
