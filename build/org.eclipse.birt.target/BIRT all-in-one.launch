@@ -7,7 +7,7 @@
     <booleanAttribute key="automaticValidate" value="true"/>
     <stringAttribute key="bootstrap" value=""/>
     <stringAttribute key="checked" value="[NONE]"/>
-    <booleanAttribute key="clearConfig" value="true"/>
+    <booleanAttribute key="clearConfig" value="false"/>
     <booleanAttribute key="clearws" value="true"/>
     <booleanAttribute key="clearwslog" value="false"/>
     <stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/BIRT all-in-one"/>
@@ -28,11 +28,10 @@
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
     <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true&#13;&#10;-Dorg.eclipse.jetty.util.log.class=org.eclipse.jetty.util.log.StdErrLog&#13;&#10;-Dorg.eclipse.jetty.LEVEL=DEBUG&#10;-Dosgi.debug=${project_loc:org.eclipse.birt.target}/debug.options&#13;&#10;-Dorg.eclipse.jetty.websocket.LEVEL=DEBUG&#13;&#10; --add-modules=ALL-SYSTEM"/>
     <stringAttribute key="pde.version" value="3.3"/>
-    <stringAttribute key="product" value="org.eclipse.platform.ide"/>
+    <stringAttribute key="product" value="org.eclipse.birt.branding.birt_all_in_one"/>
     <setAttribute key="selected_target_bundles">
         <setEntry value="com.github.librepdf.openpdf@default:default"/>
         <setEntry value="com.ibm.icu*67.1.0.v20200706-1749@default:default"/>
-        <setEntry value="com.ibm.icu*70.1.0@default:default"/>
         <setEntry value="com.sun.jna.platform@default:default"/>
         <setEntry value="com.sun.jna@default:default"/>
         <setEntry value="jakarta.annotation-api@default:default"/>
@@ -157,6 +156,7 @@
         <setEntry value="org.eclipse.datatools.sqltools.sqlbuilder@default:default"/>
         <setEntry value="org.eclipse.datatools.sqltools.sqleditor@default:default"/>
         <setEntry value="org.eclipse.debug.core@default:default"/>
+        <setEntry value="org.eclipse.debug.ui.launchview@default:default"/>
         <setEntry value="org.eclipse.debug.ui@default:default"/>
         <setEntry value="org.eclipse.draw2d@default:default"/>
         <setEntry value="org.eclipse.e4.core.commands@default:default"/>
@@ -203,6 +203,8 @@
         <setEntry value="org.eclipse.equinox.http.servlet@default:default"/>
         <setEntry value="org.eclipse.equinox.jsp.jasper.registry@default:default"/>
         <setEntry value="org.eclipse.equinox.jsp.jasper@default:default"/>
+        <setEntry value="org.eclipse.equinox.launcher.win32.win32.x86_64@default:false"/>
+        <setEntry value="org.eclipse.equinox.launcher@default:default"/>
         <setEntry value="org.eclipse.equinox.p2.artifact.repository@default:default"/>
         <setEntry value="org.eclipse.equinox.p2.core@default:default"/>
         <setEntry value="org.eclipse.equinox.p2.director.app@default:default"/>
@@ -293,8 +295,8 @@
         <setEntry value="org.eclipse.orbit.mongodb@default:default"/>
         <setEntry value="org.eclipse.osgi*3.17.200.v20220215-2237@1:true"/>
         <setEntry value="org.eclipse.osgi.compatibility.state@default:false"/>
-        <setEntry value="org.eclipse.osgi.services*3.10.200.v20210723-0643@2:true"/>
-        <setEntry value="org.eclipse.osgi.services*3.9.0.v20200511-1725@2:true"/>
+        <setEntry value="org.eclipse.osgi.services*3.10.200.v20210723-0643@default:default"/>
+        <setEntry value="org.eclipse.osgi.services*3.9.0.v20200511-1725@default:default"/>
         <setEntry value="org.eclipse.osgi.util@default:default"/>
         <setEntry value="org.eclipse.pde.build@default:default"/>
         <setEntry value="org.eclipse.pde.core@default:default"/>
@@ -377,7 +379,7 @@
         <setEntry value="org.w3c.dom.smil@default:default"/>
         <setEntry value="org.w3c.dom.svg@default:default"/>
         <setEntry value="slf4j.api@default:default"/>
-        <setEntry value="slf4j.simple@default:true"/>
+        <setEntry value="slf4j.simple@default:default"/>
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
         <setEntry value="javax.xml.rpc@default:default"/>
@@ -385,6 +387,7 @@
         <setEntry value="org.apache.batik.dom.birt.ext@default:false"/>
         <setEntry value="org.apache.batik.transcoder.birt.ext@default:false"/>
         <setEntry value="org.eclipse.birt.axis.overlay@default:false"/>
+        <setEntry value="org.eclipse.birt.branding@default:default"/>
         <setEntry value="org.eclipse.birt.build@default:default"/>
         <setEntry value="org.eclipse.birt.chart.cshelp@default:default"/>
         <setEntry value="org.eclipse.birt.chart.device.extension.nl1@default:false"/>
@@ -418,6 +421,7 @@
         <setEntry value="org.eclipse.birt.core.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.core.script.function.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.core.script.function@default:default"/>
+        <setEntry value="org.eclipse.birt.core.testhelper@default:false"/>
         <setEntry value="org.eclipse.birt.core.ui.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.core.ui@default:default"/>
         <setEntry value="org.eclipse.birt.core@default:default"/>
@@ -430,6 +434,7 @@
         <setEntry value="org.eclipse.birt.data.oda.mongodb.ui@default:default"/>
         <setEntry value="org.eclipse.birt.data.oda.mongodb@default:default"/>
         <setEntry value="org.eclipse.birt.data.oda.pojo.nl1@default:false"/>
+        <setEntry value="org.eclipse.birt.data.oda.pojo.ui.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.data.oda.pojo.ui@default:default"/>
         <setEntry value="org.eclipse.birt.data.oda.pojo@default:default"/>
         <setEntry value="org.eclipse.birt.data@default:default"/>
@@ -551,6 +556,7 @@
         <setEntry value="org.eclipse.birt.report.engine.odf@default:default"/>
         <setEntry value="org.eclipse.birt.report.engine.ooxml@default:default"/>
         <setEntry value="org.eclipse.birt.report.engine.script.javascript@default:default"/>
+        <setEntry value="org.eclipse.birt.report.engine.testhelper@default:false"/>
         <setEntry value="org.eclipse.birt.report.engine@default:default"/>
         <setEntry value="org.eclipse.birt.report.extension.tutorial_1@default:default"/>
         <setEntry value="org.eclipse.birt.report.extension.tutorial_2@default:default"/>
@@ -560,13 +566,14 @@
         <setEntry value="org.eclipse.birt.report.item.crosstab.ui@default:default"/>
         <setEntry value="org.eclipse.birt.report.model.adapter.oda@default:default"/>
         <setEntry value="org.eclipse.birt.report.model.nl1@default:false"/>
+        <setEntry value="org.eclipse.birt.report.model.testhelper@default:false"/>
+        <setEntry value="org.eclipse.birt.report.model.testresources@default:false"/>
         <setEntry value="org.eclipse.birt.report.model@default:default"/>
         <setEntry value="org.eclipse.birt.report.viewer@default:default"/>
         <setEntry value="org.eclipse.birt.report.viewers.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.resources.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.resources@default:default"/>
         <setEntry value="org.eclipse.birt.sdk@default:default"/>
-        <setEntry value="org.eclipse.birt@default:default"/>
         <setEntry value="org.w3c.dom.svg.extension@default:false"/>
         <setEntry value="org.w3c.sac@default:default"/>
     </setAttribute>

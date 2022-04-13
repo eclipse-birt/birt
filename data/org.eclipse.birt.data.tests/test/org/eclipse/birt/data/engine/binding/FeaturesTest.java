@@ -50,6 +50,7 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.ibm.icu.text.DateFormat;
@@ -730,6 +731,7 @@ public class FeaturesTest extends APITestCase {
 	 * type.
 	 */
 	@Test
+	@Ignore("This test is time zone dependent, and Derby does not seem to support time zones")
 	public void test16() throws Exception {
 		// --- begin binding
 		String[] bindingNameGroup = new String[2];

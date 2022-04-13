@@ -839,28 +839,21 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			design = (IOdaDataSetDesign) session.getDataSetCacheManager().getCurrentDataSetDesign();
 		}
 
-		if (session.getDataSetCacheManager().doesSaveToCache()) {
-			int fetchRowLimit = 0;
-			if (design != null) {
-				fetchRowLimit = session.getDataSetCacheManager().getCurrentDataSetDesign().getRowFetchLimit();
-			}
+		int fetchRowLimit = 0;
 
-			int cacheCountConfig = 0;
-			if (design.getFilters().isEmpty()) {
-				cacheCountConfig = session.getDataSetCacheManager().getCacheCountConfig();
-			}
-
-			if (cacheCountConfig > 0) {
-				if (fetchRowLimit != 0 && fetchRowLimit < cacheCountConfig) {
-
-					odaStatement.setMaxRows(fetchRowLimit);
-				} else {
-					odaStatement.setMaxRows(cacheCountConfig);
+		if (design != null) {
+			fetchRowLimit = design.getRowFetchLimit();
+			if (session.getDataSetCacheManager().doesSaveToCache()) {
+				if (design.getFilters().isEmpty()) {
+					int cacheCountConfig = session.getDataSetCacheManager().getCacheCountConfig();
+					if (cacheCountConfig > 0 && fetchRowLimit == 0 && fetchRowLimit > cacheCountConfig) {
+						fetchRowLimit = cacheCountConfig;
+					}
 				}
-			} else if (fetchRowLimit != 0) {
-				odaStatement.setMaxRows(fetchRowLimit);
 			}
 		}
+
+		odaStatement.setMaxRows(fetchRowLimit);
 
 		ICancellable queryCanceller = new OdaQueryCanceller(odaStatement, dataSource, session.getStopSign(), this);
 		this.session.getCancelManager().register(queryCanceller);

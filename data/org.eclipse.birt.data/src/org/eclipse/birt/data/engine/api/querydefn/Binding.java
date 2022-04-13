@@ -340,6 +340,7 @@ public class Binding implements IBinding {
 		}
 
 		if (orderedArgument != null) {
+			n.orderedArgument = new ArrayList<>();
 			for (IBaseExpression o : this.orderedArgument) {
 				n.orderedArgument.add(o);
 			}

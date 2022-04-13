@@ -27,6 +27,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>org.eclipse.birt.branding</module>
 		<module>org.eclipse.birt.core</module>
 		<module>org.eclipse.birt.core.ui</module>
 		<module>org.eclipse.birt.core.testhelper</module>
