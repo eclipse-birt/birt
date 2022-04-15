@@ -61,7 +61,7 @@
 	}
 %>	
 		<INPUT CLASS="BirtViewer_parameter_dialog_Input"
-			TYPE="<%= parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
+			TYPE="<%= (parameterBean.getParameter().getDataType() == 7)? "DATE" : parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
 			NAME="<%= encodedParameterName %>"
 			ID="<%= encodedParameterName %>" 
 			TITLE="<%= parameterBean.getToolTip( ) %>"
