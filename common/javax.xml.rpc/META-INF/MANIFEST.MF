@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: javax.xml.rpc
 Bundle-Version: 1.1.2.qualifier
-Bundle-ClassPath: javax.xml.rpc-api-1.1.2.jar
 Export-Package: javax.xml.rpc,
  javax.xml.rpc.encoding,
  javax.xml.rpc.handler,
