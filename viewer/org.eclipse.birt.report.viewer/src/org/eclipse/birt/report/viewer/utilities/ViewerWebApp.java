@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jetty.osgi.boot.OSGiServerConstants;
 import org.eclipse.jetty.osgi.boot.OSGiWebappConstants;
 import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.webapp.WebXmlConfiguration;
 import org.osgi.framework.Bundle;
@@ -61,8 +62,7 @@ public class ViewerWebApp {
 
 		URL url = bundle.getEntry(webAppPath);
 		if (url != null) {
-			URL fileUrl = FileLocator.toFileURL(url);
-			webapp.setResourceBase(fileUrl.toString());
+			webapp.setBaseResource(Resource.newResource(url));
 		}
 
 		if (encoding != null) {
