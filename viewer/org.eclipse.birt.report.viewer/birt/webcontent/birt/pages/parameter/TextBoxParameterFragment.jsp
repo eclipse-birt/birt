@@ -12,7 +12,8 @@
 <%@ page session="false" buffer="none" %>
 <%@ page import="org.eclipse.birt.report.utility.ParameterAccessor,
 				 org.eclipse.birt.report.context.BaseAttributeBean,
-				 org.eclipse.birt.report.context.ScalarParameterBean" %>
+				 org.eclipse.birt.report.context.ScalarParameterBean,
+				 org.eclipse.birt.report.service.api.ParameterDefinition" %>
 
 <%-----------------------------------------------------------------------------
 	Expected java beans
@@ -61,7 +62,7 @@
 	}
 %>	
 		<INPUT CLASS="BirtViewer_parameter_dialog_Input"
-			TYPE="<%= (parameterBean.getParameter().getDataType() == 7)? "DATE" : parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
+			TYPE="<%= (parameterBean.getParameter().getDataType() == ParameterDefinition.TYPE_DATE)? "DATE" : parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
 			NAME="<%= encodedParameterName %>"
 			ID="<%= encodedParameterName %>" 
 			TITLE="<%= parameterBean.getToolTip( ) %>"
