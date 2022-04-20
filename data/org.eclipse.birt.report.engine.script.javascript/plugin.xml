@@ -20,7 +20,7 @@
       <scriptEngineFactory
             factoryClass="org.eclipse.birt.report.engine.javascript.JavascriptEngineFactory"
             scriptID="org.eclipse.birt.report.engine.javascript"
-            scriptName="%scriptEngineFactory.scriptName">
+            scriptName="javascript">
       </scriptEngineFactory>
    </extension>
 
