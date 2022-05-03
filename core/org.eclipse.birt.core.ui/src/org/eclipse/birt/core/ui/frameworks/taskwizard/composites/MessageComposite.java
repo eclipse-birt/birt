@@ -14,18 +14,17 @@
 package org.eclipse.birt.core.ui.frameworks.taskwizard.composites;
 
 import org.eclipse.birt.core.ui.utils.UIHelper;
+import org.eclipse.jface.resource.FontDescriptor;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
@@ -36,7 +35,7 @@ import org.eclipse.swt.widgets.Label;
 /**
  *
  */
-public final class MessageComposite extends Composite implements PaintListener, DisposeListener {
+public final class MessageComposite extends Composite implements PaintListener {
 
 	/**
 	 *
@@ -58,22 +57,14 @@ public final class MessageComposite extends Composite implements PaintListener, 
 	/**
 	 *
 	 */
-	private Font foTitle = null;
-
-	/**
-	 *
-	 */
-	private Composite co = null;
-
-	/**
-	 *
-	 */
 	private Label laTitle = null, laDescription = null;
 
 	/**
 	 *
 	 */
 	private ImageCanvas ic = null;
+
+	private LocalResourceManager resourceManager;
 
 	/**
 	 *
@@ -108,7 +99,7 @@ public final class MessageComposite extends Composite implements PaintListener, 
 	@Override
 	public void setBackground(Color cBG) {
 		super.setBackground(cBG);
-		co.setBackground(cBG);
+
 		laTitle.setBackground(cBG);
 		laDescription.setBackground(cBG);
 		if (!bDisableImage) {
@@ -120,20 +111,20 @@ public final class MessageComposite extends Composite implements PaintListener, 
 	 *
 	 */
 	private void setup() {
-		setLayout(new FillLayout());
 
-		co = new Composite(this, SWT.NONE);
-		co.addPaintListener(this);
+		this.addPaintListener(this);
 		GridLayout gl = new GridLayout();
 		if (!bDisableImage) {
 			gl.numColumns = 2;
 		}
-		co.setLayout(gl);
+		setLayout(gl);
 
-		laTitle = new Label(co, SWT.WRAP);
-		final FontData fd = laTitle.getFont().getFontData()[0];
-		foTitle = new Font(Display.getCurrent(), fd.getName(), fd.getHeight(), SWT.BOLD);
-		laTitle.setFont(foTitle);
+		laTitle = new Label(this, SWT.WRAP);
+
+		this.resourceManager = new LocalResourceManager(JFaceResources.getResources(), this);
+		Font titleFont = this.resourceManager.createFont(FontDescriptor.createFrom(this.getFont()).setStyle(SWT.BOLD));
+
+		laTitle.setFont(titleFont);
 		laTitle.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_CYAN));
 
 		laTitle.setText(sTitle);
@@ -142,7 +133,7 @@ public final class MessageComposite extends Composite implements PaintListener, 
 		laTitle.setAlignment(SWT.CENTER);
 
 		if (!bDisableImage) {
-			ic = new ImageCanvas(co);
+			ic = new ImageCanvas(this);
 			gd = new GridData();
 			gd.verticalSpan = 2;
 			gd.verticalAlignment = GridData.BEGINNING;
@@ -150,7 +141,7 @@ public final class MessageComposite extends Composite implements PaintListener, 
 			ic.setLayoutData(gd);
 		}
 
-		laDescription = new Label(co, SWT.LEFT | SWT.WRAP | SWT.DRAW_TRANSPARENT);
+		laDescription = new Label(this, SWT.LEFT | SWT.WRAP | SWT.DRAW_TRANSPARENT);
 		laDescription.setText(sDescription);
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalIndent = 10;
@@ -173,23 +164,6 @@ public final class MessageComposite extends Composite implements PaintListener, 
 		GC gc = pev.gc;
 		gc.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_GRAY));
 		gc.drawRectangle(rCA);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt.events.
-	 * DisposeEvent)
-	 */
-	@Override
-	public void widgetDisposed(DisposeEvent dev) {
-		// Disposed by UIHelper
-		// if (!bDisableImage)
-		// {
-		// img.dispose();
-		// }
-		foTitle.dispose();
 	}
 
 	/**
