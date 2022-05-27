@@ -138,7 +138,7 @@
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<repository location="https://download.eclipse.org/justj/jres/11/updates/release/latest/"/>
-			<unit id="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group" version="11.0.14.v20220314-1349"/>
+			<unit id="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group" version="0.0.0"/>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
@@ -377,6 +377,26 @@ Import-Package:        *;resolution:=optional
 Export-Package:        *;version="${version}";-noimport:=true
 DynamicImport-Package: *
 ]]></instructions>
+		</location>
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
+			<dependencies>
+				<dependency>
+					<groupId>com.google.zxing</groupId>
+					<artifactId>core</artifactId>
+					<version>3.4.1</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
+		</location>
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
+			<dependencies>
+				<dependency>
+					<groupId>com.google.zxing</groupId>
+					<artifactId>javase</artifactId>
+					<version>3.4.1</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
 		</location>
 	</locations>
 	<environment>

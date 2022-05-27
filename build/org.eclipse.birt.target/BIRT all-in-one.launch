@@ -31,6 +31,7 @@
     <stringAttribute key="product" value="org.eclipse.birt.branding.birt_all_in_one"/>
     <setAttribute key="selected_target_bundles">
         <setEntry value="com.github.librepdf.openpdf@default:default"/>
+        <setEntry value="com.google.zxing.core@default:default"/>
         <setEntry value="com.ibm.icu*67.1.0.v20200706-1749@default:default"/>
         <setEntry value="com.sun.jna.platform@default:default"/>
         <setEntry value="com.sun.jna@default:default"/>
@@ -380,6 +381,7 @@
         <setEntry value="org.w3c.dom.svg@default:default"/>
         <setEntry value="slf4j.api@default:default"/>
         <setEntry value="slf4j.simple@default:default"/>
+        <setEntry value="wrapped.com.google.zxing.javase@default:default"/>
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
         <setEntry value="javax.xml.rpc@default:default"/>
@@ -564,6 +566,7 @@
         <setEntry value="org.eclipse.birt.report.item.crosstab.core@default:default"/>
         <setEntry value="org.eclipse.birt.report.item.crosstab.ui.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.report.item.crosstab.ui@default:default"/>
+        <setEntry value="org.eclipse.birt.report.item.qrcode@default:default"/>
         <setEntry value="org.eclipse.birt.report.model.adapter.oda@default:default"/>
         <setEntry value="org.eclipse.birt.report.model.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.report.model.testhelper@default:false"/>
