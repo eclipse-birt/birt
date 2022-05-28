@@ -259,7 +259,10 @@ public class SimpleResultSet implements IResultIterator {
 		this.groupCalculator.registerNextResultObject(this.rowResultSet);
 		this.initialRowCount = (this.currResultObj != null) ? -1 : 0;
 		this.rowCount = (this.currResultObj != null) ? 1 : 0;
-		this.groupCalculator.next(0);
+		if (this.currResultObj != null) {
+			/* Only call group calculator if it actually is rows in the result set. */
+			this.groupCalculator.next(0);
+		}
 	}
 
 	private boolean needLookingForwardFor1Row(GroupSpec[] groupSpecs, boolean forceLookingForward) {
