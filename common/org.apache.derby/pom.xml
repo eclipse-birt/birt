@@ -32,5 +32,10 @@
 			<version>10.15.2.0</version>
 			<type>jar</type>
 		</dependency>
+		<dependency>
+		    <groupId>org.apache.derby</groupId>
+		    <artifactId>derbytools</artifactId>
+		    <version>10.15.2.0</version>
+		</dependency>
 	</dependencies>
 </project>
