@@ -22,7 +22,15 @@
 		<relativePath>../../</relativePath>
 	</parent>
 	<groupId>org.eclipse.birt</groupId>
-	<artifactId>org.apache.derby.core</artifactId>
-	<version>10.5.1.1_qualifier</version>
+	<artifactId>org.apache.derby</artifactId>
+	<version>10.15.2-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>10.15.2.0</version>
+			<type>jar</type>
+		</dependency>
+	</dependencies>
 </project>

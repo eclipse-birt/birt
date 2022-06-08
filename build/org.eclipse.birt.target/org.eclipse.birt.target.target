@@ -71,7 +71,6 @@
 			<unit id="javax.transaction" version="1.1.1.v201105210645"/>
 			<unit id="org.apache.commons.codec" version="1.14.0.v20200818-1422"/>
 			<unit id="org.apache.lucene.analysis" version="3.5.0.v20120725-1805"/>
-			<unit id="org.apache.derby" version="10.11.1.1_v201605202053"/>
 			<unit id="org.apache.lucene.analyzers-common" version="8.4.1.v20200122-1459"/>
 			<unit id="org.eclipse.orbit.mongodb" version="3.2.2.v20181004-1955"/>
 			<unit id="org.dom4j" version="2.1.1.v20190321-1528"/>
