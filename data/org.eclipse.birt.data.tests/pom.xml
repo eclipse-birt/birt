@@ -50,9 +50,9 @@
 	</build>
 	<dependencies>
 		<dependency>
-		    <groupId>org.eclipse.birt</groupId>
-		    <artifactId>org.apache.derby</artifactId>
-		    <version>10.15.2-SNAPSHOT</version>
+		    <groupId>org.apache.derby</groupId>
+		    <artifactId>derbytools</artifactId>
+		    <version>10.15.2.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
