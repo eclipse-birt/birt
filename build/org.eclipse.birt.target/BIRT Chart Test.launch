@@ -721,7 +721,7 @@
         <setEntry value="javax.xml.rpc@default:default"/>
         <setEntry value="org.apache.axis@default:default"/>
         <setEntry value="org.apache.batik.transcoder.birt.ext@default:false"/>
-        <setEntry value="org.apache.derby.core@default:default"/>
+        <setEntry value="org.apache.derby@default:default"/>
         <setEntry value="org.eclipse.birt.axis.overlay@default:false"/>
         <setEntry value="org.eclipse.birt.build@default:default"/>
         <setEntry value="org.eclipse.birt.chart.cshelp@default:default"/>

@@ -331,7 +331,7 @@
     version="latest">
   </feature>
   <feature 
-    id="org.apache.derby.core" 
+    id="org.apache.derby" 
     version="latest">
   </feature>
   <feature 

@@ -6,7 +6,7 @@ Bundle-ClassPath: dataenginetests.jar
 Bundle-Version: 4.10.0.qualifier
 Bundle-Activator: org.eclipse.birt.data.tests.plugin.Activator
 Require-Bundle: org.eclipse.birt.data;bundle-version="4.10.0",
- org.apache.derby;bundle-version="[10.11.1,11.0.0)",
+ org.apache.derby;bundle-version="[10.15.1,11.0.0)",
  org.eclipse.birt.data.aggregation;bundle-version="4.10.0",
  org.eclipse.datatools.connectivity.oda.flatfile;bundle-version="3.3.101",
  org.junit;bundle-version="4.8.1"
