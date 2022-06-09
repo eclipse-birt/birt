@@ -48,4 +48,12 @@
 			</plugin>
 		</plugins>
 	</build>
+	<dependencies>
+		<dependency>
+		    <groupId>org.eclipse.birt</groupId>
+		    <artifactId>org.apache.derby</artifactId>
+		    <version>10.15.2-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>
