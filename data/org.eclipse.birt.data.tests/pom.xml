@@ -30,6 +30,7 @@
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
+					<pomDependencies>consider</pomDependencies>
 					<dependency-resolution>
 						<extraRequirements>
 							<requirement>
@@ -53,7 +54,6 @@
 		    <groupId>org.apache.derby</groupId>
 		    <artifactId>derbytools</artifactId>
 		    <version>10.15.2.0</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>
