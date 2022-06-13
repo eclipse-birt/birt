@@ -30,12 +30,16 @@
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
-					<pomDependencies>consider</pomDependencies>
 					<dependency-resolution>
 						<extraRequirements>
 							<requirement>
 								<type>eclipse-feature</type>
 								<id>org.eclipse.birt.osgi.runtime</id>
+								<versionRange>0.0.0</versionRange>
+							</requirement>
+							<requirement>
+								<type>eclipse-plugin</type>
+								<id>org.apache.derby</id>
 								<versionRange>0.0.0</versionRange>
 							</requirement>
 						</extraRequirements>
@@ -49,11 +53,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
-		<dependency>
-		    <groupId>org.apache.derby</groupId>
-		    <artifactId>derbytools</artifactId>
-		    <version>10.15.2.0</version>
-		</dependency>
-	</dependencies>
 </project>
