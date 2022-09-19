@@ -129,7 +129,7 @@
 			<unit id="org.apache.xalan.source" version="2.7.2.v20201124-1837"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/webtools/repository/latest/"/>
+			<repository location="https://download.eclipse.org/webtools/downloads/drops/R3.27.0/R-3.27.0-20220829002010/repository/"/>
 			<unit id="org.eclipse.jst.enterprise_ui.feature.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.jst.common.fproj.enablement.jdt.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.jst.web_ui.feature.feature.group" version="0.0.0"/>
