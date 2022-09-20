@@ -75,7 +75,6 @@
       <import plugin="org.eclipse.datatools.enablement.mysql.dbdefinition"/>
       <import plugin="org.eclipse.datatools.enablement.mysql"/>
       <import plugin="org.eclipse.datatools.enablement.oda.ws"/>
-      <import plugin="org.eclipse.datatools.enablement.oda.xml"/>
       <import plugin="org.eclipse.datatools.enablement.oracle.dbdefinition"/>
       <import plugin="org.eclipse.datatools.enablement.oracle"/>
       <import plugin="org.eclipse.datatools.enablement.postgresql.dbdefinition"/>

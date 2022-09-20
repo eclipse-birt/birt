@@ -13,5 +13,4 @@ Export-Package: org.eclipse.birt.report.debug.core.i18n,
  org.eclipse.birt.report.debug.internal.core.vm.rm
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: %Bundle-Vendor
-Import-Package: com.ibm.icu.util;version="3.4.4"
 Automatic-Module-Name: org.eclipse.birt.report.debug.core
