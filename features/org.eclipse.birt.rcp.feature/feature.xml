@@ -41,7 +41,6 @@
    <requires>
       <import plugin="com.github.librepdf.openpdf"/>
       <import plugin="javax.el"/>
-      <import plugin="javax.servlet.jsp"/>
       <import plugin="javax.wsdl"/>
       <import plugin="javax.xml.rpc"/>
       <import plugin="javax.xml.soap"/>
@@ -128,6 +127,7 @@
       <import plugin="org.sat4j.pb"/>
       <import plugin="uk.co.spudsoft.birt.emitters.excel"/>
       <import plugin="org.eclipse.equinox.p2.reconciler.dropins"/>
+      <import plugin="javax.servlet.jsp-api"/>
    </requires>
 
    <plugin
