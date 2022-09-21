@@ -25,16 +25,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.lang.reflect.Field;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -736,42 +731,14 @@ public class PostscriptWriter {
 	}
 
 	private String getFontPath(String fontName) {
-		try {
-			FontFactoryImp fontImpl = FontFactory.getFontImp();
-			Properties trueTypeFonts = (Properties) getField(FontFactoryImp.class, "trueTypeFonts", fontImpl);
-			String fontPath = trueTypeFonts.getProperty(fontName.toLowerCase());
-			return fontPath;
-		} catch (IllegalAccessException | NoSuchFieldException e) {
-			log.log(Level.WARNING, "font path: " + fontName);
+		FontFactoryImp fontImpl = FontFactory.getFontImp();
+		Object fontPath = fontImpl.getFontPath(fontName);
+		if (fontPath instanceof String) {
+			return (String) fontPath;
 		}
-		return null;
-	}
 
-	private Object getField(final Class fontFactoryClass, final String fieldName, final Object instaces)
-			throws NoSuchFieldException, IllegalAccessException {
-		try {
-			Object field = (Object) AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
+		log.log(Level.WARNING, "font path: " + fontName);
 
-				@Override
-				public Object run() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException {
-					Field fldTrueTypeFonts = fontFactoryClass.getDeclaredField(fieldName);// $NON-SEC-3
-					fldTrueTypeFonts.setAccessible(true);// $NON-SEC-2
-					return fldTrueTypeFonts.get(instaces);
-				}
-			});
-			return field;
-		} catch (PrivilegedActionException e) {
-			Exception typedException = e.getException();
-			if (typedException instanceof IllegalArgumentException) {
-				throw (IllegalArgumentException) typedException;
-			}
-			if (typedException instanceof IllegalAccessException) {
-				throw (IllegalAccessException) typedException;
-			}
-			if (typedException instanceof NoSuchFieldException) {
-				throw (NoSuchFieldException) typedException;
-			}
-		}
 		return null;
 	}
 
