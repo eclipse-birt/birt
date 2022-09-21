@@ -145,7 +145,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-server</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -155,7 +155,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-servlet</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -165,7 +165,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-io</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -175,7 +175,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-deploy</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -185,7 +185,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-plus</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -195,7 +195,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-jndi</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -205,7 +205,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-security</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -215,7 +215,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-util</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -225,7 +225,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-webapp</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -235,7 +235,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-xml</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -245,7 +245,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty.osgi</groupId>
 					<artifactId>jetty-osgi-boot</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -255,7 +255,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>apache-jsp</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -270,7 +270,7 @@
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="error" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>com.ibm.icu</groupId>
@@ -315,7 +315,7 @@
 				<dependency>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-api</artifactId>
-					<version>2.0.0-alpha1</version>
+					<version>2.0.0-alpha6</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -325,7 +325,7 @@
 				<dependency>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-simple</artifactId>
-					<version>2.0.0-alpha1</version>
+					<version>2.0.0-alpha6</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -335,7 +335,7 @@
 				<dependency>
 					<groupId>org.slf4j</groupId>
 					<artifactId>osgi-over-slf4j</artifactId>
-					<version>2.0.0-alpha1</version>
+					<version>2.0.0-alpha6</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
