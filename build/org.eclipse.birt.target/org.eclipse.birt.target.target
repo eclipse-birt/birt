@@ -136,9 +136,9 @@
 			<unit id="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/tools/gef/updates/legacy/releases/4.0.0_gef-master_1952"/>
-			<unit id="org.eclipse.draw2d.feature.group" version="3.10.100.201606061308"/>
-			<unit id="org.eclipse.gef.feature.group" version="3.11.0.201606061308"/>
+			<repository location="https://download.eclipse.org/tools/gef/classic/releases/3.14.0"/>
+			<unit id="org.eclipse.draw2d.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.gef.feature.group" version="0.0.0"/>
 		</location>
 		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
