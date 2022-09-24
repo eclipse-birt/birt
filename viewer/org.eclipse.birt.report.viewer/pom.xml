@@ -68,18 +68,6 @@
 							<goal>run</goal>
 						</goals>
 					</execution>
-					<execution>
-						<phase>process-resources</phase>
-						<configuration>
-							<target>
-								<replace token="jetty.http.host" value="jetty.host" file="jettyhome/etc/jetty-selector.xml" />
-								<replace token="jetty.http.port" value="jetty.port" file="jettyhome/etc/jetty-selector.xml" />
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>					
 				</executions>
 			</plugin>
 			<plugin>
