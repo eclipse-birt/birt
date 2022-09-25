@@ -10,6 +10,5 @@ Export-Package: utility
 Bundle-ClassPath: .,
  utility.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Import-Package: com.ibm.icu.util
 Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.tests.core

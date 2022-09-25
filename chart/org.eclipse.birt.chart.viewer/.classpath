@@ -7,6 +7,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib" sourcepath="WebContent/WEB-INF/lib"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

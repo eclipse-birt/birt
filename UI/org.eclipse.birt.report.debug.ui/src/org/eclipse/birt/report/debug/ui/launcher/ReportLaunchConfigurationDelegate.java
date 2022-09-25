@@ -31,7 +31,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.launching.JavaSourceLookupDirector;
 import org.eclipse.jdt.launching.sourcelookup.containers.JavaProjectSourceContainer;
-import org.eclipse.pde.ui.launcher.EclipseApplicationLaunchConfiguration;
+import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
 
 /**
  * ReportLaunchConfigurationDelegate

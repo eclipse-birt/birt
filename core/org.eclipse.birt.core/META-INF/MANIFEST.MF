@@ -38,7 +38,7 @@ Export-Package: org.eclipse.birt.core.archive,
  org.eclipse.birt.core.util
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)";visibility:=reexport,
  org.mozilla.javascript;bundle-version="1.7.4";visibility:=reexport,
- com.ibm.icu;bundle-version="3.4.4";visibility:=reexport
+ com.ibm.icu;bundle-version="70.1.0";visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Eclipse-ExtensibleAPI: true
 Bundle-RequiredExecutionEnvironment: JavaSE-11

@@ -11,7 +11,7 @@
 --><target includeMode="feature" name="BIRT Target">
 	<locations>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/datatools/updates/1.14.200-SNAPSHOT/repository/"/>
+			<repository location="https://download.eclipse.org/datatools/updates/1.14.300-SNAPSHOT/repository/"/>
 			<unit id="org.eclipse.datatools.common.doc.user.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.datatools.connectivity.doc.user.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.datatools.connectivity.feature.feature.group" version="0.0.0"/>
@@ -44,7 +44,7 @@
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<!--			<repository location="https://download.eclipse.org/eclipse/updates/latest/"/>
 -->
-			<repository location="https://download.eclipse.org/eclipse/updates/4.23/"/>
+			<repository location="https://download.eclipse.org/eclipse/updates/4.25/"/>
 		<!--	<unit id="a.jre.javase" version="11.0.0"/> -->
 			<unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.platform.sdk" version="0.0.0"/>
@@ -57,11 +57,6 @@
 			<unit id="org.eclipse.emf.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.xsd.edit.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/tools/gef/updates/legacy/releases/4.0.0_gef-master_1952"/>
-			<unit id="org.eclipse.draw2d.feature.group" version="0.0.0"/>
-			<unit id="org.eclipse.gef.feature.group" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20220302172233/repository"/>
@@ -129,7 +124,7 @@
 			<unit id="org.apache.xalan.source" version="2.7.2.v20201124-1837"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/webtools/repository/latest/"/>
+			<repository location="https://download.eclipse.org/webtools/downloads/drops/R3.27.0/R-3.27.0-20220829002010/repository/"/>
 			<unit id="org.eclipse.jst.enterprise_ui.feature.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.jst.common.fproj.enablement.jdt.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.jst.web_ui.feature.feature.group" version="0.0.0"/>
@@ -140,137 +135,142 @@
 			<repository location="https://download.eclipse.org/justj/jres/11/updates/release/latest/"/>
 			<unit id="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group" version="0.0.0"/>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/tools/gef/classic/releases/3.14.0"/>
+			<unit id="org.eclipse.draw2d.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.gef.feature.group" version="0.0.0"/>
+		</location>
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-server</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-servlet</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-io</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-deploy</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-plus</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-jndi</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-security</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-util</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-webapp</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-xml</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.eclipse.jetty.osgi</groupId>
 					<artifactId>jetty-osgi-boot</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>apache-jsp</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.11</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.apache.aries.spifly</groupId>
 					<artifactId>org.apache.aries.spifly.dynamic.bundle</artifactId>
-					<version>1.3.4</version>
+					<version>1.3.5</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="error" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>com.ibm.icu</groupId>
@@ -280,7 +280,7 @@
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="error" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="error" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>javax.servlet</groupId>
@@ -290,7 +290,7 @@
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
@@ -300,7 +300,7 @@
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.glassfish</groupId>
@@ -310,46 +310,47 @@
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-api</artifactId>
-					<version>2.0.0-alpha1</version>
+					<version>2.0.0-alpha6</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-simple</artifactId>
-					<version>2.0.0-alpha1</version>
+					<version>2.0.0-alpha6</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.slf4j</groupId>
 					<artifactId>osgi-over-slf4j</artifactId>
-					<version>2.0.0-alpha1</version>
+					<version>2.0.0-alpha6</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>com.github.librepdf</groupId>
 					<artifactId>openpdf</artifactId>
 					<version>1.3.26</version>
+					<type>jar</type>
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.apache.xmlgraphics</groupId>
@@ -359,7 +360,7 @@
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeSource="true" missingManifest="generate" type="Maven">
+		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>org.apache.xmlgraphics</groupId>
@@ -377,6 +378,16 @@ Import-Package:        *;resolution:=optional
 Export-Package:        *;version="${version}";-noimport:=true
 DynamicImport-Package: *
 ]]></instructions>
+		</location>
+		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
+			<dependencies>
+				<dependency>
+					<groupId>com.ibm.icu</groupId>
+					<artifactId>icu4j</artifactId>
+					<version>3.8</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
 		</location>
 	</locations>
 	<environment>
