@@ -209,6 +209,7 @@ United States, other countries, or both.
    </plugins>
 
    <features>
+      <feature id="org.eclipse.birt.rcp" installMode="root"/>
       <feature id="org.eclipse.birt.chart.cshelp" installMode="root"/>
       <feature id="org.eclipse.birt.chart.osgi.runtime" installMode="root"/>
       <feature id="org.eclipse.birt.chart" installMode="root"/>
