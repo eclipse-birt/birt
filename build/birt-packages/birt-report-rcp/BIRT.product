@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="BIRT Report Designer RCP" uid="org.eclipse.birt.report.designer.rcp" id="org.eclipse.birt.report.designer.ui.rcp.BIRT" application="org.eclipse.birt.report.designer.ui.rcp.DesignerApplication" version="4.10.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="BIRT Report Designer RCP" uid="org.eclipse.birt.report.designer.rcp" id="org.eclipse.birt.report.designer.ui.rcp.BIRT" application="org.eclipse.birt.report.designer.ui.rcp.DesignerApplication" version="4.10.0.qualifier" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/org.eclipse.birt.branding/images/about.png"/>
@@ -209,7 +209,91 @@ United States, other countries, or both.
    </plugins>
 
    <features>
-      <feature id="org.eclipse.birt.rcp"/>
+      <feature id="org.eclipse.birt.chart.cshelp" installMode="root"/>
+      <feature id="org.eclipse.birt.chart.osgi.runtime" installMode="root"/>
+      <feature id="org.eclipse.birt.chart" installMode="root"/>
+      <feature id="org.eclipse.birt.cshelp" installMode="root"/>
+      <feature id="org.eclipse.birt.doc" installMode="root"/>
+      <feature id="org.eclipse.birt.report.designer.editor.xml.wtp" installMode="root"/>
+      <feature id="org.eclipse.birt" installMode="root"/>
+      <feature id="org.eclipse.datatools.common.doc.user" installMode="root"/>
+      <feature id="org.eclipse.datatools.connectivity.doc.user" installMode="root"/>
+      <feature id="org.eclipse.datatools.connectivity.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.connectivity.oda.designer.core.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.connectivity.oda.designer.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.connectivity.oda.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.doc.user" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.apache.derby.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.hsqldb.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.ibm.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.ingres.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.jdbc.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.jdt.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.msft.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.mysql.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.oda.designer.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.oda.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.oracle.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.postgresql.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.sap.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.sqlite.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.enablement.sybase.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.intro" installMode="root"/>
+      <feature id="org.eclipse.datatools.modelbase.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.sqldevtools.data.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.sqldevtools.ddl.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.sqldevtools.ddlgen.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.sqldevtools.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.sqldevtools.parsers.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.sqldevtools.results.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.sqldevtools.schemaobjecteditor.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.sqldevtools.sqlbuilder.feature" installMode="root"/>
+      <feature id="org.eclipse.datatools.sqltools.doc.user" installMode="root"/>
+      <feature id="org.eclipse.draw2d" installMode="root"/>
+      <feature id="org.eclipse.e4.rcp" installMode="root"/>
+      <feature id="org.eclipse.ecf.core.feature" installMode="root"/>
+      <feature id="org.eclipse.ecf.core.ssl.feature" installMode="root"/>
+      <feature id="org.eclipse.ecf.filetransfer.feature" installMode="root"/>
+      <feature id="org.eclipse.ecf.filetransfer.ssl.feature" installMode="root"/>
+      <feature id="org.eclipse.emf.codegen.ecore.ui" installMode="root"/>
+      <feature id="org.eclipse.emf.codegen.ecore" installMode="root"/>
+      <feature id="org.eclipse.emf.codegen.ui" installMode="root"/>
+      <feature id="org.eclipse.emf.codegen" installMode="root"/>
+      <feature id="org.eclipse.emf.common.ui" installMode="root"/>
+      <feature id="org.eclipse.emf.common" installMode="root"/>
+      <feature id="org.eclipse.emf.converter" installMode="root"/>
+      <feature id="org.eclipse.emf.databinding.edit" installMode="root"/>
+      <feature id="org.eclipse.emf.databinding" installMode="root"/>
+      <feature id="org.eclipse.emf.ecore.editor" installMode="root"/>
+      <feature id="org.eclipse.emf.ecore.edit" installMode="root"/>
+      <feature id="org.eclipse.emf.ecore" installMode="root"/>
+      <feature id="org.eclipse.emf.edit.ui" installMode="root"/>
+      <feature id="org.eclipse.emf.edit" installMode="root"/>
+      <feature id="org.eclipse.emf.mapping.ecore.editor" installMode="root"/>
+      <feature id="org.eclipse.emf.mapping.ecore" installMode="root"/>
+      <feature id="org.eclipse.emf.mapping.ui" installMode="root"/>
+      <feature id="org.eclipse.emf.mapping" installMode="root"/>
+      <feature id="org.eclipse.emf" installMode="root"/>
+      <feature id="org.eclipse.equinox.p2.core.feature" installMode="root"/>
+      <feature id="org.eclipse.equinox.p2.extras.feature" installMode="root"/>
+      <feature id="org.eclipse.equinox.p2.rcp.feature" installMode="root"/>
+      <feature id="org.eclipse.equinox.p2.user.ui" installMode="root"/>
+      <feature id="org.eclipse.gef" installMode="root"/>
+      <feature id="org.eclipse.help" installMode="root"/>
+      <feature id="org.eclipse.jdt" installMode="root"/>
+      <feature id="org.eclipse.pde" installMode="root"/>
+      <feature id="org.eclipse.platform" installMode="root"/>
+      <feature id="org.eclipse.rcp.configuration" installMode="root"/>
+      <feature id="org.eclipse.rcp" installMode="root"/>
+      <feature id="org.eclipse.wst.common_core.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.common_ui.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.xml_core.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.xml_ui.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.xml_userdoc.feature" installMode="root"/>
+      <feature id="org.eclipse.xsd.edit" installMode="root"/>
+      <feature id="org.eclipse.xsd" installMode="root"/>
+      <feature id="org.eclipse.justj.openjdk.hotspot.jre.full" installMode="root"/>
    </features>
 
    <configurations>
@@ -222,10 +306,6 @@ United States, other countries, or both.
    </configurations>
 
    <repositories>
-      <repository location="https://download.eclipse.org/releases/latest" enabled="true" />
-      <repository location="https://download.eclipse.org/eclipse/updates/latest" enabled="true" />
-      <repository location="https://download.eclipse.org/birt/update-site/latest" enabled="true" />
-      <repository location="https://download.eclipse.org/birt/update-site/snapshot" enabled="false" />
       <repository location="https://download.eclipse.org/releases/latest" enabled="true" />
       <repository location="https://download.eclipse.org/eclipse/updates/latest" enabled="true" />
       <repository location="https://download.eclipse.org/birt/update-site/latest" enabled="true" />
