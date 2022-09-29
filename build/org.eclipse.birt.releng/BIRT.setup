@@ -57,6 +57,10 @@
           key="/instance/org.eclipse.epp.mpc.ui/org.eclipse.epp.mpc.naturelookup">
         <value>record</value>
       </detail>
+      <detail
+          key="/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.forbiddenReference">
+        <value>record</value>
+      </detail>
     </annotation>
     <setupTask
         xsi:type="setup:CompoundTask"
@@ -73,6 +77,14 @@
           xsi:type="setup:PreferenceTask"
           key="/instance/org.eclipse.epp.mpc.ui/org.eclipse.epp.mpc.naturelookup"
           value="false"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:CompoundTask"
+        name="org.eclipse.jdt.core">
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.forbiddenReference"
+          value="warning"/>
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
@@ -132,7 +144,8 @@
       value="${eclipse.target.platform.latest}"
       storageURI="scope://Workspace"/>
   <setupTask
-      xsi:type="setup.p2:P2Task">
+      xsi:type="setup.p2:P2Task"
+      disabled="true">
     <requirement
         name="org.sonatype.tycho.m2e.feature.feature.group"/>
     <repository
