@@ -84,25 +84,25 @@ jobs:
     - name: Archive BIRT RCP Report Win
       uses: actions/upload-artifact@v2
       with: 
-        name: birt-rcp-report-designer
+        name: birt-rcp-report-designer-win
         path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*win*.zip
         
     - name: Archive BIRT RCP Report Linux
       uses: actions/upload-artifact@v2
       with: 
-        name: birt-rcp-report-designer
+        name: birt-rcp-report-designer-linux
         path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*linux*.zip
         
     - name: Archive BIRT RCP Report Mac Arm
       uses: actions/upload-artifact@v2
       with: 
-        name: birt-rcp-report-designer
+        name: birt-rcp-report-designer-mac-arm
         path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*aarch*.zip
 
     - name: Archive BIRT RCP Report Mac Intel
       uses: actions/upload-artifact@v2
       with: 
-        name: birt-rcp-report-designer
+        name: birt-rcp-report-designer-mac
         path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*cocoa.x86*.zip
         
     - name: Archive BIRT Report Designer all-in-one-win
