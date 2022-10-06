@@ -41,7 +41,7 @@ jobs:
     - name: Cache maven repo
       uses: actions/cache@v2
       env:
-        cache-name: cache-maven-repo
+        cache-name: cache-maven-repo-2
       with:
         path: |
           ~/.m2/repository
