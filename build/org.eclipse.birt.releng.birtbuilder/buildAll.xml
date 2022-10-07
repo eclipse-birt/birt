@@ -414,7 +414,7 @@
 				<include name="org.eclipse.birt.integration.wtp.sdk*/**" />
 				<include name="com.lowagie.itext*/**" />
 				<include name="org.apache.commons.codec*/**" />
-				<include name="org.apache.derby.core*/**" />
+				<include name="org.apache.derby*/**" />
 				<include name="org.eclipse.birt.chart.runtime*/**" />
 				<include name="org.eclipse.birt.crosstab*/**" />
 				<include name="org.eclipse.birt.report.data.oda.jdbc.dbprofile*/**" />

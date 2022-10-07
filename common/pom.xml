@@ -32,6 +32,7 @@
 		<module>org.apache.batik.transcoder.birt.ext</module>
 		<module>org.apache.batik.dom.birt.ext</module>
 		<module>org.apache.axis</module>
+		<module>org.apache.derby</module>
 		<module>javax.xml.rpc</module>
 	</modules>
 </project>

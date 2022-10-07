@@ -22,7 +22,7 @@
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-nl/birt-report-designer-all-in-one"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-nl/birt-report-framework"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-nl/birt-runtime"/>
-<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,common/org.apache.derby.core"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,common/org.apache.derby"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.api"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,viewer/org.eclipse.birt.axis.overlay"/>
@@ -336,7 +336,7 @@
 </workingSets>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502727033_6" label="BCommon" name="BCommon">
 <item elementID="=org.w3c.sac" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
-<item elementID="=org.apache.derby.core" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.apache.derby" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.w3c.dom.svg.extension" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 </workingSets>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502749931_7" label="BCore" name="BCore">

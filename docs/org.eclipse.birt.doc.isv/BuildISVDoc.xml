@@ -122,9 +122,11 @@
 			<include name="org.w3c.css.sac_*.jar"/>
 			<include name="org.mozilla.javascript_*.jar"/>
 		</fileset>
-		<fileset dir="../org.apache.derby.core">
+		<!--
+		<fileset dir="../org.apache.derby">
 			<include name="**/*.jar"/>
 		</fileset>
+		-->
 		<fileset dir="${engine.dir}/lib">
 			<include name="**/*.jar"/>
 		</fileset>
