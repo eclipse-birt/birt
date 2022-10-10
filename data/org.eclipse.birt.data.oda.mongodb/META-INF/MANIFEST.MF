@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin.name
 Bundle-SymbolicName: org.eclipse.birt.data.oda.mongodb;singleton:=true
-Bundle-Version: 4.10.0.qualifier
+Bundle-Version: 4.11.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.data.oda.mongodb.Activator
 Bundle-Vendor: %Bundle-Vendor
