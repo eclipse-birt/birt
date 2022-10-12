@@ -29,14 +29,14 @@
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
     <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true&#13;&#10;-Dorg.eclipse.jetty.util.log.class=org.eclipse.jetty.util.log.StdErrLog&#13;&#10;-Dorg.eclipse.jetty.LEVEL=DEBUG&#10;-Dosgi.debug=${project_loc:org.eclipse.birt.target}/debug.options&#13;&#10;-Dorg.eclipse.jetty.websocket.LEVEL=DEBUG&#13;&#10; --add-modules=ALL-SYSTEM"/>
     <stringAttribute key="pde.version" value="3.3"/>
-    <stringAttribute key="product" value="org.eclipse.birt.report.designer.ui.rcp.BIRT"/>
+    <stringAttribute key="product" value="org.eclipse.platform.ide"/>
     <setAttribute key="selected_target_bundles">
         <setEntry value="com.github.librepdf.openpdf@default:default"/>
         <setEntry value="com.google.gson@default:default"/>
         <setEntry value="com.google.guava@default:default"/>
         <setEntry value="com.google.javascript@default:default"/>
         <setEntry value="com.google.protobuf@default:default"/>
-        <setEntry value="com.ibm.icu*67.1.0@default:default"/>
+        <setEntry value="com.ibm.icu*67.1.0.v20200706-1749@default:default"/>
         <setEntry value="com.ibm.icu*70.1.0@default:default"/>
         <setEntry value="com.jcraft.jsch@default:default"/>
         <setEntry value="com.sun.el@default:default"/>
@@ -736,7 +736,6 @@
         <setEntry value="org.w3c.dom.events@default:default"/>
         <setEntry value="org.w3c.dom.smil@default:default"/>
         <setEntry value="org.w3c.dom.svg@default:default"/>
-        <setEntry value="wrapped.com.ibm.icu.icu4j@default:default"/>
         <setEntry value="wrapped.org.apache.xmlgraphics.fop@default:default"/>
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
@@ -745,6 +744,7 @@
         <setEntry value="org.apache.batik.dom.birt.ext@default:false"/>
         <setEntry value="org.apache.batik.transcoder.birt.ext@default:false"/>
         <setEntry value="org.eclipse.birt.axis.overlay@default:false"/>
+        <setEntry value="org.eclipse.birt.branding@default:default"/>
         <setEntry value="org.eclipse.birt.build@default:default"/>
         <setEntry value="org.eclipse.birt.chart.cshelp@default:default"/>
         <setEntry value="org.eclipse.birt.chart.device.extension.nl1@default:false"/>
@@ -933,6 +933,7 @@
         <setEntry value="org.eclipse.birt.sdk@default:default"/>
         <setEntry value="org.w3c.dom.svg.extension@default:false"/>
         <setEntry value="org.w3c.sac@default:default"/>
+        <setEntry value="uk.co.spudsoft.birt.emitters.excel@default:default"/>
     </setAttribute>
     <booleanAttribute key="show_selected_only" value="false"/>
     <stringAttribute key="templateConfig" value="${target_home}\configuration\config.ini"/>
