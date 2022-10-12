@@ -15,6 +15,7 @@
     <setAttribute key="deselected_workspace_bundles"/>
     <booleanAttribute key="includeOptional" value="false"/>
     <stringAttribute key="location" value="${workspace_loc}/../runtime-birt-all-in-one"/>
+    <booleanAttribute key="org.eclipse.debug.core.ATTR_FORCE_SYSTEM_CONSOLE_ENCODING" value="false"/>
     <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
         <listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
         <listEntry value="org.eclipse.eclemma.ui.launchGroup.coverage"/>
@@ -51,7 +52,6 @@
         <setEntry value="javax.inject@default:default"/>
         <setEntry value="javax.mail@default:default"/>
         <setEntry value="javax.servlet-api@default:default"/>
-        <setEntry value="javax.servlet.jsp@default:default"/>
         <setEntry value="javax.transaction@default:false"/>
         <setEntry value="javax.wsdl@default:default"/>
         <setEntry value="javax.xml.bind@default:default"/>
@@ -114,7 +114,6 @@
         <setEntry value="org.apache.xml.serializer@default:default"/>
         <setEntry value="org.apache.xmlbeans@default:default"/>
         <setEntry value="org.apache.xmlgraphics@default:default"/>
-        <setEntry value="org.apiguardian@default:default"/>
         <setEntry value="org.bouncycastle.bcpg@default:default"/>
         <setEntry value="org.bouncycastle.bcprov@default:default"/>
         <setEntry value="org.dom4j@default:default"/>
@@ -378,8 +377,6 @@
         <setEntry value="org.eclipse.help.ui@default:default"/>
         <setEntry value="org.eclipse.help.webapp@default:default"/>
         <setEntry value="org.eclipse.help@default:default"/>
-        <setEntry value="org.eclipse.jdt.annotation*1.2.0.v20210519-0438@default:default"/>
-        <setEntry value="org.eclipse.jdt.annotation*2.2.600.v20200408-1511@default:default"/>
         <setEntry value="org.eclipse.jdt.apt.core@default:default"/>
         <setEntry value="org.eclipse.jdt.apt.pluggable.core@default:default"/>
         <setEntry value="org.eclipse.jdt.apt.ui@default:default"/>
@@ -490,7 +487,6 @@
         <setEntry value="org.eclipse.orbit.mongodb@default:default"/>
         <setEntry value="org.eclipse.osgi.compatibility.state@default:false"/>
         <setEntry value="org.eclipse.osgi.services*3.10.200.v20210723-0643@2:true"/>
-        <setEntry value="org.eclipse.osgi.services*3.9.0.v20200511-1725@2:true"/>
         <setEntry value="org.eclipse.osgi.util@default:true"/>
         <setEntry value="org.eclipse.pde.api.tools.annotations@default:default"/>
         <setEntry value="org.eclipse.pde.api.tools.ui@default:default"/>
@@ -500,9 +496,7 @@
         <setEntry value="org.eclipse.pde.doc.user@default:default"/>
         <setEntry value="org.eclipse.pde.ds.annotations@default:default"/>
         <setEntry value="org.eclipse.pde.ds.core@default:default"/>
-        <setEntry value="org.eclipse.pde.ds.lib@default:default"/>
         <setEntry value="org.eclipse.pde.ds.ui@default:default"/>
-        <setEntry value="org.eclipse.pde.ds1_2.lib@default:default"/>
         <setEntry value="org.eclipse.pde.genericeditor.extension@default:default"/>
         <setEntry value="org.eclipse.pde.launching@default:default"/>
         <setEntry value="org.eclipse.pde.runtime@default:default"/>
@@ -653,13 +647,11 @@
         <setEntry value="org.mortbay.jasper.apache-el@default:default"/>
         <setEntry value="org.mortbay.jasper.apache-jsp@default:default"/>
         <setEntry value="org.mozilla.javascript@default:default"/>
-        <setEntry value="org.objectweb.asm*9.2.0@default:default"/>
-        <setEntry value="org.objectweb.asm.commons*9.1.0@default:default"/>
-        <setEntry value="org.objectweb.asm.commons*9.2.0@default:default"/>
-        <setEntry value="org.objectweb.asm.tree*9.2.0@default:default"/>
-        <setEntry value="org.objectweb.asm.tree.analysis*9.1.0@default:default"/>
-        <setEntry value="org.objectweb.asm.tree.analysis*9.2.0@default:default"/>
+        <setEntry value="org.objectweb.asm.commons@default:default"/>
+        <setEntry value="org.objectweb.asm.tree.analysis@default:default"/>
+        <setEntry value="org.objectweb.asm.tree@default:default"/>
         <setEntry value="org.objectweb.asm.util@default:default"/>
+        <setEntry value="org.objectweb.asm@default:default"/>
         <setEntry value="org.sat4j.core@default:default"/>
         <setEntry value="org.sat4j.pb@default:default"/>
         <setEntry value="org.slf4j.osgi-over-slf4j@default:default"/>
@@ -845,7 +837,6 @@
         <setEntry value="org.eclipse.birt.report.engine.ooxml@default:default"/>
         <setEntry value="org.eclipse.birt.report.engine.script.javascript@default:default"/>
         <setEntry value="org.eclipse.birt.report.engine@default:default"/>
-        <setEntry value="org.eclipse.birt.report.extension.tutorial_1@default:default"/>
         <setEntry value="org.eclipse.birt.report.extension.tutorial_2@default:default"/>
         <setEntry value="org.eclipse.birt.report.item.crosstab.core.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.report.item.crosstab.core@default:default"/>
