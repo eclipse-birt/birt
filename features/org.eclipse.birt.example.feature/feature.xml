@@ -16,7 +16,7 @@
 <feature
       id="org.eclipse.birt.example"
       label="%featureName"
-      version="4.11.0.qualifier"
+      version="4.12.0.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt.example"
       image="eclipse_update_120.jpg">
