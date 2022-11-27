@@ -1086,12 +1086,28 @@ public class ViewerAttributeBean extends BaseAttributeBean {
 	 * @throws ViewerException
 	 */
 	protected static void checkExtensionAllowedForRPTDocument(String rptDocumentName) throws ViewerException {
-		int extIndex = rptDocumentName.lastIndexOf(".");
+
+		// Parse the filename
+		String report = rptDocumentName;
+		try {
+			report = new File(rptDocumentName).getName();
+		} catch (Exception e) {
+			throw new ViewerException(BirtResources.getMessage(ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_ERROR,
+					new String[] { report }));
+		}
+
+		// Catch invalid document names
+		if (report == null || report.trim().isEmpty() || report.trim().endsWith(".")) {
+			throw new ViewerException(BirtResources.getMessage(ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_ERROR,
+					new String[] { report }));
+		}
+
+		int extIndex = report.lastIndexOf(".");
 		String extension = null;
 		boolean validExtension = true;
 
-		if (extIndex > -1 && (extIndex + 1) < rptDocumentName.length()) {
-			extension = rptDocumentName.substring(extIndex + 1);
+		if (extIndex > -1 && (extIndex + 1) < report.length()) {
+			extension = report.substring(extIndex + 1);
 			if (!extension.matches("^[A-Za-z0-9]+$")) {
 				validExtension = false;
 			}
