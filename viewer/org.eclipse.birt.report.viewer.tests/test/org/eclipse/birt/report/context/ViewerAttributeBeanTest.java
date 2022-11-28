@@ -12,9 +12,8 @@
  ************************************************************************************/
 package org.eclipse.birt.report.context;
 
-import static org.junit.Assert.fail;
-
 import org.eclipse.birt.report.exception.ViewerException;
+import org.eclipse.birt.report.viewer.util.BaseTestCase;
 import org.junit.Test;
 
 /**
@@ -22,8 +21,7 @@ import org.junit.Test;
  * Test the VBA.
  *
  */
-public class ViewerAttributeBeanTest {
-
+public class ViewerAttributeBeanTest extends BaseTestCase {
 
 	/**
 	 * Extensions with invalid characters are not allowed.
@@ -32,16 +30,71 @@ public class ViewerAttributeBeanTest {
 	 */
 	@Test
 	public void testCheckExtensionAllowedForRPTDocument() throws ViewerException {
-
 		ViewerAttributeBean.checkExtensionAllowedForRPTDocument("report");
 		ViewerAttributeBean.checkExtensionAllowedForRPTDocument("report.pdf");
-		ViewerAttributeBean.checkExtensionAllowedForRPTDocument("report.");
+	}
+
+	/**
+	 * Extensions with invalid characters are not allowed.
+	 *
+	 * @throws ViewerException
+	 */
+	@Test
+	public void testDisallowEmptyExtension() throws ViewerException {
+
 		try {
-			ViewerAttributeBean.checkExtensionAllowedForRPTDocument("report.pdf/");
+			ViewerAttributeBean.checkExtensionAllowedForRPTDocument("report.");
 		} catch (Exception e) {
 			return;
 		}
 
 		fail("invalid extension accepted");
+	}
+
+	/**
+	 * Extensions with invalid characters are not allowed.
+	 *
+	 * @throws ViewerException
+	 */
+	@Test
+	public void testCheckExtensionAllowedForRPTDocument3() throws ViewerException {
+
+		try {
+			ViewerAttributeBean.checkExtensionAllowedForRPTDocument("./file.jsp/.");
+		} catch (Exception e) {
+			return;
+		}
+
+		fail("invalid extension accepted");
+	}
+
+	/**
+	 * Extensions with invalid characters are not allowed.
+	 *
+	 * @throws ViewerException
+	 */
+	@Test
+	public void testDocumentIsDirectory() throws ViewerException {
+
+		try {
+			ViewerAttributeBean.checkExtensionAllowedForRPTDocument("./file.jsp/");
+		} catch (Exception e) {
+			return;
+		}
+		fail("invalid extension accepted");
+	}
+
+	/**
+	 * Extensions with invalid characters are not allowed.
+	 *
+	 * @throws ViewerException
+	 */
+	@Test
+	public void testValidDirectoryAndFile() throws ViewerException {
+		try {
+			ViewerAttributeBean.checkExtensionAllowedForRPTDocument("./file/hello.jsp/.test/blok.pdf");
+		} catch (Exception e) {
+			fail("valid extension not accepted");
+		}
 	}
 }
