@@ -390,7 +390,9 @@ public class LineArea extends InlineStackingArea {
 			return;
 		}
 		int lineHeight = ((BlockContainerArea) parent).getLineHeight();
-		height = Math.max(height, lineHeight);
+		if (lineHeight != 0) {
+			height = lineHeight;
+		}
 		width = Math.max(currentIP, maxAvaWidth);
 		align(endParagraph, context);
 		checkDisplayNone();

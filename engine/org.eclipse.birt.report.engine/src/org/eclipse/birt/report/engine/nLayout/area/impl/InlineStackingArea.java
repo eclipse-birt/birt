@@ -99,9 +99,6 @@ public abstract class InlineStackingArea extends ContainerArea {
 				continue;
 			}
 			int spacing = getContentHeight() - child.getAllocatedHeight();
-			if (spacing < 0) {
-				spacing = 0;
-			}
 
 			if ((vAlign == null && !isImageContainer(child)) || IStyle.BASELINE_VALUE.equals(vAlign)) {
 				// FIXME to implement basline alignment
