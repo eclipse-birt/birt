@@ -100,6 +100,7 @@ public final class Generator implements IGenerator {
 	 * An internal style processor.
 	 */
 	private IStyleProcessor implicitProcessor;
+	private boolean fScaleUpdated = false;
 
 	/**
 	 * The internal singleton Generator reference created lazily.
@@ -1015,9 +1016,10 @@ public final class Generator implements IGenerator {
 	public void render(IDeviceRenderer idr, GeneratedChartState gcs) throws ChartException {
 		final Chart cm = gcs.getChartModel();
 		final int scale = idr.getDisplayServer().getDpiResolution() / 72;
-		if (scale != 1) {
+		if (scale != 1 && !fScaleUpdated) {
 			// Here multiply by integer scale so that normal dpi (96) won't
 			// change thickness by default. Only PDF case would change.
+			fScaleUpdated = true;
 			updateDeviceScale(cm, scale);
 		}
 
