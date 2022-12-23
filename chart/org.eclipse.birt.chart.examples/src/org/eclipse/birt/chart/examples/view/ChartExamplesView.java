@@ -106,7 +106,11 @@ public class ChartExamplesView extends ViewPart {
 	}
 
 	public static void setActionsEnabled(boolean bEnabled) {
-		sxAction.setEnabled(bEnabled);
-		opsAction.setEnabled(bEnabled);
+		if (sxAction != null) {
+			sxAction.setEnabled(bEnabled);
+		}
+		if (opsAction != null) {
+			opsAction.setEnabled(bEnabled);
+		}
 	}
 }
