@@ -35,7 +35,7 @@
 
    <url>
       <update label="%updateSiteName" url="https://download.eclipse.org/birt/update-site/4.9.0/"/>
-      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/latest"/>
    </url>
 
    <includes
