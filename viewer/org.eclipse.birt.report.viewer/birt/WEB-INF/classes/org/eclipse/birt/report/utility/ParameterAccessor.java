@@ -23,6 +23,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -68,6 +69,16 @@ import com.ibm.icu.util.ULocale;
  */
 
 public class ParameterAccessor {
+
+	/**
+	 *
+	 */
+	private static final String LOOPBACK = "127.0.0.1";
+
+	/**
+	 *
+	 */
+	private static final String LOCALHOST = "localhost";
 
 	// URL parameter constants
 	/**
@@ -413,6 +424,12 @@ public class ParameterAccessor {
 	public static final String INIT_PARAM_URL_REPORT_PATH_POLICY = "URL_REPORT_PATH_POLICY"; //$NON-NLS-1$
 
 	/**
+	 * Context parameter name that specifies the allowed domains to handle url
+	 * report paths.
+	 */
+	public static final String INIT_PARAM_URL_REPORT_PATH_DOMAINS = "URL_REPORT_PATH_DOMAINS"; //$NON-NLS-1$
+
+	/**
 	 * The parameter name that gives the repository location to put the created
 	 * documents and report design files.
 	 */
@@ -565,7 +582,7 @@ public class ParameterAccessor {
 	/**
 	 * Indicats the url report paths accessing policy
 	 */
-	public static String urlReportPathPolicy = POLICY_DOMAIN;
+	public static String urlReportPathPolicy = POLICY_NONE;
 
 	/**
 	 * Application Context Attribute Name
@@ -638,6 +655,8 @@ public class ParameterAccessor {
 	 * Export filename generator instance.
 	 */
 	public static IFilenameGenerator exportFilenameGenerator = null;
+
+	private static List<String> fUrlReportPathDomains;
 
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
@@ -1260,7 +1279,7 @@ public class ParameterAccessor {
 	 * @return String
 	 */
 	public static final String htmlEncode(String s) {
-		String sHtmlEncoded; //$NON-NLS-1$
+		String sHtmlEncoded; // $NON-NLS-1$
 
 		if (s == null) {
 			return null;
@@ -1447,6 +1466,21 @@ public class ParameterAccessor {
 				.parseBoolean(context.getInitParameter(INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY));
 
 		urlReportPathPolicy = context.getInitParameter(INIT_PARAM_URL_REPORT_PATH_POLICY);
+		if (urlReportPathPolicy == null) {
+			urlReportPathPolicy = POLICY_NONE;
+		}
+		String domains = context.getInitParameter(INIT_PARAM_URL_REPORT_PATH_DOMAINS);
+		fUrlReportPathDomains = new ArrayList<>();
+		if (domains == null) {
+			fUrlReportPathDomains.add(LOCALHOST);
+			fUrlReportPathDomains.add(LOOPBACK);
+		} else {
+			for (String domain : domains.split(",")) {
+				if (!domain.trim().isEmpty()) {
+					fUrlReportPathDomains.add(domain);
+				}
+			}
+		}
 
 		// Get preview report max rows parameter from ServletContext
 		String s_maxRows = context.getInitParameter(INIT_PARAM_VIEWER_MAXROWS);
@@ -1804,10 +1838,11 @@ public class ParameterAccessor {
 	 * If set isWorkingFolderAccessOnly as true, check the file if exist in working
 	 * folder.
 	 *
+	 * @param request
 	 * @param filePath
+	 *
 	 * @return boolean
 	 */
-
 	public static boolean isValidFilePath(HttpServletRequest request, String filePath) {
 		if (filePath == null) {
 			return false;
@@ -1822,9 +1857,7 @@ public class ParameterAccessor {
 					URL url = new URL(filePath);
 
 					if (POLICY_DOMAIN.equalsIgnoreCase(urlReportPathPolicy)) {
-						String dm = request.getServerName();
-
-						if (!dm.equals(url.getHost())) {
+						if (!fUrlReportPathDomains.contains(url.getHost())) {
 							return false;
 						}
 					} else {
@@ -1860,10 +1893,9 @@ public class ParameterAccessor {
 				}
 
 				return absolutePath.startsWith(docFolderPath);
-			} else {
-				// if workingFolder is relative path, return false.
-				return false;
 			}
+			// if workingFolder is relative path, return false.
+			return false;
 		}
 
 		return true;
@@ -2059,10 +2091,25 @@ public class ParameterAccessor {
 	}
 
 	/**
+	 * The possible values are
+	 * <li>none (default)</li>
+	 * <li>domain (must match any of the domains in
+	 * {@link #getUrlReportPathDomains()})</li>
+	 * <li>all (DANGEROUS)</li>
+	 *
 	 * @return the url report path accessing policy
+	 * @see #getUrlReportPathDomains()
 	 */
 	public static String getUrlReportPathPolicy() {
 		return urlReportPathPolicy;
+	}
+
+	/**
+	 * @return the unmodifiable list of allowed url report path domains
+	 * @see #getUrlReportPathPolicy()
+	 */
+	public static List<String> getUrlReportPathDomains() {
+		return Collections.unmodifiableList(fUrlReportPathDomains);
 	}
 
 	/**
