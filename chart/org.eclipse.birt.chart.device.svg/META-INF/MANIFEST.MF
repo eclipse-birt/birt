@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.chart.device.svg;singleton:=true
-Bundle-Version: 4.12.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Bundle-Activator: org.eclipse.birt.chart.device.svg.plugin.ChartDeviceSVGPlugin
 Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.eclipse.birt.chart.device.svg,
