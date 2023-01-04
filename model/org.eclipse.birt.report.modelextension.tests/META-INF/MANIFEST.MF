@@ -2,10 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.modelextension.tests;singleton:=true
-Bundle-Version: 4.12.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
-Require-Bundle: org.eclipse.birt.core;bundle-version="4.12.0",
- org.eclipse.birt.report.model;bundle-version="4.12.0",
+Require-Bundle: org.eclipse.birt.core;bundle-version="4.13.0",
+ org.eclipse.birt.report.model;bundle-version="4.13.0",
  org.apache.commons.codec;bundle-version="1.14.0"
 Bundle-ClassPath: .
 Automatic-Module-Name: org.eclipse.birt.report.modelextension.tests
