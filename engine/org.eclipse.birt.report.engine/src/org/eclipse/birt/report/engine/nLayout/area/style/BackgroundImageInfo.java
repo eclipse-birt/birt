@@ -52,6 +52,23 @@ public class BackgroundImageInfo extends AreaConstants {
 		prepareImageByteArray();
 	}
 
+	public BackgroundImageInfo(String url, int repeatedMode, int xOffset, int yOffset, int height, int width,
+			ResourceLocatorWrapper rl, byte[] imageData) {
+		this.xOffset = xOffset;
+		this.yOffset = yOffset;
+		this.repeatedMode = repeatedMode;
+		this.width = width;
+		this.height = height;
+		this.url = url;
+		this.rl = rl;
+		this.imageData = imageData;
+		try {
+			this.image = Image.getInstance(imageData);
+		} catch (Exception e) {
+			prepareImageByteArray();
+		}
+	}
+
 	public BackgroundImageInfo(BackgroundImageInfo bgi) {
 		this.xOffset = bgi.xOffset;
 		this.yOffset = bgi.yOffset;
@@ -67,6 +84,12 @@ public class BackgroundImageInfo extends AreaConstants {
 	public BackgroundImageInfo(String url, CSSValue mode, int xOffset, int yOffset, int height, int width,
 			ResourceLocatorWrapper rl) {
 		this(url, mode != null ? repeatMap.get(mode) : REPEAT, xOffset, yOffset, height, width, rl);
+	}
+
+	public BackgroundImageInfo(String url, CSSValue mode, int xOffset, int yOffset, int height, int width,
+			ResourceLocatorWrapper rl, byte[] imageData) {
+		this(url, mode != null ? repeatMap.get(mode) : REPEAT, xOffset, yOffset, height, width, rl, imageData);
+
 	}
 
 	public BackgroundImageInfo(String url, int height, int width, ResourceLocatorWrapper rl) {

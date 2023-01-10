@@ -625,6 +625,16 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 				image = null;
 			}
 
+			// Try to get Embedded Image!
+			if (image == null) {
+				try {
+					image = ImageManager.getInstance().getEmbeddedImage(getModelAdapter().getModuleHandle(),
+							backGroundImage);
+				} catch (SWTException e) {
+					// Should not be ExceptionHandler.handle(e), see SCR#73730
+					image = null;
+				}
+			}
 			return image;
 		}
 
@@ -648,6 +658,17 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 			} catch (SWTException e) {
 				// Should not be ExceptionHandler.handle(e), see SCR#73730
 				image = null;
+			}
+
+			// Try to get Embedded Image!
+			if (image == null) {
+				try {
+					image = ImageManager.getInstance().getEmbeddedImage(getModelAdapter().getModuleHandle(),
+							backGroundImage);
+				} catch (SWTException e) {
+					// Should not be ExceptionHandler.handle(e), see SCR#73730
+					image = null;
+				}
 			}
 
 			if (image == null) {
@@ -712,8 +733,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 			} else {
 				temp = ImageManager.getInstance().generateURL(model.getModuleHandle(), backGroundImage);
 			}
-
-			in = temp.openStream();
+			if (temp != null) {
+				in = temp.openStream();
+			}
 		} catch (IOException e) {
 			in = null;
 		}
