@@ -18,6 +18,19 @@ public class Word {
 	protected int end;
 	protected String text;
 
+	private boolean keepLastSHY = true;
+
+	/**
+	 * Should a trailing SHY symbol be kept or omitted?
+	 */
+	public boolean isKeepLastSHY() {
+		return keepLastSHY;
+	}
+
+	public void setKeepLastSHY(boolean keepLastSHY) {
+		this.keepLastSHY = keepLastSHY;
+	}
+
 	public Word(String text, int start, int end) {
 		this.text = text;
 		this.start = start;
