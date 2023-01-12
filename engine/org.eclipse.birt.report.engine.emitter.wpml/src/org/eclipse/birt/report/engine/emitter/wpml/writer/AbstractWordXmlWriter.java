@@ -50,6 +50,8 @@ public abstract class AbstractWordXmlWriter {
 
 	public static final int INDEX_NOTFOUND = -1;
 
+	protected final char SHY_CHAR = (char) 173;
+
 	protected int imageId = 75;
 
 	protected int bookmarkId = 0;
@@ -554,9 +556,17 @@ public abstract class AbstractWordXmlWriter {
 					start++;
 				}
 				end = start + 1;
-				continue;
+			} else if (ch == SHY_CHAR) {
+				// output previous text
+				writeText(txt.substring(start, end));
+				writer.closeTag("w:t"); //$NON-NLS-1$
+				writer.cdata("<w:softHyphen/>"); // $NON-LS-1$
+				writer.openTag("w:t"); //$NON-NLS-1$
+				start = end + 1;
+				end++;
+			} else {
+				end++;
 			}
-			end++;
 		}
 		writeText(txt.substring(start));
 

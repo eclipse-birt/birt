@@ -39,6 +39,8 @@ public class TextCompositor {
 	private FontInfo fontInfo;
 	private int runLevel;
 
+	private final String SHY_STRING = "\u00ad";
+
 	/** offset relative to the text in the textContent. */
 	int offset = 0;
 
@@ -157,8 +159,9 @@ public class TextCompositor {
 			textArea.setMaxWidth(maxLineWidth);
 			textArea.setWidth(0);
 			addWordIntoTextArea(textArea, remainWord);
+			textArea.setKeepLastSHY(remainWord.isKeepLastSHY());
 			remainWord = null;
-			return textArea;
+			return textArea; // Why do we return here already?
 		}
 		// iterate the remainWords.
 		if (null == remainWords || !remainWords.hasWord()) {
@@ -250,13 +253,19 @@ public class TextCompositor {
 	 *
 	 */
 	private void addWordIntoTextArea(TextArea textArea, Word word) {
+
 		// get the word's size
 		int textLength = word.getLength();
 		int wordWidth = getWordWidth(fontInfo, word);
 		// append the letter spacing
 		wordWidth += textStyle.getLetterSpacing() * textLength;
 		int adjustWordSize = fontInfo.getItalicAdjust() + wordWidth;
-		if (textArea.hasSpace(adjustWordSize)) {
+		int hyphenWidth = 0;
+		if (word.getValue().endsWith(SHY_STRING)) {
+			hyphenWidth = getTextWidth(fontInfo, "-"); // We are using the minus for computing the hyphen size, because
+														// getTextWidth would return 0 width for SHY.
+		}
+		if (textArea.hasSpace(adjustWordSize + hyphenWidth)) {
 			addWord(textArea, textLength, wordWidth);
 			wordVestige = null;
 			if (remainWords.hasWord()) {
@@ -289,6 +298,9 @@ public class TextCompositor {
 			} else {
 				wordVestige = null;
 				remainWord = word;
+				if (remainWords.hasWord()) {
+					remainWord.setKeepLastSHY(false);
+				}
 			}
 			textArea.setLineBreak(true);
 			hasLineBreak = true;

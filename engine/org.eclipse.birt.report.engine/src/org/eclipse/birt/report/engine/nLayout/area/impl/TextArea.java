@@ -28,6 +28,12 @@ public class TextArea extends AbstractArea implements ITextArea {
 
 	protected String cachedText = null;
 
+	private final char SHY_CHAR = (char) 173;
+
+	private boolean removeShy = true; // FIXME This should be configurable, depending on the emitter.
+
+	private boolean keepLastSHY = true;
+
 	protected int runLevel;
 
 	protected TextStyle style;
@@ -115,12 +121,27 @@ public class TextArea extends AbstractArea implements ITextArea {
 		return textLength;
 	}
 
-	private String calculateText() {
+	public String getRawText() {
+		return text.substring(offset, offset + textLength);
+	}
+
+	private String calculateText(boolean removeShy) {
 		if (blankLine || text == null) {
 			return "";
-		} else {
-			return text.substring(offset, offset + textLength);
 		}
+		String shyText = text.substring(offset, offset + textLength);
+		if (removeShy) {
+			// Remove all SHY characters except a trailing one.
+			// FIXME: This is possibly worth performance tuning!
+			int indxShy = shyText.indexOf(SHY_CHAR);
+			for (; indxShy >= 0; indxShy = shyText.indexOf(SHY_CHAR)) {
+				String remaining = shyText.substring(indxShy + 1);
+				if (keepLastSHY && remaining.strip().length() == 0)
+					break;
+				shyText = shyText.substring(0, indxShy) + remaining;
+			}
+		}
+		return shyText;
 	}
 
 	public void addWord(int textLength, float wordWidth) {
@@ -164,7 +185,7 @@ public class TextArea extends AbstractArea implements ITextArea {
 
 	@Override
 	public String getLogicalOrderText() {
-		return calculateText();
+		return calculateText(removeShy);
 	}
 
 	/**
@@ -177,9 +198,9 @@ public class TextArea extends AbstractArea implements ITextArea {
 	public String getText() {
 		if (cachedText == null) {
 			if ((runLevel & 1) == 0) {
-				cachedText = calculateText();
+				cachedText = calculateText(removeShy);
 			} else {
-				cachedText = flip(calculateText());
+				cachedText = flip(calculateText(removeShy));
 			}
 		}
 		return cachedText;
@@ -237,4 +258,14 @@ public class TextArea extends AbstractArea implements ITextArea {
 	public boolean needClip() {
 		return needClip;
 	}
+
+	public boolean isKeepLastSHY() {
+		return keepLastSHY;
+	}
+
+	public void setKeepLastSHY(boolean keepLastSHY) {
+		this.keepLastSHY = keepLastSHY;
+	}
+
+
 }
