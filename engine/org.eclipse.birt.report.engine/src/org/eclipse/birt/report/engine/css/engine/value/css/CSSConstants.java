@@ -26,6 +26,7 @@ public interface CSSConstants {
 	String CSS_BACKGROUND_ATTACHMENT_PROPERTY = "background-attachment";
 	String CSS_BACKGROUND_COLOR_PROPERTY = "background-color";
 	String CSS_BACKGROUND_IMAGE_PROPERTY = "background-image";
+	String CSS_BACKGROUND_IMAGE_TYPE_PROPERTY = "background-image-type";
 	String CSS_BACKGROUND_REPEAT_PROPERTY = "background-repeat";
 	String CSS_BACKGROUND_REPEAT_X_PROPERTY = "background-repeat-x";
 	String CSS_BACKGROUND_REPEAT_Y_PROPERTY = "background-repeat-y";
@@ -344,5 +345,7 @@ public interface CSSConstants {
 
 	String CSS_HEIGHT_PROPERTY = "height";
 	String CSS_WIDTH_PROPERTY = "width";
+
+	String CSS_URL_VALUE = "url";
 
 }

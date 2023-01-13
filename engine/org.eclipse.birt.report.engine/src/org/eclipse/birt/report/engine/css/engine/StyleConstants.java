@@ -78,6 +78,7 @@ public interface StyleConstants {
 	int STYLE_TEXT_UNDERLINE = 58;
 	int STYLE_WORD_SPACING = 59;
 	int STYLE_WHITE_SPACE = 60;
+	int STYLE_BACKGROUND_IMAGE_TYPE = 61;
 
-	int NUMBER_OF_STYLE = 61;
+	int NUMBER_OF_STYLE = 62;
 }

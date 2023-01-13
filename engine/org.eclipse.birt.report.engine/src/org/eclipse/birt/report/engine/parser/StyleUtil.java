@@ -46,6 +46,7 @@ public class StyleUtil {
 		styleName2Index.put(Style.BACKGROUND_ATTACHMENT_PROP, StyleConstants.STYLE_BACKGROUND_ATTACHMENT);
 		styleName2Index.put(Style.BACKGROUND_COLOR_PROP, StyleConstants.STYLE_BACKGROUND_COLOR);
 		styleName2Index.put(Style.BACKGROUND_IMAGE_PROP, StyleConstants.STYLE_BACKGROUND_IMAGE);
+		styleName2Index.put(Style.BACKGROUND_IMAGE_TYPE_PROP, StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE);
 		styleName2Index.put(Style.BACKGROUND_SIZE_HEIGHT, StyleConstants.STYLE_BACKGROUND_HEIGHT);
 		styleName2Index.put(Style.BACKGROUND_SIZE_WIDTH, StyleConstants.STYLE_BACKGROUND_WIDTH);
 		styleName2Index.put(Style.BACKGROUND_POSITION_X_PROP, StyleConstants.STYLE_BACKGROUND_POSITION_X);

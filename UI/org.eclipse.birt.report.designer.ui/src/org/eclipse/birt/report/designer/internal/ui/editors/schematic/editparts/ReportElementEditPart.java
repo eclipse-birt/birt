@@ -29,7 +29,7 @@ import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
-import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequestConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportElementResizablePolicy;
@@ -45,17 +45,18 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseMotionListener;
@@ -124,7 +125,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	}
 
 	/**
-	 * @return
+	 * Create the design handle adapter
+	 *
+	 * @return Return the design handle adapter
 	 */
 	public DesignElementHandleAdapter creatDesignElementHandleAdapter() {
 		HandleAdapterFactory.getInstance().remove(getModel());
@@ -140,7 +143,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 			return;
 		}
 		if (RequestConstants.REQ_OPEN.equals(request.getType())
-				|| ReportRequest.CREATE_ELEMENT.equals(request.getType())) {
+				|| ReportRequestConstants.CREATE_ELEMENT.equals(request.getType())) {
 			if (isEdited()) {
 				return;
 			}
@@ -154,6 +157,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		}
 	}
 
+	/**
+	 * Perform the direct edit (currently nothing will be done)
+	 */
 	public void performDirectEdit() {
 		// do nothing
 	}
@@ -169,7 +175,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	/**
 	 * Creates the guide handle, default get from parent.
 	 *
-	 * @return
+	 * @return Return the guide handle
 	 */
 	protected AbstractGuideHandle createGuideHandle() {
 		EditPart part = getParent();
@@ -217,7 +223,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	private AbstractGuideHandle findHandle() {
 		IFigure layer = getHandleLayer();
-		List list = layer.getChildren();
+		List<?> list = layer.getChildren();
 		int size = list.size();
 
 		for (int i = 0; i < size; i++) {
@@ -232,20 +238,20 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	protected void clearGuideHandle() {
 		IFigure layer = getHandleLayer();
-		List list = layer.getChildren();
-		List temp = new ArrayList();
+		List<?> list = layer.getChildren();
+		List<IFigure> temp = new ArrayList<IFigure>();
 		int size = list.size();
 
 		for (int i = 0; i < size; i++) {
 			Object obj = list.get(i);
 			if (obj instanceof AbstractGuideHandle) {
-				temp.add(obj);
+				temp.add((IFigure) obj);
 			}
 		}
 
 		size = temp.size();
 		for (int i = 0; i < size; i++) {
-			IFigure figure = (IFigure) temp.get(i);
+			IFigure figure = temp.get(i);
 			layer.remove(figure);
 		}
 	}
@@ -382,10 +388,10 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 //				{
 //					needRefresh = true;
 //				}
-				if (isPercentageValue(handle.getProperty(StyleHandle.MARGIN_LEFT_PROP))) {
+				if (isPercentageValue(handle.getProperty(IStyleModel.MARGIN_LEFT_PROP))) {
 					needRefresh = true;
 				}
-				if (isPercentageValue(handle.getProperty(StyleHandle.MARGIN_RIGHT_PROP))) {
+				if (isPercentageValue(handle.getProperty(IStyleModel.MARGIN_RIGHT_PROP))) {
 					needRefresh = true;
 				}
 
@@ -467,7 +473,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	/**
 	 * Gets location
 	 *
-	 * @return
+	 * @return Return the location point
 	 */
 	public Point getLocation() {
 		return getReportElementHandleAdapt().getLocation();
@@ -547,8 +553,13 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		super.refreshChildren();
 	}
 
+	/**
+	 * Refresh the report children
+	 *
+	 * @param parent parent like starting point of refresh
+	 */
 	public void refreshReportChildren(ReportElementEditPart parent) {
-		List list = parent.getChildren();
+		List<?> list = parent.getChildren();
 		for (int i = 0; i < list.size(); i++) {
 			Object part = list.get(i);
 			if (part instanceof ReportElementEditPart) {
@@ -561,6 +572,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		}
 	}
 
+	/**
+	 *
+	 */
 	public abstract void refreshFigure();
 
 	/**
@@ -591,7 +605,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	 *
 	 */
 	protected void refreshBackgroundColor(DesignElementHandle handle) {
-		Object obj = handle.getProperty(StyleHandle.BACKGROUND_COLOR_PROP);
+		Object obj = handle.getProperty(IStyleModel.BACKGROUND_COLOR_PROP);
 
 		if (handle instanceof MasterPageHandle) {
 			getFigure().setOpaque(true);
@@ -616,28 +630,36 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 		if (backGroundImage == null) {
 			return null;
-		} else {
-			Image image = null;
+		}
+		Object obj = handle.getProperty(IStyleModel.BACKGROUND_IMAGE_TYPE_PROP);
+		String imageSourceType = CSSValueConstants.URL_VALUE.getCssText();
+		if (obj instanceof String) {
+			imageSourceType = obj.toString();
+		}
+
+		Image image = null;
+
+		// URL image
+		if (imageSourceType.equalsIgnoreCase(CSSValueConstants.URL_VALUE.getCssText())) {
 			try {
 				image = ImageManager.getInstance().getImage(getModelAdapter().getModuleHandle(), backGroundImage);
 			} catch (SWTException e) {
 				// Should not be ExceptionHandler.handle(e), see SCR#73730
 				image = null;
 			}
-
-			// Try to get Embedded Image!
-			if (image == null) {
-				try {
-					image = ImageManager.getInstance().getEmbeddedImage(getModelAdapter().getModuleHandle(),
-							backGroundImage);
-				} catch (SWTException e) {
-					// Should not be ExceptionHandler.handle(e), see SCR#73730
-					image = null;
-				}
-			}
-			return image;
 		}
 
+		// embedded image
+		if (imageSourceType.equalsIgnoreCase(CSSValueConstants.EMBED_VALUE.getCssText())) {
+			try {
+				image = ImageManager.getInstance().getEmbeddedImage(getModelAdapter().getModuleHandle(),
+						backGroundImage);
+			} catch (SWTException e) {
+				// Should not be ExceptionHandler.handle(e), see SCR#73730
+				image = null;
+			}
+		}
+		return image;
 	}
 
 	/*
@@ -651,71 +673,71 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 		if (backGroundImage == null) {
 			figure.setImage(null);
-		} else {
-			Image image = null;
+		}
+
+		Image image = null;
+		// URL image
+		try {
+			image = ImageManager.getInstance().getImage(getModelAdapter().getModuleHandle(), backGroundImage);
+		} catch (SWTException e) {
+			// Should not be ExceptionHandler.handle(e), see SCR#73730
+			image = null;
+		}
+
+		// embedded image
+		if (image == null) {
 			try {
-				image = ImageManager.getInstance().getImage(getModelAdapter().getModuleHandle(), backGroundImage);
+				image = ImageManager.getInstance().getEmbeddedImage(getModelAdapter().getModuleHandle(),
+						backGroundImage);
 			} catch (SWTException e) {
 				// Should not be ExceptionHandler.handle(e), see SCR#73730
 				image = null;
 			}
-
-			// Try to get Embedded Image!
-			if (image == null) {
-				try {
-					image = ImageManager.getInstance().getEmbeddedImage(getModelAdapter().getModuleHandle(),
-							backGroundImage);
-				} catch (SWTException e) {
-					// Should not be ExceptionHandler.handle(e), see SCR#73730
-					image = null;
-				}
-			}
-
-			if (image == null) {
-				figure.setImage(null);
-				return;
-			}
-			int dpi = getImageDPI(backGroundImage);
-			if (figure instanceof ReportElementFigure) {
-				((ReportElementFigure) figure).setBackgroundImageDPI(dpi);
-			}
-			figure.setImage(image);
-
-			Object[] backGroundPosition = getBackgroundPosition(handle);
-			int backGroundRepeat = getBackgroundRepeat(handle);
-
-			figure.setRepeat(backGroundRepeat);
-
-			Object xPosition = backGroundPosition[0];
-			Object yPosition = backGroundPosition[1];
-			Rectangle area = getFigure().getClientArea();
-			org.eclipse.swt.graphics.Rectangle imageArea = image.getBounds();
-			Point position = new Point(-1, -1);
-			int alignment = 0;
-
-			if (xPosition instanceof Integer) {
-				position.x = ((Integer) xPosition).intValue();
-			} else if (xPosition instanceof DimensionValue) {
-				int percentX = (int) ((DimensionValue) xPosition).getMeasure();
-
-				position.x = (area.width - imageArea.width) * percentX / 100;
-			} else if (xPosition instanceof String) {
-				alignment |= DesignElementHandleAdapter.getPosition((String) xPosition);
-			}
-
-			if (yPosition instanceof Integer) {
-				position.y = ((Integer) yPosition).intValue();
-			} else if (yPosition instanceof DimensionValue) {
-				int percentY = (int) ((DimensionValue) yPosition).getMeasure();
-
-				position.y = (area.width - imageArea.width) * percentY / 100;
-			} else if (yPosition instanceof String) {
-				alignment |= DesignElementHandleAdapter.getPosition((String) yPosition);
-			}
-
-			figure.setAlignment(alignment);
-			figure.setPosition(position);
 		}
+
+		if (image == null) {
+			figure.setImage(null);
+			return;
+		}
+		int dpi = getImageDPI(backGroundImage);
+
+		if (figure instanceof ReportElementFigure) {
+			((ReportElementFigure) figure).setBackgroundImageDPI(dpi);
+		}
+		figure.setImage(image);
+
+		Object[] backGroundPosition = getBackgroundPosition(handle);
+		int backGroundRepeat = getBackgroundRepeat(handle);
+
+		figure.setRepeat(backGroundRepeat);
+
+		Object xPosition = backGroundPosition[0];
+		Object yPosition = backGroundPosition[1];
+		Rectangle area = getFigure().getClientArea();
+		org.eclipse.swt.graphics.Rectangle imageArea = image.getBounds();
+		Point position = new Point(-1, -1);
+		int alignment = 0;
+
+		if (xPosition instanceof Integer) {
+			position.x = ((Integer) xPosition).intValue();
+		} else if (xPosition instanceof DimensionValue) {
+			int percentX = (int) ((DimensionValue) xPosition).getMeasure();
+			position.x = (area.width - imageArea.width) * percentX / 100;
+		} else if (xPosition instanceof String) {
+			alignment |= DesignElementHandleAdapter.getPosition((String) xPosition);
+		}
+
+		if (yPosition instanceof Integer) {
+			position.y = ((Integer) yPosition).intValue();
+		} else if (yPosition instanceof DimensionValue) {
+			int percentY = (int) ((DimensionValue) yPosition).getMeasure();
+			position.y = (area.width - imageArea.width) * percentY / 100;
+		} else if (yPosition instanceof String) {
+			alignment |= DesignElementHandleAdapter.getPosition((String) yPosition);
+		}
+
+		figure.setAlignment(alignment);
+		figure.setPosition(position);
 	}
 
 	private int getImageDPI(String backGroundImage) {
@@ -736,6 +758,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 			if (temp != null) {
 				in = temp.openStream();
 			}
+
 		} catch (IOException e) {
 			in = null;
 		}
@@ -755,7 +778,6 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	 * Marks edit part dirty
 	 *
 	 * @param bool
-	 * @param notifyParent
 	 */
 	@Override
 	public void markDirty(boolean bool) {
@@ -824,28 +846,28 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	}
 
 	protected void updateBottomBorder(DesignElementHandle handle, BaseBorder border) {
-		border.bottomColor = handle.getPropertyHandle(StyleHandle.BORDER_BOTTOM_COLOR_PROP).getIntValue();
-		border.bottomStyle = handle.getPropertyHandle(StyleHandle.BORDER_BOTTOM_STYLE_PROP).getStringValue();
-		border.bottomWidth = handle.getPropertyHandle(StyleHandle.BORDER_BOTTOM_WIDTH_PROP).getStringValue();
+		border.bottomColor = handle.getPropertyHandle(IStyleModel.BORDER_BOTTOM_COLOR_PROP).getIntValue();
+		border.bottomStyle = handle.getPropertyHandle(IStyleModel.BORDER_BOTTOM_STYLE_PROP).getStringValue();
+		border.bottomWidth = handle.getPropertyHandle(IStyleModel.BORDER_BOTTOM_WIDTH_PROP).getStringValue();
 	}
 
 	protected void updateTopBorder(DesignElementHandle handle, BaseBorder border) {
-		border.topColor = handle.getPropertyHandle(StyleHandle.BORDER_TOP_COLOR_PROP).getIntValue();
-		border.topStyle = handle.getPropertyHandle(StyleHandle.BORDER_TOP_STYLE_PROP).getStringValue();
-		border.topWidth = handle.getPropertyHandle(StyleHandle.BORDER_TOP_WIDTH_PROP).getStringValue();
+		border.topColor = handle.getPropertyHandle(IStyleModel.BORDER_TOP_COLOR_PROP).getIntValue();
+		border.topStyle = handle.getPropertyHandle(IStyleModel.BORDER_TOP_STYLE_PROP).getStringValue();
+		border.topWidth = handle.getPropertyHandle(IStyleModel.BORDER_TOP_WIDTH_PROP).getStringValue();
 	}
 
 	protected void updateLeftBorder(DesignElementHandle handle, BaseBorder border) {
-		border.leftColor = handle.getPropertyHandle(StyleHandle.BORDER_LEFT_COLOR_PROP).getIntValue();
-		border.leftStyle = handle.getPropertyHandle(StyleHandle.BORDER_LEFT_STYLE_PROP).getStringValue();
-		border.leftWidth = handle.getPropertyHandle(StyleHandle.BORDER_LEFT_WIDTH_PROP).getStringValue();
+		border.leftColor = handle.getPropertyHandle(IStyleModel.BORDER_LEFT_COLOR_PROP).getIntValue();
+		border.leftStyle = handle.getPropertyHandle(IStyleModel.BORDER_LEFT_STYLE_PROP).getStringValue();
+		border.leftWidth = handle.getPropertyHandle(IStyleModel.BORDER_LEFT_WIDTH_PROP).getStringValue();
 
 	}
 
 	protected void updateRightBorder(DesignElementHandle handle, BaseBorder border) {
-		border.rightColor = handle.getPropertyHandle(StyleHandle.BORDER_RIGHT_COLOR_PROP).getIntValue();
-		border.rightStyle = handle.getPropertyHandle(StyleHandle.BORDER_RIGHT_STYLE_PROP).getStringValue();
-		border.rightWidth = handle.getPropertyHandle(StyleHandle.BORDER_RIGHT_WIDTH_PROP).getStringValue();
+		border.rightColor = handle.getPropertyHandle(IStyleModel.BORDER_RIGHT_COLOR_PROP).getIntValue();
+		border.rightStyle = handle.getPropertyHandle(IStyleModel.BORDER_RIGHT_STYLE_PROP).getStringValue();
+		border.rightWidth = handle.getPropertyHandle(IStyleModel.BORDER_RIGHT_WIDTH_PROP).getStringValue();
 	}
 
 	protected void refreshBorder(DesignElementHandle handle, BaseBorder border) {
@@ -896,8 +918,10 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		return center.x >= p.x;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Verify if the element is deleted
+	 *
+	 * @return Return if the element is deleted
 	 *
 	 * @see org.eclipse.gef.EditPart#isActive()
 	 */
@@ -912,6 +936,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		return bool;
 	}
 
+	/**
+	 * Notify the model change
+	 */
 	public void notifyModelChange() {
 		if (getParent() != null && getParent() instanceof ReportElementEditPart) {
 			((ReportElementEditPart) getParent()).notifyModelChange();
@@ -919,23 +946,29 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	}
 
 	/**
+	 * Refresh after content change
 	 *
+	 * @param info Map of changed content elements
 	 */
-	protected void contentChange(Map info) {
+	protected void contentChange(Map<?, ?> info) {
 		markDirty(true);
 		refresh();
 	}
 
 	/**
-	 * @param focus
+	 * Refresh after property change
+	 *
+	 * @param info Map of changed element properties
 	 */
-	protected void propertyChange(Map info) {
+	protected void propertyChange(Map<?, ?> info) {
 		refreshVisuals();
 	}
 
 	/**
-	 * @param model
-	 * @return
+	 * Compare of the current model with the requested model
+	 *
+	 * @param model Module to validate
+	 * @return Return the compare result
 	 */
 	public boolean isinterest(Object model) {
 		return getModel().equals(model);
@@ -943,15 +976,17 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/**
 	 * @param object
-	 * @return
+	 * @return false
 	 */
 	public boolean isinterestSelection(Object object) {
 		return false;
 	}
 
 	/**
+	 * Get the resize policy object
+	 *
 	 * @param parentPolice
-	 * @return
+	 * @return Return the resize edit policy
 	 */
 	public EditPolicy getResizePolice(EditPolicy parentPolice) {
 		ReportElementResizablePolicy policy = new ReportElementResizablePolicy();
@@ -970,12 +1005,19 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		super.removeChild(child);
 	}
 
+	/**
+	 * Get guide label
+	 *
+	 * @return Return empty guide label
+	 */
 	public String getGuideLabel() {
 		return ""; //$NON-NLS-1$
 	}
 
 	/**
-	 * @return
+	 * Get the direction of the text
+	 *
+	 * @return Return the text direction
 	 */
 	protected String getTextDirection() {
 		DesignElementHandle handle = (DesignElementHandle) getModel();
@@ -983,8 +1025,10 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	}
 
 	/**
-	 * @param handle
-	 * @return
+	 * Get the direction of the text
+	 *
+	 * @param handle design handle to be used
+	 * @return Return the text direction
 	 */
 	protected String getTextDirection(DesignElementHandle handle) {
 		return handle.isDirectionRTL() ? DesignChoiceConstants.BIDI_DIRECTION_RTL
@@ -1009,7 +1053,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	}
 
 	/**
-	 * @return
+	 * Verify if the layout is fixed
+	 *
+	 * @return Return the information of fixed layout
 	 */
 	public boolean isFixLayout() {
 		return DEUtil.isFixLayout(getModel());

@@ -34,12 +34,14 @@ import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -124,7 +126,7 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements IAct
 	 * getModelChildren()
 	 */
 	@Override
-	protected List getModelChildren() {
+	protected List<?> getModelChildren() {
 		return HandleAdapterFactory.getInstance().getReportDesignHandleAdapter(getModel()).getChildren();
 	}
 
@@ -201,7 +203,7 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements IAct
 
 	private SimpleMasterPageHandle getSimpleMasterPageHandle() {
 		SlotHandle slotHandle = ((ModuleHandle) getModel()).getMasterPages();
-		Iterator iter = slotHandle.iterator();
+		Iterator<DesignElementHandle> iter = slotHandle.iterator();
 		SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next();
 		return masterPageHandle;
 	}
@@ -267,8 +269,8 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements IAct
 		 * Bidi-specific behavior is addressed only if Bidi support is enabled
 		 */
 
-		if (info.get(ReportDesignHandle.BIDI_ORIENTATION_PROP) instanceof ReportDesignHandle) {
-			String newOrientation = ((ReportDesignHandle) info.get(ReportDesignHandle.BIDI_ORIENTATION_PROP))
+		if (info.get(IInternalReportDesignModel.BIDI_ORIENTATION_PROP) instanceof ReportDesignHandle) {
+			String newOrientation = ((ReportDesignHandle) info.get(IInternalReportDesignModel.BIDI_ORIENTATION_PROP))
 					.getBidiOrientation();
 
 			UIUtil.processOrientationChange(newOrientation, getViewer());
@@ -277,10 +279,10 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements IAct
 		}
 
 		super.propertyChange(info);
-		if (info.get(ReportDesignHandle.LAYOUT_PREFERENCE_PROP) != null) {
-			if (info.get(ReportDesignHandle.LAYOUT_PREFERENCE_PROP) instanceof ReportDesignHandle) {
+		if (info.get(IInternalReportDesignModel.LAYOUT_PREFERENCE_PROP) != null) {
+			if (info.get(IInternalReportDesignModel.LAYOUT_PREFERENCE_PROP) instanceof ReportDesignHandle) {
 				getViewer().setProperty(IReportGraphicConstants.REPORT_LAYOUT_PROPERTY,
-						((ReportDesignHandle) info.get(ReportDesignHandle.LAYOUT_PREFERENCE_PROP))
+						((ReportDesignHandle) info.get(IInternalReportDesignModel.LAYOUT_PREFERENCE_PROP))
 								.getLayoutPreference());
 
 				// invalidate = true;
@@ -303,7 +305,7 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements IAct
 					|| info.get(IMasterPageModel.HEIGHT_PROP) != null
 					|| info.get(IMasterPageModel.ORIENTATION_PROP) != null) {
 				SlotHandle slotHandle = ((ModuleHandle) getModel()).getMasterPages();
-				Iterator iter = slotHandle.iterator();
+				Iterator<DesignElementHandle> iter = slotHandle.iterator();
 				SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next();
 
 				Dimension size = getMasterPageSize(masterPageHandle);

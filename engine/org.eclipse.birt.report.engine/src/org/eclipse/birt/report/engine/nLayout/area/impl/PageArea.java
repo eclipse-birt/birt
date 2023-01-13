@@ -39,11 +39,7 @@ import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.StructureDefn;
-import org.eclipse.birt.report.model.util.StructureRefUtil;
 
 import com.lowagie.text.Image;
 
@@ -200,12 +196,12 @@ public class PageArea extends BlockContainerArea {
 		String imageUrl = EmitterUtil.getBackgroundImageUrl(style, designHandle,
 				pageContent.getReportContent().getReportContext() == null ? null
 						: pageContent.getReportContent().getReportContext().getAppContext());
+
 		if (backgroundColor != null || imageUrl != null) {
 			boxStyle = new BoxStyle();
 			boxStyle.setBackgroundColor(backgroundColor);
 			if (imageUrl != null) {
 				boxStyle.setBackgroundImage(createBackgroundImage(imageUrl, designHandle.getModule()));
-				// boxStyle.setBackgroundImage(createBackgroundImage(imageUrl));
 			}
 		}
 		context.setMaxHeight(root.getHeight());
@@ -228,34 +224,28 @@ public class PageArea extends BlockContainerArea {
 		context.resetUnresolvedRowHints();
 	}
 
-	public byte[] loadAsEmbeddedImage(String url, Module module) {
-		StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance()
-				.getStructure(EmbeddedImage.EMBEDDED_IMAGE_STRUCT);
-		byte[] imageData = null;
-		try {
-			EmbeddedImage ei = (EmbeddedImage) StructureRefUtil.findStructure(module, defn, url);
-			imageData = ei.getData(module);
-		} catch (Exception te) {
-			imageData = null;
-		}
-		return imageData;
-	}
-
+	/*
+	 *
+	 *
+	 * public byte[] loadAsEmbeddedImage(String url, Module module) { StructureDefn
+	 * defn = (StructureDefn) MetaDataDictionary.getInstance()
+	 * .getStructure(EmbeddedImage.EMBEDDED_IMAGE_STRUCT); byte[] imageData = null;
+	 * try { EmbeddedImage ei = (EmbeddedImage)
+	 * StructureRefUtil.findStructure(module, defn, url); imageData =
+	 * ei.getData(module); } catch (Exception te) { imageData = null; } return
+	 * imageData; }
+	 */
 	protected BackgroundImageInfo createBackgroundImage(String url, Module module) {
 		ResourceLocatorWrapper rl = null;
 		ExecutionContext exeContext = ((ReportContent) content.getReportContent()).getExecutionContext();
 		if (exeContext != null) {
 			rl = exeContext.getResourceLocator();
 		}
+
 		IStyle cs = pageContent.getComputedStyle();
 		BackgroundImageInfo backgroundImage = null;
-		byte[] imageData = loadAsEmbeddedImage( url, module );
-		if ( imageData != null ) {
-			backgroundImage = new BackgroundImageInfo( url, cs.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ), 0, 0, 0, 0, rl, imageData);
-		} else {
-			backgroundImage = new BackgroundImageInfo( url, cs.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ), 0, 0, 0, 0, rl );
-		}
-//		BackgroundImageInfo backgroundImage = new BackgroundImageInfo(url, cs.getProperty(IStyle.STYLE_BACKGROUND_REPEAT), 0, 0, 0, 0, rl);
+		backgroundImage = new BackgroundImageInfo(url, cs.getProperty(IStyle.STYLE_BACKGROUND_REPEAT), 0, 0, 0, 0, rl,
+				module, cs.getProperty(IStyle.STYLE_BACKGROUND_IMAGE_TYPE));
 		Image img = backgroundImage.getImageInstance();
 
 		IStyle style = pageContent.getStyle();

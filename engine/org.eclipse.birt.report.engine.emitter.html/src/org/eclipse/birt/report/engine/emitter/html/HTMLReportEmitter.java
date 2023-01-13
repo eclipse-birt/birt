@@ -65,6 +65,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
@@ -73,6 +74,7 @@ import org.eclipse.birt.report.engine.emitter.HTMLWriter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.html.util.DiagonalLineImage;
 import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.ExecutionContext.ElementExceptionInfo;
 import org.eclipse.birt.report.engine.executor.css.HTMLProcessor;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
@@ -84,8 +86,10 @@ import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
+import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
@@ -95,6 +99,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.Module;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -3092,7 +3097,29 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 * @return
 	 */
 	public String handleStyleImage(String uri) {
-		return handleStyleImage(uri, false);
+		return handleStyleImage(uri, false, null);
+	}
+
+	/**
+	 * handle style image
+	 *
+	 * @param uri          uri in style image
+	 * @param isBackground Is this image a used for a background?
+	 * @return
+	 */
+	public String handleStyleImage(String uri, boolean isBackground) {
+		return handleStyleImage(uri, isBackground, null);
+	}
+
+	/**
+	 * handle style image
+	 *
+	 * @param style        Is the style object of the image include uri.
+	 * @param isBackground Is this image a used for a background?
+	 * @return
+	 */
+	public String handleStyleImage(IStyle style, boolean isBackground) {
+		return handleStyleImage(null, isBackground, style);
 	}
 
 	// FIXME: code review: this function needs be handled in the ENGINE( after
@@ -3106,11 +3133,39 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 * @param isBackground Is this image a used for a background?
 	 * @return
 	 */
-	public String handleStyleImage(String uri, boolean isBackground) {
+//	public String handleStyleImage(String uri, boolean isBackground) {
+	public String handleStyleImage(String uri, boolean isBackground, IStyle imageStyle) {
+		String sourceType = "url";
+		String dataProtocol = "data:";
+
 		ReportDesignHandle design = (ReportDesignHandle) runnable.getDesignHandle();
 		URL url = design.findResource(uri, IResourceLocator.IMAGE, reportContext.getAppContext());
 		String fileExtension = null;
-		if (uri != null && uri.contains(".")) {
+
+		Module module = null;
+		BackgroundImageInfo backgroundImage = null;
+
+		if (isBackground && imageStyle != null) {
+			module = design.getModule();
+			ResourceLocatorWrapper rl = null;
+			ExecutionContext exeContext = ((ReportContent) this.report).getExecutionContext();
+			if (exeContext != null) {
+				rl = exeContext.getResourceLocator();
+			}
+
+			String uriString = EmitterUtil.getBackgroundImageUrl(imageStyle, design,
+					this.report.getReportContext() == null ? null : this.report.getReportContext().getAppContext());
+
+			backgroundImage = new BackgroundImageInfo(uriString, imageStyle.getProperty(IStyle.STYLE_BACKGROUND_REPEAT),
+					0, 0, 0, 0, rl, module, imageStyle.getProperty(IStyle.STYLE_BACKGROUND_IMAGE_TYPE));
+
+			if (backgroundImage.getSourceType().equalsIgnoreCase(IStyle.CSS_EMBED_VALUE)) {
+				uri = backgroundImage.getDataUrl();
+			}
+			fileExtension = backgroundImage.getFileExtension();
+		}
+
+		if (fileExtension == null && uri != null && uri.contains(".")) {
 			fileExtension = uri.substring(uri.lastIndexOf(".") + 1);
 		}
 		if (url == null) {
@@ -3120,8 +3175,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		Image image = null;
 		if (isBackground) {
 			try {
-				byte[] buffer = EmitterUtil.getImageData(uri);
-				image = new Image(buffer, uri, ".jpg");
+				byte[] buffer = backgroundImage.getImageData();
+				image = new Image(buffer, uri, "." + backgroundImage.getFileExtension());
+				image.setMimeType(backgroundImage.getMimeType());
 			} catch (Exception e) {
 				image = new Image(uri);
 			}
@@ -3130,9 +3186,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		}
 		image.setReportRunnable(runnable);
 		image.setRenderOption(renderOption);
-		if (fileExtension != null) {
+		if (image.getMimeType() == null && fileExtension != null) {
 			image.setMimeType("image/" + fileExtension);
 		}
+
+//		var test = image.getMimeType(); TGGGGG;
 		String imgUri = null;
 		if (imageHandler != null) {
 			switch (image.getSource()) {

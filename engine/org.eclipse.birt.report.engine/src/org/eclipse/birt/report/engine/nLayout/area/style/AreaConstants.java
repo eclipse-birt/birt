@@ -22,14 +22,22 @@ public abstract class AreaConstants {
 	public final static int REPEAT_X = 1;
 	public final static int REPEAT_Y = 2;
 	public final static int REPEAT = 3;
+	public final static String URL = "url";
+	public final static String EMBED = "embed";
 
 	public static HashMap<CSSValue, Integer> repeatMap = new HashMap<>();
+	public static HashMap<CSSValue, String> bgiSourceTypeMap = new HashMap<>();
 
 	static {
 		repeatMap.put(IStyle.NO_REPEAT_VALUE, NO_REPEAT);
 		repeatMap.put(IStyle.REPEAT_X_VALUE, REPEAT_X);
 		repeatMap.put(IStyle.REPEAT_Y_VALUE, REPEAT_Y);
 		repeatMap.put(IStyle.REPEAT_VALUE, REPEAT);
+	}
+
+	static {
+		bgiSourceTypeMap.put(IStyle.URL_VALUE, URL);
+		bgiSourceTypeMap.put(IStyle.EMBED_VALUE, EMBED);
 	}
 
 	/**

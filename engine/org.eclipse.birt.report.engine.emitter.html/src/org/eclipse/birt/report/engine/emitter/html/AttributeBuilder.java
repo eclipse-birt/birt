@@ -101,7 +101,7 @@ public class AttributeBuilder {
 			return;
 		}
 
-		image = emitter.handleStyleImage(image, true);
+		image = emitter.handleStyleImage(image, true, style);
 		if (image != null && image.length() > 0) {
 			buildURLProperty(styleBuffer, HTMLTags.ATTR_BACKGROUND_IMAGE, image);
 			buildProperty(styleBuffer, HTMLTags.ATTR_BACKGROUND_REPEAT, style.getBackgroundRepeat());

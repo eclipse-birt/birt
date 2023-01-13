@@ -2079,10 +2079,10 @@ public class EngineIRVisitor extends DesignVisitor {
 			String propertyName) {
 		boolean isColorProperty = StyleUtil.colorProperties.contains(propertyName);
 		String elementProperty = getElementProperty(handle, propertyName, isColorProperty);
-		populateStyle(design, style, propertyName, elementProperty);
+		populateStyle(style, propertyName, elementProperty);
 	}
 
-	private void populateStyle(StyledElementDesign design, IStyle style, String propertyName, String elementProperty) {
+	private void populateStyle(IStyle style, String propertyName, String elementProperty) {
 		int propertyIndex = StyleUtil.styleName2Index.get(propertyName);
 		// TODO need support the expression style
 		// if ( elementProperty.isExpression( ) )
@@ -2182,7 +2182,7 @@ public class EngineIRVisitor extends DesignVisitor {
 			String propertyName) {
 		Module module = design.getHandle().getModule();
 		String property = getMemberProperty(module, highlight, propertyName);
-		populateStyle(design, style, propertyName, property);
+		populateStyle(style, propertyName, property);
 	}
 
 	protected DimensionType createDimension(DimensionHandle handle, boolean useDefault) {
@@ -2262,6 +2262,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		addReportDefaultPropertyValue(Style.BACKGROUND_POSITION_X_PROP, handle);
 		addReportDefaultPropertyValue(Style.BACKGROUND_POSITION_Y_PROP, handle);
 		addReportDefaultPropertyValue(Style.BACKGROUND_REPEAT_PROP, handle);
+		addReportDefaultPropertyValue(Style.BACKGROUND_IMAGE_TYPE_PROP, handle);
 
 		// bidi_hcg: Bidi related.
 		addReportDefaultPropertyValue(Style.TEXT_DIRECTION_PROP, handle);

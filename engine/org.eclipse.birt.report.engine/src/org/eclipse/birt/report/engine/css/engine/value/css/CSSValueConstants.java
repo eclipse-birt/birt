@@ -931,4 +931,10 @@ public interface CSSValueConstants {
 	 * the "hidden" value for overflow
 	 */
 	Value OVERFLOW_HIDDEN_VALUE = new StringValue(CSSPrimitiveValue.CSS_IDENT, CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE);
+
+	/**
+	 * The 'url' keyword.
+	 */
+	Value URL_VALUE = new StringValue(CSSPrimitiveValue.CSS_IDENT, CSSConstants.CSS_URL_VALUE);
+
 }
