@@ -16,6 +16,7 @@ package org.eclipse.birt.report.engine.css.engine.value.css;
 import org.eclipse.birt.report.engine.css.engine.value.IdentifierManager;
 import org.eclipse.birt.report.engine.css.engine.value.StringMap;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 
 /**
  * class to handle the CSS properties of background image type
@@ -48,7 +49,7 @@ public class BackgroundImageType extends IdentifierManager {
 
 	@Override
 	public String getPropertyName() {
-		return CSSConstants.CSS_BACKGROUND_IMAGE_TYPE_PROPERTY;
+		return BIRTConstants.BIRT_BACKGROUND_IMAGE_TYPE;
 	}
 
 	@Override

@@ -78,7 +78,7 @@ public class ImageManager {
 	 * @param uri
 	 * @return Return the image
 	 */
-	public Image getImage(ModuleHandle handle, String uri) {
+	public Image getImage(ModuleHandle handle, String uri) { // TG, Module model) {
 		return getImage(handle, uri, false);
 	}
 
@@ -95,7 +95,6 @@ public class ImageManager {
 		URL url = null;
 
 		try {
-
 			if (uri.contains(DATA_PROTOCOL)) {
 				image = getEmbeddedImageDataURL(uri, refresh);
 			} else {
@@ -142,10 +141,10 @@ public class ImageManager {
 	/**
 	 * Gets the image by the given URI
 	 *
-	 * @param uri     the url of the image file
+	 * @param uri     the uri of the image file
 	 * @param refresh mark if refresh necessary
 	 *
-	 * @return Returns the image,or null if the url is invalid or the file format is
+	 * @return Returns the image or null if the uri is invalid or the file format is
 	 *         unsupported.
 	 */
 	public Image getImage(String uri, boolean refresh) {
@@ -248,6 +247,14 @@ public class ImageManager {
 		return image;
 	}
 
+	/**
+	 * Get the embedded image of the data URL
+	 *
+	 * @param url     data URL of the image
+	 * @param refresh refresh the image data or use image cache
+	 * @return Return the embedded image
+	 * @throws IOException
+	 */
 	public Image getEmbeddedImageDataURL(String url, boolean refresh) throws IOException {
 		if ((url == null) || (!refresh && invalidUrlList.contains(url))) {
 			return null;
@@ -481,7 +488,6 @@ public class ImageManager {
 			return new URL(uri);
 		} catch (MalformedURLException e) {
 			String path = URIUtil.getLocalPath(uri);
-
 			if (designHandle == null) {
 				designHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
 			}

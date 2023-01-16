@@ -24,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64.Decoder;
 import java.util.Base64.Encoder;
 
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -58,16 +57,14 @@ public class BackgroundImageInfo extends AreaConstants {
 
 	private final static String DATA_PROTOCOL = "data:";
 
+	private final static String DATA_URL_BASE64 = ";base64,";
+
 	// mapping based on image extension: to MIME-type to default extension
 	private final static String[][] SUPPORTED_MIME_TYPES = { { ".jpg", "image/jpeg", "jpg" },
 			{ ".jpe", "image/jpeg", "jpg" }, { ".jpeg", "image/jpeg", "jpg" }, { ".tiff", "image/tiff", "tiff" },
 			{ ".svg", "image/svg+xml", "svg" }, { ".png", "image/png", "png" }, { ".gif", "image/gif", "gif" } };
-	/**
-	 * <img src=
-	 * "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IAAAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1JREFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jqch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0vr4MkhoXe0rZigAAAABJRU5ErkJggg=="
-	 * alt="Roter Punkt" />
-	 */
-	protected final static String BGI_SOURCE_TYPE_DEFAULT = "url";
+
+	protected final static String BGI_SRC_TYPE_DEFAULT = BGI_SRC_TYPE_URL;
 
 	private Module module = null;
 
@@ -77,35 +74,6 @@ public class BackgroundImageInfo extends AreaConstants {
 
 	/**
 	 * constructor 01 of background image
-	 *
-	 * @param url
-	 * @param repeatedMode
-	 * @param xOffset
-	 * @param yOffset
-	 * @param height
-	 * @param width
-	 * @param rl
-	 * @param sourceType
-	 */
-	public BackgroundImageInfo(String url, int repeatedMode, int xOffset, int yOffset, int height, int width,
-			ResourceLocatorWrapper rl, String sourceType) {
-		this.xOffset = xOffset;
-		this.yOffset = yOffset;
-		this.repeatedMode = repeatedMode;
-		this.width = width;
-		this.height = height;
-		this.url = url;
-		this.rl = rl;
-		if (sourceType != null) {
-			this.sourceType = sourceType;
-		} else {
-			this.sourceType = BGI_SOURCE_TYPE_DEFAULT;
-		}
-		prepareImageByteArray();
-	}
-
-	/**
-	 * constructor 02 of background image
 	 *
 	 * @param url
 	 * @param repeatedMode
@@ -130,17 +98,13 @@ public class BackgroundImageInfo extends AreaConstants {
 		if (sourceType != null) {
 			this.sourceType = sourceType;
 		} else {
-			this.sourceType = BGI_SOURCE_TYPE_DEFAULT;
+			this.sourceType = BGI_SRC_TYPE_DEFAULT;
 		}
 		prepareImageByteArray();
-		/*
-		 * this.imageData = imageData; try { this.image = Image.getInstance(imageData);
-		 * } catch (Exception e) { prepareImageByteArray(); }
-		 */
 	}
 
 	/**
-	 * constructor 03 of background image
+	 * constructor 02 of background image
 	 *
 	 * @param bgi
 	 */
@@ -157,41 +121,12 @@ public class BackgroundImageInfo extends AreaConstants {
 		if (bgi.sourceType != null) {
 			this.sourceType = bgi.sourceType;
 		} else {
-			this.sourceType = BGI_SOURCE_TYPE_DEFAULT;
+			this.sourceType = BGI_SRC_TYPE_DEFAULT;
 		}
 	}
 
 	/**
-	 * constructor 04 of background image
-	 *
-	 * @param url
-	 * @param mode
-	 * @param xOffset
-	 * @param yOffset
-	 * @param height
-	 * @param width
-	 * @param rl
-	 */
-	public BackgroundImageInfo(String url, CSSValue mode, int xOffset, int yOffset, int height, int width,
-			ResourceLocatorWrapper rl) {
-		this(url, mode != null ? repeatMap.get(mode) : REPEAT, xOffset, yOffset, height, width, rl,
-				BGI_SOURCE_TYPE_DEFAULT);
-	}
-
-	/**
-	 * constructor 05 of background image
-	 *
-	 * @param url
-	 * @param height
-	 * @param width
-	 * @param rl
-	 */
-	public BackgroundImageInfo(String url, int height, int width, ResourceLocatorWrapper rl) {
-		this(url, 0, 0, 0, height, width, rl, BGI_SOURCE_TYPE_DEFAULT);
-	}
-
-	/**
-	 * constructor 06 of background image
+	 * constructor 03 of background image
 	 *
 	 * @param url
 	 * @param mode
@@ -205,28 +140,11 @@ public class BackgroundImageInfo extends AreaConstants {
 	public BackgroundImageInfo(String url, CSSValue mode, int xOffset, int yOffset, int height, int width,
 			ResourceLocatorWrapper rl, Module module) {
 		this(url, mode != null ? repeatMap.get(mode) : REPEAT, xOffset, yOffset, height, width, rl, module,
-				BGI_SOURCE_TYPE_DEFAULT);
+				BGI_SRC_TYPE_DEFAULT);
 	}
 
 	/**
-	 * constructor 07 of background image
-	 *
-	 * @param url
-	 * @param mode
-	 * @param xOffset
-	 * @param yOffset
-	 * @param height
-	 * @param width
-	 * @param rl
-	 * @param sourceType
-	 */
-	public BackgroundImageInfo(String url, CSSValue mode, int xOffset, int yOffset, int height, int width,
-			ResourceLocatorWrapper rl, String sourceType) {
-		this(url, mode != null ? repeatMap.get(mode) : REPEAT, xOffset, yOffset, height, width, rl, sourceType);
-	}
-
-	/**
-	 * constructor 08 of background image
+	 * constructor 04 of background image
 	 *
 	 * @param url
 	 * @param mode
@@ -241,7 +159,8 @@ public class BackgroundImageInfo extends AreaConstants {
 	public BackgroundImageInfo(String url, CSSValue mode, int xOffset, int yOffset, int height, int width,
 			ResourceLocatorWrapper rl, Module module, CSSValue sourceType) {
 		this(url, mode != null ? repeatMap.get(mode) : REPEAT, xOffset, yOffset, height, width, rl, module,
-				sourceType.toString());
+				sourceType != null ? bgiSourceTypeMap.get(sourceType)
+						: BGI_SRC_TYPE_URL);
 	}
 
 	/**
@@ -253,6 +172,9 @@ public class BackgroundImageInfo extends AreaConstants {
 		this.rl = rl;
 	}
 
+	/**
+	 * Create the data URL of the image
+	 */
 	private void createDataUrl() {
 
 		if (this.url != null && this.url.contains(DATA_PROTOCOL)) {
@@ -260,29 +182,39 @@ public class BackgroundImageInfo extends AreaConstants {
 
 		} else if (this.imageData != null) {
 			Encoder encoder = java.util.Base64.getEncoder();
-			this.dataUrl = DATA_PROTOCOL + this.mimeType + ";base64,"
+			this.dataUrl = DATA_PROTOCOL + this.mimeType + DATA_URL_BASE64
 					+ (new String(encoder.encode(this.imageData), StandardCharsets.UTF_8));
 		}
 	}
 
 	/**
-	 * Get the data url of the image
+	 * Get the data URL of the image
 	 *
-	 * @return Return the data url of the image
+	 * @return Return the data URL of the image
 	 */
 	public String getDataUrl() {
 		return this.dataUrl;
 	}
 
+	/**
+	 * Set the image mime type
+	 *
+	 * @param mimeType
+	 */
 	private void setMimeType(String mimeType) {
 
 		if (mimeType != null) {
 			this.mimeType = mimeType;
 
 		} else if (this.url.contains(DATA_PROTOCOL)) {
-			String partMimeType = url.split(";")[1];
-			this.mimeType = partMimeType.split(DATA_PROTOCOL)[0];
-
+			try {
+				if (url.contains(";") && url.contains(DATA_PROTOCOL)) {
+					String partMimeType = url.split(";")[1];
+					this.mimeType = partMimeType.split(DATA_PROTOCOL)[0];
+				}
+			} catch (IndexOutOfBoundsException ioobe) {
+				this.mimeType = null;
+			}
 		} else {
 			for (int index = 0; index < SUPPORTED_MIME_TYPES.length; index++) {
 				if (this.url.toLowerCase().contains(SUPPORTED_MIME_TYPES[index][0])) {
@@ -294,70 +226,91 @@ public class BackgroundImageInfo extends AreaConstants {
 		}
 	}
 
+	/**
+	 * Create the image byte data of the image
+	 */
 	private void prepareImageByteArray() {
 		String mimeType = null;
 
-		// get embedded image on report level
-		if (this.sourceType.equals(IStyle.EMBED_VALUE.getCssText()) && !this.url.contains(DATA_PROTOCOL)) {
+		// get image URL based or from data-URL
+		if (this.sourceType.equals(BGI_SRC_TYPE_URL)) {
+
+			if (this.url.contains(DATA_PROTOCOL)) {
+				String[] imageDataArray = this.url.split(DATA_URL_BASE64);
+				if (imageDataArray.length == 2 && this.url.contains(DATA_PROTOCOL)) {
+					try {
+						String imageDataBase64 = imageDataArray[1];
+						Decoder decoder = java.util.Base64.getDecoder();
+						this.imageData = decoder.decode(imageDataBase64);
+						this.mimeType = imageDataArray[0].split(DATA_PROTOCOL)[1];
+					} catch (IndexOutOfBoundsException ioobe) {
+						this.imageData = null;
+						this.image = null;
+						this.mimeType = null;
+					}
+				} else {
+					this.imageData = null;
+					this.image = null;
+					this.mimeType = null;
+				}
+			} else {
+				if (this.rl == null) {
+					InputStream in = null;
+					try {
+						in = new URL(this.url).openStream();
+						ByteArrayOutputStream out = new ByteArrayOutputStream();
+						byte[] buffer = new byte[1024];
+						int size = in.read(buffer);
+						while (size != -1) {
+							out.write(buffer, 0, size);
+							size = in.read(buffer);
+						}
+						this.imageData = out.toByteArray();
+						out.close();
+					} catch (IOException ioe) {
+						this.imageData = null;
+						this.image = null;
+						this.mimeType = null;
+					} finally {
+						if (in != null) {
+							try {
+								in.close();
+							} catch (IOException e) {
+							}
+						}
+					}
+				} else {
+					try {
+						this.imageData = this.rl.findResource(new URL(this.url));
+					} catch (MalformedURLException mue) {
+						this.imageData = null;
+						this.image = null;
+						this.mimeType = null;
+					}
+				}
+			}
+		}
+
+		// get embedded image from report
+		if (this.sourceType.equals(BGI_SRC_TYPE_EMBED) || this.imageData == null) {
 			StructureDefn defn = (StructureDefn) MetaDataDictionary.getInstance()
 					.getStructure(EmbeddedImage.EMBEDDED_IMAGE_STRUCT);
+
 			byte[] imageData = null;
 			try {
 				EmbeddedImage ei = (EmbeddedImage) StructureRefUtil.findStructure(this.module, defn, this.url);
 				imageData = ei.getData(this.module);
 				mimeType = ei.getType(this.module);
+				if (this.sourceType.equals(BGI_SRC_TYPE_URL))
+					this.sourceType = BGI_SRC_TYPE_EMBED;
 			} catch (Exception te) {
 				this.imageData = null;
 				this.image = null;
 				this.mimeType = null;
-				return;
 			}
 			this.imageData = imageData;
-
-		} else if (this.rl == null) {
-			InputStream in = null;
-			try {
-				in = new URL(this.url).openStream();
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				byte[] buffer = new byte[1024];
-				int size = in.read(buffer);
-				while (size != -1) {
-					out.write(buffer, 0, size);
-					size = in.read(buffer);
-				}
-				this.imageData = out.toByteArray();
-				out.close();
-			} catch (IOException ioe) {
-				this.imageData = null;
-				this.image = null;
-				this.mimeType = null;
-				return;
-			} finally {
-				if (in != null) {
-					try {
-						in.close();
-					} catch (IOException e) {
-					}
-				}
-			}
-
-		} else {
-			if (this.url.contains(DATA_PROTOCOL)) {
-				String[] imageDataArray = this.url.split(";base64,");
-				String imageDataBase64 = imageDataArray[1];
-				Decoder decoder = java.util.Base64.getDecoder();
-				this.imageData = decoder.decode(imageDataBase64);
-				this.mimeType = this.url.split(";base64,")[0].split(DATA_PROTOCOL)[1];
-			} else {
-				try {
-					this.imageData = this.rl.findResource(new URL(this.url));
-				} catch (MalformedURLException mue) {
-					this.imageData = null;
-					this.image = null;
-					this.mimeType = null;
-				}
-			}
 		}
+
 		if (this.imageData != null) {
 			try {
 				this.image = Image.getInstance(this.imageData);
@@ -375,7 +328,6 @@ public class BackgroundImageInfo extends AreaConstants {
 		this.setMimeType(mimeType);
 		this.createDataUrl();
 	}
-//	setMIMEType
 
 	/**
 	 * Get the image instance
@@ -473,7 +425,7 @@ public class BackgroundImageInfo extends AreaConstants {
 	 * @param sourceType String of the image source type
 	 */
 	public void setSourceType(String sourceType) {
-		this.sourceType = bgiSourceTypeMap.get(sourceType);
+		this.sourceType = sourceType;
 	}
 
 	/**

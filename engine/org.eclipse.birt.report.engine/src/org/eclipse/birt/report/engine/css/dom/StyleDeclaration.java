@@ -21,6 +21,12 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.w3c.dom.css.CSSValue;
 
+/**
+ * Definition of the style declarations
+ *
+ * @since 3.3
+ *
+ */
 public class StyleDeclaration extends AbstractStyle {
 	protected CSSValue[] values;
 	protected boolean shared;
@@ -54,6 +60,11 @@ public class StyleDeclaration extends AbstractStyle {
 		return values[index];
 	}
 
+	/**
+	 * Constructor of style declaration based on style declaration
+	 *
+	 * @param style
+	 */
 	public StyleDeclaration(StyleDeclaration style) {
 		super(style.engine);
 		this.values = style.values;
@@ -61,6 +72,11 @@ public class StyleDeclaration extends AbstractStyle {
 		this.shared = true;
 	}
 
+	/**
+	 * Constructor of style declaration based on CSS engine
+	 *
+	 * @param engine
+	 */
 	public StyleDeclaration(CSSEngine engine) {
 		super(engine);
 		this.values = new CSSValue[NUMBER_OF_STYLE];

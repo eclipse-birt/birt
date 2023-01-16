@@ -29,6 +29,12 @@ public class StyleInstance implements IScriptStyle {
 	private IStyle style;
 	private RunningState runningState;
 
+	/**
+	 * Constructor
+	 *
+	 * @param style
+	 * @param runningState
+	 */
 	public StyleInstance(IStyle style, RunningState runningState) {
 		this.style = style;
 		this.runningState = runningState;
@@ -275,6 +281,23 @@ public class StyleInstance implements IScriptStyle {
 	public void setBackgroundImage(String imageURI) {
 		checkWritable();
 		style.setBackgroundImage(imageURI);
+	}
+
+	/**
+	 * Get the background image URI
+	 */
+	@Override
+	public String getBackgroundImageType() {
+		return style.getBackgroundImage();
+	}
+
+	/**
+	 * Set the background image URI
+	 */
+	@Override
+	public void setBackgroundImageType(String imageType) {
+		checkWritable();
+		style.setBackgroundImageType(imageType);
 	}
 
 	/**
@@ -1016,6 +1039,12 @@ public class StyleInstance implements IScriptStyle {
 		}
 	}
 
+	/**
+	 * Get the CSS value of property
+	 *
+	 * @param index
+	 * @return Return the CSS value of property
+	 */
 	public CSSValue getProperty(int index) {
 		return style.getProperty(index);
 	}
@@ -1024,6 +1053,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Get the text direction. Valid return types are LTR and RTL.
 	 *
 	 * @author bidi_hcg
+	 * @return Return the text direction
 	 */
 	public String getDirection() {
 		return style.getDirection();
@@ -1033,6 +1063,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Set the text direction. Valid return types are LTR and RTL.
 	 *
 	 * @author bidi_hcg
+	 * @param dir
 	 */
 	public void setDirection(String dir) {
 		checkWritable();

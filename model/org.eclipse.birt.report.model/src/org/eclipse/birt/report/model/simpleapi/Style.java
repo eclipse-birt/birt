@@ -19,10 +19,21 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IStyle;
 
+/**
+ * Definition of the model style
+ *
+ * @since 3.3
+ *
+ */
 public class Style implements IStyle {
 
 	private StyleHandle style;
 
+	/**
+	 * Constructor
+	 *
+	 * @param style
+	 */
 	public Style(StyleHandle style) {
 		this.style = style;
 	}
@@ -89,6 +100,40 @@ public class Style implements IStyle {
 		cmdStack.startNonUndoableTrans(null);
 		try {
 			style.setBackgroundImage(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
+			throw e;
+		}
+
+		cmdStack.commit();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#
+	 * getBackgroundImageType()
+	 */
+
+	@Override
+	public String getBackgroundImageType() {
+		return style.getBackgroundImageType();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#
+	 * setBackgroundImageType(java.lang.String)
+	 */
+
+	@Override
+	public void setBackgroundImageType(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
+
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setBackgroundImageType(value);
 		} catch (SemanticException e) {
 			cmdStack.rollback();
 			throw e;

@@ -19,7 +19,16 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 
+/**
+ * Definition of region area
+ *
+ * @since 3.3
+ *
+ */
 public class RegionArea extends BlockContainerArea implements IContainerArea {
+	/**
+	 *
+	 */
 	public RegionArea() {
 		super();
 	}
@@ -48,7 +57,7 @@ public class RegionArea extends BlockContainerArea implements IContainerArea {
 	}
 
 	@Override
-	public void close() throws BirtException {
+	public void close() {
 		if (context.isFixedLayout()) {
 			setContentHeight(specifiedHeight);
 		} else {

@@ -31,17 +31,35 @@ import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 
 import com.ibm.icu.util.ULocale;
 
+/**
+ * Definition of the root area
+ * 
+ * @since 3.3
+ *
+ */
 public class RootArea extends BlockContainerArea {
 
 	protected transient LayoutEmitterAdapter emitter;
 
 	protected PageArea page;
 
+	/**
+	 * Constructor context based
+	 *
+	 * @param context
+	 * @param content
+	 * @param emitter
+	 */
 	public RootArea(LayoutContext context, IContent content, LayoutEmitterAdapter emitter) {
 		super(null, context, content);
 		this.emitter = emitter;
 	}
 
+	/**
+	 * Constructor based on root area
+	 *
+	 * @param area
+	 */
 	public RootArea(RootArea area) {
 		super(area);
 	}

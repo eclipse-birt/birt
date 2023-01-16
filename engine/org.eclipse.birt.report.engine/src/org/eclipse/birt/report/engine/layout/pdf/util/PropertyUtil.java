@@ -28,20 +28,28 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.RGBColorValue;
 import org.eclipse.birt.report.engine.css.engine.value.StringValue;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.Element;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
 import com.lowagie.text.Font;
 
+/**
+ * Utility class of properties
+ *
+ * @since 3.3
+ *
+ */
 public class PropertyUtil {
 
 	private static Logger logger = Logger.getLogger(PropertyUtil.class.getName());
@@ -50,26 +58,26 @@ public class PropertyUtil {
 
 	private static HashMap<Value, Integer> fontWeightMap = new HashMap<>();
 	static {
-		fontWeightMap.put(IStyle.LIGHTER_VALUE, 200);
-		fontWeightMap.put(IStyle.NORMAL_VALUE, 400);
-		fontWeightMap.put(IStyle.BOLD_VALUE, 700);
-		fontWeightMap.put(IStyle.BOLDER_VALUE, 900);
+		fontWeightMap.put(CSSValueConstants.LIGHTER_VALUE, 200);
+		fontWeightMap.put(CSSValueConstants.NORMAL_VALUE, 400);
+		fontWeightMap.put(CSSValueConstants.BOLD_VALUE, 700);
+		fontWeightMap.put(CSSValueConstants.BOLDER_VALUE, 900);
 
-		fontWeightMap.put(IStyle.NUMBER_100, 100);
-		fontWeightMap.put(IStyle.NUMBER_200, 200);
-		fontWeightMap.put(IStyle.NUMBER_300, 300);
-		fontWeightMap.put(IStyle.NUMBER_400, 400);
-		fontWeightMap.put(IStyle.NUMBER_500, 500);
-		fontWeightMap.put(IStyle.NUMBER_600, 600);
-		fontWeightMap.put(IStyle.NUMBER_700, 700);
-		fontWeightMap.put(IStyle.NUMBER_800, 800);
-		fontWeightMap.put(IStyle.NUMBER_900, 900);
+		fontWeightMap.put(CSSValueConstants.NUMBER_100, 100);
+		fontWeightMap.put(CSSValueConstants.NUMBER_200, 200);
+		fontWeightMap.put(CSSValueConstants.NUMBER_300, 300);
+		fontWeightMap.put(CSSValueConstants.NUMBER_400, 400);
+		fontWeightMap.put(CSSValueConstants.NUMBER_500, 500);
+		fontWeightMap.put(CSSValueConstants.NUMBER_600, 600);
+		fontWeightMap.put(CSSValueConstants.NUMBER_700, 700);
+		fontWeightMap.put(CSSValueConstants.NUMBER_800, 800);
+		fontWeightMap.put(CSSValueConstants.NUMBER_900, 900);
 	}
 
 	/**
 	 * Checks if the font is bold
 	 *
-	 * @param value the CSSValue
+	 * @param fontWeight
 	 * @return true if the font is bold false if not
 	 */
 	public static boolean isBoldFont(int fontWeight) {
@@ -79,33 +87,56 @@ public class PropertyUtil {
 		return false;
 	}
 
+	/**
+	 * Parse font weight
+	 *
+	 * @param value
+	 * @return get font weight
+	 */
 	public static int parseFontWeight(CSSValue value) {
 		if (fontWeightMap.containsKey(value)) {
 			return fontWeightMap.get(value);
-		} else {
-			return 400; // Normal
 		}
+		return 400; // Normal
 	}
 
+	/**
+	 * Is display none
+	 *
+	 * @param content
+	 * @return true, display is none
+	 */
 	public static boolean isDisplayNone(IContent content) {
 		IStyle style = content.getStyle();
 		if (style != null) {
-			return IStyle.NONE_VALUE.equals(style.getProperty(IStyle.STYLE_DISPLAY));
+			return CSSValueConstants.NONE_VALUE.equals(style.getProperty(StyleConstants.STYLE_DISPLAY));
 		}
 		return false;
 	}
 
+	/**
+	 * Is inline element
+	 *
+	 * @param content
+	 * @return true, is inline element
+	 */
 	public static boolean isInlineElement(IContent content) {
 		if (content instanceof IPageContent) {
 			return false;
 		}
 		IStyle style = content.getStyle();
 		if (style != null) {
-			return IStyle.INLINE_VALUE.equals(style.getProperty(IStyle.STYLE_DISPLAY));
+			return CSSValueConstants.INLINE_VALUE.equals(style.getProperty(StyleConstants.STYLE_DISPLAY));
 		}
 		return false;
 	}
 
+	/**
+	 * Get the line height
+	 *
+	 * @param lineHeight
+	 * @return Return line height
+	 */
 	public static int getLineHeight(String lineHeight) {
 		try {
 			if (lineHeight.equalsIgnoreCase("normal")) //$NON-NLS-1$
@@ -122,6 +153,12 @@ public class PropertyUtil {
 		}
 	}
 
+	/**
+	 * Get the color
+	 *
+	 * @param value
+	 * @return Return the color
+	 */
 	public static Color getColor(CSSValue value) {
 		if (value instanceof RGBColorValue) {
 			RGBColorValue color = (RGBColorValue) value;
@@ -218,6 +255,13 @@ public class PropertyUtil {
 		return c;
 	}
 
+	/**
+	 * Get font style
+	 *
+	 * @param fontStyle
+	 * @param fontWeight
+	 * @return Return the font style
+	 */
 	public static int getFontStyle(String fontStyle, String fontWeight) {
 		int styleValue = Font.NORMAL;
 
@@ -233,6 +277,12 @@ public class PropertyUtil {
 		return styleValue;
 	}
 
+	/**
+	 * Get the background image
+	 *
+	 * @param value
+	 * @return Return the background image
+	 */
 	public static String getBackgroundImage(CSSValue value) {
 		if (value instanceof StringValue) {
 			String strValue = ((StringValue) value).getStringValue();
@@ -243,6 +293,14 @@ public class PropertyUtil {
 		return null;
 	}
 
+	/**
+	 * Get the image dpi
+	 *
+	 * @param content
+	 * @param imageFileDpi
+	 * @param renderOptionDpi
+	 * @return Return the image dpi
+	 */
 	public static int getImageDpi(IImageContent content, int imageFileDpi, int renderOptionDpi) {
 		// The DPI resolution of the image.
 		// the preference of the DPI setting is:
@@ -262,7 +320,7 @@ public class PropertyUtil {
 	 *
 	 * @param content
 	 * @param renderOptionDpi
-	 * @return
+	 * @return Return the render dpi
 	 */
 	public static int getRenderDpi(IReportContent content, int renderOptionDpi) {
 		int resolution = renderOptionDpi;
@@ -279,6 +337,13 @@ public class PropertyUtil {
 		return resolution;
 	}
 
+	/**
+	 * Get the render dpi
+	 *
+	 * @param content
+	 * @param renderOptionDpi
+	 * @return Return the render dpi
+	 */
 	public static int getRenderDpi(IContent content, int renderOptionDpi) {
 		return getRenderDpi(content.getReportContent(), renderOptionDpi);
 	}
@@ -305,11 +370,22 @@ public class PropertyUtil {
 		return screenDpi;
 	}
 
+	/**
+	 * Get dimension value
+	 *
+	 * @param value
+	 * @return Return the dimension value
+	 */
 	public static int getDimensionValue(CSSValue value) {
 		return getDimensionValue(value, 96, 0);
 	}
 
 	/**
+	 * Get dimension value
+	 *
+	 * @param value
+	 * @param referenceLength
+	 * @return Return the dimension value
 	 * @deprecated keep for backward compatibility.
 	 */
 	@Deprecated
@@ -317,6 +393,13 @@ public class PropertyUtil {
 		return getDimensionValue(value, 96, referenceLength);
 	}
 
+	/**
+	 * Get dimension value with consideration of dpi
+	 *
+	 * @param value
+	 * @param content
+	 * @return Return the dimension value
+	 */
 	public static int getDimensionValueConsiderDpi(CSSValue value, IContent content) {
 		if (value != null && (value instanceof FloatValue)) {
 			FloatValue fv = (FloatValue) value;
@@ -385,6 +468,13 @@ public class PropertyUtil {
 		return 0;
 	}
 
+	/**
+	 * Get dimension value
+	 *
+	 * @param content
+	 * @param d
+	 * @return Return the dimension value
+	 */
 	public static int getDimensionValue(IContent content, DimensionType d) {
 		return getDimensionValue(content, d, 0, 0);
 	}
@@ -393,25 +483,25 @@ public class PropertyUtil {
 			int referenceLength) {
 		if (d.getValueType() == DimensionType.TYPE_DIMENSION) {
 			String units = d.getUnits();
-			if (units.equals(EngineIRConstants.UNITS_PT) || units.equals(EngineIRConstants.UNITS_CM)
-					|| units.equals(EngineIRConstants.UNITS_MM) || units.equals(EngineIRConstants.UNITS_PC)
-					|| units.equals(EngineIRConstants.UNITS_IN)) {
-				double point = d.convertTo(EngineIRConstants.UNITS_PT) * 1000;
+			if (units.equals(DesignChoiceConstants.UNITS_PT) || units.equals(DesignChoiceConstants.UNITS_CM)
+					|| units.equals(DesignChoiceConstants.UNITS_MM) || units.equals(DesignChoiceConstants.UNITS_PC)
+					|| units.equals(DesignChoiceConstants.UNITS_IN)) {
+				double point = d.convertTo(DesignChoiceConstants.UNITS_PT) * 1000;
 				return (int) point;
-			} else if (units.equals(EngineIRConstants.UNITS_PX)) {
+			} else if (units.equals(DesignChoiceConstants.UNITS_PX)) {
 				double point = d.getMeasure() / getRenderDpi(content, renderOptionDpi) * 72000d;
 				return (int) point;
-			} else if (units.equals(EngineIRConstants.UNITS_PERCENTAGE)) {
+			} else if (units.equals(DesignChoiceConstants.UNITS_PERCENTAGE)) {
 				if (referenceLength < 0) {
 					return -1;
 				}
 				double point = referenceLength * d.getMeasure() / 100.0;
 				return (int) point;
-			} else if (units.equals(EngineIRConstants.UNITS_EM) || units.equals(EngineIRConstants.UNITS_EX)) {
+			} else if (units.equals(DesignChoiceConstants.UNITS_EM) || units.equals(DesignChoiceConstants.UNITS_EX)) {
 				int size = 9000;
 				if (content != null) {
 					IStyle style = content.getComputedStyle();
-					CSSValue fontSize = style.getProperty(IStyle.STYLE_FONT_SIZE);
+					CSSValue fontSize = style.getProperty(StyleConstants.STYLE_FONT_SIZE);
 					size = getDimensionValue(fontSize);
 				}
 				double point = size * d.getMeasure();
@@ -419,17 +509,26 @@ public class PropertyUtil {
 			}
 		} else if (d.getValueType() == DimensionType.TYPE_CHOICE) {
 			String choice = d.getChoice();
-			if (IStyle.CSS_MEDIUM_VALUE.equals(choice)) {
+			if (CSSConstants.CSS_MEDIUM_VALUE.equals(choice)) {
 				return 3000;
-			} else if (IStyle.CSS_THIN_VALUE.equals(choice)) {
+			} else if (CSSConstants.CSS_THIN_VALUE.equals(choice)) {
 				return 1000;
-			} else if (IStyle.CSS_THICK_VALUE.equals(choice)) {
+			} else if (CSSConstants.CSS_THICK_VALUE.equals(choice)) {
 				return 5000;
 			}
 		}
 		return 0;
 	}
 
+	/**
+	 * Get the image dimension value
+	 *
+	 * @param content
+	 * @param d
+	 * @param renderOptionDpi
+	 * @param referenceLength
+	 * @return Return image dimension value
+	 */
 	public static int getImageDimensionValue(IContent content, DimensionType d, int renderOptionDpi,
 			int referenceLength) {
 		if (d == null) {
@@ -443,6 +542,15 @@ public class PropertyUtil {
 		}
 	}
 
+	/**
+	 * Get the dimension value
+	 *
+	 * @param content
+	 * @param d
+	 * @param dpi
+	 * @param referenceLength
+	 * @return Return the dimension value
+	 */
 	public static int getDimensionValue(IContent content, DimensionType d, int dpi, int referenceLength) {
 		if (d == null) {
 			return 0;
@@ -455,10 +563,25 @@ public class PropertyUtil {
 		}
 	}
 
+	/**
+	 * Get the dimension value
+	 *
+	 * @param content
+	 * @param d
+	 * @param referenceLength
+	 * @return Return the dimension value
+	 */
 	public static int getDimensionValue(IContent content, DimensionType d, int referenceLength) {
 		return getDimensionValue(content, d, 0, referenceLength);
 	}
 
+	/**
+	 * Get int from attribute
+	 *
+	 * @param element
+	 * @param attribute
+	 * @return Return int of attribute
+	 */
 	public static int getIntAttribute(Element element, String attribute) {
 		String value = element.getAttribute(attribute);
 		int result = 1;
@@ -468,6 +591,13 @@ public class PropertyUtil {
 		return result;
 	}
 
+	/**
+	 * Get dimension type from attribute
+	 *
+	 * @param ele
+	 * @param attribute
+	 * @return Return dimension tye
+	 */
 	public static DimensionType getDimensionAttribute(Element ele, String attribute) {
 		String value = ele.getAttribute(attribute);
 		if (value == null || 0 == value.length()) {
@@ -476,6 +606,12 @@ public class PropertyUtil {
 		return DimensionType.parserUnit(value, DimensionType.UNITS_PX);
 	}
 
+	/**
+	 * Get int value
+	 *
+	 * @param value
+	 * @return Return int value
+	 */
 	public static int getIntValue(CSSValue value) {
 		if (value != null && (value instanceof FloatValue)) {
 			FloatValue fv = (FloatValue) value;
@@ -484,6 +620,12 @@ public class PropertyUtil {
 		return 0;
 	}
 
+	/**
+	 * Get percentage value
+	 *
+	 * @param value
+	 * @return Return percentage value
+	 */
 	public static float getPercentageValue(CSSValue value) {
 		if (value != null && (value instanceof FloatValue)) {
 			FloatValue fv = (FloatValue) value;
@@ -495,8 +637,14 @@ public class PropertyUtil {
 		return 0.0f;
 	}
 
+	/**
+	 * Is white space no wrap
+	 *
+	 * @param value
+	 * @return true, white space no wrap
+	 */
 	public static boolean isWhiteSpaceNoWrap(CSSValue value) {
-		return IStyle.CSS_NOWRAP_VALUE.equals(value.getCssText());
+		return CSSConstants.CSS_NOWRAP_VALUE.equals(value.getCssText());
 	}
 
 }

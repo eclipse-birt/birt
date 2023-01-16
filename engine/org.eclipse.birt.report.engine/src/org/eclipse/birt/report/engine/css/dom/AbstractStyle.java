@@ -23,19 +23,36 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSRule;
 import org.w3c.dom.css.CSSValue;
 
+/**
+ * Definition of the abstract style class
+ *
+ * @since 3.3
+ *
+ */
 abstract public class AbstractStyle implements IStyle {
 
 	protected CSSEngine engine;
 
+	/**
+	 * Consructor
+	 *
+	 * @param engine
+	 */
 	public AbstractStyle(CSSEngine engine) {
 		this.engine = engine;
 	}
 
+	/**
+	 * Get the CSS engine
+	 *
+	 * @return Return the CSS engine
+	 */
 	public CSSEngine getCSSEngine() {
 		return this.engine;
 	}
@@ -58,7 +75,7 @@ abstract public class AbstractStyle implements IStyle {
 			// we don't return the format in css as the format
 			// is a complex object which can't be represented as
 			// css string.
-			if (i == IStyle.STYLE_DATA_FORMAT) {
+			if (i == StyleConstants.STYLE_DATA_FORMAT) {
 				continue;
 			}
 			CSSValue value = getProperty(i);
@@ -108,7 +125,7 @@ abstract public class AbstractStyle implements IStyle {
 	@Override
 	public void setCssText(String cssText) throws DOMException {
 		IStyle style = (IStyle) engine.parseStyleDeclaration(cssText);
-		for (int i = 0; i < IStyle.NUMBER_OF_STYLE; i++) {
+		for (int i = 0; i < StyleConstants.NUMBER_OF_STYLE; i++) {
 			CSSValue value = style.getProperty(i);
 			if (value != null) {
 				setProperty(i, value);
@@ -232,6 +249,11 @@ abstract public class AbstractStyle implements IStyle {
 	@Override
 	public String getBackgroundImage() {
 		return getCssText(STYLE_BACKGROUND_IMAGE);
+	}
+
+	@Override
+	public String getBackgroundImageType() {
+		return getCssText(STYLE_BACKGROUND_IMAGE_TYPE);
 	}
 
 	@Override
@@ -491,6 +513,14 @@ abstract public class AbstractStyle implements IStyle {
 	@Override
 	public void setBackgroundImage(String backgroundImage) {
 		setCssText(STYLE_BACKGROUND_IMAGE, backgroundImage);
+	}
+
+	/**
+	 * @param backgroundImageSourceType The backgroundImage to set.
+	 */
+	@Override
+	public void setBackgroundImageType(String backgroundImageSourceType) {
+		setCssText(STYLE_BACKGROUND_IMAGE_TYPE, backgroundImageSourceType);
 	}
 
 	/**
@@ -909,12 +939,24 @@ abstract public class AbstractStyle implements IStyle {
 		newValue.setDateFormat(format, value == null ? null : value.getDateLocale());
 	}
 
+	/**
+	 * Set the date time format
+	 *
+	 * @param format
+	 * @throws DOMException
+	 */
 	public void setDateTimeFormat(String format) throws DOMException {
 		DataFormatValue value = getDataFormat();
 		DataFormatValue newValue = copyDataFormat(value);
 		newValue.setDateTimeFormat(format, value == null ? null : value.getDateTimeLocale());
 	}
 
+	/**
+	 * Set the time format
+	 *
+	 * @param format
+	 * @throws DOMException
+	 */
 	public void setTimeFormat(String format) throws DOMException {
 		DataFormatValue value = getDataFormat();
 		DataFormatValue newValue = copyDataFormat(value);
@@ -1861,16 +1903,23 @@ abstract public class AbstractStyle implements IStyle {
 			int index = getPropertyIndex(propertyName);
 			if (index == -1) {
 				String propertyCssText = IOUtil.readString(in);
-				if (IStyle.BIRT_STRING_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
+				if (propertyName == "background-image-type") {
+
+					var test = 1;
+					test = test + 61;
+				}
+				if (BIRTConstants.BIRT_STRING_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
 					this.setStringFormat(propertyCssText);
-				} else if (IStyle.BIRT_NUMBER_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
+				} else if (BIRTConstants.BIRT_NUMBER_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
 					this.setNumberFormat(propertyCssText);
-				} else if (IStyle.BIRT_DATE_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
+				} else if (BIRTConstants.BIRT_DATE_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
 					this.setDateFormat(propertyCssText);
-				} else if (IStyle.BIRT_TIME_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
+				} else if (BIRTConstants.BIRT_TIME_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
 					this.setTimeFormat(propertyCssText);
-				} else if (IStyle.BIRT_DATE_TIME_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
+				} else if (BIRTConstants.BIRT_DATE_TIME_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
 					this.setDateTimeFormat(propertyCssText);
+				} else if (BIRTConstants.BIRT_BACKGROUND_IMAGE_TYPE.equalsIgnoreCase(propertyName)) {
+					this.setBackgroundImageType(propertyCssText);
 				} else {
 					throw new IOException(propertyName + " not valid");
 				}

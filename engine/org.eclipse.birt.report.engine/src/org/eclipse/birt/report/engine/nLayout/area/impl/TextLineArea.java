@@ -13,18 +13,34 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 
+/**
+ * Definition of text line area
+ *
+ * @since 3.3
+ *
+ */
 public class TextLineArea extends LineArea {
 
+	/**
+	 * Constructor container based
+	 *
+	 * @param parent
+	 * @param context
+	 */
 	public TextLineArea(ContainerArea parent, LayoutContext context) {
 		super(parent, context);
 		// support widow and orphans, do not auto-pagebreak in textlineArea
 		isInInlineStacking = true;
 	}
 
+	/**
+	 * Constructor area based
+	 *
+	 * @param area
+	 */
 	public TextLineArea(TextLineArea area) {
 		super(area);
 	}
@@ -35,15 +51,15 @@ public class TextLineArea extends LineArea {
 	}
 
 	@Override
-	public SplitResult splitLines(int lineCount) throws BirtException {
-		if (pageBreakBefore == IStyle.AVOID_VALUE) {
+	public SplitResult splitLines(int lineCount) {
+		if (pageBreakBefore == CSSValueConstants.AVOID_VALUE) {
 			return SplitResult.BEFORE_AVOID_WITH_NULL;
 		}
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
 
 	@Override
-	public SplitResult split(int height, boolean force) throws BirtException {
+	public SplitResult split(int height, boolean force) {
 		if (force) {
 			TextLineArea newArea = cloneArea();
 			newArea.children.addAll(children);
@@ -51,7 +67,7 @@ public class TextLineArea extends LineArea {
 			this.height = 0;
 			return new SplitResult(newArea, SplitResult.SPLIT_SUCCEED_WITH_PART);
 		}
-		if (pageBreakBefore == IStyle.AVOID_VALUE) {
+		if (pageBreakBefore == CSSValueConstants.AVOID_VALUE) {
 			return SplitResult.BEFORE_AVOID_WITH_NULL;
 		}
 		return SplitResult.SUCCEED_WITH_NULL;

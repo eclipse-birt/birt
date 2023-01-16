@@ -21,6 +21,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
@@ -31,18 +32,35 @@ import org.w3c.dom.css.CSSValue;
 
 import com.ibm.icu.text.Bidi;
 
+/**
+ * Definition of line area
+ *
+ * @since 3.3
+ *
+ */
 public class LineArea extends InlineStackingArea {
 
 	protected byte baseLevel = Bidi.DIRECTION_LEFT_TO_RIGHT;
 
 	protected boolean setIndent = false;
 
+	/**
+	 * Constructor container absed
+	 *
+	 * @param parent
+	 * @param context
+	 */
 	public LineArea(ContainerArea parent, LayoutContext context) {
 		super(parent, context, null);
 		assert (parent != null);
 		isInInlineStacking = parent.isInInlineStacking;
 	}
 
+	/**
+	 * Constructor area based
+	 *
+	 * @param area
+	 */
 	public LineArea(LineArea area) {
 		super(area);
 		this.baseLevel = area.baseLevel;
@@ -50,6 +68,11 @@ public class LineArea extends InlineStackingArea {
 		this.isInInlineStacking = area.isInInlineStacking;
 	}
 
+	/**
+	 * Set base level
+	 *
+	 * @param baseLevel
+	 */
 	public void setBaseLevel(byte baseLevel) {
 		this.baseLevel = baseLevel;
 	}
@@ -80,6 +103,12 @@ public class LineArea extends InlineStackingArea {
 		}
 	}
 
+	/**
+	 * Generate alignment of context
+	 *
+	 * @param endParagraph
+	 * @param context
+	 */
 	public void align(boolean endParagraph, LayoutContext context) {
 		assert (parent instanceof BlockContainerArea);
 		CSSValue align = ((BlockContainerArea) parent).getTextAlign();
@@ -89,9 +118,9 @@ public class LineArea extends InlineStackingArea {
 		boolean isRightAligned = BidiAlignmentResolver.isRightAligned(parent.content, align, endParagraph);
 
 		// single line
-		if ((isRightAligned || IStyle.CENTER_VALUE.equals(align))) {
+		if ((isRightAligned || CSSValueConstants.CENTER_VALUE.equals(align))) {
 			int spacing = width - currentIP;
-			Iterator iter = getChildren();
+			Iterator<IArea> iter = getChildren();
 			while (iter.hasNext()) {
 				AbstractArea area = (AbstractArea) iter.next();
 
@@ -101,12 +130,12 @@ public class LineArea extends InlineStackingArea {
 					} else {
 						area.setPosition(spacing + area.getX() + ignoreRightMostWhiteSpace(), area.getY());
 					}
-				} else if (IStyle.CENTER_VALUE.equals(align)) {
+				} else if (CSSValueConstants.CENTER_VALUE.equals(align)) {
 					area.setPosition(spacing / 2 + area.getX(), area.getY());
 				}
 
 			}
-		} else if (IStyle.JUSTIFY_VALUE.equals(align) && !endParagraph) {
+		} else if (CSSValueConstants.JUSTIFY_VALUE.equals(align) && !endParagraph) {
 			justify();
 		}
 		if (context.getBidiProcessing()) {
@@ -118,7 +147,7 @@ public class LineArea extends InlineStackingArea {
 	private int ignoreRightMostWhiteSpace() {
 		AbstractArea area = this;
 		while (area instanceof ContainerArea) {
-			ArrayList children = ((ContainerArea) area).children;
+			ArrayList<IArea> children = ((ContainerArea) area).children;
 			if (children != null && children.size() > 0) {
 				area = (AbstractArea) children.get(children.size() - 1);
 			} else {
@@ -145,7 +174,7 @@ public class LineArea extends InlineStackingArea {
 		if (wordSpacing == 0) {
 			return 0;
 		}
-		Iterator iter = area.getChildren();
+		Iterator<IArea> iter = area.getChildren();
 		int delta = 0;
 		while (iter.hasNext()) {
 			AbstractArea child = (AbstractArea) iter.next();
@@ -175,7 +204,7 @@ public class LineArea extends InlineStackingArea {
 	}
 
 	private int adjustLetterSpacing(int letterSpacing, ContainerArea area) {
-		Iterator iter = area.getChildren();
+		Iterator<IArea> iter = area.getChildren();
 		int delta = 0;
 		while (iter.hasNext()) {
 			AbstractArea child = (AbstractArea) iter.next();
@@ -246,7 +275,7 @@ public class LineArea extends InlineStackingArea {
 	 */
 	private int getWhiteSpaceRawNumber(ContainerArea area) {
 		int count = 0;
-		Iterator iter = area.getChildren();
+		Iterator<IArea> iter = area.getChildren();
 		while (iter.hasNext()) {
 			AbstractArea child = (AbstractArea) iter.next();
 			if (child instanceof TextArea) {
@@ -269,7 +298,7 @@ public class LineArea extends InlineStackingArea {
 
 	private int getLetterNumber(ContainerArea area) {
 		int count = 0;
-		Iterator iter = area.getChildren();
+		Iterator<IArea> iter = area.getChildren();
 		while (iter.hasNext()) {
 			AbstractArea child = (AbstractArea) iter.next();
 			if (child instanceof TextArea) {
@@ -406,12 +435,12 @@ public class LineArea extends InlineStackingArea {
 			area.children = children;
 			area.context = context;
 			area.setParent(parent);
-			Iterator iter = area.getChildren();
+			Iterator<IArea> iter = area.getChildren();
 			while (iter.hasNext()) {
 				AbstractArea child = (AbstractArea) iter.next();
 				child.setParent(area);
 			}
-			children = new ArrayList();
+			children = new ArrayList<IArea>();
 			parent.add(area);
 			area.checkPageBreak();
 			parent.update(area);
@@ -450,7 +479,7 @@ public class LineArea extends InlineStackingArea {
 	public SplitResult split(int height, boolean force) throws BirtException {
 		assert (height < this.height);
 		LineArea result = null;
-		Iterator iter = children.iterator();
+		Iterator<IArea> iter = children.iterator();
 		while (iter.hasNext()) {
 			ContainerArea child = (ContainerArea) iter.next();
 
@@ -498,9 +527,8 @@ public class LineArea extends InlineStackingArea {
 		}
 		if (result != null) {
 			return new SplitResult(result, SplitResult.SPLIT_SUCCEED_WITH_PART);
-		} else {
-			return SplitResult.SUCCEED_WITH_NULL;
 		}
+		return SplitResult.SUCCEED_WITH_NULL;
 	}
 
 	@Override
@@ -509,7 +537,7 @@ public class LineArea extends InlineStackingArea {
 	}
 
 	@Override
-	public SplitResult splitLines(int lineCount) throws BirtException {
+	public SplitResult splitLines(int lineCount) {
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
 

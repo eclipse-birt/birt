@@ -625,40 +625,36 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		}
 	}
 
+	/*
+	 * Get background image
+	 *
+	 */
 	protected Image getBackImage(DesignElementHandle handle) {
 		String backGroundImage = getBackgroundImage(handle);
 
 		if (backGroundImage == null) {
 			return null;
 		}
+		Image image = null;
+
+		String imageSourceType = DesignChoiceConstants.IMAGE_REF_TYPE_EMBED;
 		Object obj = handle.getProperty(IStyleModel.BACKGROUND_IMAGE_TYPE_PROP);
-		String imageSourceType = CSSValueConstants.URL_VALUE.getCssText();
 		if (obj instanceof String) {
 			imageSourceType = obj.toString();
 		}
-
-		Image image = null;
-
-		// URL image
-		if (imageSourceType.equalsIgnoreCase(CSSValueConstants.URL_VALUE.getCssText())) {
-			try {
+		try {
+			if (imageSourceType.equalsIgnoreCase(CSSValueConstants.URL_VALUE.getCssText())) {
 				image = ImageManager.getInstance().getImage(getModelAdapter().getModuleHandle(), backGroundImage);
-			} catch (SWTException e) {
-				// Should not be ExceptionHandler.handle(e), see SCR#73730
-				image = null;
 			}
-		}
-
-		// embedded image
-		if (imageSourceType.equalsIgnoreCase(CSSValueConstants.EMBED_VALUE.getCssText())) {
-			try {
+			if (imageSourceType.equalsIgnoreCase(CSSValueConstants.EMBED_VALUE.getCssText()) || image == null) {
 				image = ImageManager.getInstance().getEmbeddedImage(getModelAdapter().getModuleHandle(),
 						backGroundImage);
-			} catch (SWTException e) {
-				// Should not be ExceptionHandler.handle(e), see SCR#73730
-				image = null;
 			}
+		} catch (SWTException e) {
+			// Should not be ExceptionHandler.handle(e), see SCR#73730
+			image = null;
 		}
+
 		return image;
 	}
 
@@ -675,24 +671,24 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 			figure.setImage(null);
 		}
 
+		Object obj = handle.getProperty(IStyleModel.BACKGROUND_IMAGE_TYPE_PROP);
+		String imageSourceType = CSSValueConstants.URL_VALUE.getCssText();
+		if (obj instanceof String) {
+			imageSourceType = obj.toString();
+		}
 		Image image = null;
-		// URL image
+
 		try {
-			image = ImageManager.getInstance().getImage(getModelAdapter().getModuleHandle(), backGroundImage);
+			if (imageSourceType.equalsIgnoreCase(CSSValueConstants.URL_VALUE.getCssText())) {
+				image = ImageManager.getInstance().getImage(getModelAdapter().getModuleHandle(), backGroundImage);
+			}
+			if (imageSourceType.equalsIgnoreCase(CSSValueConstants.EMBED_VALUE.getCssText()) || image == null) {
+				image = ImageManager.getInstance().getEmbeddedImage(getModelAdapter().getModuleHandle(),
+						backGroundImage);
+			}
 		} catch (SWTException e) {
 			// Should not be ExceptionHandler.handle(e), see SCR#73730
 			image = null;
-		}
-
-		// embedded image
-		if (image == null) {
-			try {
-				image = ImageManager.getInstance().getEmbeddedImage(getModelAdapter().getModuleHandle(),
-						backGroundImage);
-			} catch (SWTException e) {
-				// Should not be ExceptionHandler.handle(e), see SCR#73730
-				image = null;
-			}
 		}
 
 		if (image == null) {

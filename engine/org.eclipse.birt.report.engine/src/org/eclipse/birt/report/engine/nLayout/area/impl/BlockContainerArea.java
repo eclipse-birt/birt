@@ -23,6 +23,8 @@ import java.util.ListIterator;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
@@ -30,8 +32,21 @@ import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.w3c.dom.css.CSSValue;
 
+/**
+ * Implementation of block container area
+ *
+ * @since 3.3
+ *
+ */
 public class BlockContainerArea extends ContainerArea implements IContainerArea {
 
+	/**
+	 * Constuctor
+	 *
+	 * @param parent
+	 * @param context
+	 * @param content
+	 */
 	public BlockContainerArea(ContainerArea parent, LayoutContext context, IContent content) {
 		super(parent, context, content);
 		if (parent == null) {
@@ -41,6 +56,9 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 		}
 	}
 
+	/**
+	 * Constructor
+	 */
 	public BlockContainerArea() {
 		super();
 	}
@@ -74,16 +92,16 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 
 			if (specifiedHeight > height) {
 
-				if (IStyle.BOTTOM_VALUE.equals(vAlign)) {
+				if (CSSValueConstants.BOTTOM_VALUE.equals(vAlign)) {
 					int offset = specifiedHeight - height;
 					Iterator<IArea> iter = getChildren();
 					while (iter.hasNext()) {
 						AbstractArea child = (AbstractArea) iter.next();
 						child.setY(offset + child.getY());
 					}
-				} else if (IStyle.MIDDLE_VALUE.equals(vAlign)) {
+				} else if (CSSValueConstants.MIDDLE_VALUE.equals(vAlign)) {
 					int offset = (specifiedHeight - height) / 2;
-					Iterator iter = getChildren();
+					Iterator<IArea> iter = getChildren();
 					while (iter.hasNext()) {
 						AbstractArea child = (AbstractArea) iter.next();
 						child.setY(child.getY() + offset);
@@ -150,7 +168,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 			}
 			maxAvaWidth = getContentWidth();
 		}
-		textAlign = content.getComputedStyle().getProperty(IStyle.STYLE_TEXT_ALIGN);
+		textAlign = content.getComputedStyle().getProperty(StyleConstants.STYLE_TEXT_ALIGN);
 		this.bookmark = content.getBookmark();
 		this.action = content.getHyperlinkAction();
 		parent.add(this);
@@ -166,15 +184,13 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 		if (isPageBreakInsideAvoid()) {
 			if (isPageBreakBeforeAvoid()) {
 				return SplitResult.BEFORE_AVOID_WITH_NULL;
-			} else {
-				return SplitResult.SUCCEED_WITH_NULL;
 			}
+			return SplitResult.SUCCEED_WITH_NULL;
 		}
 		int contentHeight = getContentHeight();
-		LinkedList result = new LinkedList();
+		LinkedList<ContainerArea> result = new LinkedList<ContainerArea>();
 		int size = children.size();
 		SplitResult childSplit = null;
-		int status = SplitResult.SPLIT_BEFORE_AVOID_WITH_NULL;
 		for (int i = size - 1; i >= 0; i--) {
 			ContainerArea child = (ContainerArea) children.get(i);
 			int ah = child.getAllocatedHeight();
@@ -189,23 +205,22 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 					ContainerArea preChild = (ContainerArea) children.get(i - 1);
 					if (preChild.isPageBreakAfterAvoid()) {
 						continue;
-					} else {
-						status = SplitResult.SPLIT_SUCCEED_WITH_PART;
-						contentHeight = contentHeight - ah + child.getAllocatedHeight();
-						BlockContainerArea newContainer = cloneArea();
-						newContainer.updateContentHeight(contentHeight);
-						Iterator iter = children.iterator();
-						while (iter.hasNext()) {
-							ContainerArea childArea = (ContainerArea) iter.next();
-							if (!result.contains(childArea)) {
-								iter.remove();
-								newContainer.addChild(childArea);
-								newContainer.setParent(newContainer);
-							}
-						}
-						updateChildrenPosition();
-						return new SplitResult(newContainer, SplitResult.SPLIT_SUCCEED_WITH_PART);
 					}
+					contentHeight = contentHeight - ah + child.getAllocatedHeight();
+					BlockContainerArea newContainer = cloneArea();
+					newContainer.updateContentHeight(contentHeight);
+					Iterator<IArea> iter = children.iterator();
+					while (iter.hasNext()) {
+						ContainerArea childArea = (ContainerArea) iter.next();
+						if (!result.contains(childArea)) {
+							iter.remove();
+							newContainer.addChild(childArea);
+							newContainer.setParent(newContainer);
+						}
+					}
+					updateChildrenPosition();
+					return new SplitResult(newContainer, SplitResult.SPLIT_SUCCEED_WITH_PART);
+
 				} else if (isPageBreakBeforeAvoid()) {
 					return SplitResult.BEFORE_AVOID_WITH_NULL;
 				} else {
@@ -217,7 +232,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 				contentHeight = contentHeight - ah + splitChildArea.getAllocatedHeight();
 				BlockContainerArea newContainer = cloneArea();
 				newContainer.updateContentHeight(contentHeight);
-				Iterator iter = children.iterator();
+				Iterator<IArea> iter = children.iterator();
 				while (iter.hasNext()) {
 					ContainerArea childArea = (ContainerArea) iter.next();
 					if (!result.contains(childArea)) {
@@ -242,9 +257,8 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 		} else if (isPageBreakInsideAvoid()) {
 			if (isPageBreakBeforeAvoid()) {
 				return SplitResult.BEFORE_AVOID_WITH_NULL;
-			} else {
-				return SplitResult.SUCCEED_WITH_NULL;
 			}
+			return SplitResult.SUCCEED_WITH_NULL;
 		} else {
 			return _split(height, false);
 		}
@@ -255,17 +269,16 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 			if (isPageBreakBeforeAvoid() && !force) {
 				updateChildrenPosition();
 				return SplitResult.BEFORE_AVOID_WITH_NULL;
-			} else {
-				updateChildrenPosition();
-				return SplitResult.SUCCEED_WITH_NULL;
 			}
+			updateChildrenPosition();
+			return SplitResult.SUCCEED_WITH_NULL;
 		}
 		BlockContainerArea newContainer = null;
 		int status = SplitResult.SPLIT_BEFORE_AVOID_WITH_NULL;
 		int cheight = getContentHeight(height);
-		ListIterator iter = children.listIterator();
+		ListIterator<IArea> iter = children.listIterator();
 		int contentHeight = 0;
-		ArrayList result = new ArrayList();
+		ArrayList<ContainerArea> result = new ArrayList<ContainerArea>();
 		ContainerArea current = null;
 		ContainerArea previous = null;
 		while (iter.hasNext()) {
@@ -276,7 +289,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 			if (contentHeight <= cheight && current.finished) {
 				result.add(current);
 				continue;
-			} else {
+			}
 				contentHeight -= ah;
 				int childSplitHeight = cheight - contentHeight;
 				SplitResult splitResult = current.split(childSplitHeight, force && !isValidResult(result));
@@ -298,15 +311,13 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 						if (force) {
 							status = SplitResult.SPLIT_SUCCEED_WITH_PART;
 							break;
-						} else {
-							if (previous.isPageBreakAfterAvoid()) {
-								status = SplitResult.SPLIT_BEFORE_AVOID_WITH_NULL;
-								break;
-							} else {
-								status = SplitResult.SPLIT_SUCCEED_WITH_PART;
-								break;
-							}
 						}
+						if (previous.isPageBreakAfterAvoid()) {
+							status = SplitResult.SPLIT_BEFORE_AVOID_WITH_NULL;
+							break;
+						}
+						status = SplitResult.SPLIT_SUCCEED_WITH_PART;
+						break;
 					} else if (force) {
 						// error status
 						status = SplitResult.SPLIT_SUCCEED_WITH_PART;
@@ -314,12 +325,10 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 					} else {
 						if (isPageBreakBeforeAvoid()) {
 							return SplitResult.BEFORE_AVOID_WITH_NULL;
-						} else {
-							return SplitResult.SUCCEED_WITH_NULL;
 						}
+						return SplitResult.SUCCEED_WITH_NULL;
 					}
 				}
-			}
 		}
 		// split height is larger than content height.(cell)
 		if (result.size() == children.size()) {
@@ -355,10 +364,9 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 						ContainerArea prev = (ContainerArea) children.get(preIndex);
 						if (prev.isPageBreakAfterAvoid()) {
 							continue;
-						} else {
-							status = SplitResult.SPLIT_SUCCEED_WITH_PART;
-							break;
 						}
+						status = SplitResult.SPLIT_SUCCEED_WITH_PART;
+						break;
 					} else if (isPageBreakBeforeAvoid()) {
 						return SplitResult.BEFORE_AVOID_WITH_NULL;
 					} else {
@@ -391,12 +399,12 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 	 *
 	 * @param ablatedChildren the children which is split off the original area.
 	 * @param newHeight       the new content height
-	 * @return
+	 * @return Return the block container area
 	 */
-	protected BlockContainerArea getSplitArea(ArrayList ablatedChildren, int newHeight) {
+	protected BlockContainerArea getSplitArea(ArrayList<ContainerArea> ablatedChildren, int newHeight) {
 		BlockContainerArea newContainer = cloneArea();
 		for (int i = 0; i < ablatedChildren.size(); i++) {
-			ContainerArea child = (ContainerArea) ablatedChildren.get(i);
+			ContainerArea child = ablatedChildren.get(i);
 			child.setParent(newContainer);
 			newContainer.addChild(child);
 			children.remove(child);
@@ -415,22 +423,22 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 		if (content == null) {
 			return;
 		}
-		CSSValue align = content.getComputedStyle().getProperty(IStyle.STYLE_TEXT_ALIGN);
+		CSSValue align = content.getComputedStyle().getProperty(StyleConstants.STYLE_TEXT_ALIGN);
 
 		// bidi_hcg: handle empty or justify align in RTL direction as right
 		// alignment
 		boolean isRightAligned = BidiAlignmentResolver.isRightAligned(content, align, false);
 
 		// single line
-		if (isRightAligned || IStyle.CENTER_VALUE.equals(align)) {
-			Iterator iter = area.getChildren();
+		if (isRightAligned || CSSValueConstants.CENTER_VALUE.equals(align)) {
+			Iterator<IArea> iter = area.getChildren();
 			while (iter.hasNext()) {
 				AbstractArea child = (AbstractArea) iter.next();
 				int spacing = area.getContentWidth() - child.getAllocatedWidth();
 				if (spacing > 0) {
 					if (isRightAligned) {
 						child.setAllocatedX(spacing + area.getOffsetX());
-					} else if (IStyle.CENTER_VALUE.equals(align)) {
+					} else if (CSSValueConstants.CENTER_VALUE.equals(align)) {
 						child.setAllocatedX(spacing / 2 + area.getOffsetX());
 					}
 				}
@@ -442,7 +450,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 
 	}
 
-	protected boolean isValidResult(List result) {
+	protected boolean isValidResult(List<ContainerArea> result) {
 		return result.size() > 0;
 	}
 
@@ -469,11 +477,11 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 	}
 
 	@Override
-	public void updateChildrenPosition() throws BirtException {
+	public void updateChildrenPosition() {
 		first = false;
 		currentBP = 0;
 		if (children.size() > 0) {
-			Iterator iter = children.iterator();
+			Iterator<IArea> iter = children.iterator();
 			int y = getOffsetY();
 			int h = 0;
 			while (iter.hasNext()) {
