@@ -39,7 +39,10 @@ public class TextCompositor {
 	private FontInfo fontInfo;
 	private int runLevel;
 
-	private final String SHY_STRING = "\u00ad";
+	/**
+	 * @see TextArea#isKeepTrailingSoftHyphen()
+	 */
+	private static final String SOFT_HYPHEN = "\u00ad";
 
 	/** offset relative to the text in the textContent. */
 	int offset = 0;
@@ -50,7 +53,7 @@ public class TextCompositor {
 	private IWordRecognizer remainWords;
 	/** the remain word */
 	private Word remainWord;
-	/** the remain characters in current word after hyphenation */
+	/** the remain characters in current word after word-breaking / hyphenation */
 	private Word wordVestige;
 
 	/**
@@ -159,9 +162,18 @@ public class TextCompositor {
 			textArea.setMaxWidth(maxLineWidth);
 			textArea.setWidth(0);
 			addWordIntoTextArea(textArea, remainWord);
-			textArea.setKeepLastSHY(remainWord.isKeepLastSHY());
+			textArea.setKeepTrailingSoftHyphen(remainWord.isKeepTrailingSoftHyphen());
 			remainWord = null;
-			return textArea; // Why do we return here already?
+			return textArea;
+			// FIXME: Why do we return here already?
+			// This return here in a way contradicts the idea of the algorithm, which is to
+			// stuff as many words as possible into a TextArea,
+			// because it results in a (e.g. PDF) text line consisting of two (more than
+			// one) TextAreas A and B, where A is a TextArea with exactly one Word (= word
+			// fragment) that did not fit into the previous line, and B contains the next
+			// Words.
+			// This results in slightly larger PDF files than necessary and it and makes it
+			// slightly harder for accessibility software to understand the file.
 		}
 		// iterate the remainWords.
 		if (null == remainWords || !remainWords.hasWord()) {
@@ -261,9 +273,10 @@ public class TextCompositor {
 		wordWidth += textStyle.getLetterSpacing() * textLength;
 		int adjustWordSize = fontInfo.getItalicAdjust() + wordWidth;
 		int hyphenWidth = 0;
-		if (word.getValue().endsWith(SHY_STRING)) {
-			hyphenWidth = getTextWidth(fontInfo, "-"); // We are using the minus for computing the hyphen size, because
-														// getTextWidth would return 0 width for SHY.
+		if (word.getValue().endsWith(SOFT_HYPHEN)) {
+			hyphenWidth = getTextWidth(fontInfo, "-");
+			// We are using the Unicode MINUS here for computing the hyphen dash size,
+			// because getTextWidth for the SOFT HYPHEN would return 0 width.
 		}
 		if (textArea.hasSpace(adjustWordSize + hyphenWidth)) {
 			addWord(textArea, textLength, wordWidth);
@@ -299,7 +312,16 @@ public class TextCompositor {
 				wordVestige = null;
 				remainWord = word;
 				if (remainWords.hasWord()) {
-					remainWord.setKeepLastSHY(false);
+					// The soft hyphen symbol should be omitted except for the last word in the
+					// line.
+					// Please Note: This condition is not quite correct, but OK for real-world data.
+					// If the soft hyphen is inside a word, then the breakIterator has at least
+					// one more "word", which is actually the (part of) the rest of this word.
+					// But if someone comes up with a word that *ends* with a soft-hyphen,
+					// then there might be no more remaining "words", so this results in
+					// hiding the soft hyphen. However, a word ending with a soft-hyphen
+					// doesn't make sense at all, so we don't care about this.
+					remainWord.setKeepTrailingSoftHyphen(false);
 				}
 			}
 			textArea.setLineBreak(true);
@@ -322,10 +344,8 @@ public class TextCompositor {
 		if (endHyphenIndex == 0 && area.getWidth() == 0) {
 			addWordVestige(area, 1, getTextWidth(fi, wb.getHyphenText(0, 1)), str.substring(1));
 		} else {
-			addWordVestige(area, endHyphenIndex,
-					getTextWidth(fi, wb.getHyphenText(0, endHyphenIndex))
-							+ textStyle.getLetterSpacing() * (endHyphenIndex - 1),
-					str.substring(endHyphenIndex));
+			addWordVestige(area, endHyphenIndex, getTextWidth(fi, wb.getHyphenText(0, endHyphenIndex))
+					+ textStyle.getLetterSpacing() * (endHyphenIndex - 1), str.substring(endHyphenIndex));
 		}
 	}
 

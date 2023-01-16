@@ -21,18 +21,63 @@ import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
 import com.ibm.icu.text.Bidi;
+import com.ibm.icu.text.BreakIterator;
 
+/**
+ * <p>
+ * An abstract representation of a line of styled text (eg. with a font and font
+ * size specified etc.) or a fragment thereof.
+ * </p>
+ */
 public class TextArea extends AbstractArea implements ITextArea {
 
 	protected String text;
 
 	protected String cachedText = null;
 
-	private final char SHY_CHAR = (char) 173;
+	/**
+	 * <p>
+	 * The soft hyphen Unicode symbol.
+	 * </p>
+	 * <p>
+	 * It needs special handling, because it should only be visible when a
+	 * line-break occurs there and hidden otherwise.
+	 * </p>
+	 * <p>
+	 * See
+	 * {@link org.eclipse.birt.report.engine.emitter.wpml.writer.AbstractWordXmlWriter#SOFT_HYPHEN}
+	 * for more detail.
+	 * </p>
+	 */
+	private static final char SOFT_HYPHEN = '\u00ad';
 
-	private boolean removeShy = true; // FIXME This should be configurable, depending on the emitter.
+	/**
+	 * <p>
+	 * This controls if Unicode SOFT HYPHEN symbols in a text should be removed from
+	 * the output. The default value is <tt>true</tt> - remove soft hyphens.
+	 * </p>
+	 * <p>
+	 * By setting the system property <tt>org.eclipse.birt.softhyphen.remove</tt> to
+	 * <tt>false</tt>, the old, incorrect behavior of keeping them can be restored.
+	 * </p>
+	 */
+	private boolean removeSoftHyphens = "true".equals(System.getProperty("org.eclipse.birt.softhyphen.remove", "true")); // $NON-NLS-1
 
-	private boolean keepLastSHY = true;
+	/**
+	 * <p>
+	 * This controls if a Unicode SOFT HYPHEN at the end of the text area should be
+	 * kept in the output or removed with the other SOFT HYPHENs when
+	 * {@link #removeSoftHyphens} is set.
+	 * </p>
+	 * <p>
+	 * Note that sometimes the same visible line of text can consist of more than
+	 * one TextAreas. The text content of these text areas are the result of a
+	 * {@link BreakIterator}. A pre-hyphenated word, e.g. "extra\u00adordinary" will
+	 * be split by the {@link BreakIterator} into two
+	 * {@link org.eclipse.birt.report.engine.layout.pdf.hyphen.Word "words"} can
+	 * result in two TextAreas with the texts "
+	 */
+	private boolean keepTrailingSoftHyphen = true;
 
 	protected int runLevel;
 
@@ -121,27 +166,35 @@ public class TextArea extends AbstractArea implements ITextArea {
 		return textLength;
 	}
 
-	public String getRawText() {
-		return text.substring(offset, offset + textLength);
-	}
-
-	private String calculateText(boolean removeShy) {
+	/**
+	 * <p>
+	 * Get a string with the text this TextArea represents.
+	 * </p>
+	 * <p>
+	 * SOFT HYPHEN Unicode symbols inside the text are usually removed (depending on
+	 * {@link #removeSoftHyphens}), except a trailing one (depending on
+	 * {@link #keepTrailingSoftHyphen}).
+	 * </p>
+	 *
+	 * @return The unformatted text.
+	 */
+	private String calculateText() {
 		if (blankLine || text == null) {
 			return "";
 		}
-		String shyText = text.substring(offset, offset + textLength);
-		if (removeShy) {
-			// Remove all SHY characters except a trailing one.
+		String textResult = text.substring(offset, offset + textLength);
+		if (removeSoftHyphens) {
+			// Remove all Unicode SOFT HYPHEN symbols except a trailing one.
 			// FIXME: This is possibly worth performance tuning!
-			int indxShy = shyText.indexOf(SHY_CHAR);
-			for (; indxShy >= 0; indxShy = shyText.indexOf(SHY_CHAR)) {
-				String remaining = shyText.substring(indxShy + 1);
-				if (keepLastSHY && remaining.strip().length() == 0)
+			int indxSoftHyphen = textResult.indexOf(SOFT_HYPHEN);
+			for (; indxSoftHyphen >= 0; indxSoftHyphen = textResult.indexOf(SOFT_HYPHEN)) {
+				String remaining = textResult.substring(indxSoftHyphen + 1);
+				if (keepTrailingSoftHyphen && remaining.strip().length() == 0)
 					break;
-				shyText = shyText.substring(0, indxShy) + remaining;
+				textResult = textResult.substring(0, indxSoftHyphen) + remaining;
 			}
 		}
-		return shyText;
+		return textResult;
 	}
 
 	public void addWord(int textLength, float wordWidth) {
@@ -185,7 +238,7 @@ public class TextArea extends AbstractArea implements ITextArea {
 
 	@Override
 	public String getLogicalOrderText() {
-		return calculateText(removeShy);
+		return calculateText();
 	}
 
 	/**
@@ -198,9 +251,9 @@ public class TextArea extends AbstractArea implements ITextArea {
 	public String getText() {
 		if (cachedText == null) {
 			if ((runLevel & 1) == 0) {
-				cachedText = calculateText(removeShy);
+				cachedText = calculateText();
 			} else {
-				cachedText = flip(calculateText(removeShy));
+				cachedText = flip(calculateText());
 			}
 		}
 		return cachedText;
@@ -259,12 +312,28 @@ public class TextArea extends AbstractArea implements ITextArea {
 		return needClip;
 	}
 
-	public boolean isKeepLastSHY() {
-		return keepLastSHY;
+	/**
+	 * Whether a Unicode SOFT HYPHEN at the end of the text area should be kept in
+	 * the output or removed.
+	 *
+	 * @see #keepTrailingSoftHyphen
+	 *
+	 * @return true if the soft hyphen shall be kept.
+	 */
+	public boolean isKeepTrailingSoftHyphen() {
+		return keepTrailingSoftHyphen;
 	}
 
-	public void setKeepLastSHY(boolean keepLastSHY) {
-		this.keepLastSHY = keepLastSHY;
+	/**
+	 * Control whether a Unicode SOFT HYPHEN at the end of the text area should be
+	 * kept in the output or removed.
+	 *
+	 * @see #keepTrailingSoftHyphen
+	 *
+	 * @param keepTrailingSoftHyphen true if the soft hyphen shall be kept.
+	 */
+	public void setKeepTrailingSoftHyphen(boolean keepTrailingSoftHyphen) {
+		this.keepTrailingSoftHyphen = keepTrailingSoftHyphen;
 	}
 
 

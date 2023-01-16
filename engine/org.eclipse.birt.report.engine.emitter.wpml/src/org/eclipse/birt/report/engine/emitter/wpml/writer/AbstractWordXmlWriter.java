@@ -32,6 +32,10 @@ import org.eclipse.birt.report.engine.emitter.wpml.WordUtil;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.w3c.dom.css.CSSValue;
 
+/**
+ * This is used for writing WordML by the DocxEmitter and by the old Word 2003
+ * emitter.
+ */
 public abstract class AbstractWordXmlWriter {
 
 	protected XMLWriter writer;
@@ -50,7 +54,29 @@ public abstract class AbstractWordXmlWriter {
 
 	public static final int INDEX_NOTFOUND = -1;
 
-	protected final char SHY_CHAR = (char) 173;
+	/**
+	 * <p>
+	 * The soft hyphen Unicode symbol is intended to be visible only when a line
+	 * break occurs there.
+	 * </p>
+	 * <p>
+	 * This hiding logic of the SHY symbol needs special attention in many emitters.
+	 * </p>
+	 * <p>
+	 * SOFT HYPHEN is often abbreviated as SHY, which also is very descriptive,
+	 * because this symbol is hiding inside the surrounding words most of the time.
+	 * </p>
+	 * <p>
+	 * In most fonts, its width is defined as zero, which of cause is correct only
+	 * if it is hidden. If it is rendered, it looks similar to the minus sign.
+	 * </p>
+	 * <p>
+	 * The Unicode standard also defines a HYPHEN symbol, which should look the same
+	 * as the SHY symbol, but doesn't have the hiding logic. However, the HYPHEN
+	 * symbol is rarely defined in TTF fonts.
+	 * </p>
+	 */
+	public static final char SOFT_HYPHEN = '\u00ad';
 
 	protected int imageId = 75;
 
@@ -556,8 +582,8 @@ public abstract class AbstractWordXmlWriter {
 					start++;
 				}
 				end = start + 1;
-			} else if (ch == SHY_CHAR) {
-				// output previous text
+			} else if (ch == SOFT_HYPHEN) {
+				// Output a special WordML tag for the SHY symbol.
 				writeText(txt.substring(start, end));
 				writer.closeTag("w:t"); //$NON-NLS-1$
 				writer.cdata("<w:softHyphen/>"); // $NON-LS-1$
@@ -1012,11 +1038,8 @@ public abstract class AbstractWordXmlWriter {
 	 * @param cellWidth  the width of the container in points
 	 * @return String with truncated words that surpasses the cell width
 	 */
-	public String cropOverflowString(String text, IStyle style, String fontFamily, int cellWidth) {// TODO: retrieve
-																									// font type and
-																									// replace plain
-																									// with
-																									// corresponding
+	public String cropOverflowString(String text, IStyle style, String fontFamily, int cellWidth) {
+		// TODO: retrieve font type and replace plain with corresponding
 		Font font = new Font(fontFamily, Font.PLAIN, WordUtil
 				.parseFontSize(PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_FONT_SIZE))));
 		Canvas c = new Canvas();
