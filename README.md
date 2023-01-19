@@ -20,7 +20,7 @@ To build BIRT with the latest Eclipse platform, run:
 * JDK 11
 * Maven 3.6.3
 
-## Eclipse Version 4.23
+## Eclipse Version
 If you want to install BIRT as a plugin, please be aware that BIRT 4.12 requires Eclipse 4.25 and higher
 
 ## Latest version 4.12.0
