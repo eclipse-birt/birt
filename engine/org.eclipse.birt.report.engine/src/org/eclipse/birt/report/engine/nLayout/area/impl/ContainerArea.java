@@ -1061,10 +1061,26 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return conflicted;
 	}
 
+	/*
+	 * Get the current design handle
+	 *
+	 * Return the current design handle
+	 *
+	 * @since 4.13
+	 *
+	 */
 	protected ReportDesignHandle getCurrentDesignHandle() {
 		return content.getReportContent().getDesign().getReportDesign();
 	}
 
+	/*
+	 * Get the current container module
+	 *
+	 * Return the current container module
+	 *
+	 * @since 4.13
+	 *
+	 */
 	protected Module getCurrentModule() {
 		return getCurrentDesignHandle().getModule();
 	}

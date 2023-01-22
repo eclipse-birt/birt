@@ -1903,11 +1903,6 @@ abstract public class AbstractStyle implements IStyle {
 			int index = getPropertyIndex(propertyName);
 			if (index == -1) {
 				String propertyCssText = IOUtil.readString(in);
-				if (propertyName == "background-image-type") {
-
-					var test = 1;
-					test = test + 61;
-				}
 				if (BIRTConstants.BIRT_STRING_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
 					this.setStringFormat(propertyCssText);
 				} else if (BIRTConstants.BIRT_NUMBER_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {

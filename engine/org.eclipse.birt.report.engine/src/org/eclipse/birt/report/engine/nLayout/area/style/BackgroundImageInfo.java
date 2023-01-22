@@ -84,6 +84,8 @@ public class BackgroundImageInfo extends AreaConstants {
 	 * @param rl
 	 * @param module
 	 * @param sourceType
+	 *
+	 * @since 4.13
 	 */
 	public BackgroundImageInfo(String url, int repeatedMode, int xOffset, int yOffset, int height, int width,
 			ResourceLocatorWrapper rl, Module module, String sourceType) {
@@ -174,6 +176,8 @@ public class BackgroundImageInfo extends AreaConstants {
 
 	/**
 	 * Create the data URL of the image
+	 *
+	 * @since 4.13
 	 */
 	private void createDataUrl() {
 
@@ -423,6 +427,7 @@ public class BackgroundImageInfo extends AreaConstants {
 	 * Set the source type of the background image
 	 *
 	 * @param sourceType String of the image source type
+	 * @since 4.13
 	 */
 	public void setSourceType(String sourceType) {
 		this.sourceType = sourceType;
@@ -432,6 +437,7 @@ public class BackgroundImageInfo extends AreaConstants {
 	 * Get the source type of the background image
 	 *
 	 * @return Returned the source type of the image
+	 * @since 4.13
 	 */
 	public String getSourceType() {
 		return this.sourceType;
@@ -440,6 +446,7 @@ public class BackgroundImageInfo extends AreaConstants {
 	/**
 	 * Get the extension of the image file
 	 *
+	 * @since 4.13
 	 * @return Returned the extension of the image file
 	 */
 	public String getFileExtension() {
@@ -450,6 +457,7 @@ public class BackgroundImageInfo extends AreaConstants {
 	 * Get the image mime type
 	 *
 	 * @return Returned the image mime type
+	 * @since 4.13
 	 */
 	public String getMimeType() {
 		return this.mimeType;

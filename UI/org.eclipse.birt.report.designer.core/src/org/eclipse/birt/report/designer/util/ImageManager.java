@@ -78,7 +78,7 @@ public class ImageManager {
 	 * @param uri
 	 * @return Return the image
 	 */
-	public Image getImage(ModuleHandle handle, String uri) { // TG, Module model) {
+	public Image getImage(ModuleHandle handle, String uri) {
 		return getImage(handle, uri, false);
 	}
 
@@ -115,19 +115,11 @@ public class ImageManager {
 		}
 		String key = url.toString();
 		Image image = null;
-		/*
-		 *
-		 * if (key.contentEquals(DATA_PROTOCOL)) { String[] imageDataArray =
-		 * key.split(";base64,"); String imageDataBase64 = key.split(";base64,")[1];
-		 * Decoder decoder = java.util.Base64.getDecoder(); image = new Image();
-		 * .getInstance(decoder.decode(imageDataBase64)); } else {
-		 *
-		 */
-			image = getImageRegistry().get(key);
-			if (image == null) {
-				image = loadImage(url);
-			}
-//		}
+
+		image = getImageRegistry().get(key);
+		if (image == null) {
+			image = loadImage(url);
+		}
 		if (image == null) {
 			if (!invalidUrlList.contains(url.toString())) {
 				invalidUrlList.add(url.toString());

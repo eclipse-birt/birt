@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 /**
  * class to handle the CSS properties of background image type
  *
- * @since 3.3
+ * @since 4.13
  *
  */
 public class BackgroundImageType extends IdentifierManager {
