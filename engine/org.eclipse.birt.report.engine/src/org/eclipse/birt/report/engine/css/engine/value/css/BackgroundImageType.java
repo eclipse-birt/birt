@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2023 Thomas Gutmann.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -9,7 +9,7 @@
  *
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Thomas Gutmann  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.css;
 

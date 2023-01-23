@@ -41,7 +41,7 @@ import org.w3c.dom.css.CSSValue;
 public class BlockContainerArea extends ContainerArea implements IContainerArea {
 
 	/**
-	 * Constuctor
+	 * Constructor
 	 *
 	 * @param parent
 	 * @param context

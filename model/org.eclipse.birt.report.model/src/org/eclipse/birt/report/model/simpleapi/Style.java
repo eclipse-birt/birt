@@ -50,13 +50,11 @@ public class Style implements IStyle {
 		return style.getBackgroundAttachment();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Set the attachment handling of the background
 	 *
-	 * @seeorg.eclipse.birt.report.engine.script.element.IStyleDesign#
-	 * setBackgroundAttachment(java.lang.String)
+	 * @param value
 	 */
-
 	@Override
 	public void setBackgroundAttachment(String value) throws SemanticException {
 		ActivityStack cmdStack = style.getModule().getActivityStack();
@@ -72,27 +70,21 @@ public class Style implements IStyle {
 		cmdStack.commit();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Get the background image source
 	 *
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getBackgroundImage
-	 * ()
+	 * @return Return the background image source
 	 */
-
 	@Override
 	public String getBackgroundImage() {
 		return style.getBackgroundImage();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Set the background image source property
 	 *
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setBackgroundImage
-	 * (java.lang.String)
+	 * @param value
 	 */
-
 	@Override
 	public void setBackgroundImage(String value) throws SemanticException {
 		ActivityStack cmdStack = style.getModule().getActivityStack();
@@ -108,25 +100,21 @@ public class Style implements IStyle {
 		cmdStack.commit();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Get the background image type
 	 *
-	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#
-	 * getBackgroundImageType()
+	 * @return Return the background image type
 	 */
-
 	@Override
 	public String getBackgroundImageType() {
 		return style.getBackgroundImageType();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Set the background image type
 	 *
-	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#
-	 * setBackgroundImageType(java.lang.String)
+	 * @param value
 	 */
-
 	@Override
 	public void setBackgroundImageType(String value) throws SemanticException {
 		ActivityStack cmdStack = style.getModule().getActivityStack();
