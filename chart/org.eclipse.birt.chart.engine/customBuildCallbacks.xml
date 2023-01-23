@@ -53,6 +53,7 @@
 				<include name="org/eclipse/birt/chart/datafeed/*.class" />
 				<include name="org/eclipse/birt/chart/device/*.class" />
 				<include name="org/eclipse/birt/chart/engine/i18n/*.class" />
+				<include name="org/eclipse/birt/chart/engine/i18n/*.properties" />
 				<include name="org/eclipse/birt/chart/event/*.class" />
 				<include name="org/eclipse/birt/chart/exception/*.class" />
 				<include name="org/eclipse/birt/chart/factory/*.class" />
