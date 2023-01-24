@@ -17,7 +17,17 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 
+/**
+ * Definition of the HTML region area
+ *
+ * @since 3.3
+ *
+ */
 public class HtmlRegionArea extends RegionArea implements IContainerArea {
+
+	/**
+	 * Constructor
+	 */
 	public HtmlRegionArea() {
 		super();
 	}
@@ -27,7 +37,7 @@ public class HtmlRegionArea extends RegionArea implements IContainerArea {
 	}
 
 	@Override
-	public void close() throws BirtException {
+	public void close() {
 		if (specifiedHeight >= currentBP) {
 			finished = true;
 		} else {
@@ -45,6 +55,11 @@ public class HtmlRegionArea extends RegionArea implements IContainerArea {
 		}
 	}
 
+	/**
+	 * Verify if the HTML region is finished
+	 *
+	 * @return true, HTML region is finished
+	 */
 	public boolean isFinished() {
 		return finished;
 	}

@@ -15,6 +15,9 @@
 package org.eclipse.birt.report.engine.emitter.html;
 
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.emitter.HTMLTags;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.w3c.dom.css.CSSValue;
@@ -30,6 +33,12 @@ public class AttributeBuilder {
 
 	/**
 	 * Build the relative position of a component. This method is obsolete.
+	 *
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @return Return the content string
 	 */
 	public static String buildPos(DimensionType x, DimensionType y, DimensionType width, DimensionType height) {
 		StringBuffer content = new StringBuffer();
@@ -101,7 +110,7 @@ public class AttributeBuilder {
 			return;
 		}
 
-		image = emitter.handleStyleImage(image, true);
+		image = emitter.handleStyleImage(image, true, style);
 		if (image != null && image.length() > 0) {
 			buildURLProperty(styleBuffer, HTMLTags.ATTR_BACKGROUND_IMAGE, image);
 			buildProperty(styleBuffer, HTMLTags.ATTR_BACKGROUND_REPEAT, style.getBackgroundRepeat());
@@ -124,6 +133,13 @@ public class AttributeBuilder {
 		}
 	}
 
+	/**
+	 * Build the background color
+	 *
+	 * @param styleBuffer
+	 * @param style
+	 * @param emitter
+	 */
 	public static void buildBackgroundColor(StringBuffer styleBuffer, IStyle style, HTMLReportEmitter emitter) {
 		buildProperty(styleBuffer, HTMLTags.ATTR_BACKGROUND_COLOR, style.getBackgroundColor());
 	}
@@ -302,7 +318,6 @@ public class AttributeBuilder {
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
 	 * @param style       The style object.
-	 * @param bContainer  true: shouldn't output the text-decoration.
 	 */
 	public static void buildText(StringBuffer styleBuffer, IStyle style) {
 		buildProperty(styleBuffer, HTMLTags.ATTR_TEXT_INDENT, style.getTextIndent());
@@ -349,25 +364,23 @@ public class AttributeBuilder {
 	 *
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
-	 * @param linethrough The line-through value.
-	 * @param underline   The underline value.
-	 * @param overline    The overline value.
+	 * @param style       The style of the text decoration.
 	 */
 	public static void buildTextDecoration(StringBuffer styleBuffer, IStyle style) {
-		CSSValue linethrough = style.getProperty(IStyle.STYLE_TEXT_LINETHROUGH);
-		CSSValue underline = style.getProperty(IStyle.STYLE_TEXT_UNDERLINE);
-		CSSValue overline = style.getProperty(IStyle.STYLE_TEXT_OVERLINE);
+		CSSValue linethrough = style.getProperty(StyleConstants.STYLE_TEXT_LINETHROUGH);
+		CSSValue underline = style.getProperty(StyleConstants.STYLE_TEXT_UNDERLINE);
+		CSSValue overline = style.getProperty(StyleConstants.STYLE_TEXT_OVERLINE);
 
-		if (linethrough == IStyle.LINE_THROUGH_VALUE || underline == IStyle.UNDERLINE_VALUE
-				|| overline == IStyle.OVERLINE_VALUE) {
+		if (linethrough == CSSValueConstants.LINE_THROUGH_VALUE || underline == CSSValueConstants.UNDERLINE_VALUE
+				|| overline == CSSValueConstants.OVERLINE_VALUE) {
 			styleBuffer.append(" text-decoration:"); //$NON-NLS-1$
-			if (IStyle.LINE_THROUGH_VALUE == linethrough) {
+			if (CSSValueConstants.LINE_THROUGH_VALUE == linethrough) {
 				addPropValue(styleBuffer, "line-through");
 			}
-			if (IStyle.UNDERLINE_VALUE == underline) {
+			if (CSSValueConstants.UNDERLINE_VALUE == underline) {
 				addPropValue(styleBuffer, "underline");
 			}
-			if (IStyle.OVERLINE_VALUE == overline) {
+			if (CSSValueConstants.OVERLINE_VALUE == overline) {
 				addPropValue(styleBuffer, "overline");
 			}
 			styleBuffer.append(';');
@@ -538,7 +551,7 @@ public class AttributeBuilder {
 		if (style != null) {
 			String direction = style.getDirection();
 			if (direction != null) {
-				buildProperty(styleBuffer, IStyle.CSS_DIRECTION_PROPERTY, direction);
+				buildProperty(styleBuffer, CSSConstants.CSS_DIRECTION_PROPERTY, direction);
 			}
 		}
 	}

@@ -19,10 +19,21 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IStyle;
 
+/**
+ * Definition of the model style
+ *
+ * @since 3.3
+ *
+ */
 public class Style implements IStyle {
 
 	private StyleHandle style;
 
+	/**
+	 * Constructor
+	 *
+	 * @param style
+	 */
 	public Style(StyleHandle style) {
 		this.style = style;
 	}
@@ -39,13 +50,11 @@ public class Style implements IStyle {
 		return style.getBackgroundAttachment();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Set the attachment handling of the background
 	 *
-	 * @seeorg.eclipse.birt.report.engine.script.element.IStyleDesign#
-	 * setBackgroundAttachment(java.lang.String)
+	 * @param value
 	 */
-
 	@Override
 	public void setBackgroundAttachment(String value) throws SemanticException {
 		ActivityStack cmdStack = style.getModule().getActivityStack();
@@ -61,27 +70,21 @@ public class Style implements IStyle {
 		cmdStack.commit();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Get the background image source
 	 *
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getBackgroundImage
-	 * ()
+	 * @return Return the background image source
 	 */
-
 	@Override
 	public String getBackgroundImage() {
 		return style.getBackgroundImage();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Set the background image source property
 	 *
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setBackgroundImage
-	 * (java.lang.String)
+	 * @param value
 	 */
-
 	@Override
 	public void setBackgroundImage(String value) throws SemanticException {
 		ActivityStack cmdStack = style.getModule().getActivityStack();
@@ -89,6 +92,36 @@ public class Style implements IStyle {
 		cmdStack.startNonUndoableTrans(null);
 		try {
 			style.setBackgroundImage(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
+			throw e;
+		}
+
+		cmdStack.commit();
+	}
+
+	/**
+	 * Get the background image type
+	 *
+	 * @return Return the background image type
+	 */
+	@Override
+	public String getBackgroundImageType() {
+		return style.getBackgroundImageType();
+	}
+
+	/**
+	 * Set the background image type
+	 *
+	 * @param value
+	 */
+	@Override
+	public void setBackgroundImageType(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
+
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setBackgroundImageType(value);
 		} catch (SemanticException e) {
 			cmdStack.rollback();
 			throw e;

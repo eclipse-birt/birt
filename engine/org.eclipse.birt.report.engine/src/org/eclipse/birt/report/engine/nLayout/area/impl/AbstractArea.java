@@ -81,18 +81,38 @@ public abstract class AbstractArea implements IArea {
 		this.isDummy = area.isDummy;
 	}
 
+	/**
+	 * Get the parent container
+	 *
+	 * @return Return the parent container
+	 */
 	public ContainerArea getParent() {
 		return parent;
 	}
 
+	/**
+	 * Set parent container
+	 *
+	 * @param parent
+	 */
 	public void setParent(ContainerArea parent) {
 		this.parent = parent;
 	}
 
+	/**
+	 * Get the vertical align at container
+	 *
+	 * @return Return the vertical align at container
+	 */
 	public CSSValue getVerticalAlign() {
 		return vAlign;
 	}
 
+	/**
+	 * Set vertical align of the container
+	 *
+	 * @param vAlign
+	 */
 	public void setVerticalAlign(CSSValue vAlign) {
 		this.vAlign = vAlign;
 	}
@@ -106,6 +126,11 @@ public abstract class AbstractArea implements IArea {
 		return bookmark;
 	}
 
+	/**
+	 * Set the bookmark of the container
+	 *
+	 * @param bookmark
+	 */
 	public void setBookmark(String bookmark) {
 		this.bookmark = bookmark;
 	}
@@ -115,20 +140,40 @@ public abstract class AbstractArea implements IArea {
 		return action;
 	}
 
+	/**
+	 * Set the hyperlink action of the container
+	 *
+	 * @param action
+	 */
 	public void setAction(IHyperlinkAction action) {
 		this.action = action;
 	}
 
+	/**
+	 * Set the position X of the container
+	 *
+	 * @param x X position of the container
+	 */
 	public void setX(int x) {
 		this.x = x;
 	}
 
+	/**
+	 * Set the position Y of the container
+	 *
+	 * @param y Y position of the container
+	 */
 	public void setY(int y) {
 		this.y = y;
 	}
 
 	protected IHyperlinkAction action = null;
 
+	/**
+	 * Set scale factor of the container
+	 *
+	 * @param scale scale factor of the container
+	 */
 	public void setScale(float scale) {
 		this.scale = scale;
 	}
@@ -154,20 +199,42 @@ public abstract class AbstractArea implements IArea {
 		return y;
 	}
 
+	/**
+	 * Set the position of the container
+	 *
+	 * @param x X position of the container
+	 * @param y Y position of the container
+	 */
 	public void setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
+	/**
+	 * Set the allocated position of the container
+	 *
+	 * @param x X position of the container
+	 * @param y Y position of the container
+	 */
 	public void setAllocatedPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
+	/**
+	 * Set the allocated position Y of the container
+	 *
+	 * @param ay allocated position Y of the container
+	 */
 	public void setAllocatedY(int ay) {
 		y = ay;
 	}
 
+	/**
+	 * Set the allocated position X of the container
+	 *
+	 * @param ax allocated position X of the container
+	 */
 	public void setAllocatedX(int ax) {
 		x = ax;
 	}
@@ -206,10 +273,20 @@ public abstract class AbstractArea implements IArea {
 		this.height = height;
 	}
 
+	/**
+	 * Get the allocated width
+	 *
+	 * @return Return the allocated width
+	 */
 	public int getAllocatedWidth() {
 		return width;
 	}
 
+	/**
+	 * Get the allocated height
+	 *
+	 * @return Return the allocated height
+	 */
 	public int getAllocatedHeight() {
 		return height;
 	}
@@ -231,34 +308,67 @@ public abstract class AbstractArea implements IArea {
 	public int getBaseLine() {
 		if (baseLine == 0) {
 			return height;
-		} else {
-			return baseLine;
 		}
-
+		return baseLine;
 	}
 
+	/**
+	 * Get the abstract area
+	 *
+	 * @return Return the abstract area
+	 */
 	public abstract AbstractArea cloneArea();
 
+	/**
+	 * Create a deep clone of the area
+	 *
+	 * @return Return the deep clone of the area
+	 */
 	public AbstractArea deepClone() {
 		return cloneArea();
 	}
 
+	/**
+	 * Get the allocated position X
+	 *
+	 * @return Return the allocated position X
+	 */
 	public int getAllocatedX() {
 		return x;
 	}
 
+	/**
+	 * Get the allocated position Y
+	 *
+	 * @return Return the allocated position Y
+	 */
 	public int getAllocatedY() {
 		return y;
 	}
 
+	/**
+	 * Verify the reordering whether it is to ignore
+	 *
+	 * @return true, ignore reordering
+	 */
 	public boolean isIgnoreReordering() {
 		return ignoreReordering;
 	}
 
+	/**
+	 * Set the reordering ignore flag (true: ignore)
+	 *
+	 * @param ignoreReordering
+	 */
 	public void setIgnoreReordering(boolean ignoreReordering) {
 		this.ignoreReordering = ignoreReordering;
 	}
 
+	/**
+	 * Print debug information
+	 *
+	 * @param area
+	 */
 	public static void debugPrint(IArea area) {
 		if (area instanceof IContainerArea) {
 			System.out.print(area.getClass() + "||");
@@ -273,6 +383,11 @@ public abstract class AbstractArea implements IArea {
 		}
 	}
 
+	/**
+	 * Print debug information of visuals
+	 *
+	 * @param area
+	 */
 	public static void debugPrintVisual(IArea area) {
 		if (area instanceof ITextArea) {
 			System.out.println(((ITextArea) area).getText());
@@ -283,6 +398,11 @@ public abstract class AbstractArea implements IArea {
 		}
 	}
 
+	/**
+	 * Print debug information of with computed position X, Y
+	 *
+	 * @param area
+	 */
 	public static void debugPrintWithComputedXY(IArea area) {
 		debugPrint(area, 0, 0);
 	}

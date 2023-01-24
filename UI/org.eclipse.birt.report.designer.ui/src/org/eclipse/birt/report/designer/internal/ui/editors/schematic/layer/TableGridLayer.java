@@ -31,8 +31,9 @@ import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -53,8 +54,7 @@ public class TableGridLayer extends GridLayer {
 	/**
 	 * Constructor
 	 *
-	 * @param rows
-	 * @param cells
+	 * @param source
 	 */
 	public TableGridLayer(TableEditPart source) {
 		super();
@@ -62,16 +62,20 @@ public class TableGridLayer extends GridLayer {
 	}
 
 	/**
+	 * Get the rows of the table
+	 *
 	 * @return rows
 	 */
-	public List getRows() {
+	public List<?> getRows() {
 		return source.getRows();
 	}
 
 	/**
+	 * Get the columns of the table
+	 *
 	 * @return columns
 	 */
-	public List getColumns() {
+	public List<?> getColumns() {
 		return source.getColumns();
 	}
 
@@ -99,7 +103,7 @@ public class TableGridLayer extends GridLayer {
 
 	protected void drawRows(Graphics g) {
 		Rectangle clip = g.getClip(Rectangle.SINGLETON);
-		List rows = getRows();
+		List<?> rows = getRows();
 		int size = rows.size();
 		int height = 0;
 		for (int i = 0; i < size; i++) {
@@ -124,10 +128,25 @@ public class TableGridLayer extends GridLayer {
 
 		if (backGroundImage != null) {
 			Image image = null;
+			String imageSourceType = DesignChoiceConstants.IMAGE_REF_TYPE_EMBED;
+
+			// TODO: columns of table & grid missing the background image type property
+			Object obj = handle.getProperty(IStyleModel.BACKGROUND_IMAGE_TYPE_PROP);
+			if (obj instanceof String) {
+				imageSourceType = obj.toString();
+			}
 			try {
-				image = ImageManager.getInstance().getImage(this.source.getTableAdapter().getModuleHandle(),
-						backGroundImage);
+				if (imageSourceType.equalsIgnoreCase(DesignChoiceConstants.IMAGE_REF_TYPE_EMBED)) {
+					// embedded image
+					image = ImageManager.getInstance().getEmbeddedImage(this.source.getTableAdapter().getModuleHandle(),
+							backGroundImage);
+				} else {
+					// URL image
+					image = ImageManager.getInstance().getImage(this.source.getTableAdapter().getModuleHandle(),
+							backGroundImage);
+				}
 			} catch (SWTException e) {
+				// Should not be ExceptionHandler.handle(e), see SCR#73730
 				image = null;
 			}
 
@@ -202,14 +221,14 @@ public class TableGridLayer extends GridLayer {
 					}
 				}
 
-				ArrayList xyList = createImageList(tx, ty, size, repeat, rectangle);
+				ArrayList<Point> xyList = createImageList(tx, ty, size, repeat, rectangle);
 
-				Iterator iter = xyList.iterator();
+				Iterator<Point> iter = xyList.iterator();
 				Rectangle rect = new Rectangle();
 				g.getClip(rect);
 				g.setClip(rectangle);
 				while (iter.hasNext()) {
-					Point point = (Point) iter.next();
+					Point point = iter.next();
 					g.drawImage(image, point);
 				}
 				g.setClip(rect);
@@ -228,10 +247,10 @@ public class TableGridLayer extends GridLayer {
 	 * @param rectangle
 	 * @return the list of all the images to be displayed.
 	 */
-	private ArrayList createImageList(int x, int y, Dimension size, int repeat, Rectangle rectangle) {
+	private ArrayList<Point> createImageList(int x, int y, Dimension size, int repeat, Rectangle rectangle) {
 		Rectangle area = rectangle;
 
-		ArrayList yList = new ArrayList();
+		ArrayList<Point> yList = new ArrayList<Point>();
 
 		if ((repeat & ImageConstants.REPEAT_Y) == 0) {
 			yList.add(new Point(x, y));
@@ -249,11 +268,11 @@ public class TableGridLayer extends GridLayer {
 			}
 		}
 
-		ArrayList xyList = new ArrayList();
+		ArrayList<Point> xyList = new ArrayList<Point>();
 
-		Iterator iter = yList.iterator();
+		Iterator<Point> iter = yList.iterator();
 		while (iter.hasNext()) {
-			Point point = (Point) iter.next();
+			Point point = iter.next();
 
 			if ((repeat & ImageConstants.REPEAT_X) == 0) {
 				xyList.add(point);
@@ -323,7 +342,7 @@ public class TableGridLayer extends GridLayer {
 	protected void drawColumns(Graphics g) {
 		g.setBackgroundColor(ReportColorConstants.greyFillColor);
 		Rectangle clip = g.getClip(Rectangle.SINGLETON);
-		List columns = getColumns();
+		List<?> columns = getColumns();
 		int size = columns.size();
 		int width = 0;
 		for (int i = 0; i < size; i++) {
@@ -358,7 +377,7 @@ public class TableGridLayer extends GridLayer {
 		assert model instanceof DesignElementHandle;
 
 		DesignElementHandle handle = (DesignElementHandle) model;
-		Object obj = handle.getProperty(StyleHandle.BACKGROUND_COLOR_PROP);
+		Object obj = handle.getProperty(IStyleModel.BACKGROUND_COLOR_PROP);
 
 		if (obj != null) {
 			Rectangle rect = new Rectangle(x, y, width, height);
@@ -372,7 +391,7 @@ public class TableGridLayer extends GridLayer {
 			// {
 			// color = ( (Integer) obj ).intValue( );
 			// }
-			color = handle.getPropertyHandle(StyleHandle.BACKGROUND_COLOR_PROP).getIntValue();
+			color = handle.getPropertyHandle(IStyleModel.BACKGROUND_COLOR_PROP).getIntValue();
 			g.setBackgroundColor(ColorManager.getColor(color));
 			g.fillRectangle(rect);
 		}

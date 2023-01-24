@@ -17,17 +17,23 @@ package org.eclipse.birt.report.engine.api;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Define the class of task options
+ *
+ * @since 3.3
+ *
+ */
 public class TaskOption implements ITaskOption {
 	/**
 	 * a hash map that stores the rendering options
 	 */
-	protected Map options;
+	protected Map<String, Object> options;
 
 	/**
 	 * constructor
 	 */
 	public TaskOption() {
-		options = new HashMap();
+		options = new HashMap<String, Object>();
 	}
 
 	/**
@@ -35,7 +41,7 @@ public class TaskOption implements ITaskOption {
 	 *
 	 * @param options
 	 */
-	public TaskOption(Map options) {
+	public TaskOption(Map<String, Object> options) {
 		this.options = options;
 	}
 
@@ -75,7 +81,7 @@ public class TaskOption implements ITaskOption {
 	 * @return options
 	 */
 	@Override
-	public Map getOptions() {
+	public Map<String, Object> getOptions() {
 		return options;
 	}
 
@@ -110,6 +116,13 @@ public class TaskOption implements ITaskOption {
 		return defaultValue;
 	}
 
+	/**
+	 * Get the options int based
+	 *
+	 * @param name
+	 * @param defaultValue
+	 * @return Return the options int based
+	 */
 	public int getIntOption(String name, int defaultValue) {
 		Object value = options.get(name);
 		if (value instanceof Integer) {

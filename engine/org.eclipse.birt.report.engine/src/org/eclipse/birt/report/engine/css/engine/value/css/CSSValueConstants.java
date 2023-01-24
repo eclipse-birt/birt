@@ -762,8 +762,14 @@ public interface CSSValueConstants {
 	 */
 	Value JUSTIFY_VALUE = new StringValue(CSSPrimitiveValue.CSS_IDENT, CSSConstants.CSS_JUSTIFY_VALUE);
 
+	/**
+	 * the "contain" value
+	 */
 	Value CONTAIN_VALUE = new StringValue(CSSPrimitiveValue.CSS_IDENT, CSSConstants.CSS_CONTAIN_VALUE);
 
+	/**
+	 * the "cover" value
+	 */
 	Value COVER_VALUE = new StringValue(CSSPrimitiveValue.CSS_IDENT, CSSConstants.CSS_COVER_VALUE);
 
 	/**
@@ -931,4 +937,10 @@ public interface CSSValueConstants {
 	 * the "hidden" value for overflow
 	 */
 	Value OVERFLOW_HIDDEN_VALUE = new StringValue(CSSPrimitiveValue.CSS_IDENT, CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE);
+
+	/**
+	 * The 'url' keyword.
+	 */
+	Value URL_VALUE = new StringValue(CSSPrimitiveValue.CSS_IDENT, CSSConstants.CSS_URL_VALUE);
+
 }

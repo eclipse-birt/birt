@@ -24,33 +24,87 @@ public interface BIRTConstants extends CSSConstants {
 	/////////////////////////////////////////////////////////////////////////
 	// BIRT attributes
 	/////////////////////////////////////////////////////////////////////////
+	/**
+	 * BIRT property: background image type
+	 */
+	String BIRT_BACKGROUND_IMAGE_TYPE = "background-image-type";
+	/**
+	 * BIRT property: background position X
+	 */
 	String BIRT_BACKGROUND_POSITION_X_PROPERTY = "background-position-x";
+	/**
+	 * BIRT property: background position Y
+	 */
 	String BIRT_BACKGROUND_POSITION_Y_PROPERTY = "background-position-y";
+	/**
+	 * BIRT property: can shrink
+	 */
 	String BIRT_CAN_SHRINK_PROPERTY = "can-shrink"; //$NON-NLS-1$
+	/**
+	 * BIRT property: master-page
+	 */
 	String BIRT_MASTER_PAGE_PROPERTY = "master-page"; //$NON-NLS-1$
+	/**
+	 * BIRT property: number-align
+	 */
 	String BIRT_NUMBER_ALIGN_PROPERTY = "number-align";
+	/**
+	 * BIRT property: show-if-blank
+	 */
 	String BIRT_SHOW_IF_BLANK_PROPERTY = "show-if-blank"; //$NON-NLS-1$
+	/**
+	 * BIRT property: text underline
+	 */
 	String BIRT_TEXT_UNDERLINE_PROPERTY = "text-underline"; //$NON-NLS-1$
+	/**
+	 * BIRT property: text overline
+	 */
 	String BIRT_TEXT_OVERLINE_PROPERTY = "text-overline"; //$NON-NLS-1$
+	/**
+	 * BIRT property: text linethrough
+	 */
 	String BIRT_TEXT_LINETHROUGH_PROPERTY = "text-linethrough"; //$NON-NLS-1$
+	/**
+	 * BIRT property: visible format
+	 */
 	String BIRT_VISIBLE_FORMAT_PROPERTY = "visible-format";
+	/**
+	 * BIRT property: data format
+	 */
 	String BIRT_STYLE_DATA_FORMAT = "data-format";
 
 	///////////////////////////////////////////////////////////////////////
 	// Deprecated format constants, they are replaced by data-format
 	//////////////////////////////////////////////////////////////////////
+	/** BIRT property: date format */
 	String BIRT_DATE_TIME_FORMAT_PROPERTY = "date-format"; //$NON-NLS-1$
+	/** BIRT property: sql time format */
 	String BIRT_TIME_FORMAT_PROPERTY = "sql-time-format"; //$NON-NLS-1$
+	/** BIRT property: sql date format */
 	String BIRT_DATE_FORMAT_PROPERTY = "sql-date-format"; //$NON-NLS-1$
+	/** BIRT property: number format */
 	String BIRT_NUMBER_FORMAT_PROPERTY = "number-format"; //$NON-NLS-1$
+	/** BIRT property: string format */
 	String BIRT_STRING_FORMAT_PROPERTY = "string-format"; //$NON-NLS-1$
 
 	/////////////////////////////////////////////////////////////////////////
 	// BIRT attribute value
 	/////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * BIRT attribute value: true
+	 */
 	String BIRT_TRUE_VALUE = "true";
+	/**
+	 * BIRT attribute value: false
+	 */
 	String BIRT_FALSE_VALUE = "false";
+	/**
+	 * BIRT attribute value: all
+	 */
 	String BIRT_ALL_VALUE = "all";
+	/**
+	 * BIRT attribute value: soft
+	 */
 	String BIRT_SOFT_VALUE = "soft";
 }

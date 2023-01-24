@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.css.engine.value.birt.BooleanManager;
 import org.eclipse.birt.report.engine.css.engine.value.birt.DataFormatManager;
 import org.eclipse.birt.report.engine.css.engine.value.birt.VisibleFormatManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.BackgroundAttachmentManager;
+import org.eclipse.birt.report.engine.css.engine.value.css.BackgroundImageType;
 import org.eclipse.birt.report.engine.css.engine.value.css.BackgroundRepeatManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.BackgroundSizeManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.BorderColorManager;
@@ -180,6 +181,8 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory {
 				CSSValueConstants.NUMBER_0);
 		vms[StyleConstants.STYLE_WIDTH] = new LengthManager(CSSConstants.CSS_WIDTH_PROPERTY, false,
 				CSSValueConstants.NUMBER_0);
+		vms[StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE] = new BackgroundImageType();
+
 	}
 
 	@Override

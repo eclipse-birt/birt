@@ -30,12 +30,11 @@ import java.util.regex.Pattern;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.print.PrintTranscoder;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
-import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.emitter.AbstractPage;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
-import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
-import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.AreaConstants;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.engine.util.SvgFile;
@@ -57,6 +56,12 @@ import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfTextArray;
 import com.lowagie.text.pdf.PdfWriter;
 
+/**
+ * Definition of the PDF page
+ *
+ * @since 3.3
+ *
+ */
 public class PDFPage extends AbstractPage {
 
 	/**
@@ -84,6 +89,15 @@ public class PDFPage extends AbstractPage {
 	private static Pattern PAGE_LINK_PATTERN = Pattern
 			.compile("^((([a-zA-Z]:))(/(\\w[\\w ]*.*))+\\.(pdf|PDF))+#page=(\\d+)$");
 
+	/**
+	 * Constructor of the PDF page
+	 *
+	 * @param pageWidth
+	 * @param pageHeight
+	 * @param document
+	 * @param writer
+	 * @param pageDevice
+	 */
 	public PDFPage(int pageWidth, int pageHeight, Document document, PdfWriter writer, PDFPageDevice pageDevice) {
 		super(pageWidth, pageHeight);
 		this.writer = writer;
@@ -168,8 +182,8 @@ public class PDFPage extends AbstractPage {
 			}
 		}
 
-		boolean xExtended = (repeat & BackgroundImageInfo.REPEAT_X) == BackgroundImageInfo.REPEAT_X;
-		boolean yExtended = (repeat & BackgroundImageInfo.REPEAT_Y) == BackgroundImageInfo.REPEAT_Y;
+		boolean xExtended = (repeat & AreaConstants.REPEAT_X) == AreaConstants.REPEAT_X;
+		boolean yExtended = (repeat & AreaConstants.REPEAT_Y) == AreaConstants.REPEAT_Y;
 		imageWidth = image.getWidth();
 		imageHeight = image.getHeight();
 
@@ -270,23 +284,23 @@ public class PDFPage extends AbstractPage {
 			int lineStyle) {
 		// if the border does NOT have color or the line width of the border is
 		// zero or the lineStyle is "none", just return.
-		if (null == color || 0f == width || BorderInfo.BORDER_STYLE_NONE == lineStyle) // $NON-NLS-1$
+		if (null == color || 0f == width || AreaConstants.BORDER_STYLE_NONE == lineStyle) // $NON-NLS-1$
 		{
 			return;
 		}
 		contentByte.saveState();
-		if (BorderInfo.BORDER_STYLE_SOLID == lineStyle) // $NON-NLS-1$
+		if (AreaConstants.BORDER_STYLE_SOLID == lineStyle) // $NON-NLS-1$
 		{
 			drawRawLine(startX, startY, endX, endY, width, color, contentByte);
-		} else if (BorderInfo.BORDER_STYLE_DASHED == lineStyle) // $NON-NLS-1$
+		} else if (AreaConstants.BORDER_STYLE_DASHED == lineStyle) // $NON-NLS-1$
 		{
 			contentByte.setLineDash(3 * width, 2 * width, 0f);
 			drawRawLine(startX, startY, endX, endY, width, color, contentByte);
-		} else if (BorderInfo.BORDER_STYLE_DOTTED == lineStyle) // $NON-NLS-1$
+		} else if (AreaConstants.BORDER_STYLE_DOTTED == lineStyle) // $NON-NLS-1$
 		{
 			contentByte.setLineDash(width, width, 0f);
 			drawRawLine(startX, startY, endX, endY, width, color, contentByte);
-		} else if (BorderInfo.BORDER_STYLE_DOUBLE == lineStyle) // $NON-NLS-1$
+		} else if (AreaConstants.BORDER_STYLE_DOUBLE == lineStyle) // $NON-NLS-1$
 		{
 			return;
 		}
@@ -302,10 +316,9 @@ public class PDFPage extends AbstractPage {
 	@Override
 	protected void drawText(String text, float textX, float textY, float baseline, float width, float height,
 			TextStyle textStyle) {
-		drawText(text, textX, textY + baseline, width, height, textStyle.getFontInfo(),
+		drawText1(text, textX, textY + baseline, textStyle.getFontInfo(),
 				convertToPoint(textStyle.getLetterSpacing()), convertToPoint(textStyle.getWordSpacing()),
-				textStyle.getColor(), textStyle.isLinethrough(), textStyle.isOverline(), textStyle.isUnderline(),
-				textStyle.getAlign());
+				textStyle.getColor(), textStyle.getAlign());
 		if (textStyle.isHasHyperlink()) {
 			FontInfo fontInfo = textStyle.getFontInfo();
 			float lineWidth = fontInfo.getLineWidth();
@@ -314,12 +327,22 @@ public class PDFPage extends AbstractPage {
 		}
 	}
 
-	private void drawText(String text, float textX, float textY, float width, float height, FontInfo fontInfo,
-			float characterSpacing, float wordSpacing, Color color, boolean linethrough, boolean overline,
-			boolean underline, CSSValue align) {
+	private void drawText1(String text, float textX, float textY, FontInfo fontInfo,
+			float characterSpacing, float wordSpacing, Color color, CSSValue align) {
 		drawText(text, textX, textY, fontInfo, characterSpacing, wordSpacing, color, align);
 	}
 
+	/**
+	 * Draw the total page
+	 *
+	 * @param text
+	 * @param textX
+	 * @param textY
+	 * @param width
+	 * @param height
+	 * @param textInfo
+	 * @param scale
+	 */
 	public void drawTotalPage(String text, int textX, int textY, int width, int height, TextStyle textInfo,
 			float scale) {
 		PdfTemplate template = pageDevice.getPDFTemplate(scale);
@@ -333,14 +356,35 @@ public class PDFPage extends AbstractPage {
 		}
 	}
 
+	/**
+	 * Create the bookmarks
+	 *
+	 * @param bookmark
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
 	public void createBookmark(String bookmark, int x, int y, int width, int height) {
-		createBookmark(bookmark, convertToPoint(x), convertToPoint(y), convertToPoint(width), convertToPoint(height));
+		createBookmark(bookmark, convertToPoint(y));
 	}
 
-	private void createBookmark(String bookmark, float x, float y, float width, float height) {
+	private void createBookmark(String bookmark, float y) {
 		contentByte.localDestination(bookmark, new PdfDestination(PdfDestination.XYZ, -1, transformY(y), 0));
 	}
 
+	/**
+	 * Create the hyperlinks
+	 *
+	 * @param hyperlink
+	 * @param bookmark
+	 * @param targetWindow
+	 * @param type
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
 	public void createHyperlink(String hyperlink, String bookmark, String targetWindow, int type, int x, int y,
 			int width, int height) {
 		createHyperlink(hyperlink, bookmark, targetWindow, type, convertToPoint(x), convertToPoint(y),
@@ -354,6 +398,15 @@ public class PDFPage extends AbstractPage {
 				createPdfAction(hyperlink, bookmark, targetWindow, type)));
 	}
 
+	/**
+	 * Create the total page template
+	 *
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param scale
+	 */
 	public void createTotalPageTemplate(int x, int y, int width, int height, float scale) {
 		createTotalPageTemplate(convertToPoint(x), convertToPoint(y), convertToPoint(width), convertToPoint(height),
 				scale);
@@ -426,7 +479,8 @@ public class PDFPage extends AbstractPage {
 			contentByte.setWordSpacing(wordSpacing);
 		}
 		setTextMatrix(contentByte, fontInfo, textX, transformY(textY, 0, containerHeight));
-		if ((font.getFontType() == BaseFont.FONT_TYPE_TTUNI) && IStyle.JUSTIFY_VALUE.equals(align) && wordSpacing > 0) {
+		if ((font.getFontType() == BaseFont.FONT_TYPE_TTUNI) && CSSValueConstants.JUSTIFY_VALUE.equals(align)
+				&& wordSpacing > 0) {
 			int idx = text.indexOf(' ');
 			if (idx >= 0) {
 				float spaceCorrection = -wordSpacing * 1000 / fontSize;

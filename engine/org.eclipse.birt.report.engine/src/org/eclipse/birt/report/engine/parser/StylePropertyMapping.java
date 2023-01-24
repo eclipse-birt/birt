@@ -44,6 +44,8 @@ public class StylePropertyMapping {
 		nameMapping.put(IStyleModel.COLOR_PROP, Integer.valueOf(StyleConstants.STYLE_COLOR));
 		nameMapping.put(IStyleModel.BACKGROUND_COLOR_PROP, Integer.valueOf(StyleConstants.STYLE_BACKGROUND_COLOR));
 		nameMapping.put(IStyleModel.BACKGROUND_IMAGE_PROP, Integer.valueOf(StyleConstants.STYLE_BACKGROUND_IMAGE));
+		nameMapping.put(IStyleModel.BACKGROUND_IMAGE_TYPE_PROP,
+				Integer.valueOf(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
 		nameMapping.put(IStyleModel.BACKGROUND_REPEAT_PROP, Integer.valueOf(StyleConstants.STYLE_BACKGROUND_REPEAT));
 		nameMapping.put(IStyleModel.BACKGROUND_ATTACHMENT_PROP,
 				Integer.valueOf(StyleConstants.STYLE_BACKGROUND_ATTACHMENT));

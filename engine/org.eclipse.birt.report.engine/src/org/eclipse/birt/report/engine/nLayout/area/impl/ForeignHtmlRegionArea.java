@@ -16,21 +16,36 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IForeignContent;
-import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 
+/**
+ * Definition of foreign HTML region area
+ *
+ * @since 3.3
+ *
+ */
 public class ForeignHtmlRegionArea extends RegionArea implements IContainerArea {
 
+	/**
+	 * Constructor (default)
+	 */
 	public ForeignHtmlRegionArea() {
 		super();
 	}
 
+	/**
+	 * Constructor content based
+	 *
+	 * @param content
+	 * @param context
+	 */
 	public ForeignHtmlRegionArea(IForeignContent content, LayoutContext context) {
 		super();
 		this.context = context;
 		this.content = content;
-		this.setPageBreakInside(IStyle.AVOID_VALUE);
+		this.setPageBreakInside(CSSValueConstants.AVOID_VALUE);
 	}
 
 	ForeignHtmlRegionArea(ForeignHtmlRegionArea area) {
@@ -45,7 +60,7 @@ public class ForeignHtmlRegionArea extends RegionArea implements IContainerArea 
 	}
 
 	@Override
-	public void close() throws BirtException {
+	public void close() {
 		finished = true;
 		if (specifiedHeight > 0) {
 			height = specifiedHeight;
@@ -74,7 +89,7 @@ public class ForeignHtmlRegionArea extends RegionArea implements IContainerArea 
 	}
 
 	@Override
-	public void update(AbstractArea area) throws BirtException {
+	public void update(AbstractArea area) { // throws BirtException {
 		int aHeight = area.getAllocatedHeight();
 		currentBP += aHeight;
 		if (currentIP + area.getAllocatedWidth() > maxAvaWidth) {
@@ -82,6 +97,11 @@ public class ForeignHtmlRegionArea extends RegionArea implements IContainerArea 
 		}
 	}
 
+	/**
+	 * Is the foreign HTML region finished
+	 *
+	 * @return true, foreign HTML region is finished
+	 */
 	public boolean isFinished() {
 		return finished;
 	}

@@ -40,7 +40,7 @@ public class RenderOption extends TaskOption implements IRenderOption {
 	 *
 	 * @param options
 	 */
-	public RenderOption(Map options) {
+	public RenderOption(Map<String, Object> options) {
 		super(options);
 	}
 
@@ -61,7 +61,7 @@ public class RenderOption extends TaskOption implements IRenderOption {
 	 */
 	@Deprecated
 	@Override
-	public Map getOutputSetting() {
+	public Map<String, Object> getOutputSetting() {
 		return options;
 	}
 
@@ -200,7 +200,7 @@ public class RenderOption extends TaskOption implements IRenderOption {
 	/**
 	 * Set app base url
 	 *
-	 * @param appBaseURL the app base url
+	 * @param appBaseUrl the app base url
 	 */
 	@Override
 	public void setAppBaseURL(String appBaseUrl) {
@@ -223,8 +223,10 @@ public class RenderOption extends TaskOption implements IRenderOption {
 	}
 
 	/**
+	 * Get the action handler
+	 *
 	 * @deprecated
-	 * @return
+	 * @return Return the action handler
 	 */
 	@Deprecated
 	@Override
@@ -257,8 +259,10 @@ public class RenderOption extends TaskOption implements IRenderOption {
 	}
 
 	/**
+	 * Get the image handler
+	 *
 	 * @deprecated
-	 * @return
+	 * @return Return the image handler
 	 */
 	@Deprecated
 	@Override
@@ -277,6 +281,8 @@ public class RenderOption extends TaskOption implements IRenderOption {
 
 	/**
 	 * If the output stream needs to be closed on exit.
+	 *
+	 * @return true, output stream must be closed on exit
 	 */
 	public boolean needCloseOutputStreamOnExit() {
 		return getBooleanOption(CLOSE_OUTPUTSTREAM_ON_EXIT, true);
