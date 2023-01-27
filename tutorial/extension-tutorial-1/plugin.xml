@@ -15,7 +15,6 @@
  *******************************************************************************
 -->
 <plugin>
-   <!--  Sample Minimum code to add an Extension
    <extension
          point="org.eclipse.birt.report.model.reportItemModel">
       <reportItem
@@ -33,7 +32,6 @@
                type="string"/>
       </reportItem>
    </extension>
-   -->
      <extension
          point="org.eclipse.birt.report.designer.ui.reportitemUI">
       <model extensionName="RotatedText"/>
