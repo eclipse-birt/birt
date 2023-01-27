@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -316,8 +317,10 @@ public class PageArea extends BlockContainerArea {
 
 		IStyle cs = pageContent.getComputedStyle();
 		BackgroundImageInfo backgroundImage = null;
+		Integer dpi = getImageDpiOverride();
+
 		backgroundImage = new BackgroundImageInfo(url, cs.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT), 0, 0, 0,
-				0, rl, module, cs.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+				0, rl, module, cs.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE), dpi);
 		Image img = backgroundImage.getImageInstance();
 
 		IStyle style = pageContent.getStyle();
@@ -328,8 +331,13 @@ public class PageArea extends BlockContainerArea {
 			int resolutionX = img.getDpiX();
 			int resolutionY = img.getDpiY();
 			if (0 == resolutionX || 0 == resolutionY) {
-				resolutionX = 96;
-				resolutionY = 96;
+				if (dpi != null) {
+					resolutionX = dpi;
+					resolutionY = dpi;
+				} else {
+					resolutionX = resolutionY = PropertyUtil.getRenderDpi(content, context.getDpi());
+					saveImageDpiOverride(backgroundImage.getImageData(), resolutionX, resolutionY);
+				}
 			}
 			float imageWidth = img.getPlainWidth() / resolutionX * 72 * PDFConstants.LAYOUT_TO_PDF_RATIO;
 			float imageHeight = img.getPlainHeight() / resolutionY * 72 * PDFConstants.LAYOUT_TO_PDF_RATIO;
@@ -337,7 +345,9 @@ public class PageArea extends BlockContainerArea {
 			int actualHeight = (int) imageHeight;
 
 			if (widthStr != null && widthStr.length() > 0 || heightStr != null && heightStr.length() > 0) {
-				if ("contain".equals(widthStr) || "contain".equals(heightStr)) {
+				// Obviously this is similar to the CSS "background-size" property
+				if (CSSConstants.CSS_CONTAIN_VALUE.equals(widthStr)
+						|| CSSConstants.CSS_CONTAIN_VALUE.equals(heightStr)) {
 					float rh = imageHeight / height;
 					float rw = imageWidth / width;
 					if (rh > rw) {
@@ -348,7 +358,8 @@ public class PageArea extends BlockContainerArea {
 						actualHeight = (int) (imageHeight * width / imageWidth);
 					}
 
-				} else if ("cover".equals(widthStr) || "cover".equals(heightStr)) {
+				} else if (CSSConstants.CSS_COVER_VALUE.equals(widthStr)
+						|| CSSConstants.CSS_COVER_VALUE.equals(heightStr)) {
 					float rh = imageHeight / height;
 					float rw = imageWidth / width;
 					if (rh > rw) {

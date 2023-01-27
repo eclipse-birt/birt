@@ -216,7 +216,8 @@ public class ImageReader {
 			status = OBJECT_LOADED_SUCCESSFULLY;
 		} else if (objectType == TYPE_SVG_OBJECT) {
 			try {
-				buffer = SvgFile.transSvgToArray(in);
+				Integer defaultDpi = 96; // FIXME This should be configurable
+				buffer = SvgFile.transSvgToArray(in, defaultDpi);
 			} catch (Exception e) {
 				buffer = null;
 				status = UNSUPPORTED_OBJECTS;
@@ -240,8 +241,9 @@ public class ImageReader {
 			buffer = data;
 			status = OBJECT_LOADED_SUCCESSFULLY;
 		} else if (objectType == TYPE_SVG_OBJECT) {
+			Integer defaultDpi = 96; // FIXME This should be configurable
 			try (InputStream in = new ByteArrayInputStream(data)) {
-				buffer = SvgFile.transSvgToArray(in);
+				buffer = SvgFile.transSvgToArray(in, defaultDpi);
 			} catch (Exception e) {
 				buffer = null;
 				status = UNSUPPORTED_OBJECTS;

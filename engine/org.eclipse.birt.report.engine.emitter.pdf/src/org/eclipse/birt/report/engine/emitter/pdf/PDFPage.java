@@ -80,6 +80,8 @@ public class PDFPage extends AbstractPage {
 
 	protected PDFPageDevice pageDevice;
 
+	private Map<byte[], int[]> dpiOverrides;
+
 	/**
 	 * font size must greater than minimum font . if not,illegalArgumentException
 	 * will be thrown.
@@ -167,8 +169,14 @@ public class PDFPage extends AbstractPage {
 				int resolutionX = img.getDpiX();
 				int resolutionY = img.getDpiY();
 				if (0 == resolutionX || 0 == resolutionY) {
-					resolutionX = 96;
-					resolutionY = 96;
+					int[] dpiOverride = dpiOverrides.get(imageData);
+					if (dpiOverride == null) {
+						resolutionX = 96;
+						resolutionY = 96;
+					} else {
+						resolutionX = dpiOverride[0];
+						resolutionY = dpiOverride[1];
+					}
 				}
 				imageWidth = img.getPlainWidth() / resolutionX * 72;
 				imageHeight = img.getPlainHeight() / resolutionY * 72;
@@ -674,5 +682,13 @@ public class PDFPage extends AbstractPage {
 		transcoder.print(g2D, pg, 0);
 		g2D.dispose();
 		return template;
+	}
+
+	/**
+	 * @param dpiOverrides
+	 */
+	public void setDpiOverrides(Map<byte[], int[]> dpiOverrides) {
+		this.dpiOverrides = dpiOverrides;
+
 	}
 }

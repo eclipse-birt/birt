@@ -77,6 +77,13 @@ public class PDFRender extends PageDeviceRender {
 	protected void newPage(IContainerArea page) {
 		super.newPage(page);
 		currentPage = (PDFPage) pageGraphic;
+		Map appContext = context.getAppContext();
+		Map<byte[], int[]> dpiOverrides = (Map<byte[], int[]>) (appContext.get("dpiOverrides"));
+		if (dpiOverrides == null) {
+			dpiOverrides = new HashMap<byte[], int[]>();
+			appContext.put("dpiOverrides", dpiOverrides);
+		}
+		currentPage.setDpiOverrides(dpiOverrides);
 	}
 
 	@Override

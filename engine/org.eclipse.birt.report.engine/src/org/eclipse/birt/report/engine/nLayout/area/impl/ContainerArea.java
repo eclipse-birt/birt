@@ -17,7 +17,9 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 import java.awt.Color;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -512,8 +514,21 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 				int resolutionX = img.getDpiX();
 				int resolutionY = img.getDpiY();
 				if (0 == resolutionX || 0 == resolutionY) {
-					resolutionX = 96;
-					resolutionY = 96;
+					Integer dpi = getImageDpiOverride();
+					int[] dpiOverride = getImageDpiOverride(bgi.getImageData());
+					if (dpiOverride == null) {
+						if (dpi != null) {
+							resolutionX = resolutionY = dpi;
+						} else {
+							resolutionX = resolutionY = PropertyUtil.getRenderDpi(content, context.getDpi());
+						}
+						saveImageDpiOverride(bgi.getImageData(), resolutionX, resolutionY);
+					} else {
+						resolutionX = dpiOverride[0];
+						resolutionY = dpiOverride[1];
+					}
+					// img.setDpi(resolutionX, resolutionY);
+					// Would not help, because the img is thrown away.
 				}
 				float imageWidth = img.getPlainWidth() / resolutionX * 72;
 				float imageHeight = img.getPlainHeight() / resolutionY * 72;
@@ -1150,9 +1165,10 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 			if (exeContext != null) {
 				rl = exeContext.getResourceLocator();
 			}
+			Integer dpi = getImageDpiOverride();
 			BackgroundImageInfo backgroundImage = new BackgroundImageInfo(getImageUrl(url.getCssText()),
 					style.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT), 0, 0, 0, 0, rl, this.getCurrentModule(),
-					style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+					style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE), dpi);
 			boxStyle.setBackgroundImage(backgroundImage);
 		}
 
@@ -1178,9 +1194,10 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 				if (exeContext != null) {
 					rl = exeContext.getResourceLocator();
 				}
+				Integer dpi = getImageDpiOverride();
 				BackgroundImageInfo backgroundImage = new BackgroundImageInfo(getImageUrl(url),
 						cs.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT), 0, 0, 0, 0, rl, this.getCurrentModule(),
-						cs.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+						cs.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE), dpi);
 				boxStyle.setBackgroundImage(backgroundImage);
 			}
 			if (!isInlineStacking) {
@@ -1365,6 +1382,44 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	@Override
 	public String getHelpText() {
 		return null;
+	}
+
+	protected Integer getImageDpiOverride() {
+		Integer dpi = null;
+		if (content != null && content.getUserProperties() != null) {
+			// For the UserProperty name, we use the same name as the reportDesign property.
+			Double d = (Double) (content.getUserProperties().get("imageDpi"));
+			if (d != null)
+				dpi = d.intValue();
+		}
+		return dpi;
+	}
+
+	protected void saveImageDpiOverride(byte[] imageData, Integer dpi) {
+		if (dpi != null) {
+			saveImageDpiOverride(imageData, dpi, dpi);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	protected void saveImageDpiOverride(byte[] imageData, int dpiX, int dpiY) {
+		Map<String, Object> appContext = context.getReport().getReportContext().getAppContext();
+		Map<byte[], int[]> dpiOverrides = (Map<byte[], int[]>) (appContext.get("dpiOverrides"));
+		if (dpiOverrides == null) {
+			dpiOverrides = new HashMap<byte[], int[]>();
+			appContext.put("dpiOverrides", dpiOverrides);
+		}
+		dpiOverrides.put(imageData, new int[] { dpiX, dpiY });
+	}
+
+	@SuppressWarnings("unchecked")
+	protected int[] getImageDpiOverride(byte[] imageData) {
+		Map<String, Object> appContext = context.getReport().getReportContext().getAppContext();
+		Map<byte[], int[]> dpiOverrides = (Map<byte[], int[]>) (appContext.get("dpiOverrides"));
+		if (dpiOverrides == null) {
+			return null;
+		}
+		return dpiOverrides.get(imageData);
 	}
 
 }

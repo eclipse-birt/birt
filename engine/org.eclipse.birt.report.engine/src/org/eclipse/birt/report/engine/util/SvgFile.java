@@ -45,20 +45,24 @@ public class SvgFile {
 		return isSvg;
 	}
 
-	public static byte[] transSvgToArray(String uri) throws Exception {
+	public static byte[] transSvgToArray(String uri, Integer imageDpi) throws Exception {
 		InputStream in = new URL(uri).openStream();
 		try (in) {
-			return transSvgToArray(in);
+			return transSvgToArray(in, imageDpi);
 		}
 	}
 
-	public static byte[] transSvgToArray(InputStream inputStream) throws Exception {
+	public static byte[] transSvgToArray(InputStream inputStream, Integer imageDpi) throws Exception {
 		PNGTranscoder transcoder = new PNGTranscoder();
 		// create the transcoder input
 		TranscoderInput input = new TranscoderInput(inputStream);
 		// create the transcoder output
 		ByteArrayOutputStream ostream = new ByteArrayOutputStream();
 		TranscoderOutput output = new TranscoderOutput(ostream);
+		if (imageDpi != null) {
+			float pixel_to_mm = 25.4f / imageDpi;
+			transcoder.addTranscodingHint(PNGTranscoder.KEY_PIXEL_UNIT_TO_MILLIMETER, pixel_to_mm);
+		}
 		transcoder.transcode(input, output);
 		// flush the stream
 		ostream.flush();

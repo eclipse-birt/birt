@@ -264,9 +264,12 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 			if (exeContext != null) {
 				rl = exeContext.getResourceLocator();
 			}
+
+			Integer dpi = getImageDpiOverride();
+
 			BackgroundImageInfo backgroundImage = new BackgroundImageInfo(getImageUrl(url),
 					style.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT), 0, 0, 0, 0, rl, this.getCurrentModule(),
-					style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+					style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE), dpi);
 			boxStyle.setBackgroundImage(backgroundImage);
 		}
 		localProperties = new LocalProperties();

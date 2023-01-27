@@ -3221,10 +3221,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			String uriString = EmitterUtil.getBackgroundImageUrl(imageStyle, design,
 					this.report.getReportContext() == null ? null : this.report.getReportContext().getAppContext());
 
+			Integer dpi = null;
+			// As we are at the report level, "overriding" (as seen in e.g. CellArea.java)
+			// does not make sense here.
 			backgroundImage = new BackgroundImageInfo(uriString,
 					imageStyle.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT), 0, 0, 0, 0, rl, module,
-					imageStyle.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
-
+					imageStyle.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE), dpi);
+			if (dpi != null) {
+				saveImageDpiOverride(backgroundImage.getImageData(), dpi);
+			}
 			if (backgroundImage.getSourceType().equalsIgnoreCase(CSSConstants.CSS_EMBED_VALUE)) {
 				uri = backgroundImage.getDataUrl();
 			}
@@ -3485,6 +3490,25 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			}
 		}
 	}
+
+	protected void saveImageDpiOverride(byte[] imageData, Integer dpi) {
+		if (dpi != null) {
+			saveImageDpiOverride(imageData, dpi, dpi);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	protected void saveImageDpiOverride(byte[] imageData, int dpiX, int dpiY) {
+		Map<String, Object> appContext = report.getReportContext().getAppContext();
+		Map<byte[], int[]> dpiOverrides = (Map<byte[], int[]>) appContext.get("dpiOverrides");
+		if (dpiOverrides == null) {
+			dpiOverrides = new HashMap<byte[], int[]>();
+			appContext.put("dpiOverrides", dpiOverrides);
+		}
+		dpiOverrides.put(imageData, new int[] { dpiX, dpiY });
+
+	}
+
 }
 
 class IDGenerator {

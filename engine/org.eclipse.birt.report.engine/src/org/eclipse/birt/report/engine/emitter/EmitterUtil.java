@@ -156,7 +156,8 @@ public class EmitterUtil {
 
 				if (buffer != null) {
 					if (SvgFile.isSvg(content.getURI())) {
-						buffer = SvgFile.transSvgToArray(new ByteArrayInputStream(buffer));
+						Integer defaultDpi = 96; // FIXME This should be configurable
+						buffer = SvgFile.transSvgToArray(new ByteArrayInputStream(buffer), defaultDpi);
 					}
 					image = Image.getInstance(buffer);
 				}
@@ -166,7 +167,8 @@ public class EmitterUtil {
 				byte[] data = content.getData();
 				ByteArrayInputStream in = new ByteArrayInputStream(data);
 				if (SvgFile.isSvg(mimeType, uri, extension)) {
-					data = SvgFile.transSvgToArray(in);
+					Integer defaultDpi = 96; // FIXME This should be configurable
+					data = SvgFile.transSvgToArray(in, defaultDpi);
 				}
 				in.close();
 				image = Image.getInstance(data);
@@ -174,7 +176,8 @@ public class EmitterUtil {
 
 			case IImageContent.IMAGE_URL:
 				if (SvgFile.isSvg(uri)) {
-					image = Image.getInstance(SvgFile.transSvgToArray(uri));
+					Integer defaultDpi = 96; // FIXME This should be configurable
+					image = Image.getInstance(SvgFile.transSvgToArray(uri, defaultDpi));
 				} else {
 					image = Image.getInstance(new URL(content.getURI()));
 				}
@@ -261,7 +264,8 @@ public class EmitterUtil {
 		byte[] imageData = null;
 		if (SvgFile.isSvg(imageURI)) {
 			try {
-				imageData = SvgFile.transSvgToArray(imageURI);
+				Integer defaultDpi = 96; // FIXME This should be configurable
+				imageData = SvgFile.transSvgToArray(imageURI, defaultDpi);
 			} catch (Exception e) {
 				logger.log(Level.WARNING, e.getMessage());
 			}
@@ -324,6 +328,7 @@ public class EmitterUtil {
 	public static org.eclipse.birt.report.engine.layout.emitter.Image parseImage(IImageContent image, int imageSource,
 			String uri, String mimeType, String extension) throws IOException {
 		org.eclipse.birt.report.engine.layout.emitter.Image imageInfo = null;
+		Integer dpi = 96; // FIXME this should be configurable
 		byte[] data = null;
 		InputStream in = null;
 		try {
@@ -333,7 +338,7 @@ public class EmitterUtil {
 				if (uri != null) {
 					if (SvgFile.isSvg(uri)) {
 						try {
-							data = SvgFile.transSvgToArray(uri);
+							data = SvgFile.transSvgToArray(uri, dpi);
 						} catch (Exception e) {
 							logger.log(Level.WARNING, e.getMessage());
 						}
@@ -348,7 +353,7 @@ public class EmitterUtil {
 				if (SvgFile.isSvg(mimeType, uri, extension) && null != data) {
 					in = new ByteArrayInputStream(data);
 					try {
-						data = SvgFile.transSvgToArray(in);
+						data = SvgFile.transSvgToArray(in, dpi);
 					} catch (Exception e) {
 						logger.log(Level.WARNING, e.getMessage());
 					}

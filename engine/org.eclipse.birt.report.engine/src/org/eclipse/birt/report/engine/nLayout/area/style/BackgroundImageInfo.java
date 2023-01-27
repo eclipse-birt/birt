@@ -54,6 +54,7 @@ public class BackgroundImageInfo extends AreaConstants {
 	protected String sourceType;
 	protected String mimeType;
 	protected String fileExtension;
+	protected Integer dpi = null;
 
 	private final static String DATA_PROTOCOL = "data:";
 
@@ -88,7 +89,7 @@ public class BackgroundImageInfo extends AreaConstants {
 	 * @since 4.13
 	 */
 	public BackgroundImageInfo(String url, int repeatedMode, int xOffset, int yOffset, int height, int width,
-			ResourceLocatorWrapper rl, Module module, String sourceType) {
+			ResourceLocatorWrapper rl, Module module, String sourceType, Integer dpi) {
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
 		this.repeatedMode = repeatedMode;
@@ -102,6 +103,7 @@ public class BackgroundImageInfo extends AreaConstants {
 		} else {
 			this.sourceType = BGI_SRC_TYPE_DEFAULT;
 		}
+		this.dpi = dpi;
 		prepareImageByteArray();
 	}
 
@@ -125,6 +127,7 @@ public class BackgroundImageInfo extends AreaConstants {
 		} else {
 			this.sourceType = BGI_SRC_TYPE_DEFAULT;
 		}
+		this.dpi = bgi.dpi;
 	}
 
 	/**
@@ -140,9 +143,9 @@ public class BackgroundImageInfo extends AreaConstants {
 	 * @param module
 	 */
 	public BackgroundImageInfo(String url, CSSValue mode, int xOffset, int yOffset, int height, int width,
-			ResourceLocatorWrapper rl, Module module) {
+			ResourceLocatorWrapper rl, Module module, Integer dpi) {
 		this(url, mode != null ? repeatMap.get(mode) : REPEAT, xOffset, yOffset, height, width, rl, module,
-				BGI_SRC_TYPE_DEFAULT);
+				BGI_SRC_TYPE_DEFAULT, dpi);
 	}
 
 	/**
@@ -159,10 +162,11 @@ public class BackgroundImageInfo extends AreaConstants {
 	 * @param sourceType
 	 */
 	public BackgroundImageInfo(String url, CSSValue mode, int xOffset, int yOffset, int height, int width,
-			ResourceLocatorWrapper rl, Module module, CSSValue sourceType) {
+			ResourceLocatorWrapper rl, Module module, CSSValue sourceType, Integer dpi) {
 		this(url, mode != null ? repeatMap.get(mode) : REPEAT, xOffset, yOffset, height, width, rl, module,
 				sourceType != null ? bgiSourceTypeMap.get(sourceType)
-						: BGI_SRC_TYPE_URL);
+						: BGI_SRC_TYPE_URL,
+				dpi);
 	}
 
 	/**
@@ -320,7 +324,7 @@ public class BackgroundImageInfo extends AreaConstants {
 				this.image = Image.getInstance(this.imageData);
 			} catch (Exception e) {
 				try {
-					this.imageData = SvgFile.transSvgToArray(new ByteArrayInputStream(this.imageData));
+					this.imageData = SvgFile.transSvgToArray(new ByteArrayInputStream(this.imageData), dpi);
 					this.image = Image.getInstance(this.imageData);
 				} catch (Exception te) {
 					this.imageData = null;
