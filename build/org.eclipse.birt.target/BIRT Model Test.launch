@@ -907,7 +907,6 @@
         <setEntry value="org.eclipse.birt.report.engine.testhelper@default:false"/>
         <setEntry value="org.eclipse.birt.report.engine.tests@default:default"/>
         <setEntry value="org.eclipse.birt.report.engine@default:default"/>
-        <setEntry value="org.eclipse.birt.report.extension.tutorial_1@default:default"/>
         <setEntry value="org.eclipse.birt.report.extension.tutorial_2@default:default"/>
         <setEntry value="org.eclipse.birt.report.item.crosstab.core.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.report.item.crosstab.core.tests@default:false"/>
