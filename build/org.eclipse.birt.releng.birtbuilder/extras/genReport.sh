@@ -38,11 +38,16 @@
 ################ END OF USAGE #########################
 
 # echo set common variables
-export BIRT_HOME=$PWD/platform
+#export BIRT_HOME=BIRT-runtime_install_dir
+export BIRT_HOME=/opt/birt/birt-runtime
 export WORK_DIR=$PWD
+# class path : don't forget to and your connection drivers in the classpath directory
+export BIRTCLASSPATH=$BIRT_HOME/ReportEngine/lib/*
+
 
 echo BIRT_HOME=$BIRT_HOME
 echo WORK_DIR=$WORK_DIR
+echo BIRTCLASSPATH=$BIRTCLASSPATH
 
 if [ "$BIRT_HOME" = "" ]
 
@@ -54,6 +59,7 @@ java_io_tmpdir=$WORK_DIR/tmpdir
 org_eclipse_datatools_workspacepath=$java_io_tmpdir/workspace_dtp
 mkdir -p $org_eclipse_datatools_workspacepath
 
+# JAVA version >= 11
 JAVACMD='java';
 $JAVACMD -Djava.awt.headless=true -cp "$BIRTCLASSPATH" -DBIRT_HOME="$BIRT_HOME" -Dorg.eclipse.datatools_workspacepath="$org_eclipse_datatools_workspacepath" org.eclipse.birt.report.engine.api.ReportRunner ${1+"$@"}
 
