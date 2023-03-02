@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -114,7 +114,8 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		}
 
 		tableStyle = new BirtStyle(table);
-		borderDefn = AreaBorders.create(-1, startCol, startCol + table.getColumnCount() - 1, startRow, tableStyle);
+		borderDefn = AreaBorders.create(-1, startCol, startCol + table.getColumnCount() - 1, startRow, -1, -1,
+				tableStyle);
 		if (borderDefn != null) {
 			state.insertBorderOverload(borderDefn);
 		}

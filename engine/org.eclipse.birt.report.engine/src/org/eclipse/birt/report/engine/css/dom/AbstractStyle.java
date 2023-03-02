@@ -1915,6 +1915,24 @@ abstract public class AbstractStyle implements IStyle {
 					this.setDateTimeFormat(propertyCssText);
 				} else if (BIRTConstants.BIRT_BACKGROUND_IMAGE_TYPE.equalsIgnoreCase(propertyName)) {
 					this.setBackgroundImageType(propertyCssText);
+					// diagonal line
+				} else if (BIRTConstants.BIRT_BORDER_DIAGONAL_NUMBER.equalsIgnoreCase(propertyName)) {
+					this.setDiagonalNumber(Integer.parseInt(propertyCssText));
+				} else if (BIRTConstants.BIRT_BORDER_DIAGONAL_STYLE.equalsIgnoreCase(propertyName)) {
+					this.setDiagonalStyle(propertyCssText);
+				} else if (BIRTConstants.BIRT_BORDER_DIAGONAL_WIDTH.equalsIgnoreCase(propertyName)) {
+					this.setDiagonalWidth(propertyCssText);
+				} else if (BIRTConstants.BIRT_BORDER_DIAGONAL_COLOR.equalsIgnoreCase(propertyName)) {
+					this.setDiagonalColor(propertyCssText);
+					// antidiagonal line
+				} else if (BIRTConstants.BIRT_BORDER_ANTIDIAGONAL_NUMBER.equalsIgnoreCase(propertyName)) {
+					this.setAntidiagonalNumber(Integer.parseInt(propertyCssText));
+				} else if (BIRTConstants.BIRT_BORDER_ANTIDIAGONAL_STYLE.equalsIgnoreCase(propertyName)) {
+					this.setAntidiagonalStyle(propertyCssText);
+				} else if (BIRTConstants.BIRT_BORDER_ANTIDIAGONAL_WIDTH.equalsIgnoreCase(propertyName)) {
+					this.setAntidiagonalWidth(propertyCssText);
+				} else if (BIRTConstants.BIRT_BORDER_ANTIDIAGONAL_COLOR.equalsIgnoreCase(propertyName)) {
+					this.setAntidiagonalColor(propertyCssText);
 				} else {
 					throw new IOException(propertyName + " not valid");
 				}
@@ -1936,5 +1954,85 @@ abstract public class AbstractStyle implements IStyle {
 	@Override
 	public void setDataFormat(DataFormatValue value) {
 		setProperty(StyleConstants.STYLE_DATA_FORMAT, value);
+	}
+
+	@Override
+	public int getDiagonalNumber() {
+		return Integer.parseInt(getCssText(STYLE_BORDER_DIAGONAL_NUMBER));
+	}
+
+	@Override
+	public void setDiagonalNumber(Integer number) {
+		setCssText(StyleConstants.STYLE_BORDER_DIAGONAL_NUMBER, number.toString());
+	}
+
+	@Override
+	public String getDiagonalStyle() {
+		return getCssText(StyleConstants.STYLE_BORDER_DIAGONAL_STYLE);
+	}
+
+	@Override
+	public void setDiagonalStyle(String style) {
+		setCssText(StyleConstants.STYLE_BORDER_DIAGONAL_STYLE, style);
+	}
+
+	@Override
+	public String getDiagonalWidth() {
+		return getCssText(StyleConstants.STYLE_BORDER_DIAGONAL_WIDTH);
+	}
+
+	@Override
+	public void setDiagonalWidth(String width) {
+		setCssText(StyleConstants.STYLE_BORDER_DIAGONAL_WIDTH, width);
+	}
+
+	@Override
+	public String getDiagonalColor() {
+		return getCssText(StyleConstants.STYLE_BORDER_DIAGONAL_COLOR);
+	}
+
+	@Override
+	public void setDiagonalColor(String color) {
+		setCssText(StyleConstants.STYLE_BORDER_DIAGONAL_COLOR, color);
+	}
+
+	@Override
+	public int getAntidiagonalNumber() {
+		return Integer.parseInt(this.getProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_NUMBER).toString());
+	}
+
+	@Override
+	public void setAntidiagonalNumber(Integer number) {
+		setCssText(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_NUMBER, number.toString());
+	}
+
+	@Override
+	public String getAntidiagonalStyle() {
+		return getCssText(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE);
+	}
+
+	@Override
+	public void setAntidiagonalStyle(String style) {
+		setCssText(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE, style);
+	}
+
+	@Override
+	public String getAntidiagonalWidth() {
+		return getCssText(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH);
+	}
+
+	@Override
+	public void setAntidiagonalWidth(String width) {
+		setCssText(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH, width);
+	}
+
+	@Override
+	public String getAntidiagonalColor() {
+		return getCssText(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR);
+	}
+
+	@Override
+	public void setAntidiagonalColor(String color) {
+		setCssText(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR, color);
 	}
 }

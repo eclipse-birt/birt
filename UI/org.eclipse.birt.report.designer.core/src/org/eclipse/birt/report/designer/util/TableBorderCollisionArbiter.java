@@ -39,6 +39,15 @@ public class TableBorderCollisionArbiter {
 	 * always lose; then compare the width, greater win; if width is equal, compare
 	 * the style, less win; or keep the original. This is the part 1 of the
 	 * algorithm.
+	 *
+	 * @param data     border data array
+	 * @param style    border style of cell
+	 * @param width    border width of cell
+	 * @param color    border color of cell
+	 * @param rowIndex row index cell
+	 * @param colIndex column index of cell
+	 * @param type     0, 1 type of bottom-, top-attribute from row or cell (0: row,
+	 *                 1: cell)
 	 */
 	public static void refreshBorderData(int[] data, int style, int width, int color, int rowIndex, int colIndex,
 			int type) {

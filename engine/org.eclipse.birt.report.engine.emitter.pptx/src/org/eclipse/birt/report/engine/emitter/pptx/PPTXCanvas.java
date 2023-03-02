@@ -352,8 +352,8 @@ public class PPTXCanvas {
 			Position imagePosition = new Position(x + offsetX, y + offsetY);
 			Position imageSize = new Position(originalImageWidth, originalImageHeight);
 			BackgroundImageLayout layout = new BackgroundImageLayout(areaPosition, areaSize, imagePosition, imageSize);
-			Collection positions = layout.getImagePositions(repeat);
-			Iterator iterator = positions.iterator();
+			Collection<?> positions = layout.getImagePositions(repeat);
+			Iterator<?> iterator = positions.iterator();
 			while (iterator.hasNext()) {
 				Position position = (Position) iterator.next();
 				fillRectangleWithImage(imagePartInfo, (int) OOXmlUtil.convertPointerToEmus(position.getX()),

@@ -150,7 +150,7 @@ public class DocEmitterImpl extends AbstractEmitterImpl {
 			width = Math.min(width, context.getCurrentWidth());
 			wordWriter.startTable(foreign.getComputedStyle(), width, inForeign);
 			wordWriter.startTableRow(-1);
-			wordWriter.startTableCell(width, foreign.getComputedStyle(), null);
+			wordWriter.startTableCell(width, foreign.getComputedStyle(), null, null);
 			writeBookmark(foreign);
 			writeToc(foreign);
 			contentVisitor.visitChildren(foreign, null);

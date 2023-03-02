@@ -943,4 +943,9 @@ public interface CSSValueConstants {
 	 */
 	Value URL_VALUE = new StringValue(CSSPrimitiveValue.CSS_IDENT, CSSConstants.CSS_URL_VALUE);
 
+	/**
+	 * The 'diagonal line number' keyword.
+	 */
+	Value DIAGONAL_LINE_NUMBER_VALUE = new StringValue(CSSPrimitiveValue.CSS_IDENT,
+			CSSConstants.CSS_BORDER_DIAGONAL_LINE_NUMBER_VALUE);
 }

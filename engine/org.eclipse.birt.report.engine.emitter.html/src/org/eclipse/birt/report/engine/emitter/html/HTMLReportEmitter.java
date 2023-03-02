@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -260,7 +261,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 */
 	protected Stack<?> stack = new Stack<Object>();
 
-	HashMap<Long, String> diagonalCellImageMap = new HashMap<Long, String>();
+	HashMap<String, String> diagonalCellImageMap = new HashMap<String, String>();
 
 	/**
 	 * An Log object that <code>HTMLReportEmitter</code> use to log the error,
@@ -351,6 +352,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	protected ITableContent cachedStartTable = null;
 
 	protected TableLayout tableLayout = new TableLayout(this);
+
+	/**
+	 * Default image pixel width.
+	 */
+	private static int DEFAULT_IMAGE_PX_WIDTH = 200;
+	/**
+	 * Default image pixel height.
+	 */
+	private static int DEFAULT_IMAGE_PX_HEIGHT = 200;
 
 	/**
 	 * the constructor
@@ -567,6 +577,32 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		writer.writeCode("</script>"); //$NON-NLS-1$
 	}
 
+	protected void addCellDiagonalSpecial() {
+		writer.writeCode("<script type=\"text/javascript\">");
+
+		String fctDiagonal = "";
+		fctDiagonal += "\nfunction combineBgImageAndDiagonal(id, diagUri) {";
+		fctDiagonal += "\n	var nTd = document.getElementById(id);";
+		fctDiagonal += "\n	if (nTd) {";
+		fctDiagonal += "\n		var nStyle = getComputedStyle(nTd);";
+		fctDiagonal += "\n		if (nStyle && nStyle.backgroundImage) {";
+		fctDiagonal += "\n			var bgStyle = '';";
+		fctDiagonal += "\n			bgStyle += 'background-image:' + diagUri + ', ' + nStyle.backgroundImage + ';'	;";
+		fctDiagonal += "\n			bgStyle += 'background-size:100% 100%, ' + nStyle.backgroundSize + ';'			;";
+		fctDiagonal += "\n			bgStyle += 'background-repeat:no-repeat, ' + nStyle.backgroundRepeat + ';'		;";
+		fctDiagonal += "\n			bgStyle += 'background-position: center, ' + nStyle.backgroundPosition + ';'	;";
+		fctDiagonal += "\n			bgStyle += 'background-position-x:' + nStyle.backgroundPositionY + ';'			;";
+		fctDiagonal += "\n			bgStyle += 'background-position-y:' + nStyle.backgroundPositionX + ';'			;";
+		fctDiagonal += "\n			bgStyle += 'background-attachment:' + nStyle.backgroundAttachment + ';'			;";
+		fctDiagonal += "\n			bgStyle += 'overflow:hidden;';";
+		fctDiagonal += "\n			nTd.setAttribute('style' , bgStyle);";
+		fctDiagonal += "\n		}";
+		fctDiagonal += "\n	}";
+		fctDiagonal += "\n}";
+		writer.writeCode(fctDiagonal);
+		writer.writeCode("</script>"); //$NON-NLS-1$
+	}
+
 	protected void outputBirtJs() {
 		writer.writeCode("<script type=\"text/javascript\">");
 		writer.writeCode(" //<![CDATA["); //$NON-NLS-1$
@@ -605,7 +641,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				"return d};d.ready(b,function(){g()&&m(x.ALL,function(a){r(a)});d.feature&&d.feature(\"domloaded\",!0)});if(\"complete\"===b.readyState)p();else if(b.addEventListener)b.addEventListener(\"DOMContentLoaded\",c,!1),a.addEventListener(\"load\",p,!1);else{b.attachEvent(\"onreadystatechange\",c);a.attachEvent(\"onload\",p);var z=!1;try{z=null==a.frameElement&&b.documentElement}catch(F){}z&&z.doScroll&&function E(){if(!u){try{z.doScroll(\"left\")}catch(b){a.clearTimeout(d.readyTimeout);d.readyTimeout=a.setTimeout(E,50);");// 16
 		writer.writeCode("return}p()}}()}setTimeout(function(){l=!0;m(v,function(a){a()})},300)})(window);");
 		writer.writeCode("birt={loader:head};");
-
 		writer.writeCode(" //]]>"); //$NON-NLS-1$
 		writer.writeCode("</script>"); //$NON-NLS-1$
 	}
@@ -677,6 +712,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			htmlEmitter = new HTMLVisionOptimize(this, writer, fixedReport, enableInlineStyle, htmlRtLFlag,
 					browserVersion);
 		}
+		// diagonal & antidiagonal special function
+		addCellDiagonalSpecial();
 
 		if (isEmbeddable) {
 			outputCSSStyles(reportDesign, designHandle);
@@ -2024,15 +2061,50 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		boolean fixedCellHeight = useFixedCellHeight(cell);
 
 		StringBuffer styleBuffer = new StringBuffer();
+
+		// handling of diagonal lines
+		String tdDiagonalUriCaller = "";
+		String tdDiagonalUUID = "";
+		Boolean tdDiagonalSpecial = false;
+		if (cell.hasDiagonalLine()) {
+			DimensionType cellHeight = null;
+			if (fixedCellHeight) {
+				cellHeight = fixedRowHeightStack.peek();
+			} else {
+				cellHeight = getCellHeight(cell);
+			}
+			tdDiagonalUUID = "bg-img-diag-" + UUID.randomUUID().toString();
+			writer.attribute(HTMLTags.ATTR_ID, tdDiagonalUUID);
+			String imgUri = "url(" + outputDiagonalImageUri(cell, cellHeight) + ")";
+			if (imgUri != null) {
+				// line image direct on td-cell level
+				if (cell.getStyle().getBackgroundImage() == null) {
+					styleBuffer.append("background-image:" + imgUri + " ;");
+					styleBuffer.append("background-repeat:no-repeat;");
+					styleBuffer.append("background-position:center;");
+					styleBuffer.append("background-size:100% 100%;");
+				} else {
+					tdDiagonalUriCaller = "combineBgImageAndDiagonal('" + tdDiagonalUUID + "','" + imgUri + "');";
+					tdDiagonalSpecial = true;
+				}
+			}
+		}
 		htmlEmitter.buildCellStyle(cell, styleBuffer, isHead, fixedCellHeight);
 		writer.attribute(HTMLTags.ATTR_STYLE, styleBuffer.toString());
 
 		htmlEmitter.handleCellAlign(cell);
 		if (fixedCellHeight) {
-			// Fixed cell height requires the vertical aline must be top.
+			// Fixed cell height requires the vertical align must be top.
 			writer.attribute(HTMLTags.ATTR_VALIGN, "top");
 		} else {
 			htmlEmitter.handleCellVAlign(cell);
+		}
+
+		// CSS function necessary on diagonal and background image at same time
+		if (tdDiagonalSpecial) {
+			writer.openTag(HTMLTags.TAG_SCRIPT);
+			writer.cdata(tdDiagonalUriCaller);
+			writer.closeTag(HTMLTags.TAG_SCRIPT);
 		}
 
 		boolean bookmarkOutput = false;
@@ -2065,9 +2137,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			writer.openTag(HTMLTags.TAG_DIV);
 			writer.attribute(HTMLTags.ATTR_STYLE, "position: relative; height: 100%;");
 			DimensionType cellHeight = fixedRowHeightStack.peek();
-			if (cell.hasDiagonalLine()) {
-				outputDiagonalImage(cell, cellHeight);
-			}
 			writer.openTag(HTMLTags.TAG_DIV);
 			styleBuffer.setLength(0);
 			styleBuffer.append(" height: ");
@@ -2075,13 +2144,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			styleBuffer.append("; width: 100%; position: absolute; left: 0px;");
 			HTMLEmitterUtil.buildOverflowStyle(styleBuffer, cell.getStyle(), true);
 			writer.attribute(HTMLTags.ATTR_STYLE, styleBuffer.toString());
-		} else if (cell.hasDiagonalLine()) {
-			DimensionType cellHeight = getCellHeight(cell);
-			if (cellHeight != null && !"%".equals(cellHeight.getUnits())) {
-				writer.openTag(HTMLTags.TAG_DIV);
-				writer.attribute(HTMLTags.ATTR_STYLE, "position: relative; height: 100%;");
-				outputDiagonalImage(cell, cellHeight);
-			}
 		}
 
 		if (enableMetadata) {
@@ -2099,7 +2161,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			if (style != null) {
 				String overflow = style.getOverflow();
 				if (CSSConstants.CSS_OVERFLOW_SCROLL_VALUE.equals(overflow)) {
-					DimensionType cellHeight = (DimensionType) fixedRowHeightStack.peek();
+					DimensionType cellHeight = fixedRowHeightStack.peek();
 					if (cellHeight != null) {
 						return true;
 					}
@@ -2109,10 +2171,38 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		return false;
 	}
 
-	protected void outputDiagonalImage(ICellContent cell, DimensionType cellHeight) {
-		String imgUri = diagonalCellImageMap.get(cell.getInstanceID().getComponentID());
+	/**
+	 * Create the uri of the diagonal line image
+	 *
+	 * @param cell       context of cell
+	 * @param cellHeight height of the cell element
+	 * @return Return the uri of the diagonal line image
+	 * @since 4.13
+	 */
+	protected String outputDiagonalImageUri(ICellContent cell, DimensionType cellHeight) {
+
+		String componentPropertyId = "";
+		// componend id with property value key parts
+		componentPropertyId += "ciidcid:" + cell.getInstanceID().getComponentID() + ";";
+		componentPropertyId += "cdn:" + cell.getDiagonalNumber() + ";cds:" + cell.getDiagonalStyle() + ";";
+		componentPropertyId += "cdw:" + cell.getDiagonalWidth() + ";cdc:" + cell.getDiagonalColor() + ";";
+		componentPropertyId += "cadn:" + cell.getAntidiagonalNumber() + ";cads:" + cell.getAntidiagonalStyle() + ";";
+		componentPropertyId += "cadw:" + cell.getAntidiagonalWidth() + ";cadc:" + cell.getAntidiagonalColor() + ";";
+
+		String imgUri = diagonalCellImageMap.get(componentPropertyId);
+
 		if (imgUri == null) {
-			// prepare to get the diagnal line image.
+
+			// prepare width and height of diagonal image
+			DimensionType cellWidth = cell.getWidth();
+			if (cellWidth == null || cellWidth.getMeasure() == 0.0d) {
+				cellWidth = new DimensionType(DEFAULT_IMAGE_PX_WIDTH, "px");
+			}
+			if (cellHeight == null || cellHeight.getMeasure() == 0.0d) {
+				cellHeight = new DimensionType(DEFAULT_IMAGE_PX_HEIGHT, "px");
+			}
+
+			// prepare to get the diagonal line image.
 			DiagonalLineImage imageCreater = new DiagonalLineImage();
 			imageCreater.setDiagonalLine(cell.getDiagonalNumber(), cell.getDiagonalStyle(), cell.getDiagonalWidth(),
 					cell.getDiagonalColor());
@@ -2125,7 +2215,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			imageCreater.setColor(PropertyUtil.getColor(strColor));
 			byte[] imageByteArray = null;
 			try {
-				// draw the diagnal line image.
+				// draw the diagonal & antidiagonal line image.
 				imageByteArray = imageCreater.drawImage();
 			} catch (IOException e) {
 				logger.log(Level.WARNING, e.getMessage(), e);
@@ -2138,33 +2228,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				imgUri = imageHandler.onCustomImage(image, reportContext);
 				if (imgUri != null) {
 					// Cache the image URI.
-					diagonalCellImageMap.put(cell.getInstanceID().getComponentID(), imgUri);
+					diagonalCellImageMap.put(componentPropertyId, imgUri);
 				}
 			}
 		}
-
-		// FIXME: We should continue to improve the HTML source of how to output
-		// the diagonal line image.
-		// FIXME: We still need to solve the confilct between the cell's
-		// background and the diagonal line imag.
-		if (imgUri != null) {
-			writer.openTag(HTMLTags.TAG_IMAGE);
-			writer.attributeAllowEmpty(HTMLTags.ATTR_ALT, "");
-			writer.attribute(HTMLTags.ATTR_SRC, imgUri);
-			StringBuilder styleBuffer = new StringBuilder();
-			styleBuffer.append(" min-height: ");
-			styleBuffer.append(cellHeight.toString());
-			styleBuffer.append("; height: 100%; width: 100%; position: absolute; z-index: auto; left: 0px;");
-			writer.attribute(HTMLTags.ATTR_STYLE, styleBuffer.toString());
-			if (needFixTransparentPNG) {
-				if (null == htmlIDNamespace) {
-					writer.attribute(HTMLTags.ATTR_ONLOAD, "fixPNG(this)"); //$NON-NLS-1$
-				} else {
-					writer.attribute(HTMLTags.ATTR_ONLOAD, htmlIDNamespace + "fixPNG(this)"); //$NON-NLS-1$
-				}
-			}
-			writer.closeTag(HTMLTags.TAG_IMAGE);
-		}
+		return imgUri;
 	}
 
 	protected DimensionType getCellWidth(ICellContent cell) {
@@ -2201,11 +2269,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		if (useFixedCellHeight(cell)) {
 			writer.closeTag(HTMLTags.TAG_DIV);
 			writer.closeTag(HTMLTags.TAG_DIV);
-		} else if (cell.hasDiagonalLine()) {
-			DimensionType cellHeight = getCellHeight(cell);
-			if (cellHeight != null && !"%".equals(cellHeight.getUnits())) {
-				writer.closeTag(HTMLTags.TAG_DIV);
-			}
 		}
 
 		if (isCellInHead(cell)) {
@@ -2299,7 +2362,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			textValue = " "; //$NON-NLS-1$
 			isBlank = true;
 		}
-
 		int display = htmlEmitter.getTextElementType(x, y, width, height, mergedStyle);
 		// bidi_hcg: fix for bug 307327. If text content is Bidi, treat it as
 		// a inline-block element
@@ -3278,7 +3340,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			default:
 				assert (false);
 			}
-			// imgUri = imgUri.replace( File.separatorChar, '/' );
 		}
 		return imgUri;
 	}
