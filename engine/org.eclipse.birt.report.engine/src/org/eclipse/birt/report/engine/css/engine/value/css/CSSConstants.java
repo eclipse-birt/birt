@@ -1268,4 +1268,5 @@ public interface CSSConstants {
 	 * CSS property value: cell border diagonal line number
 	 */
 	public final static String CSS_BORDER_DIAGONAL_LINE_NUMBER_VALUE = "1";
+
 }

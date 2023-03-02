@@ -64,6 +64,7 @@ public class PerfectHash {
 	static int lengthtable[] = { 5, 11, 11, 12, 13, 9, 11, 17, 16, 17, 18, 19, 10, 16, 18, 19, 11, 12, 14, 10, 11, 18,
 			19, 10, 6, 12, 5, 16, 7, 11, 12, 13, 21, 17, 13, 14, 16, 21, 8, 9, 10, 16, 17, 13, 14, 16, 17, 21, 14, 16,
 			7, 11, 17, 14, 6, 11, 17, 16, 14, 12, 11, 21, 22, 21, 21, 21, 26, 25, 25, 25 };
+
 	static String wordlist[] = { "color" /* hash value = 10, index = 0 */,
 			"data-format" /* hash value = 11, index = 1 */, "line-height" /* hash value = 16, index = 2 */,
 			"padding-left" /* hash value = 17, index = 3 */, "padding-right" /* hash value = 18, index = 4 */,

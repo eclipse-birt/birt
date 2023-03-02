@@ -2137,6 +2137,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			writer.openTag(HTMLTags.TAG_DIV);
 			writer.attribute(HTMLTags.ATTR_STYLE, "position: relative; height: 100%;");
 			DimensionType cellHeight = fixedRowHeightStack.peek();
+			if (cell.hasDiagonalLine()) {
+				outputDiagonalImage(cell, cellHeight);
+			}
 			writer.openTag(HTMLTags.TAG_DIV);
 			styleBuffer.setLength(0);
 			styleBuffer.append(" height: ");

@@ -106,7 +106,7 @@ public interface IStyleModel {
 	 * Property name: border top width
 	 */
 	String BORDER_TOP_WIDTH_PROP = "borderTopWidth"; //$NON-NLS-1$
-	/**
+  /**
 	 * Property name: border diagonal color
 	 */
 	String BORDER_DIAGONAL_NUMBER_PROP = "diagonalNumber"; //$NON-NLS-1$

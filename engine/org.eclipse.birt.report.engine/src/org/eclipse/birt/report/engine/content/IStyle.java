@@ -463,5 +463,4 @@ public interface IStyle extends CSSStyleDeclaration, StyleConstants, CSS2Propert
 	 * @param color
 	 */
 	void setAntidiagonalColor(String color);
-
 }

@@ -274,6 +274,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 			int height = getHeight(cell);
 			int dw = diagonalInfo.getDiagonalWidth();
 			int ds = diagonalInfo.getDiagonalStyle();
+
 			// unsupported double line style, use solid style instead
 			if (ds == AreaConstants.BORDER_STYLE_DOUBLE) {
 				ds = AreaConstants.BORDER_STYLE_SOLID;

@@ -14,7 +14,7 @@
  *   See git history
  *******************************************************************************
 -->
-<plugin>
+<plugin> 
    <extension
          point="org.eclipse.birt.report.model.reportItemModel">
       <reportItem
@@ -32,8 +32,7 @@
                type="expression"/>
       </reportItem>
    </extension>
-
-     <extension
+   <extension
          point="org.eclipse.birt.report.designer.ui.reportitemUI">
       <model extensionName="RotatedText"/>
       <palette icon="icons/rotatedtext.jpg"/>
