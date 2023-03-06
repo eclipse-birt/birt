@@ -55,7 +55,7 @@
 				<gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
 				<orbit.repo.url>https://download.eclipse.org/tools/orbit/downloads/latest-R</orbit.repo.url>
 				<dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.200-SNAPSHOT/repository/</dtp.repo.url>
-				<jetty.version>10.0.11</jetty.version>
+				<jetty.version>10.0.14</jetty.version>
 				<mongodb.version>3.2.2.v20181004-1955</mongodb.version>
 				<lucene.version>[3.0.0,9.0.0)</lucene.version>
 			</properties>
