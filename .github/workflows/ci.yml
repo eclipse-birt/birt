@@ -36,22 +36,12 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Setup Maven
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@v4.5
+      with:
+        maven-version: 3.8.5        
+    - name: Set up Maven 2
       run: echo "MAVEN_OPTS='-Xmx2048m'" > ~/.mavenrc
-#    - name: Cache maven repo
-#      uses: actions/cache@v2
-#      env:
-#        cache-name: cache-maven-repo-3
-#      with:
-#        path: |
-#          ~/.m2/repository
-#          !~/.m2/repository/org/eclipse/birt
-#          !~/.m2/repository/.cache/tycho
-#        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.sha1') }}
-#        restore-keys: |
-#          ${{ runner.os }}-build-${{ env.cache-name }}-
-#          ${{ runner.os }}-build-
-#          ${{ runner.os }}-
     - name: Build with Maven
       run: mvn clean install --no-transfer-progress -U -DskipTests
     - name: Data Test
