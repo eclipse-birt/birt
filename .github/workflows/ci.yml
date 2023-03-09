@@ -36,7 +36,11 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Setup Maven
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@v4.5
+      with:
+        maven-version: 3.8.5        
+    - name: Build with Maven
       run: echo "MAVEN_OPTS='-Xmx2048m'" > ~/.mavenrc
 #    - name: Cache maven repo
 #      uses: actions/cache@v2
